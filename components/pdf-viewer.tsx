@@ -28,7 +28,7 @@ interface PDFViewerProps {
     className?: string
 }
 if (typeof window === 'undefined') {
-    // @ts-ignore
+    // @ts-expect-error fix the error
     global.DOMMatrix = class DOMMatrix {};
 }
 

@@ -1,10 +1,9 @@
-// app/account/billing/page.tsx
 "use client";
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Crown, CreditCard, Download, Calendar, Loader2 } from "lucide-react";
+import { Crown, CreditCard, Calendar, Loader2 } from "lucide-react";
 import { useTrialStatus } from "@/hooks/useTrialStatus";
 import { PlanBadge } from "@/components/PlanBadge";
 import { useState } from "react";

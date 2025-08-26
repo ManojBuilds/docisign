@@ -1,6 +1,4 @@
-// app/api/create-checkout/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import DodoPayments from 'dodopayments';
 import { convexClient } from '@/lib/convex';
 import { api } from '@/convex/_generated/api';
 import { dodopayments } from '@/lib/dodopayment';

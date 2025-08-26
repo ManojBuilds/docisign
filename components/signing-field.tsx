@@ -23,7 +23,6 @@ import {
 } from '@/components/ui/drawer'
 
 import { usePdfDimensions } from './PdfDimensionsContext'
-import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { useMobile } from '@/hooks/useMobile';
 
 export interface SignatureFieldData {

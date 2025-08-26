@@ -233,7 +233,7 @@ const WelcomeScreen = ({ signingSession, owner, onProceed }: { signingSession: a
         backgroundImage: "url('/noise.png')"
       }} className="pointer-events-none [z-index:-1] absolute inset-0 bg-[size:180px] bg-repeat opacity-[0.035]"></div>
       <Logo className='mb-6' />
-      <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-primary mb-4">You're Invited to Sign</h1>
+      <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-primary mb-4">You&apos;re Invited to Sign</h1>
       <p className="text-muted-foreground text-lg mb-8 max-w-2xl">
         <strong>{ownerName}</strong> has invited you to sign the document: <br />
         <span className="font-semibold text-foreground">{signingSession.document.title}</span>
@@ -256,7 +256,7 @@ const WelcomeScreen = ({ signingSession, owner, onProceed }: { signingSession: a
             {signingSession.document.customMessage && (
               <div className="pt-2">
                 <p className="font-semibold">Message from sender:</p>
-                <p className="italic">"{signingSession.document.customMessage}"</p>
+                <p className="italic">&ldquo;{signingSession.document.customMessage}&rdquo;</p>
               </div>
             )}
           </div>

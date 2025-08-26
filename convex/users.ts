@@ -1,5 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { api } from "./_generated/api";
 
 // Create user with automatic 7-day trial
 export const createUser = mutation({
@@ -35,6 +36,11 @@ export const createUser = mutation({
       subscriptionStatus: "trial",
       createdAt: now,
       updatedAt: now,
+    });
+
+    await ctx.scheduler.runAfter(0, api.emails.sendWelcomeEmail, {
+      email: args.email,
+      name: args.firstName || args.email,
     });
 
     return userId;

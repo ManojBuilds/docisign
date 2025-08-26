@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { internalAction, mutation, query } from "./_generated/server";
+import { internalAction, internalQuery, mutation, query } from "./_generated/server";
 import { api, internal } from "./_generated/api";
 
 // Add signer to document
@@ -91,6 +91,21 @@ export const getSigners = query({
   },
 });
 
+// New internal query to get a signer by documentId and email
+export const getInternalSignerByDocumentAndEmail = internalQuery({
+  args: {
+    documentId: v.id("documents"),
+    email: v.string(),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("signers")
+      .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
+      .filter((q) => q.eq(q.field("email"), args.email))
+      .first();
+  },
+});
+
 // Update signer status
 export const updateSignerStatus = mutation({
   args: {
@@ -133,7 +148,7 @@ export const updateSignerStatus = mutation({
         documentId: signer.documentId,
         actorEmail: signer.email,
         actorType: "signer",
-        // @ts-expect-error fix it
+        // @ts-expect-error
         actionType: args.status,
         details: `Signer ${args.status} the document`,
         timestamp: now,
@@ -229,28 +244,19 @@ export const sendSigningEmail = internalAction({
       throw new Error("CONVEX_SITE environment variable not set!");
     }
 
-    const signingUrl = `${appUrl}/sign/${signer.accessToken}`;
+    const owner = await ctx.runQuery(api.users.getCurrentUser, { clerkId: document.ownerId });
+    if (!owner) {
+      console.error("Owner not found");
+      return;
+    }
 
-    const subject = `You've been requested to sign: ${document.title}`;
-    const html = `
-        <p>Hello ${signer.name || ''},</p>
-        <p>You have been requested to sign the document "${document.title}".</p>
-        ${args.customMessage ? `<p>Message from the sender: ${args.customMessage}</p>` : ''}
-        <p>Please click the link below to review and sign the document.</p>
-        <a href="${signingUrl}">Sign Document</a>
-        <p>Thank you.</p>
-    `;
-
-    await fetch(`${convexUrl}/send-email`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        to: signer.email,
-        subject,
-        html,
-      }),
+    await ctx.runAction(api.emails.sendSigningRequestEmail, {
+      signerName: signer.name || signer.email,
+      senderName: owner.firstName || owner.email,
+      documentTitle: document.title,
+      signingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/sign-in`,
+      customMessage: args.customMessage,
+      to: signer.email,
     });
   }
 });
@@ -273,37 +279,48 @@ export const sendSignedEmailToOwner = internalAction({
       return;
     }
 
+    const signer = await ctx.runQuery(internal.signers.getInternalSignerByDocumentAndEmail, {
+      documentId: args.documentId,
+      email: args.signerEmail,
+    });
+
+    if (!signer) {
+      console.error("Signer not found");
+      return;
+    }
+
+      const allSigners = await ctx.runQuery(api.signers.getSigners, { documentId: args.documentId });
+
+    const remainingSigners = allSigners.filter((s) => s.status !== "signed").length;
+
     const appUrl = process.env.NEXT_PUBLIC_APP_URL;
     if (!appUrl) {
       throw new Error("APP_URL environment variable not set!");
     }
 
-    const convexUrl = process.env.CONVEX_SITE_URL;
-    if (!convexUrl) {
-      throw new Error("CONVEX_SITE environment variable not set!");
-    }
+    const downloadUrl = await ctx.runMutation(api.documents.getFileUrl, { storageId: document.fileStorageId });
 
-    const documentUrl = `${appUrl}/documents/${args.documentId}/edit`;
+    // Send Signing Confirmation Email to owner
+    await ctx.runAction(api.emails.sendSigningConfirmationEmail, {
+      ownerName: owner.firstName || owner.email,
+      signerName: signer.name || signer.email,
+      documentTitle: document.title,
+      dashboardUrl: `${appUrl}/dashboard`,
+      // @ts-expect-error
+      signedAt: new Date(signer.signedAt).toLocaleString(),
+      remainingSigners: remainingSigners,
+      to: owner.email,
+    });
 
-    const subject = `Document Signed: ${document.title}`;
-    const html = `
-        <p>Hello ${owner.firstName || ''},</p>
-        <p>The document "${document.title}" has been signed by ${args.signerEmail}.</p>
-        <p>You can view the document here:</p>
-        <a href="${documentUrl}">View Document</a>
-        <p>Thank you.</p>
-    `;
-
-    await fetch(`${convexUrl}/send-email`, {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        to: owner.email,
-        subject,
-        html,
-      }),
+    // Send Signer Copy Email to signer
+    await ctx.runAction(api.emails.sendSignerCopyEmail, {
+      signerName: signer.name || signer.email,
+      documentTitle: document.title,
+      downloadUrl: downloadUrl || '',
+      // @ts-expect-error
+      signedAt: new Date(signer.signedAt).toLocaleString(),
+      senderName: owner.firstName || owner.email,
+      to: signer.email,
     });
   }
 });
@@ -404,6 +421,12 @@ export const finalizeDocument = mutation({
       throw new Error("Signer not found");
     }
 
+    // Get document
+    const document = await ctx.db.get(args.documentId);
+    if (!document) {
+      throw new Error("Document not found");
+    }
+
     // Mark signer as signed
     await ctx.db.patch(signer._id, {
       status: "signed",
@@ -430,9 +453,10 @@ export const finalizeDocument = mutation({
 
     if (allSigned) {
       // Mark document as completed
+      const completedTimestamp = Date.now();
       await ctx.db.patch(args.documentId, {
         status: "completed",
-        completedAt: Date.now(),
+        completedAt: completedTimestamp,
         updatedAt: Date.now(),
       });
 
@@ -444,6 +468,30 @@ export const finalizeDocument = mutation({
         actionType: "completed",
         details: "All signers have completed the document",
         timestamp: Date.now(),
+      });
+
+      // Send Document Complete Email to owner
+      const owner = await ctx.runQuery(api.users.getCurrentUser, { clerkId: document.ownerId });
+      if (!owner) {
+        console.error("Owner not found");
+        return;
+      }
+
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+      if (!appUrl) {
+        throw new Error("APP_URL environment variable not set!");
+      }
+
+      const downloadUrl = await ctx.runMutation(api.documents.getFileUrl, { storageId: document.fileStorageId });
+
+      await ctx.scheduler.runAfter(0, api.emails.sendDocumentCompleteEmail, {
+        ownerName: owner.firstName || owner.email,
+        documentTitle: document.title,
+        dashboardUrl: `${appUrl}/dashboard`,
+        downloadUrl: downloadUrl || '',
+        completedAt: new Date(completedTimestamp).toLocaleString(),
+        totalSigners: allSigners.length,
+        to: owner.email,
       });
     }
 

@@ -8,7 +8,7 @@ interface PlanBadgeProps {
     size?: "sm" | "default" | "lg";
 }
 
-export const PlanBadge = ({ showDetails = false, size = "default" }: PlanBadgeProps) => {
+export const PlanBadge = ({ showDetails = false }: PlanBadgeProps) => {
     const trialStatus = useTrialStatus();
 
     if (trialStatus.isLoading) {

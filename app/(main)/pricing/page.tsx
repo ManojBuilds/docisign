@@ -1,5 +1,5 @@
 'use client'
-import { Check, X, ArrowRight, Clock, Zap, Shield, Star } from "lucide-react";
+import { Check, ArrowRight, Clock, Zap, Shield, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -44,7 +44,7 @@ export default function PricingPage() {
           Simple Pricing
         </Badge>
         <h1 className="text-4xl font-bold tracking-tight mb-4">
-          Document signing that doesn't break the bank
+          Document signing that doesn&apos;t break the bank
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
           Start your free 7-day trial today. No credit card required. 
@@ -294,7 +294,7 @@ export default function PricingPage() {
           Ready to get started?
         </h2>
         <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-          Join thousands of professionals who've simplified their document signing workflow with Docisign.
+          Join thousands of professionals who&apos;ve simplified their document signing workflow with Docisign.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Button onClick={handleStartTrial} size="lg">

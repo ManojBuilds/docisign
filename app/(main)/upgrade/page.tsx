@@ -3,8 +3,6 @@
 
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
-import { useQuery, useMutation } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -173,7 +171,7 @@ export default function UpgradePage() {
                     <div className="space-y-6">
                         <Card>
                             <CardHeader>
-                                <CardTitle className="text-xl">You're saving big!</CardTitle>
+                                <CardTitle className="text-xl">You&apos;re saving big!</CardTitle>
                                 <CardDescription>
                                     See how much you save compared to other solutions
                                 </CardDescription>
@@ -214,7 +212,7 @@ export default function UpgradePage() {
                                 <div className="flex items-start gap-3">
                                     <Clock className="h-5 w-5 text-primary mt-0.5" />
                                     <div>
-                                        <p className="font-medium">Don't lose your progress</p>
+                                        <p className="font-medium">Don&apos;t lose your progress</p>
                                         <p className="text-sm text-muted-foreground">
                                             Keep all your documents and continue where you left off
                                         </p>
@@ -280,7 +278,7 @@ export default function UpgradePage() {
                             </CardHeader>
                             <CardContent>
                                 <p className="text-muted-foreground">
-                                    Yes! We offer a 30-day money-back guarantee. If you're not satisfied, we'll refund your payment.
+                                    Yes! We offer a 30-day money-back guarantee. If you&apos;re not satisfied, we&apos;ll refund your payment.
                                 </p>
                             </CardContent>
                         </Card>

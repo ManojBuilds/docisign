@@ -39,7 +39,7 @@ export const TrialBanner = () => {
   }
 
   if (trialStatus.isTrialActive) {
-    const isLastDay = trialStatus.daysRemaining <= 1;
+    const isLastDay = trialStatus?.daysRemaining as number <= 1;
     const bgColor = isLastDay ? "bg-orange-50 border-orange-400" : "bg-blue-50 border-blue-400";
     const textColor = isLastDay ? "text-orange-800" : "text-blue-800";
     const iconColor = isLastDay ? "text-orange-400" : "text-blue-400";
@@ -51,7 +51,7 @@ export const TrialBanner = () => {
             <Clock className={`h-5 w-5 ${iconColor} mr-2`} />
             <div>
               <p className={`text-sm font-medium ${textColor}`}>
-                {trialStatus.daysRemaining > 1 
+                {trialStatus.daysRemaining as number > 1 
                   ? `${trialStatus.daysRemaining} days left in trial`
                   : `${trialStatus.hoursRemaining} hours left in trial`}
               </p>
