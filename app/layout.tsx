@@ -5,6 +5,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
 import { PdfDimensionsProvider } from "@/components/PdfDimensionsContext";
 import { Lora, Plus_Jakarta_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next"
 
 const lora = Lora({
   subsets: ["latin"],
@@ -41,6 +42,7 @@ export default function RootLayout({
           </ConvexClientProvider>
         </ClerkProvider>
         <Toaster />
+        <Analytics/>
       </body>
     </html>
   );
