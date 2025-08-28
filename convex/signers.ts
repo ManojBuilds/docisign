@@ -370,6 +370,36 @@ export const getSigningSession = query({
   },
 });
 
+export const getSigningSessionForMetadata = query({
+    args: { accessToken: v.string() },
+    handler: async (ctx, args) => {
+        try {
+            const signer = await ctx.db
+                .query("signers")
+                .withIndex("by_access_token", (q) => q.eq("accessToken", args.accessToken))
+                .first();
+
+            if (!signer) {
+                return null;
+            }
+
+            const document = await ctx.db.get(signer.documentId);
+            if (!document) {
+                return null;
+            }
+
+            const owner = await ctx.db.query("users").withIndex("by_clerk_id", q => q.eq("clerkId", document.ownerId)).first();
+
+            return {
+                documentTitle: document.title,
+                ownerName: owner?.firstName || owner?.email || "Someone",
+            };
+        } catch (error) {
+            return null;
+        }
+    },
+});
+
 // Mark document as viewed by signer
 export const markDocumentAsViewed = mutation({
   args: { accessToken: v.string() },

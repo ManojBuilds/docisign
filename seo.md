@@ -64,3 +64,10 @@ Ongoing Monitoring & Optimization
     Interlink relevant posts and pages for strong SEO cluster
 
 This content roadmap covers every stage of your funnel—awareness, consideration, conversion, and retention—maximizing SEO impact and user trust for Docisign
+
+
+Keyword Opportunities:
+
+Primary: "DocuSign alternative" (your main target)
+Secondary: "mobile document signing" (underserved market)
+Long-tail: "simple e-signature platform", "no account document signing"

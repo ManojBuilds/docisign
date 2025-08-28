@@ -62,13 +62,18 @@ const HeroProps = ({
                 <Image src={'/image.png'} alt="pen" width={200} height={200} className="object-contain absolute right-0 hidden md:block rotate-2 bottom-0"/>
                 <div className="mx-auto flex max-w-5xl flex-col gap-6">
                     <h1 className="text-3xl font-extrabold lg:text-6xl leading-tight">
-                        Get Documents Signed in <br /> <span className={`text-primary`}>Under 3 Minutes
+                        Simple DocuSign Alternative for 
+                        <br /> <span className={`text-primary`}>Fast Document Signing
                         </span>
                     </h1>
                     <p className="text-muted-foreground text-balance lg:text-lg max-w-4xl mx-auto">
                         {description}
                     </p>
+                    <div className="flex items-center gap-2 justify-center text-xs sm:text-sm font-medium text-muted-foreground">
+                        <span>✓ Faster than DocuSign</span>• <span>✓ More affordable</span> • <span>✓ Mobile-first design</span>
+                    </div>
                 </div>
+
                 <SignedIn>
                     <Button asChild size="lg" className="mt-10">
                         <Link href={button.url}>{button.text}</Link>

@@ -19,8 +19,6 @@ interface HowItWorksProps {
 }
 
 const HowItWorks = ({
-    heading = "Upload. Place signatures. Send. Done.",
-    description = "Get your documents signed in three simple steps. No training required, no complexity—just results.",
     button = {
         text: "Try It Now",
         url: "/sign-up",
@@ -29,20 +27,20 @@ const HowItWorks = ({
         {
             number: "01",
             icon: <Upload className="size-6" />,
-            title: "Upload Your Document",
-            description: "Drag and drop any PDF or Word doc. We'll handle the conversion automatically."
+            title: "Upload Any Document",
+            description: "Drag and drop any PDF or Word doc. Our electronic signature software handles conversion automatically."
         },
         {
             number: "02",
             icon: <MousePointer className="size-6" />,
-            title: "Place Signature Fields",
-            description: "Click exactly where signatures should go. Add signer names and emails with a few clicks."
+            title: "Add Signature Fields",
+            description: "Click exactly where signatures should go. Add signer names and emails with a few clicks—faster than DocuSign's complex field placement."
         },
         {
             number: "03",
             icon: <Send className="size-6" />,
-            title: "Send & Get Signatures",
-            description: "Hit send and watch signatures roll in. Signers can sign on any device without creating accounts."
+            title: "Send & Collect Signatures",
+            description: "Hit send and watch digital signatures roll in. Signers can sign on any device without the account requirements DocuSign demands."
         }
     ]
 }: HowItWorksProps) => {
@@ -53,10 +51,11 @@ const HowItWorks = ({
                 <div className="text-center mb-20">
                     <div className="mx-auto flex max-w-4xl flex-col gap-6">
                         <h2 className="text-3xl font-extrabold lg:text-5xl text-gray-900">
-                            {heading}
+                            How Our Document Signing Works
                         </h2>
                         <p className="text-muted-foreground text-balance lg:text-lg max-w-3xl mx-auto">
-                            {description}
+                            Get your <span className="font-semibold">PDF documents signed</span> in three simple steps. No DocuSign complexity—just results.
+
                         </p>
                     </div>
                 </div>
