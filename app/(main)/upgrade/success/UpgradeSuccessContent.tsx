@@ -1,25 +1,31 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CheckCircle, ArrowRight } from "lucide-react";
-import Link from 'next/link';
+import Link from "next/link";
 
 export default function UpgradeSuccessContent() {
   const searchParams = useSearchParams();
-  const sessionId = searchParams.get('session_id');
+  const sessionId = searchParams.get("session_id");
   const [isVerifying, setIsVerifying] = useState(true);
 
   useEffect(() => {
-    // Verify the payment and update user status
+    // TODO: FIX IT
     const verifyPayment = async () => {
       if (sessionId) {
         try {
-          const response = await fetch('/api/verify-payment', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+          const response = await fetch("/api/verify-payment", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ sessionId }),
           });
 
@@ -27,7 +33,7 @@ export default function UpgradeSuccessContent() {
             setIsVerifying(false);
           }
         } catch (error) {
-          console.error('Payment verification error:', error);
+          console.error("Payment verification error:", error);
         }
       }
       setIsVerifying(false);
@@ -59,7 +65,8 @@ export default function UpgradeSuccessContent() {
               Welcome to Docisign Pro!
             </CardTitle>
             <CardDescription>
-              Your subscription is now active. You have access to all Pro features.
+              Your subscription is now active. You have access to all Pro
+              features.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
