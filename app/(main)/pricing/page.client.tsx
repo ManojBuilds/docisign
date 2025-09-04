@@ -43,7 +43,7 @@ export default function PricingPage() {
       number: "01",
       icon: <Zap className="size-6" />,
       title: "Lightning Fast Setup & Signing",
-      description: "Upload, add signatures, and send documents in under 3 minutes with Docisign’s mobile-first platform. No complex workflows or training needed."
+      description: "Upload, add signatures, and send documents in under 3 minutes with Boopsign’s mobile-first platform. No complex workflows or training needed."
     },
     {
       number: "02",
@@ -71,11 +71,11 @@ export default function PricingPage() {
           Affordable DocuSign Alternative for Freelancers & Small Businesses
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-          Start your 7-day free trial of Docisign Pro today. No credit card required. Cancel anytime.
+          Start your 7-day free trial of Boopsign Pro today. No credit card required. Cancel anytime.
         </p>
       </div>
 
-      {/* Docisign Pro Pricing Card */}
+      {/* Boopsign Pro Pricing Card */}
       <div className="container mx-auto px-4 mb-16 max-w-md mx-auto">
         <Card className="border-2 border-primary relative overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-1 bg-primary" />
@@ -85,7 +85,7 @@ export default function PricingPage() {
                 Most Popular Plan
               </Badge>
             </div>
-            <CardTitle className="text-2xl">Docisign Pro Plan</CardTitle>
+            <CardTitle className="text-2xl">Boopsign Pro Plan</CardTitle>
             <CardDescription>
               Everything needed for fast, reliable, and mobile-first electronic signatures
             </CardDescription>
@@ -127,7 +127,7 @@ export default function PricingPage() {
       {/* Benefits Section */}
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Why Choose Docisign?</h2>
+          <h2 className="text-3xl font-bold mb-4">Why Choose Boopsign?</h2>
         </div>
 
 <div className="mx-auto max-w-6xl">
@@ -165,8 +165,8 @@ export default function PricingPage() {
         items={[
           {
             id: 'q1',
-            question: "What happens during my free trial of Docisign Pro?",
-            answer: 'You get full access to all Docisign Pro features for 7 days. No credit card is required to start. Create unlimited documents, send them securely for signing, and explore all features risk-free.'
+            question: "What happens during my free trial of Boopsign Pro?",
+            answer: 'You get full access to all Boopsign Pro features for 7 days. No credit card is required to start. Create unlimited documents, send them securely for signing, and explore all features risk-free.'
           },
           {
             id: 'q2',
@@ -175,7 +175,7 @@ export default function PricingPage() {
           },
           {
             id: 'q3',
-            question: 'Can I cancel my Docisign subscription anytime?',
+            question: 'Can I cancel my Boopsign subscription anytime?',
             answer: 'Yes, you can cancel your subscription at any time. No contracts or commitments. You can even cancel during your free trial with no questions asked.'
           },
           {
@@ -191,7 +191,7 @@ export default function PricingPage() {
       <div className="container mx-auto px-4 py-16 text-center">
         <h2 className="text-3xl font-bold mb-4">Ready to simplify your document signing?</h2>
         <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-          Join thousands of freelancers, small businesses, and consultants who trust Docisign as the best alternative to DocuSign.
+          Join thousands of freelancers, small businesses, and consultants who trust Boopsign as the best alternative to DocuSign.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Button onClick={handleStartTrial} size="lg">

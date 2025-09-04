@@ -17,14 +17,14 @@ export const Welcome = ({
   tutorialUrl,
 }: WelcomeProps) => {
   return (
-    <EmailLayout preview="Welcome to Docisign! Get your first document signed in under 3 minutes.">
+    <EmailLayout preview="Welcome to Boopsign! Get your first document signed in under 3 minutes.">
       <EmailHeader />
 
       <Section className="p-8">
         <div className="text-center mb-6">
           <span className="text-5xl">👋</span>
           <Heading className="text-3xl font-bold text-foreground mb-4 mt-2">
-            Welcome to Docisign!
+            Welcome to Boopsign!
           </Heading>
         </div>
 

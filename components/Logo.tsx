@@ -12,7 +12,7 @@ export default function Logo({ showText = true, className }: LogoProps) {
     <Link href="/" className={cn("flex items-center gap-2", className)}>
       <Image
         src="/logo.png"
-        alt="Docisign Logo"
+        alt="Boopsign Logo"
         width={40}
         height={40}
         className="h-8 w-8 md:h-10 md:w-10"

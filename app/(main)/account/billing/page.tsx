@@ -63,7 +63,7 @@ export default function BillingPage() {
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
                                         <p className="text-sm font-medium">Plan</p>
-                                        <p className="text-2xl font-bold">Docisign Pro</p>
+                                        <p className="text-2xl font-bold">Boopsign Pro</p>
                                         <p className="text-sm text-muted-foreground">$12/month</p>
                                     </div>
                                     <div>
@@ -120,7 +120,7 @@ export default function BillingPage() {
                         <CardDescription>
                             {trialStatus.isPaidUser || trialStatus.isTrialActive
                                 ? "Everything you get with your current plan"
-                                : "What you'll get with Docisign Pro"
+                                : "What you'll get with Boopsign Pro"
                             }
                         </CardDescription>
                     </CardHeader>

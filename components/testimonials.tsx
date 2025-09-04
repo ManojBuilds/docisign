@@ -43,7 +43,7 @@ export default function TestimonialsSection() {
         Trusted by Thousands of Professionals
       </h2>
       <Testimonial
-        quote="Switched from DocuSign to Docisign and cut our signing time by 70%. The mobile experience is incredible."
+        quote="Switched from DocuSign to Boopsign and cut our signing time by 70%. The mobile experience is incredible."
         author="Sarah K."
         role="Real Estate Agent"
         highlightKeywords={keywords}

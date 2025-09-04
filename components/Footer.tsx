@@ -4,7 +4,7 @@ const Footer = () => {
     <footer className="border-t py-6">
       <div className="container mx-auto flex flex-col items-center justify-between gap-4 md:flex-row">
         <p className="text-sm text-muted-foreground">
-          &copy; {new Date().getFullYear()} Docisign. All rights reserved.
+          &copy; {new Date().getFullYear()} Boopsign. All rights reserved.
         </p>
         <div className="flex items-center gap-4">
           <a

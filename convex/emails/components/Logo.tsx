@@ -10,11 +10,11 @@ export default function Logo({ showText = true, baseUrl = "" }: LogoProps) {
     <Link href={baseUrl} style={linkStyle}>
       <Img
         src={`${baseUrl}/static/logo.png`}
-        alt="Docisign Logo"
+        alt="Boopsign Logo"
         width="40"
         height="40"
       />
-      {showText && <span style={textStyle}>docisign.com</span>}
+      {showText && <span style={textStyle}>Boopsign.com</span>}
     </Link>
   );
 }

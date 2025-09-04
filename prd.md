@@ -1,5 +1,5 @@
 # Product Requirements Document (PRD)
-## Docisign - Lightweight Document Signing Platform
+## Boopsign - Lightweight Document Signing Platform
 
 ---
 

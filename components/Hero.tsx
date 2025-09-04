@@ -1,8 +1,6 @@
 import { Star } from "lucide-react";
-
 import { Avatar, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { SignedIn, SignedOut } from "@clerk/clerk-react";
 import Link from "next/link";
 import Image from "next/image";
 

@@ -1,4 +1,4 @@
-Here is a structured content plan with actionable todos to help Docisign rank for “DocuSign alternative” and related keywords, boost credibility, and convert users:
+Here is a structured content plan with actionable todos to help Boopsign rank for “DocuSign alternative” and related keywords, boost credibility, and convert users:
 Landing & Comparison Pages
 
     Create “DocuSign Alternative” landing page targeting main keyword
@@ -7,9 +7,9 @@ Landing & Comparison Pages
 
     Make “Affordable Document Signing Tool” landing page for price-sensitive users
 
-    Publish “Docisign vs DocuSign” detailed comparison page
+    Publish “Boopsign vs DocuSign” detailed comparison page
 
-    Publish “Docisign vs PandaDoc” detailed comparison page
+    Publish “Boopsign vs PandaDoc” detailed comparison page
 
     Ensure each landing page has:
 
@@ -27,15 +27,15 @@ Pain Point Blog Posts
 
     Write guide: “Deleting Your DocuSign Account—Step-by-Step”
 
-    Write blog: “Why Businesses Switch from PandaDoc to Docisign”
+    Write blog: “Why Businesses Switch from PandaDoc to Boopsign”
 
     Create “Account Deletion Transparency in E-Signature Services—A Comparison”
 
 Authority & Trust Content
 
-    Write “Is Docisign ESIGN & UETA Compliant?”
+    Write “Is Boopsign ESIGN & UETA Compliant?”
 
-    Publish post: “How Docisign Keeps Your Documents Secure”
+    Publish post: “How Boopsign Keeps Your Documents Secure”
 
     Create a “Frequently Asked Questions” page with FAQ schema
 
@@ -51,9 +51,9 @@ Technical/Educational Guides
 
     Write tutorial: “How E-Signature Works—Legal & Technical Basics”
 
-    Publish: “Integrating Docisign With Dropbox, Google Drive, and Email”
+    Publish: “Integrating Boopsign With Dropbox, Google Drive, and Email”
 
-    Share: “Mobile-Friendly Document Signing—Docisign’s Approach”
+    Share: “Mobile-Friendly Document Signing—Boopsign’s Approach”
 
 Ongoing Monitoring & Optimization
 
@@ -63,7 +63,7 @@ Ongoing Monitoring & Optimization
 
     Interlink relevant posts and pages for strong SEO cluster
 
-This content roadmap covers every stage of your funnel—awareness, consideration, conversion, and retention—maximizing SEO impact and user trust for Docisign
+This content roadmap covers every stage of your funnel—awareness, consideration, conversion, and retention—maximizing SEO impact and user trust for Boopsign
 
 
 Keyword Opportunities:

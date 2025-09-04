@@ -14,7 +14,7 @@ http.route({
         const { to, subject, html } = await request.json();
 
         await resend.emails.send({
-            from: 'Docisign <docisign@mail.heysheet.in>',
+            from: 'Boopsign <Boopsign@mail.heysheet.in>',
             to,
             subject,
             html,

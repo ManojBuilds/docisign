@@ -1,5 +1,4 @@
 import { generatePageMetadata } from "@/lib/metadata";
-import PrivacyPolicyPage from "./page.client";
 
 export const metadata = generatePageMetadata.privacyPolicy();
 

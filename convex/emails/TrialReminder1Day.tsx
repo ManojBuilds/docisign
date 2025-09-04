@@ -13,12 +13,12 @@ export const TrialReminder1Day = ({
   upgradeUrl,
 }: TrialReminder1DayProps) => {
   return (
-    <EmailLayout preview="Your Docisign trial expires tomorrow">
+    <EmailLayout preview="Your Boopsign trial expires tomorrow">
       <EmailHeader />
 
       <Section className="p-8">
         <Heading className="text-2xl font-bold text-foreground mb-4">
-          Action Required: Your Docisign trial expires tomorrow!
+          Action Required: Your Boopsign trial expires tomorrow!
         </Heading>
 
         <Text className="text-lg text-muted-foreground mb-6">
@@ -26,8 +26,8 @@ export const TrialReminder1Day = ({
         </Text>
 
         <Text className="text-base text-muted-foreground mb-4">
-          This is your final reminder – your Docisign trial expires tomorrow.
-          Upgrade now to keep your documents and continue using Docisign without
+          This is your final reminder – your Boopsign trial expires tomorrow.
+          Upgrade now to keep your documents and continue using Boopsign without
           interruption.
         </Text>
 
@@ -41,7 +41,7 @@ export const TrialReminder1Day = ({
         </Section>
 
         <Text className="text-base text-muted-foreground mb-4">
-          Don't miss out on your saved documents and the convenience of Docisign.
+          Don't miss out on your saved documents and the convenience of Boopsign.
         </Text>
       </Section>
 
@@ -52,7 +52,7 @@ export const TrialReminder1Day = ({
 
 TrialReminder1Day.PreviewProps = {
   userName: "John Doe",
-  upgradeUrl: "https://docisign.com/upgrade",
+  upgradeUrl: "https://Boopsign.com/upgrade",
 } as TrialReminder1DayProps;
 
 export default TrialReminder1Day;

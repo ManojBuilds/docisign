@@ -25,7 +25,7 @@ export const TrialBanner = () => {
                 Your trial has expired
               </p>
               <p className="text-sm text-red-700">
-                Upgrade to continue using Docisign
+                Upgrade to continue using Boopsign
               </p>
             </div>
           </div>
@@ -56,7 +56,7 @@ export const TrialBanner = () => {
                   : `${trialStatus.hoursRemaining} hours left in trial`}
               </p>
               <p className={`text-sm ${textColor.replace('800', '700')}`}>
-                Upgrade to Docisign Pro for unlimited documents
+                Upgrade to Boopsign Pro for unlimited documents
               </p>
             </div>
           </div>

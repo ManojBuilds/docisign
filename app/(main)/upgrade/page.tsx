@@ -91,11 +91,11 @@ export default function UpgradePage() {
             Upgrade to Pro
           </Badge>
           <h1 className="text-3xl font-bold mb-2">
-            Continue with Docisign Pro
+            Continue with Boopsign Pro
           </h1>
           {trialStatus?.trialEnded ? (
             <p className="text-muted-foreground">
-              Your trial has expired. Upgrade to continue using Docisign.
+              Your trial has expired. Upgrade to continue using Boopsign.
             </p>
           ) : (
             <p className="text-muted-foreground">
@@ -113,7 +113,7 @@ export default function UpgradePage() {
                 <Badge variant="default" className="w-fit mx-auto mb-2">
                   Recommended
                 </Badge>
-                <CardTitle className="text-2xl">Docisign Pro</CardTitle>
+                <CardTitle className="text-2xl">Boopsign Pro</CardTitle>
                 <CardDescription>
                   Professional document signing for individuals
                 </CardDescription>

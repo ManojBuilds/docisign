@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage } from "./ui/avatar"
 import Link from "next/link"
 import StartTrialBtn from "./StartTrialBtn"
@@ -45,7 +44,7 @@ const Cta = () => {
 
       {/* Subheading */}
       <p className="text-lg text-gray-600 max-w-2xl mb-8">
-        Join thousands of professionals who&apos;ve simplified their document signing workflow with Docisign — the fast, simple, and mobile-first e-signature platform.
+        Join thousands of professionals who&apos;ve simplified their document signing workflow with Boopsign — the fast, simple, and mobile-first e-signature platform.
       </p>
 
       {/* Benefits List */}

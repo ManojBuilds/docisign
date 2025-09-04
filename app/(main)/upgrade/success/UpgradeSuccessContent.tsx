@@ -62,7 +62,7 @@ export default function UpgradeSuccessContent() {
               <CheckCircle className="h-8 w-8 text-green-600" />
             </div>
             <CardTitle className="text-2xl text-green-600">
-              Welcome to Docisign Pro!
+              Welcome to Boopsign Pro!
             </CardTitle>
             <CardDescription>
               Your subscription is now active. You have access to all Pro

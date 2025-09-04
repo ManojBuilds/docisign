@@ -31,7 +31,7 @@ export const TrialGate = ({ children, fallback }: TrialGateProps) => {
         Trial Expired
       </h2>
       <p className="text-gray-600 mb-6">
-        Your 7-day free trial has ended. Upgrade to Docisign Pro to continue creating and sending documents.
+        Your 7-day free trial has ended. Upgrade to Boopsign Pro to continue creating and sending documents.
       </p>
       <Button 
         onClick={() => window.location.href = "/upgrade"}
