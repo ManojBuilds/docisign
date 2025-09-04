@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarImage } from "./ui/avatar"
 import Link from "next/link"
+import StartTrialBtn from "./StartTrialBtn"
 
 const avatars = [
   {
@@ -64,16 +65,7 @@ const Cta = () => {
       </div>
 
       {/* CTA Button */}
-      <div className="relative">
-        <Link href={"/sign-in"}>
-          <Button
-            size="lg"
-            className="px-8 py-6 text-lg rounded-xl shadow-lg transition-transform duration-200 hover:scale-105"
-          >
-            Start Your 7-Day Free Trial
-          </Button>
-        </Link>
-      </div>
+      <StartTrialBtn/>
 
       {/* Secondary CTA */}
       <p className="text-sm text-gray-500 mt-16">

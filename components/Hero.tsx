@@ -59,10 +59,10 @@ const HeroProps = ({
     return (
         <section className="py-32">
             <div className="container mx-auto text-center relative">
-                <Image src={'/image.png'} alt="pen" width={200} height={200} className="object-contain absolute right-0 hidden md:block rotate-2 bottom-0"/>
+                <Image src={'/image.png'} alt="pen" width={200} height={200} className="object-contain absolute right-0 hidden md:block rotate-2 bottom-0" />
                 <div className="mx-auto flex max-w-5xl flex-col gap-6">
                     <h1 className="text-3xl font-extrabold lg:text-6xl leading-tight">
-                        Simple DocuSign Alternative for 
+                        Simple DocuSign Alternative for
                         <br /> <span className={`text-primary`}>Fast Document Signing
                         </span>
                     </h1>
@@ -74,16 +74,10 @@ const HeroProps = ({
                     </div>
                 </div>
 
-                <SignedIn>
-                    <Button asChild size="lg" className="mt-10">
-                        <Link href={button.url}>{button.text}</Link>
-                    </Button>
-                </SignedIn>
-                <SignedOut>
-                    <Button asChild size="lg" className="mt-10">
-                        <Link href={'/sign-in'}>{button.text}</Link>
-                    </Button>
-                </SignedOut>
+                <Button asChild size="lg" className="mt-10">
+                    <Link href={button.url}>{button.text}</Link>
+                </Button>
+
 
                 <div className="mx-auto mt-10 flex w-fit flex-col items-center gap-4 sm:flex-row">
                     <span className="mx-4 inline-flex items-center -space-x-4">

@@ -19,7 +19,7 @@ export const sendWelcomeEmail = action({
     },
     handler: async (ctx, args) => {
         await resend.emails.send({
-            from: 'Docisign <noreply@mail.heysheet.in>',
+            from: 'Docisign <alerts@mailer.boopsign.com>',
             to: [args.email],
             subject: "Welcome to Docisign!",
             react: Welcome({ userName: args.name, dashboardUrl: `${domain}/dashboard` }),
@@ -38,7 +38,7 @@ export const sendSigningRequestEmail = action({
     },
     handler: async (ctx, args) => {
         await resend.emails.send({
-            from: 'Docisign <noreply@mail.heysheet.in>',
+            from: 'Docisign <alerts@mailer.boopsign.com>',
             to: [args.to],
             subject: `${args.senderName} has sent you a document to sign: ${args.documentTitle}`,
             react: SigningRequest(args),
@@ -58,7 +58,7 @@ export const sendSigningConfirmationEmail = action({
     },
     handler: async (ctx, args) => {
         await resend.emails.send({
-            from: 'Docisign <noreply@mail.heysheet.in>',
+            from: 'Docisign <alerts@mailer.boopsign.com>',
             to: [args.to],
             subject: `${args.signerName} signed your document: ${args.documentTitle}`,
             react: SigningConfirmation(args),
@@ -78,7 +78,7 @@ export const sendDocumentCompleteEmail = action({
     },
     handler: async (ctx, args) => {
         await resend.emails.send({
-            from: 'Docisign <noreply@mail.heysheet.in>',
+            from: 'Docisign <alerts@mailer.boopsign.com>',
             to: [args.to],
             subject: `Your document "${args.documentTitle}" is fully executed and ready!`,
             react: DocumentComplete(args),
@@ -97,7 +97,7 @@ export const sendSignerCopyEmail = action({
     },
     handler: async (ctx, args) => {
         await resend.emails.send({
-            from: 'Docisign <noreply@mail.heysheet.in>',
+            from: 'Docisign <alerts@mailer.boopsign.com>',
             to: [args.to],
             subject: `Your signed copy of "${args.documentTitle}" is ready for download`,
             react: SignerCopy(args),
@@ -113,7 +113,7 @@ export const sendTrialReminder3DaysEmail = action({
     },
     handler: async (ctx, args) => {
         await resend.emails.send({
-            from: 'Docisign <noreply@mail.heysheet.in>',
+            from: 'Docisign <alerts@mailer.boopsign.com>',
             to: [args.email],
             subject: "3 days left in your Docisign trial",
             react: TrialReminder3Days({ userName: args.name, upgradeUrl: args.upgradeUrl }),
@@ -129,7 +129,7 @@ export const sendTrialReminder1DayEmail = action({
     },
     handler: async (ctx, args) => {
         await resend.emails.send({
-            from: 'Docisign <noreply@mail.heysheet.in>',
+            from: 'Docisign <alerts@mailer.boopsign.com>',
             to: [args.email],
             subject: "Your Docisign trial expires tomorrow",
             react: TrialReminder1Day({ userName: args.name, upgradeUrl: args.upgradeUrl }),
