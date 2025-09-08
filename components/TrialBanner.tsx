@@ -1,6 +1,7 @@
+"use client"
 import { useTrialStatus } from "@/hooks/useTrialStatus";
-import { Button } from "@/components/ui/button";
 import { Clock, CreditCard } from "lucide-react";
+import CheckoutButton from "./checkout-btn";
 
 export const TrialBanner = () => {
   const trialStatus = useTrialStatus();
@@ -8,11 +9,6 @@ export const TrialBanner = () => {
   if (trialStatus.isLoading || trialStatus.isPaidUser) {
     return null;
   }
-
-  const handleUpgrade = () => {
-    // Navigate to upgrade page
-    window.location.href = "/upgrade";
-  };
 
   if (trialStatus.trialEnded) {
     return (
@@ -29,10 +25,11 @@ export const TrialBanner = () => {
               </p>
             </div>
           </div>
-          <Button onClick={handleUpgrade} className="bg-red-600 hover:bg-red-700">
+
+          <CheckoutButton className="bg-red-600 hover:bg-red-700">
             <CreditCard className="h-4 w-4 mr-2" />
             Upgrade Now
-          </Button>
+          </CheckoutButton>
         </div>
       </div>
     );
@@ -60,10 +57,10 @@ export const TrialBanner = () => {
               </p>
             </div>
           </div>
-          <Button onClick={handleUpgrade} variant="outline">
+          <CheckoutButton className="bg-blue-600 hover:bg-blue-700">
             <CreditCard className="h-4 w-4 mr-2" />
             Upgrade - $12/month
-          </Button>
+          </CheckoutButton>
         </div>
       </div>
     );

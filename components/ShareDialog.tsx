@@ -1,47 +1,37 @@
-"use client"
+"use client";
 
-import { useEffect, useState, FC, Dispatch, SetStateAction } from 'react'
-import { Id } from '@/convex/_generated/dataModel'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { toast } from 'sonner'
+import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Id } from "@/convex/_generated/dataModel";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-  DialogClose,
-} from '@/components/ui/dialog'
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/components/ui/drawer'
-import { Send, UserPlus, X, Loader2, Trash2, AlertCircle } from 'lucide-react'
-import { useMediaQuery } from '@/hooks/useMediaQuery'
-import { Textarea } from './ui/textarea'
+  ResponsiveDialog,
+  ResponsiveDialogClose,
+  ResponsiveDialogContent,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+  ResponsiveDialogTrigger,
+} from "./responsive-dialog";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertCircle, Loader2, Send, Trash2, UserPlus, X } from "lucide-react";
+import { Textarea } from "./ui/textarea";
 
 interface Signer {
-  email: string
-  name?: string
+  email: string;
+  name?: string;
 }
 
 interface ShareDialogProps {
-  documentId: Id<"documents">
-  initialSigners: Signer[]
-  onSend: (signers: Signer[], customMessage?: string) => Promise<void>
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
-  hasUnassignedFields?: boolean
-  onSignerAdd?: (signer: Signer) => void
+  documentId: Id<"documents">;
+  initialSigners: Signer[];
+  onSend: (signers: Signer[], customMessage?: string) => Promise<void>;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  hasUnassignedFields?: boolean;
+  onSignerAdd?: (signer: Signer) => void;
 }
 
 const validateEmail = (email: string) => {
@@ -88,7 +78,8 @@ const DialogContentShared: FC<DialogContentSharedProps> = ({
         <AlertCircle className="h-4 w-4" />
         <AlertTitle>Unassigned Signature Fields</AlertTitle>
         <AlertDescription>
-          This document has signature fields that are not assigned to any signer. Adding a signer will automatically assign them.
+          This document has signature fields that are not assigned to any
+          signer. Adding a signer will automatically assign them.
         </AlertDescription>
       </Alert>
     )}
@@ -104,15 +95,13 @@ const DialogContentShared: FC<DialogContentSharedProps> = ({
             type="email"
             value={newSignerEmail}
             onChange={(e) => {
-              setNewSignerEmail(e.target.value)
-              if (emailError) setEmailError('')
+              setNewSignerEmail(e.target.value);
+              if (emailError) setEmailError("");
             }}
             onKeyPress={handleKeyPress}
-            className={emailError ? 'border-red-500' : ''}
+            className={emailError ? "border-red-500" : ""}
           />
-          {emailError && (
-            <p className="text-sm text-red-500">{emailError}</p>
-          )}
+          {emailError && <p className="text-sm text-red-500">{emailError}</p>}
         </div>
 
         <div className="flex-1 md:flex-none md:w-40">
@@ -146,8 +135,8 @@ const DialogContentShared: FC<DialogContentSharedProps> = ({
             variant="ghost"
             size="sm"
             onClick={() => {
-              setSigners([])
-              toast.success('All signers removed')
+              setSigners([]);
+              toast.success("All signers removed");
             }}
             className="text-red-600 hover:text-red-700 hover:bg-red-50"
           >
@@ -166,11 +155,9 @@ const DialogContentShared: FC<DialogContentSharedProps> = ({
             >
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm truncate">
-                  {signer.name || 'Unnamed Signer'}
+                  {signer.name || "Unnamed Signer"}
                 </p>
-                <p className="text-gray-600 text-sm truncate">
-                  {signer.email}
-                </p>
+                <p className="text-gray-600 text-sm truncate">{signer.email}</p>
               </div>
               <Button
                 variant="ghost"
@@ -187,7 +174,9 @@ const DialogContentShared: FC<DialogContentSharedProps> = ({
             <div>
               <UserPlus className="w-8 h-8 mx-auto text-gray-400 mb-2" />
               <p className="text-sm text-gray-500">No signers added yet</p>
-              <p className="text-xs text-gray-400">Add an email address to get started</p>
+              <p className="text-xs text-gray-400">
+                Add an email address to get started
+              </p>
             </div>
           </div>
         )}
@@ -196,7 +185,9 @@ const DialogContentShared: FC<DialogContentSharedProps> = ({
 
     {/* Custom Message Section */}
     <div className="space-y-1">
-      <Label className="text-base font-semibold">Custom Message (Optional)</Label>
+      <Label className="text-base font-semibold">
+        Custom Message (Optional)
+      </Label>
       <Textarea
         className="w-full p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         rows={3}
@@ -220,159 +211,96 @@ export function ShareDialog({
   hasUnassignedFields,
   onSignerAdd,
 }: ShareDialogProps) {
-  const [signers, setSigners] = useState<Signer[]>(initialSigners)
-  const [newSignerEmail, setNewSignerEmail] = useState('')
-  const [newSignerName, setNewSignerName] = useState('')
-  const [customMessage, setCustomMessage] = useState('')
-  const [isSending, setIsSending] = useState(false)
-  const [emailError, setEmailError] = useState('')
-
-  const isMobile = useMediaQuery('(max-width: 768px)')
+  const [signers, setSigners] = useState<Signer[]>(initialSigners);
+  const [newSignerEmail, setNewSignerEmail] = useState("");
+  const [newSignerName, setNewSignerName] = useState("");
+  const [customMessage, setCustomMessage] = useState("");
+  const [isSending, setIsSending] = useState(false);
+  const [emailError, setEmailError] = useState("");
 
   useEffect(() => {
-    setSigners(initialSigners)
-  }, [initialSigners])
+    setSigners(initialSigners);
+  }, [initialSigners]);
 
   const addSigner = () => {
-    const email = newSignerEmail.trim()
-    const name = newSignerName.trim()
+    const email = newSignerEmail.trim();
+    const name = newSignerName.trim();
 
     if (!email) {
-      setEmailError('Email is required')
-      return
+      setEmailError("Email is required");
+      return;
     }
 
     if (!validateEmail(email)) {
-      setEmailError('Please enter a valid email address')
-      return
+      setEmailError("Please enter a valid email address");
+      return;
     }
 
-    if (signers.find(s => s.email === email)) {
-      setEmailError('This email is already added')
-      return
+    if (signers.find((s) => s.email === email)) {
+      setEmailError("This email is already added");
+      return;
     }
 
-    const newSigner = { email, name: name || undefined }
-    setSigners([...signers, newSigner])
+    const newSigner = { email, name: name || undefined };
+    setSigners([...signers, newSigner]);
 
     if (hasUnassignedFields) {
-      onSignerAdd?.(newSigner)
+      onSignerAdd?.(newSigner);
     }
 
-    setNewSignerEmail('')
-    setNewSignerName('')
-    setEmailError('')
-    toast.success('Signer added successfully')
-  }
+    setNewSignerEmail("");
+    setNewSignerName("");
+    setEmailError("");
+    toast.success("Signer added successfully");
+  };
 
   const removeSigner = (email: string) => {
-    setSigners(signers.filter(s => s.email !== email))
-    toast.success('Signer removed')
-  }
+    setSigners(signers.filter((s) => s.email !== email));
+    toast.success("Signer removed");
+  };
 
   const handleSend = async () => {
     if (signers.length === 0) {
-      toast.error("Please add at least one signer.")
-      return
+      toast.error("Please add at least one signer.");
+      return;
     }
 
-    setIsSending(true)
+    setIsSending(true);
     try {
-      await onSend(signers, customMessage)
-      toast.success("Document sent for signing!")
-      onOpenChange?.(false)
+      await onSend(signers, customMessage);
+      toast.success("Document sent for signing!");
+      onOpenChange?.(false);
     } catch (error) {
-      console.error(error)
-      toast.error("Failed to send document.")
+      console.error(error);
+      toast.error("Failed to send document.");
     } finally {
-      setIsSending(false)
+      setIsSending(false);
     }
-  }
+  };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      addSigner()
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      addSigner();
     }
-  }
-
-  if (isMobile) {
-    return (
-      <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerTrigger asChild>
-          <Button className="w-full">
-            <Send className="w-4 h-4" />
-            Share
-          </Button>
-        </DrawerTrigger>
-        <DrawerContent className="h-full min-h-[90svh]">
-          <DrawerHeader className="text-left">
-            <DrawerTitle className="text-xl">Share Document</DrawerTitle>
-          </DrawerHeader>
-
-          <div className="px-4 pb-6 overflow-y-auto">
-            <DialogContentShared
-              hasUnassignedFields={hasUnassignedFields}
-              newSignerEmail={newSignerEmail}
-              setNewSignerEmail={setNewSignerEmail}
-              emailError={emailError}
-              setEmailError={setEmailError}
-              handleKeyPress={handleKeyPress}
-              newSignerName={newSignerName}
-              setNewSignerName={setNewSignerName}
-              addSigner={addSigner}
-              signers={signers}
-              setSigners={setSigners}
-              removeSigner={removeSigner}
-              customMessage={customMessage}
-              setCustomMessage={setCustomMessage}
-            />
-          </div>
-
-          <DrawerFooter className="pt-4 border-t">
-            <Button
-              onClick={handleSend}
-              disabled={isSending || signers.length === 0}
-              className="w-full"
-              size="lg"
-            >
-              {isSending ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                  Sending Document...
-                </>
-              ) : (
-                <>
-                  <Send className="w-4 h-4 mr-2" />
-                  Send for Signing ({signers.length})
-                </>
-              )}
-            </Button>
-            <DrawerClose asChild>
-              <Button variant="outline" className="w-full">
-                Cancel
-              </Button>
-            </DrawerClose>
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    )
-  }
+  };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger asChild>
-        <Button>
+    <ResponsiveDialog open={open} onOpenChange={onOpenChange}>
+      <ResponsiveDialogTrigger asChild>
+        <Button className="w-full sm:w-auto">
           <Send className="w-4 h-4" />
-          Share
+          Request Signature
         </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle className="text-xl">Share Document</DialogTitle>
-        </DialogHeader>
+      </ResponsiveDialogTrigger>
+      <ResponsiveDialogContent className="sm:max-w-2xl p-6">
+        <ResponsiveDialogHeader>
+          <ResponsiveDialogTitle className="text-xl">
+            Request Signature
+          </ResponsiveDialogTitle>
+        </ResponsiveDialogHeader>
 
-        <div className="py-6">
+        <div>
           <DialogContentShared
             hasUnassignedFields={hasUnassignedFields}
             newSignerEmail={newSignerEmail}
@@ -391,13 +319,16 @@ export function ShareDialog({
           />
         </div>
 
-        <DialogFooter className="gap-2">
-          <DialogClose asChild>
-            <Button variant="outline">Cancel</Button>
-          </DialogClose>
+        <ResponsiveDialogFooter className="gap-2 flex-col-reverse sm:flex-row">
+          <ResponsiveDialogClose asChild>
+            <Button variant="outline" className="w-full sm:w-auto">
+              Cancel
+            </Button>
+          </ResponsiveDialogClose>
           <Button
             onClick={handleSend}
             disabled={isSending || signers.length === 0}
+            className="w-full sm:w-auto"
           >
             {isSending ? (
               <>
@@ -411,8 +342,8 @@ export function ShareDialog({
               </>
             )}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  )
+        </ResponsiveDialogFooter>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
+  );
 }

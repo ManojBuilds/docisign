@@ -1,0 +1,52 @@
+import { SignIn } from "@clerk/nextjs";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sign In to BoopSign - Access Your Documents",
+  description:
+    "Sign in to your BoopSign account to manage documents, track signatures, and send new documents for electronic signing.",
+  keywords: [
+    "boopsign login",
+    "boopsign sign in",
+    "electronic signature login",
+    "document signing account",
+  ],
+  robots: {
+    index: true, // Index login page for branded searches
+    follow: true,
+  },
+  alternates: {
+    canonical: "https://boopsign.com/sign-in",
+  },
+  // No OpenGraph needed for login page
+};
+
+export default function Page() {
+  return (
+    <div className="flex items-center justify-center">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            name: "Sign In for BoopSign",
+            description: "Sign In to account for electronic signature software",
+            url: "https://boopsign.com/sign-in",
+            mainEntity: {
+              "@type": "SoftwareApplication",
+              name: "BoopSign",
+              offers: {
+                "@type": "Offer",
+                price: "0",
+                priceCurrency: "USD",
+                description: "7-day free trial",
+              },
+            },
+          }),
+        }}
+      />
+      <SignIn />
+    </div>
+  );
+}

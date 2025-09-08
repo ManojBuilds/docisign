@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+
+.dancing-script {
+  font-family: 'Dancing Script', cursive;
+}
+
+.pacifico {
+  font-family: 'Pacifico', cursive;
+}
+
+.caveat {
+  font-family: 'Caveat', cursive;
+}
+
+.permanent-marker {
+  font-family: 'Permanent Marker', cursive;
+}
+
+.sacramento {
+  font-family: 'Sacramento', cursive;
+}

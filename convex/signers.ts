@@ -1,5 +1,10 @@
 import { v } from "convex/values";
-import { internalAction, internalQuery, mutation, query } from "./_generated/server";
+import {
+  internalAction,
+  internalQuery,
+  mutation,
+  query,
+} from "./_generated/server";
 import { api, internal } from "./_generated/api";
 
 // Add signer to document
@@ -40,7 +45,6 @@ export const addSigner = mutation({
       timestamp: Date.now(),
     });
 
-
     return siginingId;
   },
 });
@@ -51,7 +55,9 @@ export const getSignerByToken = query({
   handler: async (ctx, args) => {
     const signer = await ctx.db
       .query("signers")
-      .withIndex("by_access_token", (q) => q.eq("accessToken", args.accessToken))
+      .withIndex("by_access_token", (q) =>
+        q.eq("accessToken", args.accessToken),
+      )
       .first();
 
     if (!signer) return null;
@@ -60,7 +66,9 @@ export const getSignerByToken = query({
     const signatureFields = await ctx.db
       .query("signatureFields")
       .withIndex("by_document_and_signer", (q) =>
-        q.eq("documentId", signer.documentId).eq("assignedToEmail", signer.email)
+        q
+          .eq("documentId", signer.documentId)
+          .eq("assignedToEmail", signer.email),
       )
       .collect();
 
@@ -115,7 +123,7 @@ export const updateSignerStatus = mutation({
       v.literal("sent"),
       v.literal("viewed"),
       v.literal("signed"),
-      v.literal("declined")
+      v.literal("declined"),
     ),
   },
   handler: async (ctx, args) => {
@@ -176,7 +184,7 @@ export const sendDocumentForSigning = mutation({
       status: "sent",
       customMessage: args.customMessage,
       updatedAt: Date.now(),
-      expiresAt: Date.now() + (30 * 24 * 60 * 60 * 1000), // 30 days
+      expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000, // 30 days
     });
 
     // Update all signers to "sent" status
@@ -212,7 +220,6 @@ export const sendDocumentForSigning = mutation({
   },
 });
 
-
 export const sendSigningEmail = internalAction({
   args: {
     signerId: v.id("signers"),
@@ -220,14 +227,18 @@ export const sendSigningEmail = internalAction({
     customMessage: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const signer = await ctx.runQuery(api.signers.getSigner, { id: args.signerId });
+    const signer = await ctx.runQuery(api.signers.getSigner, {
+      id: args.signerId,
+    });
 
     if (!signer) {
       console.error("Signer not found");
       return;
     }
 
-    const document = await ctx.runQuery(api.documents.getDocument, { documentId: args.documentId });
+    const document = await ctx.runQuery(api.documents.getDocument, {
+      documentId: args.documentId,
+    });
 
     if (!document) {
       console.error("Document not found");
@@ -244,7 +255,9 @@ export const sendSigningEmail = internalAction({
       throw new Error("CONVEX_SITE environment variable not set!");
     }
 
-    const owner = await ctx.runQuery(api.users.getCurrentUser, { clerkId: document.ownerId });
+    const owner = await ctx.runQuery(api.users.getCurrentUser, {
+      clerkId: document.ownerId,
+    });
     if (!owner) {
       console.error("Owner not found");
       return;
@@ -254,11 +267,11 @@ export const sendSigningEmail = internalAction({
       signerName: signer.name || signer.email,
       senderName: owner.firstName || owner.email,
       documentTitle: document.title,
-      signingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/sign-in`,
+      signingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/sign/${signer.accessToken}`,
       customMessage: args.customMessage,
       to: signer.email,
     });
-  }
+  },
 });
 
 export const sendSignedEmailToOwner = internalAction({
@@ -267,38 +280,51 @@ export const sendSignedEmailToOwner = internalAction({
     signerEmail: v.string(),
   },
   handler: async (ctx, args) => {
-    const document = await ctx.runQuery(api.documents.getDocument, { documentId: args.documentId });
+    const document = await ctx.runQuery(api.documents.getDocument, {
+      documentId: args.documentId,
+    });
     if (!document) {
       console.error("Document not found");
       return;
     }
 
-    const owner = await ctx.runQuery(api.users.getCurrentUser, { clerkId: document.ownerId });
+    const owner = await ctx.runQuery(api.users.getCurrentUser, {
+      clerkId: document.ownerId,
+    });
     if (!owner) {
       console.error("Owner not found");
       return;
     }
 
-    const signer = await ctx.runQuery(internal.signers.getInternalSignerByDocumentAndEmail, {
-      documentId: args.documentId,
-      email: args.signerEmail,
-    });
+    const signer = await ctx.runQuery(
+      internal.signers.getInternalSignerByDocumentAndEmail,
+      {
+        documentId: args.documentId,
+        email: args.signerEmail,
+      },
+    );
 
     if (!signer) {
       console.error("Signer not found");
       return;
     }
 
-      const allSigners = await ctx.runQuery(api.signers.getSigners, { documentId: args.documentId });
+    const allSigners = await ctx.runQuery(api.signers.getSigners, {
+      documentId: args.documentId,
+    });
 
-    const remainingSigners = allSigners.filter((s) => s.status !== "signed").length;
+    const remainingSigners = allSigners.filter(
+      (s) => s.status !== "signed",
+    ).length;
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL;
     if (!appUrl) {
       throw new Error("APP_URL environment variable not set!");
     }
 
-    const downloadUrl = await ctx.runMutation(api.documents.getFileUrl, { storageId: document.fileStorageId });
+    const downloadUrl = await ctx.runMutation(api.documents.getFileUrl, {
+      storageId: document.fileStorageId,
+    });
 
     // Send Signing Confirmation Email to owner
     await ctx.runAction(api.emails.sendSigningConfirmationEmail, {
@@ -316,13 +342,13 @@ export const sendSignedEmailToOwner = internalAction({
     await ctx.runAction(api.emails.sendSignerCopyEmail, {
       signerName: signer.name || signer.email,
       documentTitle: document.title,
-      downloadUrl: downloadUrl || '',
+      downloadUrl: downloadUrl || "",
       // @ts-expect-error
       signedAt: new Date(signer.signedAt).toLocaleString(),
       senderName: owner.firstName || owner.email,
       to: signer.email,
     });
-  }
+  },
 });
 
 // Get signing session by access token
@@ -333,7 +359,9 @@ export const getSigningSession = query({
       // Find signer by access token
       const signer = await ctx.db
         .query("signers")
-        .withIndex("by_access_token", (q) => q.eq("accessToken", args.accessToken))
+        .withIndex("by_access_token", (q) =>
+          q.eq("accessToken", args.accessToken),
+        )
         .first();
 
       if (!signer) {
@@ -355,7 +383,9 @@ export const getSigningSession = query({
       const signatureFields = await ctx.db
         .query("signatureFields")
         .withIndex("by_document_and_signer", (q) =>
-          q.eq("documentId", signer.documentId).eq("assignedToEmail", signer.email)
+          q
+            .eq("documentId", signer.documentId)
+            .eq("assignedToEmail", signer.email),
         )
         .collect();
 
@@ -371,33 +401,38 @@ export const getSigningSession = query({
 });
 
 export const getSigningSessionForMetadata = query({
-    args: { accessToken: v.string() },
-    handler: async (ctx, args) => {
-        try {
-            const signer = await ctx.db
-                .query("signers")
-                .withIndex("by_access_token", (q) => q.eq("accessToken", args.accessToken))
-                .first();
+  args: { accessToken: v.string() },
+  handler: async (ctx, args) => {
+    try {
+      const signer = await ctx.db
+        .query("signers")
+        .withIndex("by_access_token", (q) =>
+          q.eq("accessToken", args.accessToken),
+        )
+        .first();
 
-            if (!signer) {
-                return null;
-            }
+      if (!signer) {
+        return null;
+      }
 
-            const document = await ctx.db.get(signer.documentId);
-            if (!document) {
-                return null;
-            }
+      const document = await ctx.db.get(signer.documentId);
+      if (!document) {
+        return null;
+      }
 
-            const owner = await ctx.db.query("users").withIndex("by_clerk_id", q => q.eq("clerkId", document.ownerId)).first();
+      const owner = await ctx.db
+        .query("users")
+        .withIndex("by_clerk_id", (q) => q.eq("clerkId", document.ownerId))
+        .first();
 
-            return {
-                documentTitle: document.title,
-                ownerName: owner?.firstName || owner?.email || "Someone",
-            };
-        } catch (error) {
-            return null;
-        }
-    },
+      return {
+        documentTitle: document.title,
+        ownerName: owner?.firstName || owner?.email || "Someone",
+      };
+    } catch (error) {
+      return null;
+    }
+  },
 });
 
 // Mark document as viewed by signer
@@ -406,7 +441,9 @@ export const markDocumentAsViewed = mutation({
   handler: async (ctx, args) => {
     const signer = await ctx.db
       .query("signers")
-      .withIndex("by_access_token", (q) => q.eq("accessToken", args.accessToken))
+      .withIndex("by_access_token", (q) =>
+        q.eq("accessToken", args.accessToken),
+      )
       .first();
 
     if (!signer) {
@@ -501,7 +538,9 @@ export const finalizeDocument = mutation({
       });
 
       // Send Document Complete Email to owner
-      const owner = await ctx.runQuery(api.users.getCurrentUser, { clerkId: document.ownerId });
+      const owner = await ctx.runQuery(api.users.getCurrentUser, {
+        clerkId: document.ownerId,
+      });
       if (!owner) {
         console.error("Owner not found");
         return;
@@ -512,13 +551,15 @@ export const finalizeDocument = mutation({
         throw new Error("APP_URL environment variable not set!");
       }
 
-      const downloadUrl = await ctx.runMutation(api.documents.getFileUrl, { storageId: document.fileStorageId });
+      const downloadUrl = await ctx.runMutation(api.documents.getFileUrl, {
+        storageId: document.fileStorageId,
+      });
 
       await ctx.scheduler.runAfter(0, api.emails.sendDocumentCompleteEmail, {
         ownerName: owner.firstName || owner.email,
         documentTitle: document.title,
         dashboardUrl: `${appUrl}/dashboard`,
-        downloadUrl: downloadUrl || '',
+        downloadUrl: downloadUrl || "",
         completedAt: new Date(completedTimestamp).toLocaleString(),
         totalSigners: allSigners.length,
         to: owner.email,

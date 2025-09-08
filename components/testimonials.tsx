@@ -1,60 +1,60 @@
 "use client";
 
-interface TestimonialProps {
-  quote: string;
-  author: string;
-  role?: string;
-  highlightKeywords?: string[];
-}
-
-const Testimonial = ({
-  quote,
-  author,
-  role,
-  highlightKeywords = [],
-}: TestimonialProps) => {
-  // Optional: highlight keywords in quote with strong tag
-  const highlightedQuote = highlightKeywords.reduce<string>(
-    (text, keyword) =>
-      text.replace(
-        new RegExp(`(${keyword})`, "gi"),
-        '<strong class="text-primary font-semibold">$1</strong>'
-      ),
-    quote
-  );
-
-  return (
-    <blockquote className="max-w-3xl mx-auto my-16 px-6 text-center text-lg italic text-muted-foreground relative">
-      <p dangerouslySetInnerHTML={{ __html: highlightedQuote }} />
-      <footer className="mt-8 text-base font-semibold">
-        — {author}
-        {role && <span className="block text-sm font-normal text-muted-foreground">{role}</span>}
-      </footer>
-    </blockquote>
-  );
-};
+const testimonials = [
+  {
+    quote: "Finally, an e-signature tool that works on mobile!",
+    author: "Sarah K.",
+    role: "Real Estate Agent",
+  },
+  {
+    quote:
+      "Real estate contracts that used to take 3 days now close in 3 hours",
+    author: "Mike T.",
+    role: "Contractor",
+  },
+  {
+    quote:
+      "My 65-year-old clients can actually sign documents on their phone now",
+    author: "Lisa M.",
+    role: "Consultant",
+  },
+];
 
 export default function TestimonialsSection() {
-  const keywords = ["freelancers", "small businesses", "consultants", "DocuSign alternative"];
-
   return (
-    <section className="py-20 text-center">
-      <h2 className="mb-8 text-3xl font-bold">
-        Trusted by Thousands of Professionals
-      </h2>
-      <Testimonial
-        quote="Switched from DocuSign to Boopsign and cut our signing time by 70%. The mobile experience is incredible."
-        author="Sarah K."
-        role="Real Estate Agent"
-        highlightKeywords={keywords}
-      />
-      <p className="max-w-2xl mx-auto text-md font-medium text-muted-foreground mt-10">
-        Join thousands of&nbsp;
-        <strong className="text-primary">freelancers</strong>,&nbsp;
-        <strong className="text-primary">small businesses</strong>, and&nbsp;
-        <strong className="text-primary">consultants</strong> who&apos;ve simplified their document signing process with the best&nbsp;
-        <strong className="text-primary">DocuSign alternative</strong>.
-      </p>
+    <section className="w-full py-12 md:py-24 lg:py-32 bg-background">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            2,847 businesses have ditched DocuSign for BoopSign
+          </h2>
+          <div className="flex items-center justify-center mt-4 gap-1">
+            <span className="text-2xl">⭐⭐⭐⭐⭐</span>
+            <p className="text-muted-foreground font-medium">4.9/5</p>
+          </div>
+        </div>
+
+        <div className="grid gap-8 mt-12 md:grid-cols-3 md:gap-12">
+          {testimonials.map((testimonial) => (
+            <div
+              key={testimonial.author}
+              className="p-6 border rounded-lg shadow-sm bg-card"
+            >
+              <blockquote className="space-y-4">
+                <p className="text-lg font-medium leading-relaxed text-card-foreground">
+                  “{testimonial.quote}”
+                </p>
+                <footer className="text-sm">
+                  <p className="font-semibold text-card-foreground">
+                    {testimonial.author}
+                  </p>
+                  <p className="text-muted-foreground">{testimonial.role}</p>
+                </footer>
+              </blockquote>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

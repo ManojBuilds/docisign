@@ -8,27 +8,12 @@
  * @module
  */
 
-import type {
-  ApiFromModules,
-  FilterApi,
-  FunctionReference,
-} from "convex/server";
 import type * as actions from "../actions.js";
 import type * as activities from "../activities.js";
 import type * as crons from "../crons.js";
 import type * as dashboard from "../dashboard.js";
 import type * as documents from "../documents.js";
-import type * as emails_DocumentComplete from "../emails/DocumentComplete.js";
-import type * as emails_SignerCopy from "../emails/SignerCopy.js";
-import type * as emails_SigningConfirmation from "../emails/SigningConfirmation.js";
-import type * as emails_SigningRequest from "../emails/SigningRequest.js";
-import type * as emails_TrialReminder1Day from "../emails/TrialReminder1Day.js";
-import type * as emails_TrialReminder3Days from "../emails/TrialReminder3Days.js";
-import type * as emails_Welcome from "../emails/Welcome.js";
-import type * as emails_components_EmailFooter from "../emails/components/EmailFooter.js";
-import type * as emails_components_EmailHeader from "../emails/components/EmailHeader.js";
-import type * as emails_components_EmailLayout from "../emails/components/EmailLayout.js";
-import type * as emails_components_Logo from "../emails/components/Logo.js";
+import type * as email_templates from "../email_templates.js";
 import type * as emails from "../emails.js";
 import type * as files from "../files.js";
 import type * as http from "../http.js";
@@ -36,6 +21,12 @@ import type * as notifications from "../notifications.js";
 import type * as signatureFields from "../signatureFields.js";
 import type * as signers from "../signers.js";
 import type * as users from "../users.js";
+
+import type {
+  ApiFromModules,
+  FilterApi,
+  FunctionReference,
+} from "convex/server";
 
 /**
  * A utility for referencing Convex functions in your app's API.
@@ -51,17 +42,7 @@ declare const fullApi: ApiFromModules<{
   crons: typeof crons;
   dashboard: typeof dashboard;
   documents: typeof documents;
-  "emails/DocumentComplete": typeof emails_DocumentComplete;
-  "emails/SignerCopy": typeof emails_SignerCopy;
-  "emails/SigningConfirmation": typeof emails_SigningConfirmation;
-  "emails/SigningRequest": typeof emails_SigningRequest;
-  "emails/TrialReminder1Day": typeof emails_TrialReminder1Day;
-  "emails/TrialReminder3Days": typeof emails_TrialReminder3Days;
-  "emails/Welcome": typeof emails_Welcome;
-  "emails/components/EmailFooter": typeof emails_components_EmailFooter;
-  "emails/components/EmailHeader": typeof emails_components_EmailHeader;
-  "emails/components/EmailLayout": typeof emails_components_EmailLayout;
-  "emails/components/Logo": typeof emails_components_Logo;
+  email_templates: typeof email_templates;
   emails: typeof emails;
   files: typeof files;
   http: typeof http;
@@ -70,11 +51,145 @@ declare const fullApi: ApiFromModules<{
   signers: typeof signers;
   users: typeof users;
 }>;
+declare const fullApiWithMounts: typeof fullApi;
+
 export declare const api: FilterApi<
-  typeof fullApi,
+  typeof fullApiWithMounts,
   FunctionReference<any, "public">
 >;
 export declare const internal: FilterApi<
-  typeof fullApi,
+  typeof fullApiWithMounts,
   FunctionReference<any, "internal">
 >;
+
+export declare const components: {
+  resend: {
+    lib: {
+      cancelEmail: FunctionReference<
+        "mutation",
+        "internal",
+        { emailId: string },
+        null
+      >;
+      cleanupAbandonedEmails: FunctionReference<
+        "mutation",
+        "internal",
+        { olderThan?: number },
+        null
+      >;
+      cleanupOldEmails: FunctionReference<
+        "mutation",
+        "internal",
+        { olderThan?: number },
+        null
+      >;
+      createManualEmail: FunctionReference<
+        "mutation",
+        "internal",
+        {
+          from: string;
+          headers?: Array<{ name: string; value: string }>;
+          replyTo?: Array<string>;
+          subject: string;
+          to: string;
+        },
+        string
+      >;
+      get: FunctionReference<
+        "query",
+        "internal",
+        { emailId: string },
+        {
+          complained: boolean;
+          createdAt: number;
+          errorMessage?: string;
+          finalizedAt: number;
+          from: string;
+          headers?: Array<{ name: string; value: string }>;
+          html?: string;
+          opened: boolean;
+          replyTo: Array<string>;
+          resendId?: string;
+          segment: number;
+          status:
+            | "waiting"
+            | "queued"
+            | "cancelled"
+            | "sent"
+            | "delivered"
+            | "delivery_delayed"
+            | "bounced"
+            | "failed";
+          subject: string;
+          text?: string;
+          to: string;
+        } | null
+      >;
+      getStatus: FunctionReference<
+        "query",
+        "internal",
+        { emailId: string },
+        {
+          complained: boolean;
+          errorMessage: string | null;
+          opened: boolean;
+          status:
+            | "waiting"
+            | "queued"
+            | "cancelled"
+            | "sent"
+            | "delivered"
+            | "delivery_delayed"
+            | "bounced"
+            | "failed";
+        } | null
+      >;
+      handleEmailEvent: FunctionReference<
+        "mutation",
+        "internal",
+        { event: any },
+        null
+      >;
+      sendEmail: FunctionReference<
+        "mutation",
+        "internal",
+        {
+          from: string;
+          headers?: Array<{ name: string; value: string }>;
+          html?: string;
+          options: {
+            apiKey: string;
+            initialBackoffMs: number;
+            onEmailEvent?: { fnHandle: string };
+            retryAttempts: number;
+            testMode: boolean;
+          };
+          replyTo?: Array<string>;
+          subject: string;
+          text?: string;
+          to: string;
+        },
+        string
+      >;
+      updateManualEmail: FunctionReference<
+        "mutation",
+        "internal",
+        {
+          emailId: string;
+          errorMessage?: string;
+          resendId?: string;
+          status:
+            | "waiting"
+            | "queued"
+            | "cancelled"
+            | "sent"
+            | "delivered"
+            | "delivery_delayed"
+            | "bounced"
+            | "failed";
+        },
+        null
+      >;
+    };
+  };
+};
