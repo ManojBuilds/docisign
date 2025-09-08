@@ -157,7 +157,7 @@ export default function PricingPage() {
           </CardFooter>
         </Card>
       </div>
-      <CompetitorComparisonTable />
+      <CompetitorComparisonTable className="mt-8" />
 
       {/* Benefits Section */}
       <div className="container mx-auto px-4 py-16">

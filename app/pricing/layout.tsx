@@ -1,5 +1,5 @@
 import Footer from "@/components/Footer";
-import { Header } from "@/components/Header";
+import { ClientHeaderWrapper } from "@/components/ClientHeaderWrapper";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -56,7 +56,7 @@ export default function PricingLayout({
           }),
         }}
       />
-      <Header />
+      <ClientHeaderWrapper />
       <main className="flex flex-grow flex-col">{children}</main>
       <Footer />
     </div>

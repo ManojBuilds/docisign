@@ -1,8 +1,14 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 
-const ComparasionTable = () => {
+const ComparasionTable = ({ className }: { className?: string }) => {
   return (
-    <section className="py-16 md:py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+    <section
+      className={cn(
+        "py-16 md:py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white",
+        className,
+      )}
+    >
       <div className="container mx-auto max-w-5xl text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-4">
           Mobile Experience: DocuSign vs BoopSign
@@ -41,9 +47,7 @@ const ComparasionTable = () => {
                   </td>
                 </tr>
                 <tr className="border-b border-white/10">
-                  <td className="py-4 px-4 text-white/80">
-                    Account Creation
-                  </td>
+                  <td className="py-4 px-4 text-white/80">Account Creation</td>
                   <td className="py-4 px-4 text-center">❌ No</td>
                   <td className="py-4 px-4 text-center">✅ Required</td>
                 </tr>
