@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/clerk-react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";

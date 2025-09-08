@@ -104,7 +104,7 @@ export default function PricingPage() {
 
           <CardFooter className="flex flex-col gap-4">
             <Button size="lg" asChild className="w-full" variant={"outline"}>
-              <Link href={"/sign-in"}>Get Started Free</Link>
+              <Link href={"/sign-in"}>Start 7 days free trial</Link>
             </Button>
             <p className="text-xs text-muted-foreground text-center">
               No credit card required • Full feature access during trial period
@@ -147,7 +147,7 @@ export default function PricingPage() {
           </CardContent>
 
           <CardFooter className="flex flex-col gap-4">
-            <CheckoutButton>
+            <CheckoutButton className="w-full">
               <Gem className="w-4 h-4 mr-2" />
               Upgrade to PRO
             </CheckoutButton>
