@@ -47,8 +47,7 @@ export const metadata: Metadata = {
       "Sign documents in 3 minutes, not 30. Mobile-first electronic signatures with no login required for signers.",
     images: [
       {
-        // TODO: FIX IT LATER
-        url: "https://boopsign.com/images/og-homepage.png",
+        url: "https://boopsign.com/og-image.png",
         width: 1200,
         height: 630,
         alt: "BoopSign - Fast Mobile Electronic Signatures",
@@ -60,7 +59,7 @@ export const metadata: Metadata = {
     title: "BoopSign - 3x Faster and 50 % Cheaper Than DocuSign",
     description:
       "Electronic signatures that actually work on mobile. No login required for signers.",
-    images: ["https://boopsign.com/images/twitter-card.jpg"],
+    images: ["https://boopsign.com/og-image.png"],
     creator: "@boopsign",
   },
   robots: {

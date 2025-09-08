@@ -72,8 +72,7 @@ export default function PricingPage() {
 
       {/* Boopsign Pro Pricing Card */}
       <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-2 lg:gap-12">
-        <Card className="border-2 border-primary relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-primary" />
+        <Card className="border-2 relative overflow-hidden">
           <CardHeader className="text-center pb-4">
             <CardTitle className="text-2xl">Free Plan</CardTitle>
             <CardDescription>

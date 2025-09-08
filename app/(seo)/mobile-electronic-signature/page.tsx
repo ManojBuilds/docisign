@@ -18,28 +18,6 @@ export const metadata: Metadata = {
     "electronic signature smartphone",
     "mobile document signing",
   ],
-  openGraph: {
-    title: "Mobile Electronic Signature App - Sign on Any Device | BoopSign",
-    description:
-      "The mobile-first electronic signature platform. Sign documents in 3 minutes on any phone or tablet. No app downloads, no account required.",
-    url: "https://boopsign.com/mobile-electronic-signature",
-    type: "website",
-    images: [
-      {
-        url: "https://boopsign.com/og-mobile-signature.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Mobile Electronic Signature App - BoopSign",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Mobile Electronic Signature | BoopSign",
-    description:
-      "Sign documents on your phone in 3 minutes. No app downloads required.",
-    images: ["https://boopsign.com/og-mobile-signature.jpg"],
-  },
   alternates: {
     canonical: "https://boopsign.com/mobile-electronic-signature",
   },

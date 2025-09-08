@@ -21,20 +21,6 @@ export const metadata: Metadata = {
     "boopsign",
     "online signature",
   ],
-  openGraph: {
-    title: "The Best DocuSign Alternative for Mobile-First Teams in 2025",
-    description:
-      "BoopSign is the DocuSign alternative that's 3x faster, 50% cheaper, and built for mobile-first teams. Join 2,847+ businesses who switched.",
-    url: "https://boopsign.com/docusign-alternative",
-    images: [
-      {
-        url: "/images/og-docusign-alternative.jpg", // Reusing existing OG image
-        width: 1200,
-        height: 630,
-        alt: "DocuSign vs BoopSign Feature Comparison",
-      },
-    ],
-  },
   alternates: {
     canonical: "https://boopsign.com/docusign-alternative",
   },

@@ -33,7 +33,7 @@ export default function PrivacyPolicyPage() {
           Welcome to boopsign. We are committed to protecting your personal
           information and your right to privacy. If you have any questions or
           concerns about our policy, or our practices with regards to your
-          personal information, please contact us at [Your Contact Email].
+          personal information, please contact us at support@boopsign.com.
         </p>
       </section>
 
@@ -207,16 +207,7 @@ export default function PrivacyPolicyPage() {
         </h2>
         <p className="text-muted-foreground">
           If you have questions or comments about this policy, you may email us
-          at [Your Contact Email] or by post to:
-        </p>
-        <p className="text-muted-foreground">
-          [Your Company Name]
-          <br />
-          [Your Company Address]
-          <br />
-          [Your City, State, Zip]
-          <br />
-          [Your Country]
+          at support@boopsign.com.
         </p>
       </section>
     </div>

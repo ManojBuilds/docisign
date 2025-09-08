@@ -19,28 +19,6 @@ export const metadata: Metadata = {
     "make signature online",
     "signature maker tool",
   ],
-  openGraph: {
-    title: "Free Online Signature Maker - Create Electronic Signatures",
-    description:
-      "Create professional electronic signatures for free in seconds. No registration required. Works perfectly on mobile and desktop.",
-    url: "https://boopsign.com/online-signature-maker",
-    type: "website",
-    images: [
-      {
-        url: "https://boopsign.com/og-signature-maker.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Free Online Signature Maker Tool",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Free Online Signature Maker | BoopSign",
-    description:
-      "Create professional electronic signatures for free. No registration required.",
-    images: ["https://boopsign.com/og-signature-maker.jpg"],
-  },
   alternates: {
     canonical: "https://boopsign.com/online-signature-maker",
   },
