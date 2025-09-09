@@ -51,7 +51,7 @@ export default function PricingPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen px-4 bg-background">
       {/* Header Section */}
       <div className="container mx-auto px-4 py-16 text-center">
         <Badge

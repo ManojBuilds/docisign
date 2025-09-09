@@ -28,9 +28,10 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { usePdfDimensions } from "./PdfDimensionsContext";
+import { Id } from "@/convex/_generated/dataModel";
 
 export interface SignatureFieldData {
-  id: string;
+  id: Id<"signatureFields">;
   fieldType: "signature" | "initial" | "date" | "text";
   normalizedX: number;
   normalizedY: number;
@@ -144,7 +145,7 @@ export default function SignatureField({
     const handleMouseMove = (e: MouseEvent | TouchEvent) => {
       if (!currentPageDimensions) return;
 
-      const currentLocalField = localFieldRef.current; // Use the ref here
+      const currentLocalField = localFieldRef.current;
       const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
       const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
 
@@ -180,10 +181,12 @@ export default function SignatureField({
         const newNormalizedX = newPixelX / currentPageDimensions.width;
         const newNormalizedY = newPixelY / currentPageDimensions.height;
 
-        handleFieldUpdate({
+        setLocalField((prev) => ({
+          ...prev,
           normalizedX: newNormalizedX,
           normalizedY: newNormalizedY,
-        });
+        }));
+        setHasUnsavedChanges(true);
         setDragStart({ x: clientX, y: clientY });
       }
 
@@ -204,18 +207,22 @@ export default function SignatureField({
         const newNormalizedWidth = newWidth / currentPageDimensions.width;
         const newNormalizedHeight = newHeight / currentPageDimensions.height;
 
-        handleFieldUpdate({
+        setLocalField((prev) => ({
+          ...prev,
           normalizedWidth: newNormalizedWidth,
           normalizedHeight: newNormalizedHeight,
-        });
+        }));
+        setHasUnsavedChanges(true);
       }
     };
 
     const handleMouseUp = () => {
+      if (isDragging || isResizing) {
+        onUpdate(localFieldRef.current);
+        debouncedSave(localFieldRef.current);
+      }
       setIsDragging(false);
       setIsResizing(false);
-      // Trigger save after dragging/resizing ends
-      debouncedSave(localFieldRef.current);
     };
 
     if (isDragging || isResizing) {
@@ -239,7 +246,7 @@ export default function SignatureField({
     dragStart,
     resizeStart,
     currentPageDimensions,
-    handleFieldUpdate,
+    onUpdate,
     debouncedSave,
   ]);
 
@@ -372,7 +379,7 @@ export default function SignatureField({
 
         <div className="flex items-center pointer-events-none capitalize text-sm">
           {getFieldIcon()}
-          <span className="ml-1 truncate max-w-[250px]">
+          <span className="ml-1 truncate">
             {localField.label || localField.fieldType}
           </span>
         </div>

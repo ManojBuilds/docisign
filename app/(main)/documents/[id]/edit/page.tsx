@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import dynamic from "next/dynamic";
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -33,9 +33,16 @@ import Logo from "@/components/Logo";
 import { Drawer, DrawerContent } from "@/components/ui/drawer";
 import { useDocumentEditorStore } from "@/store/document-editor-store";
 import { DocumentEditorSidebar } from "@/components/DocumentEditorSidebar";
+import { useMobile } from "@/hooks/useMobile";
 
 const PDFViewer = dynamic(() => import("@/components/pdf-viewer"), {
   ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center bg-gray-50">
+      <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+      <p className="ml-3 text-gray-600">Initializing document viewer...</p>
+    </div>
+  ),
 });
 
 interface Signer {
@@ -47,7 +54,7 @@ export default function DocumentEditor() {
   const params = useParams();
   const router = useRouter();
   const { pageDimensions, scale, setScale } = usePdfDimensions();
-
+  const isMobile = useMobile();
   const documentId = params.id as Id<"documents">;
 
   const {
@@ -124,32 +131,23 @@ export default function DocumentEditor() {
     const isRehydrated =
       storedDocumentId === documentId && signatureFields.length > 0;
 
-    if (isRehydrated && !notifiedRestore) {
-      setNotifiedRestore(true);
+    if (isRehydrated) {
+      if (!notifiedRestore) {
+        setNotifiedRestore(true);
+      }
       return;
     }
 
-    const existingFieldIds = new Set(signatureFields.map((f) => f.id));
-
-    const fieldsToProcess = document.signatureFields.filter(
-      (field) => !existingFieldIds.has(field._id),
-    );
-
-    if (fieldsToProcess.length === 0) {
-      return;
-    }
-
-    const newFields: SignatureFieldData[] = fieldsToProcess
+    const initialFields: SignatureFieldData[] = document.signatureFields
+      .filter((field): field is NonNullable<typeof field> => !!field)
       .map((field) => {
         const dims = pageDimensions[field.page];
-        if (!dims || dims.width === 0 || dims.height === 0) {
-          return null;
-        }
         return {
           id: field._id,
           fieldType: field.fieldType,
           page: field.page,
           assignedToEmail: field.assignedToEmail,
+          assignedToName: field.assignedToName || "",
           isRequired: field.isRequired,
           label: field.label,
           normalizedX: Math.max(0, Math.min(1, field.x / dims.width)),
@@ -162,21 +160,22 @@ export default function DocumentEditor() {
             0.01,
             Math.min(1, field.height / dims.height),
           ),
+
         };
       })
-      .filter(Boolean) as SignatureFieldData[];
 
-    if (newFields.length > 0) {
-      setSignatureFields([...signatureFields, ...newFields]);
+    if (initialFields.length > 0) {
+      setSignatureFields(initialFields);
     }
   }, [
     document,
     pageDimensions,
     storedDocumentId,
     documentId,
-    signatureFields,
+    signatureFields.length,
     setSignatureFields,
     notifiedRestore,
+    setNotifiedRestore
   ]);
 
   // Sync signers list from signature fields
@@ -194,57 +193,73 @@ export default function DocumentEditor() {
 
     const newSigners = Array.from(uniqueSigners.values());
 
-    if (JSON.stringify(signers) !== JSON.stringify(newSigners)) {
+    // Sort for stable comparison
+    const sortedNew = [...newSigners].sort((a, b) =>
+      a.email.localeCompare(b.email),
+    );
+    const sortedCurrent = [...(signers || [])].sort((a, b) =>
+      a.email.localeCompare(b.email),
+    );
+
+    if (JSON.stringify(sortedNew) !== JSON.stringify(sortedCurrent)) {
       setSigners(newSigners);
     }
   }, [signatureFields, signers, setSigners]);
 
-  const handleAddSignatureField = async (
-    fieldType: SignatureFieldData["fieldType"],
-  ) => {
-    const dims = pageDimensions[currentPage];
-    if (!dims) return;
+  const handleAddSignatureField = useCallback(
+    async (fieldType: SignatureFieldData["fieldType"]) => {
+      const dims = pageDimensions[currentPage];
+      if (!dims) return;
 
-    try {
-      const x = 100;
-      const y = 100;
-      const width = 150;
-      const height = 40;
+      try {
+        const x = 100;
+        const y = 100;
+        const width = 150;
+        const height = 40;
 
-      const fieldId = await addSignatureFieldMutation({
-        documentId,
-        fieldType,
-        page: currentPage,
-        x,
-        y,
-        width,
-        height,
-        assignedToEmail: "",
-        assignedToName: "",
-        isRequired: true,
-      });
+        const fieldId = await addSignatureFieldMutation({
+          documentId,
+          fieldType,
+          page: currentPage,
+          x,
+          y,
+          width,
+          height,
+          assignedToEmail: "",
+          assignedToName: "",
+          isRequired: true,
+        });
 
-      const newField: SignatureFieldData = {
-        id: fieldId,
-        fieldType,
-        page: currentPage,
-        assignedToEmail: "",
-        isRequired: true,
-        label: "",
-        normalizedX: x / dims.width,
-        normalizedY: y / dims.height,
-        normalizedWidth: width / dims.width,
-        normalizedHeight: height / dims.height,
-      };
+        const newField: SignatureFieldData = {
+          id: fieldId,
+          fieldType,
+          page: currentPage,
+          assignedToEmail: "",
+          isRequired: true,
+          label: "",
+          normalizedX: x / dims.width,
+          normalizedY: y / dims.height,
+          normalizedWidth: width / dims.width,
+          normalizedHeight: height / dims.height,
+        };
 
-      addFieldToStore(newField);
-      setSelectedFieldId(fieldId);
-      setIsMobileMenuOpen(false);
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to add signature field");
-    }
-  };
+        addFieldToStore(newField);
+        setSelectedFieldId(fieldId);
+        setIsMobileMenuOpen(false);
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to add signature field");
+      }
+    },
+    [
+      pageDimensions,
+      currentPage,
+      addSignatureFieldMutation,
+      documentId,
+      addFieldToStore,
+      setSelectedFieldId,
+    ],
+  );
 
   const handleUpdateFieldInStore = (updatedField: SignatureFieldData) => {
     updateSignatureFieldInStore(updatedField);
@@ -275,7 +290,7 @@ export default function DocumentEditor() {
     [pageDimensions, updateSignatureFieldMutation],
   );
 
-  const handleSaveDraft = async () => {
+  const handleSaveDraft = useCallback(async () => {
     setIsSavingDraft(true);
 
     try {
@@ -287,61 +302,67 @@ export default function DocumentEditor() {
     } finally {
       setIsSavingDraft(false);
     }
-  };
+  }, [signatureFields, handleSaveField]);
 
-  const handleDeleteField = async (fieldId: string) => {
-    try {
-      await deleteSignatureFieldMutation({
-        fieldId: fieldId as Id<"signatureFields">,
+  const handleDeleteField = useCallback(
+    async (fieldId: string) => {
+      try {
+        await deleteSignatureFieldMutation({
+          fieldId: fieldId as Id<"signatureFields">,
+        });
+
+        deleteSignatureFieldInStore(fieldId);
+        setSelectedFieldId("");
+      } catch (error) {
+        console.error(error);
+        toast.error("Failed to delete signature field");
+      }
+    },
+    [deleteSignatureFieldMutation, deleteSignatureFieldInStore, setSelectedFieldId],
+  );
+
+  const handleSignerAdd = useCallback(
+    (signer: Signer) => {
+      const unassignedFields = signatureFields.filter(
+        (field) => !field.assignedToEmail,
+      );
+      if (unassignedFields.length === 0) return;
+
+      unassignedFields.forEach((field) => {
+        const updatedField = {
+          ...field,
+          assignedToEmail: signer.email,
+          assignedToName: signer.name,
+        };
+        updateSignatureFieldInStore(updatedField);
+        handleSaveField(updatedField);
       });
 
-      deleteSignatureFieldInStore(fieldId);
-      setSelectedFieldId("");
-    } catch (error) {
-      console.error(error);
-      toast.error("Failed to delete signature field");
-    }
-  };
+      toast.success(
+        `Assigned ${signer.email} to ${unassignedFields.length} field(s).`,
+      );
+    },
+    [signatureFields, updateSignatureFieldInStore, handleSaveField],
+  );
 
-  const handleSignerAdd = (signer: Signer) => {
-    const unassignedFields = signatureFields.filter(
-      (field) => !field.assignedToEmail,
-    );
-    if (unassignedFields.length === 0) return;
+  const handleSendForSigning = useCallback(
+    async (signers: Signer[], customMessage?: string) => {
+      for (const signer of signers) {
+        await addSigner({
+          documentId,
+          email: signer.email,
+          name: signer.name,
+        });
+      }
 
-    unassignedFields.forEach((field) => {
-      const updatedField = {
-        ...field,
-        assignedToEmail: signer.email,
-        assignedToName: signer.name,
-      };
-      updateSignatureFieldInStore(updatedField);
-      handleSaveField(updatedField);
-    });
-
-    toast.success(
-      `Assigned ${signer.email} to ${unassignedFields.length} field(s).`,
-    );
-  };
-
-  const handleSendForSigning = async (
-    signers: Signer[],
-    customMessage?: string,
-  ) => {
-    for (const signer of signers) {
-      await addSigner({
+      await sendForSigning({
         documentId,
-        email: signer.email,
-        name: signer.name,
+        customMessage: customMessage || undefined,
       });
-    }
-
-    await sendForSigning({
-      documentId,
-      customMessage: customMessage || undefined,
-    });
-    router.push("/dashboard");
-  };
+      router.push("/dashboard");
+    },
+    [addSigner, documentId, router, sendForSigning],
+  );
 
   const hasUnassignedFields = signatureFields.some(
     (field) => !field.assignedToEmail,
@@ -508,7 +529,7 @@ export default function DocumentEditor() {
                   className="absolute inset-0 pointer-events-none"
                   onClick={() => setSelectedFieldId("")}
                   style={{
-                    paddingBottom: window.innerWidth < 768 ? "4rem" : "0",
+                    paddingBottom: isMobile ? "4rem" : "0",
                   }}
                 >
                   <div className="pointer-events-auto">

@@ -67,7 +67,7 @@ export default function OnlineSignatureCreator() {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6">
+    <div className="w-full max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-1 sm:p-6">
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="draw">Draw</TabsTrigger>
@@ -93,18 +93,24 @@ export default function OnlineSignatureCreator() {
             <div className="mt-4">
               <p className="text-sm text-gray-600 mb-2">Select a style:</p>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                {fontOptions.map((fontOption) => ( // Changed from fontClasses.map
-                  <Button
-                    key={fontOption.className} // Changed from fontClass
-                    variant={
-                      selectedFont.className === fontOption.className ? "secondary" : "outline" // Changed from selectedFont === fontClass
-                    }
-                    onClick={() => setSelectedFont(fontOption)} // Changed from fontClass
-                    className={`py-6 text-lg ${fontOption.className}`} // Changed from fontClass
-                  >
-                    {typedSignature || "Sample"}
-                  </Button>
-                ))}
+                {fontOptions.map(
+                  (
+                    fontOption, // Changed from fontClasses.map
+                  ) => (
+                    <Button
+                      key={fontOption.className} // Changed from fontClass
+                      variant={
+                        selectedFont.className === fontOption.className
+                          ? "secondary"
+                          : "outline" // Changed from selectedFont === fontClass
+                      }
+                      onClick={() => setSelectedFont(fontOption)} // Changed from fontClass
+                      className={`py-6 text-lg ${fontOption.className}`} // Changed from fontClass
+                    >
+                      {typedSignature || "Sample"}
+                    </Button>
+                  ),
+                )}
               </div>
             </div>
           </div>

@@ -17,6 +17,7 @@ export const generateSignedPdf = internalAction({
 
     const pdfDoc = await PDFDocument.load(await pdfFile.arrayBuffer());
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
+    const FONT_SIZE = 10; // Fixed font size for all text fields
 
     for (const field of signatureFields) {
       if (field.isCompleted && field.signatureData) {
@@ -32,12 +33,14 @@ export const generateSignedPdf = internalAction({
             height: field.height,
           });
         } else if (field.fieldType === 'text' || field.fieldType === 'date') {
+          const textHeight = font.heightAtSize(FONT_SIZE);
           page.drawText(field.signatureData, {
-            x: field.x + 2,
-            y: pageHeight - field.y - field.height + 2,
+            x: field.x + 3, // Small horizontal padding
+            y: pageHeight - field.y - field.height + (field.height - textHeight) / 2,
             font,
-            size: field.height * 0.7,
+            size: FONT_SIZE,
             color: rgb(0, 0, 0),
+            maxWidth: field.width - 6, // Keep text within bounds
           });
         }
       }

@@ -23,7 +23,7 @@ export default defineSchema({
       v.literal("active"),
       v.literal("cancelled"),
       v.literal("expired"),
-      v.literal("past_due")
+      v.literal("past_due"),
     ),
 
     createdAt: v.number(),
@@ -45,7 +45,7 @@ export default defineSchema({
       v.literal("in_progress"),
       v.literal("completed"),
       v.literal("expired"),
-      v.literal("cancelled")
+      v.literal("cancelled"),
     ),
     ownerId: v.string(),
     pageCount: v.number(),
@@ -63,14 +63,13 @@ export default defineSchema({
       filterFields: ["ownerId", "status"],
     }),
 
-
   signatureFields: defineTable({
     documentId: v.id("documents"),
     fieldType: v.union(
       v.literal("signature"),
       v.literal("initial"),
       v.literal("date"),
-      v.literal("text")
+      v.literal("text"),
     ),
     page: v.number(),
     x: v.number(),
@@ -101,7 +100,7 @@ export default defineSchema({
       v.literal("sent"),
       v.literal("viewed"),
       v.literal("signed"),
-      v.literal("declined")
+      v.literal("declined"),
     ),
     accessToken: v.string(),
     sentAt: v.optional(v.number()),
@@ -119,7 +118,11 @@ export default defineSchema({
   documentActivities: defineTable({
     documentId: v.id("documents"),
     actorEmail: v.string(),
-    actorType: v.union(v.literal("owner"), v.literal("signer")),
+    actorType: v.union(
+      v.literal("owner"),
+      v.literal("signer"),
+      v.literal("system"),
+    ),
     actionType: v.union(
       v.literal("created"),
       v.literal("updated"),
@@ -129,7 +132,7 @@ export default defineSchema({
       v.literal("completed"),
       v.literal("expired"),
       v.literal("cancelled"),
-      v.literal("reminder_sent")
+      v.literal("reminder_sent"),
     ),
     details: v.optional(v.string()),
     metadata: v.optional(v.any()),

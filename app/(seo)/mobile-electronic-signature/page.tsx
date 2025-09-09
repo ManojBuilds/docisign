@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Faq from "@/components/faq";
+import { CheckCircle, XCircle } from "lucide-react";
+import Cta from "@/components/cta";
 
 export const metadata: Metadata = {
   title:
@@ -140,8 +142,8 @@ export default function MobileElectronicSignaturePage() {
           </button>
 
           <div className="mt-8 text-sm text-gray-600">
-            Join 2,847+ businesses who&apos;ve ditched DocuSign for better mobile
-            signing
+            Join 2,847+ businesses who&apos;ve ditched DocuSign for better
+            mobile signing
           </div>
         </div>
       </section>
@@ -195,8 +197,8 @@ export default function MobileElectronicSignaturePage() {
             </p>
             <p className="text-yellow-700">
               DocuSign and other legacy platforms were built in 2003 for desktop
-              computers. They&apos;ve been playing catch-up on mobile ever since,
-              resulting in clunky experiences that frustrate signers.
+              computers. They&apos;ve been playing catch-up on mobile ever
+              since, resulting in clunky experiences that frustrate signers.
             </p>
           </div>
         </div>
@@ -210,8 +212,8 @@ export default function MobileElectronicSignaturePage() {
               Designed for Your Phone, Not Just Adapted for It
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              Every pixel of BoopSign was designed with mobile in mind. Here&apos;s
-              what makes us different:
+              Every pixel of BoopSign was designed with mobile in mind.
+              Here&apos;s what makes us different:
             </p>
           </div>
 
@@ -241,7 +243,8 @@ export default function MobileElectronicSignaturePage() {
               <div className="bg-gray-50 p-4 rounded-lg text-sm text-gray-700">
                 <strong>Average time:</strong> 30 seconds
                 <br />
-                <strong>User feedback:</strong> &ldquo;Just like signing on paper&rduqo;
+                <strong>User feedback:</strong> &ldquo;Just like signing on
+                paper&rduqo;
               </div>
             </div>
 
@@ -249,8 +252,9 @@ export default function MobileElectronicSignaturePage() {
               <div className="text-5xl mb-6">✉️</div>
               <h3 className="text-xl font-bold mb-4">No App Required</h3>
               <p className="text-gray-600 mb-6">
-                Works instantly in any mobile browser, so clients don&apos;t need to
-                download another app. One less barrier to getting signatures.
+                Works instantly in any mobile browser, so clients don&apos;t
+                need to download another app. One less barrier to getting
+                signatures.
               </p>
               <div className="bg-gray-50 p-4 rounded-lg text-sm text-gray-700">
                 <strong>Completion rate:</strong> 94% vs 67% with app-required
@@ -289,8 +293,8 @@ export default function MobileElectronicSignaturePage() {
             <div className="bg-gray-50 p-6 rounded-xl">
               <div className="text-yellow-400 text-lg mb-3">★★★★★</div>
               <p className="text-gray-700 mb-4 italic">
-                &ldqou;Real estate contracts that used to take 3 days now close in 3
-                hours&rdqou;
+                &ldqou;Real estate contracts that used to take 3 days now close
+                in 3 hours&rdqou;
               </p>
               <p className="text-sm text-gray-600">
                 <strong>Mike T.</strong>
@@ -302,8 +306,8 @@ export default function MobileElectronicSignaturePage() {
             <div className="bg-gray-50 p-6 rounded-xl">
               <div className="text-yellow-400 text-lg mb-3">★★★★★</div>
               <p className="text-gray-700 mb-4 italic">
-                &ldqou;My 65-year-old clients can actually sign documents on their
-                phone now&rdqou;
+                &ldqou;My 65-year-old clients can actually sign documents on
+                their phone now&rdqou;
               </p>
               <p className="text-sm text-gray-600">
                 <strong>Lisa M.</strong>
@@ -316,7 +320,10 @@ export default function MobileElectronicSignaturePage() {
       </section>
 
       {/* DocuSign vs BoopSign Mobile Comparison */}
-      <section className="py-16 md:py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white">
+      <section
+        id="compare"
+        className="py-16 md:py-20 px-4 bg-white text-gray-800"
+      >
         <div className="container mx-auto max-w-5xl text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Mobile Experience: DocuSign vs BoopSign
@@ -329,61 +336,83 @@ export default function MobileElectronicSignaturePage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
-                  <tr className="border-b border-white/20">
-                    <th className="py-4 px-4 text-white/80">Feature</th>
-                    <th className="py-4 px-4 text-center">BoopSign</th>
-                    <th className="py-4 px-4 text-center">DocuSign</th>
+                  <tr className="border-b border-gray-200">
+                    <th className="py-4 px-4 text-gray-900">Feature</th>
+                    <th className="py-4 px-4 text-center text-gray-900">
+                      BoopSign
+                    </th>
+                    <th className="py-4 px-4 text-center text-gray-900">
+                      DocuSign
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="text-sm md:text-base">
-                  <tr className="border-b border-white/10">
-                    <td className="py-4 px-4 text-white/80">
+                  <tr className="border-b border-gray-200">
+                    <td className="py-4 px-4 text-gray-700">
                       App Download Required
                     </td>
-                    <td className="py-4 px-4 text-center">❌ No</td>
-                    <td className="py-4 px-4 text-center">✅ Yes</td>
+                    <td className="py-4 px-4 text-center text-green-600">
+                      <div className="flex justify-center items-center gap-2">
+                        <CheckCircle /> No
+                      </div>
+                    </td>
+                    <td className="py-4 px-4 text-center text-red-600">
+                      <div className="flex justify-center items-center gap-2">
+                        <XCircle /> Yes
+                      </div>
+                    </td>
                   </tr>
-                  <tr className="border-b border-white/10">
-                    <td className="py-4 px-4 text-white/80">
+                  <tr className="border-b border-gray-200">
+                    <td className="py-4 px-4 text-gray-700">
                       Mobile Signing Time
                     </td>
-                    <td className="py-4 px-4 text-center font-semibold text-green-300">
+                    <td className="py-4 px-4 text-center font-bold text-green-600">
                       3 minutes
                     </td>
-                    <td className="py-4 px-4 text-center text-red-300">
+                    <td className="py-4 px-4 text-center text-red-600">
                       7-9 minutes
                     </td>
                   </tr>
-                  <tr className="border-b border-white/10">
-                    <td className="py-4 px-4 text-white/80">
+                  <tr className="border-b border-gray-200">
+                    <td className="py-4 px-4 text-gray-700">
                       Account Creation
                     </td>
-                    <td className="py-4 px-4 text-center">❌ No</td>
-                    <td className="py-4 px-4 text-center">✅ Required</td>
+                    <td className="py-4 px-4 text-center text-green-600">
+                      <div className="flex justify-center items-center gap-2">
+                        <CheckCircle /> No
+                      </div>
+                    </td>
+                    <td className="py-4 px-4 text-center text-red-600">
+                      <div className="flex justify-center items-center gap-2">
+                        <XCircle /> Required
+                      </div>
+                    </td>
                   </tr>
-                  <tr className="border-b border-white/10">
-                    <td className="py-4 px-4 text-white/80">
+                  <tr className="border-b border-gray-200">
+                    <td className="py-4 px-4 text-gray-700">
                       Mobile-First Design
                     </td>
-                    <td className="py-4 px-4 text-center">✅ Yes</td>
-                    <td className="py-4 px-4 text-center">❌ Adapted</td>
+                    <td className="py-4 px-4 text-center text-green-600">
+                      <div className="flex justify-center items-center gap-2">
+                        <CheckCircle /> Yes
+                      </div>
+                    </td>
+                    <td className="py-4 px-4 text-center text-red-600">
+                      <div className="flex justify-center items-center gap-2">
+                        <XCircle /> Adapted
+                      </div>
+                    </td>
                   </tr>
                   <tr>
-                    <td className="py-4 px-4 text-white/80">Cost per Month</td>
-                    <td className="py-4 px-4 text-center font-semibold text-green-300">
+                    <td className="py-4 px-4 text-gray-700">Cost per Month</td>
+                    <td className="py-4 px-4 text-center font-bold text-green-600">
                       $12
                     </td>
-                    <td className="py-4 px-4 text-center text-red-300">$25+</td>
+                    <td className="py-4 px-4 text-center text-red-600">$25+</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-          </div>
-
-          <div className="mt-8">
-            <button className="bg-white text-blue-600 font-semibold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors">
-              Start Your 7-Day Free Trial
-            </button>
           </div>
         </div>
       </section>
@@ -443,44 +472,7 @@ export default function MobileElectronicSignaturePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-20 px-4 bg-gray-900 text-white text-center">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">
-            Get your contracts signed in under 3 minutes
-          </h2>
-          <p className="text-xl mb-8 opacity-90">
-            Join thousands of professionals who&apos;ve simplified their document
-            signing workflow with BoopSign — the fast, simple, and mobile-first
-            e-signature platform.
-          </p>
-
-          <div className="flex flex-wrap justify-center gap-6 mb-8 text-sm">
-            <span className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-              Up to 90% faster than DocuSign
-            </span>
-            <span className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-              No account required for signers
-            </span>
-            <span className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-              Works seamlessly on any mobile device
-            </span>
-          </div>
-
-          <button className="bg-blue-600 text-white font-semibold px-8 py-4 rounded-lg hover:bg-blue-700 transition-colors text-lg mb-4">
-            Start Your 7-Day Free Trial
-          </button>
-
-          <p className="text-sm opacity-70">
-            Already have an account?{" "}
-            <a href="/signin" className="text-blue-400 hover:underline">
-              Sign in here
-            </a>
-          </p>
-        </div>
-      </section>
+      <Cta />
     </main>
   );
 }

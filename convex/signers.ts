@@ -477,100 +477,128 @@ export const finalizeDocument = mutation({
     signerEmail: v.string(),
   },
   handler: async (ctx, args) => {
-    // Get signer
     const signer = await ctx.db
       .query("signers")
       .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
       .filter((q) => q.eq(q.field("email"), args.signerEmail))
       .first();
 
-    if (!signer) {
-      throw new Error("Signer not found");
-    }
+    if (!signer) throw new Error("Signer not found");
 
-    // Get document
     const document = await ctx.db.get(args.documentId);
-    if (!document) {
-      throw new Error("Document not found");
+    if (!document) throw new Error("Document not found");
+
+    if (signer.status !== "signed") {
+      await ctx.db.patch(signer._id, {
+        status: "signed",
+        signedAt: Date.now(),
+      });
+
+      await ctx.db.insert("documentActivities", {
+        documentId: args.documentId,
+        actorEmail: args.signerEmail,
+        actorType: "signer",
+        actionType: "signed",
+        details: "Document signed by signer",
+        timestamp: Date.now(),
+      });
     }
 
-    // Mark signer as signed
-    await ctx.db.patch(signer._id, {
-      status: "signed",
-      signedAt: Date.now(),
-    });
+    const allFields = await ctx.db
+      .query("signatureFields")
+      .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
+      .collect();
 
-    // Add signing activity
-    await ctx.db.insert("documentActivities", {
-      documentId: args.documentId,
-      actorEmail: args.signerEmail,
-      actorType: "signer",
-      actionType: "signed",
-      details: "Document signed by signer",
-      timestamp: Date.now(),
-    });
-
-    // Check if all signers have signed
     const allSigners = await ctx.db
       .query("signers")
       .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
       .collect();
 
-    const allSigned = allSigners.every((s) => s.status === "signed");
+    const requiredSignerEmails = new Set(
+      allFields
+        .map((field) => field.assignedToEmail)
+        .filter((email): email is string => !!email),
+    );
 
-    if (allSigned) {
-      // Mark document as completed
+    const requiredSigners = allSigners.filter((s) =>
+      requiredSignerEmails.has(s.email),
+    );
+
+    const allRequiredHaveSigned = requiredSigners.every(
+      (s) => s.status === "signed",
+    );
+
+    // Send email to owner and a copy to the signer who just signed
+    await ctx.scheduler.runAfter(0, internal.signers.sendSignedEmailToOwner, {
+      documentId: args.documentId,
+      signerEmail: args.signerEmail,
+    });
+
+    if (
+      allRequiredHaveSigned &&
+      requiredSigners.length > 0 &&
+      document.status !== "completed"
+    ) {
       const completedTimestamp = Date.now();
       await ctx.db.patch(args.documentId, {
         status: "completed",
         completedAt: completedTimestamp,
-        updatedAt: Date.now(),
+        updatedAt: completedTimestamp,
       });
 
-      // Add completion activity
       await ctx.db.insert("documentActivities", {
         documentId: args.documentId,
         actorEmail: "system",
-        actorType: "owner",
+        actorType: "system",
         actionType: "completed",
-        details: "All signers have completed the document",
-        timestamp: Date.now(),
+        details: "All required signatures have been collected.",
+        timestamp: completedTimestamp,
       });
 
-      // Send Document Complete Email to owner
       const owner = await ctx.runQuery(api.users.getCurrentUser, {
         clerkId: document.ownerId,
       });
       if (!owner) {
-        console.error("Owner not found");
-        return;
-      }
-
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL;
-      if (!appUrl) {
-        throw new Error("APP_URL environment variable not set!");
+        console.error("Owner not found, cannot send completion emails.");
+        return { success: true };
       }
 
       const downloadUrl = await ctx.runMutation(api.documents.getFileUrl, {
         storageId: document.fileStorageId,
       });
 
-      await ctx.scheduler.runAfter(0, api.emails.sendDocumentCompleteEmail, {
-        ownerName: owner.firstName || owner.email,
-        documentTitle: document.title,
-        dashboardUrl: `${appUrl}/dashboard`,
-        downloadUrl: downloadUrl || "",
-        completedAt: new Date(completedTimestamp).toLocaleString(),
-        totalSigners: allSigners.length,
-        to: owner.email,
+      for (const participant of allSigners) {
+        if (participant.email === owner.email) {
+          await ctx.scheduler.runAfter(
+            0,
+            api.emails.sendDocumentCompleteEmail,
+            {
+              to: owner.email,
+              ownerName: owner.firstName || owner.email,
+              documentTitle: document.title,
+              dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
+              downloadUrl: downloadUrl || "",
+              completedAt: new Date(completedTimestamp).toLocaleString(),
+              totalSigners: allSigners.length,
+            },
+          );
+        } else {
+          await ctx.scheduler.runAfter(0, api.emails.sendSignerCopyEmail, {
+            to: participant.email,
+            signerName: participant.name || participant.email,
+            documentTitle: document.title,
+            downloadUrl: downloadUrl || "",
+            signedAt: new Date(completedTimestamp).toLocaleString(),
+            senderName: owner.firstName || owner.email,
+          });
+        }
+      }
+    } else if (document.status !== "completed") {
+      await ctx.scheduler.runAfter(0, internal.signers.sendSignedEmailToOwner, {
+        documentId: args.documentId,
+        signerEmail: args.signerEmail,
       });
     }
-
-    // Send email to owner
-    await ctx.scheduler.runAfter(0, internal.signers.sendSignedEmailToOwner, {
-      documentId: args.documentId,
-      signerEmail: args.signerEmail,
-    });
 
     return { success: true };
   },

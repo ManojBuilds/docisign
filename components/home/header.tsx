@@ -124,7 +124,7 @@ export function Header({
                 }}
                 className="group relative overflow-hidden py-2 text-sm font-medium"
               >
-                <span className="relative z-10">{item.href}</span>
+                <span className="relative z-10">{item.label}</span>
                 <span className="bg-primary absolute bottom-0 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>
               </motion.a>
             ))}

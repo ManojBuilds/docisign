@@ -248,13 +248,11 @@ export default function OnlineSignatureMakerPage() {
               <p className="text-sm text-gray-600">Personal correspondence</p>
             </div>
             <div className="text-center">
-            <div className="text-3xl mb-3">💼</div>
-            <h4 className="font-semibold mb-2">Forms</h4>
-            <p className="text-sm text-gray-600">Applications and forms</p>
+              <div className="text-3xl mb-3">💼</div>
+              <h4 className="font-semibold mb-2">Forms</h4>
+              <p className="text-sm text-gray-600">Applications and forms</p>
+            </div>
           </div>
-          </div>
-
-          
         </div>
       </section>
       {/* FAQ Section */}
@@ -315,7 +313,7 @@ export default function OnlineSignatureMakerPage() {
           <p className="text-gray-600 mb-4">
             Trusted by professionals worldwide
           </p>
-          <div className="flex justify-center items-center gap-8 text-sm text-gray-500">
+          <div className="flex flex-col md:flex-row gap-2 justify-center items-center md:gap-8 text-sm text-gray-500">
             <span>✓ 500,000+ signatures created</span>
             <span>✓ 100% free forever</span>
             <span>✓ No registration required</span>

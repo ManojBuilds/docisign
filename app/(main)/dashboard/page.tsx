@@ -1,22 +1,37 @@
-"use client"
+'use client';
 
-import { NewDocumentDialog } from '@/components/NewDocumentDialog'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
-import { api } from '@/convex/_generated/api'
-import { useUser } from '@clerk/clerk-react'
-import { usePaginatedQuery, useQuery, useMutation } from 'convex/react'
-import { Check, Clock, FileText, Send, XCircle, Download, MoreHorizontal, Trash2 } from 'lucide-react'
+import { NewDocumentDialog } from '@/components/NewDocumentDialog';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
+import { api } from '@/convex/_generated/api';
+import { useUser } from '@clerk/clerk-react';
+import { usePaginatedQuery, useQuery, useMutation } from 'convex/react';
+import {
+  Check,
+  Clock,
+  FileText,
+  Send,
+  XCircle,
+  Download,
+  MoreHorizontal,
+  Trash2,
+} from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from '@/components/ui/dropdown-menu';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,86 +40,193 @@ import {
   AlertDialogDescription,
   AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle
-} from "@/components/ui/alert-dialog"
-import Link from 'next/link'
-import { useState } from 'react'
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
+import Link from 'next/link';
+import { useState } from 'react';
 import { toast } from 'sonner';
-import { Id } from '@/convex/_generated/dataModel'
+import { Id } from '@/convex/_generated/dataModel';
+
+// Types for better TypeScript support
+type DocumentStatus = 'all' | 'draft' | 'sent' | 'in_progress' | 'completed' | 'expired' | 'cancelled';
+
+interface DashboardStats {
+  totalDocuments?: number;
+  draftDocuments?: number;
+  sentDocuments?: number;
+  completedDocuments?: number;
+}
+
+interface Document {
+  _id: Id<"documents">;
+  title: string;
+  status: string;
+  createdAt: number;
+  updatedAt?: number;
+  fileStorageId: Id<'_storage'>;
+  originalFileName: string;
+}
+
+// Simple Mobile Stats - no cards, just clean boxes
+const MobileStats = ({ stats }: { stats: DashboardStats | undefined }) => (
+  <div className="grid grid-cols-2 gap-4 mb-6 sm:hidden">
+    <div className="bg-gray-50 p-4 border-l-4 border-blue-500">
+      <div className="flex items-center gap-2 mb-1">
+        <FileText className="h-4 w-4 text-blue-600" />
+        <p className="text-sm font-medium text-gray-700">Total</p>
+      </div>
+      <p className="text-2xl font-bold text-gray-900">{stats?.totalDocuments ?? 0}</p>
+    </div>
+    <div className="bg-gray-50 p-4 border-l-4 border-green-500">
+      <div className="flex items-center gap-2 mb-1">
+        <Check className="h-4 w-4 text-green-600" />
+        <p className="text-sm font-medium text-gray-700">Done</p>
+      </div>
+      <p className="text-2xl font-bold text-gray-900">{stats?.completedDocuments ?? 0}</p>
+    </div>
+    <div className="bg-gray-50 p-4 border-l-4 border-yellow-500">
+      <div className="flex items-center gap-2 mb-1">
+        <Send className="h-4 w-4 text-yellow-600" />
+        <p className="text-sm font-medium text-gray-700">Sent</p>
+      </div>
+      <p className="text-2xl font-bold text-gray-900">{stats?.sentDocuments ?? 0}</p>
+    </div>
+    <div className="bg-gray-50 p-4 border-l-4 border-gray-400">
+      <div className="flex items-center gap-2 mb-1">
+        <Clock className="h-4 w-4 text-gray-600" />
+        <p className="text-sm font-medium text-gray-700">Draft</p>
+      </div>
+      <p className="text-2xl font-bold text-gray-900">{stats?.draftDocuments ?? 0}</p>
+    </div>
+  </div>
+);
+
+// Simple Document Row - no cards, just clean rows with borders
+const DocumentRow = ({ 
+  doc, 
+  onDownload, 
+  onDelete 
+}: { 
+  doc: Document;
+  onDownload: (fileStorageId: Id<'_storage'>, fileName: string) => void;
+  onDelete: (documentId: Id<'documents'>) => void;
+}) => {
+  const getStatusIcon = (status: string) => {
+    switch (status) {
+      case 'draft': return <Clock className="w-4 h-4 text-gray-500" />;
+      case 'sent': return <Send className="w-4 h-4 text-blue-500" />;
+      case 'completed': return <Check className="w-4 h-4 text-green-500" />;
+      case 'expired': return <XCircle className="w-4 h-4 text-red-500" />;
+      case 'cancelled': return <XCircle className="w-4 h-4 text-red-500" />;
+      default: return <FileText className="w-4 h-4 text-gray-400" />;
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'draft': return 'bg-gray-100 text-gray-800';
+      case 'sent': return 'bg-blue-100 text-blue-800';
+      case 'completed': return 'bg-green-100 text-green-800';
+      case 'expired': return 'bg-red-100 text-red-800';
+      case 'cancelled': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-between p-4 border-b hover:bg-gray-50 transition-colors">
+      <Link href={`/documents/${doc._id}/edit`} className="flex items-center gap-3 flex-1 min-w-0">
+        <FileText className="w-6 h-6 text-gray-400 flex-shrink-0" />
+        <div className="min-w-0 flex-1">
+          <h3 className="font-medium text-gray-900 truncate hover:text-blue-600 transition-colors">
+            {doc.title}
+          </h3>
+          <p className="text-sm text-gray-500">
+            {new Date(doc.createdAt).toLocaleDateString()}
+          </p>
+        </div>
+      </Link>
+      
+      <div className="flex items-center gap-3 flex-shrink-0">
+        <Badge className={`${getStatusColor(doc.status)} text-xs`}>
+          {getStatusIcon(doc.status)}
+          <span className="ml-1 capitalize">{doc.status}</span>
+        </Badge>
+        
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => onDownload(doc.fileStorageId, doc.originalFileName)}>
+              <Download className="mr-2 h-4 w-4" />
+              Download
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="text-red-600" onClick={() => onDelete(doc._id)}>
+              <Trash2 className="mr-2 h-4 w-4" />
+              Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+    </div>
+  );
+};
 
 export default function Dashboard() {
-  const { user } = useUser()
+  const { user } = useUser();
   const dashboardStats = useQuery(
     api.dashboard.getDashboardStats,
-    user ? { ownerId: user.id } : "skip"
-  )
+    user ? { ownerId: user.id } : 'skip'
+  );
 
-  const [searchTerm, setSearchTerm] = useState("")
-  const [filterStatus, setFilterStatus] = useState<"all" | "draft" | "sent" | "in_progress" | "completed" | "expired" | "cancelled">("all")
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState<DocumentStatus>('all');
 
   const { results: documents, status, loadMore } = usePaginatedQuery(
     api.dashboard.searchDocuments,
-    user ?
-      {
-        ownerId: user?.id,
-        searchTerm,
-        status: filterStatus === "all" ? undefined : filterStatus,
-      } : 'skip',
+    user
+      ? {
+          ownerId: user.id,
+          searchTerm,
+          status: filterStatus === 'all' ? undefined : filterStatus,
+        }
+      : 'skip',
     {
-      initialNumItems: 10
+      initialNumItems: 10,
     }
-  )
+  );
 
-  // Mutations for quick actions
   const getFileUrl = useMutation(api.documents.getFileUrl);
   const deleteDocument = useMutation(api.documents.deleteDocument);
 
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [documentToDelete, setDocumentToDelete] = useState<Id<"documents"> | null>(null);
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'draft': return <Clock className="w-4 h-4 text-gray-500" />
-      case 'sent': return <Send className="w-4 h-4 text-blue-500" />
-      case 'completed': return <Check className="w-4 h-4 text-green-500" />
-      case 'expired': return <XCircle className="w-4 h-4 text-red-500" />
-      case 'cancelled': return <XCircle className="w-4 h-4 text-red-500" />
-      default: return <FileText className="w-4 h-4 text-gray-400" />
-    }
-  }
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'draft': return 'bg-gray-100 text-gray-800'
-      case 'sent': return 'bg-blue-100 text-blue-800'
-      case 'completed': return 'bg-green-100 text-green-800'
-      case 'expired': return 'bg-red-100 text-red-800'
-      case 'cancelled': return 'bg-red-100 text-red-800'
-      default: return 'bg-gray-100 text-gray-800'
-    }
-  }
-
-  const handleDownload = async (fileStorageId: Id<"_storage">, fileName: string) => {
+  const handleDownload = async (fileStorageId: Id<'_storage'>, fileName: string) => {
     try {
       const url = await getFileUrl({ storageId: fileStorageId });
       if (url) {
-        const a = document.createElement("a");
+        const a = document.createElement('a');
         a.href = url;
         a.download = fileName;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        toast.success("Document download started.");
+        toast.success('Document downloaded');
       } else {
-        toast.error("Failed to get download URL.");
+        toast.error('Download failed');
       }
     } catch (error) {
-      console.error("Download error:", error);
-      toast.error("Error downloading document.");
+      console.error(error)
+      toast.error('Download error');
     }
   };
 
-  const handleDelete = async (documentId: Id<"documents">) => {
+  const handleDelete = async (documentId: Id<'documents'>) => {
     setDocumentToDelete(documentId);
     setIsConfirmingDelete(true);
   };
@@ -113,10 +235,10 @@ export default function Dashboard() {
     if (documentToDelete) {
       try {
         await deleteDocument({ documentId: documentToDelete });
-        toast.success("Document deleted successfully.");
+        toast.success('Document deleted');
       } catch (error) {
-        console.error("Delete error:", error);
-        toast.error("Error deleting document.");
+        console.error(error)
+        toast.error('Delete failed');
       } finally {
         setIsConfirmingDelete(false);
         setDocumentToDelete(null);
@@ -124,78 +246,85 @@ export default function Dashboard() {
     }
   };
 
-
   return (
-    <div className='px-4 md:px-0'>
-
-      <div className="container mx-auto py-8">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-lg md:text-3xl font-bold">Dashboard</h1>
-            <p className="text-gray-600 mt-2">
-              Welcome back, {user?.firstName || user?.emailAddresses[0].emailAddress}
-            </p>
-          </div>
-          <NewDocumentDialog />
+    <div className="container mx-auto px-4 py-6 max-w-6xl">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-gray-600 mt-1">
+            Welcome back, {user?.firstName || user?.emailAddresses[0]?.emailAddress?.split('@')[0] || 'User'}
+          </p>
         </div>
+        <NewDocumentDialog />
+      </div>
 
-        {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Total Documents</CardTitle>
-              <FileText className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{dashboardStats?.totalDocuments}</div>
-            </CardContent>
-          </Card>
+      {/* Mobile Stats */}
+      <MobileStats stats={dashboardStats} />
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Draft</CardTitle>
-              <Clock className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{dashboardStats?.draftDocuments}</div>
-            </CardContent>
-          </Card>
+      {/* Desktop Stats - Keep cards only for main stats */}
+      <div className="hidden sm:grid grid-cols-4 gap-6 mb-8">
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">Total Documents</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-2">
+              <FileText className="h-5 w-5 text-gray-400" />
+              <span className="text-2xl font-bold">{dashboardStats?.totalDocuments ?? 0}</span>
+            </div>
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Sent</CardTitle>
-              <Send className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{dashboardStats?.sentDocuments}</div>
-            </CardContent>
-          </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">Draft</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-2">
+              <Clock className="h-5 w-5 text-gray-400" />
+              <span className="text-2xl font-bold">{dashboardStats?.draftDocuments ?? 0}</span>
+            </div>
+          </CardContent>
+        </Card>
 
-          <Card>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">Completed</CardTitle>
-              <Check className="h-4 w-4 text-muted-foreground" />
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{dashboardStats?.completedDocuments}</div>
-            </CardContent>
-          </Card>
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">Sent</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-2">
+              <Send className="h-5 w-5 text-gray-400" />
+              <span className="text-2xl font-bold">{dashboardStats?.sentDocuments ?? 0}</span>
+            </div>
+          </CardContent>
+        </Card>
 
+        <Card>
+          <CardHeader className="pb-2">
+            <CardTitle className="text-sm font-medium text-gray-600">Completed</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-gray-400" />
+              <span className="text-2xl font-bold">{dashboardStats?.completedDocuments ?? 0}</span>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
-        </div>
-
-        {/* Search and Filter */}
-        <div className="flex space-x-4 mb-6">
-          <Input
-            placeholder="Search documents..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="max-w-sm"
-          />
-          <Select value={filterStatus} onValueChange={(value: any) => setFilterStatus(value)}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Filter by Status" />
+      {/* Search and Filter */}
+      <div className="flex flex-col sm:flex-row gap-4 mb-6">
+        <Input
+          placeholder="Search documents..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="flex-1"
+        />
+        <div className="flex gap-3">
+          <Select value={filterStatus} onValueChange={(value: DocumentStatus) => setFilterStatus(value)}>
+            <SelectTrigger className="w-full sm:w-[180px]">
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Statuses</SelectItem>
@@ -207,103 +336,63 @@ export default function Dashboard() {
               <SelectItem value="cancelled">Cancelled</SelectItem>
             </SelectContent>
           </Select>
-          {(searchTerm !== "" || filterStatus !== "all") && (
-            <Button variant="outline" onClick={() => { setSearchTerm(""); setFilterStatus("all"); }}>
-              <XCircle className="w-4 h-4" /> Clear Filters
+          {(searchTerm !== '' || filterStatus !== 'all') && (
+            <Button variant="outline" onClick={() => { setSearchTerm(''); setFilterStatus('all'); }}>
+              <XCircle className="w-4 h-4 mr-2" /> Clear
             </Button>
           )}
         </div>
+      </div>
 
-        {/* Document List */}
-        <div>
-          {documents && documents.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {documents.map((doc) => (
-                <div key={doc._id} className="flex items-start justify-between p-4 border rounded-lg hover:bg-gray-50 relative h-fit md:h-44">
-                  <div className="flex items-center space-x-4">
-                    <FileText className="w-8 h-8 text-gray-400 hidden sm:block" />
-                    <div>
-                      <h3 className="font-medium">{doc.title}</h3>
-                      <p className="text-sm text-gray-600">
-                        {new Date(doc.createdAt).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <Badge className={getStatusColor(doc.status)}>
-                      {getStatusIcon(doc.status)}
-                      <span className="ml-1 capitalize">{doc.status}</span>
-                    </Badge>
-                    <Link href={`/documents/${doc._id}/edit`} className='absolute inset-0'>
-
-                    </Link>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" size="icon" className="z-10 cursor-pointer">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={(e) => {
-                          e.stopPropagation();
-                          handleDownload(doc.fileStorageId, doc.originalFileName);
-                        }}>
-                          <Download className="h-4 w-4" />
-                          Download
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                          className="text-red-600"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleDelete(doc._id);
-                          }}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="text-center py-8">
-              <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                No documents found
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Adjust your search or create a new document.
-              </p>
-              <NewDocumentDialog />
-            </div>
-          )}
-        </div>
-
-        {status === "CanLoadMore" && (
-          <div className="flex justify-center mt-8">
-            <Button onClick={() => loadMore(10)}>Load More</Button>
+      {/* Document List - Simple bordered container */}
+      <div className="border bg-white mb-6">
+        {documents && documents.length > 0 ? (
+          <>
+            {documents.map((doc) => (
+              <DocumentRow 
+                key={doc._id}
+                doc={doc}
+                onDownload={handleDownload}
+                onDelete={handleDelete}
+              />
+            ))}
+          </>
+        ) : (
+          <div className="text-center py-12">
+            <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 mb-2">No documents found</h3>
+            <p className="text-gray-600 mb-4">
+              {searchTerm || filterStatus !== 'all' 
+                ? "Try adjusting your search or filters" 
+                : "Create your first document to get started"}
+            </p>
+            <NewDocumentDialog />
           </div>
         )}
-
-        <AlertDialog open={isConfirmingDelete} onOpenChange={setIsConfirmingDelete}>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete your document
-                and remove its data from our servers.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={confirmDelete}>Continue</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
       </div>
+
+      {/* Load More */}
+      {status === 'CanLoadMore' && (
+        <div className="flex justify-center">
+          <Button onClick={() => loadMore(10)} variant="outline">Load More</Button>
+        </div>
+      )}
+
+      {/* Delete Dialog */}
+      <AlertDialog open={isConfirmingDelete} onOpenChange={setIsConfirmingDelete}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete document?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. The document will be permanently deleted.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete}>Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
-  )
+  );
 }
