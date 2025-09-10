@@ -4,7 +4,6 @@ import { useState, useRef } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { Input } from "./ui/input";
 import { Download, Trash2 } from "lucide-react";
 import styles from "./OnlineSignatureCreator.module.css";
 
