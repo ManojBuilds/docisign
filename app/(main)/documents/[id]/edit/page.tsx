@@ -1,5 +1,4 @@
-'use client';
-import dynamic from "next/dynamic";
+"use client";
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
@@ -10,7 +9,6 @@ import SignatureField, {
 } from "@/components/signature-field";
 import { Button } from "@/components/ui/button";
 import {
-  ArrowLeft,
   Loader2,
   Plus,
   Share,
@@ -23,27 +21,27 @@ import {
   TextCursor,
   ALargeSmall,
 } from "lucide-react";
-import Link from "next/link";
 import { toast } from "sonner";
 import { usePdfDimensions } from "@/components/PdfDimensionsContext";
 import { ShareDialog } from "@/components/ShareDialog";
 import PdfControls from "@/components/PdfControls";
 import { UserButton } from "@clerk/clerk-react";
 import Logo from "@/components/Logo";
-import { Drawer, DrawerContent } from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import { useDocumentEditorStore } from "@/store/document-editor-store";
 import { DocumentEditorSidebar } from "@/components/DocumentEditorSidebar";
 import { useMobile } from "@/hooks/useMobile";
+import PdfViewerWrapper from "@/components/pdf-viewer-wrapper";
 
-const PDFViewer = dynamic(() => import("@/components/pdf-viewer"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-full flex items-center justify-center bg-gray-50">
-      <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
-      <p className="ml-3 text-gray-600">Initializing document viewer...</p>
-    </div>
-  ),
-});
+// const PDFViewer = dynamic(() => import("@/components/pdf-viewer"), {
+//   ssr: false,
+//   loading: () => (
+//     <div className="w-full h-full flex items-center justify-center bg-gray-50">
+//       <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
+//       <p className="ml-3 text-gray-600">Initializing document viewer...</p>
+//     </div>
+//   ),
+// });
 
 interface Signer {
   email: string;
@@ -69,7 +67,6 @@ export default function DocumentEditor() {
     setCurrentPage,
     signers,
     setSigners,
-    documentId: storedDocumentId,
     setDocumentId,
   } = useDocumentEditorStore();
 
@@ -93,7 +90,6 @@ export default function DocumentEditor() {
   // State
   const [fileUrl, setFileUrl] = useState<string>("");
   const [numPages, setNumPages] = useState<number>(0);
-  const [notifiedRestore, setNotifiedRestore] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
   const [isSavingDraft, setIsSavingDraft] = useState(false);
@@ -119,7 +115,6 @@ export default function DocumentEditor() {
     setDocumentId(documentId);
   }, [documentId, setDocumentId]);
 
-  // Initialize fields from document or notify about restoration.
   useEffect(() => {
     if (
       !document?.signatureFields ||
@@ -128,21 +123,16 @@ export default function DocumentEditor() {
       return;
     }
 
-    const isRehydrated =
-      storedDocumentId === documentId && signatureFields.length > 0;
-
-    if (isRehydrated) {
-      if (!notifiedRestore) {
-        setNotifiedRestore(true);
-      }
-      return;
-    }
-
     const initialFields: SignatureFieldData[] = document.signatureFields
       .filter((field): field is NonNullable<typeof field> => !!field)
-      .map((field) => {
+      .reduce<SignatureFieldData[]>((acc, field) => {
         const dims = pageDimensions[field.page];
-        return {
+        if (!dims || dims.width === 0 || dims.height === 0) {
+          // Skip fields where dimensions are not ready yet
+          return acc;
+        }
+        
+        const normalizedField: SignatureFieldData = {
           id: field._id,
           fieldType: field.fieldType,
           page: field.page,
@@ -160,23 +150,15 @@ export default function DocumentEditor() {
             0.01,
             Math.min(1, field.height / dims.height),
           ),
-
         };
-      })
+        
+        return [...acc, normalizedField];
+      }, []);
 
-    if (initialFields.length > 0) {
-      setSignatureFields(initialFields);
-    }
-  }, [
-    document,
-    pageDimensions,
-    storedDocumentId,
-    documentId,
-    signatureFields.length,
-    setSignatureFields,
-    notifiedRestore,
-    setNotifiedRestore
-  ]);
+    // Update the store, but be careful not to overwrite fields on other pages
+    // that might not have their dimensions ready yet.
+    setSignatureFields(initialFields);
+  }, [document, pageDimensions, setSignatureFields]);
 
   // Sync signers list from signature fields
   useEffect(() => {
@@ -318,7 +300,11 @@ export default function DocumentEditor() {
         toast.error("Failed to delete signature field");
       }
     },
-    [deleteSignatureFieldMutation, deleteSignatureFieldInStore, setSelectedFieldId],
+    [
+      deleteSignatureFieldMutation,
+      deleteSignatureFieldInStore,
+      setSelectedFieldId,
+    ],
   );
 
   const handleSignerAdd = useCallback(
@@ -369,11 +355,7 @@ export default function DocumentEditor() {
   );
 
   if (!document) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader2 className="w-8 h-8 animate-spin" />
-      </div>
-    );
+    return null;
   }
 
   return (
@@ -424,22 +406,15 @@ export default function DocumentEditor() {
         </div>
       </div>
 
-      {/* Mobile Navbar */}
+      {/* MobileNavbar */}
       <div className="md:hidden flex justify-between items-center p-3 border-b bg-white shadow-sm">
         <div className="flex items-center space-x-2">
-          <Logo showText={false} />
-          <Link href="/dashboard">
-            <Button variant="ghost" size="sm" className="p-1">
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
-          </Link>
+          <Logo showText={false} href="/dashboard" />
         </div>
 
-        <div className="flex-1 text-center">
-          <span className="font-medium text-sm truncate max-w-[10rem] inline-block">
-            {document.title}
-          </span>
-        </div>
+        <span className="font-medium text-sm truncate max-w-[10rem] inline-block">
+          {document.title}
+        </span>
 
         <div className="flex items-center space-x-2">
           <Button
@@ -451,7 +426,8 @@ export default function DocumentEditor() {
             <Share className="w-4 h-4" />
           </Button>
           <Drawer open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-            <DrawerContent className="h-[30vh] rounded-t-lg">
+            <DrawerContent className="min-h-[40vh] rounded-t-lg">
+              <DrawerTitle className="sr-only">Add fields</DrawerTitle>
               <div className="flex flex-col space-y-4 p-4">
                 <h3 className="font-semibold text-lg">Add Fields</h3>
                 <div className="grid grid-cols-2 gap-3">
@@ -514,9 +490,9 @@ export default function DocumentEditor() {
                          `,
             }}
           />
-          {fileUrl ? (
+          {fileUrl && (
             <div className="h-full w-full ">
-              <PDFViewer
+              <PdfViewerWrapper
                 fileUrl={fileUrl}
                 pageNumber={currentPage}
                 onPageChange={setCurrentPage}
@@ -549,14 +525,7 @@ export default function DocumentEditor() {
                       ))}
                   </div>
                 </div>
-              </PDFViewer>
-            </div>
-          ) : (
-            <div className="flex items-center z-10 justify-center h-full w-full bg-white max-w-2xl mx-auto shadow mt-2">
-              <div className="text-center">
-                <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2" />
-                <p className="text-sm text-gray-600">Loading document...</p>
-              </div>
+              </PdfViewerWrapper>
             </div>
           )}
         </div>
@@ -574,8 +543,6 @@ export default function DocumentEditor() {
           onSignerAdd={handleSignerAdd}
         />
       )}
-
-      {/* Mobile Fixed Bottom Controls */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-lg">
         <div className="flex items-center justify-between p-3">
           {/* Page Navigation */}

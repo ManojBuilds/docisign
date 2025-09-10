@@ -1,5 +1,4 @@
 "use client";
-
 import { useState, useCallback, useRef, useEffect, useMemo } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import {
@@ -8,7 +7,6 @@ import {
   ZoomIn,
   ZoomOut,
   AlertCircle,
-  Loader2,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -16,11 +14,9 @@ import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import { usePdfDimensions } from "./PdfDimensionsContext";
 import { useMobile } from "@/hooks/useMobile";
-import Logo from "./Logo";
 import Image from "next/image";
 
-// Use compatible worker for react-pdf v10
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.mjs`;
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 interface PDFViewerProps {
   fileUrl: string;
@@ -206,7 +202,7 @@ export default function PDFViewer({
             <span className="font-semibold">Boopsign Co. Ltd</span>
           </div>
           <div className="flex items-center mx-auto md:space-x-4">
-            <Logo showText={false} className="md:hidden" />
+            {/*<Logo showText={false} className="md:hidden" />*/}
             <div className="flex items-center">
               <Button
                 variant="ghost"
@@ -216,7 +212,7 @@ export default function PDFViewer({
               >
                 <ChevronLeft className="w-4 h-4" />
               </Button>
-              <span className="text-sm font-medium min-w-[4rem] text-center">
+              <span className="text-sm font-medium min-w-[2rem] sm:min-w-[4rem] text-center">
                 {pageNumber} / {numPages}
               </span>
               <Button
@@ -229,7 +225,7 @@ export default function PDFViewer({
               </Button>
             </div>
             {/* Zoom Controls */}
-            <div className="flex items-center">
+            <div className="hidden md:flex items-center">
               <Button
                 variant="ghost"
                 size="sm"
@@ -263,7 +259,8 @@ export default function PDFViewer({
                 onClick={onPreviousSignatureField}
                 disabled={!hasMultipleIncompleteFields}
               >
-                <ChevronLeft className="w-4 h-4 mr-1" /> Previous Field
+                <ChevronLeft className="w-4 h-4 mr-1" />{" "}
+                <span className="hidden sm:inline-flex">Previous Field</span>
               </Button>
               <Button
                 variant="outline"
@@ -271,7 +268,8 @@ export default function PDFViewer({
                 onClick={onNextSignatureField}
                 disabled={!hasMultipleIncompleteFields}
               >
-                Next Field <ChevronRight className="w-4 h-4 ml-1" />
+                <span className="hidden sm:inline-flex">Next Field Field</span>
+                <ChevronRight className="w-4 h-4 ml-1" />
               </Button>
             </div>
           </div>
@@ -289,14 +287,6 @@ export default function PDFViewer({
               file={fileUrl}
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
-              loading={
-                <div className="flex flex-col items-center justify-center h-96 space-y-4 min-w-full">
-                  <Loader2 className="w-8 h-8 animate-spin text-primary" />
-                  <p className="text-sm text-muted-foreground">
-                    Loading PDF...
-                  </p>
-                </div>
-              }
               error={
                 <div className="flex flex-col items-center justify-center h-96 space-y-4">
                   <AlertCircle className="w-8 h-8 text-destructive" />
@@ -314,11 +304,6 @@ export default function PDFViewer({
                   onLoadError={(error) => {
                     console.warn("Page load error:", error);
                   }}
-                  loading={
-                    <div className="flex items-center justify-center h-96 w-full">
-                      <Loader2 className="w-6 h-6 animate-spin text-primary" />
-                    </div>
-                  }
                   renderTextLayer={false}
                   renderAnnotationLayer={false}
                   className="shadow-sm"

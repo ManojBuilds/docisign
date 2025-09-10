@@ -12,6 +12,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useDropzone } from "react-dropzone";
+import SignatureCanvas from "react-signature-canvas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -23,12 +24,12 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerDescription,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
 import {
   Tooltip,
   TooltipContent,
@@ -71,17 +72,11 @@ interface SigningDialogProps {
   setTypedSignature: (value: string) => void;
   signatureData: string;
   setSignatureData: (value: string) => void;
-  canvasRef: React.RefObject<HTMLCanvasElement | null>;
+  canvasRef: React.RefObject<SignatureCanvas | null>;
   getRootProps: any;
   getInputProps: any;
   handleSignatureComplete: (activeTab: string) => void;
   clearCanvas: () => void;
-  startDrawing: (e: React.MouseEvent<HTMLCanvasElement>) => void;
-  draw: (e: React.MouseEvent<HTMLCanvasElement>) => void;
-  stopDrawing: () => void;
-  startTouchDrawing?: (e: React.TouchEvent<HTMLCanvasElement>) => void;
-  touchDraw?: (e: React.TouchEvent<HTMLCanvasElement>) => void;
-  setupCanvas: (canvas: HTMLCanvasElement | null) => void;
   isMobile: boolean;
   isCompleting: boolean;
   isSignatureProvided: boolean;
@@ -102,12 +97,6 @@ function SigningDialog({
   getInputProps,
   handleSignatureComplete,
   clearCanvas,
-  startDrawing,
-  draw,
-  stopDrawing,
-  startTouchDrawing,
-  touchDraw,
-  setupCanvas,
   isMobile,
   isCompleting,
   isSignatureProvided,
@@ -123,22 +112,13 @@ function SigningDialog({
               <TabsTrigger value="upload">Upload</TabsTrigger>
             </TabsList>
             <TabsContent value="draw">
-              <div className="border-2 border-gray-300 rounded mt-4">
-                <canvas
-                  ref={(canvas) => {
-                    canvasRef.current = canvas;
-                    setupCanvas(canvas);
+              <div className="border rounded-lg bg-gray-50 w-full h-[250px] cursor-crosshair mt-4">
+                <SignatureCanvas
+                  ref={canvasRef}
+                  penColor="black"
+                  canvasProps={{
+                    className: "w-full h-full bg-transparent",
                   }}
-                  width={isMobile ? 360 : 450}
-                  height={isMobile ? 120 : 150}
-                  className="cursor-crosshair"
-                  onMouseDown={startDrawing}
-                  onMouseMove={draw}
-                  onMouseUp={stopDrawing}
-                  onMouseLeave={stopDrawing}
-                  onTouchStart={startTouchDrawing}
-                  onTouchMove={touchDraw}
-                  onTouchEnd={stopDrawing}
                 />
               </div>
               <Button variant="outline" onClick={clearCanvas} className="mt-2">
@@ -248,24 +228,25 @@ function SigningDialog({
 
   if (isMobile) {
     return (
-      <Drawer open={isOpen} onOpenChange={onOpenChange}>
-        <DrawerContent className="min-h-[60svh]">
-          <DrawerHeader>
-            <DrawerTitle>
+      <Sheet open={isOpen} onOpenChange={onOpenChange}>
+        <SheetContent side="bottom" className="min-h-[70svh] rounded-t-xl">
+          <div className="mx-auto w-16 h-1.5 flex-shrink-0 rounded-full bg-zinc-300 my-4" /> {/* Separator */}
+          <SheetHeader>
+            <SheetTitle>
               {field.fieldType === "text"
                 ? "Add Text"
                 : `Add ${field.fieldType}`}
-            </DrawerTitle>
+            </SheetTitle>
             {field.fieldType === "text" && (
-              <DrawerDescription>
+              <SheetDescription>
                 {field.label || "Enter the required text"}
-              </DrawerDescription>
+              </SheetDescription>
             )}
-          </DrawerHeader>
+          </SheetHeader>
           {renderContent()}
-        </DrawerContent>
-      </Drawer>
-    );
+        </SheetContent>
+      </Sheet>
+);
   }
 
   return (
@@ -300,12 +281,12 @@ export default function SigningField({
   const [isOpen, setIsOpen] = useState(false);
   const [signatureData, setSignatureData] = useState(field.signatureData || "");
   const [typedSignature, setTypedSignature] = useState("");
-  const [isDrawing, setIsDrawing] = useState(false);
   const [activeTab, setActiveTab] = useState("draw");
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<SignatureCanvas>(null);
   const { pageDimensions, scale } = usePdfDimensions();
   const currentPageDimensions = pageDimensions[field.page];
   const isMobile = useMobile();
+  const mobileSize = 40; // Define mobile size for consistent field appearance
   const [isCompleting, setIsCompleting] = useState(false);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -363,21 +344,14 @@ export default function SigningField({
     setIsOpen(true);
   };
 
-  const isCanvasEmpty = (canvas: HTMLCanvasElement) => {
-    const blank = document.createElement("canvas");
-    blank.width = canvas.width;
-    blank.height = canvas.height;
-    return canvas.toDataURL() === blank.toDataURL();
-  };
-
   const handleSignatureComplete = async (activeTab: string) => {
     let finalSignatureData = "";
 
     if (field.fieldType === "signature" || field.fieldType === "initial") {
       if (activeTab === "draw") {
-        const canvas = canvasRef.current;
-        if (canvas && !isCanvasEmpty(canvas)) {
-          finalSignatureData = canvas.toDataURL();
+        const sigCanvas = canvasRef.current;
+        if (sigCanvas && !sigCanvas.isEmpty()) {
+          finalSignatureData = sigCanvas.toDataURL("image/png");
         }
       } else if (activeTab === "type") {
         if (typedSignature.trim()) {
@@ -406,8 +380,7 @@ export default function SigningField({
       return signatureData.trim() !== "";
     }
     if (activeTab === "draw") {
-      const canvas = canvasRef.current;
-      return !!(canvas && !isCanvasEmpty(canvas));
+      return !canvasRef.current?.isEmpty();
     }
     if (activeTab === "type") {
       return typedSignature.trim() !== "";
@@ -432,98 +405,38 @@ export default function SigningField({
     return canvas.toDataURL();
   };
 
-  // Canvas drawing functions
-  const startDrawing = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    setIsDrawing(true);
-    const rect = canvas.getBoundingClientRect();
-    const ctx = canvas.getContext("2d");
-    if (ctx) {
-      ctx.beginPath();
-      ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
-    }
-  };
-
-  const draw = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!isDrawing) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const ctx = canvas.getContext("2d");
-    if (ctx) {
-      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
-      ctx.stroke();
-    }
-  };
-
-  const stopDrawing = () => setIsDrawing(false);
-
-  // Touch drawing functions for mobile
-  const startTouchDrawing = (e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault();
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    setIsDrawing(true);
-    const rect = canvas.getBoundingClientRect();
-    const ctx = canvas.getContext("2d");
-    const touch = e.touches[0];
-    if (ctx && touch) {
-      ctx.beginPath();
-      ctx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
-    }
-  };
-
-  const touchDraw = (e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault();
-    if (!isDrawing) return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const ctx = canvas.getContext("2d");
-    const touch = e.touches[0];
-    if (ctx && touch) {
-      ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
-      ctx.stroke();
-    }
-  };
-
   const clearCanvas = () => {
-    const canvas = canvasRef.current;
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
-      ctx?.clearRect(0, 0, canvas.width, canvas.height);
-    }
-  };
-
-  const setupCanvas = (canvas: HTMLCanvasElement | null) => {
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (ctx) {
-      ctx.strokeStyle = "#000000";
-      ctx.lineWidth = 2;
-      ctx.lineCap = "round";
-      ctx.lineJoin = "round";
-    }
+    canvasRef.current?.clear();
   };
 
   const renderFieldContent = () => {
     if (field.isCompleted) {
       return (
         <div className="flex items-center text-xs text-green-800">
-          {" "}
-          {/* Changed text-green-700 to text-green-800 */}
-          <Check className="w-3 h-3 mr-1" />
-          <span>Completed</span>
+          <Check className={`w-3 h-3 ${isMobile ? "" : "mr-1"}`} />
+          {isMobile ? null : <span>Completed</span>}
         </div>
       );
     }
+
+    if (isMobile) {
+      return (
+        <Button
+          variant="secondary"
+          className="w-full h-full rounded-full"
+          onMouseDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+        >
+          {getFieldIcon()}
+        </Button>
+      );
+    }
+
     return (
       <div className="flex items-center text-xs text-gray-600">
         {getFieldIcon()}
         <span className="ml-1 capitalize">
           {field.label || field.fieldType}{" "}
-          {/* Display label if exists, else fieldType */}
           {field.isRequired && <span className="text-red-500 ml-1">*</span>}
         </span>
       </div>
@@ -549,12 +462,12 @@ export default function SigningField({
         <Tooltip>
           <TooltipTrigger asChild>
             <div
-              className={`absolute cursor-pointer transition-all hover:shadow-md ${getFieldColor()} ${isFocused ? "ring-2 ring-offset-2 ring-blue-500" : ""}`}
+              className={`absolute cursor-pointer transition-all hover:shadow-md ${getFieldColor()} ${isFocused ? "ring-2 ring-offset-2 ring-blue-500" : ""} ${isMobile ? "rounded-full" : ""}`}
               style={{
                 left: pixelX * scale,
                 top: pixelY * scale,
-                width: pixelWidth * scale,
-                height: pixelHeight * scale,
+                width: (isMobile ? mobileSize : pixelWidth) * scale,
+                height: (isMobile ? mobileSize : pixelHeight) * scale,
               }}
               onClick={handleFieldClick}
             >
@@ -587,12 +500,6 @@ export default function SigningField({
         getInputProps={getInputProps}
         handleSignatureComplete={handleSignatureComplete}
         clearCanvas={clearCanvas}
-        startDrawing={startDrawing}
-        draw={draw}
-        stopDrawing={stopDrawing}
-        startTouchDrawing={startTouchDrawing}
-        touchDraw={touchDraw}
-        setupCanvas={setupCanvas}
         isMobile={isMobile}
         isCompleting={isCompleting}
         isSignatureProvided={isSignatureProvided()}

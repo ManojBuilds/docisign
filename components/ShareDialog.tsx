@@ -6,18 +6,28 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
-import {
-  ResponsiveDialog,
-  ResponsiveDialogClose,
-  ResponsiveDialogContent,
-  ResponsiveDialogFooter,
-  ResponsiveDialogHeader,
-  ResponsiveDialogTitle,
-  ResponsiveDialogTrigger,
-} from "./responsive-dialog";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, Loader2, Send, Trash2, UserPlus, X } from "lucide-react";
 import { Textarea } from "./ui/textarea";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import useMediaQuery from "@/hooks/use-media-query";
 
 interface Signer {
   email: string;
@@ -146,7 +156,7 @@ const DialogContentShared: FC<DialogContentSharedProps> = ({
         )}
       </div>
 
-      <div className="space-y-1 max-h-48 overflow-y-auto">
+      <div className="space-y-1">
         {signers.length > 0 ? (
           signers.map((signer, index) => (
             <div
@@ -217,6 +227,7 @@ export function ShareDialog({
   const [customMessage, setCustomMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [emailError, setEmailError] = useState("");
+  const isDesktop = useMediaQuery("(min-width: 640px)");
 
   useEffect(() => {
     setSigners(initialSigners);
@@ -285,50 +296,86 @@ export function ShareDialog({
     }
   };
 
+  const content = (
+    <DialogContentShared
+      hasUnassignedFields={hasUnassignedFields}
+      newSignerEmail={newSignerEmail}
+      setNewSignerEmail={setNewSignerEmail}
+      emailError={emailError}
+      setEmailError={setEmailError}
+      handleKeyPress={handleKeyPress}
+      newSignerName={newSignerName}
+      setNewSignerName={setNewSignerName}
+      addSigner={addSigner}
+      signers={signers}
+      setSigners={setSigners}
+      removeSigner={removeSigner}
+      customMessage={customMessage}
+      setCustomMessage={setCustomMessage}
+    />
+  );
+
+  if (isDesktop) {
+    return (
+      <Dialog open={open} onOpenChange={onOpenChange}>
+        <DialogTrigger asChild>
+          <Button className="w-full sm:w-auto">
+            <Send className="w-4 h-4" />
+            Request Signature
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-2xl p-0 flex flex-col max-h-[90vh]">
+          <DialogHeader className="p-6 pb-4 border-b">
+            <DialogTitle>Request Signature</DialogTitle>
+          </DialogHeader>
+          <div className="flex-1 overflow-y-auto p-6">{content}</div>
+          <DialogFooter className="p-6 pt-4 gap-2 flex-col-reverse sm:flex-row border-t">
+            <DialogClose asChild>
+              <Button variant="outline" className="w-full sm:w-auto">
+                Cancel
+              </Button>
+            </DialogClose>
+            <Button
+              onClick={handleSend}
+              disabled={isSending || signers.length === 0}
+              className="w-full sm:w-auto"
+            >
+              {isSending ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4 mr-2" />
+                  Send for Signing ({signers.length})
+                </>
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+
   return (
-    <ResponsiveDialog open={open} onOpenChange={onOpenChange}>
-      <ResponsiveDialogTrigger asChild>
+    <Drawer open={open} onOpenChange={onOpenChange}>
+      <DrawerTrigger asChild>
         <Button className="w-full sm:w-auto">
           <Send className="w-4 h-4" />
           Request Signature
         </Button>
-      </ResponsiveDialogTrigger>
-      <ResponsiveDialogContent className="sm:max-w-2xl p-6">
-        <ResponsiveDialogHeader>
-          <ResponsiveDialogTitle className="text-xl">
-            Request Signature
-          </ResponsiveDialogTitle>
-        </ResponsiveDialogHeader>
-
-        <div>
-          <DialogContentShared
-            hasUnassignedFields={hasUnassignedFields}
-            newSignerEmail={newSignerEmail}
-            setNewSignerEmail={setNewSignerEmail}
-            emailError={emailError}
-            setEmailError={setEmailError}
-            handleKeyPress={handleKeyPress}
-            newSignerName={newSignerName}
-            setNewSignerName={setNewSignerName}
-            addSigner={addSigner}
-            signers={signers}
-            setSigners={setSigners}
-            removeSigner={removeSigner}
-            customMessage={customMessage}
-            setCustomMessage={setCustomMessage}
-          />
-        </div>
-
-        <ResponsiveDialogFooter className="gap-2 flex-col-reverse sm:flex-row">
-          <ResponsiveDialogClose asChild>
-            <Button variant="outline" className="w-full sm:w-auto">
-              Cancel
-            </Button>
-          </ResponsiveDialogClose>
+      </DrawerTrigger>
+      <DrawerContent>
+        <DrawerHeader className="text-left border-b">
+          <DrawerTitle>Request Signature</DrawerTitle>
+        </DrawerHeader>
+        <div className="p-4 flex-1 overflow-y-auto">{content}</div>
+        <DrawerFooter className="pt-2 border-t">
           <Button
             onClick={handleSend}
             disabled={isSending || signers.length === 0}
-            className="w-full sm:w-auto"
+            className="w-full"
           >
             {isSending ? (
               <>
@@ -342,8 +389,13 @@ export function ShareDialog({
               </>
             )}
           </Button>
-        </ResponsiveDialogFooter>
-      </ResponsiveDialogContent>
-    </ResponsiveDialog>
+          <DrawerClose asChild>
+            <Button variant="outline" className="w-full">
+              Cancel
+            </Button>
+          </DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 }

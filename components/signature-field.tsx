@@ -2,10 +2,19 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import { useDraggable } from "@dnd-kit/core";
+import {
   PenTool,
   X,
   Settings,
-  GripVertical,
   CalendarDays,
   TextCursor,
   ALargeSmall,
@@ -16,6 +25,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import useMediaQuery from "@/hooks/use-media-query";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -41,7 +59,7 @@ export interface SignatureFieldData {
   assignedToEmail: string;
   isRequired: boolean;
   label?: string;
-  assignedToName?: string; // Add this line
+  assignedToName?: string;
 }
 
 interface SignatureFieldProps {
@@ -54,7 +72,8 @@ interface SignatureFieldProps {
   onSave?: (field: SignatureFieldData) => Promise<void>;
 }
 
-export default function SignatureField({
+// Draggable Field Component
+function DraggableSignatureField({
   field,
   isEditMode,
   isSelected,
@@ -62,30 +81,31 @@ export default function SignatureField({
   onDelete,
   onSelect,
   onSave,
-}: SignatureFieldProps) {
+  currentPageDimensions,
+  pdfViewerScale,
+}: SignatureFieldProps & {
+  currentPageDimensions: any;
+  pdfViewerScale: number;
+}) {
   const [isSaving, setIsSaving] = useState(false);
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [localField, setLocalField] = useState<SignatureFieldData>(field);
-  const [isDragging, setIsDragging] = useState(false);
-  const [isResizing, setIsResizing] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-  const [resizeStart, setResizeStart] = useState({
-    x: 0,
-    y: 0,
-    width: 150,
-    height: 40,
-  });
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const fieldRef = useRef<HTMLDivElement>(null);
-  const localFieldRef = useRef<SignatureFieldData>(field); // Add this ref
+  const localFieldRef = useRef<SignatureFieldData>(field);
 
-  const { pageDimensions, scale: pdfViewerScale } = usePdfDimensions();
-  const currentPageDimensions = pageDimensions[field.page];
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: field.id,
+      disabled: !isEditMode || (!isDesktop && isDrawerOpen),
+    });
 
-  // Update localFieldRef whenever localField changes
+  // Sync localField with prop changes
   useEffect(() => {
-    localFieldRef.current = localField;
-  }, [localField]);
+    setLocalField(field);
+    localFieldRef.current = field;
+  }, [field]);
 
   const debouncedSave = useCallback(
     async (updatedField: SignatureFieldData) => {
@@ -141,160 +161,6 @@ export default function SignatureField({
     handleFieldUpdate,
   ]);
 
-  useEffect(() => {
-    const handleMouseMove = (e: MouseEvent | TouchEvent) => {
-      if (!currentPageDimensions) return;
-
-      const currentLocalField = localFieldRef.current;
-      const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-      const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-
-      if (isDragging) {
-        e.preventDefault();
-        const deltaX = clientX - dragStart.x;
-        const deltaY = clientY - dragStart.y;
-
-        const currentPixelX =
-          currentLocalField.normalizedX * currentPageDimensions.width;
-        const currentPixelY =
-          currentLocalField.normalizedY * currentPageDimensions.height;
-        const pixelWidth =
-          currentLocalField.normalizedWidth * currentPageDimensions.width;
-        const pixelHeight =
-          currentLocalField.normalizedHeight * currentPageDimensions.height;
-
-        const newPixelX = Math.max(
-          0,
-          Math.min(
-            currentPixelX + deltaX,
-            currentPageDimensions.width - pixelWidth,
-          ),
-        );
-        const newPixelY = Math.max(
-          0,
-          Math.min(
-            currentPixelY + deltaY,
-            currentPageDimensions.height - pixelHeight,
-          ),
-        );
-
-        const newNormalizedX = newPixelX / currentPageDimensions.width;
-        const newNormalizedY = newPixelY / currentPageDimensions.height;
-
-        setLocalField((prev) => ({
-          ...prev,
-          normalizedX: newNormalizedX,
-          normalizedY: newNormalizedY,
-        }));
-        setHasUnsavedChanges(true);
-        setDragStart({ x: clientX, y: clientY });
-      }
-
-      if (isResizing) {
-        e.preventDefault();
-        const deltaX = clientX - resizeStart.x;
-        const deltaY = clientY - resizeStart.y;
-
-        const newWidth = Math.max(
-          50,
-          Math.min(500, resizeStart.width + deltaX),
-        );
-        const newHeight = Math.max(
-          20,
-          Math.min(200, resizeStart.height + deltaY),
-        );
-
-        const newNormalizedWidth = newWidth / currentPageDimensions.width;
-        const newNormalizedHeight = newHeight / currentPageDimensions.height;
-
-        setLocalField((prev) => ({
-          ...prev,
-          normalizedWidth: newNormalizedWidth,
-          normalizedHeight: newNormalizedHeight,
-        }));
-        setHasUnsavedChanges(true);
-      }
-    };
-
-    const handleMouseUp = () => {
-      if (isDragging || isResizing) {
-        onUpdate(localFieldRef.current);
-        debouncedSave(localFieldRef.current);
-      }
-      setIsDragging(false);
-      setIsResizing(false);
-    };
-
-    if (isDragging || isResizing) {
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
-      document.addEventListener("touchmove", handleMouseMove, {
-        passive: false,
-      });
-      document.addEventListener("touchend", handleMouseUp);
-    }
-
-    return () => {
-      document.removeEventListener("mousemove", handleMouseMove);
-      document.removeEventListener("mouseup", handleMouseUp);
-      document.removeEventListener("touchmove", handleMouseMove);
-      document.removeEventListener("touchend", handleMouseUp);
-    };
-  }, [
-    isDragging,
-    isResizing,
-    dragStart,
-    resizeStart,
-    currentPageDimensions,
-    onUpdate,
-    debouncedSave,
-  ]);
-
-  if (
-    !currentPageDimensions ||
-    currentPageDimensions.width === 0 ||
-    currentPageDimensions.height === 0
-  ) {
-    return null;
-  }
-
-  const handleDragStart = (e: React.MouseEvent | React.TouchEvent) => {
-    // Don't start dragging if clicking on interactive elements
-    const target = e.target as HTMLElement;
-    if (
-      target.closest("button") ||
-      target.closest('[role="dialog"]') ||
-      target.closest(".popover-content")
-    ) {
-      return;
-    }
-
-    e.preventDefault();
-    e.stopPropagation();
-    setIsDragging(true);
-    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-    setDragStart({ x: clientX, y: clientY });
-    onSelect(field.id);
-  };
-
-  const handleResizeStart = (e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setIsResizing(true);
-    const pixelWidth = localField.normalizedWidth * currentPageDimensions.width;
-    const pixelHeight =
-      localField.normalizedHeight * currentPageDimensions.height;
-    const clientX = "touches" in e ? e.touches[0].clientX : e.clientX;
-    const clientY = "touches" in e ? e.touches[0].clientY : e.clientY;
-    setResizeStart({
-      x: clientX,
-      y: clientY,
-      width: pixelWidth,
-      height: pixelHeight,
-    });
-  };
-
   const getFieldIcon = () => {
     switch (localField.fieldType) {
       case "signature":
@@ -326,7 +192,326 @@ export default function SignatureField({
   const pixelHeight =
     localField.normalizedHeight * currentPageDimensions.height;
 
+  const settingsContent = (
+    <>
+      <div className="space-y-1">
+        <Label htmlFor="fieldType">Field Type</Label>
+        <Select
+          value={localField.fieldType}
+          onValueChange={(value: any) =>
+            handleFieldUpdate({ fieldType: value })
+          }
+        >
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="signature">Signature</SelectItem>
+            <SelectItem value="initial">Initial</SelectItem>
+            <SelectItem value="date">Date</SelectItem>
+            <SelectItem value="text">Text</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor="assignedEmail">Assigned to Email</Label>
+        <Input
+          id="assignedEmail"
+          value={localField.assignedToEmail}
+          onChange={(e) =>
+            handleFieldUpdate({ assignedToEmail: e.target.value })
+          }
+          placeholder="signer@example.com"
+        />
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor="assignedName">Assigned to Name (Optional)</Label>
+        <Input
+          id="assignedName"
+          value={localField.assignedToName || ""}
+          onChange={(e) =>
+            handleFieldUpdate({ assignedToName: e.target.value })
+          }
+          placeholder="Signer's Name"
+        />
+      </div>
+      <div className="space-y-1">
+        <Label htmlFor="label">Label (Optional)</Label>
+        <Input
+          id="label"
+          value={localField.label || ""}
+          onChange={(e) => handleFieldUpdate({ label: e.target.value })}
+          placeholder="Field description"
+        />
+      </div>
+      <div className="flex items-center space-x-2">
+        <Switch
+          id="required"
+          checked={localField.isRequired}
+          onCheckedChange={(checked) =>
+            handleFieldUpdate({ isRequired: checked as boolean })
+          }
+        />
+        <Label htmlFor="required">Required</Label>
+      </div>
+    </>
+  );
+
+  const saveButton = (
+    <Button
+      size="sm"
+      className="w-full"
+      onClick={() => debouncedSave(localField)}
+      disabled={isSaving}
+    >
+      {isSaving ? "Saving..." : "Save"}
+    </Button>
+  );
+
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        zIndex: isDragging ? 1000 : "auto",
+      }
+    : undefined;
+
+  return (
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      className={`absolute select-none ${isDesktop ? "cursor-grab" : ""} ${
+        isSelected ? "ring ring-blue-300 ring-opacity-50" : ""
+      }`}
+      style={{
+        left: pixelX * pdfViewerScale,
+        top: pixelY * pdfViewerScale,
+        width: (isDesktop ? pixelWidth : 40) * pdfViewerScale,
+        height: (isDesktop ? pixelHeight : 40) * pdfViewerScale,
+        ...style,
+      }}
+    >
+      <div
+        className={`w-full h-full border border-opacity-70 bg-opacity-20 flex items-center justify-center relative group hover:bg-opacity-30 transition-all ${getFieldColor()} ${
+          !isDesktop ? "rounded-full" : ""
+        }`}
+      >
+        {hasUnsavedChanges && !isSaving && (
+          <div className="absolute -top-1 -right-1 w-2 h-2 bg-orange-500 rounded-full"></div>
+        )}
+
+        {isDesktop ? (
+          <div
+            className="flex items-center capitalize text-sm w-full h-full justify-center"
+            onClick={(e) => {
+              e.stopPropagation();
+              onSelect(field.id);
+            }}
+          >
+            {getFieldIcon()}
+            <span className="ml-1 truncate">
+              {localField.label || localField.fieldType}
+            </span>
+          </div>
+        ) : (
+          <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
+            <DrawerTrigger
+              asChild
+              onClick={(e) => {
+                e.stopPropagation();
+                onSelect(field.id);
+              }}
+            >
+              <div className="w-full h-full flex items-center justify-center cursor-pointer">
+                {getFieldIcon()}
+              </div>
+            </DrawerTrigger>
+            <DrawerContent className="min-h-[70svh]">
+              <DrawerHeader>
+                <DrawerTitle>Field Settings</DrawerTitle>
+              </DrawerHeader>
+              <div className="p-4 overflow-y-auto space-y-4">
+                {settingsContent}
+              </div>
+              <DrawerFooter>
+                {saveButton}
+                <Button
+                  variant="destructive"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onDelete(field.id);
+                  }}
+                >
+                  Remove Field
+                </Button>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+        )}
+
+        {isSelected && (
+          <div
+            className="absolute -top-8 left-0 flex space-x-1 z-10 pointer-events-auto"
+            onMouseDown={(e) => e.stopPropagation()}
+          >
+            {isDesktop ? (
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button size="sm" variant="outline" className="h-6 px-2">
+                    <Settings className="w-3 h-3" />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80 popover-content" side="top">
+                  <div className="space-y-4">
+                    {settingsContent}
+                    {saveButton}
+                  </div>
+                </PopoverContent>
+              </Popover>
+            ) : null}
+            {isDesktop && (
+              <Button
+                size="sm"
+                variant="destructive"
+                className="h-6 px-2"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(field.id);
+                }}
+              >
+                <X className="w-3 h-3" />
+              </Button>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+export default function SignatureField(props: SignatureFieldProps) {
+  const { field, isEditMode } = props;
+  const { pageDimensions, scale: pdfViewerScale } = usePdfDimensions();
+  const currentPageDimensions = pageDimensions[field.page];
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      // For mouse users
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
+    useSensor(KeyboardSensor),
+  );
+
+  if (
+    !currentPageDimensions ||
+    currentPageDimensions.width === 0 ||
+    currentPageDimensions.height === 0
+  ) {
+    return null;
+  }
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { delta } = event;
+
+    if (delta.x === 0 && delta.y === 0) return;
+
+    const pixelWidth = field.normalizedWidth * currentPageDimensions.width;
+    const pixelHeight = field.normalizedHeight * currentPageDimensions.height;
+    const currentPixelX = field.normalizedX * currentPageDimensions.width;
+    const currentPixelY = field.normalizedY * currentPageDimensions.height;
+
+    // Calculate new position with bounds checking
+    const newPixelX = Math.max(
+      0,
+      Math.min(
+        currentPixelX + delta.x / pdfViewerScale,
+        currentPageDimensions.width - pixelWidth,
+      ),
+    );
+    const newPixelY = Math.max(
+      0,
+      Math.min(
+        currentPixelY + delta.y / pdfViewerScale,
+        currentPageDimensions.height - pixelHeight,
+      ),
+    );
+
+    const newNormalizedX = newPixelX / currentPageDimensions.width;
+    const newNormalizedY = newPixelY / currentPageDimensions.height;
+
+    const updatedField = {
+      ...field,
+      normalizedX: newNormalizedX,
+      normalizedY: newNormalizedY,
+    };
+
+    // Update immediately
+    props.onUpdate(updatedField);
+
+    // Save the changes
+    if (props.onSave) {
+      props.onSave(updatedField);
+    }
+  };
+
+  const restrictToParentModifier = ({ transform }: any) => {
+    const scaledPixelX =
+      field.normalizedX * currentPageDimensions.width * pdfViewerScale;
+    const scaledPixelY =
+      field.normalizedY * currentPageDimensions.height * pdfViewerScale;
+    const scaledPixelWidth =
+      field.normalizedWidth * currentPageDimensions.width * pdfViewerScale;
+    const scaledPixelHeight =
+      field.normalizedHeight * currentPageDimensions.height * pdfViewerScale;
+
+    const parentWidth = currentPageDimensions.width * pdfViewerScale;
+    const parentHeight = currentPageDimensions.height * pdfViewerScale;
+
+    const minX = -scaledPixelX;
+    const maxX = parentWidth - scaledPixelWidth - scaledPixelX;
+    const minY = -scaledPixelY;
+    const maxY = parentHeight - scaledPixelHeight - scaledPixelY;
+
+    return {
+      ...transform,
+      x: Math.max(minX, Math.min(transform.x, maxX)),
+      y: Math.max(minY, Math.min(transform.y, maxY)),
+    };
+  };
+
   if (!isEditMode) {
+    const pixelX = field.normalizedX * currentPageDimensions.width;
+    const pixelY = field.normalizedY * currentPageDimensions.height;
+    const pixelWidth = field.normalizedWidth * currentPageDimensions.width;
+    const pixelHeight = field.normalizedHeight * currentPageDimensions.height;
+
+    const getFieldIcon = () => {
+      switch (field.fieldType) {
+        case "signature":
+          return <PenTool size={16} strokeWidth={1.5} />;
+        case "initial":
+          return <TextCursor size={16} strokeWidth={1.5} />;
+        case "date":
+          return <CalendarDays size={16} strokeWidth={1.5} />;
+        case "text":
+          return <ALargeSmall size={16} strokeWidth={1.5} />;
+        default:
+          return <PenTool size={16} strokeWidth={1.5} />;
+      }
+    };
+
+    const getFieldColor = () => {
+      const colors = {
+        signature: "border-blue-500 bg-blue-200",
+        initial: "border-green-500 bg-green-200",
+        date: "border-yellow-500 bg-yellow-200",
+        text: "border-purple-500 bg-purple-200",
+      };
+      return colors[field.fieldType] || colors.signature;
+    };
+
     return (
       <div
         className={`absolute border-2 border-dashed border-opacity-50 bg-opacity-10 flex items-center justify-center text-xs ${getFieldColor()}`}
@@ -338,236 +523,23 @@ export default function SignatureField({
         }}
       >
         {getFieldIcon()}
-        <span className="ml-1 text-gray-700 truncate">
-          {localField.fieldType}
-        </span>
+        <span className="ml-1 text-gray-700 truncate">{field.fieldType}</span>
       </div>
     );
   }
 
   return (
-    <div
-      ref={fieldRef}
-      className={`absolute select-none ${
-        isSelected ? "ring ring-blue-300 ring-opacity-50" : ""
-      }`}
-      style={{
-        left: pixelX * pdfViewerScale,
-        top: pixelY * pdfViewerScale,
-        width: pixelWidth * pdfViewerScale,
-        height: pixelHeight * pdfViewerScale,
-        cursor: isDragging ? "grabbing" : "grab",
-      }}
-      onClick={(e) => {
-        e.stopPropagation();
-        onSelect(field.id);
-      }}
+    <DndContext
+      sensors={sensors}
+      collisionDetection={closestCenter}
+      onDragEnd={handleDragEnd}
+      modifiers={[restrictToParentModifier]}
     >
-      <div
-        className={`w-full h-full border border-opacity-70 bg-opacity-20 flex items-center justify-center relative group hover:bg-opacity-30 transition-all ${getFieldColor()}`}
-        onMouseDown={isEditMode ? handleDragStart : undefined}
-        onTouchStart={isEditMode ? handleDragStart : undefined}
-      >
-        {isSaving && (
-          <div className="absolute -top-6 left-0 text-xs text-blue-600">
-            Saving...
-          </div>
-        )}
-        {hasUnsavedChanges && !isSaving && (
-          <div className="absolute -top-1 -right-1 w-2 h-2 bg-orange-500 rounded-full"></div>
-        )}
-
-        <div className="flex items-center pointer-events-none capitalize text-sm">
-          {getFieldIcon()}
-          <span className="ml-1 truncate">
-            {localField.label || localField.fieldType}
-          </span>
-        </div>
-
-        {isSelected && (
-          <div
-            className="absolute top-1 right-1 opacity-50 group-hover:opacity-100 cursor-grab"
-            onMouseDown={(e) => {
-              e.stopPropagation();
-              handleDragStart(e);
-            }}
-            onTouchStart={(e) => {
-              e.stopPropagation();
-              handleDragStart(e);
-            }}
-          >
-            <GripVertical className="w-3 h-3 text-gray-500" />
-          </div>
-        )}
-
-        {/* Resize handle */}
-        {isSelected && isEditMode && (
-          <div
-            className="absolute bottom-0 right-0 w-3 h-3 bg-blue-500 cursor-se-resize opacity-50 hover:opacity-100"
-            onMouseDown={(e) => {
-              e.stopPropagation();
-              handleResizeStart(e);
-            }}
-            onTouchStart={(e) => {
-              e.stopPropagation();
-              handleResizeStart(e);
-            }}
-          />
-        )}
-
-        {isSelected && (
-          <div className="absolute -top-8 left-0 flex space-x-1 z-10 pointer-events-auto">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="h-6 px-2"
-                  onMouseDown={(e) => e.stopPropagation()}
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Settings className="w-3 h-3" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent
-                className="w-80 popover-content"
-                side="top"
-                onMouseDown={(e) => e.stopPropagation()}
-                onClick={(e) => e.stopPropagation()}
-              >
-                <div className="space-y-4">
-                  <div className="space-y-1">
-                    <Label htmlFor="fieldType">Field Type</Label>
-                    <Select
-                      value={localField.fieldType}
-                      onValueChange={(value: any) =>
-                        handleFieldUpdate({ fieldType: value })
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="signature">Signature</SelectItem>
-                        <SelectItem value="initial">Initial</SelectItem>
-                        <SelectItem value="date">Date</SelectItem>
-                        <SelectItem value="text">Text</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="assignedEmail">Assigned to Email</Label>
-                    <Input
-                      id="assignedEmail"
-                      value={localField.assignedToEmail}
-                      onChange={(e) =>
-                        handleFieldUpdate({ assignedToEmail: e.target.value })
-                      }
-                      placeholder="signer@example.com"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="assignedName">
-                      Assigned to Name (Optional)
-                    </Label>
-                    <Input
-                      id="assignedName"
-                      value={localField.assignedToName || ""}
-                      onChange={(e) =>
-                        handleFieldUpdate({ assignedToName: e.target.value })
-                      }
-                      placeholder="Signer's Name"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="label">Label (Optional)</Label>
-                    <Input
-                      id="label"
-                      value={localField.label || ""}
-                      onChange={(e) =>
-                        handleFieldUpdate({ label: e.target.value })
-                      }
-                      placeholder="Field description"
-                    />
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <Switch
-                      id="required"
-                      checked={localField.isRequired}
-                      onCheckedChange={(checked) =>
-                        handleFieldUpdate({ isRequired: checked as boolean })
-                      }
-                    />
-                    <Label htmlFor="required">Required</Label>
-                  </div>
-                  {/*<div className="grid grid-cols-2 gap-2">
-                    <div>
-                      <Label htmlFor="width">Width (px)</Label>
-                      <Input
-                        id="width"
-                        type="number"
-                        min="50"
-                        max="500"
-                        value={Math.round(
-                          localField.normalizedWidth *
-                            currentPageDimensions.width,
-                        )}
-                        onChange={(e) =>
-                          handleFieldUpdate({
-                            normalizedWidth:
-                              (parseInt(e.target.value) || 150) /
-                              currentPageDimensions.width,
-                          })
-                        }
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="height">Height (px)</Label>
-                      <Input
-                        id="height"
-                        type="number"
-                        min="20"
-                        max="200"
-                        value={Math.round(
-                          localField.normalizedHeight *
-                            currentPageDimensions.height,
-                        )}
-                        onChange={(e) =>
-                          handleFieldUpdate({
-                            normalizedHeight:
-                              (parseInt(e.target.value) || 40) /
-                              currentPageDimensions.height,
-                          })
-                        }
-                      />
-                    </div>
-                  </div>*/}
-                  <Button
-                    size="sm"
-                    className="w-full"
-                    onClick={() => debouncedSave(localField)}
-                    disabled={isSaving}
-                  >
-                    {isSaving ? "Saving..." : "Save"}
-                  </Button>
-                </div>
-              </PopoverContent>
-            </Popover>
-            <Button
-              size="sm"
-              variant="destructive"
-              className="h-6 px-2"
-              onMouseDown={(e) => e.stopPropagation()}
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(field.id);
-              }}
-            >
-              <X className="w-3 h-3" />
-            </Button>
-          </div>
-        )}
-      </div>
-    </div>
+      <DraggableSignatureField
+        {...props}
+        currentPageDimensions={currentPageDimensions}
+        pdfViewerScale={pdfViewerScale}
+      />
+    </DndContext>
   );
 }

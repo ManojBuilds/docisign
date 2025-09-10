@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { NewDocumentDialog } from '@/components/NewDocumentDialog';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { NewDocumentDialog } from "@/components/NewDocumentDialog";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from '@/components/ui/select';
-import { api } from '@/convex/_generated/api';
-import { useUser } from '@clerk/clerk-react';
-import { usePaginatedQuery, useQuery, useMutation } from 'convex/react';
+} from "@/components/ui/select";
+import { api } from "@/convex/_generated/api";
+import { useUser } from "@clerk/clerk-react";
+import { usePaginatedQuery, useQuery, useMutation } from "convex/react";
 import {
   Check,
   Clock,
@@ -24,14 +24,14 @@ import {
   Download,
   MoreHorizontal,
   Trash2,
-} from 'lucide-react';
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -41,14 +41,31 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import Link from 'next/link';
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { Id } from '@/convex/_generated/dataModel';
+} from "@/components/ui/alert-dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import useMediaQuery from "@/hooks/use-media-query";
+import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
+import { Id } from "@/convex/_generated/dataModel";
 
 // Types for better TypeScript support
-type DocumentStatus = 'all' | 'draft' | 'sent' | 'in_progress' | 'completed' | 'expired' | 'cancelled';
+type DocumentStatus =
+  | "all"
+  | "draft"
+  | "sent"
+  | "in_progress"
+  | "completed"
+  | "expired"
+  | "cancelled";
 
 interface DashboardStats {
   totalDocuments?: number;
@@ -63,7 +80,7 @@ interface Document {
   status: string;
   createdAt: number;
   updatedAt?: number;
-  fileStorageId: Id<'_storage'>;
+  fileStorageId: Id<"_storage">;
   originalFileName: string;
 }
 
@@ -75,67 +92,90 @@ const MobileStats = ({ stats }: { stats: DashboardStats | undefined }) => (
         <FileText className="h-4 w-4 text-blue-600" />
         <p className="text-sm font-medium text-gray-700">Total</p>
       </div>
-      <p className="text-2xl font-bold text-gray-900">{stats?.totalDocuments ?? 0}</p>
+      <p className="text-2xl font-bold text-gray-900">
+        {stats?.totalDocuments ?? 0}
+      </p>
     </div>
     <div className="bg-gray-50 p-4 border-l-4 border-green-500">
       <div className="flex items-center gap-2 mb-1">
         <Check className="h-4 w-4 text-green-600" />
         <p className="text-sm font-medium text-gray-700">Done</p>
       </div>
-      <p className="text-2xl font-bold text-gray-900">{stats?.completedDocuments ?? 0}</p>
+      <p className="text-2xl font-bold text-gray-900">
+        {stats?.completedDocuments ?? 0}
+      </p>
     </div>
     <div className="bg-gray-50 p-4 border-l-4 border-yellow-500">
       <div className="flex items-center gap-2 mb-1">
         <Send className="h-4 w-4 text-yellow-600" />
         <p className="text-sm font-medium text-gray-700">Sent</p>
       </div>
-      <p className="text-2xl font-bold text-gray-900">{stats?.sentDocuments ?? 0}</p>
+      <p className="text-2xl font-bold text-gray-900">
+        {stats?.sentDocuments ?? 0}
+      </p>
     </div>
     <div className="bg-gray-50 p-4 border-l-4 border-gray-400">
       <div className="flex items-center gap-2 mb-1">
         <Clock className="h-4 w-4 text-gray-600" />
         <p className="text-sm font-medium text-gray-700">Draft</p>
       </div>
-      <p className="text-2xl font-bold text-gray-900">{stats?.draftDocuments ?? 0}</p>
+      <p className="text-2xl font-bold text-gray-900">
+        {stats?.draftDocuments ?? 0}
+      </p>
     </div>
   </div>
 );
 
 // Simple Document Row - no cards, just clean rows with borders
-const DocumentRow = ({ 
-  doc, 
-  onDownload, 
-  onDelete 
-}: { 
+const DocumentRow = ({
+  doc,
+  onDownload,
+  onDelete,
+}: {
   doc: Document;
-  onDownload: (fileStorageId: Id<'_storage'>, fileName: string) => void;
-  onDelete: (documentId: Id<'documents'>) => void;
+  onDownload: (fileStorageId: Id<"_storage">, fileName: string) => void;
+  onDelete: (documentId: Id<"documents">) => void;
 }) => {
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case 'draft': return <Clock className="w-4 h-4 text-gray-500" />;
-      case 'sent': return <Send className="w-4 h-4 text-blue-500" />;
-      case 'completed': return <Check className="w-4 h-4 text-green-500" />;
-      case 'expired': return <XCircle className="w-4 h-4 text-red-500" />;
-      case 'cancelled': return <XCircle className="w-4 h-4 text-red-500" />;
-      default: return <FileText className="w-4 h-4 text-gray-400" />;
+      case "draft":
+        return <Clock className="w-4 h-4 text-gray-500" />;
+      case "sent":
+        return <Send className="w-4 h-4 text-blue-500" />;
+      case "completed":
+        return <Check className="w-4 h-4 text-green-500" />;
+      case "expired":
+        return <XCircle className="w-4 h-4 text-red-500" />;
+      case "cancelled":
+        return <XCircle className="w-4 h-4 text-red-500" />;
+      default:
+        return <FileText className="w-4 h-4 text-gray-400" />;
     }
   };
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'draft': return 'bg-gray-100 text-gray-800';
-      case 'sent': return 'bg-blue-100 text-blue-800';
-      case 'completed': return 'bg-green-100 text-green-800';
-      case 'expired': return 'bg-red-100 text-red-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+      case "draft":
+        return "bg-gray-100 text-gray-800";
+      case "sent":
+        return "bg-blue-100 text-blue-800";
+      case "completed":
+        return "bg-green-100 text-green-800";
+      case "expired":
+        return "bg-red-100 text-red-800";
+      case "cancelled":
+        return "bg-red-100 text-red-800";
+      default:
+        return "bg-gray-100 text-gray-800";
     }
   };
 
   return (
     <div className="flex items-center justify-between p-4 border-b hover:bg-gray-50 transition-colors">
-      <Link href={`/documents/${doc._id}/edit`} className="flex items-center gap-3 flex-1 min-w-0">
+      <Link
+        href={`/documents/${doc._id}/edit`}
+        className="flex items-center gap-3 flex-1 min-w-0"
+      >
         <FileText className="w-6 h-6 text-gray-400 flex-shrink-0" />
         <div className="min-w-0 flex-1">
           <h3 className="font-medium text-gray-900 truncate hover:text-blue-600 transition-colors">
@@ -146,13 +186,13 @@ const DocumentRow = ({
           </p>
         </div>
       </Link>
-      
+
       <div className="flex items-center gap-3 flex-shrink-0">
         <Badge className={`${getStatusColor(doc.status)} text-xs`}>
           {getStatusIcon(doc.status)}
           <span className="ml-1 capitalize">{doc.status}</span>
         </Badge>
-        
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -160,12 +200,19 @@ const DocumentRow = ({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => onDownload(doc.fileStorageId, doc.originalFileName)}>
+            <DropdownMenuItem
+              onClick={() =>
+                onDownload(doc.fileStorageId, doc.originalFileName)
+              }
+            >
               <Download className="mr-2 h-4 w-4" />
               Download
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-600" onClick={() => onDelete(doc._id)}>
+            <DropdownMenuItem
+              className="text-red-600"
+              onClick={() => onDelete(doc._id)}
+            >
               <Trash2 className="mr-2 h-4 w-4" />
               Delete
             </DropdownMenuItem>
@@ -180,53 +227,62 @@ export default function Dashboard() {
   const { user } = useUser();
   const dashboardStats = useQuery(
     api.dashboard.getDashboardStats,
-    user ? { ownerId: user.id } : 'skip'
+    user ? { ownerId: user.id } : "skip",
   );
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState<DocumentStatus>('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState<DocumentStatus>("all");
 
-  const { results: documents, status, loadMore } = usePaginatedQuery(
+  const {
+    results: documents,
+    status,
+    loadMore,
+  } = usePaginatedQuery(
     api.dashboard.searchDocuments,
     user
       ? {
           ownerId: user.id,
           searchTerm,
-          status: filterStatus === 'all' ? undefined : filterStatus,
+          status: filterStatus === "all" ? undefined : filterStatus,
         }
-      : 'skip',
+      : "skip",
     {
       initialNumItems: 10,
-    }
+    },
   );
 
   const getFileUrl = useMutation(api.documents.getFileUrl);
   const deleteDocument = useMutation(api.documents.deleteDocument);
 
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
-  const [documentToDelete, setDocumentToDelete] = useState<Id<"documents"> | null>(null);
+  const [documentToDelete, setDocumentToDelete] =
+    useState<Id<"documents"> | null>(null);
+  const isDesktop = useMediaQuery("(min-width: 640px)");
 
-  const handleDownload = async (fileStorageId: Id<'_storage'>, fileName: string) => {
+  const handleDownload = async (
+    fileStorageId: Id<"_storage">,
+    fileName: string,
+  ) => {
     try {
       const url = await getFileUrl({ storageId: fileStorageId });
       if (url) {
-        const a = document.createElement('a');
+        const a = document.createElement("a");
         a.href = url;
         a.download = fileName;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-        toast.success('Document downloaded');
+        toast.success("Document downloaded");
       } else {
-        toast.error('Download failed');
+        toast.error("Download failed");
       }
     } catch (error) {
-      console.error(error)
-      toast.error('Download error');
+      console.error(error);
+      toast.error("Download error");
     }
   };
 
-  const handleDelete = async (documentId: Id<'documents'>) => {
+  const handleDelete = async (documentId: Id<"documents">) => {
     setDocumentToDelete(documentId);
     setIsConfirmingDelete(true);
   };
@@ -235,10 +291,10 @@ export default function Dashboard() {
     if (documentToDelete) {
       try {
         await deleteDocument({ documentId: documentToDelete });
-        toast.success('Document deleted');
+        toast.success("Document deleted");
       } catch (error) {
-        console.error(error)
-        toast.error('Delete failed');
+        console.error(error);
+        toast.error("Delete failed");
       } finally {
         setIsConfirmingDelete(false);
         setDocumentToDelete(null);
@@ -251,9 +307,13 @@ export default function Dashboard() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-600 mt-1">
-            Welcome back, {user?.firstName || user?.emailAddresses[0]?.emailAddress?.split('@')[0] || 'User'}
+          <p className="text-muted-foreground">
+            Welcome back,{" "}
+            <span className="text-lg font-semibold text-foreground">
+              {user?.firstName ||
+                user?.emailAddresses[0]?.emailAddress?.split("@")[0] ||
+                "User"}
+            </span>
           </p>
         </div>
         <NewDocumentDialog />
@@ -266,48 +326,64 @@ export default function Dashboard() {
       <div className="hidden sm:grid grid-cols-4 gap-6 mb-8">
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Total Documents</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">
+              Total Documents
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-2">
               <FileText className="h-5 w-5 text-gray-400" />
-              <span className="text-2xl font-bold">{dashboardStats?.totalDocuments ?? 0}</span>
+              <span className="text-2xl font-bold">
+                {dashboardStats?.totalDocuments ?? 0}
+              </span>
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Draft</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">
+              Draft
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-2">
               <Clock className="h-5 w-5 text-gray-400" />
-              <span className="text-2xl font-bold">{dashboardStats?.draftDocuments ?? 0}</span>
+              <span className="text-2xl font-bold">
+                {dashboardStats?.draftDocuments ?? 0}
+              </span>
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Sent</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">
+              Sent
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-2">
               <Send className="h-5 w-5 text-gray-400" />
-              <span className="text-2xl font-bold">{dashboardStats?.sentDocuments ?? 0}</span>
+              <span className="text-2xl font-bold">
+                {dashboardStats?.sentDocuments ?? 0}
+              </span>
             </div>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Completed</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">
+              Completed
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-2">
               <Check className="h-5 w-5 text-gray-400" />
-              <span className="text-2xl font-bold">{dashboardStats?.completedDocuments ?? 0}</span>
+              <span className="text-2xl font-bold">
+                {dashboardStats?.completedDocuments ?? 0}
+              </span>
             </div>
           </CardContent>
         </Card>
@@ -322,7 +398,10 @@ export default function Dashboard() {
           className="flex-1"
         />
         <div className="flex gap-3">
-          <Select value={filterStatus} onValueChange={(value: DocumentStatus) => setFilterStatus(value)}>
+          <Select
+            value={filterStatus}
+            onValueChange={(value: DocumentStatus) => setFilterStatus(value)}
+          >
             <SelectTrigger className="w-full sm:w-[180px]">
               <SelectValue />
             </SelectTrigger>
@@ -336,8 +415,14 @@ export default function Dashboard() {
               <SelectItem value="cancelled">Cancelled</SelectItem>
             </SelectContent>
           </Select>
-          {(searchTerm !== '' || filterStatus !== 'all') && (
-            <Button variant="outline" onClick={() => { setSearchTerm(''); setFilterStatus('all'); }}>
+          {(searchTerm !== "" || filterStatus !== "all") && (
+            <Button
+              variant="outline"
+              onClick={() => {
+                setSearchTerm("");
+                setFilterStatus("all");
+              }}
+            >
               <XCircle className="w-4 h-4 mr-2" /> Clear
             </Button>
           )}
@@ -349,7 +434,7 @@ export default function Dashboard() {
         {documents && documents.length > 0 ? (
           <>
             {documents.map((doc) => (
-              <DocumentRow 
+              <DocumentRow
                 key={doc._id}
                 doc={doc}
                 onDownload={handleDownload}
@@ -360,10 +445,12 @@ export default function Dashboard() {
         ) : (
           <div className="text-center py-12">
             <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No documents found</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              No documents found
+            </h3>
             <p className="text-gray-600 mb-4">
-              {searchTerm || filterStatus !== 'all' 
-                ? "Try adjusting your search or filters" 
+              {searchTerm || filterStatus !== "all"
+                ? "Try adjusting your search or filters"
                 : "Create your first document to get started"}
             </p>
             <NewDocumentDialog />
@@ -372,27 +459,57 @@ export default function Dashboard() {
       </div>
 
       {/* Load More */}
-      {status === 'CanLoadMore' && (
+      {status === "CanLoadMore" && (
         <div className="flex justify-center">
-          <Button onClick={() => loadMore(10)} variant="outline">Load More</Button>
+          <Button onClick={() => loadMore(10)} variant="outline">
+            Load More
+          </Button>
         </div>
       )}
 
       {/* Delete Dialog */}
-      <AlertDialog open={isConfirmingDelete} onOpenChange={setIsConfirmingDelete}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete document?</AlertDialogTitle>
-            <AlertDialogDescription>
-              This action cannot be undone. The document will be permanently deleted.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete}>Delete</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {isDesktop ? (
+        <AlertDialog
+          open={isConfirmingDelete}
+          onOpenChange={setIsConfirmingDelete}
+        >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete document?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. The document will be permanently
+                deleted.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={confirmDelete}>
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      ) : (
+        <Drawer open={isConfirmingDelete} onOpenChange={setIsConfirmingDelete}>
+          <DrawerContent>
+            <DrawerHeader className="text-left">
+              <DrawerTitle>Delete document?</DrawerTitle>
+              <DrawerDescription>
+                This action cannot be undone. The document will be permanently
+                deleted.
+              </DrawerDescription>
+            </DrawerHeader>
+            <DrawerFooter className="pt-2">
+              <Button variant="destructive" onClick={confirmDelete}>
+                Delete
+              </Button>
+              <DrawerClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      )}
     </div>
   );
 }

@@ -1,6 +1,5 @@
 import { FrameHighlight } from "@/components/effects/frame-highlight";
 import { NoiseEffect } from "@/components/effects/noise-effect";
-import Logo from "@/components/Logo";
 
 export default function AuthLayout({
   children,
@@ -24,7 +23,6 @@ export default function AuthLayout({
 
         <div className="relative z-10 w-full p-8">
           <div className="mb-8 flex flex-col items-center gap-4 text-center">
-            <Logo />
             <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
               A new era of <FrameHighlight>document</FrameHighlight> signing
             </h1>
@@ -34,8 +32,6 @@ export default function AuthLayout({
           </div>
           {children}
         </div>
-
-        {/* Your Content/Components */}
       </div>
     </main>
   );

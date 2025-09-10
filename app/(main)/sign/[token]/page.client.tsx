@@ -40,10 +40,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Image from "next/image";
-import dynamic from "next/dynamic";
-const PDFViewer = dynamic(() => import("@/components/pdf-viewer"), {
-  ssr: false,
-});
+import PdfViewerWrapper from "@/components/pdf-viewer-wrapper";
 
 const SidebarContent = ({
   signingSession,
@@ -70,10 +67,12 @@ const SidebarContent = ({
     {/* Header */}
     <div className="flex items-center gap-3">
       {owner?.companyLogoUrl ? (
-        <img
+        <Image
           src={owner.companyLogoUrl}
           alt={owner.companyName || "Logo"}
-          className="h-8 w-8 rounded-md object-contain"
+          width={32}
+          height={32}
+          className="rounded-md object-contain"
         />
       ) : (
         <Logo />
@@ -636,7 +635,7 @@ export default function SigningPage() {
   };
 
   return (
-    <div className="h-screen flex flex-col lg:flex-row bg-background">
+    <div className="min-h-dvh flex flex-col lg:flex-row bg-background">
       {/* Desktop Sidebar */}
       <div className="w-full lg:w-80 border-r p-6 flex-col space-y-6 overflow-y-auto hidden lg:block">
         <SidebarContent {...sidebarProps} />
@@ -656,9 +655,9 @@ export default function SigningPage() {
           }}
         />
         {/* PDF Viewer */}
-        <div className="flex-1 z-10 min-h-0">
-          {fileUrl ? (
-            <PDFViewer
+        <div className="flex-1 z-10 min-h-full">
+          {fileUrl && (
+            <PdfViewerWrapper
               fileUrl={fileUrl}
               pageNumber={currentPage}
               onPageChange={setCurrentPage}
@@ -693,19 +692,12 @@ export default function SigningPage() {
                     />
                   )}
               </div>
-            </PDFViewer>
-          ) : (
-            <div className="flex items-center justify-center h-full">
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Loader2 className="h-5 w-5 animate-spin" />
-                <span className="text-sm">Loading document...</span>
-              </div>
-            </div>
-          )}
+            </PdfViewerWrapper>
+          )}{" "}
         </div>
 
         {/* Mobile Drawer Trigger */}
-        <div className="lg:hidden p-4 border-t bg-background">
+        <div className="lg:hidden p-4 border-t bg-background z-10">
           <Drawer>
             <DrawerTrigger asChild>
               <Button className="w-full">
@@ -724,8 +716,15 @@ export default function SigningPage() {
           </Drawer>
         </div>
 
+        <div className="flex sm:hidden items-center justify-center z-20 gap-2 px-3 py-2 bg-background">
+          <Lock className="h-3.5 w-3.5" />
+          <span className="text-xs font-medium text-muted-foreground">
+            Secured by Boopsign
+          </span>
+        </div>
+
         {/* Secured by Badge */}
-        <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 rounded-full px-3 py-2 bg-background border shadow-sm">
+        <div className="absolute hidden bottom-4 sm:right-4 z-20 sm:flex items-center gap-2 rounded-full px-3 py-2 bg-background border shadow-sm">
           <Lock className="h-3.5 w-3.5" />
           <span className="text-xs font-medium text-muted-foreground">
             Secured by Boopsign

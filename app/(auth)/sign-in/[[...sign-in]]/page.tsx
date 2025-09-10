@@ -1,5 +1,6 @@
-import { SignIn } from "@clerk/nextjs";
+import { ClerkLoaded, ClerkLoading, SignIn } from "@clerk/nextjs";
 import type { Metadata } from "next";
+import { Loader } from "../../loader";
 
 export const metadata: Metadata = {
   title: "Sign In to BoopSign - Access Your Documents",
@@ -46,7 +47,12 @@ export default function Page() {
           }),
         }}
       />
-      <SignIn />
+      <ClerkLoading>
+        <Loader />
+      </ClerkLoading>
+      <ClerkLoaded>
+        <SignIn />
+      </ClerkLoaded>
     </div>
   );
 }

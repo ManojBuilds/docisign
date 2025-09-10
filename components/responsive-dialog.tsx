@@ -223,13 +223,13 @@ const ResponsiveDialogContentVariants = cva("fixed z-[9999] bg-background", {
       device: "mobile",
       direction: "bottom",
       className:
-        "inset-x-0 bottom-0 mt-24 h-fit max-h-[75%] flex-col rounded-t-lg border border-b-0 !border-primary/10",
+        "inset-x-0 bottom-0 mt-24 h-fit max-h-[75%] flex-col rounded-t-lg border border-b-0 !border-primary/10 overflow-y-auto",
     },
     {
       device: "mobile",
       direction: "top",
       className:
-        "inset-x-0 top-0 mb-24 h-fit max-h-[75%] flex-col rounded-b-lg border border-b-0 !border-primary/10",
+        "inset-x-0 top-0 mb-24 h-fit max-h-[75%] flex-col rounded-b-lg border border-b-0 !border-primary/10 overflow-y-auto",
     },
     {
       device: "mobile",
