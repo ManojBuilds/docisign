@@ -91,6 +91,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <meta
+          name="google-site-verification"
+          content="It-5F-rGTphiGn4oyRrSntPBqgQWbUohNCFKsdQ922M"
+        />
         <link rel="canonical" href="https://boopsign.com" />
         <script
           type="application/ld+json"
