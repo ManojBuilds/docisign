@@ -16,7 +16,7 @@ export default function SignError({
   }, [error]);
 
   return (
-    <main className="bg-background flex min-h-screen items-center justify-center">
+    <main className="bg-background flex min-h-screen items-center justify-center p-4">
       <div className="text-center">
         <h1 className="mb-4 text-4xl font-bold">Something went wrong!</h1>
         <p className="text-muted-foreground mb-8">
