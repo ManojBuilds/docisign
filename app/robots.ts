@@ -4,7 +4,7 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: '*',
-      allow: ['/', '/sign-up', '/sign-in', '/pricing', '/docusign-alternative', '/online-signature-maker', '/mobile-electronic-singature', '/privacy-policy'],
+      allow: ['/', '/sign-up', '/sign-in', '/pricing', '/docusign-alternative', '/online-signature-maker', '/mobile-electronic-signature', '/privacy-policy'],
       disallow: [
         '/dashboard/',
         '/documents/',
@@ -17,6 +17,6 @@ export default function robots(): MetadataRoute.Robots {
         '/complete/',
       ],
     },
-    sitemap: 'https://boopsign.com/sitemap.xml',
+    sitemap: 'https://www.boopsign.com/sitemap.xml',
   }
 }
