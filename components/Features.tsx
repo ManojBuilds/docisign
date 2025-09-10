@@ -2,7 +2,7 @@ import { Zap, Smartphone, Shield, Users } from "lucide-react";
 
 const Features = () => {
   return (
-    <section className="py-32" id="#features">
+    <section className="py-32" id="features">
       <div className="container mx-auto">
         <p className="mb-4 text-sm text-muted-foreground lg:text-base">
           EVERYTHING YOU NEED

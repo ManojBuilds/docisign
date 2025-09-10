@@ -16,7 +16,7 @@ interface HeaderProps {
 const navbarItems = [
   {
     label: "Features",
-    href: "#features",
+    href: "/#features",
   },
   {
     label: "Pricing",
@@ -24,7 +24,7 @@ const navbarItems = [
   },
   {
     label: "FAQ",
-    href: "#faq",
+    href: "/#faq",
   },
 ];
 

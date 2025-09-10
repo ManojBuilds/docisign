@@ -51,7 +51,7 @@ export default function PricingPage() {
   ];
 
   return (
-    <div className="min-h-screen px-4 bg-background">
+    <div className="min-h-screen bg-background">
       {/* Header Section */}
       <div className="container mx-auto px-4 py-16 text-center">
         <Badge
@@ -71,7 +71,7 @@ export default function PricingPage() {
       </div>
 
       {/* Boopsign Pro Pricing Card */}
-      <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-2 lg:gap-12">
+      <div className="px-4 mx-auto grid max-w-5xl gap-8 md:grid-cols-2 lg:gap-12">
         <Card className="border-2 relative overflow-hidden">
           <CardHeader className="text-center pb-4">
             <CardTitle className="text-2xl">Free Plan</CardTitle>
@@ -189,34 +189,36 @@ export default function PricingPage() {
         </div>
       </div>
 
-      <Faq
-        items={[
-          {
-            id: "q1",
-            question: "What happens during my free trial of Boopsign Pro?",
-            answer:
-              "You get full access to all Boopsign Pro features for 7 days. No credit card is required to start. Create unlimited documents, send them securely for signing, and explore all features risk-free.",
-          },
-          {
-            id: "q2",
-            question: "Are there any hidden fees?",
-            answer:
-              "No hidden fees whatsoever. No per-document charges, no user fees, and no setup costs. Just $12/month for unlimited document signing.",
-          },
-          {
-            id: "q3",
-            question: "Can I cancel my Boopsign subscription anytime?",
-            answer:
-              "Yes, you can cancel your subscription at any time. No contracts or commitments. You can even cancel during your free trial with no questions asked.",
-          },
-          {
-            id: "q4",
-            question: "Do document signers need to create accounts?",
-            answer:
-              "No! Signers can sign documents directly from their email without creating any accounts. This reduces friction and speeds up the signing process significantly.",
-          },
-        ]}
-      />
+      <div className="px-4">
+        <Faq
+          items={[
+            {
+              id: "q1",
+              question: "What happens during my free trial of Boopsign Pro?",
+              answer:
+                "You get full access to all Boopsign Pro features for 7 days. No credit card is required to start. Create unlimited documents, send them securely for signing, and explore all features risk-free.",
+            },
+            {
+              id: "q2",
+              question: "Are there any hidden fees?",
+              answer:
+                "No hidden fees whatsoever. No per-document charges, no user fees, and no setup costs. Just $12/month for unlimited document signing.",
+            },
+            {
+              id: "q3",
+              question: "Can I cancel my Boopsign subscription anytime?",
+              answer:
+                "Yes, you can cancel your subscription at any time. No contracts or commitments. You can even cancel during your free trial with no questions asked.",
+            },
+            {
+              id: "q4",
+              question: "Do document signers need to create accounts?",
+              answer:
+                "No! Signers can sign documents directly from their email without creating any accounts. This reduces friction and speeds up the signing process significantly.",
+            },
+          ]}
+        />
+      </div>
 
       {/* Final Call-To-Action Section */}
       <div className="container mx-auto px-4 py-16 text-center">
