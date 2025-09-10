@@ -84,11 +84,11 @@ export default function OnlineSignatureCreator() {
         </TabsContent>
         <TabsContent value="type">
           <div className="border rounded-lg bg-gray-50 p-4">
-            <Input
+            <input
               type="text"
               value={typedSignature}
               onChange={(e) => setTypedSignature(e.target.value)}
-              className={`w-full text-5xl border-0 bg-transparent text-center h-auto py-4 ${selectedFont.className}`} // Changed from selectedFont
+              className={`focus-within:outline-none focus-within:border-b w-full text-xl md:text-3xl border-0 bg-transparent text-center h-auto py-4 ${selectedFont.className}`} // Changed from selectedFont
             />
             <div className="mt-4">
               <p className="text-sm text-gray-600 mb-2">Select a style:</p>
