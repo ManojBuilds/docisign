@@ -5,6 +5,7 @@ import { useDropzone } from "react-dropzone";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { useUser } from "@clerk/nextjs";
 
 import {
   Dialog,
@@ -80,6 +81,7 @@ export function SupportModal({ trigger }: SupportModalProps) {
   const [files, setFiles] = useState<File[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isMobile = useMobile();
+  const { user } = useUser();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -92,13 +94,11 @@ export function SupportModal({ trigger }: SupportModalProps) {
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
-      // Limit to 3 files
       if (files.length + acceptedFiles.length > 3) {
         toast.error("You can only upload up to 3 files.");
         return;
       }
 
-      // Only accept image files
       const imageFiles = acceptedFiles.filter((file) =>
         file.type.startsWith("image/"),
       );
@@ -108,7 +108,6 @@ export function SupportModal({ trigger }: SupportModalProps) {
         return;
       }
 
-      // Check file size (max 5MB each)
       const oversizedFiles = imageFiles.filter(
         (file) => file.size > 5 * 1024 * 1024,
       );
@@ -139,21 +138,17 @@ export function SupportModal({ trigger }: SupportModalProps) {
   const onSubmit = async (data: FormValues) => {
     setIsSubmitting(true);
     try {
-      // Create FormData object to send to HeySheet
       const formData = new FormData();
-
-      // Add form fields with capitalized keys
       formData.append("Type", data.type);
       formData.append("Title", data.title);
       formData.append("Description", data.description);
-
-      // Add files if any
+      if (user?.emailAddresses?.[0]?.emailAddress) {
+        formData.append("Email", user.emailAddresses[0].emailAddress);
+      }
       files.forEach((file, index) => {
         formData.append(`Screenshot_${index + 1}`, file);
       });
-
-      // Send to HeySheet endpoint
-      const response = await fetch("https://app.heysheet.in/api/s/Zo0HVTIDk6", {
+      const response = await fetch("https://app.heysheet.in/api/s/UBphoptzu3", {
         method: "POST",
         body: formData,
       });
