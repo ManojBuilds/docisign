@@ -1,6 +1,6 @@
 "use client";
 
-import { GetProCTA } from "./get-pro-cta";
+// import { GetProCTA } from "./get-pro-cta";
 import { UserButton } from "@clerk/clerk-react";
 import { SupportModal } from "./support";
 import {
@@ -21,7 +21,7 @@ export function Header() {
         </div>
         <div className="flex items-center gap-3.5 text-xs sm:text-sm">
           <SupportModal />
-          <GetProCTA className="h-8" />
+          {/* <GetProCTA className="h-8" /> */}
           <UserButton />
         </div>
       </div>
