@@ -2,16 +2,10 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ChevronRight, HelpCircle, Menu, X } from "lucide-react";
+import { ChevronRight, Menu, X } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { SupportModal } from "../support";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import Logo from "../Logo";
 
 interface HeaderProps {

@@ -3,13 +3,6 @@
 // import { GetProCTA } from "./get-pro-cta";
 import { UserButton } from "@clerk/clerk-react";
 import { SupportModal } from "./support";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { HelpCircle } from "lucide-react";
 import Logo from "./Logo";
 
 export function Header() {
