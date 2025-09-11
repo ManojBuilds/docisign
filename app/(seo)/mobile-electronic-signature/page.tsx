@@ -244,7 +244,7 @@ export default function MobileElectronicSignaturePage() {
                 <strong>Average time:</strong> 30 seconds
                 <br />
                 <strong>User feedback:</strong> &ldquo;Just like signing on
-                paper&rduqo;
+                paper&rdquo;
               </div>
             </div>
 
@@ -281,7 +281,7 @@ export default function MobileElectronicSignaturePage() {
             <div className="bg-gray-50 p-6 rounded-xl">
               <div className="text-yellow-400 text-lg mb-3">★★★★★</div>
               <p className="text-gray-700 mb-4 italic">
-                &ldqou;Finally, an e-signature tool that works on mobile!&rdqou;
+                &ldquo;Finally, an e-signature tool that works on mobile!&rdquo;
               </p>
               <p className="text-sm text-gray-600">
                 <strong>Sarah K.</strong>
@@ -293,8 +293,8 @@ export default function MobileElectronicSignaturePage() {
             <div className="bg-gray-50 p-6 rounded-xl">
               <div className="text-yellow-400 text-lg mb-3">★★★★★</div>
               <p className="text-gray-700 mb-4 italic">
-                &ldqou;Real estate contracts that used to take 3 days now close
-                in 3 hours&rdqou;
+                &ldquo;Real estate contracts that used to take 3 days now close
+                in 3 hours&rdquo;
               </p>
               <p className="text-sm text-gray-600">
                 <strong>Mike T.</strong>
@@ -306,8 +306,8 @@ export default function MobileElectronicSignaturePage() {
             <div className="bg-gray-50 p-6 rounded-xl">
               <div className="text-yellow-400 text-lg mb-3">★★★★★</div>
               <p className="text-gray-700 mb-4 italic">
-                &ldqou;My 65-year-old clients can actually sign documents on
-                their phone now&rdqou;
+                &ldquo;My 65-year-old clients can actually sign documents on
+                their phone now&rdquo;
               </p>
               <p className="text-sm text-gray-600">
                 <strong>Lisa M.</strong>
