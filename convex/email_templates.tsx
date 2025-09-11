@@ -333,20 +333,6 @@ export const Welcome = ({
           >
             Send My First Document
           </Button>
-          <Button
-            href={tutorialUrl}
-            style={{
-              backgroundColor: "#f8f9fa",
-              color: "#333",
-              border: "1px solid #e0e0e0",
-              fontWeight: "500",
-              padding: "12px 24px",
-              borderRadius: "8px",
-              fontSize: "16px",
-            }}
-          >
-            Show Me How (2 min video)
-          </Button>
         </div>
 
         <Section style={{ marginBottom: "24px" }}>
@@ -368,14 +354,7 @@ export const Welcome = ({
                 gap: "6px",
               }}
             >
-              <Img
-                src="https://imgproxy.attic.sh/insecure/f:webp/q:90/w:750/plain/https://attic.sh/ijsl96byy5jv7jri565gvh40uanm"
-                alt="💡"
-                width="16"
-                height="16"
-                style={{ display: "inline-block" }}
-              />
-              What you get free:
+              💡 What you get free:
             </Text>
             <Text
               style={{
@@ -385,7 +364,8 @@ export const Welcome = ({
                 lineHeight: "1.5",
               }}
             >
-              • 5 documents per month (perfect for getting started)
+              • Unlimited documents in trial period (perfect for getting
+              started)
               <br />
               • Unlimited signers on each document
               <br />
@@ -429,7 +409,7 @@ export const TrialReminder1Day = ({
 }: TrialReminder1DayProps) => {
   return (
     <EmailLayout
-      preview={`Last chance ${userName}! Your Boopsign trial expires tomorrow - save your documents now`}
+      preview={`Last chance ${userName}! Your Boopsign trial expires tomorrow - don't lose your progress`}
     >
       <EmailHeader />
       <Section>
@@ -439,12 +419,13 @@ export const TrialReminder1Day = ({
             fontWeight: "600",
             color: "#dc3545",
             marginBottom: "16px",
+            textAlign: "center",
           }}
         >
-          Your trial expires tomorrow!
+          ⏰ Final Hours: Save Your Documents!
         </Heading>
         <Text style={{ fontSize: "18px", color: "#555", marginBottom: "24px" }}>
-          {userName}, this is it - last call!
+          {userName}, your trial ends tomorrow!
         </Text>
         <Text style={{ fontSize: "16px", color: "#555", marginBottom: "16px" }}>
           Your Boopsign trial ends tomorrow at midnight. After that, you'll lose
@@ -469,7 +450,7 @@ export const TrialReminder1Day = ({
               marginBottom: "8px",
             }}
           >
-            What happens if you don't upgrade:
+            ⚠️ What happens if you don't upgrade:
           </Text>
           <Text
             style={{
@@ -479,12 +460,9 @@ export const TrialReminder1Day = ({
               lineHeight: "1.5",
             }}
           >
-            • You'll lose access to all your documents
             <br />
             • No more signature requests can be sent
-            <br />
-            • Your account gets locked until you upgrade
-            <br />• All your work disappears (we can't recover it later)
+            <br />• Your account gets locked until you upgrade
           </Text>
         </Section>
 
@@ -513,9 +491,8 @@ export const TrialReminder1Day = ({
             textAlign: "center",
           }}
         >
-          Don't let months of work vanish overnight. Upgrade now and keep
-          everything you've built, plus unlock unlimited documents for just
-          $12/month.
+          Don't let your progress disappear! Upgrade now and keep everything
+          you've built for just $12/month.
         </Text>
 
         <Section
@@ -534,7 +511,7 @@ export const TrialReminder1Day = ({
               marginBottom: "8px",
             }}
           >
-            Quick reminder of what you'll keep:
+            ✅ What you'll keep with a paid plan:
           </Text>
           <Text
             style={{
@@ -554,8 +531,8 @@ export const TrialReminder1Day = ({
         </Section>
 
         <Text style={{ fontSize: "13px", color: "#999", textAlign: "center" }}>
-          Having second thoughts? Just reply and tell us what's holding you back
-          - we're here to help!
+          Questions before you upgrade? Just reply to this email - we're here to
+          help!
         </Text>
       </Section>
       <EmailFooter />
@@ -574,7 +551,7 @@ export const TrialReminder3Days = ({
 }: TrialReminder3DaysProps) => {
   return (
     <EmailLayout
-      preview={`${userName}, 3 days left in your Boopsign trial - don't lose your documents!`}
+      preview={`Don't lose your progress, ${userName}! 3 days left in your Boopsign trial`}
     >
       <EmailHeader />
       <Section>
@@ -584,17 +561,18 @@ export const TrialReminder3Days = ({
             fontWeight: "600",
             color: "#1a1a1a",
             marginBottom: "16px",
+            textAlign: "center",
           }}
         >
-          Your trial ends in 3 days
+          ⏳ 3 Days Left - Secure Your Documents
         </Heading>
         <Text style={{ fontSize: "18px", color: "#555", marginBottom: "24px" }}>
           Hey {userName},
         </Text>
         <Text style={{ fontSize: "16px", color: "#555", marginBottom: "16px" }}>
-          Just a friendly heads up - your Boopsign trial wraps up in 3 days.
-          After that, you'll lose access to your saved documents and won't be
-          able to send new ones for signing.
+          Your Boopsign trial wraps up in just 3 days. After that, you'll lose
+          access to your saved documents and won't be able to send new ones for
+          signing.
         </Text>
 
         <Section
@@ -613,7 +591,7 @@ export const TrialReminder3Days = ({
               marginBottom: "8px",
             }}
           >
-            What you'll keep with a paid plan:
+            ✅ What you'll keep with a paid plan:
           </Text>
           <Text
             style={{
@@ -646,7 +624,14 @@ export const TrialReminder3Days = ({
           </Button>
         </Section>
 
-        <Text style={{ fontSize: "16px", color: "#555", marginBottom: "16px" }}>
+        <Text
+          style={{
+            fontSize: "16px",
+            color: "#555",
+            marginBottom: "16px",
+            textAlign: "center",
+          }}
+        >
           Plans start at just $12/month - less than what you'd spend on coffee
           and donuts, but way more useful for your business!
         </Text>
@@ -688,9 +673,10 @@ export const SigningRequest = ({
             fontWeight: "600",
             color: "#1a1a1a",
             marginBottom: "16px",
+            textAlign: "center",
           }}
         >
-          You have a document to sign
+          📝 Document Ready to Sign
         </Heading>
         <Text style={{ fontSize: "18px", color: "#555", marginBottom: "24px" }}>
           Hi {signerName},
@@ -760,7 +746,7 @@ export const SigningRequest = ({
           <Text
             style={{ fontWeight: "600", color: "#333", marginBottom: "8px" }}
           >
-            What happens next:
+            ✅ Simple 3-step process:
           </Text>
           <Text
             style={{
@@ -819,7 +805,7 @@ export const SigningConfirmation = ({
 }: SigningConfirmationProps) => {
   return (
     <EmailLayout
-      preview={`${signerName} just signed your "${documentTitle}" - ${remainingSigners > 0 ? `${remainingSigners} more signature${remainingSigners > 1 ? "s" : ""} needed` : "all done!"}`}
+      preview={`${signerName} just signed "${documentTitle}" - ${remainingSigners > 0 ? `${remainingSigners} more signature${remainingSigners > 1 ? "s" : ""} needed` : "all done!"}`}
     >
       <EmailHeader />
       <Section>
@@ -839,14 +825,15 @@ export const SigningConfirmation = ({
               marginTop: "8px",
             }}
           >
-            Document Signed!
+            🎉 Document Signed!
           </Heading>
         </div>
         <Text style={{ fontSize: "18px", color: "#555", marginBottom: "24px" }}>
           Hey {ownerName},
         </Text>
         <Text style={{ fontSize: "16px", color: "#555", marginBottom: "16px" }}>
-          {signerName} just signed your <strong>"{documentTitle}"</strong>.{" "}
+          Great news! {signerName} just signed your{" "}
+          <strong>"{documentTitle}"</strong>.{" "}
           {remainingSigners > 0
             ? `You're getting closer - just ${remainingSigners} more signature${remainingSigners > 1 ? "s" : ""} to go!`
             : "That's everyone - your document is complete!"}
@@ -868,7 +855,7 @@ export const SigningConfirmation = ({
               marginBottom: "8px",
             }}
           >
-            Signing Details:
+            📋 Signing Details:
           </Text>
           <Text
             style={{
@@ -903,7 +890,7 @@ export const SigningConfirmation = ({
             <Text
               style={{ fontWeight: "600", color: "#333", marginBottom: "8px" }}
             >
-              What's Next:
+              🔜 What's Next:
             </Text>
             <Text
               style={{
@@ -930,7 +917,7 @@ export const SigningConfirmation = ({
             <Text
               style={{ fontWeight: "600", color: "#333", marginBottom: "8px" }}
             >
-              All Done!
+              🎁 All Done!
             </Text>
             <Text
               style={{
@@ -1004,7 +991,7 @@ export const SignerCopy = ({
               marginTop: "8px",
             }}
           >
-            Your Signed Document
+            📄 Your Signed Document
           </Heading>
         </div>
 
@@ -1033,7 +1020,7 @@ export const SignerCopy = ({
               marginBottom: "8px",
             }}
           >
-            Signing Summary:
+            📋 Signing Summary:
           </Text>
           <Text
             style={{
@@ -1088,14 +1075,7 @@ export const SignerCopy = ({
               gap: "6px",
             }}
           >
-            <Img
-              src="https://imgproxy.attic.sh/insecure/f:webp/q:90/w:750/plain/https://attic.sh/ijsl96byy5jv7jri565gvh40uanm"
-              alt="💡"
-              width="16"
-              height="16"
-              style={{ display: "inline-block" }}
-            />
-            Keep for Your Records:
+            💡 Keep for Your Records:
           </Text>
           <Text
             style={{
@@ -1142,7 +1122,7 @@ export const DocumentComplete = ({
       <Section style={{ textAlign: "center" }}>
         <Img
           src="https://imgproxy.attic.sh/insecure/f:webp/q:90/w:750/plain/https://attic.sh/vp8h0i7mk3jkjn2omvsm6vl14c7g"
-          //   alt="🎉"
+          alt="🎉"
           width="90"
           height="90"
           style={{ display: "block", margin: "0 auto 16px auto" }}
@@ -1156,7 +1136,7 @@ export const DocumentComplete = ({
             margin: "0 0 8px 0",
           }}
         >
-          Document Complete!
+          🎉 Document Complete!
         </Heading>
 
         <Text
@@ -1206,7 +1186,7 @@ export const DocumentComplete = ({
               gap: "8px",
             }}
           >
-            Document Summary
+            📋 Document Summary
           </Text>
 
           <div style={{ display: "grid", gap: "8px" }}>
@@ -1270,7 +1250,7 @@ export const DocumentComplete = ({
                   fontWeight: "600",
                 }}
               >
-                Fully Executed
+                ✅ Fully Executed
               </Text>
             </div>
           </div>
@@ -1278,49 +1258,44 @@ export const DocumentComplete = ({
 
         {/* Action Buttons */}
         <Section style={{ textAlign: "center", margin: "24px 0" }}>
-          <div
+          <Button
+            href={downloadUrl || dashboardUrl}
             style={{
+              backgroundColor: "#f8f9fa",
+              color: "#333",
+              border: "1px solid #e0e0e0",
+              fontWeight: "500",
+              padding: "12px 24px",
+              borderRadius: "6px",
+              fontSize: "14px",
+              textDecoration: "none",
               display: "inline-flex",
-              gap: "12px",
-              flexWrap: "wrap",
-              justifyContent: "center",
+              alignItems: "center",
+              gap: "6px",
+              marginRight: "12px",
             }}
           >
-            <Button
-              href={downloadUrl || dashboardUrl}
-              style={{
-                backgroundColor: "#f8f9fa",
-                color: "#333",
-                border: "1px solid #e0e0e0",
-                fontWeight: "500",
-                padding: "12px 24px",
-                borderRadius: "6px",
-                fontSize: "14px",
-                textDecoration: "none",
-                display: "inline-flex",
-                alignItems: "center",
-                gap: "6px",
-              }}
-            >
-              Download Document
-            </Button>
+            📥 Download Document
+          </Button>
 
-            <Button
-              href={dashboardUrl}
-              style={{
-                backgroundColor: "#007bff",
-                color: "#fff",
-                border: "none",
-                fontWeight: "500",
-                padding: "12px 24px",
-                borderRadius: "6px",
-                fontSize: "14px",
-                textDecoration: "none",
-              }}
-            >
-              View Dashboard
-            </Button>
-          </div>
+          <Button
+            href={dashboardUrl}
+            style={{
+              backgroundColor: "#007bff",
+              color: "#fff",
+              border: "none",
+              fontWeight: "500",
+              padding: "12px 24px",
+              borderRadius: "6px",
+              fontSize: "14px",
+              textDecoration: "none",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+            }}
+          >
+            📊 View Dashboard
+          </Button>
         </Section>
 
         {/* Pro Tip */}
@@ -1343,14 +1318,7 @@ export const DocumentComplete = ({
               gap: "6px",
             }}
           >
-            <Img
-              src="https://imgproxy.attic.sh/insecure/f:webp/q:90/w:750/plain/https://attic.sh/ijsl96byy5jv7jri565gvh40uanm"
-              alt="💡"
-              width="16"
-              height="16"
-              style={{ display: "inline-block" }}
-            />
-            Pro Tip
+            💡 Pro Tip
           </Text>
           <Text
             style={{
