@@ -5,7 +5,7 @@ import Cta from "@/components/cta";
 
 export const metadata: Metadata = {
   title:
-    "Mobile Electronic Signature App | Sign Documents on Phone & Tablet - BoopSign",
+    "Mobile Electronic Signature App | Sign Documents on Phone &amp; Tablet - BoopSign",
   description:
     "The best mobile electronic signature solution. Sign documents instantly on your phone or tablet - no app downloads required. 3x faster than DocuSign's mobile experience.",
   keywords: [

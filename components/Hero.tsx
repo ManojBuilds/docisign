@@ -17,14 +17,16 @@ interface HeroProps {
       alt: string;
     }[];
   };
+  headlineVariation?: "original" | "variationA" | "variationB";
 }
 
 const HeroProps = ({
-  description = "Finely crafted components built with React, Tailwind and Shadcn UI. Developers can copy and paste these blocks directly into their project.",
+  description = "Sign documents in 3 minutes with BoopSign's mobile-first electronic signature platform. No login required for signers. 7-day free trial, $12/month. DocuSign alternative.",
   button = {
-    text: "Discover all components",
-    url: "https://www.shadcnblocks.com",
+    text: "Start Free Trial",
+    url: "/signup",
   },
+  headlineVariation = "original",
   
 }: HeroProps) => {
   return (
@@ -39,12 +41,34 @@ const HeroProps = ({
         />
         <div className="mx-auto flex max-w-5xl flex-col gap-6">
           <h1 className="text-3xl font-extrabold lg:text-5xl leading-tight">
-            BoopSign vs DocuSign:
-            <br /> 3x Faster, 50% Cheaper
-            <br />{" "}
-            <span className={`text-primary`}>
-              No Login Required for Signers
-            </span>
+            {headlineVariation === "variationA" ? (
+              <>
+                Sign Documents in 3 Minutes
+                <br /> Instead of 30
+                <br />{" "}
+                <span className={`text-primary`}>
+                  No Login Required for Signers
+                </span>
+              </>
+            ) : headlineVariation === "variationB" ? (
+              <>
+                The DocuSign Alternative Your Clients
+                <br /> Will Actually Use
+                <br />{" "}
+                <span className={`text-primary`}>
+                  No Login Required for Signers
+                </span>
+              </>
+            ) : (
+              <>
+                BoopSign vs DocuSign:
+                <br /> 3x Faster, 50% Cheaper
+                <br />{" "}
+                <span className={`text-primary`}>
+                  No Login Required for Signers
+                </span>
+              </>
+            )}
           </h1>
           <p className="text-muted-foreground text-balance lg:text-lg max-w-4xl mx-auto">
             {description}

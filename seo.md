@@ -429,12 +429,48 @@ If you're targeting specific geographic markets:
 
 This SEO strategy leverages your unique positioning (mobile-first, fast, simple) to compete against established players by targeting frustrated users looking for alternatives.
 
-📈 A/B Testing Opportunities
-Test These Headline Variations:
+📈 ## A/B Testing Implementation
 
-Current: "BoopSign vs DocuSign: 3x Faster, 50% Cheaper"
-Alt A: "Sign Documents in 3 Minutes Instead of 30"
-Alt B: "The DocuSign Alternative Your Clients Will Actually Use"
+The Hero component has been updated to support A/B testing of different headline variations:
+
+1. Original: "BoopSign vs DocuSign: 3x Faster, 50% Cheaper"
+2. Variation A: "Sign Documents in 3 Minutes Instead of 30"
+3. Variation B: "The DocuSign Alternative Your Clients Will Actually Use"
+
+### Implementation Details
+
+- Created `lib/ab-testing.ts` with utility functions for selecting variations
+- Updated `components/Hero.tsx` to accept a `headlineVariation` prop
+- Created `components/HeroWithABTesting.tsx` as a wrapper that randomly selects a variation
+- Added tracking mechanism to identify which variation is shown to each user
+
+### How to Use
+
+To implement A/B testing on a page, import and use the `HeroWithABTesting` component instead of the regular `HeroProps` component:
+
+```tsx
+import HeroWithABTesting from "@/components/HeroWithABTesting";
+
+export default function HomePage() {
+  return (
+    <div>
+      <HeroWithABTesting 
+        description="Your description here"
+        button={{ text: "Get Started", url: "/signup" }}
+      />
+      {/* Rest of your page content */}
+    </div>
+  );
+}
+```
+
+### Tracking Results
+
+To track which variation performs better:
+1. Implement analytics to track conversions by variation
+2. Monitor metrics like click-through rates and signup rates
+3. Use statistical significance calculators to determine winning variation
+4. Update the default variation in the Hero component once a winner is determined
 
 Test Problem Section Placement:
 

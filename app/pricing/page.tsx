@@ -30,7 +30,7 @@ export default function PricingPage() {
     {
       number: "01",
       icon: <Zap className="size-6" />,
-      title: "Lightning Fast Setup & Signing",
+      title: "Lightning Fast Setup &amp; Signing",
       description:
         "Upload, add signatures, and send documents in under 3 minutes with Boopsign’s mobile-first platform. No complex workflows or training needed.",
     },
