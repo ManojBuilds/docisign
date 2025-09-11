@@ -2,9 +2,16 @@
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { ChevronRight, Menu, X } from "lucide-react";
+import { ChevronRight, HelpCircle, Menu, X } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
+import { SupportModal } from "../support";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import Logo from "../Logo";
 
 interface HeaderProps {
@@ -74,6 +81,7 @@ export function Header({
           ))}
         </nav>
         <div className="hidden cursor-pointer items-center gap-4 md:flex">
+          <SupportModal />
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -88,6 +96,10 @@ export function Header({
           </motion.div>
         </div>
         <div className="flex items-center gap-2 md:hidden">
+          <div className="sm:hidden">
+            <SupportModal />
+          </div>
+
           <Button
             variant="ghost"
             size="icon"
