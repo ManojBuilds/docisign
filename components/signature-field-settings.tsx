@@ -1,5 +1,4 @@
 import { SignatureFieldData } from "./signature-field";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Select,
@@ -9,9 +8,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { useDocumentEditorStore } from "@/store/document-editor-store";
 import { cn } from "@/lib/utils";
-import { Doc, Id } from "@/convex/_generated/dataModel";
+import { Id } from "@/convex/_generated/dataModel";
 
 interface SignatureFieldSettingsProps {
   field: SignatureFieldData;

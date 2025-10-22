@@ -14,7 +14,6 @@ import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import { usePdfDimensions } from "./PdfDimensionsContext";
 import { useMobile } from "@/hooks/useMobile";
-import Image from "next/image";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 

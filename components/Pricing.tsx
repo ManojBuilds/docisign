@@ -1,4 +1,4 @@
-import { Check, Clock, Zap, Shield, Star, Gem } from "lucide-react";
+import { Check, Zap, Shield, Star, Gem } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Card,

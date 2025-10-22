@@ -2,7 +2,6 @@
 
 import { NewDocumentDialog } from "@/components/NewDocumentDialog";
 import { DocumentTable } from "@/components/DocumentTable";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -21,14 +20,7 @@ import {
   Clock,
   FileText,
   Send,
-  XCircle,
-  Download,
-  MoreHorizontal,
-  Trash2,
-  ChevronLeft,
-  ChevronRight,
-  ChevronsLeft,
-  ChevronsRight,
+  XCircle
 } from "lucide-react";
 import {
   AlertDialog,
@@ -50,7 +42,6 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import useMediaQuery from "@/hooks/use-media-query";
-import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Id } from "@/convex/_generated/dataModel";
@@ -72,15 +63,15 @@ interface DashboardStats {
   completedDocuments?: number;
 }
 
-interface Document {
-  _id: Id<"documents">;
-  title: string;
-  status: string;
-  createdAt: number;
-  updatedAt?: number;
-  fileStorageId: Id<"_storage">;
-  originalFileName: string;
-}
+// interface Document {
+//   _id: Id<"documents">;
+//   title: string;
+//   status: string;
+//   createdAt: number;
+//   updatedAt?: number;
+//   fileStorageId: Id<"_storage">;
+//   originalFileName: string;
+// }
 
 // Simple Mobile Stats - no cards, just clean boxes
 const MobileStats = ({ stats }: { stats: DashboardStats | undefined }) => (

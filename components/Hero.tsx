@@ -27,7 +27,6 @@ const HeroProps = ({
     text: "Start Free Trial",
     url: "/signup",
   },
-  headlineVariation = "original",
   
 }: HeroProps) => {
   return (

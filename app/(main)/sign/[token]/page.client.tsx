@@ -20,11 +20,9 @@ import {
   Mail,
   Calendar,
   Loader2,
-  AlertTriangle,
-  CheckCircle2,
-  Clock,
+  AlertTriangle, Clock,
   Lock,
-  MessageCircle,
+  MessageCircle
 } from "lucide-react";
 import { toast } from "sonner";
 import SigningField, {

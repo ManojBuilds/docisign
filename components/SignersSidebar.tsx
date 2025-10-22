@@ -4,13 +4,12 @@ import React from 'react';
 import { useUser } from '@clerk/nextjs';
 import { useDocumentEditorStore } from '@/store/document-editor-store';
 import { Button } from './ui/button';
-import { Plus, Trash2, User, Settings, UserPlus } from 'lucide-react';
+import { Settings, UserPlus } from 'lucide-react';
 import { Separator } from './ui/separator';
 import { cn } from '@/lib/utils';
 import { Id } from '@/convex/_generated/dataModel';
 import { useMutation, useQuery } from 'convex/react';
 import { api } from '@/convex/_generated/api';
-import { SignatureFieldData } from './signature-field';
 import { SignatureFieldSettings } from './signature-field-settings';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
@@ -20,12 +19,12 @@ interface Signer {
   name?: string;
 }
 
-interface UserSigner {
-  email: string;
-  name?: string;
-  documentId: Id<"documents">;
-  documentTitle: string;
-}
+// interface UserSigner {
+//   email: string;
+//   name?: string;
+//   documentId: Id<"documents">;
+//   documentTitle: string;
+// }
 
 interface SignersSidebarProps {
   documentId: Id<"documents">;
@@ -49,7 +48,7 @@ export function SignersSidebar({ documentId }: SignersSidebarProps) {
     signatureFields,
     selectedFieldId,
     updateSignatureFieldInStore,
-    pageDimensions,
+
   } = useDocumentEditorStore();
 
   const [newSignerEmail, setNewSignerEmail] = React.useState('');
@@ -57,9 +56,6 @@ export function SignersSidebar({ documentId }: SignersSidebarProps) {
   const [emailError, setEmailError] = React.useState('');
 
   const addSigner = useMutation(api.signers.addSigner);
-  const updateSignatureFieldMutation = useMutation(
-    api.signatureFields.updateSignatureField,
-  );
   
   // Fetch user's previous signers to suggest them in the form
   const { user } = useUser();
@@ -114,42 +110,6 @@ export function SignersSidebar({ documentId }: SignersSidebarProps) {
       console.error("Error adding signer:", error);
       toast.error("Failed to add signer");
     }
-  };
-
-  const handleRemoveSigner = (email: string) => {
-    // Remove signer assignments from fields
-    const fieldsToUpdate = signatureFields.filter(
-      field => field.assignedToEmail === email
-    );
-
-    // Update all affected fields in store optimistically
-    fieldsToUpdate.forEach(field => {
-      const updatedField = { ...field, assignedToEmail: '', assignedToName: '' };
-      updateSignatureFieldInStore(updatedField);
-
-      // Update in backend
-      const dims = pageDimensions[field.page];
-      if (dims) {
-        updateSignatureFieldMutation({
-          fieldId: field.id as Id<"signatureFields">,
-          x: field.normalizedX * dims.width,
-          y: field.normalizedY * dims.height,
-          width: field.normalizedWidth * dims.width,
-          height: field.normalizedHeight * dims.height,
-          assignedToEmail: '',
-          assignedToName: '',
-          label: field.label,
-          isRequired: field.isRequired,
-        }).catch(error => {
-          // If backend update fails, revert the field update
-          console.error("Error updating field in backend:", error);
-          updateSignatureFieldInStore(field);
-          toast.error("Failed to update field assignment");
-        });
-      }
-    });
-
-    toast.success("Signer removed");
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {

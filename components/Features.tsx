@@ -30,7 +30,7 @@ const Features = () => {
               Email Verification
             </h3>
             <p className="leading-7 text-muted-foreground">
-              Each signer's identity is verified via a unique one-time link.
+              Each signer&apos;s identity is verified via a unique one-time link.
             </p>
           </div>
           <div className="rounded-lg bg-accent p-5">

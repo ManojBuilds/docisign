@@ -2,9 +2,7 @@
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { useMutation } from "convex/react";
 import {
   Check,
   Clock,
@@ -28,7 +26,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import { useState, useMemo } from "react";
-import { toast } from "sonner";
 import {
   flexRender,
   getCoreRowModel,
@@ -38,6 +35,7 @@ import {
   useReactTable,
   SortingState,
   ColumnFiltersState,
+  ColumnDef,
 } from "@tanstack/react-table";
 
 interface Document {
@@ -65,11 +63,10 @@ export const DocumentTable = ({
   ]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [globalFilter, setGlobalFilter] = useState<string>("");
-  const [rowSelection, setRowSelection] = useState({});
 
   // Since we're using Convex for data, we'll implement client-side pagination
   // but keep it simple by using the data we have
-  const columns = useMemo(() => [
+  const columns: ColumnDef<Document>[] = useMemo(() => [
     {
       accessorKey: "title",
       header: "Document Name",
@@ -132,7 +129,7 @@ export const DocumentTable = ({
     {
       accessorKey: "createdAt",
       header: "Created Date",
-      cell: ({ row }) => 
+      cell: ({ row }) =>
         new Date(row.getValue("createdAt")).toLocaleDateString(),
     },
     {
@@ -187,7 +184,6 @@ export const DocumentTable = ({
       sorting,
       columnFilters,
       globalFilter,
-      rowSelection,
     },
     initialState: {
       pagination: {
@@ -211,9 +207,9 @@ export const DocumentTable = ({
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
                   </th>
                 ))}
               </tr>

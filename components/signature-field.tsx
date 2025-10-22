@@ -16,8 +16,7 @@ import {
   X,
   CalendarDays,
   TextCursor,
-  ALargeSmall,
-  Settings,
+  ALargeSmall
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import useMediaQuery from "@/hooks/use-media-query";
@@ -25,7 +24,6 @@ import { toast } from "sonner";
 import { usePdfDimensions } from "./PdfDimensionsContext";
 import { Id } from "@/convex/_generated/dataModel";
 import { MobileFieldDrawer } from "./mobile-field-drawer";
-import { SignatureFieldSettings } from "./signature-field-settings";
 
 export interface SignatureFieldData {
   id: Id<"signatureFields">;
@@ -117,11 +115,9 @@ function DraggableSignatureField({
   pdfViewerScale: number;
 }) {
   const [isSaving, setIsSaving] = useState(false);
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const [localField, setLocalField] = useState<SignatureFieldData>(field);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const localFieldRef = useRef<SignatureFieldData>(field);
 
@@ -143,7 +139,6 @@ function DraggableSignatureField({
       setIsSaving(true);
       try {
         await onSave(updatedField);
-        setHasUnsavedChanges(false);
       } catch (error) {
         console.error(error);
         toast.error("Failed to save field changes");
@@ -159,7 +154,6 @@ function DraggableSignatureField({
       const updatedField = { ...localFieldRef.current, ...updates };
       setLocalField(updatedField);
       onUpdate(updatedField);
-      setHasUnsavedChanges(true);
     },
     [onUpdate],
   );
@@ -257,6 +251,8 @@ function DraggableSignatureField({
               onDelete={onDelete}
               onSelect={onSelect}
               isSaving={isSaving}
+              // TODO: DO IT LATER
+              signers={[]}
             />
           </>
         )}

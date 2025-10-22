@@ -1,6 +1,4 @@
 import { Avatar, AvatarImage } from "./ui/avatar";
-import { Button } from "./ui/button";
-import Link from "next/link";
 import StartTrialBtn from "./StartTrialBtn";
 
 const avatars = [
@@ -56,7 +54,7 @@ const Cta = () => {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <StartTrialBtn className="text-base px-8 py-6 rounded-full" />
+          <StartTrialBtn />
         </div>
 
         {/* Trust indicators */}

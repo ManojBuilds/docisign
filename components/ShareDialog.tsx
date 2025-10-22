@@ -106,35 +106,9 @@ interface DialogContentSharedProps {
 const DialogContentShared: FC<DialogContentSharedProps> = ({
   hasUnassignedFields,
   signers,
-  setSigners,
-  removeSigner,
   customMessage,
   setCustomMessage,
-  documentStatus,
 }) => {
-  // Get status icon and text based on document status
-  const getStatusInfo = () => {
-    if (!documentStatus) return null;
-
-    switch (documentStatus.toLowerCase()) {
-      case 'draft':
-        return { icon: <AlertCircle className="w-4 h-4 text-yellow-500" />, text: 'Draft', color: 'text-yellow-600 bg-yellow-100' };
-      case 'sent':
-        return { icon: <Send className="w-4 h-4 text-blue-500" />, text: 'Sent', color: 'text-blue-600 bg-blue-100' };
-      case 'in_progress':
-        return { icon: <Loader2 className="w-4 h-4 text-blue-500 animate-spin" />, text: 'In Progress', color: 'text-blue-600 bg-blue-100' };
-      case 'completed':
-        return { icon: <Send className="w-4 h-4 text-green-500" />, text: 'Completed', color: 'text-green-600 bg-green-100' };
-      case 'expired':
-        return { icon: <AlertCircle className="w-4 h-4 text-red-500" />, text: 'Expired', color: 'text-red-600 bg-red-100' };
-      case 'cancelled':
-        return { icon: <X className="w-4 h-4 text-red-500" />, text: 'Cancelled', color: 'text-red-600 bg-red-100' };
-      default:
-        return { icon: <Send className="w-4 h-4 text-gray-500" />, text: documentStatus, color: 'text-gray-600 bg-gray-100' };
-    }
-  };
-
-  const statusInfo = getStatusInfo();
 
   return (
     <div className="space-y-4">
@@ -219,7 +193,6 @@ export function ShareDialog({
   open,
   onOpenChange,
   hasUnassignedFields,
-  onSignerAdd,
 }: ShareDialogProps) {
   // Fetch document details including signers
   const document = useQuery(api.documents.getDocument, { documentId });
@@ -409,7 +382,7 @@ export function ShareDialog({
                       <div className="space-y-3">
                         {signatureFields
                           .filter(field => field.isCompleted && field.auditTrail) // Only show completed fields with audit info
-                          .map((field, index) => (
+                          .map((field) => (
                             <div key={field._id} className="border rounded-lg p-4 bg-gray-50">
                               <div className="flex justify-between items-start">
                                 <div>
@@ -566,7 +539,7 @@ export function ShareDialog({
                     <div className="space-y-3">
                       {signatureFields
                         .filter(field => field.isCompleted && field.auditTrail) // Only show completed fields with audit info
-                        .map((field, index) => (
+                        .map((field ) => (
                           <div key={field._id} className="border rounded-lg p-4 bg-gray-50">
                             <div className="flex justify-between items-start">
                               <div>

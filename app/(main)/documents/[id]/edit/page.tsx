@@ -1,6 +1,6 @@
 "use client";
-import { useState, useEffect, useCallback, useRef } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useState, useEffect, useCallback } from "react";
+import { useParams } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -9,7 +9,6 @@ import SignatureField, {
 } from "@/components/signature-field";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
-  Loader2,
   Plus,
   Share,
   ChevronLeftIcon,
@@ -20,7 +19,7 @@ import {
   CalendarDays,
   TextCursor,
   ALargeSmall,
-  ArrowLeft,
+  ArrowLeft
 } from "lucide-react";
 import { toast } from "sonner";
 import { usePdfDimensions } from "@/components/PdfDimensionsContext";
@@ -43,7 +42,6 @@ interface Signer {
 
 export default function DocumentEditor() {
   const params = useParams();
-  const router = useRouter();
   const { pageDimensions, scale, setScale } = usePdfDimensions();
   const isMobile = useMobile();
   const documentId = params.id as Id<"documents">;
@@ -85,7 +83,6 @@ export default function DocumentEditor() {
   const [numPages, setNumPages] = useState<number>(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShareDialogOpen, setIsShareDialogOpen] = useState(false);
-  const [isSavingDraft, setIsSavingDraft] = useState(false);
 
   // Load file URL when document is loaded
   useEffect(() => {
@@ -265,19 +262,6 @@ export default function DocumentEditor() {
     [pageDimensions, updateSignatureFieldMutation],
   );
 
-  const handleSaveDraft = useCallback(async () => {
-    setIsSavingDraft(true);
-
-    try {
-      await Promise.all(signatureFields.map((field) => handleSaveField(field)));
-      toast.success("Draft saved successfully!");
-    } catch (error) {
-      console.error("Error saving draft:", error);
-      toast.error("Failed to save draft.");
-    } finally {
-      setIsSavingDraft(false);
-    }
-  }, [signatureFields, handleSaveField]);
 
   const handleDeleteField = useCallback(
     async (fieldId: string) => {

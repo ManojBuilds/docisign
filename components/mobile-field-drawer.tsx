@@ -8,6 +8,8 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { SignatureFieldSettings } from "./signature-field-settings";
+import { Id } from "@/convex/_generated/dataModel";
+
 
 interface MobileFieldDrawerProps {
   field: SignatureFieldData;
@@ -18,6 +20,12 @@ interface MobileFieldDrawerProps {
   onDelete: (id: string) => void;
   onSelect: (id: string) => void;
   isSaving: boolean;
+  signers: {
+    email: string;
+    name: string | undefined;
+    documentId: Id<"documents">;
+    documentTitle: string;
+  }[];
 }
 
 export function MobileFieldDrawer({
@@ -27,8 +35,8 @@ export function MobileFieldDrawer({
   onFieldUpdate,
   onSave,
   onDelete,
-  onSelect,
   isSaving,
+  signers = [],
 }: MobileFieldDrawerProps) {
   return (
     <Drawer open={isOpen} onOpenChange={onOpenChange}>
@@ -37,16 +45,16 @@ export function MobileFieldDrawer({
           <DrawerTitle>Field Settings</DrawerTitle>
         </DrawerHeader>
         <div className="p-4 overflow-y-auto space-y-4">
-          <SignatureFieldSettings field={field} onFieldUpdate={onFieldUpdate} />
+          <SignatureFieldSettings field={field} onFieldUpdate={onFieldUpdate} signers={signers} />
         </div>
         <DrawerFooter>
-          <Button 
-            size="sm" 
-            className="w-full" 
+          <Button
+            size="sm"
+            className="w-full"
             onClick={(e) => {
               e.stopPropagation();
               onSave();
-            }} 
+            }}
             disabled={isSaving}
           >
             {isSaving ? "Saving..." : "Save"}
