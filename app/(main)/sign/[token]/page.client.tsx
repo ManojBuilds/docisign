@@ -242,7 +242,7 @@ const WelcomeScreen = ({
         }}
         className="pointer-events-none [z-index:-1] absolute inset-0 bg-[size:180px] bg-repeat opacity-[0.035]"
       ></div>
-      <Logo className="mb-6" />
+      {/* <Logo className="mb-6" /> */}
       <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-primary mb-4 max-w-2xl">
         Signature Required: {signingSession.document.title}
       </h1>
@@ -452,6 +452,26 @@ export default function SigningPage() {
   ) => {
     if (!signingSession) return;
     try {
+      // Gather audit trail information
+      const auditInfo = {
+        timestamp: new Date().toISOString(),
+        userAgent: navigator.userAgent,
+        // We'll get the IP through a server-side API call
+      };
+
+      // Get IP address from server endpoint
+      let clientIP = null;
+      try {
+        const response = await fetch('/api/client-info');
+        if (response.ok) {
+          const data = await response.json();
+          clientIP = data.ip;
+        }
+      } catch (error) {
+        console.warn('Failed to get client IP:', error);
+        clientIP = 'unknown';
+      }
+
       // Check if this completion will satisfy all requirements BEFORE making any changes
       const requiredFields = signatureFields.filter((f) => f.isRequired);
       const incompleteRequired = requiredFields.filter(
@@ -463,8 +483,15 @@ export default function SigningPage() {
         setIsSubmitting(true);
         router.push(`/sign/complete?token=${accessToken}`);
 
-        // Complete the signature and finalize in the background
-        await completeSignature({ fieldId: fieldId as any, signatureData });
+        // Complete the signature with audit trail info and finalize in the background
+        await completeSignature({
+          fieldId: fieldId as any,
+          signatureData,
+          auditInfo: {
+            ...auditInfo,
+            ip: clientIP
+          }
+        });
         if (signingSession.document && signingSession.signer) {
           await finalizeDocument({
             documentId: signingSession.document._id,
@@ -476,7 +503,14 @@ export default function SigningPage() {
       }
 
       // If there are more fields to complete, proceed normally
-      await completeSignature({ fieldId: fieldId as any, signatureData });
+      await completeSignature({
+        fieldId: fieldId as any,
+        signatureData,
+        auditInfo: {
+          ...auditInfo,
+          ip: clientIP
+        }
+      });
 
       // Update local state
       const updatedSignatureFields = signatureFields.map((field) =>
@@ -583,19 +617,9 @@ export default function SigningPage() {
   }
 
   if (signingSession.document?.status === "completed") {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center space-y-4 p-8">
-          <CheckCircle2 className="h-16 w-16 mx-auto text-primary" />
-          <div className="space-y-2">
-            <h1 className="text-2xl font-semibold">Already Completed</h1>
-            <p className="text-muted-foreground">
-              This document has already been signed and completed.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
+    // Redirect to complete page if document is already completed
+    router.push(`/sign/complete?token=${accessToken}`);
+    return null; // Return null while redirecting
   }
 
   if (!signingSession?.document) return null;
@@ -635,7 +659,7 @@ export default function SigningPage() {
   };
 
   return (
-    <div className="min-h-dvh flex flex-col lg:flex-row bg-background">
+    <div className="h-dvh flex flex-col lg:flex-row bg-background">
       {/* Desktop Sidebar */}
       <div className="w-full lg:w-80 border-r p-6 flex-col space-y-6 overflow-y-auto hidden lg:block">
         <SidebarContent {...sidebarProps} />

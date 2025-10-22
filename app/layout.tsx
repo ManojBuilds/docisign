@@ -2,27 +2,38 @@ import "./globals.css";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Alumni_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { PdfDimensionsProvider } from "@/components/PdfDimensionsContext";
 import { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 
-const plusJakartaSans = Plus_Jakarta_Sans({
+const plusJakartaSans = Alumni_Sans({
   subsets: ["latin"],
   variable: "--font-plus-jakarta-sans",
+  weight: ['400']
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://boopsign.com"),
   title: {
-    default:
-      "BoopSign - DocuSign Alternative | 3x Faster Electronic Signatures",
+    default: "BoopSign — Sign Documents Online Instantly (No Account Needed)",
     template: "%s | BoopSign",
   },
   description:
-    "Electronic signature software that's 3x faster and 50% cheaper than DocuSign. No login required for signers. Mobile-first design. Start free 7-day trial.",
+    "Send and sign documents online without creating an account. Perfect for freelancers and small teams. Upload, share, and get secure e-signatures instantly.",
   keywords: [
+    "sign documents online",
+    "no account",
+    "quick e-sign tool",
+    "send contract for signature instantly",
+    "digital signature app for freelancers",
+    "document signing for freelancers",
+    "business e-signature tool",
+    "secure e-signature",
+    "instant document signing",
+    "free document signing",
+    "simple e-signature pricing",
     "docusign alternative",
     "electronic signature software",
     "esignature platform",
@@ -42,9 +53,9 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://boopsign.com",
     siteName: "BoopSign",
-    title: "BoopSign - The DocuSign Alternative That Actually Works on Mobile",
+    title: "BoopSign — Fast, No-Login Document Signing",
     description:
-      "Sign documents in 3 minutes, not 30. Mobile-first electronic signatures with no login required for signers.",
+      "A simpler way to sign PDFs online. Secure, verified, and fast.",
     images: [
       {
         url: "https://boopsign.com/og-image.png",
@@ -56,9 +67,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BoopSign - 3x Faster and 50 % Cheaper Than DocuSign",
+    title: "BoopSign — Fast, No-Login Document Signing",
     description:
-      "Electronic signatures that actually work on mobile. No login required for signers.",
+      "A simpler way to sign PDFs online. Secure, verified, and fast.",
     images: ["https://boopsign.com/og-image.png"],
     creator: "@boopsign",
   },
@@ -125,7 +136,12 @@ export default function RootLayout({
       </head>
       <body className={`${plusJakartaSans.variable} antialiased relative`}>
         <Suspense>
-          <ClerkProvider>
+          <ClerkProvider
+            signInUrl="/sign-in"
+            signUpUrl="/sign-up"
+            signUpForceRedirectUrl={"/callback"}
+            signInForceRedirectUrl={"/dashboard"}
+          >
             <ConvexClientProvider>
               <PdfDimensionsProvider>{children}</PdfDimensionsProvider>
             </ConvexClientProvider>

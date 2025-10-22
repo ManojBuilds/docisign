@@ -5,10 +5,10 @@ const Features = () => {
     <section className="py-32" id="features">
       <div className="container mx-auto">
         <p className="mb-4 text-sm text-muted-foreground lg:text-base">
-          EVERYTHING YOU NEED
+          WHY BOOPSIGN
         </p>
         <h2 className="text-3xl font-semibold lg:text-4xl">
-          Why Choose Our DocuSign Alternative??
+          Why Boopsign
         </h2>
         <div className="mt-14 grid gap-6 lg:mt-20 lg:grid-cols-2 xl:grid-cols-4">
           <div className="rounded-lg bg-accent p-5">
@@ -16,13 +16,10 @@ const Features = () => {
               <Zap className="size-6" />
             </span>
             <h3 className="mb-2 text-xl font-semibold">
-              Setup Documents 5x Faster Than DocuSign
+              No Login Signing
             </h3>
             <p className="leading-7 text-muted-foreground">
-              Complete{" "}
-              <span className="font-semibold">document signing setup</span> in
-              under 3 minutes. No training required like DocuSign—just results
-              that get you back to business.
+              Clients can sign directly from email—no registration required.
             </p>
           </div>
           <div className="rounded-lg bg-accent p-5">
@@ -30,14 +27,10 @@ const Features = () => {
               <Smartphone className="size-6" />
             </span>
             <h3 className="mb-2 text-xl font-semibold">
-              Your Clients Will Actually Enjoy Mobile Signing
+              Email Verification
             </h3>
             <p className="leading-7 text-muted-foreground">
-              Unlike DocuSign&apos;s complex mobile interface, our{" "}
-              <span className="font-semibold">
-                mobile-first e-signature platform
-              </span>{" "}
-              works flawlessly on any device from day one.
+              Each signer's identity is verified via a unique one-time link.
             </p>
           </div>
           <div className="rounded-lg bg-accent p-5">
@@ -45,12 +38,10 @@ const Features = () => {
               <Users className="size-6" />
             </span>
             <h3 className="mb-2 text-xl font-semibold">
-              Zero Barriers = Faster Signatures
+              Audit Trail
             </h3>
             <p className="leading-7 text-muted-foreground">
-              Signers just click and sign—no registration, no passwords, no app
-              downloads. Remove every barrier that DocuSign creates between you
-              and signed documents.
+              Every document includes a timestamped proof of signature.
             </p>
           </div>
           <div className="rounded-lg bg-accent p-5">
@@ -58,14 +49,10 @@ const Features = () => {
               <Shield className="size-6" />
             </span>
             <h3 className="mb-2 text-xl font-semibold">
-              Enterprise Security at Small Business Prices
+              Encrypted & Secure
             </h3>
             <p className="leading-7 text-muted-foreground">
-              <span className="font-semibold">
-                Legally binding electronic signatures
-              </span>{" "}
-              with bank-level encryption. Fully compliant with e-signature
-              laws—as secure as DocuSign but simpler to use.
+              Built on Convex backend with Clerk authentication.
             </p>
           </div>
         </div>

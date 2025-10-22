@@ -88,6 +88,43 @@ export const getSigner = query({
   },
 });
 
+// Get all unique signers for a user's documents
+export const getUserSigners = query({
+  args: { ownerId: v.string() },
+  handler: async (ctx, args) => {
+    // First get all documents owned by the user
+    const userDocuments = await ctx.db
+      .query("documents")
+      .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
+      .collect();
+
+    // Get all unique signer emails from those documents
+    const allSigners = [];
+    const seenEmails = new Set();
+
+    for (const document of userDocuments) {
+      const signers = await ctx.db
+        .query("signers")
+        .withIndex("by_document", (q) => q.eq("documentId", document._id))
+        .collect();
+
+      for (const signer of signers) {
+        if (!seenEmails.has(signer.email)) {
+          seenEmails.add(signer.email);
+          allSigners.push({
+            email: signer.email,
+            name: signer.name,
+            documentId: signer.documentId,
+            documentTitle: document.title, // Include document title for reference
+          });
+        }
+      }
+    }
+
+    return allSigners;
+  },
+});
+
 // Get all signers for a document
 export const getSigners = query({
   args: { documentId: v.id("documents") },
@@ -313,9 +350,23 @@ export const sendSignedEmailToOwner = internalAction({
       documentId: args.documentId,
     });
 
-    const remainingSigners = allSigners.filter(
-      (s) => s.status !== "signed",
-    ).length;
+    // Count remaining signers based on uncompleted signature fields
+    const signatureFields = await ctx.runQuery(api.signatureFields.getDocumentSignatureFields, {
+      documentId: args.documentId,
+    });
+
+    const uncompletedFields = signatureFields.filter(
+      (field) => !field.isCompleted
+    );
+    
+    // Count unique signers who still have uncompleted fields assigned to them
+    const remainingSignerEmails = new Set(
+      uncompletedFields
+        .map(field => field.assignedToEmail)
+        .filter(email => email)
+    );
+    
+    const remainingSigners = remainingSignerEmails.size;
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL;
     if (!appUrl) {
@@ -488,6 +539,7 @@ export const finalizeDocument = mutation({
     const document = await ctx.db.get(args.documentId);
     if (!document) throw new Error("Document not found");
 
+    // Update signer status before sending email so the count is accurate
     if (signer.status !== "signed") {
       await ctx.db.patch(signer._id, {
         status: "signed",
@@ -509,6 +561,7 @@ export const finalizeDocument = mutation({
       .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
       .collect();
 
+    // Get updated signers after status update
     const allSigners = await ctx.db
       .query("signers")
       .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
@@ -594,10 +647,7 @@ export const finalizeDocument = mutation({
         }
       }
     } else if (document.status !== "completed") {
-      await ctx.scheduler.runAfter(0, internal.signers.sendSignedEmailToOwner, {
-        documentId: args.documentId,
-        signerEmail: args.signerEmail,
-      });
+      // The email was already sent above - no need to send again
     }
 
     return { success: true };

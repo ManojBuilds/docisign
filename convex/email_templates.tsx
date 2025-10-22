@@ -1,10 +1,5 @@
 "use node";
 
-import { action } from "./_generated/server";
-import { v } from "convex/values";
-import { components } from "./_generated/api";
-import { Resend } from "@convex-dev/resend";
-import { render } from "@react-email/render";
 import {
   Body,
   Button,
@@ -39,12 +34,6 @@ interface EmailLayoutProps {
 export function Logo({ showText = true, baseUrl = "" }: LogoProps) {
   return (
     <Link href={baseUrl} style={linkStyle}>
-      <Img
-        src={`https://boopsign.com/logo.png`}
-        alt="Boopsign Logo"
-        width="40"
-        height="40"
-      />
       {showText && <span style={textStyle}>Boopsign.com</span>}
     </Link>
   );
@@ -93,7 +82,7 @@ export const EmailFooter = () => {
             margin: 0,
           }}
         >
-          © 2025 Boopsign. All rights reserved.
+          © {new Date().getFullYear()} Boopsign. All rights reserved.
         </Text>
       </Section>
     </>

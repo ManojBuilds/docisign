@@ -21,43 +21,43 @@ const Faq = ({
   items = [
   {
     id: "faq-1",
-    question: "How is BoopSign different from DocuSign?",
-    answer: "Three key differences: 1) $12/month vs DocuSign's $25-65/month, 2) Actually works well on mobile devices, 3) Signers don't need accounts—they just click and sign."
+    question: "What is your pricing model?",
+    answer: "Simple, transparent pricing. Start with a 7-day free trial of Boopsign Pro. After the trial, it's just $12/month for unlimited document signing with all features included."
   },
   {
     id: "faq-2",
-    question: "Will my clients find BoopSign easier than DocuSign?",
-    answer: "Absolutely. The #1 complaint we hear about DocuSign is mobile usability. BoopSign is built mobile-first, so signing on phones actually works."
+    question: "Do I need to pay to start my free trial?",
+    answer: "No, you can start your 7-day free trial of Boopsign Pro today with no credit card required."
   },
   {
     id: "faq-3",
-    question: "What if I have a team?",
-    answer: "Currently $12/month covers unlimited personal use. Team features coming Q2 2025. Even then, we'll never charge per-user fees like DocuSign."
+    question: "Can I cancel anytime during my free trial?",
+    answer: "Yes, you can cancel your subscription at any time. No contracts or commitments. You can even cancel during your free trial with no questions asked."
   },
   {
     id: "faq-4",
-    question: "Are electronic signatures created with BoopSign legally binding and compliant?",
-    answer: "Yes, BoopSign’s electronic signatures comply with major e-signature laws such as the ESIGN Act and UETA in the U.S., and signed documents include a detailed audit trail ensuring legal validity."
+    question: "Do document signers need to create accounts?",
+    answer: "No! Signers can sign documents directly from their email without creating any accounts. This reduces friction and speeds up the signing process significantly."
   },
   {
     id: "faq-5",
-    question: "How secure are my documents and data stored with BoopSign?",
-    answer: "Security is a top priority: all documents are encrypted both in transit and at rest. We use enterprise-grade cloud storage and adhere to industry best practices to ensure only you and your authorized signers can access your documents."
+    question: "What features are included in the Pro plan?",
+    answer: "The Pro plan includes unlimited document signing, support for PDF, DOC, and DOCX files, mobile-friendly e-signature platform, real-time email notifications, legally binding digital signatures, and comprehensive document tracking."
   },
   {
     id: "faq-6",
-    question: "Does BoopSign offer a free plan or trial for new users?",
-    answer: "BoopSign does not have a free plan. However, new users can try the platform with a 7-day free trial. After the trial, the full-featured plan costs $12 per month, providing unlimited document signing and premium features."
+    question: "Are there any hidden fees?",
+    answer: "No hidden fees whatsoever. No per-document charges, no user fees, and no setup costs. Just $12/month for unlimited document signing."
   },
   {
     id: "faq-7",
-    question: "Do signers need to download an app?",
-    answer: "Nope! They click and sign in their browser. No downloads, no accounts."
+    question: "Is the platform mobile-friendly?",
+    answer: "Yes, our platform is mobile-first designed to work seamlessly on any device."
   },
   {
     id: "faq-8",
-    question: "What happens to my data if I cancel?",
-    answer: "You own it all. Export everything anytime, even after canceling."
+    question: "How does it compare to DocuSign?",
+    answer: "BoopSign is simpler, faster, and more affordable than DocuSign. No login required for signers, mobile-optimized, and significantly more cost-effective with transparent pricing."
   }
 ]
 }: Faq1Props) => {

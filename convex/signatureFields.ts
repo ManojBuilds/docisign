@@ -75,16 +75,33 @@ export const completeSignatureField = mutation({
   args: {
     fieldId: v.id("signatureFields"),
     signatureData: v.string(),
+    auditInfo: v.optional(v.object({
+      ip: v.string(),
+      timestamp: v.string(),
+      userAgent: v.string(),
+    })),
   },
   handler: async (ctx, args) => {
     const field = await ctx.db.get(args.fieldId);
     if (!field) throw new Error("Signature field not found");
 
-    await ctx.db.patch(args.fieldId, {
+    const updates: any = {
       isCompleted: true,
       signatureData: args.signatureData,
       completedAt: Date.now(),
-    });
+    };
+
+    // Add audit information if provided
+    if (args.auditInfo) {
+      updates.auditTrail = {
+        ip: args.auditInfo.ip,
+        timestamp: args.auditInfo.timestamp,
+        userAgent: args.auditInfo.userAgent,
+        signedAt: Date.now(),
+      };
+    }
+
+    await ctx.db.patch(args.fieldId, updates);
 
     // Check if all fields for this document are completed
     const remainingFields = await ctx.db

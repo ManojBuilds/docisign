@@ -1,6 +1,7 @@
 "use client";
 
 import { NewDocumentDialog } from "@/components/NewDocumentDialog";
+import { DocumentTable } from "@/components/DocumentTable";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -24,14 +25,11 @@ import {
   Download,
   MoreHorizontal,
   Trash2,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -126,103 +124,6 @@ const MobileStats = ({ stats }: { stats: DashboardStats | undefined }) => (
   </div>
 );
 
-// Simple Document Row - no cards, just clean rows with borders
-const DocumentRow = ({
-  doc,
-  onDownload,
-  onDelete,
-}: {
-  doc: Document;
-  onDownload: (fileStorageId: Id<"_storage">, fileName: string) => void;
-  onDelete: (documentId: Id<"documents">) => void;
-}) => {
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "draft":
-        return <Clock className="w-4 h-4 text-gray-500" />;
-      case "sent":
-        return <Send className="w-4 h-4 text-blue-500" />;
-      case "completed":
-        return <Check className="w-4 h-4 text-green-500" />;
-      case "expired":
-        return <XCircle className="w-4 h-4 text-red-500" />;
-      case "cancelled":
-        return <XCircle className="w-4 h-4 text-red-500" />;
-      default:
-        return <FileText className="w-4 h-4 text-gray-400" />;
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "draft":
-        return "bg-gray-100 text-gray-800";
-      case "sent":
-        return "bg-blue-100 text-blue-800";
-      case "completed":
-        return "bg-green-100 text-green-800";
-      case "expired":
-        return "bg-red-100 text-red-800";
-      case "cancelled":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
-  };
-
-  return (
-    <div className="flex items-center justify-between p-4 border-b hover:bg-gray-50 transition-colors">
-      <Link
-        href={`/documents/${doc._id}/edit`}
-        className="flex items-center gap-3 flex-1 min-w-0"
-      >
-        <FileText className="w-6 h-6 text-gray-400 flex-shrink-0" />
-        <div className="min-w-0 flex-1">
-          <h3 className="font-medium text-gray-900 truncate hover:text-blue-600 transition-colors">
-            {doc.title}
-          </h3>
-          <p className="text-sm text-gray-500">
-            {new Date(doc.createdAt).toLocaleDateString()}
-          </p>
-        </div>
-      </Link>
-
-      <div className="flex items-center gap-3 flex-shrink-0">
-        <Badge className={`${getStatusColor(doc.status)} text-xs`}>
-          {getStatusIcon(doc.status)}
-          <span className="ml-1 capitalize">{doc.status}</span>
-        </Badge>
-
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8">
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem
-              onClick={() =>
-                onDownload(doc.fileStorageId, doc.originalFileName)
-              }
-            >
-              <Download className="mr-2 h-4 w-4" />
-              Download
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="text-red-600"
-              onClick={() => onDelete(doc._id)}
-            >
-              <Trash2 className="mr-2 h-4 w-4" />
-              Delete
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    </div>
-  );
-};
-
 export default function Dashboard() {
   const { user } = useUser();
   const dashboardStats = useQuery(
@@ -232,7 +133,12 @@ export default function Dashboard() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState<DocumentStatus>("all");
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [documentToDelete, setDocumentToDelete] =
+    useState<Id<"documents"> | null>(null);
+  const isDesktop = useMediaQuery("(min-width: 640px)");
 
+  // Get documents using the existing paginated query
   const {
     results: documents,
     status,
@@ -247,17 +153,12 @@ export default function Dashboard() {
         }
       : "skip",
     {
-      initialNumItems: 10,
+      initialNumItems: 100, // Load more documents for table pagination
     },
   );
 
   const getFileUrl = useMutation(api.documents.getFileUrl);
   const deleteDocument = useMutation(api.documents.deleteDocument);
-
-  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
-  const [documentToDelete, setDocumentToDelete] =
-    useState<Id<"documents"> | null>(null);
-  const isDesktop = useMediaQuery("(min-width: 640px)");
 
   const handleDownload = async (
     fileStorageId: Id<"_storage">,
@@ -429,21 +330,16 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Document List - Simple bordered container */}
-      <div className="border bg-white mb-6">
+      {/* Document Table */}
+      <div className="mb-6">
         {documents && documents.length > 0 ? (
-          <>
-            {documents.map((doc) => (
-              <DocumentRow
-                key={doc._id}
-                doc={doc}
-                onDownload={handleDownload}
-                onDelete={handleDelete}
-              />
-            ))}
-          </>
+          <DocumentTable
+            data={documents}
+            onDownload={handleDownload}
+            onDelete={handleDelete}
+          />
         ) : (
-          <div className="text-center py-12">
+          <div className="border rounded-lg text-center py-12">
             <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
               No documents found
@@ -458,11 +354,11 @@ export default function Dashboard() {
         )}
       </div>
 
-      {/* Load More */}
+      {/* Load More - Needed for fetching more data from Convex, but table handles its own pagination */}
       {status === "CanLoadMore" && (
-        <div className="flex justify-center">
+        <div className="flex justify-center mb-6">
           <Button onClick={() => loadMore(10)} variant="outline">
-            Load More
+            Load More Documents
           </Button>
         </div>
       )}

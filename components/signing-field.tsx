@@ -16,6 +16,7 @@ import SignatureCanvas from "react-signature-canvas";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -39,6 +40,8 @@ import {
 
 import { usePdfDimensions } from "./PdfDimensionsContext";
 import { useMobile } from "@/hooks/useMobile";
+import { Label } from "./ui/label";
+import { Confetti } from "./ui/confetti";
 
 export interface SignatureFieldData {
   id: string;
@@ -80,6 +83,10 @@ interface SigningDialogProps {
   isMobile: boolean;
   isCompleting: boolean;
   isSignatureProvided: boolean;
+  agreementChecked: boolean;
+  setAgreementChecked: (checked: boolean) => void;
+  showSuccess: boolean;
+  setShowSuccess: (show: boolean) => void;
 }
 
 function SigningDialog({
@@ -100,8 +107,38 @@ function SigningDialog({
   isMobile,
   isCompleting,
   isSignatureProvided,
+  agreementChecked,
+  setAgreementChecked,
+  showSuccess,
+  setShowSuccess,
 }: SigningDialogProps) {
   const renderContent = () => {
+    if (showSuccess) {
+      // Success state content
+      return (
+        <div className={`text-center py-8 ${isMobile ? "px-4 pb-4" : ""}`}>
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <Check className="w-8 h-8 text-green-500" />
+          </div>
+          <h3 className="text-xl font-semibold mb-2">Signature Added!</h3>
+          <p className="text-gray-600 mb-6">
+            Your {field.fieldType} has been successfully added to the document.
+          </p>
+          <div className="flex justify-center">
+            <Button
+              onClick={() => {
+                onOpenChange(false);
+                setShowSuccess(false); // Reset success state
+              }}
+              className="w-full sm:w-auto"
+            >
+              Close
+            </Button>
+          </div>
+        </div>
+      );
+    }
+
     if (field.fieldType === "signature" || field.fieldType === "initial") {
       return (
         <div className={isMobile ? "px-4 pb-4" : ""}>
@@ -166,17 +203,27 @@ function SigningDialog({
               </div>
             </TabsContent>
           </Tabs>
-          <p className="text-xs text-muted-foreground mt-4">
-            By signing, you agree to be legally bound by this electronic
-            signature.
-          </p>
+          <div className="flex items-start space-x-2 mt-4">
+            <Checkbox
+              id="agreement-checkbox"
+              checked={agreementChecked}
+              onCheckedChange={setAgreementChecked}
+            />
+            <Label 
+              htmlFor="agreement-checkbox" 
+              className="text-sm text-muted-foreground leading-tight"
+            >
+              By signing, you agree to be legally bound by this electronic
+              signature.
+            </Label>
+          </div>
           <div className="flex justify-end space-x-2 mt-4">
             <Button variant="outline" onClick={() => onOpenChange(false)}>
               Cancel
             </Button>
             <Button
               onClick={() => handleSignatureComplete(activeTab)}
-              disabled={isCompleting || !isSignatureProvided}
+              disabled={isCompleting || !isSignatureProvided || !agreementChecked}
             >
               {isCompleting ? (
                 <>
@@ -288,6 +335,9 @@ export default function SigningField({
   const isMobile = useMobile();
   const mobileSize = 40; // Define mobile size for consistent field appearance
   const [isCompleting, setIsCompleting] = useState(false);
+  const [agreementChecked, setAgreementChecked] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(false);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -323,7 +373,7 @@ export default function SigningField({
 
   const getFieldColor = () => {
     if (field.isCompleted) {
-      return "border-green-600 bg-green-100"; // Success colors for completed fields
+      return "border-green-600 bg-green-100"; 
     }
     const colors = {
       signature: "border-blue-500 bg-blue-200",
@@ -342,6 +392,7 @@ export default function SigningField({
       return;
     }
     setIsOpen(true);
+    setAgreementChecked(false); // Reset agreement checkbox when dialog opens
   };
 
   const handleSignatureComplete = async (activeTab: string) => {
@@ -368,7 +419,11 @@ export default function SigningField({
       setIsCompleting(true);
       try {
         await onComplete(field.id, finalSignatureData);
-        setIsOpen(false);
+        // Don't close the dialog yet, show success state first
+        setShowSuccess(true);
+        setShowConfetti(true);
+        // Hide confetti after it completes
+        setTimeout(() => setShowConfetti(false), 3000);
       } finally {
         setIsCompleting(false);
       }
@@ -433,7 +488,7 @@ export default function SigningField({
     }
 
     return (
-      <div className="flex items-center text-xs text-gray-600">
+      <div className="flex items-center">
         {getFieldIcon()}
         <span className="ml-1 capitalize">
           {field.label || field.fieldType}{" "}
@@ -458,6 +513,18 @@ export default function SigningField({
 
   return (
     <>
+      {showConfetti && (
+        <div className="fixed inset-0 z-50 pointer-events-none">
+          <Confetti 
+            className="w-full h-full"
+            options={{
+              particleCount: 150,
+              spread: 70,
+              origin: { y: 0.6 }
+            }}
+          />
+        </div>
+      )}
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
@@ -471,9 +538,9 @@ export default function SigningField({
               }}
               onClick={handleFieldClick}
             >
-              <div className="w-full h-full border-2 border-dashed border-opacity-70 flex items-center justify-center relative group">
+              <div className="w-full h-full border-2 border-dashed flex items-center justify-center relative group">
                 {renderFieldContent()}
-                <div className="absolute inset-0 bg-black bg-opacity-5 opacity-0 group-hover:opacity-100 transition-opacity rounded" />
+                <div className="absolute inset-0 bg-black bg-opacity-5 opacity-0 group-hover:opacity-100 transition-opacity rounded-md" />
               </div>
             </div>
           </TooltipTrigger>
@@ -488,7 +555,13 @@ export default function SigningField({
       <SigningDialog
         field={field}
         isOpen={isOpen}
-        onOpenChange={setIsOpen}
+        onOpenChange={(open) => {
+          setIsOpen(open);
+          if (!open) {
+            setAgreementChecked(false); // Reset checkbox when dialog is closed
+            setShowSuccess(false); // Reset success state when dialog closes
+          }
+        }}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         typedSignature={typedSignature}
@@ -503,6 +576,10 @@ export default function SigningField({
         isMobile={isMobile}
         isCompleting={isCompleting}
         isSignatureProvided={isSignatureProvided()}
+        agreementChecked={agreementChecked}
+        setAgreementChecked={setAgreementChecked}
+        showSuccess={showSuccess}
+        setShowSuccess={setShowSuccess}
       />
     </>
   );

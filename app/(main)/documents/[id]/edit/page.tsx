@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -7,7 +7,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import SignatureField, {
   SignatureFieldData,
 } from "@/components/signature-field";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Loader2,
   Plus,
@@ -20,6 +20,7 @@ import {
   CalendarDays,
   TextCursor,
   ALargeSmall,
+  ArrowLeft,
 } from "lucide-react";
 import { toast } from "sonner";
 import { usePdfDimensions } from "@/components/PdfDimensionsContext";
@@ -30,18 +31,10 @@ import Logo from "@/components/Logo";
 import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import { useDocumentEditorStore } from "@/store/document-editor-store";
 import { DocumentEditorSidebar } from "@/components/DocumentEditorSidebar";
+import { SignersSidebar } from "@/components/SignersSidebar";
 import { useMobile } from "@/hooks/useMobile";
 import PdfViewerWrapper from "@/components/pdf-viewer-wrapper";
-
-// const PDFViewer = dynamic(() => import("@/components/pdf-viewer"), {
-//   ssr: false,
-//   loading: () => (
-//     <div className="w-full h-full flex items-center justify-center bg-gray-50">
-//       <Loader2 className="w-8 h-8 animate-spin text-gray-400" />
-//       <p className="ml-3 text-gray-600">Initializing document viewer...</p>
-//     </div>
-//   ),
-// });
+import Link from "next/link";
 
 interface Signer {
   email: string;
@@ -131,7 +124,7 @@ export default function DocumentEditor() {
           // Skip fields where dimensions are not ready yet
           return acc;
         }
-        
+
         const normalizedField: SignatureFieldData = {
           id: field._id,
           fieldType: field.fieldType,
@@ -151,7 +144,7 @@ export default function DocumentEditor() {
             Math.min(1, field.height / dims.height),
           ),
         };
-        
+
         return [...acc, normalizedField];
       }, []);
 
@@ -345,9 +338,8 @@ export default function DocumentEditor() {
         documentId,
         customMessage: customMessage || undefined,
       });
-      router.push("/dashboard");
     },
-    [addSigner, documentId, router, sendForSigning],
+    [addSigner, documentId, sendForSigning],
   );
 
   const hasUnassignedFields = signatureFields.some(
@@ -363,14 +355,19 @@ export default function DocumentEditor() {
       {/* Desktop Navbar */}
       <div className="hidden md:flex justify-between items-center px-4 py-2.5 border-b bg-white">
         <div className="flex items-center space-x-4">
-          <Logo href="/dashboard" />
+          <Link href={'/dashboard'} className={buttonVariants({ variant: "secondary" })}>
+            <ArrowLeft />
+            Back
+          </Link>
+          <span className="font-semibold text-lg truncate max-w-[8rem] md:max-w-xs">
+            {document.title}
+          </span>
+          {/* <Logo href="/dashboard" /> */}
         </div>
 
         <div className="flex items-center space-x-4 flex-1">
           <div className="flex items-center justify-center space-x-4 flex-1">
-            <span className="font-semibold text-lg truncate max-w-[8rem] md:max-w-xs">
-              {document.title}
-            </span>
+
             <PdfControls
               pageNumber={currentPage}
               numPages={numPages}
@@ -382,7 +379,7 @@ export default function DocumentEditor() {
         </div>
         <div className="flex items-center gap-2">
           {" "}
-          <Button
+          {/* <Button
             variant={"ghost"}
             className="border border-primary text-primary"
             onClick={handleSaveDraft}
@@ -394,10 +391,10 @@ export default function DocumentEditor() {
               <Plus className="mr-2 h-4 w-4" />
             )}
             {isSavingDraft ? "Saving..." : "Save Draft"}
-          </Button>
+          </Button> */}
+
           <ShareDialog
             documentId={documentId}
-            initialSigners={signers}
             onSend={handleSendForSigning}
             hasUnassignedFields={hasUnassignedFields}
             onSignerAdd={handleSignerAdd}
@@ -475,9 +472,12 @@ export default function DocumentEditor() {
         </div>
       </div>
 
+      {/* Main Content Area with 3 Columns */}
       <div className="flex-1 flex min-h-0">
+        {/* Left Sidebar - Tools */}
         <DocumentEditorSidebar onAddField={handleAddSignatureField} />
-        {/* PDF Viewer Container */}
+
+        {/* PDF Viewer Container - Center */}
         <div className="flex-1 min-h-0 relative overflow-hidden">
           <div
             className="absolute inset-0 -z-10 pointer-events-none"
@@ -529,13 +529,15 @@ export default function DocumentEditor() {
             </div>
           )}
         </div>
+
+        {/* Right Sidebar - Signers */}
+        <SignersSidebar documentId={documentId} />
       </div>
 
       {/* Mobile Share Dialog */}
       {isShareDialogOpen && (
         <ShareDialog
           documentId={documentId}
-          initialSigners={signers}
           onSend={handleSendForSigning}
           open={isShareDialogOpen}
           onOpenChange={setIsShareDialogOpen}

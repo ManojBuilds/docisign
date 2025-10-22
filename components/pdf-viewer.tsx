@@ -190,17 +190,7 @@ export default function PDFViewer({
       {showControls && numPages > 0 && (
         <div className="flex items-center p-2 md:p-4 bg-background border-b border-border">
           {/* Page Navigation */}
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-white shadow-2xl rounded-lg grid place-items-center relative">
-              <Image
-                src={"/logo.png"}
-                alt="Logo"
-                fill
-                className="object-contain"
-              />
-            </div>
-            <span className="font-semibold">Boopsign Co. Ltd</span>
-          </div>
+          
           <div className="flex items-center mx-auto md:space-x-4">
             {/*<Logo showText={false} className="md:hidden" />*/}
             <div className="flex items-center">

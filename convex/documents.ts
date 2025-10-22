@@ -11,6 +11,7 @@ export const createDocument = mutation({
     fileSizeBytes: v.number(),
     ownerId: v.string(),
     pageCount: v.number(),
+    documentHash: v.optional(v.string()), // For document integrity verification
   },
   handler: async (ctx, args) => {
     const documentId = await ctx.db.insert("documents", {
@@ -18,6 +19,7 @@ export const createDocument = mutation({
       status: "draft",
       createdAt: Date.now(),
       updatedAt: Date.now(),
+      documentHash: args.documentHash
     });
 
     // Log activity

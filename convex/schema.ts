@@ -54,6 +54,7 @@ export default defineSchema({
     expiresAt: v.optional(v.number()),
     completedAt: v.optional(v.number()),
     customMessage: v.optional(v.string()),
+    documentHash: v.optional(v.string()), // For integrity verification
   })
     .index("by_owner", ["ownerId"])
     .index("by_status", ["status"])
@@ -84,6 +85,12 @@ export default defineSchema({
     isCompleted: v.boolean(),
     completedAt: v.optional(v.number()),
     signatureData: v.optional(v.string()),
+    auditTrail: v.optional(v.object({
+      ip: v.string(),
+      timestamp: v.string(),
+      userAgent: v.string(),
+      signedAt: v.number(),
+    })),
     createdAt: v.number(),
   })
     .index("by_document", ["documentId"])
@@ -137,6 +144,8 @@ export default defineSchema({
     details: v.optional(v.string()),
     metadata: v.optional(v.any()),
     timestamp: v.number(),
+    ipAddress: v.optional(v.string()), // For tracking IP address
+    userAgent: v.optional(v.string()), // For tracking user agent
   })
     .index("by_document", ["documentId"])
     .index("by_timestamp", ["timestamp"]),

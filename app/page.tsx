@@ -9,6 +9,7 @@ import { Header } from "@/components/home/header";
 import HowItWorks from "@/components/HowItWorks";
 import { Problem } from "@/components/Problem";
 import TestimonialsSection from "@/components/testimonials";
+import Pricing from "@/components/Pricing";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -42,17 +43,17 @@ export default function Home() {
       ></div>
       <main className="px-4 sm:px-0 w-full flex-1">
         <HeroProps
-          heading="Get Documents Signed in Under 3 Minutes"
-          description={`Stop losing deals to slow e-signature tools. Your clients can sign contracts
-          on their phone in under 3 minutes—no account creation, no app downloads, no 'I never got the DocuSign email' frustrations`}
+          heading="Sign Documents Instantly — No Account Needed"
+          description={`Send contracts or PDFs for secure signing in seconds. Your clients just click, sign, and you're done. No logins, no friction — just signatures that stick.`}
           button={{
-            text: "Sign your first document",
+            text: "🔥 Get Started Free",
             url: "/dashboard",
           }}
         />
         <HowItWorks />
         <Problem />
         <Features />
+        <Pricing />
         <Faq />
         <TestimonialsSection />
         <Cta />

@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
+import { Label } from "./ui/label";
 
 interface HeroProps {
   heading?: string;
@@ -41,47 +42,26 @@ const HeroProps = ({
         />
         <div className="mx-auto flex max-w-5xl flex-col gap-6">
           <h1 className="text-3xl font-extrabold lg:text-5xl leading-tight">
-            {headlineVariation === "variationA" ? (
-              <>
-                Sign Documents in 3 Minutes
-                <br /> Instead of 30
+                Sign Documents Instantly
                 <br />{" "}
                 <span className={`text-primary`}>
-                  No Login Required for Signers
+                  No Account Needed
                 </span>
-              </>
-            ) : headlineVariation === "variationB" ? (
-              <>
-                The DocuSign Alternative Your Clients
-                <br /> Will Actually Use
-                <br />{" "}
-                <span className={`text-primary`}>
-                  No Login Required for Signers
-                </span>
-              </>
-            ) : (
-              <>
-                BoopSign vs DocuSign:
-                <br /> 3x Faster, 50% Cheaper
-                <br />{" "}
-                <span className={`text-primary`}>
-                  No Login Required for Signers
-                </span>
-              </>
-            )}
           </h1>
           <p className="text-muted-foreground text-balance lg:text-lg max-w-4xl mx-auto">
             {description}
           </p>
-          <div className="flex items-center gap-2 justify-center text-xs sm:text-sm font-medium text-muted-foreground">
-            <span>✓ Faster than DocuSign</span>• <span>✓ More affordable</span>{" "}
-            • <span>✓ Mobile-first design</span>
+          <div className="flex items-center gap-2 justify-center text-xs sm:text-sm font-medium text-muted-foreground/70">
+            <span>✓ Built for speed</span>• <span>✓ Lightweight</span>{" "}
+            • <span>✓ Only what you need</span>
           </div>
         </div>
 
         <Button asChild size="lg" className="mt-10">
           <Link href={button.url}>{button.text}</Link>
         </Button>
+        <br />
+        <Label className="text-center inline-block text-muted-foreground text-sm">No signup required</Label>
 
         {/*<div className="mx-auto mt-10 flex w-fit flex-col items-center gap-4 sm:flex-row">
           <span className="mx-4 inline-flex items-center -space-x-4">

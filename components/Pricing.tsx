@@ -1,10 +1,26 @@
-import Pricing from "@/components/Pricing_old";
-import PricingFaq from "@/components/PricingFaq";
+import { Check, Clock, Zap, Shield, Star, Gem } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import CompetitorComparisonTable from "@/components/ComparasionTable";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
+import CheckoutButton from "../components/checkout-btn";
 
-export default function PricingPage() {
+interface PricingProps {
+  heading?: string;
+  description?: string;
+}
+
+const Pricing = ({
+  heading = "Simple, Transparent Pricing",
+  description = "Start your 7-day free trial of Boopsign Pro today. No credit card required. Cancel anytime."
+}: PricingProps) => {
   const features = [
     "Unlimited document signing",
     "Supports PDF, DOC, and DOCX files",
@@ -22,7 +38,7 @@ export default function PricingPage() {
       icon: <Zap className="size-6" />,
       title: "Lightning Fast Setup &amp; Signing",
       description:
-        "Upload, add signatures, and send documents in under 3 minutes with Boopsign’s mobile-first platform. No complex workflows or training needed.",
+        "Upload, add signatures, and send documents in under 3 minutes with Boopsign's mobile-first platform. No complex workflows or training needed.",
     },
     {
       number: "02",
@@ -49,14 +65,13 @@ export default function PricingPage() {
           className="mb-4 inline-flex items-center gap-1"
         >
           <Star className="h-3 w-3" />
-          Simple, Transparent Pricing
+          {heading}
         </Badge>
         <h1 className="from-foreground to-foreground/50 bg-gradient-to-r bg-clip-text text-5xl font-bold tracking-tight text-pretty text-transparent md:text-6xl">
           Choose your perfect plan
         </h1>
         <p className="text-muted-foreground mx-auto max-w-3xl text-base text-balance md:text-lg">
-          Start your 7-day free trial of Boopsign Pro today. No credit card
-          required. Cancel anytime.
+          {description}
         </p>
       </div>
 
@@ -146,7 +161,6 @@ export default function PricingPage() {
           </CardFooter>
         </Card>
       </div>
-      <CompetitorComparisonTable className="mt-8" />
 
       {/* Benefits Section */}
       <div className="container mx-auto px-4 py-16">
@@ -178,32 +192,8 @@ export default function PricingPage() {
           </div>
         </div>
       </div>
-
-      <div className="px-4">
-        <PricingFaq />
-      </div>
-
-      {/* Final Call-To-Action Section */}
-      <div className="container mx-auto px-4 py-16 text-center">
-        <h2 className="text-3xl font-bold mb-4">
-          Ready to simplify your document signing?
-        </h2>
-        <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-          Join thousands of freelancers, small businesses, and consultants who
-          trust Boopsign as the best alternative to DocuSign.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <Button size="lg" asChild>
-            <Link href={"/sign-in"}>
-              <Clock className="h-4 w-4 mr-2" />
-              Start Your Free 7-Day Trial Today
-            </Link>
-          </Button>
-          <p className="text-sm text-muted-foreground">
-            No credit card required • Setup in under 3 minutes
-          </p>
-        </div>
-      </div>
     </div>
   );
-}
+};
+
+export default Pricing;

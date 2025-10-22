@@ -14,39 +14,18 @@ import { useDraggable } from "@dnd-kit/core";
 import {
   PenTool,
   X,
-  Settings,
   CalendarDays,
   TextCursor,
   ALargeSmall,
+  Settings,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
 import useMediaQuery from "@/hooks/use-media-query";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import { usePdfDimensions } from "./PdfDimensionsContext";
 import { Id } from "@/convex/_generated/dataModel";
+import { MobileFieldDrawer } from "./mobile-field-drawer";
+import { SignatureFieldSettings } from "./signature-field-settings";
 
 export interface SignatureFieldData {
   id: Id<"signatureFields">;
@@ -72,7 +51,57 @@ interface SignatureFieldProps {
   onSave?: (field: SignatureFieldData) => Promise<void>;
 }
 
-// Draggable Field Component
+// Helper functions to get field icon and color
+const getFieldIcon = (fieldType: string) => {
+  switch (fieldType) {
+    case "signature":
+      return <PenTool size={16} strokeWidth={1.5} />;
+    case "initial":
+      return <TextCursor size={16} strokeWidth={1.5} />;
+    case "date":
+      return <CalendarDays size={16} strokeWidth={1.5} />;
+    case "text":
+      return <ALargeSmall size={16} strokeWidth={1.5} />;
+    default:
+      return <PenTool size={16} strokeWidth={1.5} />;
+  }
+};
+
+// Color palette for signers - allows up to 5 different signers to have distinct colors
+const getSignerColor = (fieldType: string, assignedToEmail: string) => {
+  if (!assignedToEmail) {
+    // Unassigned fields use the default field type colors
+    const defaultColors = {
+      signature: "border-blue-500 bg-blue-200 text-blue-500",
+      initial: "border-green-500 bg-green-200 text-blue-500",
+      date: "border-yellow-500 bg-yellow-200 text-blue-500",
+      text: "border-purple-500 bg-purple-200 text-blue-500",
+    };
+    return defaultColors[fieldType as keyof typeof defaultColors] || defaultColors.signature;
+  }
+
+  // Generate consistent color based on email hash
+  const colors = [
+    "border-pink-500 bg-pink-200 text-pink-900",
+    "border-purple-500 bg-purple-200 text-purple-900",
+    "border-indigo-500 bg-indigo-200 text-indigo-900",
+    "border-green-500 bg-green-200 text-green-900",
+    "border-yellow-500 bg-yellow-200 text-yellow-900",
+    "border-red-500 bg-red-200 text-pink-900",
+    "border-blue-500 bg-blue-200 text-blue-900",
+    "border-teal-500 bg-teal-200 text-teal-900",
+  ];
+
+  // Calculate a hash from the email to get consistent color for each signer
+  let hash = 0;
+  for (let i = 0; i < assignedToEmail.length; i++) {
+    hash = assignedToEmail.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  const index = Math.abs(hash) % colors.length;
+  return colors[index];
+};
+
 function DraggableSignatureField({
   field,
   isEditMode,
@@ -92,6 +121,7 @@ function DraggableSignatureField({
   const [localField, setLocalField] = useState<SignatureFieldData>(field);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   const localFieldRef = useRef<SignatureFieldData>(field);
 
@@ -161,128 +191,25 @@ function DraggableSignatureField({
     handleFieldUpdate,
   ]);
 
-  const getFieldIcon = () => {
-    switch (localField.fieldType) {
-      case "signature":
-        return <PenTool size={16} strokeWidth={1.5} />;
-      case "initial":
-        return <TextCursor size={16} strokeWidth={1.5} />;
-      case "date":
-        return <CalendarDays size={16} strokeWidth={1.5} />;
-      case "text":
-        return <ALargeSmall size={16} strokeWidth={1.5} />;
-      default:
-        return <PenTool size={16} strokeWidth={1.5} />;
-    }
-  };
-
-  const getFieldColor = () => {
-    const colors = {
-      signature: "border-blue-500 bg-blue-200",
-      initial: "border-green-500 bg-green-200",
-      date: "border-yellow-500 bg-yellow-200",
-      text: "border-purple-500 bg-purple-200",
-    };
-    return colors[localField.fieldType] || colors.signature;
-  };
-
   const pixelX = localField.normalizedX * currentPageDimensions.width;
   const pixelY = localField.normalizedY * currentPageDimensions.height;
   const pixelWidth = localField.normalizedWidth * currentPageDimensions.width;
   const pixelHeight =
     localField.normalizedHeight * currentPageDimensions.height;
 
-  const settingsContent = (
-    <>
-      <div className="space-y-1">
-        <Label htmlFor="fieldType">Field Type</Label>
-        <Select
-          value={localField.fieldType}
-          onValueChange={(value: any) =>
-            handleFieldUpdate({ fieldType: value })
-          }
-        >
-          <SelectTrigger>
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="signature">Signature</SelectItem>
-            <SelectItem value="initial">Initial</SelectItem>
-            <SelectItem value="date">Date</SelectItem>
-            <SelectItem value="text">Text</SelectItem>
-          </SelectContent>
-        </Select>
-      </div>
-      <div className="space-y-1">
-        <Label htmlFor="assignedEmail">Assigned to Email</Label>
-        <Input
-          id="assignedEmail"
-          value={localField.assignedToEmail}
-          onChange={(e) =>
-            handleFieldUpdate({ assignedToEmail: e.target.value })
-          }
-          placeholder="signer@example.com"
-        />
-      </div>
-      <div className="space-y-1">
-        <Label htmlFor="assignedName">Assigned to Name (Optional)</Label>
-        <Input
-          id="assignedName"
-          value={localField.assignedToName || ""}
-          onChange={(e) =>
-            handleFieldUpdate({ assignedToName: e.target.value })
-          }
-          placeholder="Signer's Name"
-        />
-      </div>
-      <div className="space-y-1">
-        <Label htmlFor="label">Label (Optional)</Label>
-        <Input
-          id="label"
-          value={localField.label || ""}
-          onChange={(e) => handleFieldUpdate({ label: e.target.value })}
-          placeholder="Field description"
-        />
-      </div>
-      <div className="flex items-center space-x-2">
-        <Switch
-          id="required"
-          checked={localField.isRequired}
-          onCheckedChange={(checked) =>
-            handleFieldUpdate({ isRequired: checked as boolean })
-          }
-        />
-        <Label htmlFor="required">Required</Label>
-      </div>
-    </>
-  );
-
-  const saveButton = (
-    <Button
-      size="sm"
-      className="w-full"
-      onClick={() => debouncedSave(localField)}
-      disabled={isSaving}
-    >
-      {isSaving ? "Saving..." : "Save"}
-    </Button>
-  );
-
   const style = transform
     ? {
-        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-        zIndex: isDragging ? 1000 : "auto",
-      }
+      transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+      zIndex: isDragging ? 1000 : "auto",
+    }
     : undefined;
 
   return (
     <div
       ref={setNodeRef}
       {...attributes}
-      {...listeners}
-      className={`absolute select-none ${isDesktop ? "cursor-grab" : ""} ${
-        isSelected ? "ring ring-blue-300 ring-opacity-50" : ""
-      }`}
+      className={`absolute select-none ${isDesktop ? "cursor-grab" : ""} ${isSelected ? "ring ring-blue-300 ring-opacity-50" : ""
+        }`}
       style={{
         left: pixelX * pdfViewerScale,
         top: pixelY * pdfViewerScale,
@@ -292,96 +219,68 @@ function DraggableSignatureField({
       }}
     >
       <div
-        className={`w-full h-full border border-opacity-70 bg-opacity-20 flex items-center justify-center relative group hover:bg-opacity-30 transition-all ${getFieldColor()} ${
-          !isDesktop ? "rounded-full" : ""
-        }`}
+        className={`w-full h-full border flex items-center justify-center relative group hover:bg-opacity-30 transition-all ${getSignerColor(localField.fieldType, localField.assignedToEmail)} ${!isDesktop ? "rounded-full" : ""}`}
       >
-        {hasUnsavedChanges && !isSaving && (
-          <div className="absolute -top-1 -right-1 w-2 h-2 bg-orange-500 rounded-full"></div>
-        )}
 
         {isDesktop ? (
           <div
             className="flex items-center capitalize text-sm w-full h-full justify-center"
+            {...listeners}
             onClick={(e) => {
               e.stopPropagation();
               onSelect(field.id);
             }}
           >
-            {getFieldIcon()}
+            {getFieldIcon(localField.fieldType)}
             <span className="ml-1 truncate">
               {localField.label || localField.fieldType}
             </span>
           </div>
         ) : (
-          <Drawer open={isDrawerOpen} onOpenChange={setIsDrawerOpen}>
-            <DrawerTrigger
-              asChild
+          <>
+            <div
+              className="w-full h-full flex items-center justify-center cursor-pointer"
               onClick={(e) => {
                 e.stopPropagation();
                 onSelect(field.id);
+                setIsDrawerOpen(true);
               }}
             >
-              <div className="w-full h-full flex items-center justify-center cursor-pointer">
-                {getFieldIcon()}
-              </div>
-            </DrawerTrigger>
-            <DrawerContent className="min-h-[70svh]">
-              <DrawerHeader>
-                <DrawerTitle>Field Settings</DrawerTitle>
-              </DrawerHeader>
-              <div className="p-4 overflow-y-auto space-y-4">
-                {settingsContent}
-              </div>
-              <DrawerFooter>
-                {saveButton}
-                <Button
-                  variant="destructive"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onDelete(field.id);
-                  }}
-                >
-                  Remove Field
-                </Button>
-              </DrawerFooter>
-            </DrawerContent>
-          </Drawer>
+              {getFieldIcon(localField.fieldType)}
+            </div>
+            <MobileFieldDrawer
+              field={localField}
+              isOpen={isDrawerOpen}
+              onOpenChange={setIsDrawerOpen}
+              onFieldUpdate={handleFieldUpdate}
+              onSave={() => debouncedSave(localField)}
+              onDelete={onDelete}
+              onSelect={onSelect}
+              isSaving={isSaving}
+            />
+          </>
         )}
 
-        {isSelected && (
+        {isSelected && isDesktop && (
           <div
             className="absolute -top-8 left-0 flex space-x-1 z-10 pointer-events-auto"
             onMouseDown={(e) => e.stopPropagation()}
           >
-            {isDesktop ? (
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button size="sm" variant="outline" className="h-6 px-2">
-                    <Settings className="w-3 h-3" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-80 popover-content" side="top">
-                  <div className="space-y-4">
-                    {settingsContent}
-                    {saveButton}
-                  </div>
-                </PopoverContent>
-              </Popover>
-            ) : null}
-            {isDesktop && (
-              <Button
-                size="sm"
-                variant="destructive"
-                className="h-6 px-2"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDelete(field.id);
-                }}
-              >
-                <X className="w-3 h-3" />
-              </Button>
-            )}
+            <Button
+              size="sm"
+              variant="destructive"
+              className="h-6 px-2"
+              onMouseDown={(e) => {
+                e.stopPropagation();
+              }}
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(field.id);
+              }}
+            >
+              <X className="w-3 h-3" />
+            </Button>
+
           </div>
         )}
       </div>
@@ -487,34 +386,9 @@ export default function SignatureField(props: SignatureFieldProps) {
     const pixelWidth = field.normalizedWidth * currentPageDimensions.width;
     const pixelHeight = field.normalizedHeight * currentPageDimensions.height;
 
-    const getFieldIcon = () => {
-      switch (field.fieldType) {
-        case "signature":
-          return <PenTool size={16} strokeWidth={1.5} />;
-        case "initial":
-          return <TextCursor size={16} strokeWidth={1.5} />;
-        case "date":
-          return <CalendarDays size={16} strokeWidth={1.5} />;
-        case "text":
-          return <ALargeSmall size={16} strokeWidth={1.5} />;
-        default:
-          return <PenTool size={16} strokeWidth={1.5} />;
-      }
-    };
-
-    const getFieldColor = () => {
-      const colors = {
-        signature: "border-blue-500 bg-blue-200",
-        initial: "border-green-500 bg-green-200",
-        date: "border-yellow-500 bg-yellow-200",
-        text: "border-purple-500 bg-purple-200",
-      };
-      return colors[field.fieldType] || colors.signature;
-    };
-
     return (
       <div
-        className={`absolute border-2 border-dashed border-opacity-50 bg-opacity-10 flex items-center justify-center text-xs ${getFieldColor()}`}
+        className={`absolute border-2 border-dashed border-opacity-50 bg-opacity-10 flex items-center justify-center text-xs ${getSignerColor(field.fieldType, field.assignedToEmail)}`}
         style={{
           left: pixelX,
           top: pixelY,
@@ -522,7 +396,7 @@ export default function SignatureField(props: SignatureFieldProps) {
           height: pixelHeight,
         }}
       >
-        {getFieldIcon()}
+        {getFieldIcon(field.fieldType)}
         <span className="ml-1 text-gray-700 truncate">{field.fieldType}</span>
       </div>
     );

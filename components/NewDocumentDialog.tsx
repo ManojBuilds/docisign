@@ -190,6 +190,14 @@ const UploadFooter: FC<UploadFooterProps> = ({
   </div>
 );
 
+// Function to compute SHA-256 hash of a file
+async function computeFileHash(file: File): Promise<string> {
+  const buffer = await file.arrayBuffer();
+  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
 export function NewDocumentDialog() {
   const { user } = useUser()
   const router = useRouter()
@@ -290,6 +298,12 @@ export function NewDocumentDialog() {
     try {
       const { pdfBlob, originalName } = await convertToPdf(file)
 
+      setStatusMessage('Computing document integrity hash...')
+      setUploadProgress(55)
+
+      // Compute hash from the original file before conversion
+      const documentHash = await computeFileHash(file)
+
       setStatusMessage('Getting upload URL...')
       setUploadProgress(60)
 
@@ -321,6 +335,7 @@ export function NewDocumentDialog() {
         fileSizeBytes: pdfBlob.size,
         ownerId: user.id,
         pageCount: 1,
+        documentHash, // Include the computed hash
       })
 
       setUploadProgress(100)
