@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, lazy, Suspense, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
@@ -25,9 +25,7 @@ import {
   MessageCircle
 } from "lucide-react";
 import { toast } from "sonner";
-import SigningField, {
-  SignatureFieldData as SigningFieldDataType,
-} from "@/components/signing-field";
+import type { SignatureFieldData as SigningFieldDataType } from "@/components/signing-field";
 import { usePdfDimensions } from "@/components/PdfDimensionsContext";
 import Logo from "@/components/Logo";
 import { cn } from "@/lib/utils";
@@ -38,7 +36,10 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Image from "next/image";
-import PdfViewerWrapper from "@/components/pdf-viewer-wrapper";
+
+// Lazy load heavy components
+const PdfViewerWrapper = lazy(() => import("@/components/pdf-viewer-wrapper"));
+const SigningField = lazy(() => import("@/components/signing-field"));
 
 const SidebarContent = ({
   signingSession,
@@ -363,26 +364,26 @@ export default function SigningPage() {
     useState<number>(0);
   const { pageDimensions, setScale } = usePdfDimensions();
 
-  // Load file URL and mark as viewed
-  useEffect(() => {
-    const loadAndMarkViewed = async () => {
-      if (signingSession && !hasMarkedViewed && signingSession.document) {
-        try {
-          const url = await getFileUrl({
-            storageId: signingSession.document.fileStorageId,
-          });
-          if (url) setFileUrl(url);
+  // Load file URL and mark as viewed - Memoized callback
+  const loadAndMarkViewed = useCallback(async () => {
+    if (signingSession && !hasMarkedViewed && signingSession.document) {
+      try {
+        const url = await getFileUrl({
+          storageId: signingSession.document.fileStorageId,
+        });
+        if (url) setFileUrl(url);
 
-          await markAsViewed({ accessToken });
-          setHasMarkedViewed(true);
-        } catch (error) {
-          console.error("Error loading signing session:", error);
-        }
+        await markAsViewed({ accessToken });
+        setHasMarkedViewed(true);
+      } catch (error) {
+        console.error("Error loading signing session:", error);
       }
-    };
+    }
+  }, [signingSession, hasMarkedViewed, getFileUrl, markAsViewed, accessToken]);
 
+  useEffect(() => {
     loadAndMarkViewed();
-  }, [signingSession, getFileUrl, markAsViewed, accessToken, hasMarkedViewed]);
+  }, [loadAndMarkViewed]);
 
   // Load and normalize signature fields
   useEffect(() => {
@@ -421,11 +422,39 @@ export default function SigningPage() {
     }
   }, [signingSession?.signatureFields, pageDimensions, hasAutoNavigated]);
 
+  // ALL memoizations MUST be before early returns
   const incompleteRequiredFields = useMemo(() => {
     return signatureFields.filter((f) => f.isRequired && !f.isCompleted);
   }, [signatureFields]);
 
-  const goToPreviousSignatureField = () => {
+  const requiredFields = useMemo(() => {
+    return signatureFields.filter((f) => f.isRequired);
+  }, [signatureFields]);
+
+  const completedFields = useMemo(() => {
+    return signatureFields.filter((f) => f.isCompleted).length;
+  }, [signatureFields]);
+
+  const completedRequiredFields = useMemo(() => {
+    return requiredFields.filter((f) => f.isCompleted).length;
+  }, [requiredFields]);
+
+  const progressPercentage = useMemo(() => {
+    const totalFields = signatureFields.length;
+    return totalFields > 0 ? (completedFields / totalFields) * 100 : 0;
+  }, [completedFields, signatureFields.length]);
+
+  const currentPageFields = useMemo(
+    () => signatureFields.filter((field) => field.page === currentPage),
+    [signatureFields, currentPage]
+  );
+
+  const currentActiveField = useMemo(
+    () => incompleteRequiredFields[currentSignatureFieldIndex],
+    [incompleteRequiredFields, currentSignatureFieldIndex]
+  );
+
+  const goToPreviousSignatureField = useCallback(() => {
     if (incompleteRequiredFields.length === 0) return;
 
     const newIndex =
@@ -433,18 +462,18 @@ export default function SigningPage() {
       incompleteRequiredFields.length;
     setCurrentSignatureFieldIndex(newIndex);
     setCurrentPage(incompleteRequiredFields[newIndex].page);
-  };
+  }, [currentSignatureFieldIndex, incompleteRequiredFields]);
 
-  const goToNextSignatureField = () => {
+  const goToNextSignatureField = useCallback(() => {
     if (incompleteRequiredFields.length === 0) return;
 
     const newIndex =
       (currentSignatureFieldIndex + 1) % incompleteRequiredFields.length;
     setCurrentSignatureFieldIndex(newIndex);
     setCurrentPage(incompleteRequiredFields[newIndex].page);
-  };
+  }, [currentSignatureFieldIndex, incompleteRequiredFields]);
 
-  const handleFieldComplete = async (
+  const handleFieldComplete = useCallback(async (
     fieldId: string,
     signatureData: string,
   ) => {
@@ -547,9 +576,9 @@ export default function SigningPage() {
       toast.error("Failed to save signature");
       setIsSubmitting(false);
     }
-  };
+  }, [signingSession, signatureFields, currentPage, accessToken, router, completeSignature, finalizeDocument]);
 
-  const handleSubmitDocument = async () => {
+  const handleSubmitDocument = useCallback(async () => {
     if (!signingSession) return;
     const requiredFields = signatureFields.filter((f) => f.isRequired);
     const incompleteRequired = requiredFields.filter((f) => !f.isCompleted);
@@ -588,7 +617,7 @@ export default function SigningPage() {
     } finally {
       setIsSubmitting(false);
     }
-  };
+  }, [signingSession, signatureFields, incompleteRequiredFields, finalizeDocument, router, accessToken]);
 
   if (!signingSession) {
     return (
@@ -632,17 +661,7 @@ export default function SigningPage() {
     );
   }
 
-  const completedFields = signatureFields.filter((f) => f.isCompleted).length;
   const totalFields = signatureFields.length;
-  const requiredFields = signatureFields.filter((f) => f.isRequired);
-  const completedRequiredFields = requiredFields.filter(
-    (f) => f.isCompleted,
-  ).length;
-  const progressPercentage =
-    totalFields > 0 ? (completedFields / totalFields) * 100 : 0;
-
-  const currentActiveField =
-    incompleteRequiredFields[currentSignatureFieldIndex];
 
   const sidebarProps = {
     signingSession,
@@ -679,28 +698,33 @@ export default function SigningPage() {
         {/* PDF Viewer */}
         <div className="flex-1 z-10 min-h-full">
           {fileUrl && (
-            <PdfViewerWrapper
-              fileUrl={fileUrl}
-              pageNumber={currentPage}
-              onPageChange={setCurrentPage}
-              onScaleChange={setScale}
-              onPreviousSignatureField={goToPreviousSignatureField}
-              onNextSignatureField={goToNextSignatureField}
-              hasMultipleIncompleteFields={incompleteRequiredFields.length > 1}
-            >
-              <div className="absolute inset-0 pointer-events-none">
-                <div className="pointer-events-auto">
-                  {signatureFields
-                    .filter((field) => field.page === currentPage)
-                    .map((field) => (
-                      <SigningField
-                        key={field.id}
-                        field={field}
-                        isEditMode={false}
-                        onComplete={handleFieldComplete}
-                      />
-                    ))}
-                </div>
+            <Suspense fallback={
+              <div className="flex items-center justify-center h-full">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+              </div>
+            }>
+              <PdfViewerWrapper
+                fileUrl={fileUrl}
+                pageNumber={currentPage}
+                onPageChange={setCurrentPage}
+                onScaleChange={setScale}
+                onPreviousSignatureField={goToPreviousSignatureField}
+                onNextSignatureField={goToNextSignatureField}
+                hasMultipleIncompleteFields={incompleteRequiredFields.length > 1}
+              >
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="pointer-events-auto">
+                    <Suspense fallback={null}>
+                      {currentPageFields.map((field) => (
+                        <SigningField
+                          key={field.id}
+                          field={field}
+                          isEditMode={false}
+                          onComplete={handleFieldComplete}
+                        />
+                      ))}
+                    </Suspense>
+                  </div>
                 {currentActiveField &&
                   currentActiveField.page === currentPage && (
                     <div
@@ -714,7 +738,8 @@ export default function SigningPage() {
                     />
                   )}
               </div>
-            </PdfViewerWrapper>
+              </PdfViewerWrapper>
+            </Suspense>
           )}{" "}
         </div>
 

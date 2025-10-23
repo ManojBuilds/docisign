@@ -81,12 +81,12 @@ export function Header({
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.3, delay: 0.5 }}
           >
-            <Link href="/dashboard" prefetch>
-              <Button className="cursor-pointer rounded-full font-medium transition-transform hover:scale-105">
+            <Button asChild className="cursor-pointer rounded-full font-medium transition-transform hover:scale-105">
+              <Link href="/dashboard" prefetch>
                 Try It Now
                 <ChevronRight className="ml-1 size-4" />
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </motion.div>
         </div>
         <div className="flex items-center gap-2 md:hidden">
@@ -140,12 +140,12 @@ export function Header({
               transition={{ duration: 0.3, delay: 0.3 }}
               className="border-border/30 mt-2 border-t pt-2"
             >
-              <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
-                <Button className="w-full rounded-full">
+              <Button asChild className="w-full rounded-full">
+                <Link href="/dashboard" prefetch onClick={() => setMobileMenuOpen(false)}>
                   Try It Now
                   <ChevronRight className="ml-2 size-4" />
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </motion.div>
           </div>
         </motion.div>

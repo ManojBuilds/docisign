@@ -1,35 +1,15 @@
-"use client";
 import Footer from "@/components/Footer";
-import { Header } from "@/components/home/header";
-import React, { useEffect, useState } from "react";
+import { ClientHeaderWrapper } from "@/components/ClientHeaderWrapper";
+import React from "react";
 
 export default function LegalLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
   return (
     <>
-      <Header
-        isScrolled={isScrolled}
-        mobileMenuOpen={mobileMenuOpen}
-        setMobileMenuOpen={setMobileMenuOpen}
-      />
+      <ClientHeaderWrapper />
       {children}
       <Footer />
       <div

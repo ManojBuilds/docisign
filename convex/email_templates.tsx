@@ -151,12 +151,6 @@ export const Welcome = ({
       <EmailHeader />
       <Section>
         <div style={{ textAlign: "center", marginBottom: "24px" }}>
-          <Img
-            src="https://imgproxy.attic.sh/insecure/f:webp/q:90/w:750/plain/https://attic.sh/1pyfbfyxeshzkenyuk0ym2ohm18z"
-            width="96"
-            height="96"
-            style={{ display: "block", margin: "0 auto 16px auto" }}
-          />
           <Heading
             style={{
               fontSize: "24px",
@@ -799,12 +793,6 @@ export const SigningConfirmation = ({
       <EmailHeader />
       <Section>
         <div style={{ textAlign: "center", marginBottom: "24px" }}>
-          <Img
-            src="https://imgproxy.attic.sh/insecure/f:webp/q:90/w:828/plain/https://attic.sh/z0l79aojhwg5m0sr1i42kz6l43ce"
-            width="96"
-            height="96"
-            style={{ display: "block", margin: "0 auto 16px auto" }}
-          />
           <Heading
             style={{
               fontSize: "24px",
@@ -965,12 +953,6 @@ export const SignerCopy = ({
       <EmailHeader />
       <Section>
         <div style={{ textAlign: "center", marginBottom: "24px" }}>
-          <Img
-            src="https://imgproxy.attic.sh/insecure/f:webp/q:90/w:828/plain/https://attic.sh/z0l79aojhwg5m0sr1i42kz6l43ce"
-            width="96"
-            height="96"
-            style={{ display: "block", margin: "0 auto 16px auto" }}
-          />
           <Heading
             style={{
               fontSize: "24px",
@@ -1109,14 +1091,6 @@ export const DocumentComplete = ({
 
       {/* Hero Section */}
       <Section style={{ textAlign: "center" }}>
-        <Img
-          src="https://imgproxy.attic.sh/insecure/f:webp/q:90/w:750/plain/https://attic.sh/vp8h0i7mk3jkjn2omvsm6vl14c7g"
-          alt="🎉"
-          width="90"
-          height="90"
-          style={{ display: "block", margin: "0 auto 16px auto" }}
-        />
-
         <Heading
           style={{
             fontSize: "24px",
@@ -1333,7 +1307,7 @@ export const DocumentComplete = ({
           >
             Questions about your document? We're here to help! Visit our{" "}
             <Link
-              href="#"
+              href={dashboardUrl}
               style={{
                 color: "#007bff",
                 textDecoration: "none",

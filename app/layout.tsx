@@ -2,17 +2,10 @@ import "./globals.css";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "@/components/ui/sonner";
-import { Alumni_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { PdfDimensionsProvider } from "@/components/PdfDimensionsContext";
 import { Metadata, Viewport } from "next";
 import { Suspense } from "react";
-
-const plusJakartaSans = Alumni_Sans({
-  subsets: ["latin"],
-  variable: "--font-plus-jakarta-sans",
-  weight: ['400']
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://boopsign.com"),
@@ -134,7 +127,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${plusJakartaSans.variable} antialiased relative`}>
+      <body className={`antialiased relative`}>
         <Suspense>
           <ClerkProvider
             signInUrl="/sign-in"

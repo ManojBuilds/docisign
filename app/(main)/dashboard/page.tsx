@@ -22,6 +22,7 @@ import {
   Send,
   XCircle
 } from "lucide-react";
+import { Suspense } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,6 +46,7 @@ import useMediaQuery from "@/hooks/use-media-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Id } from "@/convex/_generated/dataModel";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Types for better TypeScript support
 type DocumentStatus =
@@ -72,6 +74,24 @@ interface DashboardStats {
 //   fileStorageId: Id<"_storage">;
 //   originalFileName: string;
 // }
+
+// Skeleton Components
+const StatsLoadingSkeleton = () => (
+  <>
+    {/* Mobile Stats Skeleton */}
+    <div className="grid grid-cols-2 gap-4 mb-6 sm:hidden">
+      {[...Array(4)].map((_, i) => (
+        <Skeleton key={i} className="h-24 rounded" />
+      ))}
+    </div>
+    {/* Desktop Stats Skeleton */}
+    <div className="hidden sm:grid grid-cols-4 gap-6 mb-8">
+      {[...Array(4)].map((_, i) => (
+        <Skeleton key={i} className="h-28 rounded-lg" />
+      ))}
+    </div>
+  </>
+);
 
 // Simple Mobile Stats - no cards, just clean boxes
 const MobileStats = ({ stats }: { stats: DashboardStats | undefined }) => (
@@ -115,102 +135,16 @@ const MobileStats = ({ stats }: { stats: DashboardStats | undefined }) => (
   </div>
 );
 
-export default function Dashboard() {
+// Stats Component - Loads independently
+function DashboardStats() {
   const { user } = useUser();
   const dashboardStats = useQuery(
     api.dashboard.getDashboardStats,
     user ? { ownerId: user.id } : "skip",
   );
 
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filterStatus, setFilterStatus] = useState<DocumentStatus>("all");
-  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
-  const [documentToDelete, setDocumentToDelete] =
-    useState<Id<"documents"> | null>(null);
-  const isDesktop = useMediaQuery("(min-width: 640px)");
-
-  // Get documents using the existing paginated query
-  const {
-    results: documents,
-    status,
-    loadMore,
-  } = usePaginatedQuery(
-    api.dashboard.searchDocuments,
-    user
-      ? {
-          ownerId: user.id,
-          searchTerm,
-          status: filterStatus === "all" ? undefined : filterStatus,
-        }
-      : "skip",
-    {
-      initialNumItems: 100, // Load more documents for table pagination
-    },
-  );
-
-  const getFileUrl = useMutation(api.documents.getFileUrl);
-  const deleteDocument = useMutation(api.documents.deleteDocument);
-
-  const handleDownload = async (
-    fileStorageId: Id<"_storage">,
-    fileName: string,
-  ) => {
-    try {
-      const url = await getFileUrl({ storageId: fileStorageId });
-      if (url) {
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = fileName;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        toast.success("Document downloaded");
-      } else {
-        toast.error("Download failed");
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error("Download error");
-    }
-  };
-
-  const handleDelete = async (documentId: Id<"documents">) => {
-    setDocumentToDelete(documentId);
-    setIsConfirmingDelete(true);
-  };
-
-  const confirmDelete = async () => {
-    if (documentToDelete) {
-      try {
-        await deleteDocument({ documentId: documentToDelete });
-        toast.success("Document deleted");
-      } catch (error) {
-        console.error(error);
-        toast.error("Delete failed");
-      } finally {
-        setIsConfirmingDelete(false);
-        setDocumentToDelete(null);
-      }
-    }
-  };
-
   return (
-    <div className="container mx-auto px-4 py-6 max-w-6xl">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-        <div>
-          <p className="text-muted-foreground">
-            Welcome back,{" "}
-            <span className="text-lg font-semibold text-foreground">
-              {user?.firstName ||
-                user?.emailAddresses[0]?.emailAddress?.split("@")[0] ||
-                "User"}
-            </span>
-          </p>
-        </div>
-        <NewDocumentDialog />
-      </div>
-
+    <>
       {/* Mobile Stats */}
       <MobileStats stats={dashboardStats} />
 
@@ -280,7 +214,87 @@ export default function Dashboard() {
           </CardContent>
         </Card>
       </div>
+    </>
+  );
+}
 
+// Documents Component - Loads independently
+function DocumentsList() {
+  const { user } = useUser();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterStatus, setFilterStatus] = useState<DocumentStatus>("all");
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [documentToDelete, setDocumentToDelete] =
+    useState<Id<"documents"> | null>(null);
+  const isDesktop = useMediaQuery("(min-width: 640px)");
+
+  // Get documents using the existing paginated query
+  const {
+    results: documents,
+    status,
+    loadMore,
+  } = usePaginatedQuery(
+    api.dashboard.searchDocuments,
+    user
+      ? {
+        ownerId: user.id,
+        searchTerm,
+        status: filterStatus === "all" ? undefined : filterStatus,
+      }
+      : "skip",
+    {
+      initialNumItems: 100, // Load more documents for table pagination
+    },
+  );
+
+  const getFileUrl = useMutation(api.documents.getFileUrl);
+  const deleteDocument = useMutation(api.documents.deleteDocument);
+
+  const handleDownload = async (
+    fileStorageId: Id<"_storage">,
+    fileName: string,
+  ) => {
+    try {
+      const url = await getFileUrl({ storageId: fileStorageId });
+      if (url) {
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        toast.success("Document downloaded");
+      } else {
+        toast.error("Download failed");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Download error");
+    }
+  };
+
+  const handleDelete = async (documentId: Id<"documents">) => {
+    setDocumentToDelete(documentId);
+    setIsConfirmingDelete(true);
+  };
+
+  const confirmDelete = async () => {
+    if (documentToDelete) {
+      try {
+        await deleteDocument({ documentId: documentToDelete });
+        toast.success("Document deleted");
+      } catch (error) {
+        console.error(error);
+        toast.error("Delete failed");
+      } finally {
+        setIsConfirmingDelete(false);
+        setDocumentToDelete(null);
+      }
+    }
+  };
+
+  return (
+    <>
       {/* Search and Filter */}
       <div className="flex flex-col sm:flex-row gap-4 mb-6">
         <Input
@@ -397,6 +411,40 @@ export default function Dashboard() {
           </DrawerContent>
         </Drawer>
       )}
+    </>
+  );
+}
+
+// Main Dashboard Component
+export default function Dashboard() {
+  const { user } = useUser();
+
+  return (
+    <div className="container mx-auto px-4 py-6 max-w-6xl">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+        <div>
+          <p className="text-muted-foreground">
+            Welcome back,{" "}
+            <span className="text-lg font-semibold text-foreground">
+              {user?.firstName ||
+                user?.emailAddresses[0]?.emailAddress?.split("@")[0] ||
+                "User"}
+            </span>
+          </p>
+        </div>
+        <NewDocumentDialog />
+      </div>
+
+      {/* Stats - Load independently */}
+      <Suspense fallback={<StatsLoadingSkeleton />}>
+        <DashboardStats />
+      </Suspense>
+
+      {/* Documents List - Load independently */}
+      <Suspense fallback={<div className="h-64"><Skeleton className="h-full w-full rounded-lg" /></div>}>
+        <DocumentsList />
+      </Suspense>
     </div>
   );
 }

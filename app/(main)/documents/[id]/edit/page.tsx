@@ -1,12 +1,10 @@
 "use client";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo, lazy, Suspense } from "react";
 import { useParams } from "next/navigation";
 import { useQuery, useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import SignatureField, {
-  SignatureFieldData,
-} from "@/components/signature-field";
+import type { SignatureFieldData } from "@/components/signature-field";
 import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Plus,
@@ -23,17 +21,21 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { usePdfDimensions } from "@/components/PdfDimensionsContext";
-import { ShareDialog } from "@/components/ShareDialog";
 import PdfControls from "@/components/PdfControls";
 import { UserButton } from "@clerk/clerk-react";
 import Logo from "@/components/Logo";
 import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
 import { useDocumentEditorStore } from "@/store/document-editor-store";
-import { DocumentEditorSidebar } from "@/components/DocumentEditorSidebar";
-import { SignersSidebar } from "@/components/SignersSidebar";
 import { useMobile } from "@/hooks/useMobile";
-import PdfViewerWrapper from "@/components/pdf-viewer-wrapper";
 import Link from "next/link";
+import { Skeleton } from "@/components/ui/skeleton";
+
+// Lazy load heavy components
+const ShareDialog = lazy(() => import("@/components/ShareDialog").then(m => ({ default: m.ShareDialog })));
+const DocumentEditorSidebar = lazy(() => import("@/components/DocumentEditorSidebar").then(m => ({ default: m.DocumentEditorSidebar })));
+const SignersSidebar = lazy(() => import("@/components/SignersSidebar").then(m => ({ default: m.SignersSidebar })));
+const PdfViewerWrapper = lazy(() => import("@/components/pdf-viewer-wrapper"));
+const SignatureField = lazy(() => import("@/components/signature-field").then(m => ({ default: m.default })));
 
 interface Signer {
   email: string;
@@ -150,33 +152,29 @@ export default function DocumentEditor() {
     setSignatureFields(initialFields);
   }, [document, pageDimensions, setSignatureFields]);
 
-  // Sync signers list from signature fields
-  useEffect(() => {
-    const uniqueSigners = new Map<string, Signer>();
-
+  // Sync signers list from signature fields - Memoized for performance
+  const uniqueSignersMap = useMemo(() => {
+    const map = new Map<string, Signer>();
     signatureFields.forEach((field) => {
-      if (field.assignedToEmail && !uniqueSigners.has(field.assignedToEmail)) {
-        uniqueSigners.set(field.assignedToEmail, {
+      if (field.assignedToEmail && !map.has(field.assignedToEmail)) {
+        map.set(field.assignedToEmail, {
           email: field.assignedToEmail,
           name: field.assignedToName || "",
         });
       }
     });
+    return Array.from(map.values()).sort((a, b) => a.email.localeCompare(b.email));
+  }, [signatureFields]);
 
-    const newSigners = Array.from(uniqueSigners.values());
-
-    // Sort for stable comparison
-    const sortedNew = [...newSigners].sort((a, b) =>
-      a.email.localeCompare(b.email),
-    );
+  useEffect(() => {
     const sortedCurrent = [...(signers || [])].sort((a, b) =>
       a.email.localeCompare(b.email),
     );
 
-    if (JSON.stringify(sortedNew) !== JSON.stringify(sortedCurrent)) {
-      setSigners(newSigners);
+    if (JSON.stringify(uniqueSignersMap) !== JSON.stringify(sortedCurrent)) {
+      setSigners(uniqueSignersMap);
     }
-  }, [signatureFields, signers, setSigners]);
+  }, [uniqueSignersMap, signers, setSigners]);
 
   const handleAddSignatureField = useCallback(
     async (fieldType: SignatureFieldData["fieldType"]) => {
@@ -326,12 +324,44 @@ export default function DocumentEditor() {
     [addSigner, documentId, sendForSigning],
   );
 
-  const hasUnassignedFields = signatureFields.some(
-    (field) => !field.assignedToEmail,
+  const hasUnassignedFields = useMemo(
+    () => signatureFields.some((field) => !field.assignedToEmail),
+    [signatureFields]
+  );
+
+  // Memoize current page fields for better performance
+  const currentPageFields = useMemo(
+    () => signatureFields.filter((field) => field.page === currentPage),
+    [signatureFields, currentPage]
   );
 
   if (!document) {
     return null;
+  }
+
+  if (isMobile) {
+    return (
+      <div className="h-screen flex flex-col items-center justify-center p-4 bg-gray-50">
+        <div className="max-w-md w-full bg-white rounded-lg shadow-md p-6 text-center">
+          <div className="mx-auto bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+          </div>
+          <h2 className="text-xl font-semibold text-gray-800 mb-2">Desktop Recommended</h2>
+          <p className="text-gray-600 mb-4">
+            The document editor works best on a laptop or desktop for optimal experience.
+            Please continue on a larger screen for the best editing experience.
+          </p>
+          <Link 
+            href="/dashboard" 
+            className={buttonVariants({ variant: "outline" })}
+          >
+            Return to Dashboard
+          </Link>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -377,12 +407,14 @@ export default function DocumentEditor() {
             {isSavingDraft ? "Saving..." : "Save Draft"}
           </Button> */}
 
-          <ShareDialog
-            documentId={documentId}
-            onSend={handleSendForSigning}
-            hasUnassignedFields={hasUnassignedFields}
-            onSignerAdd={handleSignerAdd}
-          />
+          <Suspense fallback={<Skeleton className="h-10 w-32" />}>
+            <ShareDialog
+              documentId={documentId}
+              onSend={handleSendForSigning}
+              hasUnassignedFields={hasUnassignedFields}
+              onSignerAdd={handleSignerAdd}
+            />
+          </Suspense>
           <UserButton />
         </div>
       </div>
@@ -459,7 +491,9 @@ export default function DocumentEditor() {
       {/* Main Content Area with 3 Columns */}
       <div className="flex-1 flex min-h-0">
         {/* Left Sidebar - Tools */}
-        <DocumentEditorSidebar onAddField={handleAddSignatureField} />
+        <Suspense fallback={<div className="hidden md:block w-16 border-r bg-gray-50" />}>
+          <DocumentEditorSidebar onAddField={handleAddSignatureField} />
+        </Suspense>
 
         {/* PDF Viewer Container - Center */}
         <div className="flex-1 min-h-0 relative overflow-hidden">
@@ -475,59 +509,69 @@ export default function DocumentEditor() {
             }}
           />
           {fileUrl && (
-            <div className="h-full w-full ">
-              <PdfViewerWrapper
-                fileUrl={fileUrl}
-                pageNumber={currentPage}
-                onPageChange={setCurrentPage}
-                onScaleChange={setScale}
-                onNumPagesChange={setNumPages}
-                showControls={false}
-                className="h-full w-full"
-              >
-                <div
-                  className="absolute inset-0 pointer-events-none"
-                  onClick={() => setSelectedFieldId("")}
-                  style={{
-                    paddingBottom: isMobile ? "4rem" : "0",
-                  }}
-                >
-                  <div className="pointer-events-auto">
-                    {signatureFields
-                      .filter((field) => field.page === currentPage)
-                      .map((field) => (
-                        <SignatureField
-                          key={field.id}
-                          field={field}
-                          isEditMode={true}
-                          isSelected={selectedFieldId === field.id}
-                          onUpdate={handleUpdateFieldInStore}
-                          onDelete={handleDeleteField}
-                          onSelect={setSelectedFieldId}
-                          onSave={handleSaveField}
-                        />
-                      ))}
-                  </div>
+            <div className="h-full w-full">
+              <Suspense fallback={
+                <div className="flex items-center justify-center h-full">
+                  <Skeleton className="h-8 w-8 rounded-full" />
                 </div>
-              </PdfViewerWrapper>
+              }>
+                <PdfViewerWrapper
+                  fileUrl={fileUrl}
+                  pageNumber={currentPage}
+                  onPageChange={setCurrentPage}
+                  onScaleChange={setScale}
+                  onNumPagesChange={setNumPages}
+                  showControls={false}
+                  className="h-full w-full"
+                >
+                  <div
+                    className="absolute inset-0 pointer-events-none"
+                    onClick={() => setSelectedFieldId("")}
+                    style={{
+                      paddingBottom: isMobile ? "4rem" : "0",
+                    }}
+                  >
+                    <div className="pointer-events-auto">
+                      <Suspense fallback={null}>
+                        {currentPageFields.map((field) => (
+                          <SignatureField
+                            key={field.id}
+                            field={field}
+                            isEditMode={true}
+                            isSelected={selectedFieldId === field.id}
+                            onUpdate={handleUpdateFieldInStore}
+                            onDelete={handleDeleteField}
+                            onSelect={setSelectedFieldId}
+                            onSave={handleSaveField}
+                          />
+                        ))}
+                      </Suspense>
+                    </div>
+                  </div>
+                </PdfViewerWrapper>
+              </Suspense>
             </div>
           )}
         </div>
 
         {/* Right Sidebar - Signers */}
-        <SignersSidebar documentId={documentId} />
+        <Suspense fallback={<div className="hidden md:block w-80 border-l bg-gray-50" />}>
+          <SignersSidebar documentId={documentId} />
+        </Suspense>
       </div>
 
       {/* Mobile Share Dialog */}
       {isShareDialogOpen && (
-        <ShareDialog
-          documentId={documentId}
-          onSend={handleSendForSigning}
-          open={isShareDialogOpen}
-          onOpenChange={setIsShareDialogOpen}
-          hasUnassignedFields={hasUnassignedFields}
-          onSignerAdd={handleSignerAdd}
-        />
+        <Suspense fallback={null}>
+          <ShareDialog
+            documentId={documentId}
+            onSend={handleSendForSigning}
+            open={isShareDialogOpen}
+            onOpenChange={setIsShareDialogOpen}
+            hasUnassignedFields={hasUnassignedFields}
+            onSignerAdd={handleSignerAdd}
+          />
+        </Suspense>
       )}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-lg">
         <div className="flex items-center justify-between p-3">
