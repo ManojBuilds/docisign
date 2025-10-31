@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface LogoProps {
@@ -14,20 +15,16 @@ export default function Logo({
 }: LogoProps) {
   return (
     <Link href={href} className={cn("flex items-center gap-2", className)}>
-      {
-        /* 
-        <Image
-          src="/logo.png"
-          alt="Boopsign Logo"
-          width={40}
-          height={40}
-          className="h-8 w-8 md:h-10 md:w-10"
-        />
-  */
-      }
+      <Image
+        src="/logo.png"
+        alt="BoopSign Logo"
+        width={40}
+        height={40}
+        className="h-8 w-8 md:h-10 md:w-10"
+      />
       {showText && (
-        <span className="hidden sm:inline-flex text-lg font-semibold md:text-xl">
-          Boopsign
+        <span className="text-lg font-semibold md:text-xl">
+          BoopSign
         </span>
       )}
     </Link>

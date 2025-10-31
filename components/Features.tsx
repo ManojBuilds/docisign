@@ -5,21 +5,24 @@ const Features = () => {
     <section className="py-32" id="features">
       <div className="container mx-auto">
         <p className="mb-4 text-sm text-muted-foreground lg:text-base">
-          WHY BOOPSIGN
+          THE SIMPLE DOCUSIGN ALTERNATIVE
         </p>
         <h2 className="text-3xl font-semibold lg:text-4xl">
-          Why Boopsign
+          Everything You Need. Nothing You Don&apos;t.
         </h2>
+        <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
+          Unlike DocuSign, PandaDoc, or HelloSign, we focus on what actually matters: getting documents signed fast.
+        </p>
         <div className="mt-14 grid gap-6 lg:mt-20 lg:grid-cols-2 xl:grid-cols-4">
           <div className="rounded-lg bg-accent p-5">
             <span className="mb-8 flex size-12 items-center justify-center rounded-full bg-background">
               <Zap className="size-6" />
             </span>
             <h3 className="mb-2 text-xl font-semibold">
-              No Login Signing
+              No Account Required for Signers
             </h3>
             <p className="leading-7 text-muted-foreground">
-              Clients can sign directly from email—no registration required.
+              Your clients sign directly from email—no login, no app download, no friction. Just click, sign, done.
             </p>
           </div>
           <div className="rounded-lg bg-accent p-5">
@@ -27,10 +30,10 @@ const Features = () => {
               <Smartphone className="size-6" />
             </span>
             <h3 className="mb-2 text-xl font-semibold">
-              Email Verification
+              Mobile-Optimized Signing
             </h3>
             <p className="leading-7 text-muted-foreground">
-              Each signer&apos;s identity is verified via a unique one-time link.
+              Works perfectly on any device. Your clients can sign contracts on their phone in seconds—no desktop required.
             </p>
           </div>
           <div className="rounded-lg bg-accent p-5">
@@ -38,10 +41,10 @@ const Features = () => {
               <Users className="size-6" />
             </span>
             <h3 className="mb-2 text-xl font-semibold">
-              Audit Trail
+              Legally Binding Audit Trail
             </h3>
             <p className="leading-7 text-muted-foreground">
-              Every document includes a timestamped proof of signature.
+              Every signature includes timestamped proof, IP address, and email verification for complete legal compliance.
             </p>
           </div>
           <div className="rounded-lg bg-accent p-5">
@@ -49,10 +52,10 @@ const Features = () => {
               <Shield className="size-6" />
             </span>
             <h3 className="mb-2 text-xl font-semibold">
-              Encrypted & Secure
+              Bank-Level Security
             </h3>
             <p className="leading-7 text-muted-foreground">
-              Built on Convex backend with Clerk authentication.
+              Enterprise-grade encryption and secure authentication. Your documents are protected at every step.
             </p>
           </div>
         </div>

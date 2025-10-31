@@ -38,18 +38,18 @@ const Cta = () => {
             ))}
           </div>
           <p className="text-sm ml-2">
-            Join <span className="font-semibold">10,000+</span> users who trust Boopsign
+            Join <span className="font-semibold">freelancers & consultants</span> who switched from DocuSign
           </p>
         </div>
 
         {/* Main heading */}
         <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-          Start signing documents in <span className="text-foreground">seconds</span>, not hours
+          Ready to Sign Contracts in <span className="text-foreground">3 Minutes</span> Instead of 3 Days?
         </h2>
 
         {/* Subheading */}
         <p className="text-lg max-w-2xl mx-auto mb-8">
-          Join thousands of freelancers, small businesses, and consultants who trust Boopsign as the best alternative to DocuSign.
+          Stop wasting time with complex e-signature tools. Join freelancers, consultants, and small businesses who chose the simple DocuSign alternative.
         </p>
 
         {/* CTA Buttons */}
@@ -59,7 +59,7 @@ const Cta = () => {
 
         {/* Trust indicators */}
         <p className="text-sm text-primary-foreground/80 mt-6">
-          No credit card required • Setup in under 3 minutes • Cancel anytime
+          7-day free trial • No credit card required • No account needed for signers • Cancel anytime
         </p>
       </div>
     </section>

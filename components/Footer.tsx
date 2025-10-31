@@ -1,3 +1,5 @@
+import Logo from "./Logo";
+
 const Footer = () => {
   return (
     <footer className="border-t py-10 w-full bg-background">
@@ -6,7 +8,7 @@ const Footer = () => {
           {/* Logo and Copyright */}
           <div className="md:col-span-1">
             <div className="flex flex-col space-y-4">
-              <div className="font-bold text-lg">Boopsign</div>
+              <Logo/>
               <p className="text-sm text-muted-foreground">
                 &copy; {new Date().getFullYear()} Boopsign. All rights reserved.
               </p>

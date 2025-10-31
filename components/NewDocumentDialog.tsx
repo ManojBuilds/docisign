@@ -421,10 +421,11 @@ export function NewDocumentDialog() {
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[600px]">
+        <DialogHeader>
+          <DialogTitle>Upload New Document</DialogTitle>
+        </DialogHeader>
         <TrialGate>
-          <DialogHeader>
-            <DialogTitle>Upload New Document</DialogTitle>
-          </DialogHeader>
+
           <UploadContent
             getRootProps={getRootProps}
             getInputProps={getInputProps}

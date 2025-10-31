@@ -18,41 +18,41 @@ interface PricingProps {
 }
 
 const Pricing = ({
-  heading = "Simple, Transparent Pricing",
-  description = "Start your 7-day free trial of Boopsign Pro today. No credit card required. Cancel anytime."
+  heading = "10x Cheaper Than DocuSign",
+  description = "Start your 7-day free trial today. No credit card required. No account needed for signers. Cancel anytime with one click."
 }: PricingProps) => {
   const features = [
-    "Unlimited document signing",
-    "Supports PDF, DOC, and DOCX files",
-    "Mobile-friendly e-signature platform",
-    "Real-time email signing notifications",
-    "Legally binding digital signatures",
-    "Comprehensive document tracking",
-    "Export your signed PDFs easily",
-    "Reliable email support",
+    "✅ Unlimited document signing (no per-doc fees)",
+    "✅ No account required for signers",
+    "✅ PDF, DOC, and DOCX support",
+    "✅ Mobile-optimized signing experience",
+    "✅ Legally binding audit trail",
+    "✅ Real-time email notifications",
+    "✅ Instant signed PDF delivery",
+    "✅ Fast email support",
   ];
 
   const steps = [
     {
       number: "01",
       icon: <Zap className="size-6" />,
-      title: "Lightning Fast Setup &amp; Signing",
+      title: "10x Faster Than DocuSign",
       description:
-        "Upload, add signatures, and send documents in under 3 minutes with Boopsign's mobile-first platform. No complex workflows or training needed.",
+        "Upload, place signatures, and send in under 3 minutes. Your clients sign instantly—no account creation, no app download. Average signing time: 2 minutes vs DocuSign's 24-48 hours.",
     },
     {
       number: "02",
       icon: <Shield className="size-6" />,
-      title: "Secure, Industry-Standard Compliance",
+      title: "10x Cheaper Than Competitors",
       description:
-        "Click exactly where signatures should go. Add signer names and emails with a few clicks—faster than DocuSign's complex field placement.",
+        "DocuSign costs $120+/month. PandaDoc costs $99/month. BoopSign? Just $12/month for unlimited signing. No per-document fees, no user fees, no hidden costs.",
     },
     {
       number: "03",
       icon: <Check className="size-6" />,
-      title: "Simple & Transparent Pricing",
+      title: "Built for Freelancers & Consultants",
       description:
-        "One affordable plan — no hidden fees, no per-document or per-user charges. What you see is what you pay.",
+        "No enterprise bloat. No complex workflows. Just the features you actually need: upload, sign, done. Perfect for contracts, NDAs, proposals, and service agreements.",
     },
   ];
 
@@ -68,10 +68,13 @@ const Pricing = ({
           {heading}
         </Badge>
         <h1 className="from-foreground to-foreground/50 bg-gradient-to-r bg-clip-text text-5xl font-bold tracking-tight text-pretty text-transparent md:text-6xl">
-          Choose your perfect plan
+          $12/Month for Unlimited Signing
         </h1>
         <p className="text-muted-foreground mx-auto max-w-3xl text-base text-balance md:text-lg">
           {description}
+        </p>
+        <p className="text-sm text-muted-foreground mt-2">
+          Compare: DocuSign $120/mo • PandaDoc $99/mo • HelloSign $60/mo • <span className="font-semibold text-primary">BoopSign $12/mo</span>
         </p>
       </div>
 
@@ -79,18 +82,17 @@ const Pricing = ({
       <div className="px-4 mx-auto grid max-w-5xl gap-8 md:grid-cols-2 lg:gap-12">
         <Card className="border-2 relative overflow-hidden">
           <CardHeader className="text-center pb-4">
-            <CardTitle className="text-2xl">Free Plan</CardTitle>
+            <CardTitle className="text-2xl">Free Trial</CardTitle>
             <CardDescription>
-              Everything needed for fast, reliable, and mobile-first electronic
-              signatures
+              Try BoopSign Pro free for 7 days. All features included. No credit card required.
             </CardDescription>
             <div className="mt-4">
               <div className="flex items-baseline justify-center gap-1">
                 <span className="text-4xl font-bold">$0</span>
-                <span className="text-muted-foreground">/month</span>
+                <span className="text-muted-foreground">/7 days</span>
               </div>
               <p className="text-sm text-muted-foreground mt-1">
-                No credit card required
+                Then $12/month • Cancel anytime
               </p>
             </div>
           </CardHeader>
@@ -123,10 +125,9 @@ const Pricing = ({
                 Most Popular Plan
               </Badge>
             </div>
-            <CardTitle className="text-2xl">Boopsign Pro Plan</CardTitle>
+            <CardTitle className="text-2xl">BoopSign Pro</CardTitle>
             <CardDescription>
-              Everything needed for fast, reliable, and mobile-first electronic
-              signatures
+              Everything freelancers and consultants need. No account required for signers. Unlimited signing.
             </CardDescription>
             <div className="mt-4">
               <div className="flex items-baseline justify-center gap-1">
@@ -165,7 +166,10 @@ const Pricing = ({
       {/* Benefits Section */}
       <div className="container mx-auto px-4 py-16">
         <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Why Choose Boopsign?</h2>
+          <h2 className="text-3xl font-bold mb-4">Why Freelancers Choose BoopSign Over DocuSign</h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Built specifically for freelancers, consultants, and small businesses who need speed over complexity.
+          </p>
         </div>
 
         <div className="mx-auto max-w-6xl">

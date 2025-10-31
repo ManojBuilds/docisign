@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import Image from "next/image";
+// import Image from "next/image";
 import { Label } from "./ui/label";
 
 interface HeroProps {
@@ -22,37 +22,42 @@ interface HeroProps {
 }
 
 const HeroProps = ({
-  description = "Sign documents in 3 minutes with BoopSign's mobile-first electronic signature platform. No login required for signers. 7-day free trial, $12/month. DocuSign alternative.",
+  heading,
+  description = "The simplest DocuSign alternative built for speed. Send contracts, NDAs, and proposals in under 3 minutes. Your clients sign instantly—no login, no app download, no friction. Just click, sign, done.",
   button = {
-    text: "Start Free Trial",
+    text: "Start Free Trial — No Credit Card",
     url: "/signup",
   },
-  
+
 }: HeroProps) => {
   return (
     <section className="py-32">
       <div className="container mx-auto text-center relative">
-        <Image
+        {/* <Image
           src={"/image.png"}
           alt="pen"
           width={200}
           height={200}
           className="object-contain absolute right-0 hidden md:block rotate-2 bottom-0"
-        />
+        /> */}
         <div className="mx-auto flex max-w-5xl flex-col gap-6">
           <h1 className="text-3xl font-extrabold lg:text-5xl leading-tight">
-                Sign Documents Instantly
-                <br />{" "}
-                <span className={`text-primary`}>
-                  No Account Needed
-                </span>
+                {heading || (
+                  <>
+                    E-Signature for Freelancers & Consultants
+                    <br />{" "}
+                    <span className={`text-primary`}>
+                      No Account Required for Signers
+                    </span>
+                  </>
+                )}
           </h1>
           <p className="text-muted-foreground text-balance lg:text-lg max-w-4xl mx-auto">
             {description}
           </p>
           <div className="flex items-center gap-2 justify-center text-xs sm:text-sm font-medium text-muted-foreground/70">
-            <span>✓ Built for speed</span>• <span>✓ Lightweight</span>{" "}
-            • <span>✓ Only what you need</span>
+            <span>✓ No login for signers</span>• <span>✓ 3-minute setup</span>{" "}
+            • <span>✓ Mobile-optimized</span>
           </div>
         </div>
 
@@ -60,7 +65,7 @@ const HeroProps = ({
           <Link href={button.url}>{button.text}</Link>
         </Button>
         <br />
-        <Label className="text-center inline-block text-muted-foreground text-sm">No signup required</Label>
+        <Label className="text-center inline-block text-muted-foreground text-sm">7-day free trial • $12/month after • Cancel anytime</Label>
 
         {/*<div className="mx-auto mt-10 flex w-fit flex-col items-center gap-4 sm:flex-row">
           <span className="mx-4 inline-flex items-center -space-x-4">

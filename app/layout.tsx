@@ -10,28 +10,35 @@ import { Suspense } from "react";
 export const metadata: Metadata = {
   metadataBase: new URL("https://boopsign.com"),
   title: {
-    default: "BoopSign — Sign Documents Online Instantly (No Account Needed)",
+    default: "BoopSign — E-Signature for Freelancers & Consultants | No Account Required",
     template: "%s | BoopSign",
   },
   description:
-    "Send and sign documents online without creating an account. Perfect for freelancers and small teams. Upload, share, and get secure e-signatures instantly.",
+    "The simplest DocuSign alternative built for speed. Send contracts, NDAs, and proposals in under 3 minutes. Your clients sign instantly—no login, no app download, no friction. $12/month for unlimited signing.",
   keywords: [
-    "sign documents online",
-    "no account",
-    "quick e-sign tool",
-    "send contract for signature instantly",
-    "digital signature app for freelancers",
-    "document signing for freelancers",
-    "business e-signature tool",
-    "secure e-signature",
-    "instant document signing",
-    "free document signing",
-    "simple e-signature pricing",
+    "e-signature for freelancers",
+    "e-signature for consultants",
     "docusign alternative",
-    "electronic signature software",
-    "esignature platform",
-    "mobile document signing",
-    "online signature tool",
+    "simple docusign alternative",
+    "no account e-signature",
+    "e-signature no account needed",
+    "freelance contract signing",
+    "sign nda online",
+    "consultant contract signing",
+    "lightweight document signing",
+    "simple e-signature tool",
+    "hellosign alternative",
+    "pandadoc alternative",
+    "adobe sign alternative",
+    "mobile e-signature",
+    "fast contract signing",
+    "cheap docusign alternative",
+    "affordable e-signature",
+    "sign documents online no account",
+    "electronic signature for small business",
+    "consulting agreement signing",
+    "freelancer esignature",
+    "no login document signing",
   ],
   authors: [{ name: "BoopSign Team" }],
   creator: "BoopSign",
@@ -46,23 +53,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://boopsign.com",
     siteName: "BoopSign",
-    title: "BoopSign — Fast, No-Login Document Signing",
+    title: "BoopSign — E-Signature for Freelancers & Consultants | No Account Required",
     description:
-      "A simpler way to sign PDFs online. Secure, verified, and fast.",
+      "The simplest DocuSign alternative. Send contracts, NDAs, and proposals in under 3 minutes. No login required for signers. $12/month for unlimited signing.",
     images: [
       {
         url: "https://boopsign.com/og-image.png",
         width: 1200,
         height: 630,
-        alt: "BoopSign - Fast Mobile Electronic Signatures",
+        alt: "BoopSign - Simple E-Signature for Freelancers & Consultants",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "BoopSign — Fast, No-Login Document Signing",
+    title: "BoopSign — E-Signature for Freelancers & Consultants",
     description:
-      "A simpler way to sign PDFs online. Secure, verified, and fast.",
+      "The simplest DocuSign alternative. Get contracts signed in under 3 minutes. No account needed for signers. $12/month.",
     images: ["https://boopsign.com/og-image.png"],
     creator: "@boopsign",
   },
@@ -121,8 +128,20 @@ export default function RootLayout({
                 ratingCount: "127",
               },
               description:
-                "Electronic signature software that's 3x faster than DocuSign with mobile-first design",
+                "E-signature for freelancers and consultants. The simplest DocuSign alternative built for speed. No account required for signers. Sign contracts, NDAs, and proposals in under 3 minutes.",
               url: "https://boopsign.com",
+              featureList: [
+                "No account required for signers",
+                "Mobile-optimized e-signatures",
+                "Legally binding audit trail",
+                "Unlimited document signing",
+                "3-minute setup",
+                "Bank-level security"
+              ],
+              audience: {
+                "@type": "Audience",
+                audienceType: "Freelancers, Consultants, Small Businesses"
+              }
             }),
           }}
         />

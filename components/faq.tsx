@@ -17,47 +17,52 @@ interface Faq1Props {
 }
 
 const Faq = ({
-  heading = "Frequently asked questions",
+  heading = "Frequently Asked Questions",
   items = [
   {
     id: "faq-1",
-    question: "What is your pricing model?",
-    answer: "Simple, transparent pricing. Start with a 7-day free trial of Boopsign Pro. After the trial, it's just $12/month for unlimited document signing with all features included."
+    question: "How is BoopSign different from DocuSign?",
+    answer: "BoopSign is built for speed and simplicity. Unlike DocuSign, your clients don't need to create accounts—they sign directly from email. We're also 10x cheaper ($12/month vs $120+/month) with no per-document fees. Perfect for freelancers and consultants who need simple e-signatures without enterprise complexity."
   },
   {
     id: "faq-2",
-    question: "Do I need to pay to start my free trial?",
-    answer: "No, you can start your 7-day free trial of Boopsign Pro today with no credit card required."
+    question: "Do signers need to create an account?",
+    answer: "No! This is our biggest differentiator. Signers receive a secure, one-time link via email and can sign immediately—no login, no password, no app download. This reduces signing time from hours to minutes and eliminates the #1 friction point in e-signatures."
   },
   {
     id: "faq-3",
-    question: "Can I cancel anytime during my free trial?",
-    answer: "Yes, you can cancel your subscription at any time. No contracts or commitments. You can even cancel during your free trial with no questions asked."
+    question: "What's your pricing? Any hidden fees?",
+    answer: "Simple, transparent pricing: $12/month for unlimited document signing. No per-document charges, no user fees, no setup costs. Start with a 7-day free trial—no credit card required. Cancel anytime with no questions asked."
   },
   {
     id: "faq-4",
-    question: "Do document signers need to create accounts?",
-    answer: "No! Signers can sign documents directly from their email without creating any accounts. This reduces friction and speeds up the signing process significantly."
+    question: "Is it legally binding?",
+    answer: "Yes! Every signature includes a complete audit trail with timestamp, IP address, email verification, and signer identity proof. BoopSign e-signatures are legally binding and compliant with ESIGN Act and UETA regulations—just like DocuSign, but simpler."
   },
   {
     id: "faq-5",
-    question: "What features are included in the Pro plan?",
-    answer: "The Pro plan includes unlimited document signing, support for PDF, DOC, and DOCX files, mobile-friendly e-signature platform, real-time email notifications, legally binding digital signatures, and comprehensive document tracking."
+    question: "Can I use it on mobile?",
+    answer: "Absolutely! BoopSign is mobile-first. Your clients can sign contracts, NDAs, and proposals on their phone in under 30 seconds. No app download required—works perfectly in any mobile browser."
   },
   {
     id: "faq-6",
-    question: "Are there any hidden fees?",
-    answer: "No hidden fees whatsoever. No per-document charges, no user fees, and no setup costs. Just $12/month for unlimited document signing."
+    question: "What file types do you support?",
+    answer: "We support PDF, DOCX, DOC, and image files (PNG, JPG). Upload any document type and we'll handle the rest. Signed documents are always delivered as PDFs with embedded audit trails."
   },
   {
     id: "faq-7",
-    question: "Is the platform mobile-friendly?",
-    answer: "Yes, our platform is mobile-first designed to work seamlessly on any device."
+    question: "How fast can I get a document signed?",
+    answer: "Most documents are signed within minutes. Upload takes 30 seconds, your client receives the email instantly, and they can sign in under 1 minute. Total time from upload to signed PDF: under 3 minutes. Compare that to DocuSign's average of 24-48 hours."
   },
   {
     id: "faq-8",
-    question: "How does it compare to DocuSign?",
-    answer: "BoopSign is simpler, faster, and more affordable than DocuSign. No login required for signers, mobile-optimized, and significantly more cost-effective with transparent pricing."
+    question: "Can I try it before paying?",
+    answer: "Yes! Start with a 7-day free trial of BoopSign Pro—no credit card required. Test unlimited document signing, all features included. If you don't love it, cancel anytime with one click."
+  },
+  {
+    id: "faq-9",
+    question: "Who is BoopSign best for?",
+    answer: "Freelancers, consultants, small businesses, and agencies who need simple, fast e-signatures. If you're sending contracts, NDAs, proposals, or service agreements and find DocuSign too complex or expensive, BoopSign is built for you."
   }
 ]
 }: Faq1Props) => {

@@ -6,7 +6,7 @@ import HeroProps from "@/components/Hero";
 import { ClientHeaderWrapper } from "@/components/ClientHeaderWrapper";
 import HowItWorks from "@/components/HowItWorks";
 import { Problem } from "@/components/Problem";
-import TestimonialsSection from "@/components/testimonials";
+// import TestimonialsSection from "@/components/testimonials";
 import Pricing from "@/components/Pricing";
 
 export default function Home() {
@@ -21,10 +21,10 @@ export default function Home() {
       ></div>
       <main className="px-4 sm:px-0 w-full flex-1">
         <HeroProps
-          heading="Sign Documents Instantly — No Account Needed"
-          description={`Send contracts or PDFs for secure signing in seconds. Your clients just click, sign, and you're done. No logins, no friction — just signatures that stick.`}
+          heading="E-Signature for Freelancers & Consultants — No Account Required for Signers"
+          description={`The simplest DocuSign alternative built for speed. Send contracts, NDAs, and proposals in under 3 minutes. Your clients sign instantly—no login, no app download, no friction. Just click, sign, done.`}
           button={{
-            text: "🔥 Get Started Free",
+            text: "Start Free Trial — No Credit Card",
             url: "/dashboard",
           }}
         />
@@ -33,7 +33,7 @@ export default function Home() {
         <Features />
         <Pricing />
         <Faq />
-        <TestimonialsSection />
+        {/* <TestimonialsSection /> */}
         <Cta />
       </main>
       <Footer />
