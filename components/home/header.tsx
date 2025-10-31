@@ -124,10 +124,12 @@ export function Header({
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.2, delay: i * 0.05 }}
                 href={item.href}
-                onClick={(e) => {
-                  handleScrollToSection(e);
-                  setMobileMenuOpen(false);
-                }}
+                onClick={(e) =>
+                  item.href.startsWith("#") ? () => {
+                    handleScrollToSection(e);
+                    setMobileMenuOpen(false);
+                  } : undefined
+                }
                 className="group relative overflow-hidden py-2 text-sm font-medium"
               >
                 <span className="relative z-10">{item.label}</span>

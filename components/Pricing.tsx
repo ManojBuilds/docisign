@@ -22,14 +22,14 @@ const Pricing = ({
   description = "Start your 7-day free trial today. No credit card required. No account needed for signers. Cancel anytime with one click."
 }: PricingProps) => {
   const features = [
-    "✅ Unlimited document signing (no per-doc fees)",
-    "✅ No account required for signers",
-    "✅ PDF, DOC, and DOCX support",
-    "✅ Mobile-optimized signing experience",
-    "✅ Legally binding audit trail",
-    "✅ Real-time email notifications",
-    "✅ Instant signed PDF delivery",
-    "✅ Fast email support",
+    "Unlimited document signing (no per-doc fees)",
+    "No account required for signers",
+    "PDF, DOC, and DOCX support",
+    "Mobile-optimized signing experience",
+    "Legally binding audit trail",
+    "Real-time email notifications",
+    "Instant signed PDF delivery",
+    "Fast email support",
   ];
 
   const steps = [
