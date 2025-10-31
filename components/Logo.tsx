@@ -14,7 +14,7 @@ export default function Logo({
   href = "/",
 }: LogoProps) {
   return (
-    <Link href={href} className={cn("flex items-center gap-2", className)}>
+    <Link href={href} className={cn("flex items-center", className)}>
       <Image
         src="/logo.png"
         alt="BoopSign Logo"
