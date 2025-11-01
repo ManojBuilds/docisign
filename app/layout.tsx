@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { PdfDimensionsProvider } from "@/components/PdfDimensionsContext";
 import { Metadata, Viewport } from "next";
 import { Suspense } from "react";
+import localFont from "next/font/local";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://boopsign.com"),
@@ -89,6 +90,48 @@ export const metadata: Metadata = {
   },
 };
 
+const alanSans = localFont({
+  src: [
+    {
+      path: "../public/fonts/AlanSans-Light.ttf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/AlanSans-Regular.ttf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/AlanSans-Medium.ttf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/AlanSans-SemiBold.ttf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/AlanSans-Bold.ttf",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/AlanSans-ExtraBold.ttf",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../public/fonts/AlanSans-Black.ttf",
+      weight: "900",
+      style: "normal",
+    },
+  ],
+  variable: "--font-alan-sans",
+  display: "swap",
+});
+
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1.0,
@@ -146,7 +189,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`antialiased relative`}>
+      <body className={`antialiased relative ${alanSans.variable}`}>
         <Suspense>
           <ClerkProvider
             signInUrl="/sign-in"
@@ -159,7 +202,7 @@ export default function RootLayout({
             </ConvexClientProvider>
           </ClerkProvider>
         </Suspense>
-        <Toaster style={{fontFamily: "Alan Sans"}} richColors position="bottom-right" />
+        <Toaster richColors position="bottom-right" />
         <Analytics />
       </body>
     </html>
