@@ -26,6 +26,14 @@ export default defineSchema({
       v.literal("past_due"),
     ),
 
+    // Onboarding fields
+    onboardingCompleted: v.optional(v.boolean()),
+    onboardingCompletedAt: v.optional(v.number()),
+    userRole: v.optional(v.string()), // e.g., "freelancer", "consultant", "small_business", "other"
+    primaryUseCase: v.optional(v.string()), // e.g., "contracts", "ndas", "proposals", "invoices", "other"
+    teamSize: v.optional(v.string()), // e.g., "solo", "2-5", "6-10", "11+"
+    industry: v.optional(v.string()), // e.g., "tech", "legal", "real_estate", "consulting", "other"
+
     createdAt: v.number(),
     updatedAt: v.number(),
   })

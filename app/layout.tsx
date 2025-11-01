@@ -102,6 +102,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
         <meta
           name="google-site-verification"
           content="It-5F-rGTphiGn4oyRrSntPBqgQWbUohNCFKsdQ922M"
@@ -159,7 +162,7 @@ export default function RootLayout({
             </ConvexClientProvider>
           </ClerkProvider>
         </Suspense>
-        <Toaster />
+        <Toaster style={{fontFamily: "Alan Sans"}} richColors position="bottom-right" />
         <Analytics />
       </body>
     </html>

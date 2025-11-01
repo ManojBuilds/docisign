@@ -34,6 +34,7 @@ export const createUser = mutation({
       trialStartDate: now,
       trialEndDate: trialEndDate,
       subscriptionStatus: "trial",
+      onboardingCompleted: false,
       createdAt: now,
       updatedAt: now,
     });
@@ -175,37 +176,53 @@ export const incrementDocumentUsage = mutation({
 });
 
 
-// Add this mutation to convex/users.ts
-// export const updateSubscriptionStatus = mutation({
-//   args: {
-//     clerkId: v.string(),
-//     subscriptionStatus: v.union(
-//       v.literal("active"),
-//       v.literal("cancelled"),
-//       v.literal("expired"),
-//       v.literal("past_due")
-//     ),
-//     dodoCustomerId: v.optional(v.string()),
-//     dodoSubscriptionId: v.optional(v.string()),
-//   },
-//   handler: async (ctx, args) => {
-//     const user = await ctx.db
-//       .query("users")
-//       .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
-//       .first();
+// Complete onboarding and save user preferences
+export const completeOnboarding = mutation({
+  args: {
+    clerkId: v.string(),
+    userRole: v.optional(v.string()),
+    primaryUseCase: v.optional(v.string()),
+    teamSize: v.optional(v.string()),
+    industry: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
+      .first();
 
-//     if (!user) {
-//       throw new Error("User not found");
-//     }
+    if (!user) {
+      throw new Error("User not found");
+    }
 
-//     await ctx.db.patch(user._id, {
-//       subscriptionStatus: args.subscriptionStatus,
-//       plan: args.subscriptionStatus === "active" ? "pro" : user.plan,
-//       dodoCustomerId: args.dodoCustomerId || user.dodoCustomerId,
-//       dodoSubscriptionId: args.dodoSubscriptionId || user.dodoSubscriptionId,
-//       updatedAt: Date.now(),
-//     });
+    await ctx.db.patch(user._id, {
+      onboardingCompleted: true,
+      onboardingCompletedAt: Date.now(),
+      userRole: args.userRole,
+      primaryUseCase: args.primaryUseCase,
+      teamSize: args.teamSize,
+      industry: args.industry,
+      updatedAt: Date.now(),
+    });
 
-//     return { success: true };
-//   },
-// });
+    return { success: true };
+  },
+});
+
+// Check if user has completed onboarding
+export const hasCompletedOnboarding = query({
+  args: { clerkId: v.string() },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
+      .first();
+
+    if (!user) {
+      return false;
+    }
+
+    // If onboardingCompleted is undefined, treat as not completed (for existing users)
+    return user.onboardingCompleted ?? false;
+  },
+});

@@ -3,9 +3,9 @@
 
 **Core Differentiator:** No account needed for signers + Simple + Lightweight + Only what's needed
 
-**Target:** $100 MRR = 10 customers at $10/mo OR 5 customers at $20/mo OR 2 customers at $50/mo
+**Target:** $100 MRR = 12 paid customer at $12/month
 
-**Start Date:** [Add your start date here]
+**Start Date:** 30 Oct 2025
 
 ---
 
