@@ -21,11 +21,60 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${baseUrl}/hellosign-alternative`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/adobe-sign-alternative`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/dropbox-sign-alternative`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+
+    },
+    {
+      url: `${baseUrl}/pandadoc-alternative`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+
+    },
+    {
+      url: `${baseUrl}/signnow-alternative`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+
+    },
+    {
       url: `${baseUrl}/online-signature-maker`,
       lastModified: new Date(),
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: `${baseUrl}/signrequest-alternative`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+
+    },
+    {
+      url: `${baseUrl}/zoho-sign-alternative`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+
+
+    },
+
     {
       url: `${baseUrl}/mobile-electronic-signature`,
       lastModified: new Date(),
