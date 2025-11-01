@@ -8,7 +8,7 @@ const Footer = () => {
           {/* Logo and Copyright */}
           <div className="md:col-span-1">
             <div className="flex flex-col space-y-4">
-              <Logo/>
+              <Logo />
               <p className="text-sm text-muted-foreground">
                 &copy; {new Date().getFullYear()} Boopsign. All rights reserved.
               </p>
@@ -58,6 +58,14 @@ const Footer = () => {
           <div className="md:col-span-1">
             <h3 className="font-semibold text-base mb-3">Popular Pages</h3>
             <ul className="space-y-2">
+              <li>
+                <a
+                  href="/no-account-esignature"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors"
+                >
+                  No account creation required for signer
+                </a>
+              </li>
               <li>
                 <a
                   href="/docusign-alternative"

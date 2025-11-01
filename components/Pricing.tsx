@@ -79,7 +79,7 @@ const Pricing = ({
       </div>
 
       {/* Boopsign Pro Pricing Card */}
-      <div className="px-4 mx-auto grid max-w-5xl gap-8 md:grid-cols-2 lg:gap-12">
+      <div className="px-4 mx-auto grid max-w-5xl gap-8 md:grid-cols-1 lg:grid-cols-3 lg:gap-12">
         <Card className="border-2 relative overflow-hidden">
           <CardHeader className="text-center pb-4">
             <CardTitle className="text-2xl">Free Trial</CardTitle>
@@ -159,6 +159,43 @@ const Pricing = ({
             <p className="text-xs text-muted-foreground text-center">
               No credit card required • Full feature access during trial period
             </p>
+          </CardFooter>
+        </Card>
+        <Card className="border-2 relative overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-1 bg-muted" />
+          <CardHeader className="text-center pb-4">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <Badge variant="secondary" className="text-xs">
+                Coming Soon
+              </Badge>
+            </div>
+            <CardTitle className="text-2xl">Team</CardTitle>
+            <CardDescription>
+              Advanced features for growing teams and enterprises.
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="pt-0">
+            <div className="space-y-3 mb-6">
+              <div className="flex items-center gap-3">
+                <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                <span className="text-sm">Everything in Pro plan</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                <span className="text-sm">Team management</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                <span className="text-sm">Custom branding</span>
+              </div>
+            </div>
+          </CardContent>
+
+          <CardFooter className="flex flex-col">
+            <Button size="lg" variant="secondary" className="w-full" disabled>
+              Coming Soon
+            </Button>
           </CardFooter>
         </Card>
       </div>
