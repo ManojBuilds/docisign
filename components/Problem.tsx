@@ -4,7 +4,7 @@ export function Problem() {
       <div className="container px-4 md:px-6 mx-auto">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">
           <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
+            <h2 className="text-3xl font-bold  sm:text-5xl">
               Built for Freelancers & Consultants Who Need Speed
             </h2>
             <p className="text-muted-foreground text-lg max-w-2xl mx-auto mt-4">

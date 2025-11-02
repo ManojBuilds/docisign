@@ -6,7 +6,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { PdfDimensionsProvider } from "@/components/PdfDimensionsContext";
 import { Metadata, Viewport } from "next";
 import { Suspense } from "react";
-import localFont from "next/font/local";
+import { DM_Sans } from "next/font/google";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://boopsign.com"),
@@ -89,48 +89,53 @@ export const metadata: Metadata = {
     google: "It-5F-rGTphiGn4oyRrSntPBqgQWbUohNCFKsdQ922M",
   },
 };
-
-const alanSans = localFont({
-  src: [
-    {
-      path: "../public/fonts/AlanSans-Light.ttf",
-      weight: "300",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/AlanSans-Regular.ttf",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/AlanSans-Medium.ttf",
-      weight: "500",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/AlanSans-SemiBold.ttf",
-      weight: "600",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/AlanSans-Bold.ttf",
-      weight: "700",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/AlanSans-ExtraBold.ttf",
-      weight: "800",
-      style: "normal",
-    },
-    {
-      path: "../public/fonts/AlanSans-Black.ttf",
-      weight: "900",
-      style: "normal",
-    },
-  ],
+const alanSans = DM_Sans({
   variable: "--font-alan-sans",
   display: "swap",
+  subsets: ['latin'],
+  weight: ['300', '400', '500', '600', '700', '800', '900']
 });
+// const alanSans = localFont({
+//   src: [
+//     {
+//       path: "../public/fonts/AlanSans-Light.ttf",
+//       weight: "300",
+//       style: "normal",
+//     },
+//     {
+//       path: "../public/fonts/AlanSans-Regular.ttf",
+//       weight: "400",
+//       style: "normal",
+//     },
+//     {
+//       path: "../public/fonts/AlanSans-Medium.ttf",
+//       weight: "500",
+//       style: "normal",
+//     },
+//     {
+//       path: "../public/fonts/AlanSans-SemiBold.ttf",
+//       weight: "600",
+//       style: "normal",
+//     },
+//     {
+//       path: "../public/fonts/AlanSans-Bold.ttf",
+//       weight: "700",
+//       style: "normal",
+//     },
+//     {
+//       path: "../public/fonts/AlanSans-ExtraBold.ttf",
+//       weight: "800",
+//       style: "normal",
+//     },
+//     {
+//       path: "../public/fonts/AlanSans-Black.ttf",
+//       weight: "900",
+//       style: "normal",
+//     },
+//   ],
+//   variable: "--font-alan-sans",
+//   display: "swap",
+// });
 
 export const viewport: Viewport = {
   width: "device-width",

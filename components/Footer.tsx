@@ -1,3 +1,4 @@
+import { ShieldCheckIcon } from "lucide-react";
 import Logo from "./Logo";
 
 const Footer = () => {
@@ -12,10 +13,8 @@ const Footer = () => {
               <p className="text-sm text-muted-foreground">
                 The simplest e-signature solution for modern businesses.
               </p>
-              <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                  <path fillRule="evenodd" d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zm7-10a1 1 0 01.967.744L14.146 7.2 13.047 14H9a1 1 0 110-2h3.847l1.08-6.276-1.933-.523-.933 5.476H10a1 1 0 010-2h1.847l.98-5.724A1 1 0 0112 2zm-6 10a1 1 0 100 2h.01a1 1 0 100-2H6z" clipRule="evenodd" />
-                </svg>
+              <div className="flex items-center text-sm text-muted-foreground">
+                <ShieldCheckIcon size={18} className="text-primary"/>
                 <span>Secure & legally binding</span>
               </div>
               <p className="text-xs text-muted-foreground/80 mt-4">
@@ -41,14 +40,23 @@ const Footer = () => {
               </li>
               <li>
                 <a
-                  href="payping.boopsign.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/proposal-signing-software"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
                     <span className="mr-2 text-green-500">✓</span>
-                    <span>Get paid 40% faster</span>
+                    <span>Proposal signing software</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/freelance-contract-template"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-green-500">✓</span>
+                    <span>Contract templates</span>
                   </div>
                 </a>
               </li>
@@ -71,6 +79,50 @@ const Footer = () => {
                   <div className="flex items-start">
                     <span className="mr-2 text-green-500">✓</span>
                     <span>No account required</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/remote-team-document-signing"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-green-500">✓</span>
+                    <span>Remote team solutions</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/hr-document-signing"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-green-500">✓</span>
+                    <span>HR document management</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/client-onboarding-documents"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-green-500">✓</span>
+                    <span>Client onboarding documents</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/real-estate-document-signing"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-green-500">✓</span>
+                    <span>Real estate solutions</span>
                   </div>
                 </a>
               </li>
@@ -178,11 +230,88 @@ const Footer = () => {
             <ul className="space-y-3">
               <li>
                 <a
+                  href="/electronic-signature-laws"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-purple-500">•</span>
+                    <span>Electronic signature laws</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/esignature-vs-digital-signature"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-purple-500">•</span>
+                    <span>E-signature vs Digital signature</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/how-to-create-electronic-signature"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-purple-500">•</span>
+                    <span>How to create e-signatures</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/contract-signing-best-practices"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-purple-500">•</span>
+                    <span>Contract signing best practices</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/document-security-guide"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-purple-500">•</span>
+                    <span>Document security guide</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/nda-template-free"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-purple-500">•</span>
+                    <span>Free NDA templates</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/consulting-agreement-template"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-purple-500">•</span>
+                    <span>Consulting agreement templates</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
                   href="/privacy-policy"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
-                    <span className="mr-2 text-purple-500">🔒</span>
+                    <span className="mr-2 text-purple-500">•</span>
                     <span>Privacy Policy</span>
                   </div>
                 </a>
@@ -193,7 +322,7 @@ const Footer = () => {
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
-                    <span className="mr-2 text-purple-500">💬</span>
+                    <span className="mr-2 text-purple-500">•</span>
                     <span>Support Center</span>
                   </div>
                 </a>
@@ -204,7 +333,7 @@ const Footer = () => {
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
-                    <span className="mr-2 text-purple-500">📞</span>
+                    <span className="mr-2 text-purple-500">•</span>
                     <span>Contact Sales</span>
                   </div>
                 </a>
