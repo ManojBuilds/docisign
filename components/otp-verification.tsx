@@ -112,7 +112,7 @@ export default function OtpVerification({
   };
 
   return (
-    <Card className="w-full max-w-md mx-auto">
+    <Card className="w-full max-w-md mx-auto border-0">
       <CardHeader className="text-center">
         <div className="mx-auto bg-primary/10 p-3 rounded-full w-16 h-16 flex items-center justify-center mb-4">
           <Mail className="h-8 w-8 text-primary" />

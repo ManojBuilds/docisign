@@ -323,8 +323,9 @@ const WelcomeScreen = ({
           try {
             await onGenerateOtp();
             onProceed();
-          } catch (error) {
+          } catch (_e) {
             // Error is already handled in onGenerateOtp
+            console.error(_e)
             return; // exit early if OTP generation failed
           }
         }}
