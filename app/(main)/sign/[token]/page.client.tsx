@@ -36,6 +36,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Image from "next/image";
+import OtpVerification from "@/components/otp-verification";
 
 // Lazy load heavy components
 const PdfViewerWrapper = lazy(() => import("@/components/pdf-viewer-wrapper"));
@@ -223,10 +224,12 @@ const WelcomeScreen = ({
   signingSession,
   owner,
   onProceed,
+  onGenerateOtp,
 }: {
   signingSession: any;
   owner: any;
   onProceed: () => void;
+  onGenerateOtp: () => Promise<void>;
 }) => {
   const ownerName = owner?.firstName
     ? `${owner.firstName} ${owner.lastName || ""}`.trim()
@@ -313,7 +316,19 @@ const WelcomeScreen = ({
         </div>
       </div>
 
-      <Button size="lg" className="mt-10 w-full max-w-xs" onClick={onProceed}>
+      <Button
+        size="lg"
+        className="mt-10 w-full max-w-xs"
+        onClick={async () => {
+          try {
+            await onGenerateOtp();
+            onProceed();
+          } catch (error) {
+            // Error is already handled in onGenerateOtp
+            return; // exit early if OTP generation failed
+          }
+        }}
+      >
         Review & Sign
       </Button>
       <div className="flex items-center gap-2 text-sm text-muted-foreground mt-6">
@@ -331,7 +346,10 @@ export default function SigningPage() {
   const accessToken = params.token as string;
 
   // State
-  const [showWelcome, setShowWelcome] = useState(true);
+  const [showWelcome, setShowWelcome] = useState(false);
+  const [otpVerified, setOtpVerified] = useState(false);
+  const [hasOtpSent, setHasOtpSent] = useState(false); // Track if OTP has been sent
+  const [checkingVerification, setCheckingVerification] = useState(true); // Track if we're checking verification status
 
   // Queries
   const signingSession = useQuery(api.signers.getSigningSession, {
@@ -350,6 +368,17 @@ export default function SigningPage() {
     api.signatureFields.completeSignatureField,
   );
   const finalizeDocument = useMutation(api.signers.finalizeDocument);
+  const generateOtp = useMutation(api.otp.generateOTP);
+  
+  // Queries
+  const verificationStatus = useQuery(api.otp.checkVerificationStatus, 
+    signingSession?.signer?.email && signingSession?.document 
+      ? { 
+          email: signingSession.signer.email, 
+          purpose: "signer_verification" 
+        } 
+      : "skip"
+  );
 
   // State
   const [fileUrl, setFileUrl] = useState<string>("");
@@ -384,6 +413,14 @@ export default function SigningPage() {
   useEffect(() => {
     loadAndMarkViewed();
   }, [loadAndMarkViewed]);
+
+  // Check verification status when signingSession and verificationStatus load
+  useEffect(() => {
+    if (signingSession && verificationStatus !== undefined) {
+      setOtpVerified(verificationStatus.isVerified || false);
+      setCheckingVerification(false);
+    }
+  }, [signingSession, verificationStatus]);
 
   // Load and normalize signature fields
   useEffect(() => {
@@ -619,7 +656,7 @@ export default function SigningPage() {
     }
   }, [signingSession, signatureFields, incompleteRequiredFields, finalizeDocument, router, accessToken]);
 
-  if (!signingSession) {
+  if (!signingSession || checkingVerification) {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <Loader2 className="h-8 w-8 animate-spin" />
@@ -651,12 +688,50 @@ export default function SigningPage() {
 
   if (!signingSession?.document) return null;
 
+  // Show OTP verification first if not verified yet
+  if (!otpVerified) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+        <div
+          style={{
+            backgroundImage: "url('/noise.png')",
+          }}
+          className="pointer-events-none [z-index:-1] absolute inset-0 bg-[size:180px] bg-repeat opacity-[0.035]"
+        ></div>
+        <OtpVerification
+          email={signingSession.signer.email}
+          onVerificationSuccess={() => {
+            setOtpVerified(true);
+            setShowWelcome(true); // Show welcome screen after OTP is verified
+          }}
+          purpose="signer_verification"
+          onSendOtp={() => setHasOtpSent(true)}
+          hasOtpSent={hasOtpSent}
+        />
+      </div>
+    );
+  }
+
+  // Show welcome screen after OTP verification
   if (showWelcome) {
     return (
       <WelcomeScreen
         signingSession={signingSession}
         owner={owner}
-        onProceed={() => setShowWelcome(false)}
+        onProceed={() => setShowWelcome(false)} // Move to main signing UI
+        onGenerateOtp={async () => {
+          try {
+            await generateOtp({
+              email: signingSession.signer.email,
+              purpose: "signer_verification",
+            });
+            toast.success("New OTP sent to your email. Please check your inbox.");
+            setHasOtpSent(true);
+          } catch (error) {
+            console.error("Error sending OTP:", error);
+            toast.error("Failed to send OTP. Please try again.");
+          }
+        }}
       />
     );
   }
@@ -725,19 +800,19 @@ export default function SigningPage() {
                       ))}
                     </Suspense>
                   </div>
-                {currentActiveField &&
-                  currentActiveField.page === currentPage && (
-                    <div
-                      className="absolute animate-pulse rounded-md ring-2 ring-blue-500 ring-offset-2 pointer-events-none"
-                      style={{
-                        left: `${currentActiveField.normalizedX * 100}%`,
-                        top: `${currentActiveField.normalizedY * 100}%`,
-                        width: `${currentActiveField.normalizedWidth * 100}%`,
-                        height: `${currentActiveField.normalizedHeight * 100}%`,
-                      }}
-                    />
-                  )}
-              </div>
+                  {currentActiveField &&
+                    currentActiveField.page === currentPage && (
+                      <div
+                        className="absolute animate-pulse rounded-md ring-2 ring-blue-500 ring-offset-2 pointer-events-none"
+                        style={{
+                          left: `${currentActiveField.normalizedX * 100}%`,
+                          top: `${currentActiveField.normalizedY * 100}%`,
+                          width: `${currentActiveField.normalizedWidth * 100}%`,
+                          height: `${currentActiveField.normalizedHeight * 100}%`,
+                        }}
+                      />
+                    )}
+                </div>
               </PdfViewerWrapper>
             </Suspense>
           )}{" "}

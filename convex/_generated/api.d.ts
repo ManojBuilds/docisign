@@ -18,6 +18,7 @@ import type * as emails from "../emails.js";
 import type * as files from "../files.js";
 import type * as http from "../http.js";
 import type * as notifications from "../notifications.js";
+import type * as otp from "../otp.js";
 import type * as signatureFields from "../signatureFields.js";
 import type * as signers from "../signers.js";
 import type * as users from "../users.js";
@@ -47,6 +48,7 @@ declare const fullApi: ApiFromModules<{
   files: typeof files;
   http: typeof http;
   notifications: typeof notifications;
+  otp: typeof otp;
   signatureFields: typeof signatureFields;
   signers: typeof signers;
   users: typeof users;

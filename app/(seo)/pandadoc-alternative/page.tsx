@@ -108,7 +108,7 @@ const pandadocFaq = [
 
 export default function PandaDocAlternativePage() {
   return (
-    <div className="bg-gray-50 text-gray-800">
+    <div >
       {/* Enhanced Schema Markup for SEO */}
       <script
         type="application/ld+json"
@@ -205,7 +205,7 @@ export default function PandaDocAlternativePage() {
       />
 
       {/* Hero Section */}
-      <section className="text-center py-16 md:py-20 px-4 bg-gradient-to-br from-blue-50 to-purple-100">
+      <section className="text-center py-16 md:py-20 px-4">
         <div className="container mx-auto max-w-6xl">
           <Badge variant="outline" className="mb-4 text-base px-4 py-2">
             💰 Save $276/year per user

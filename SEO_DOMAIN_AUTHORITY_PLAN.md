@@ -4,6 +4,8 @@
 **Core Differentiators:** No account needed for signers • Simple • Lightweight • Only essential features  
 **Goal:** Grow organic traffic to 10,000/mo and achieve DA 30+ in 6 months
 
+<!-- Page speed test -->
+
 ---
 
 ## 📊 Current State Analysis

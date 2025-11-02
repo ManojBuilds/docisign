@@ -61,9 +61,9 @@ const docusignFaq = [
 
 export default function DocusignAlternativePage() {
   return (
-    <div className="bg-gray-50 text-gray-800">
+    <div className="">
       {/* Hero Section */}
-      <section className="text-center py-16 md:py-20 px-4 bg-gradient-to-br from-gray-50 to-gray-200">
+      <section className="text-center py-16 md:py-20 px-4">
         <div className="container mx-auto max-w-6xl">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
             The #1 <span className="text-blue-600">DocuSign Alternative</span>
@@ -78,25 +78,25 @@ export default function DocusignAlternativePage() {
           <div className="flex flex-wrap justify-center gap-4 mb-10 text-sm md:text-base">
             <Badge
               variant="outline"
-              className="bg-green-100 text-green-800 border-green-200"
+              className="border-green-200"
             >
               3x Faster Signing
             </Badge>
             <Badge
               variant="outline"
-              className="bg-blue-100 text-blue-800 border-blue-200"
+              className="border-blue-200"
             >
               50% Cheaper
             </Badge>
             <Badge
               variant="outline"
-              className="bg-purple-100 text-purple-800 border-purple-200"
+              className="border-purple-200"
             >
               Mobile-First Design
             </Badge>
             <Badge
               variant="outline"
-              className="bg-orange-100 text-orange-800 border-orange-200"
+              className="border-orange-200"
             >
               No Forced Accounts
             </Badge>
@@ -111,7 +111,7 @@ export default function DocusignAlternativePage() {
       </section>
 
       {/* Why Switch Section */}
-      <section className="py-16 md:py-20 px-4 bg-white">
+      <section className="py-16 md:py-20 px-4">
         <div className="container mx-auto text-center max-w-5xl">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Why 2,847+ Businesses Switched from DocuSign
@@ -123,9 +123,9 @@ export default function DocusignAlternativePage() {
           </p>
 
           <div className="grid md:grid-cols-2 gap-8 text-left">
-            <Card className="bg-red-50 border-red-100">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-red-800">
+                <CardTitle className="text-red-700">
                   DocuSign&apos;s Hidden Problems
                 </CardTitle>
               </CardHeader>
@@ -148,9 +148,9 @@ export default function DocusignAlternativePage() {
                 </p>
               </CardContent>
             </Card>
-            <Card className="bg-green-50 border-green-100">
+            <Card>
               <CardHeader>
-                <CardTitle className="text-green-800">
+                <CardTitle className="text-green-700">
                   BoopSign: The Solution
                 </CardTitle>
               </CardHeader>
@@ -192,7 +192,7 @@ export default function DocusignAlternativePage() {
       {/* Head-to-Head Comparison Table */}
       <section
         id="compare"
-        className="py-16 md:py-20 px-4 bg-white text-gray-800"
+        className="py-16 md:py-20 px-4"
       >
         <div className="container mx-auto max-w-5xl text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -202,7 +202,7 @@ export default function DocusignAlternativePage() {
             A direct comparison for 2025.
           </p>
 
-          <div className="bg-white/10 rounded-xl p-8 backdrop-blur-sm">
+          <div className="rounded-xl p-8">
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead>
@@ -278,7 +278,7 @@ export default function DocusignAlternativePage() {
       </section>
 
       {/* Real User Stories Section */}
-      <section className="bg-white py-16 md:py-20 px-4">
+      <section className="py-16 md:py-20 px-4">
         <div className="container mx-auto text-center max-w-5xl">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             Real Stories from Former DocuSign Users
@@ -290,7 +290,7 @@ export default function DocusignAlternativePage() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
-            <Card className="bg-gray-50">
+            <Card>
               <CardContent className="p-6">
                 <div className="flex justify-center text-yellow-400 mb-3">
                   <Star />
@@ -305,7 +305,7 @@ export default function DocusignAlternativePage() {
                 <p className="font-semibold">- Sarah L., Real Estate Agent</p>
               </CardContent>
             </Card>
-            <Card className="bg-gray-50">
+            <Card>
               <CardContent className="p-6">
                 <div className="flex justify-center text-yellow-400 mb-3">
                   <Star />
@@ -324,7 +324,7 @@ export default function DocusignAlternativePage() {
                 </p>
               </CardContent>
             </Card>
-            <Card className="bg-gray-50">
+            <Card>
               <CardContent className="p-6">
                 <div className="flex justify-center text-yellow-400 mb-3">
                   <Star />
@@ -348,7 +348,7 @@ export default function DocusignAlternativePage() {
       </section>
 
       {/* Top Reasons to Switch */}
-      <section className="py-16 md:py-20 px-4 bg-gray-50">
+      <section className="py-16 md:py-20 px-4">
         <div className="container mx-auto max-w-4xl">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -437,13 +437,13 @@ export default function DocusignAlternativePage() {
       </section>
 
       {/* Who Should Choose */}
-      <section className="py-16 md:py-20 px-4 bg-white">
+      <section className="py-16 md:py-20 px-4">
         <div className="container mx-auto max-w-5xl">
           <h2 className="text-3xl font-bold text-center mb-12">
             Is BoopSign the Right DocuSign Alternative for You?
           </h2>
           <div className="grid md:grid-cols-2 gap-8">
-            <Card className="border-green-200">
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-green-700">
                   <CheckCircle /> Choose BoopSign if...
@@ -465,7 +465,7 @@ export default function DocusignAlternativePage() {
                 </ul>
               </CardContent>
             </Card>
-            <Card className="border-gray-200">
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-gray-700">
                   <ArrowRight /> Stick with DocuSign if...
@@ -493,7 +493,7 @@ export default function DocusignAlternativePage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-16 md:py-20 px-4 bg-gray-50">
+      <section className="py-16 md:py-20 px-4">
         <div className="container mx-auto max-w-4xl">
           <Faq heading="DocuSign vs BoopSign: FAQs" items={docusignFaq} />
         </div>

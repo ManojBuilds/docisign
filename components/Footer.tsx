@@ -347,7 +347,7 @@ const Footer = () => {
           <p className="text-sm text-muted-foreground mb-2">
             Join thousands of professionals saving time and money with BoopSign
           </p>
-          <div className="flex justify-center space-x-6 text-xs text-muted-foreground">
+          <div className="flex justify-center space-x-2 sm:space-x-6 text-xs text-muted-foreground">
             <span>ESIGN Act Compliant</span>
             <span>•</span>
             <span>UETA Certified</span>

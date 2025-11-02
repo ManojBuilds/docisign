@@ -108,7 +108,7 @@ const hellosignFaq = [
 
 export default function HelloSignAlternativePage() {
   return (
-    <div className="bg-gray-50 text-gray-800">
+    <div>
       {/* Enhanced Schema Markup for SEO */}
       <script
         type="application/ld+json"
@@ -189,7 +189,7 @@ export default function HelloSignAlternativePage() {
       />
 
       {/* Hero Section */}
-      <section className="text-center py-16 md:py-20 px-4 bg-gradient-to-br from-blue-50 via-gray-50 to-purple-50">
+      <section className="text-center py-16 md:py-20 px-4 ">
         <div className="container mx-auto max-w-6xl">
           <div className="mb-6">
             <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-200 mb-4">

@@ -157,4 +157,17 @@ export default defineSchema({
   })
     .index("by_document", ["documentId"])
     .index("by_timestamp", ["timestamp"]),
+  
+  otps: defineTable({
+    email: v.string(),
+    otp: v.string(),
+    purpose: v.union(v.literal("signer_verification"), v.literal("email_verification")),
+    expiresAt: v.number(),
+    verified: v.boolean(),
+    createdAt: v.number(),
+  })
+    .index("by_email", ["email"])
+    .index("by_email_and_purpose", ["email", "purpose"])
+    .index("by_created_at", ["createdAt"])
+    .index("by_email_purpose_and_verified", ["email", "purpose", "verified"]),
 });

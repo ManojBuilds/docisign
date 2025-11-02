@@ -69,7 +69,7 @@ export default function DocumentSecurityGuidePage() {
       <section id="encryption" className="py-16 md:py-20 px-4 bg-white">
         <div className="container mx-auto max-w-5xl">
           <div className="flex items-start gap-6 mb-8">
-            <div className="w-14 h-14 bg-indigo-50 rounded-lg flex items-center justify-center">
+            <div className="w-14 h-14 aspect-square bg-indigo-50 rounded-lg flex items-center justify-center">
               <Lock className="w-6 h-6 text-indigo-600" />
             </div>
             <div>
@@ -119,7 +119,7 @@ export default function DocumentSecurityGuidePage() {
       <section id="access" className="py-16 md:py-20 px-4 bg-gray-50">
         <div className="container mx-auto max-w-5xl">
           <div className="flex items-start gap-6 mb-8">
-            <div className="w-14 h-14 bg-indigo-50 rounded-lg flex items-center justify-center">
+            <div className="w-14 h-14 aspect-square bg-indigo-50 rounded-lg flex items-center justify-center">
               <Users className="w-6 h-6 text-indigo-600" />
             </div>
             <div>
@@ -162,7 +162,7 @@ export default function DocumentSecurityGuidePage() {
       <section id="storage" className="py-16 md:py-20 px-4 bg-white">
         <div className="container mx-auto max-w-5xl">
           <div className="flex items-start gap-6 mb-8">
-            <div className="w-14 h-14 bg-indigo-50 rounded-lg flex items-center justify-center">
+            <div className="w-14 h-14 aspect-square bg-indigo-50 rounded-lg flex items-center justify-center">
               <Database className="w-6 h-6 text-indigo-600" />
             </div>
             <div>
@@ -210,7 +210,7 @@ export default function DocumentSecurityGuidePage() {
       <section id="compliance" className="py-16 md:py-20 px-4 bg-gray-50">
         <div className="container mx-auto max-w-5xl">
           <div className="flex items-start gap-6 mb-8">
-            <div className="w-14 h-14 bg-indigo-50 rounded-lg flex items-center justify-center">
+            <div className="w-14 h-14 aspect-square bg-indigo-50 rounded-lg flex items-center justify-center">
               <ShieldCheck className="w-6 h-6 text-indigo-600" />
             </div>
             <div>
@@ -249,9 +249,9 @@ export default function DocumentSecurityGuidePage() {
             </Card>
           </div>
 
-          <div className="mt-6 text-sm text-gray-600">
+          {/* <div className="mt-6 text-sm text-gray-600">
             <strong>Need a DPA?</strong> <Link href="mailto:security@boopsign.com" className="underline">security@boopsign.com</Link>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -259,7 +259,7 @@ export default function DocumentSecurityGuidePage() {
       <section id="auditing" className="py-16 md:py-20 px-4 bg-white">
         <div className="container mx-auto max-w-5xl">
           <div className="flex items-start gap-6 mb-8">
-            <div className="w-14 h-14 bg-indigo-50 rounded-lg flex items-center justify-center">
+            <div className="w-14 h-14 aspect-square bg-indigo-50 rounded-lg flex items-center justify-center">
               <FileLock className="w-6 h-6 text-indigo-600" />
             </div>
             <div>
@@ -311,12 +311,12 @@ export default function DocumentSecurityGuidePage() {
         <div className="container mx-auto max-w-4xl">
           <div className="bg-white p-6 rounded-lg shadow-sm border">
             <div className="flex items-start gap-4">
-              <div className="w-12 h-12 bg-indigo-50 rounded flex items-center justify-center">
+              <div className="w-12 h-12 aspect-square bg-indigo-50 rounded flex items-center justify-center">
                 <Mail className="w-5 h-5 text-indigo-600" />
               </div>
               <div>
                 <h3 className="text-xl font-bold">Found a security issue?</h3>
-                <p className="text-gray-600 mb-4">We welcome responsible disclosure. Please email <strong>security@boopsign.com</strong> with details.</p>
+                <p className="text-gray-600 mb-4">We welcome responsible disclosure. Please email <strong>mkumar.react@gmail.com</strong> with details.</p>
                 <div className="text-sm text-gray-600">We aim to acknowledge reports within 48 hours and will coordinate fixes and disclosure timelines.</div>
               </div>
             </div>
