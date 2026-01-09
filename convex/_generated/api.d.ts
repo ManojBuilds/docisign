@@ -17,6 +17,7 @@ import type * as documents from "../documents.js";
 import type * as emails_layout from "../emails/layout.js";
 import type * as emails_templates_document_complete from "../emails/templates/document_complete.js";
 import type * as emails_templates_index from "../emails/templates/index.js";
+import type * as emails_templates_new_year_gift from "../emails/templates/new_year_gift.js";
 import type * as emails_templates_signer_copy from "../emails/templates/signer_copy.js";
 import type * as emails_templates_signing_confirmation from "../emails/templates/signing_confirmation.js";
 import type * as emails_templates_signing_request from "../emails/templates/signing_request.js";
@@ -57,6 +58,7 @@ declare const fullApi: ApiFromModules<{
   "emails/layout": typeof emails_layout;
   "emails/templates/document_complete": typeof emails_templates_document_complete;
   "emails/templates/index": typeof emails_templates_index;
+  "emails/templates/new_year_gift": typeof emails_templates_new_year_gift;
   "emails/templates/signer_copy": typeof emails_templates_signer_copy;
   "emails/templates/signing_confirmation": typeof emails_templates_signing_confirmation;
   "emails/templates/signing_request": typeof emails_templates_signing_request;

@@ -12,6 +12,7 @@ export default defineSchema({
     // Add trial fields
     trialStartDate: v.number(),
     trialEndDate: v.number(),
+    documentsUsed: v.optional(v.number()),
 
     // Add subscription fields for DodoPayments
     dodoCustomerId: v.optional(v.string()),

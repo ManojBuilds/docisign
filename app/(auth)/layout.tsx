@@ -24,7 +24,7 @@ export default function AuthLayout({
         <NoiseEffect />
 
         {/* Back Button */}
-        <div className="absolute top-6 left-6 z-20">
+        <div className="absolute top-6 left-6 z-20 hidden sm:block">
           <Link
             href="/"
             className="group flex items-center gap-2 rounded-full bg-white/50 px-4 py-2 text-sm font-medium text-slate-600 backdrop-blur-sm transition-all hover:bg-white hover:text-slate-900 hover:shadow-sm ring-1 ring-slate-200/50"
