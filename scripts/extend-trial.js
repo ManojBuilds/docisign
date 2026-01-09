@@ -3,24 +3,30 @@
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "../convex/_generated/api.js";
 
-// Function to extend trial for all users
-async function extendTrialForAllUsers() {
+// Function to setup early users
+async function setupEarlyUsers() {
   // Initialize Convex client
+  if (!process.env.CONVEX_URL) {
+    console.error("CONVEX_URL environment variable is not set");
+    process.exit(1);
+  }
+  console.log(process.env.CONVEX_URL);
   const convex = new ConvexHttpClient(process.env.CONVEX_URL);
 
   try {
-    console.log("Extending trial period for all users by 1 month...");
+    console.log("Setting up early users with 1-month trial...");
 
-    // Call the mutation to extend trial for all users
-    const result = await convex.mutation(api.scripts.extendTrial.extendTrialForAllUsers);
+    // Call the mutation to setup early users
+    const result = await convex.mutation(api.scripts.extendTrial.setupEarlyUsers);
 
     console.log("Success:", result.message);
-    console.log("Number of users updated:", result.usersUpdated);
+    console.log("Created:", result.created);
+    console.log("Updated:", result.updated);
   } catch (error) {
-    console.error("Error extending trial for users:", error);
+    console.error("Error setting up early users:", error);
     process.exit(1);
   }
 }
 
 // Run the function
-extendTrialForAllUsers();
+setupEarlyUsers();

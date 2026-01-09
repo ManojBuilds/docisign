@@ -30,7 +30,6 @@ export const createUser = mutation({
       firstName: args.firstName,
       lastName: args.lastName,
       plan: "trial",
-      documentsUsed: 0,
       trialStartDate: now,
       trialEndDate: trialEndDate,
       subscriptionStatus: "trial",
@@ -161,27 +160,6 @@ export const getCurrentUser = query({
       .query("users")
       .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
       .first();
-  },
-});
-
-
-// Increment document usage
-export const incrementDocumentUsage = mutation({
-  args: { clerkId: v.string() },
-  handler: async (ctx, args) => {
-    const user = await ctx.db
-      .query("users")
-      .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
-      .first();
-
-    if (!user) {
-      throw new Error("User not found");
-    }
-
-    await ctx.db.patch(user._id, {
-      documentsUsed: user.documentsUsed + 1,
-      updatedAt: Date.now(),
-    });
   },
 });
 

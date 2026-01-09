@@ -9,8 +9,6 @@ export default defineSchema({
     lastName: v.optional(v.string()),
     // Update plan to include trial
     plan: v.union(v.literal("trial"), v.literal("pro"), v.literal("expired")),
-    documentsUsed: v.number(),
-
     // Add trial fields
     trialStartDate: v.number(),
     trialEndDate: v.number(),
