@@ -1,14 +1,14 @@
 import {
-    Body,
-    Container,
-    Head,
-    Hr,
-    Html,
-    Img,
-    Link,
-    Preview,
-    Section,
-    Text,
+  Body,
+  Container,
+  Head,
+  Hr,
+  Html,
+  Img,
+  Link,
+  Preview,
+  Section,
+  Text,
 } from "@react-email/components";
 import * as React from "react";
 
@@ -112,7 +112,7 @@ export function EmailLayout({
   preview,
   children,
   baseUrl = "",
-  logoSrc,
+  logoSrc = "https://boopsign.com/logo.png",
 }: EmailLayoutProps) {
   return (
     <Html>

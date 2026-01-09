@@ -6,6 +6,7 @@ import { components } from "./_generated/api";
 import { action } from "./_generated/server";
 import {
   DocumentComplete,
+  NewYearGift,
   SignerCopy,
   SigningConfirmation,
   SigningRequest,
@@ -17,7 +18,7 @@ import {
 const domain = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 
 export const resend: Resend = new Resend(components.resend, {
-  testMode: true,
+  testMode: domain.includes("localhost"),
 });
 
 export const sendWelcomeEmail = action({
@@ -41,6 +42,31 @@ export const sendWelcomeEmail = action({
       console.log("Welcome email sent successfully!", res);
     } catch (error) {
       console.error("Failed to send welcome email:", error);
+    }
+  },
+});
+
+export const sendNewYearGiftEmail = action({
+  args: {
+    email: v.string(),
+    name: v.string(),
+  },
+  handler: async (ctx, args) => {
+    try {
+      const res = await resend.sendEmail(ctx, {
+        from: "Boopsign <alerts@mailer.boopsign.com>",
+        to: args.email,
+        subject: "A New Year gift from Boopsign!",
+        html: await render(
+          NewYearGift({
+            userName: args.name,
+            dashboardUrl: `${domain}/dashboard`,
+          }),
+        ),
+      });
+      console.log("New Year gift email sent successfully!", res);
+    } catch (error) {
+      console.error("Failed to send New Year gift email:", error);
     }
   },
 });
