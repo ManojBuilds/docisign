@@ -14,8 +14,7 @@ import "react-pdf/dist/Page/TextLayer.css";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import { usePdfDimensions } from "./PdfDimensionsContext";
 import { useMobile } from "@/hooks/useMobile";
-
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 interface PDFViewerProps {
   fileUrl: string;
@@ -24,15 +23,16 @@ interface PDFViewerProps {
   onPageChange?: (pageNumber: number) => void;
   onScaleChange?: (scale: number) => void;
   onNumPagesChange?: (numPages: number) => void;
-  children?: React.ReactNode;
+  children?: React.ReactNode | ((pageNumber: number) => React.ReactNode);
   className?: string;
   onPreviousSignatureField?: () => void;
   onNextSignatureField?: () => void;
   hasMultipleIncompleteFields?: boolean;
+  onReady?: () => void;
 }
 if (typeof window === "undefined") {
   // @ts-expect-error fix the error
-  global.DOMMatrix = class DOMMatrix {};
+  global.DOMMatrix = class DOMMatrix { };
 }
 
 export default function PDFViewer({
@@ -47,31 +47,72 @@ export default function PDFViewer({
   onPreviousSignatureField,
   onNextSignatureField,
   hasMultipleIncompleteFields,
+  onReady,
 }: PDFViewerProps) {
   const [numPages, setNumPages] = useState<number>(0);
-  const [pageNumber, setPageNumber] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
   const { pageDimensions, scale, setPageDimensions, setScale } =
     usePdfDimensions();
   const containerRef = useRef<HTMLDivElement>(null);
+  const pageRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const isMobile = useMobile();
 
-  // Sync with controlled page number
+  // Handle intersection for updating current page while scrolling
   useEffect(() => {
-    if (controlledPageNumber && controlledPageNumber !== pageNumber) {
-      setPageNumber(controlledPageNumber);
+    if (numPages === 0 || !containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        // Find the page with the highest intersection ratio
+        const visiblePages = entries
+          .filter(entry => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visiblePages.length > 0) {
+          const pageNum = parseInt(visiblePages[0].target.getAttribute("data-page-number") || "1");
+          if (pageNum !== currentPage) {
+            setCurrentPage(pageNum);
+            onPageChange?.(pageNum);
+          }
+        }
+      },
+      {
+        root: containerRef.current,
+        threshold: [0, 0.2, 0.5, 0.8, 1],
+        rootMargin: "-10% 0px -10% 0px" // Add some margin to be more decisive
+      }
+    );
+
+    Object.values(pageRefs.current).forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, [numPages, onPageChange, currentPage]);
+
+  // Sync with controlled page number (scrolling to page)
+  useEffect(() => {
+    if (controlledPageNumber && controlledPageNumber !== currentPage) {
+      setCurrentPage(controlledPageNumber);
+      const pageElement = pageRefs.current[controlledPageNumber];
+      if (pageElement) {
+        pageElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     }
-  }, [controlledPageNumber, pageNumber]);
+  }, [controlledPageNumber]); // Only depend on controlledPageNumber to avoid loops
 
   const handlePageChange = useCallback(
     (newPage: number) => {
       const newPageNumber = Math.max(1, Math.min(newPage, numPages || 1));
-      setPageNumber(newPageNumber);
-      onPageChange?.(newPageNumber);
+      const pageElement = pageRefs.current[newPageNumber];
+      if (pageElement) {
+        pageElement.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     },
-    [numPages, onPageChange],
+    [numPages],
   );
 
   const handleScaleChange = useCallback(
@@ -108,15 +149,8 @@ export default function PDFViewer({
       setIsLoading(false);
       setError("");
       onNumPagesChange?.(numPages);
-
-      // Initialize page number if controlled
-      if (controlledPageNumber && controlledPageNumber <= numPages) {
-        setPageNumber(controlledPageNumber);
-      } else if (!controlledPageNumber) {
-        setPageNumber(1);
-      }
     },
-    [onNumPagesChange, controlledPageNumber],
+    [onNumPagesChange],
   );
 
   const onDocumentLoadError = useCallback((error: Error) => {
@@ -126,51 +160,50 @@ export default function PDFViewer({
   }, []);
 
   const onPageRenderSuccess = useCallback(
-    (page: any) => {
+    (page: any, pNum: number) => {
       const viewport = page.getViewport({ scale: 1 });
       setPageDimensions(
         (prev: Record<number, { width: number; height: number }>) => ({
           ...prev,
-          [pageNumber]: { width: viewport.width, height: viewport.height },
+          [pNum]: { width: viewport.width, height: viewport.height },
         }),
       );
     },
-    [pageNumber, setPageDimensions],
+    [setPageDimensions],
   );
 
-  // Auto-adjust scale for mobile
+  // Track if we've already set the initial scale to prevent loops
+  const hasSetInitialScale = useRef(false);
+
+  // Auto-adjust scale for mobile or initial fit-to-width
+  useEffect(() => {
+    if (numPages === 0 || hasSetInitialScale.current || !containerRef.current) return;
+
+    const firstPageWidth = pageDimensions[1]?.width;
+    if (firstPageWidth && containerRef.current) {
+      const containerWidth = containerRef.current.clientWidth;
+      const padding = isMobile ? 32 : 80;
+      const targetWidth = containerWidth - padding;
+
+      const optimalScale = targetWidth / firstPageWidth;
+
+      // We only set the initial scale once to "Fit to Width"
+      setScale(Math.min(1.5, Math.max(0.2, optimalScale)));
+      hasSetInitialScale.current = true;
+      onReady?.();
+    }
+  }, [pageDimensions, numPages, isMobile, setScale, onReady]);
+
+  // Handle window resize separately if needed, but more cautiously
   useEffect(() => {
     const handleResize = () => {
-      const currentPageWidth = pageDimensions[pageNumber]?.width;
-      if (containerRef.current && currentPageWidth > 0) {
-        const containerWidth = containerRef.current.clientWidth;
-
-        // Adjust scale to fit screen width, especially on mobile
-        if (isMobile) {
-          const optimalScale = containerWidth / currentPageWidth;
-          setScale(optimalScale);
-        } else {
-          // Optional: Keep existing desktop logic or set a default
-          const maxScale = (containerWidth - 40) / currentPageWidth;
-          if (maxScale < scale) {
-            handleScaleChange(maxScale);
-          }
-        }
-      }
+      // We don't forcefully reset scale on every resize unless it's extreme or specifically requested
+      // For now, let's keep it simple: initial fit-to-width is enough.
     };
 
     window.addEventListener("resize", handleResize);
-    handleResize(); // Initial call
-
     return () => window.removeEventListener("resize", handleResize);
-  }, [
-    pageDimensions,
-    pageNumber,
-    scale,
-    handleScaleChange,
-    isMobile,
-    setScale,
-  ]);
+  }, []);
 
   if (error) {
     return (
@@ -187,39 +220,41 @@ export default function PDFViewer({
     <div className={`flex flex-col h-full ${className}`}>
       {/* Controls */}
       {showControls && numPages > 0 && (
-        <div className="flex items-center p-2 md:p-4 bg-background border-b border-border">
+        <div className="flex items-center p-2 md:p-4 bg-background border-b border-border shadow-sm">
           {/* Page Navigation */}
-          
           <div className="flex items-center mx-auto md:space-x-4">
-            {/*<Logo showText={false} className="md:hidden" />*/}
-            <div className="flex items-center">
+            <div className="flex items-center bg-gray-50 rounded-lg p-1">
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => handlePageChange(pageNumber - 1)}
-                disabled={pageNumber <= 1}
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage <= 1}
+                className="h-8 w-8 p-0"
               >
                 <ChevronLeft className="w-4 h-4" />
               </Button>
-              <span className="text-sm font-medium min-w-[2rem] sm:min-w-[4rem] text-center">
-                {pageNumber} / {numPages}
+              <span className="text-xs font-bold font-mono min-w-[3rem] text-center text-gray-600">
+                {currentPage} / {numPages}
               </span>
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() => handlePageChange(pageNumber + 1)}
-                disabled={pageNumber >= numPages}
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage >= numPages}
+                className="h-8 w-8 p-0"
               >
                 <ChevronRight className="w-4 h-4" />
               </Button>
             </div>
+
             {/* Zoom Controls */}
-            <div className="hidden md:flex items-center">
+            <div className="hidden md:flex items-center bg-gray-50 rounded-lg p-1">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => handleScaleChange(scale - 0.1)}
                 disabled={scale <= 0.5}
+                className="h-8 w-8 p-0"
               >
                 <ZoomOut className="w-4 h-4" />
               </Button>
@@ -227,7 +262,7 @@ export default function PDFViewer({
                 variant="ghost"
                 size="sm"
                 onClick={() => handleScaleChange(1.0)}
-                className="min-w-[4rem]"
+                className="min-w-[3.5rem] h-8 text-xs font-bold"
               >
                 {Math.round(scale * 100)}%
               </Button>
@@ -236,29 +271,33 @@ export default function PDFViewer({
                 size="sm"
                 onClick={() => handleScaleChange(scale + 0.1)}
                 disabled={scale >= 2.0}
+                className="h-8 w-8 p-0"
               >
                 <ZoomIn className="w-4 h-4" />
               </Button>
             </div>
-            {/* Signature Field Navigation (NEW) */}
-            <div className="flex items-center md:space-x-2 ml-4">
+
+            {/* Signature Field Navigation */}
+            <div className="flex items-center gap-2 ml-4">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={onPreviousSignatureField}
                 disabled={!hasMultipleIncompleteFields}
+                className="h-8 text-xs font-medium border-gray-200"
               >
-                <ChevronLeft className="w-4 h-4 mr-1" />{" "}
-                <span className="hidden sm:inline-flex">Previous Field</span>
+                <ChevronLeft className="w-3.5 h-3.5 mr-1" />
+                <span className="hidden lg:inline">Previous</span>
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={onNextSignatureField}
                 disabled={!hasMultipleIncompleteFields}
+                className="h-8 text-xs font-medium border-gray-200"
               >
-                <span className="hidden sm:inline-flex">Next Field Field</span>
-                <ChevronRight className="w-4 h-4 ml-1" />
+                <span className="hidden lg:inline">Next Field</span>
+                <ChevronRight className="w-3.5 h-3.5 ml-1" />
               </Button>
             </div>
           </div>
@@ -268,53 +307,66 @@ export default function PDFViewer({
       {/* PDF Container */}
       <div
         ref={containerRef}
-        className="flex-1 overflow-auto bg-muted/20 relative"
+        className="flex-1 overflow-auto bg-transparent p-4 md:p-8 scroll-smooth"
       >
-        <div className="flex justify-center min-h-full md:pt-4">
-          <div className="relative max-w-full">
-            <Document
-              file={fileUrl}
-              onLoadSuccess={onDocumentLoadSuccess}
-              onLoadError={onDocumentLoadError}
-              error={
-                <div className="flex flex-col items-center justify-center h-96 space-y-4">
-                  <AlertCircle className="w-8 h-8 text-destructive" />
-                  <p className="text-sm text-destructive">Failed to load PDF</p>
-                </div>
-              }
-              options={documentOptions}
-            >
-              {!isLoading && numPages > 0 && pageNumber <= numPages && (
-                <Page
-                  key={`page_${pageNumber}`}
-                  pageNumber={pageNumber}
-                  scale={scale}
-                  onRenderSuccess={onPageRenderSuccess}
-                  onLoadError={(error) => {
-                    console.warn("Page load error:", error);
-                  }}
-                  renderTextLayer={false}
-                  renderAnnotationLayer={false}
-                  className="shadow-sm"
-                />
-              )}
-            </Document>
-
-            {/* Overlay for signature fields */}
-            {!isLoading && numPages > 0 && (
-              <div
-                className="signature-field-overlay absolute inset-0"
-                style={{
-                  width: (pageDimensions[pageNumber]?.width || 0) * scale,
-                  height: (pageDimensions[pageNumber]?.height || 0) * scale,
-                }}
-              >
-                {children}
+        <div className="flex flex-col items-center min-h-full space-y-8">
+          <Document
+            file={fileUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            onLoadError={onDocumentLoadError}
+            loading={null}
+            error={
+              <div className="flex flex-col items-center justify-center p-12 bg-white rounded-xl shadow-sm border border-red-100">
+                <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
+                <p className="text-gray-900 font-semibold mb-1">Failed to load document</p>
+                <p className="text-gray-500 text-sm">Please try refreshing the page or check the file.</p>
               </div>
-            )}
-          </div>
+            }
+            options={documentOptions}
+          >
+            {Array.from(new Array(numPages), (_, index) => {
+              const pNum = index + 1;
+              return (
+                <div
+                  key={`page_container_${pNum}`}
+                  ref={(el) => { pageRefs.current[pNum] = el; }}
+                  data-page-number={pNum}
+                  className="relative shadow-xl border border-gray-200/50 bg-white"
+                  style={{
+                    width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 595) * scale,
+                    height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 842) * scale,
+                  }}
+                >
+                  <Page
+                    pageNumber={pNum}
+                    scale={scale}
+                    devicePixelRatio={Math.min(2, window.devicePixelRatio || 1)}
+                    onRenderSuccess={(page) => onPageRenderSuccess(page, pNum)}
+                    loading={null}
+                    renderTextLayer={false}
+                    renderAnnotationLayer={false}
+                  />
+
+                  {/* Overlay for this specific page */}
+                  {!isLoading && (
+                    <div
+                      className="absolute inset-0 z-10"
+                      style={{
+                        width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 0) * scale,
+                        height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 0) * scale,
+                      }}
+                    >
+                      {/* We'll pass information about the page to children if it's a function */}
+                      {typeof children === 'function' ? (children as any)(pNum) : children}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </Document>
         </div>
       </div>
     </div>
   );
 }
+

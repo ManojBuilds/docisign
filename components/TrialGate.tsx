@@ -1,6 +1,6 @@
-import { useTrialStatus } from "@/hooks/useTrialStatus";
 import { Button } from "@/components/ui/button";
-import { Lock, CreditCard } from "lucide-react";
+import { useTrialStatus } from "@/hooks/useTrialStatus";
+import { CreditCard, Lock } from "lucide-react";
 
 interface TrialGateProps {
   children: React.ReactNode;
@@ -15,7 +15,7 @@ export const TrialGate = ({ children, fallback }: TrialGateProps) => {
   }
 
   // Allow access if trial is active or user is paid
-  if (trialStatus.isTrialActive || trialStatus.isPaidUser) {
+  if (trialStatus.isTrialActive || trialStatus.isAuthenticated) {
     return <>{children}</>;
   }
 

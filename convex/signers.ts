@@ -1,13 +1,13 @@
 import { v } from "convex/values";
+import { api, internal } from "./_generated/api";
 import {
   internalAction,
   internalQuery,
   mutation,
   query,
 } from "./_generated/server";
-import { api, internal } from "./_generated/api";
 
-// Add signer to document
+// Add signer to document by creating a signature field
 export const addSigner = mutation({
   args: {
     documentId: v.id("documents"),
@@ -16,25 +16,43 @@ export const addSigner = mutation({
     signingOrder: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
-    // Check if signer already exists
-    const existingSigner = await ctx.db
-      .query("signers")
-      .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
-      .filter((q) => q.eq(q.field("email"), args.email))
-      .first();
+    // Check if signer already exists by checking for any signature fields assigned to this email
+    const existingSignatureFields = await ctx.db
+      .query("signatureFields")
+      .withIndex("by_document_and_signer", (q) =>
+        q
+          .eq("documentId", args.documentId)
+          .eq("signerEmail", args.email),
+      )
+      .collect();
 
-    if (existingSigner) {
-      return existingSigner._id;
+    if (existingSignatureFields.length > 0) {
+      // Return the ID of the first signature field for this signer
+      return existingSignatureFields[0]._id;
     }
+
     // Generate unique access token
     const accessToken = crypto.randomUUID();
-    const siginingId = await ctx.db.insert("signers", {
-      ...args,
+    const siginingId = await ctx.db.insert("signatureFields", {
+      documentId: args.documentId,
+      fieldType: "signature", // Default field type
+      page: 1, // Default page
+      x: 0, // Default position
+      y: 0,
+      width: 150, // Default size
+      height: 60,
+      isRequired: true, // Default to required
+      label: "Signature", // Default label
+      signerEmail: args.email,
+      signerName: args.name || args.email,
+      signerOrder: args.signingOrder,
       status: "pending",
       accessToken,
-      reminderCount: 0,
+      isCompleted: false,
       createdAt: Date.now(),
+      reminderCount: 0,
     });
+
     // Add activity log
     await ctx.db.insert("documentActivities", {
       documentId: args.documentId,
@@ -53,38 +71,69 @@ export const addSigner = mutation({
 export const getSignerByToken = query({
   args: { accessToken: v.string() },
   handler: async (ctx, args) => {
-    const signer = await ctx.db
-      .query("signers")
+    const signatureField = await ctx.db
+      .query("signatureFields")
       .withIndex("by_access_token", (q) =>
         q.eq("accessToken", args.accessToken),
       )
       .first();
 
-    if (!signer) return null;
+    if (!signatureField) return null;
 
-    const document = await ctx.db.get(signer.documentId);
+    const document = await ctx.db.get(signatureField.documentId);
     const signatureFields = await ctx.db
       .query("signatureFields")
       .withIndex("by_document_and_signer", (q) =>
         q
-          .eq("documentId", signer.documentId)
-          .eq("assignedToEmail", signer.email),
+          .eq("documentId", signatureField.documentId)
+          .eq("signerEmail", signatureField.signerEmail),
       )
       .collect();
 
     return {
-      signer,
+      signer: {
+        _id: signatureField._id,
+        documentId: signatureField.documentId,
+        email: signatureField.signerEmail,
+        name: signatureField.signerName,
+        signingOrder: signatureField.signerOrder,
+        status: signatureField.status,
+        accessToken: signatureField.accessToken,
+        sentAt: signatureField.sentAt,
+        viewedAt: signatureField.viewedAt,
+        signedAt: signatureField.signedAt,
+        createdAt: signatureField.createdAt,
+        reminderCount: signatureField.reminderCount,
+        lastReminderAt: signatureField.lastReminderAt,
+      },
       document,
       signatureFields,
     };
   },
 });
 
-// get signer by id
+// get signer by id (actually returns signature field with signer info)
 export const getSigner = query({
-  args: { id: v.id("signers") },
+  args: { id: v.id("signatureFields") },
   handler: async (ctx, args) => {
-    return ctx.db.get(args.id);
+    const signatureField = await ctx.db.get(args.id);
+    if (!signatureField) return null;
+
+    return {
+      _id: signatureField._id,
+      documentId: signatureField.documentId,
+      email: signatureField.signerEmail,
+      name: signatureField.signerName,
+      signingOrder: signatureField.signerOrder,
+      status: signatureField.status,
+      accessToken: signatureField.accessToken,
+      sentAt: signatureField.sentAt,
+      viewedAt: signatureField.viewedAt,
+      signedAt: signatureField.signedAt,
+      createdAt: signatureField.createdAt,
+      reminderCount: signatureField.reminderCount,
+      lastReminderAt: signatureField.lastReminderAt,
+    };
   },
 });
 
@@ -103,20 +152,28 @@ export const getUserSigners = query({
     const seenEmails = new Set();
 
     for (const document of userDocuments) {
-      const signers = await ctx.db
-        .query("signers")
+      const signatureFields = await ctx.db
+        .query("signatureFields")
         .withIndex("by_document", (q) => q.eq("documentId", document._id))
         .collect();
 
-      for (const signer of signers) {
-        if (!seenEmails.has(signer.email)) {
-          seenEmails.add(signer.email);
-          allSigners.push({
-            email: signer.email,
-            name: signer.name,
-            documentId: signer.documentId,
+      // Get unique signers from signature fields
+      const documentSigners = new Map();
+      for (const field of signatureFields) {
+        if (field.signerEmail && !documentSigners.has(field.signerEmail)) {
+          documentSigners.set(field.signerEmail, {
+            email: field.signerEmail,
+            name: field.signerName,
+            documentId: field.documentId,
             documentTitle: document.title, // Include document title for reference
           });
+        }
+      }
+
+      for (const [email, signer] of documentSigners) {
+        if (!seenEmails.has(email)) {
+          seenEmails.add(email);
+          allSigners.push(signer);
         }
       }
     }
@@ -125,14 +182,38 @@ export const getUserSigners = query({
   },
 });
 
-// Get all signers for a document
+// Get all signers for a document (returns unique signers from signature fields)
 export const getSigners = query({
   args: { documentId: v.id("documents") },
   handler: async (ctx, args) => {
-    return await ctx.db
-      .query("signers")
+    const signatureFields = await ctx.db
+      .query("signatureFields")
       .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
       .collect();
+
+    // Create a map to get unique signers
+    const uniqueSignersMap = new Map();
+    for (const field of signatureFields) {
+      if (field.signerEmail && !uniqueSignersMap.has(field.signerEmail)) {
+        uniqueSignersMap.set(field.signerEmail, {
+          _id: field._id,
+          documentId: field.documentId,
+          email: field.signerEmail,
+          name: field.signerName,
+          signingOrder: field.signerOrder,
+          status: field.status,
+          accessToken: field.accessToken,
+          sentAt: field.sentAt,
+          viewedAt: field.viewedAt,
+          signedAt: field.signedAt,
+          createdAt: field.createdAt,
+          reminderCount: field.reminderCount,
+          lastReminderAt: field.lastReminderAt,
+        });
+      }
+    }
+
+    return Array.from(uniqueSignersMap.values());
   },
 });
 
@@ -143,18 +224,39 @@ export const getInternalSignerByDocumentAndEmail = internalQuery({
     email: v.string(),
   },
   handler: async (ctx, args) => {
-    return await ctx.db
-      .query("signers")
-      .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
-      .filter((q) => q.eq(q.field("email"), args.email))
+    const signatureField = await ctx.db
+      .query("signatureFields")
+      .withIndex("by_document_and_signer", (q) =>
+        q
+          .eq("documentId", args.documentId)
+          .eq("signerEmail", args.email),
+      )
       .first();
+
+    if (!signatureField) return null;
+
+    return {
+      _id: signatureField._id,
+      documentId: signatureField.documentId,
+      email: signatureField.signerEmail,
+      name: signatureField.signerName,
+      signingOrder: signatureField.signerOrder,
+      status: signatureField.status,
+      accessToken: signatureField.accessToken,
+      sentAt: signatureField.sentAt,
+      viewedAt: signatureField.viewedAt,
+      signedAt: signatureField.signedAt,
+      createdAt: signatureField.createdAt,
+      reminderCount: signatureField.reminderCount,
+      lastReminderAt: signatureField.lastReminderAt,
+    };
   },
 });
 
 // Update signer status
 export const updateSignerStatus = mutation({
   args: {
-    signerId: v.id("signers"),
+    signerId: v.id("signatureFields"), // Changed to signatureFields ID
     status: v.union(
       v.literal("pending"),
       v.literal("sent"),
@@ -187,13 +289,12 @@ export const updateSignerStatus = mutation({
     await ctx.db.patch(args.signerId, updateData);
 
     // Log activity
-    const signer = await ctx.db.get(args.signerId);
-    if (signer && args.status !== "pending") {
+    const signatureField = await ctx.db.get(args.signerId);
+    if (signatureField && args.status !== "pending") {
       await ctx.db.insert("documentActivities", {
-        documentId: signer.documentId,
-        actorEmail: signer.email,
+        documentId: signatureField.documentId,
+        actorEmail: signatureField.signerEmail,
         actorType: "signer",
-        // @ts-expect-error
         actionType: args.status,
         details: `Signer ${args.status} the document`,
         timestamp: now,
@@ -224,20 +325,38 @@ export const sendDocumentForSigning = mutation({
       expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000, // 30 days
     });
 
-    // Update all signers to "sent" status
-    const signers = await ctx.db
-      .query("signers")
+    // Update all signature fields to "sent" status for each unique signer
+    const signatureFields = await ctx.db
+      .query("signatureFields")
       .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
       .collect();
 
-    for (const signer of signers) {
-      await ctx.db.patch(signer._id, {
-        status: "sent",
-        sentAt: Date.now(),
-      });
+    // Get unique signers from signature fields
+    const uniqueSignersMap = new Map();
+    for (const field of signatureFields) {
+      if (field.signerEmail && !uniqueSignersMap.has(field.signerEmail)) {
+        uniqueSignersMap.set(field.signerEmail, {
+          _id: field._id,
+          email: field.signerEmail,
+          documentId: field.documentId,
+        });
+      }
+    }
+
+    const uniqueSigners = Array.from(uniqueSignersMap.values());
+
+    for (const signer of uniqueSigners) {
+      // Update all signature fields for this signer to "sent" status
+      const signerFields = signatureFields.filter(field => field.signerEmail === signer.email);
+      for (const field of signerFields) {
+        await ctx.db.patch(field._id, {
+          status: "sent",
+          sentAt: Date.now(),
+        });
+      }
 
       await ctx.scheduler.runAfter(0, internal.signers.sendSigningEmail, {
-        signerId: signer._id,
+        signerId: signer._id, // Use the ID of the first field for this signer
         documentId: args.documentId,
         customMessage: args.customMessage,
       });
@@ -253,13 +372,13 @@ export const sendDocumentForSigning = mutation({
       timestamp: Date.now(),
     });
 
-    return signers; // Return signers for email sending
+    return uniqueSigners; // Return unique signers for email sending
   },
 });
 
 export const sendSigningEmail = internalAction({
   args: {
-    signerId: v.id("signers"),
+    signerId: v.id("signatureFields"),
     documentId: v.id("documents"),
     customMessage: v.optional(v.string()),
   },
@@ -304,7 +423,7 @@ export const sendSigningEmail = internalAction({
       signerName: signer.name || signer.email,
       senderName: owner.firstName || owner.email,
       documentTitle: document.title,
-      signingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/sign/${signer.accessToken}`,
+      signingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/s/${signer.accessToken}`,
       customMessage: args.customMessage,
       to: signer.email,
     });
@@ -358,14 +477,14 @@ export const sendSignedEmailToOwner = internalAction({
     const uncompletedFields = signatureFields.filter(
       (field) => !field.isCompleted
     );
-    
+
     // Count unique signers who still have uncompleted fields assigned to them
     const remainingSignerEmails = new Set(
       uncompletedFields
-        .map(field => field.assignedToEmail)
+        .map(field => field.signerEmail)
         .filter(email => email)
     );
-    
+
     const remainingSigners = remainingSignerEmails.size;
 
     const appUrl = process.env.NEXT_PUBLIC_APP_URL;
@@ -373,6 +492,12 @@ export const sendSignedEmailToOwner = internalAction({
       throw new Error("APP_URL environment variable not set!");
     }
 
+    // Generate a PDF with all currently completed signatures for the signer's copy
+    await ctx.runAction(internal.actions.generateSignedPdf, {
+      documentId: args.documentId,
+    });
+
+    // Get the updated document URL which now includes all completed signatures so far
     const downloadUrl = await ctx.runMutation(api.documents.getFileUrl, {
       storageId: document.fileStorageId,
     });
@@ -407,20 +532,20 @@ export const getSigningSession = query({
   args: { accessToken: v.string() },
   handler: async (ctx, args) => {
     try {
-      // Find signer by access token
-      const signer = await ctx.db
-        .query("signers")
+      // Find signature field by access token
+      const signatureField = await ctx.db
+        .query("signatureFields")
         .withIndex("by_access_token", (q) =>
           q.eq("accessToken", args.accessToken),
         )
         .first();
 
-      if (!signer) {
+      if (!signatureField) {
         return { error: "Invalid access token" };
       }
 
       // Get document
-      const document = await ctx.db.get(signer.documentId);
+      const document = await ctx.db.get(signatureField.documentId);
       if (!document) {
         return { error: "Document not found" };
       }
@@ -435,13 +560,27 @@ export const getSigningSession = query({
         .query("signatureFields")
         .withIndex("by_document_and_signer", (q) =>
           q
-            .eq("documentId", signer.documentId)
-            .eq("assignedToEmail", signer.email),
+            .eq("documentId", signatureField.documentId)
+            .eq("signerEmail", signatureField.signerEmail),
         )
         .collect();
 
       return {
-        signer,
+        signer: {
+          _id: signatureField._id,
+          documentId: signatureField.documentId,
+          email: signatureField.signerEmail,
+          name: signatureField.signerName,
+          signingOrder: signatureField.signerOrder,
+          status: signatureField.status,
+          accessToken: signatureField.accessToken,
+          sentAt: signatureField.sentAt,
+          viewedAt: signatureField.viewedAt,
+          signedAt: signatureField.signedAt,
+          createdAt: signatureField.createdAt,
+          reminderCount: signatureField.reminderCount,
+          lastReminderAt: signatureField.lastReminderAt,
+        },
         document,
         signatureFields,
       };
@@ -455,18 +594,18 @@ export const getSigningSessionForMetadata = query({
   args: { accessToken: v.string() },
   handler: async (ctx, args) => {
     try {
-      const signer = await ctx.db
-        .query("signers")
+      const signatureField = await ctx.db
+        .query("signatureFields")
         .withIndex("by_access_token", (q) =>
           q.eq("accessToken", args.accessToken),
         )
         .first();
 
-      if (!signer) {
+      if (!signatureField) {
         return null;
       }
 
-      const document = await ctx.db.get(signer.documentId);
+      const document = await ctx.db.get(signatureField.documentId);
       if (!document) {
         return null;
       }
@@ -490,27 +629,27 @@ export const getSigningSessionForMetadata = query({
 export const markDocumentAsViewed = mutation({
   args: { accessToken: v.string() },
   handler: async (ctx, args) => {
-    const signer = await ctx.db
-      .query("signers")
+    const signatureField = await ctx.db
+      .query("signatureFields")
       .withIndex("by_access_token", (q) =>
         q.eq("accessToken", args.accessToken),
       )
       .first();
 
-    if (!signer) {
+    if (!signatureField) {
       throw new Error("Invalid access token");
     }
 
-    // Update signer status
-    await ctx.db.patch(signer._id, {
+    // Update signature field status
+    await ctx.db.patch(signatureField._id, {
       status: "viewed",
       viewedAt: Date.now(),
     });
 
     // Add activity log
     await ctx.db.insert("documentActivities", {
-      documentId: signer.documentId,
-      actorEmail: signer.email,
+      documentId: signatureField.documentId,
+      actorEmail: signatureField.signerEmail,
       actorType: "signer",
       actionType: "viewed",
       details: "Document viewed by signer",
@@ -528,32 +667,38 @@ export const finalizeDocument = mutation({
     signerEmail: v.string(),
   },
   handler: async (ctx, args) => {
-    const signer = await ctx.db
-      .query("signers")
-      .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
-      .filter((q) => q.eq(q.field("email"), args.signerEmail))
-      .first();
+    const signatureFields = await ctx.db
+      .query("signatureFields")
+      .withIndex("by_document_and_signer", (q) =>
+        q
+          .eq("documentId", args.documentId)
+          .eq("signerEmail", args.signerEmail),
+      )
+      .collect();
 
-    if (!signer) throw new Error("Signer not found");
+    if (signatureFields.length === 0) throw new Error("Signer not found");
 
     const document = await ctx.db.get(args.documentId);
     if (!document) throw new Error("Document not found");
 
-    // Update signer status before sending email so the count is accurate
-    if (signer.status !== "signed") {
-      await ctx.db.patch(signer._id, {
-        status: "signed",
-        signedAt: Date.now(),
-      });
+    // Update all signature fields for this signer to "signed" status
+    const now = Date.now();
+    for (const field of signatureFields) {
+      if (field.status !== "signed") {
+        await ctx.db.patch(field._id, {
+          status: "signed",
+          signedAt: now,
+        });
 
-      await ctx.db.insert("documentActivities", {
-        documentId: args.documentId,
-        actorEmail: args.signerEmail,
-        actorType: "signer",
-        actionType: "signed",
-        details: "Document signed by signer",
-        timestamp: Date.now(),
-      });
+        await ctx.db.insert("documentActivities", {
+          documentId: args.documentId,
+          actorEmail: args.signerEmail,
+          actorType: "signer",
+          actionType: "signed",
+          details: "Document signed by signer",
+          timestamp: now,
+        });
+      }
     }
 
     const allFields = await ctx.db
@@ -561,15 +706,24 @@ export const finalizeDocument = mutation({
       .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
       .collect();
 
-    // Get updated signers after status update
-    const allSigners = await ctx.db
-      .query("signers")
-      .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
-      .collect();
+    // Get unique signers from signature fields
+    const uniqueSignersMap = new Map();
+    for (const field of allFields) {
+      if (field.signerEmail && !uniqueSignersMap.has(field.signerEmail)) {
+        uniqueSignersMap.set(field.signerEmail, {
+          _id: field._id,
+          email: field.signerEmail,
+          name: field.signerName,
+          documentId: field.documentId,
+          status: field.status,
+        });
+      }
+    }
+    const allSigners = Array.from(uniqueSignersMap.values());
 
     const requiredSignerEmails = new Set(
       allFields
-        .map((field) => field.assignedToEmail)
+        .map((field) => field.signerEmail)
         .filter((email): email is string => !!email),
     );
 
@@ -598,6 +752,9 @@ export const finalizeDocument = mutation({
         completedAt: completedTimestamp,
         updatedAt: completedTimestamp,
       });
+
+      // The signed PDF was already generated when the last signer completed their signature
+      // via the sendSignedEmailToOwner call, so no need to regenerate here
 
       await ctx.db.insert("documentActivities", {
         documentId: args.documentId,
@@ -649,6 +806,61 @@ export const finalizeDocument = mutation({
     } else if (document.status !== "completed") {
       // The email was already sent above - no need to send again
     }
+
+    return { success: true };
+  },
+});
+// Decline document mutation
+export const declineDocument = mutation({
+  args: {
+    accessToken: v.string(),
+    reason: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const signatureField = await ctx.db
+      .query("signatureFields")
+      .withIndex("by_access_token", (q) =>
+        q.eq("accessToken", args.accessToken),
+      )
+      .first();
+
+    if (!signatureField) {
+      throw new Error("Invalid access token");
+    }
+
+    const now = Date.now();
+
+    // Update all signature fields for this signer on this document
+    const signerFields = await ctx.db
+      .query("signatureFields")
+      .withIndex("by_document_and_signer", (q) =>
+        q
+          .eq("documentId", signatureField.documentId)
+          .eq("signerEmail", signatureField.signerEmail),
+      )
+      .collect();
+
+    for (const field of signerFields) {
+      await ctx.db.patch(field._id, {
+        status: "declined",
+      });
+    }
+
+    // Void the document
+    await ctx.db.patch(signatureField.documentId, {
+      status: "declined",
+      updatedAt: now,
+    });
+
+    // Log decline activity
+    await ctx.db.insert("documentActivities", {
+      documentId: signatureField.documentId,
+      actorEmail: signatureField.signerEmail,
+      actorType: "signer",
+      actionType: "declined",
+      details: `Document declined by signer${args.reason ? `: ${args.reason}` : ""}`,
+      timestamp: now,
+    });
 
     return { success: true };
   },

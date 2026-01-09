@@ -1,17 +1,17 @@
-import { Zap, Smartphone, Shield, Users } from "lucide-react";
+import { Shield, Smartphone, Users, Zap } from "lucide-react";
 
 const Features = () => {
   return (
     <section className="py-32" id="features">
       <div className="container mx-auto">
         <p className="mb-4 text-sm text-muted-foreground lg:text-base">
-          THE SIMPLE DOCUSIGN ALTERNATIVE
+          THE FASTEST WAY FOR FREELANCERS & SMALL AGENCIES
         </p>
         <h2 className="text-3xl font-semibold lg:text-4xl">
           Everything You Need. Nothing You Don&apos;t.
         </h2>
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-          Unlike DocuSign, PandaDoc, or HelloSign, we focus on what actually matters: getting documents signed fast.
+          Unlike DocuSign, PandaDoc, or HelloSign, we focus on what actually matters: getting contracts signed fast.
         </p>
         <div className="mt-14 grid gap-6 lg:mt-20 lg:grid-cols-2 xl:grid-cols-4">
           <div className="rounded-lg bg-accent p-5">
@@ -19,7 +19,7 @@ const Features = () => {
               <Zap className="size-6" />
             </span>
             <h3 className="mb-2 text-xl font-semibold">
-              No Account Required for Signers
+              No Account Required for Clients
             </h3>
             <p className="leading-7 text-muted-foreground">
               Your clients sign directly from email—no login, no app download, no friction. Just click, sign, done.

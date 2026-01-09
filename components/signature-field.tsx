@@ -1,42 +1,46 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import useMediaQuery from "@/hooks/use-media-query";
+import { cn } from "@/lib/utils";
+import { useDocumentEditorStore } from "@/stores/document-editor-store";
 import {
-  DndContext,
   closestCenter,
+  DndContext,
+  DragEndEvent,
   KeyboardSensor,
   PointerSensor,
+  useDraggable,
   useSensor,
   useSensors,
-  DragEndEvent,
 } from "@dnd-kit/core";
-import { useDraggable } from "@dnd-kit/core";
 import {
-  PenTool,
-  X,
+  ALargeSmall,
   CalendarDays,
   TextCursor,
-  ALargeSmall
+  X
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import useMediaQuery from "@/hooks/use-media-query";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { usePdfDimensions } from "./PdfDimensionsContext";
-import { Id } from "@/convex/_generated/dataModel";
 import { MobileFieldDrawer } from "./mobile-field-drawer";
+import { usePdfDimensions } from "./PdfDimensionsContext";
+import { SignatureIcon } from "./SignatureIcon";
 
 export interface SignatureFieldData {
-  id: Id<"signatureFields">;
+  id: string;
   fieldType: "signature" | "initial" | "date" | "text";
   normalizedX: number;
   normalizedY: number;
   normalizedWidth: number;
   normalizedHeight: number;
   page: number;
-  assignedToEmail: string;
+  signerEmail: string;
   isRequired: boolean;
   label?: string;
-  assignedToName?: string;
+  signerName?: string;
+  status?: "pending" | "sent" | "viewed" | "signed" | "declined";
+  isCompleted?: boolean;
 }
 
 interface SignatureFieldProps {
@@ -53,7 +57,7 @@ interface SignatureFieldProps {
 const getFieldIcon = (fieldType: string) => {
   switch (fieldType) {
     case "signature":
-      return <PenTool size={16} strokeWidth={1.5} />;
+      return <SignatureIcon />;
     case "initial":
       return <TextCursor size={16} strokeWidth={1.5} />;
     case "date":
@@ -61,13 +65,13 @@ const getFieldIcon = (fieldType: string) => {
     case "text":
       return <ALargeSmall size={16} strokeWidth={1.5} />;
     default:
-      return <PenTool size={16} strokeWidth={1.5} />;
+      return <SignatureIcon />;
   }
 };
 
 // Color palette for signers - allows up to 5 different signers to have distinct colors
-const getSignerColor = (fieldType: string, assignedToEmail: string) => {
-  if (!assignedToEmail) {
+const getSignerColor = (fieldType: string, signerEmail: string) => {
+  if (!signerEmail) {
     // Unassigned fields use the default field type colors
     const defaultColors = {
       signature: "border-blue-500 bg-blue-200 text-blue-500",
@@ -92,8 +96,8 @@ const getSignerColor = (fieldType: string, assignedToEmail: string) => {
 
   // Calculate a hash from the email to get consistent color for each signer
   let hash = 0;
-  for (let i = 0; i < assignedToEmail.length; i++) {
-    hash = assignedToEmail.charCodeAt(i) + ((hash << 5) - hash);
+  for (let i = 0; i < signerEmail.length; i++) {
+    hash = signerEmail.charCodeAt(i) + ((hash << 5) - hash);
   }
 
   const index = Math.abs(hash) % colors.length;
@@ -118,20 +122,90 @@ function DraggableSignatureField({
   const [localField, setLocalField] = useState<SignatureFieldData>(field);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isEditingLabel, setIsEditingLabel] = useState(false);
 
   const localFieldRef = useRef<SignatureFieldData>(field);
+  const isResizingRef = useRef(false);
+  const resizeStartRef = useRef<{
+    startX: number;
+    startY: number;
+    startWidth: number;
+    startHeight: number;
+  } | null>(null);
+
+
+  const { selectedTool } = useDocumentEditorStore();
 
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: field.id,
-      disabled: !isEditMode || (!isDesktop && isDrawerOpen),
+      disabled: !isEditMode || isResizingRef.current || (!isDesktop && isDrawerOpen) || selectedTool !== "selection",
     });
+
 
   // Sync localField with prop changes
   useEffect(() => {
     setLocalField(field);
     localFieldRef.current = field;
   }, [field]);
+
+  const onResizePointerDown = (e: React.PointerEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+
+    // Ensure the field is selected when resizing
+    onSelect(field.id);
+
+    isResizingRef.current = true;
+
+    resizeStartRef.current = {
+      startX: e.clientX,
+      startY: e.clientY,
+      startWidth: localField.normalizedWidth,
+      startHeight: localField.normalizedHeight,
+    };
+
+    window.addEventListener("pointermove", onResizePointerMove);
+    window.addEventListener("pointerup", onResizePointerUp);
+  };
+
+  const onResizePointerMove = (e: PointerEvent) => {
+    if (!isResizingRef.current || !resizeStartRef.current) return;
+
+    const dx = (e.clientX - resizeStartRef.current.startX) / pdfViewerScale;
+    const dy = (e.clientY - resizeStartRef.current.startY) / pdfViewerScale;
+
+    const deltaWidth = dx / currentPageDimensions.width;
+    const deltaHeight = dy / currentPageDimensions.height;
+
+    const newWidth = Math.max(
+      40 / currentPageDimensions.width,
+      resizeStartRef.current.startWidth + deltaWidth
+    );
+
+    const newHeight = Math.max(
+      24 / currentPageDimensions.height,
+      resizeStartRef.current.startHeight + deltaHeight
+    );
+
+    handleFieldUpdate({
+      normalizedWidth: Math.min(newWidth, 1 - localField.normalizedX),
+      normalizedHeight: Math.min(newHeight, 1 - localField.normalizedY),
+    });
+  };
+
+  const onResizePointerUp = () => {
+    isResizingRef.current = false;
+    resizeStartRef.current = null;
+
+    window.removeEventListener("pointermove", onResizePointerMove);
+    window.removeEventListener("pointerup", onResizePointerUp);
+
+    if (onSave) {
+      debouncedSave(localFieldRef.current);
+    }
+  };
+
 
   const debouncedSave = useCallback(
     async (updatedField: SignatureFieldData) => {
@@ -202,8 +276,7 @@ function DraggableSignatureField({
     <div
       ref={setNodeRef}
       {...attributes}
-      className={`absolute select-none ${isDesktop ? "cursor-grab" : ""} ${isSelected ? "ring ring-blue-300 ring-opacity-50" : ""
-        }`}
+      className={`absolute select-none ${isDesktop && selectedTool === "selection" ? "cursor-grab" : ""} ${isSelected ? "ring ring-blue-300 ring-opacity-50" : ""} ${selectedTool !== "selection" ? "pointer-events-none" : ""}`}
       style={{
         left: pixelX * pdfViewerScale,
         top: pixelY * pdfViewerScale,
@@ -212,23 +285,146 @@ function DraggableSignatureField({
         ...style,
       }}
     >
+      {isEditMode && (
+        <div
+          onPointerDown={onResizePointerDown}
+          className={`absolute bottom-[-3px] right-[-3px] w-3 h-3 bg-white border-2 border-gray-400 cursor-se-resize rounded-sm z-20 ${pixelWidth < 30 || pixelHeight < 30 ? 'w-2 h-2' : 'w-3 h-3'}`}
+          style={{ pointerEvents: 'auto' }}
+        />
+      )}
       <div
-        className={`w-full h-full border flex items-center justify-center relative group hover:bg-opacity-30 transition-all ${getSignerColor(localField.fieldType, localField.assignedToEmail)} ${!isDesktop ? "rounded-full" : ""}`}
+        className={cn(
+          "w-full h-full border flex items-center justify-center relative group hover:bg-opacity-30 transition-all rounded backdrop-blur-[1px]",
+          getSignerColor(localField.fieldType, localField.signerEmail)
+        )}
+        style={{
+          opacity: 0.95,
+        }}
       >
-
         {isDesktop ? (
           <div
-            className="flex items-center capitalize text-sm w-full h-full justify-center"
+            className="flex flex-col w-full h-full"
             {...listeners}
             onClick={(e) => {
               e.stopPropagation();
               onSelect(field.id);
             }}
           >
-            {getFieldIcon(localField.fieldType)}
-            <span className="ml-1 truncate">
-              {localField.label || localField.fieldType}
-            </span>
+            {/* Top controls bar */}
+            {isSelected && (
+              <div
+                className="absolute w-fit -top-8 left-0 flex items-center space-x-1.5 z-10 pointer-events-auto bg-gray-900 text-white rounded-lg p-1.5 shadow-xl animate-in fade-in zoom-in-95 duration-200"
+                onMouseDown={(e) => e.stopPropagation()}
+              >
+                {/* Field type selector */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-6 w-6 p-1 m-0 hover:bg-white/10 text-white rounded-md"
+                      onMouseDown={(e) => {
+                        e.stopPropagation();
+                      }}
+                    >
+                      {getFieldIcon(localField.fieldType)}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent onMouseDown={(e) => e.stopPropagation()} align="start" className="w-32">
+                    <DropdownMenuItem
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFieldUpdate({ fieldType: "signature" });
+                      }}
+                      className="flex items-center gap-2 text-xs py-2"
+                    >
+                      <SignatureIcon className="w-3.5 h-3.5" />
+                      Signature
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFieldUpdate({ fieldType: "initial" });
+                      }}
+                      className="flex items-center gap-2 text-xs py-2"
+                    >
+                      <TextCursor size={14} />
+                      Initial
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFieldUpdate({ fieldType: "date" });
+                      }}
+                      className="flex items-center gap-2 text-xs py-2"
+                    >
+                      <CalendarDays size={14} />
+                      Date
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleFieldUpdate({ fieldType: "text" });
+                      }}
+                      className="flex items-center gap-2 text-xs py-2"
+                    >
+                      <ALargeSmall size={14} />
+                      Text
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <div className="w-[1px] h-3 bg-white/20 mx-0.5" />
+
+                {/* Editable label */}
+                <input
+                  type="text"
+                  autoFocus
+                  value={localField.label || ""}
+                  onChange={(e) => {
+                    handleFieldUpdate({ label: e.target.value });
+                  }}
+                  onKeyDown={(e) => {
+                    e.stopPropagation();
+                  }}
+                  onKeyUp={(e) => {
+                    e.stopPropagation();
+                  }}
+                  className="h-5 px-1.5 text-[10px] font-bold border-none focus:outline-none focus:ring-0 bg-white/10 rounded border border-white/5 hover:bg-white/15 transition-colors placeholder:text-white/30 text-white w-[80px]"
+                  onMouseDown={(e) => {
+                    e.stopPropagation();
+                    setIsEditingLabel(true);
+                  }}
+                  onBlur={() => setIsEditingLabel(false)}
+                  placeholder="Field label"
+                />
+
+                <div className="w-[1px] h-3 bg-white/20 mx-0.5" />
+
+                {/* Delete button - only show when not editing label */}
+                {!isEditingLabel && (
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-6 w-6 p-1 text-xs m-0 hover:bg-red-500/20 text-red-400 hover:text-red-300 rounded-md"
+                    onMouseDown={(e) => {
+                      e.stopPropagation();
+                    }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDelete(field.id);
+                    }}
+                  >
+                    <X size={14} />
+                  </Button>
+                )}
+              </div>
+            )}
+
+            {/* Main field content - icon and label */}
+            <div className="flex items-center justify-center w-full h-full">
+              {getFieldIcon(localField.fieldType)}
+            </div>
           </div>
         ) : (
           <>
@@ -256,35 +452,12 @@ function DraggableSignatureField({
             />
           </>
         )}
-
-        {isSelected && isDesktop && (
-          <div
-            className="absolute -top-8 left-0 flex space-x-1 z-10 pointer-events-auto"
-            onMouseDown={(e) => e.stopPropagation()}
-          >
-            <Button
-              size="sm"
-              variant="destructive"
-              className="h-6 px-2"
-              onMouseDown={(e) => {
-                e.stopPropagation();
-              }}
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete(field.id);
-              }}
-            >
-              <X className="w-3 h-3" />
-            </Button>
-
-          </div>
-        )}
       </div>
     </div>
   );
 }
 
-export default function SignatureField(props: SignatureFieldProps) {
+function SignatureField(props: SignatureFieldProps) {
   const { field, isEditMode } = props;
   const { pageDimensions, scale: pdfViewerScale } = usePdfDimensions();
   const currentPageDimensions = pageDimensions[field.page];
@@ -384,7 +557,7 @@ export default function SignatureField(props: SignatureFieldProps) {
 
     return (
       <div
-        className={`absolute border-2 border-dashed border-opacity-50 bg-opacity-10 flex items-center justify-center text-xs ${getSignerColor(field.fieldType, field.assignedToEmail)}`}
+        className={`absolute border-2 border-dashed border-opacity-50 bg-opacity-10 flex items-center justify-center text-xs ${getSignerColor(field.fieldType, field.signerEmail)}`}
         style={{
           left: pixelX,
           top: pixelY,
@@ -413,3 +586,6 @@ export default function SignatureField(props: SignatureFieldProps) {
     </DndContext>
   );
 }
+
+export default React.memo(SignatureField);
+

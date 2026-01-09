@@ -1,199 +1,129 @@
-import { Check, Zap, Shield, Star, Gem } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   Card,
   CardContent,
   CardDescription,
   CardFooter,
-  CardHeader,
-  CardTitle,
+  CardHeader
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
+import { Check, Info, Shield, Zap } from "lucide-react";
 import CheckoutButton from "../components/checkout-btn";
 
-interface PricingProps {
-  heading?: string;
-  description?: string;
-}
 
-const Pricing = ({
-  heading = "10x Cheaper Than DocuSign",
-  description = "Start your 7-day free trial today. No credit card required. No account needed for signers. Cancel anytime with one click."
-}: PricingProps) => {
+const Pricing = () => {
   const features = [
-    "Unlimited document signing (no per-doc fees)",
-    "No account required for signers",
-    "PDF, DOC, and DOCX support",
-    "Mobile-optimized signing experience",
-    "Legally binding audit trail",
-    "Real-time email notifications",
-    "Instant signed PDF delivery",
-    "Fast email support",
-  ];
-
-  const steps = [
-    {
-      number: "01",
-      icon: <Zap className="size-6" />,
-      title: "10x Faster Than DocuSign",
-      description:
-        "Upload, place signatures, and send in under 3 minutes. Your clients sign instantly—no account creation, no app download. Average signing time: 2 minutes vs DocuSign's 24-48 hours.",
-    },
-    {
-      number: "02",
-      icon: <Shield className="size-6" />,
-      title: "10x Cheaper Than Competitors",
-      description:
-        "DocuSign costs $120+/month. PandaDoc costs $99/month. BoopSign? Just $12/month for unlimited signing. No per-document fees, no user fees, no hidden costs.",
-    },
-    {
-      number: "03",
-      icon: <Check className="size-6" />,
-      title: "Built for Freelancers & Consultants",
-      description:
-        "No enterprise bloat. No complex workflows. Just the features you actually need: upload, sign, done. Perfect for contracts, NDAs, proposals, and service agreements.",
-    },
+    "Unlimited contract signing",
+    "Audit trail & history",
+    "Mobile-friendly signing",
+    "Real-time status notifications",
+    "Secure cloud storage",
+    "Priority email support",
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background relative overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-primary/5 to-transparent -z-10" />
+
       {/* Header Section */}
-      <div className="container mx-auto px-4 py-16 text-center">
-        <Badge
-          variant="secondary"
-          className="mb-4 inline-flex items-center gap-1"
-        >
-          <Star className="h-3 w-3" />
-          {heading}
-        </Badge>
-        <h1 className="from-foreground to-foreground/50 bg-gradient-to-r bg-clip-text text-5xl font-bold tracking-tight text-pretty text-transparent md:text-6xl">
-          $12/Month for Unlimited Signing
+      <div className="container mx-auto px-4 py-20 text-center">
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
+          One plan. All features. <br className="hidden md:block" />
+          <span className="text-primary">$12/month.</span>
         </h1>
-        <p className="text-muted-foreground mx-auto max-w-3xl text-base text-balance md:text-lg">
-          {description}
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+          Get everything you need to sign contracts online. No hidden fees. Start your 7-day free trial today.
         </p>
-        <p className="text-sm text-muted-foreground mt-2">
-          Compare: DocuSign $120/mo • PandaDoc $99/mo • HelloSign $60/mo • <span className="font-semibold text-primary">BoopSign $12/mo</span>
-        </p>
-      </div>
 
-      {/* Boopsign Pro Pricing Card */}
-      <div className="px-4 mx-auto grid max-w-5xl gap-8 md:grid-cols-1 lg:grid-cols-2 lg:gap-12">
-        <Card className="border-2 relative overflow-hidden">
-          <CardHeader className="text-center pb-4">
-            <CardTitle className="text-2xl">Free Trial</CardTitle>
-            <CardDescription>
-              Try BoopSign Pro free for 7 days. All features included. No credit card required.
-            </CardDescription>
-            <div className="mt-4">
-              <div className="flex items-baseline justify-center gap-1">
-                <span className="text-4xl font-bold">$0</span>
-                <span className="text-muted-foreground">/7 days</span>
-              </div>
-              <p className="text-sm text-muted-foreground mt-1">
-                Then $12/month • Cancel anytime
-              </p>
-            </div>
-          </CardHeader>
-
-          <CardContent className="pt-0">
-            <div className="space-y-3 mb-6">
-              {features.map((feature, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <Check className="h-4 w-4 text-primary flex-shrink-0" />
-                  <span className="text-sm">{feature}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-
-          <CardFooter className="flex flex-col gap-4">
-            <Button size="lg" asChild className="w-full" variant={"outline"}>
-              <Link href={"/sign-in"}>Start 7 days free trial</Link>
-            </Button>
-            <p className="text-xs text-muted-foreground text-center">
-              No credit card required • Full feature access during trial period
-            </p>
-          </CardFooter>
-        </Card>
-        <Card className="border-2 border-primary relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-primary" />
-          <CardHeader className="text-center pb-4">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Badge variant="default" className="text-xs">
-                Most Popular Plan
-              </Badge>
-            </div>
-            <CardTitle className="text-2xl">BoopSign Pro</CardTitle>
-            <CardDescription>
-              Everything freelancers and consultants need. No account required for signers. Unlimited signing.
-            </CardDescription>
-            <div className="mt-4">
-              <div className="flex items-baseline justify-center gap-1">
-                <span className="text-4xl font-bold">$12</span>
-                <span className="text-muted-foreground">/month</span>
-              </div>
-              <p className="text-sm text-muted-foreground mt-1">
-                Billed monthly • Cancel anytime
-              </p>
-            </div>
-          </CardHeader>
-
-          <CardContent className="pt-0">
-            <div className="space-y-3 mb-6">
-              {features.map((feature, index) => (
-                <div key={index} className="flex items-center gap-3">
-                  <Check className="h-4 w-4 text-primary flex-shrink-0" />
-                  <span className="text-sm">{feature}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-
-          <CardFooter className="flex flex-col gap-4">
-            <CheckoutButton className="w-full">
-              <Gem className="w-4 h-4 mr-2" />
-              Upgrade to PRO
-            </CheckoutButton>
-            <p className="text-xs text-muted-foreground text-center">
-              No credit card required • Full feature access during trial period
-            </p>
-          </CardFooter>
-        </Card>
-    
-      </div>
-
-      {/* Benefits Section */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold mb-4">Why Freelancers Choose BoopSign Over DocuSign</h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
-            Built specifically for freelancers, consultants, and small businesses who need speed over complexity.
-          </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-20">
+          <div className="flex items-center gap-2 text-sm font-medium text-foreground/80">
+            <Check className="w-4 h-4 text-primary" />
+            <span>No credit card required</span>
+          </div>
+          <div className="hidden sm:block text-muted-foreground">•</div>
+          <div className="flex items-center gap-2 text-sm font-medium text-foreground/80">
+            <Check className="w-4 h-4 text-primary" />
+            <span>Cancel anytime</span>
+          </div>
+          <div className="hidden sm:block text-muted-foreground">•</div>
+          <div className="flex items-center gap-2 text-sm font-medium text-foreground/80">
+            <Check className="w-4 h-4 text-primary" />
+            <span>Instant setup</span>
+          </div>
         </div>
 
-        <div className="mx-auto max-w-6xl">
-          <div className="grid gap-12 md:grid-cols-3">
-            {steps.map((step, index) => (
-              <div
-                key={index}
-                className="relative flex flex-col items-center text-center"
-              >
-                {/* Icon */}
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-secondary text-primary">
-                  {step.icon}
-                </div>
+        {/* Pricing Card */}
+        <div className="max-w-lg mx-auto">
+          <Card className="border-0 shadow-2xl ring-1 ring-border/50 bg-card/50 backdrop-blur-sm relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-primary/80 via-primary to-primary/80" />
 
-                {/* Content */}
-                <h3 className="mb-3 text-xl font-bold text-gray-900">
-                  {step.title}
-                </h3>
-                <p className="text-muted-foreground leading-relaxed">
-                  {step.description}
-                </p>
+            <CardHeader className="pt-8 pb-2 text-center">
+              <Badge variant="secondary" className="w-fit mx-auto mb-4 font-medium px-3 py-1">
+                BoopSign Pro
+              </Badge>
+              <div className="flex items-baseline justify-center gap-1 mb-2">
+                <span className="text-5xl font-bold tracking-tight">$12</span>
+                <span className="text-lg text-muted-foreground font-medium">/month</span>
               </div>
-            ))}
+              <CardDescription className="text-base">
+                Billed monthly. 7-day free trial included.
+              </CardDescription>
+            </CardHeader>
+
+            <CardContent className="py-8 px-6 sm:px-10">
+              <div className="space-y-4">
+                {features.map((feature, index) => (
+                  <div key={index} className="flex items-start gap-3 text-left">
+                    <div className="mt-1 h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Check className="h-3 w-3 text-primary" />
+                    </div>
+                    <span className="text-foreground/90 font-medium">{feature}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+
+            <CardFooter className="pb-8 px-6 sm:px-10 flex flex-col gap-4">
+              <CheckoutButton className="w-full h-12 text-lg font-semibold shadow-lg shadow-primary/20 transition-all hover:scale-[1.02] hover:shadow-primary/30">
+                Start 7-Day Free Trial
+              </CheckoutButton>
+              <p className="text-xs text-center text-muted-foreground">
+                Total due today: <span className="font-semibold text-foreground">$0.00</span>.
+              </p>
+            </CardFooter>
+          </Card>
+        </div>
+      </div>
+
+      {/* Feature Highlights Grid */}
+      <div className="container mx-auto px-4 py-20 border-t border-border/50">
+        <div className="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+          <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-secondary/30">
+            <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 text-primary">
+              <Zap className="h-6 w-6" />
+            </div>
+            <h3 className="text-lg font-bold mb-2">Lightning Fast</h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Send contracts for signature in under 60 seconds. Recipients sign instantly on any device without downloading an app.
+            </p>
+          </div>
+          <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-secondary/30">
+            <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 text-primary">
+              <Shield className="h-6 w-6" />
+            </div>
+            <h3 className="text-lg font-bold mb-2">Bank-Level Security</h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Your contracts are protected with 256-bit encryption. We maintain a comprehensive audit trail for every transaction.
+            </p>
+          </div>
+          <div className="flex flex-col items-center text-center p-6 rounded-2xl bg-secondary/30">
+            <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 text-primary">
+              <Info className="h-6 w-6" />
+            </div>
+            <h3 className="text-lg font-bold mb-2">Legally Binding</h3>
+            <p className="text-muted-foreground leading-relaxed">
+              Signatures collected via BoopSign are ESIGN and UETA compliant, making them as legally binding as pen and paper.
+            </p>
           </div>
         </div>
       </div>

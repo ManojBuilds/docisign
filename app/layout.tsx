@@ -1,12 +1,14 @@
-import "./globals.css";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
-import { ClerkProvider } from "@clerk/nextjs";
-import { Toaster } from "@/components/ui/sonner";
-import { Analytics } from "@vercel/analytics/next";
 import { PdfDimensionsProvider } from "@/components/PdfDimensionsContext";
+import { PendingDocumentProcessor } from "@/components/PendingDocumentProcessor";
+import { Toaster } from "@/components/ui/sonner";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Analytics } from "@vercel/analytics/next";
 import { Metadata, Viewport } from "next";
+import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
+import NextTopLoader from 'nextjs-toploader';
 import { Suspense } from "react";
-import { DM_Sans } from "next/font/google";
+import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://boopsign.com"),
@@ -89,57 +91,23 @@ export const metadata: Metadata = {
     google: "It-5F-rGTphiGn4oyRrSntPBqgQWbUohNCFKsdQ922M",
   },
 };
-const alanSans = DM_Sans({
-  variable: "--font-alan-sans",
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  variable: "--font-heading",
   display: "swap",
-  subsets: ['latin'],
-  weight: ['300', '400', '500', '600', '700', '800', '900']
 });
-// const alanSans = localFont({
-//   src: [
-//     {
-//       path: "../public/fonts/AlanSans-Light.ttf",
-//       weight: "300",
-//       style: "normal",
-//     },
-//     {
-//       path: "../public/fonts/AlanSans-Regular.ttf",
-//       weight: "400",
-//       style: "normal",
-//     },
-//     {
-//       path: "../public/fonts/AlanSans-Medium.ttf",
-//       weight: "500",
-//       style: "normal",
-//     },
-//     {
-//       path: "../public/fonts/AlanSans-SemiBold.ttf",
-//       weight: "600",
-//       style: "normal",
-//     },
-//     {
-//       path: "../public/fonts/AlanSans-Bold.ttf",
-//       weight: "700",
-//       style: "normal",
-//     },
-//     {
-//       path: "../public/fonts/AlanSans-ExtraBold.ttf",
-//       weight: "800",
-//       style: "normal",
-//     },
-//     {
-//       path: "../public/fonts/AlanSans-Black.ttf",
-//       weight: "900",
-//       style: "normal",
-//     },
-//   ],
-//   variable: "--font-alan-sans",
-//   display: "swap",
-// });
+
+const inter = Instrument_Sans({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1.0,
+  maximumScale: 1.0,
 };
 
 export default function RootLayout({
@@ -194,20 +162,25 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`antialiased relative ${alanSans.variable}`}>
+      <body className={`antialiased relative ${bricolage.variable} ${inter.variable}`}>
+        <NextTopLoader
+          color="#2563eb"
+          height={3}
+          showSpinner={false}
+          speed={200}
+          shadow="0 0 10px #2563eb,0 0 5px #2563eb"
+          crawl={true}
+          crawlSpeed={200}
+        />
         <Suspense>
-          <ClerkProvider
-            signInUrl="/sign-in"
-            signUpUrl="/sign-up"
-            signUpForceRedirectUrl={"/callback"}
-            signInForceRedirectUrl={"/dashboard"}
-          >
+          <ClerkProvider>
             <ConvexClientProvider>
+              <PendingDocumentProcessor />
               <PdfDimensionsProvider>{children}</PdfDimensionsProvider>
             </ConvexClientProvider>
           </ClerkProvider>
         </Suspense>
-        <Toaster richColors position="bottom-right" />
+        <Toaster position="top-center" />
         <Analytics />
       </body>
     </html>

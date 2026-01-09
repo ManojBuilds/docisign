@@ -100,7 +100,7 @@ const Footer = () => {
                 >
                   <div className="flex items-start">
                     <span className="mr-2 text-green-500">✓</span>
-                    <span>HR document management</span>
+                    <span>HR contract management</span>
                   </div>
                 </a>
               </li>
@@ -111,7 +111,7 @@ const Footer = () => {
                 >
                   <div className="flex items-start">
                     <span className="mr-2 text-green-500">✓</span>
-                    <span>Client onboarding documents</span>
+                    <span>Client onboarding contracts</span>
                   </div>
                 </a>
               </li>
@@ -279,7 +279,7 @@ const Footer = () => {
                 >
                   <div className="flex items-start">
                     <span className="mr-2 text-purple-500">•</span>
-                    <span>Document security guide</span>
+                    <span>Contract security guide</span>
                   </div>
                 </a>
               </li>

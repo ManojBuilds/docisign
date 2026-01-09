@@ -1,6 +1,6 @@
-import Link from "next/link";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
 
 interface LogoProps {
   showText?: boolean;
@@ -23,7 +23,7 @@ export default function Logo({
         className="h-8 w-8 md:h-10 md:w-10"
       />
       {showText && (
-        <span className="text-lg font-semibold md:text-xl">
+        <span className="text-lg font-semibold md:text-xl font-heading">
           BoopSign
         </span>
       )}

@@ -1,5 +1,5 @@
-import { internalMutation } from "./_generated/server";
 import { api } from "./_generated/api";
+import { internalMutation } from "./_generated/server";
 
 export const sendTrialReminders = internalMutation({
   handler: async (ctx) => {
@@ -40,20 +40,47 @@ export const sendTrialReminders = internalMutation({
       .collect();
 
     // Send 3-day reminders
+    // Send 3-day reminders
     for (const user of usersExpiring3Days) {
+      // Skip if already sent
+      if (user.trialReminderFlags?.day3) continue;
+
       await ctx.scheduler.runAfter(0, api.emails.sendTrialReminder3DaysEmail, {
         email: user.email,
         name: user.firstName || user.email,
         upgradeUrl,
       });
+
+      // Mark as sent
+      await ctx.db.patch(user._id, {
+        trialReminderFlags: {
+          ...user.trialReminderFlags,
+          day3: true,
+          day1: user.trialReminderFlags?.day1 ?? false,
+        },
+        updatedAt: Date.now(),
+      });
     }
 
     // Send 1-day reminders
     for (const user of usersExpiring1Day) {
+      // Skip if already sent
+      if (user.trialReminderFlags?.day1) continue;
+
       await ctx.scheduler.runAfter(0, api.emails.sendTrialReminder1DayEmail, {
         email: user.email,
         name: user.firstName || user.email,
         upgradeUrl,
+      });
+
+      // Mark as sent
+      await ctx.db.patch(user._id, {
+        trialReminderFlags: {
+          ...user.trialReminderFlags,
+          day1: true,
+          day3: user.trialReminderFlags?.day3 ?? false,
+        },
+        updatedAt: Date.now(),
       });
     }
   },

@@ -1,100 +1,59 @@
 import { Button } from "@/components/ui/button";
+import { ArrowRight, Check } from "lucide-react";
 import Link from "next/link";
-// import Image from "next/image";
-import { Label } from "./ui/label";
+import { DragAndClickUpload } from "./DragAndClickUpload";
 
-interface HeroProps {
-  heading?: string;
-  description?: string;
-  button?: {
-    text: string;
-    url: string;
-  };
-  reviews?: {
-    count: number;
-    rating?: number;
-    avatars: {
-      src: string;
-      alt: string;
-    }[];
-  };
-  headlineVariation?: "original" | "variationA" | "variationB";
-}
-
-const HeroProps = ({
-  heading,
-  description = "The simplest DocuSign alternative built for speed. Send contracts, NDAs, and proposals in under 3 minutes. Your clients sign instantly—no login, no app download, no friction. Just click, sign, done.",
-  button = {
-    text: "Start Free Trial — No Credit Card",
-    url: "/signup",
-  },
-
-}: HeroProps) => {
+const Hero = () => {
   return (
-    <section className="py-32">
-      <div className="container mx-auto text-center relative">
-        {/* <Image
-          src={"/image.png"}
-          alt="pen"
-          width={200}
-          height={200}
-          className="object-contain absolute right-0 hidden md:block rotate-2 bottom-0"
-        /> */}
-        <div className="mx-auto flex max-w-5xl flex-col gap-6">
-          <h1 className="text-3xl font-extrabold lg:text-5xl leading-tight">
-                {heading || (
-                  <>
-                    E-Signature for Freelancers & Consultants
-                    <br />{" "}
-                    <span className={`text-primary`}>
-                      No Account Required for Signers
-                    </span>
-                  </>
-                )}
-          </h1>
-          <p className="text-muted-foreground text-balance lg:text-lg max-w-4xl mx-auto">
-            {description}
-          </p>
-          <div className="flex items-center gap-2 justify-center text-xs sm:text-sm font-medium text-muted-foreground/70">
-            <span>✓ No login for signers</span>• <span>✓ 3-minute setup</span>{" "}
-            • <span>✓ Mobile-optimized</span>
-          </div>
+    <section className="relative px-4 sm:px-6 lg:px-8 py-20 lg:py-28 overflow-hidden">
+      {/* Background glow */}
+      <div className="absolute top-0 right-0 -mr-24 -mt-24 w-[520px] h-[520px] bg-primary/20 rounded-full blur-[120px] -z-10" />
+      <div className="absolute bottom-0 left-0 -ml-24 -mb-24 w-[420px] h-[420px] bg-blue-500/10 rounded-full blur-[100px] -z-10" />
+
+      <div className="container mx-auto flex flex-col items-center text-center">
+        {/* Headline */}
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1] max-w-4xl">
+          Get contracts signed
+          <span className="text-primary"> without client accounts</span>
+        </h1>
+
+        <p className="mt-4 text-lg sm:text-xl text-muted-foreground max-w-2xl">
+          Upload a PDF. Send a link. Clients sign instantly — no login required.
+        </p>
+
+        {/* Upload Box (PRIMARY CTA) */}
+        <div className="mt-10 w-full max-w-3xl">
+          <DragAndClickUpload />
         </div>
 
-        <Button asChild size="lg" className="mt-10">
-          <Link href={button.url}>{button.text}</Link>
-        </Button>
-        <br />
-        <Label className="text-center inline-block text-muted-foreground text-sm">7-day free trial • $12/month after • Cancel anytime</Label>
-
-        {/*<div className="mx-auto mt-10 flex w-fit flex-col items-center gap-4 sm:flex-row">
-          <span className="mx-4 inline-flex items-center -space-x-4">
-            {reviews.avatars.map((avatar, index) => (
-              <Avatar key={index} className="size-14 border">
-                <AvatarImage src={avatar.src} alt={avatar.alt} />
-              </Avatar>
-            ))}
-          </span>
-          <div>
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, index) => (
-                <Star
-                  key={index}
-                  className="size-5 fill-yellow-400 text-yellow-400"
-                />
-              ))}
-              <span className="mr-1 font-semibold">
-                {reviews.rating?.toFixed(1)}
-              </span>
+        {/* Trust bullets */}
+        <div className="flex flex-wrap justify-center gap-6 mt-6 text-sm text-muted-foreground">
+          {[
+            "No client signup",
+            "Works on mobile",
+            "Sign from email"
+          ].map((item, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-primary" />
+              <span>{item}</span>
             </div>
-            <p className="text-muted-foreground text-left font-medium">
-              from {reviews.count}+ reviews
-            </p>
-          </div>
-        </div>*/}
+          ))}
+        </div>
+
+        {/* Secondary CTA */}
+        <div className="mt-8">
+          <Button
+            size="lg"
+            asChild
+          >
+            <Link href="/dashboard">
+              Or create a free account <ArrowRight />
+            </Link>
+          </Button>
+        </div>
       </div>
     </section>
   );
 };
 
-export default HeroProps;
+export default Hero;

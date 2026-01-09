@@ -1,10 +1,10 @@
 'use client'
-import React, { createContext, useContext, useState, ReactNode, useMemo } from 'react';
+import React, { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 
 interface PdfDimensionsContextType {
     pageDimensions: Record<number, { width: number; height: number }>;
     scale: number;
-    setScale: (scale: number) => void;
+    setScale: React.Dispatch<React.SetStateAction<number>>;
     setPageDimensions: React.Dispatch<React.SetStateAction<Record<number, { width: number; height: number; }>>>
 }
 

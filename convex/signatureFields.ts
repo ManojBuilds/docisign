@@ -17,16 +17,41 @@ export const addSignatureField = mutation({
     y: v.number(),
     width: v.number(),
     height: v.number(),
-    assignedToEmail: v.string(),
-    assignedToName: v.string(),
+    signerEmail: v.string(),
+    signerName: v.string(),
     isRequired: v.optional(v.boolean()),
     label: v.optional(v.string()),
+    signerOrder: v.optional(v.number()),
+    status: v.optional(v.union(
+      v.literal("pending"),
+      v.literal("sent"),
+      v.literal("viewed"),
+      v.literal("signed"),
+      v.literal("declined"),
+    )),
+    accessToken: v.optional(v.string()),
+    sentAt: v.optional(v.number()),
+    viewedAt: v.optional(v.number()),
+    signedAt: v.optional(v.number()),
+    completedAt: v.optional(v.number()),
+    signatureData: v.optional(v.string()),
+    auditTrail: v.optional(v.object({
+      ip: v.string(),
+      timestamp: v.string(),
+      userAgent: v.string(),
+      signedAt: v.number(),
+    })),
+    reminderCount: v.optional(v.number()),
+    lastReminderAt: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     return await ctx.db.insert("signatureFields", {
       ...args,
       isRequired: args.isRequired ?? true,
       isCompleted: false,
+      status: args.status || "pending",
+      accessToken: args.accessToken || crypto.randomUUID(),
+      reminderCount: args.reminderCount || 0,
       createdAt: Date.now(),
     });
   },
@@ -40,10 +65,32 @@ export const updateSignatureField = mutation({
     y: v.number(),
     width: v.optional(v.number()),
     height: v.optional(v.number()),
-    assignedToEmail: v.optional(v.string()),
-    assignedToName: v.optional(v.string()),
+    signerEmail: v.optional(v.string()),
+    signerName: v.optional(v.string()),
     label: v.optional(v.string()),
     isRequired: v.optional(v.boolean()),
+    signerOrder: v.optional(v.number()),
+    status: v.optional(v.union(
+      v.literal("pending"),
+      v.literal("sent"),
+      v.literal("viewed"),
+      v.literal("signed"),
+      v.literal("declined"),
+    )),
+    accessToken: v.optional(v.string()),
+    sentAt: v.optional(v.number()),
+    viewedAt: v.optional(v.number()),
+    signedAt: v.optional(v.number()),
+    completedAt: v.optional(v.number()),
+    signatureData: v.optional(v.string()),
+    auditTrail: v.optional(v.object({
+      ip: v.string(),
+      timestamp: v.string(),
+      userAgent: v.string(),
+      signedAt: v.number(),
+    })),
+    reminderCount: v.optional(v.number()),
+    lastReminderAt: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
     const { fieldId, ...rest } = args;
@@ -89,6 +136,8 @@ export const completeSignatureField = mutation({
       isCompleted: true,
       signatureData: args.signatureData,
       completedAt: Date.now(),
+      status: "signed", // Update status to signed when completed
+      signedAt: Date.now(), // Set signedAt timestamp
     };
 
     // Add audit information if provided
@@ -103,83 +152,98 @@ export const completeSignatureField = mutation({
 
     await ctx.db.patch(args.fieldId, updates);
 
-    // Check if all fields for this document are completed
+    // Check if all fields for this signer are completed
     const remainingFields = await ctx.db
       .query("signatureFields")
-      .withIndex("by_completion_status", (q) =>
-        q.eq("documentId", field.documentId).eq("isCompleted", false)
+      .withIndex("by_document_and_signer", (q) =>
+        q
+          .eq("documentId", field.documentId)
+          .eq("signerEmail", field.signerEmail)
       )
+      .filter(q => q.eq(q.field("isCompleted"), false))
       .collect();
 
-    // If no remaining fields, generate the final PDF and mark document as completed
-    await ctx.scheduler.runAfter(0, internal.actions.generateSignedPdf, {
-      documentId: field.documentId,
-    });
+    // If no remaining fields, trigger finalization logic
 
     if (remainingFields.length === 0) {
-      await ctx.db.patch(field.documentId, {
-        status: "completed",
-        completedAt: Date.now(),
-      });
-
-
-
-      // Log completion
-      await ctx.db.insert("documentActivities", {
+      // Update the signer's overall status to "signed"
+      await ctx.runMutation(api.signers.finalizeDocument, {
         documentId: field.documentId,
-        actorEmail: field.assignedToEmail,
-        actorType: "signer",
-        actionType: "completed",
-        details: "All signature fields completed",
-        timestamp: Date.now(),
+        signerEmail: field.signerEmail,
       });
     }
   },
 });
 
 // Save all signature fields for a document
-// export const saveSignatureFields = mutation({
-//   args: {
-//     documentId: v.id("documents"),
-//     fields: v.array(
-//       v.object({
-//         fieldType: v.union(
-//           v.literal("signature"),
-//           v.literal("initial"),
-//           v.literal("date"),
-//           v.literal("text")
-//         ),
-//         page: v.number(),
-//         x: v.number(),
-//         y: v.number(),
-//         width: v.number(),
-//         height: v.number(),
-//         assignedToEmail: v.string(),
-//         isRequired: v.optional(v.boolean()),
-//         label: v.optional(v.string()),
-//       })
-//     ),
-//   },
-//   handler: async (ctx, args) => {
-//     // Delete existing fields for this document
-//     const existingFields = await ctx.db
-//       .query("signatureFields")
-//       .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
-//       .collect();
+export const saveSignatureFields = mutation({
+  args: {
+    documentId: v.id("documents"),
+    fields: v.array(
+      v.object({
+        fieldType: v.union(
+          v.literal("signature"),
+          v.literal("initial"),
+          v.literal("date"),
+          v.literal("text")
+        ),
+        page: v.number(),
+        x: v.number(),
+        y: v.number(),
+        width: v.number(),
+        height: v.number(),
+        signerEmail: v.string(),
+        signerName: v.string(),
+        isRequired: v.optional(v.boolean()),
+        label: v.optional(v.string()),
+        signerOrder: v.optional(v.number()),
+        status: v.optional(v.union(
+          v.literal("pending"),
+          v.literal("sent"),
+          v.literal("viewed"),
+          v.literal("signed"),
+          v.literal("declined"),
+        )),
+        accessToken: v.optional(v.string()),
+        sentAt: v.optional(v.number()),
+        viewedAt: v.optional(v.number()),
+        signedAt: v.optional(v.number()),
+        completedAt: v.optional(v.number()),
+        signatureData: v.optional(v.string()),
+        auditTrail: v.optional(v.object({
+          ip: v.string(),
+          timestamp: v.string(),
+          userAgent: v.string(),
+          signedAt: v.number(),
+        })),
+        reminderCount: v.optional(v.number()),
+        lastReminderAt: v.optional(v.number()),
+      })
+    ),
+  },
+  handler: async (ctx, args) => {
+    // Delete existing fields for this document
+    const existingFields = await ctx.db
+      .query("signatureFields")
+      .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
+      .collect();
 
-//     for (const field of existingFields) {
-//       await ctx.db.delete(field._id);
-//     }
+    for (const field of existingFields) {
+      await ctx.db.delete(field._id);
+    }
 
-//     // Insert new fields
-//     for (const field of args.fields) {
-//       await ctx.db.insert("signatureFields", {
-//         ...field,
-//         documentId: args.documentId,
-//         isCompleted: false,
-//         createdAt: Date.now(),
-//       });
-//     }
-//   },
-// });
-
+    // Insert new fields
+    for (const field of args.fields) {
+      await ctx.db.insert("signatureFields", {
+        ...field,
+        documentId: args.documentId,
+        isRequired: field.isRequired ?? true,
+        isCompleted: false,
+        status: field.status || "pending",
+        accessToken: field.accessToken || crypto.randomUUID(),
+        reminderCount: field.reminderCount || 0,
+        createdAt: Date.now(),
+      });
+    }
+  },
+});

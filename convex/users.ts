@@ -1,6 +1,6 @@
 import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
 import { api } from "./_generated/api";
+import { mutation, query } from "./_generated/server";
 
 // Create user with automatic 7-day trial
 export const createUser = mutation({
@@ -44,6 +44,12 @@ export const createUser = mutation({
       name: args.firstName || args.email,
     });
 
+    await ctx.scheduler.runAfter(0, api.brevo.syncUserToBrevo, {
+      email: args.email,
+      firstName: args.firstName,
+      lastName: args.lastName,
+    });
+
     return userId;
   },
 });
@@ -61,11 +67,15 @@ export const getUserByClerkId = query({
 
 // Check trial status
 export const getTrialStatus = query({
-  args: { clerkId: v.string() },
+  args: { clerkId: v.optional(v.string()) },
   handler: async (ctx, args) => {
+    const { clerkId } = args;
+    if (!clerkId) {
+      return null;
+    }
     const user = await ctx.db
       .query("users")
-      .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", clerkId))
       .first();
 
     if (!user) {

@@ -60,10 +60,20 @@ export const getDocument = query({
       .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
       .collect();
 
-    const signers = await ctx.db
-      .query("signers")
-      .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
-      .collect();
+    // Get unique signers from signature fields
+    const uniqueSignersMap = new Map();
+    for (const field of signatureFields) {
+      if (field.signerEmail && !uniqueSignersMap.has(field.signerEmail)) {
+        uniqueSignersMap.set(field.signerEmail, {
+          _id: field._id,
+          email: field.signerEmail,
+          name: field.signerName,
+          documentId: field.documentId,
+          status: field.status,
+        });
+      }
+    }
+    const signers = Array.from(uniqueSignersMap.values());
 
     return {
       ...document,
@@ -119,24 +129,14 @@ export const deleteDocument = mutation({
       throw new Error("Document not found");
     }
 
-    // Delete associated signature fields
+    // Delete associated signature fields (which contain signer info)
     const fields = await ctx.db
       .query("signatureFields")
       .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
       .collect();
-    
+
     for (const field of fields) {
       await ctx.db.delete(field._id);
-    }
-
-    // Delete associated signers
-    const signers = await ctx.db
-      .query("signers")
-      .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
-      .collect();
-    
-    for (const signer of signers) {
-      await ctx.db.delete(signer._id);
     }
 
     // Delete activities
@@ -144,7 +144,7 @@ export const deleteDocument = mutation({
       .query("documentActivities")
       .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
       .collect();
-    
+
     for (const activity of activities) {
       await ctx.db.delete(activity._id);
     }
@@ -173,6 +173,19 @@ export const updateDocumentFile = internalMutation({
   handler: async (ctx, args) => {
     await ctx.db.patch(args.documentId, {
       fileStorageId: args.fileStorageId,
+      updatedAt: Date.now(),
+    });
+  },
+});
+
+export const updateDocumentTitle = mutation({
+  args: {
+    documentId: v.id("documents"),
+    title: v.string(),
+  },
+  handler: async (ctx, args) => {
+    await ctx.db.patch(args.documentId, {
+      title: args.title,
       updatedAt: Date.now(),
     });
   },

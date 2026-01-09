@@ -1,24 +1,9 @@
 "use node";
-import { action } from "./_generated/server";
-import { v } from "convex/values";
-import { components } from "./_generated/api";
 import { Resend } from "@convex-dev/resend";
 import { render } from "@react-email/render";
-import {
-  Body,
-  Button,
-  Container,
-  Head,
-  Heading,
-  Hr,
-  Html,
-  Img,
-  Link,
-  Preview,
-  Section,
-  Text,
-} from "@react-email/components";
-import { ReactNode } from "react";
+import { v } from "convex/values";
+import { components } from "./_generated/api";
+import { action } from "./_generated/server";
 import {
   DocumentComplete,
   SignerCopy,
@@ -27,15 +12,12 @@ import {
   TrialReminder1Day,
   TrialReminder3Days,
   Welcome,
-} from "./email_templates";
+} from "./emails/templates";
 
 const domain = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
 
 export const resend: Resend = new Resend(components.resend, {
-  testMode: false,
+  testMode: true,
 });
 
 export const sendWelcomeEmail = action({

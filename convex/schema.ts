@@ -34,6 +34,11 @@ export default defineSchema({
     teamSize: v.optional(v.string()), // e.g., "solo", "2-5", "6-10", "11+"
     industry: v.optional(v.string()), // e.g., "tech", "legal", "real_estate", "consulting", "other"
 
+    trialReminderFlags: v.optional(v.object({
+      day3: v.boolean(),
+      day1: v.boolean(),
+    })),
+
     createdAt: v.number(),
     updatedAt: v.number(),
   })
@@ -54,6 +59,7 @@ export default defineSchema({
       v.literal("completed"),
       v.literal("expired"),
       v.literal("cancelled"),
+      v.literal("declined")
     ),
     ownerId: v.string(),
     pageCount: v.number(),
@@ -87,29 +93,9 @@ export default defineSchema({
     height: v.number(),
     isRequired: v.boolean(),
     label: v.optional(v.string()),
-    assignedToEmail: v.string(),
-    assignedToName: v.string(),
+    signerEmail: v.string(),
+    signerName: v.string(),
     signerOrder: v.optional(v.number()),
-    isCompleted: v.boolean(),
-    completedAt: v.optional(v.number()),
-    signatureData: v.optional(v.string()),
-    auditTrail: v.optional(v.object({
-      ip: v.string(),
-      timestamp: v.string(),
-      userAgent: v.string(),
-      signedAt: v.number(),
-    })),
-    createdAt: v.number(),
-  })
-    .index("by_document", ["documentId"])
-    .index("by_document_and_signer", ["documentId", "assignedToEmail"])
-    .index("by_completion_status", ["documentId", "isCompleted"]),
-
-  signers: defineTable({
-    documentId: v.id("documents"),
-    email: v.string(),
-    name: v.optional(v.string()),
-    signingOrder: v.optional(v.number()),
     status: v.union(
       v.literal("pending"),
       v.literal("sent"),
@@ -121,14 +107,25 @@ export default defineSchema({
     sentAt: v.optional(v.number()),
     viewedAt: v.optional(v.number()),
     signedAt: v.optional(v.number()),
+    isCompleted: v.boolean(),
+    completedAt: v.optional(v.number()),
+    signatureData: v.optional(v.string()),
+    auditTrail: v.optional(v.object({
+      ip: v.string(),
+      timestamp: v.string(),
+      userAgent: v.string(),
+      signedAt: v.number(),
+    })),
     createdAt: v.number(),
     reminderCount: v.number(),
     lastReminderAt: v.optional(v.number()),
   })
     .index("by_document", ["documentId"])
-    .index("by_email", ["email"])
-    .index("by_access_token", ["accessToken"])
-    .index("by_status", ["documentId", "status"]),
+    .index("by_signer", ["signerEmail"])
+    .index("by_document_and_signer", ["documentId", "signerEmail"])
+    .index("by_completion_status", ["documentId", "isCompleted"])
+    .index("by_status", ["documentId", "status"])
+    .index("by_access_token", ["accessToken"]),
 
   documentActivities: defineTable({
     documentId: v.id("documents"),
@@ -147,6 +144,7 @@ export default defineSchema({
       v.literal("completed"),
       v.literal("expired"),
       v.literal("cancelled"),
+      v.literal("declined"),
       v.literal("reminder_sent"),
     ),
     details: v.optional(v.string()),
@@ -157,7 +155,7 @@ export default defineSchema({
   })
     .index("by_document", ["documentId"])
     .index("by_timestamp", ["timestamp"]),
-  
+
   otps: defineTable({
     email: v.string(),
     otp: v.string(),

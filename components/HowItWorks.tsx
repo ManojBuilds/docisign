@@ -1,7 +1,7 @@
-import { Upload, MousePointer, Send, ArrowRight } from "lucide-react";
-import React from "react";
 import { Button } from "@/components/ui/button";
+import { ArrowRight, MousePointer, Send, Upload } from "lucide-react";
 import Link from "next/link";
+import React from "react";
 
 interface HowItWorksProps {
     heading?: string;
@@ -27,13 +27,13 @@ const HowItWorks = ({
         {
             number: "01",
             icon: <Upload className="size-6" />,
-            title: "Upload Your Document",
-            description: "Upload any PDF, DOCX, or image. Drag and drop signature fields where you need them. Takes 30 seconds."
+            title: "Upload Your Contract",
+            description: "Upload any PDF. Drag and drop signature fields where you need them. Takes 30 seconds."
         },
         {
             number: "02",
             icon: <MousePointer className="size-6" />,
-            title: "Add Signer Email",
+            title: "Add Client Email",
             description: "Enter your client's email. No account creation needed—they'll get a secure, one-time signing link instantly."
         },
         {
@@ -51,7 +51,7 @@ const HowItWorks = ({
                 <div className="text-center mb-20">
                     <div className="mx-auto flex max-w-4xl flex-col gap-6">
                         <h2 className="text-3xl font-extrabold lg:text-5xl text-gray-900">
-                            Sign Documents in Under 3 Minutes
+                            Sign Contracts in Under 3 Minutes
                         </h2>
                         <p className="text-muted-foreground text-balance lg:text-lg max-w-3xl mx-auto">
                             No training required. No complex workflows. Just upload, send, and get signatures—faster than any DocuSign alternative.
@@ -96,7 +96,7 @@ const HowItWorks = ({
                 {/* Bottom Text & CTA */}
                 <div className="text-center mt-16">
                     <p className="text-lg text-muted-foreground mb-8 font-medium">
-                        That&apos;s it. No training, no complexity, no wasted time. Just simple e-signatures that work.
+                        That&apos;s it. No training, no complexity, no wasted time. Just simple contract signing that works.
                     </p>
                     <Button asChild size="lg">
                         <Link href={button.url}>{button.text}</Link>

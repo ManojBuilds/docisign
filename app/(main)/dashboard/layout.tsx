@@ -1,7 +1,5 @@
-import Footer from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { TrialBanner } from "@/components/TrialBanner";
-import { Suspense } from "react";
 
 export default function DashboardLayout({
   children,
@@ -10,12 +8,10 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex flex-col">
-      <Suspense fallback={null}>
-        <TrialBanner />
-      </Suspense>
-      <Header />
+      <TrialBanner />
+      <Header classNames="container lg:max-w-6xl mx-auto" />
       <main className="flex min-h-screen flex-1 flex-col">{children}</main>
-      <Footer />
+      {/* <Footer /> */}
     </div>
   );
 }

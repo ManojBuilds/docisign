@@ -5,7 +5,15 @@ import Link from "next/link";
 export const TrialBanner = () => {
   const trialStatus = useTrialStatus();
 
-  if (trialStatus.isLoading || trialStatus.isPaidUser) {
+  if (trialStatus.isLoading) {
+    return (
+      <div className="px-2 py-1 text-center bg-muted/20 border-l-4 border-transparent animate-pulse">
+        <div className="h-5 bg-muted/30 rounded w-64 mx-auto" />
+      </div>
+    );
+  }
+
+  if (trialStatus.isPaidUser) {
     return null;
   }
 

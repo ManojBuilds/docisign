@@ -10,10 +10,8 @@ export default function PricingPage() {
   return (
     <div className="min-h-screen bg-background">
       <Pricing />
-      <CompetitorComparisonTable className="mt-8" />
-      <div className="px-4">
-        <PricingFaq />
-      </div>
+      <CompetitorComparisonTable />
+      <PricingFaq />
 
       {/* Final Call-To-Action Section */}
       <div className="container mx-auto px-4 py-16 text-center">

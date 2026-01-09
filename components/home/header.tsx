@@ -1,23 +1,20 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { UserButton, useUser } from "@clerk/nextjs";
 import { ChevronRight, Menu, X } from "lucide-react";
-import { motion } from "motion/react";
 import Link from "next/link";
-import { SupportModal } from "../support";
 import Logo from "../Logo";
 
 interface HeaderProps {
-  isScrolled: boolean;
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (open: boolean) => void;
 }
 
 const navbarItems = [
   {
-    label: "Features",
-    href: "/#features",
+    label: "How It Works",
+    href: "/#how-it-works",
   },
   {
     label: "Pricing",
@@ -30,70 +27,52 @@ const navbarItems = [
 ];
 
 export function Header({
-  isScrolled,
   mobileMenuOpen,
   setMobileMenuOpen,
 }: HeaderProps) {
-  const handleScrollToSection = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const targetId = e.currentTarget.getAttribute("href")?.slice(1);
-    if (!targetId) return;
-
-    const element = document.getElementById(targetId);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const { isSignedIn } = useUser();
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 w-full backdrop-blur-lg",
-        isScrolled
-          ? "bg-background/90 border-border/20 border-b shadow-xs"
-          : "bg-transparent",
-      )}
-    >
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Logo />
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-lg">
+      <div className="mx-auto max-w-5xl flex h-16 items-center justify-center px-4 md:px-6">
+        <div className="flex flex-1 justify-start">
+          <Logo />
+        </div>
         <nav className="hidden items-center gap-4 md:flex lg:gap-8">
-          {navbarItems.map((item, i) => (
-            <motion.a
+          {navbarItems.map((item) => (
+            <Link
               key={item.label}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.1 + i * 0.05 }}
               href={item.href}
-              onClick={
-                item.href.startsWith("#") ? handleScrollToSection : undefined
-              }
               className="text-muted-foreground hover:text-foreground group relative text-xs font-medium transition-colors lg:text-sm"
             >
               {item.label}
               <span className="bg-primary absolute -bottom-1 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>
-            </motion.a>
+            </Link>
           ))}
         </nav>
-        <div className="hidden cursor-pointer items-center gap-4 md:flex">
-          <SupportModal />
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.3, delay: 0.5 }}
-          >
-            <Button asChild className="cursor-pointer rounded-full font-medium transition-transform hover:scale-105">
-              <Link href="/dashboard" prefetch>
-                Try It Now
-                <ChevronRight className="ml-1 size-4" />
-              </Link>
-            </Button>
-          </motion.div>
+        <div className="flex flex-1 justify-end items-center gap-4">
+          {isSignedIn ? (
+            <>
+              <Button variant="ghost" asChild>
+                <Link href="/dashboard">Dashboard</Link>
+              </Button>
+              <UserButton afterSignOutUrl="/" />
+            </>
+          ) : (
+            <>
+              <Button variant="ghost" asChild>
+                <Link href="/sign-in">Sign In</Link>
+              </Button>
+              <Button asChild className="cursor-pointer rounded-full font-medium transition-transform hover:scale-105">
+                <Link href="/dashboard" prefetch>
+                  Get Started
+                  <ChevronRight className="ml-1 size-4" />
+                </Link>
+              </Button>
+            </>
+          )}
         </div>
         <div className="flex items-center gap-2 md:hidden">
-          <div className="sm:hidden">
-            <SupportModal />
-          </div>
-
           <Button
             variant="ghost"
             size="icon"
@@ -110,47 +89,50 @@ export function Header({
       </div>
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -20 }}
+        <div
           className="bg-background/95 absolute inset-x-0 top-16 border-b backdrop-blur-lg md:hidden"
         >
           <div className="container mx-auto flex flex-col gap-4 px-4 py-4">
-            {navbarItems.map((item, i) => (
-              <motion.a
+            {navbarItems.map((item) => (
+              <Link
                 key={item.label}
-                initial={{ opacity: 0, x: -10 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.2, delay: i * 0.05 }}
                 href={item.href}
-                onClick={(e) =>
-                  item.href.startsWith("#") ? () => {
-                    handleScrollToSection(e);
-                    setMobileMenuOpen(false);
-                  } : undefined
-                }
                 className="group relative overflow-hidden py-2 text-sm font-medium"
               >
                 <span className="relative z-10">{item.label}</span>
                 <span className="bg-primary absolute bottom-0 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>
-              </motion.a>
+              </Link>
             ))}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.3 }}
+            <div
               className="border-border/30 mt-2 border-t pt-2"
             >
-              <Button asChild className="w-full rounded-full">
-                <Link href="/dashboard" prefetch onClick={() => setMobileMenuOpen(false)}>
-                  Try It Now
-                  <ChevronRight className="ml-2 size-4" />
-                </Link>
-              </Button>
-            </motion.div>
+              {isSignedIn ? (
+                <div className="flex flex-col gap-2">
+                  <Button variant="ghost" asChild className="w-full">
+                    <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
+                      Dashboard
+                    </Link>
+                  </Button>
+                  <UserButton afterSignOutUrl="/" />
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  <Button variant="ghost" asChild className="w-full">
+                    <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
+                      Sign In
+                    </Link>
+                  </Button>
+                  <Button asChild className="w-full rounded-full">
+                    <Link href="/dashboard" prefetch onClick={() => setMobileMenuOpen(false)}>
+                      Get Started
+                      <ChevronRight className="ml-2 size-4" />
+                    </Link>
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
-        </motion.div>
+        </div>
       )}
     </header>
   );

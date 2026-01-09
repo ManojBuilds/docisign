@@ -1,3 +1,5 @@
+import { CheckCircle } from "lucide-react";
+
 export function Problem() {
   return (
     <section className="w-full py-12 md:py-24 lg:py-32 bg-muted/40">
@@ -15,28 +17,28 @@ export function Problem() {
         <div className="mx-auto grid max-w-4xl items-start gap-8 sm:grid-cols-1 md:gap-12 pt-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="flex items-start gap-3">
-              <div className="mt-1 text-green-500">✅</div>
+              <CheckCircle className="mt-1 size-5 text-green-500" />
               <div>
-                <h3 className="font-semibold">Freelancers signing client contracts fast</h3>
+                <h3 className="font-semibold">Freelancers getting contracts signed fast</h3>
                 <p className="text-sm text-muted-foreground mt-1">Get freelance contracts signed in under 3 minutes—no account creation for clients</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="mt-1 text-green-500">✅</div>
+              <CheckCircle className="mt-1 size-5 text-green-500" />
               <div>
                 <h3 className="font-semibold">Consultants sending NDAs & proposals</h3>
                 <p className="text-sm text-muted-foreground mt-1">Send NDAs, SOWs, and consulting agreements without the DocuSign complexity</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="mt-1 text-green-500">✅</div>
+              <CheckCircle className="mt-1 size-5 text-green-500" />
               <div>
                 <h3 className="font-semibold">Small businesses needing quick approvals</h3>
                 <p className="text-sm text-muted-foreground mt-1">Get vendor agreements, service contracts, and legal docs signed instantly</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="mt-1 text-green-500">✅</div>
+              <CheckCircle className="mt-1 size-5 text-green-500" />
               <div>
                 <h3 className="font-semibold">Agencies managing client onboarding</h3>
                 <p className="text-sm text-muted-foreground mt-1">Streamline client onboarding with simple, mobile-friendly e-signatures</p>

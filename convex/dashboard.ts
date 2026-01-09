@@ -1,6 +1,6 @@
 import { paginationOptsValidator } from "convex/server";
-import { query } from "./_generated/server";
 import { v } from "convex/values";
+import { query } from "./_generated/server";
 
 // Get dashboard stats
 export const getDashboardStats = query({
@@ -36,7 +36,8 @@ export const searchDocuments = query({
       v.literal("in_progress"),
       v.literal("completed"),
       v.literal("expired"),
-      v.literal("cancelled")
+      v.literal("cancelled"),
+      v.literal("declined")
     )),
     paginationOpts: paginationOptsValidator,
   },

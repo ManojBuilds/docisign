@@ -1,5 +1,7 @@
 import { FrameHighlight } from "@/components/effects/frame-highlight";
 import { NoiseEffect } from "@/components/effects/noise-effect";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
 
 export default function AuthLayout({
   children,
@@ -20,6 +22,17 @@ export default function AuthLayout({
         />
 
         <NoiseEffect />
+
+        {/* Back Button */}
+        <div className="absolute top-6 left-6 z-20">
+          <Link
+            href="/"
+            className="group flex items-center gap-2 rounded-full bg-white/50 px-4 py-2 text-sm font-medium text-slate-600 backdrop-blur-sm transition-all hover:bg-white hover:text-slate-900 hover:shadow-sm ring-1 ring-slate-200/50"
+          >
+            <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+            Back
+          </Link>
+        </div>
 
         <div className="relative z-10 w-full p-8">
           <div className="mb-8 flex flex-col items-center gap-4 text-center">

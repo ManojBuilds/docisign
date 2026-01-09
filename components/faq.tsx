@@ -1,8 +1,8 @@
 import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
+    Accordion,
+    AccordionContent,
+    AccordionItem,
+    AccordionTrigger,
 } from "@/components/ui/accordion";
 
 interface FaqItem {
@@ -22,7 +22,7 @@ const Faq = ({
   {
     id: "faq-1",
     question: "How is BoopSign different from DocuSign?",
-    answer: "BoopSign is built for speed and simplicity. Unlike DocuSign, your clients don't need to create accounts—they sign directly from email. We're also 10x cheaper ($12/month vs $120+/month) with no per-document fees. Perfect for freelancers and consultants who need simple e-signatures without enterprise complexity."
+    answer: "BoopSign is built for speed and simplicity. Unlike DocuSign, your clients don't need to create accounts—they sign directly from email. We're also 10x cheaper ($12/month vs $120+/month) with no per-contract fees. Perfect for freelancers and consultants who need simple e-signatures without enterprise complexity."
   },
   {
     id: "faq-2",
@@ -32,7 +32,7 @@ const Faq = ({
   {
     id: "faq-3",
     question: "What's your pricing? Any hidden fees?",
-    answer: "Simple, transparent pricing: $12/month for unlimited document signing. No per-document charges, no user fees, no setup costs. Start with a 7-day free trial—no credit card required. Cancel anytime with no questions asked."
+    answer: "Simple, transparent pricing: $12/month for unlimited contract signing. No per-contract charges, no user fees, no setup costs. Start with a 7-day free trial—no credit card required. Cancel anytime with no questions asked."
   },
   {
     id: "faq-4",
@@ -47,17 +47,17 @@ const Faq = ({
   {
     id: "faq-6",
     question: "What file types do you support?",
-    answer: "We support PDF, DOCX, DOC, and image files (PNG, JPG). Upload any document type and we'll handle the rest. Signed documents are always delivered as PDFs with embedded audit trails."
+    answer: "We support PDF, DOCX, DOC, and image files (PNG, JPG). Upload any contract type and we'll handle the rest. Signed contracts are always delivered as PDFs with embedded audit trails."
   },
   {
     id: "faq-7",
-    question: "How fast can I get a document signed?",
-    answer: "Most documents are signed within minutes. Upload takes 30 seconds, your client receives the email instantly, and they can sign in under 1 minute. Total time from upload to signed PDF: under 3 minutes. Compare that to DocuSign's average of 24-48 hours."
+    question: "How fast can I get a contract signed?",
+    answer: "Most contracts are signed within minutes. Upload takes 30 seconds, your client receives the email instantly, and they can sign in under 1 minute. Total time from upload to signed PDF: under 3 minutes. Compare that to DocuSign's average of 24-48 hours."
   },
   {
     id: "faq-8",
     question: "Can I try it before paying?",
-    answer: "Yes! Start with a 7-day free trial of BoopSign Pro—no credit card required. Test unlimited document signing, all features included. If you don't love it, cancel anytime with one click."
+    answer: "Yes! Start with a 7-day free trial of BoopSign Pro—no credit card required. Test unlimited contract signing, all features included. If you don't love it, cancel anytime with one click."
   },
   {
     id: "faq-9",

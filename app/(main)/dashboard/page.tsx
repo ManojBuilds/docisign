@@ -1,28 +1,7 @@
 "use client";
 
-import { NewDocumentDialog } from "@/components/NewDocumentDialog";
 import { DocumentTable } from "@/components/DocumentTable";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@/components/ui/select";
-import { api } from "@/convex/_generated/api";
-import { useUser } from "@clerk/clerk-react";
-import { usePaginatedQuery, useQuery, useMutation } from "convex/react";
-import {
-  Check,
-  Clock,
-  FileText,
-  Send,
-  XCircle
-} from "lucide-react";
-import { Suspense } from "react";
+import { NewDocumentDialog } from "@/components/NewDocumentDialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -33,6 +12,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -42,11 +22,31 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import useMediaQuery from "@/hooks/use-media-query";
-import { useState } from "react";
-import { toast } from "sonner";
-import { Id } from "@/convex/_generated/dataModel";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Skeleton } from "@/components/ui/skeleton";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
+import useMediaQuery from "@/hooks/use-media-query";
+import { useResumePendingDocument } from "@/hooks/usePendingResumeDocument";
+import { useUser } from "@clerk/clerk-react";
+import { useMutation, usePaginatedQuery } from "convex/react";
+import debounce from "debounce";
+import {
+  FileText,
+  Filter,
+  Loader2,
+  Plus,
+  Search
+} from "lucide-react";
+import { Suspense, useCallback, useState } from "react";
+import { toast } from "sonner";
 
 // Types for better TypeScript support
 type DocumentStatus =
@@ -56,172 +56,28 @@ type DocumentStatus =
   | "in_progress"
   | "completed"
   | "expired"
-  | "cancelled";
-
-interface DashboardStats {
-  totalDocuments?: number;
-  draftDocuments?: number;
-  sentDocuments?: number;
-  completedDocuments?: number;
-}
-
-// interface Document {
-//   _id: Id<"documents">;
-//   title: string;
-//   status: string;
-//   createdAt: number;
-//   updatedAt?: number;
-//   fileStorageId: Id<"_storage">;
-//   originalFileName: string;
-// }
-
-// Skeleton Components
-const StatsLoadingSkeleton = () => (
-  <>
-    {/* Mobile Stats Skeleton */}
-    <div className="grid grid-cols-2 gap-4 mb-6 sm:hidden">
-      {[...Array(4)].map((_, i) => (
-        <Skeleton key={i} className="h-24 rounded" />
-      ))}
-    </div>
-    {/* Desktop Stats Skeleton */}
-    <div className="hidden sm:grid grid-cols-4 gap-6 mb-8">
-      {[...Array(4)].map((_, i) => (
-        <Skeleton key={i} className="h-28 rounded-lg" />
-      ))}
-    </div>
-  </>
-);
-
-// Simple Mobile Stats - no cards, just clean boxes
-const MobileStats = ({ stats }: { stats: DashboardStats | undefined }) => (
-  <div className="grid grid-cols-2 gap-4 mb-6 sm:hidden">
-    <div className="bg-gray-50 p-4 border-l-4 border-blue-500">
-      <div className="flex items-center gap-2 mb-1">
-        <FileText className="h-4 w-4 text-blue-600" />
-        <p className="text-sm font-medium text-gray-700">Total</p>
-      </div>
-      <p className="text-2xl font-bold text-gray-900">
-        {stats?.totalDocuments ?? 0}
-      </p>
-    </div>
-    <div className="bg-gray-50 p-4 border-l-4 border-green-500">
-      <div className="flex items-center gap-2 mb-1">
-        <Check className="h-4 w-4 text-green-600" />
-        <p className="text-sm font-medium text-gray-700">Done</p>
-      </div>
-      <p className="text-2xl font-bold text-gray-900">
-        {stats?.completedDocuments ?? 0}
-      </p>
-    </div>
-    <div className="bg-gray-50 p-4 border-l-4 border-yellow-500">
-      <div className="flex items-center gap-2 mb-1">
-        <Send className="h-4 w-4 text-yellow-600" />
-        <p className="text-sm font-medium text-gray-700">Sent</p>
-      </div>
-      <p className="text-2xl font-bold text-gray-900">
-        {stats?.sentDocuments ?? 0}
-      </p>
-    </div>
-    <div className="bg-gray-50 p-4 border-l-4 border-gray-400">
-      <div className="flex items-center gap-2 mb-1">
-        <Clock className="h-4 w-4 text-gray-600" />
-        <p className="text-sm font-medium text-gray-700">Draft</p>
-      </div>
-      <p className="text-2xl font-bold text-gray-900">
-        {stats?.draftDocuments ?? 0}
-      </p>
-    </div>
-  </div>
-);
-
-// Stats Component - Loads independently
-function DashboardStats() {
-  const { user } = useUser();
-  const dashboardStats = useQuery(
-    api.dashboard.getDashboardStats,
-    user ? { ownerId: user.id } : "skip",
-  );
-
-  return (
-    <>
-      {/* Mobile Stats */}
-      <MobileStats stats={dashboardStats} />
-
-      {/* Desktop Stats - Keep cards only for main stats */}
-      <div className="hidden sm:grid grid-cols-4 gap-6 mb-8">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">
-              Total Documents
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-2">
-              <FileText className="h-5 w-5 text-gray-400" />
-              <span className="text-2xl font-bold">
-                {dashboardStats?.totalDocuments ?? 0}
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">
-              Draft
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-2">
-              <Clock className="h-5 w-5 text-gray-400" />
-              <span className="text-2xl font-bold">
-                {dashboardStats?.draftDocuments ?? 0}
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">
-              Sent
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-2">
-              <Send className="h-5 w-5 text-gray-400" />
-              <span className="text-2xl font-bold">
-                {dashboardStats?.sentDocuments ?? 0}
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">
-              Completed
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-gray-400" />
-              <span className="text-2xl font-bold">
-                {dashboardStats?.completedDocuments ?? 0}
-              </span>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </>
-  );
-}
+  | "cancelled"
+  | "declined";
 
 // Documents Component - Loads independently
 function DocumentsList() {
   const { user } = useUser();
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+
+  const handleDebouncedSearch = useCallback(
+    debounce((value: string) => {
+      setDebouncedSearchTerm(value);
+    }, 500),
+    []
+  );
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    handleDebouncedSearch(value);
+  };
+
   const [filterStatus, setFilterStatus] = useState<DocumentStatus>("all");
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [documentToDelete, setDocumentToDelete] =
@@ -238,12 +94,12 @@ function DocumentsList() {
     user
       ? {
         ownerId: user.id,
-        searchTerm,
+        searchTerm: debouncedSearchTerm,
         status: filterStatus === "all" ? undefined : filterStatus,
       }
       : "skip",
     {
-      initialNumItems: 100, // Load more documents for table pagination
+      initialNumItems: 20, // Load fewer items initially for faster TTI
     },
   );
 
@@ -257,12 +113,21 @@ function DocumentsList() {
     try {
       const url = await getFileUrl({ storageId: fileStorageId });
       if (url) {
+        // Fetch the file content to ensure it's downloaded as a blob
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+
         const a = document.createElement("a");
-        a.href = url;
-        a.download = fileName;
+        a.href = blobUrl;
+        a.download = fileName.endsWith('.pdf') ? fileName : `${fileName}.pdf`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
+
+        // Clean up the blob URL
+        window.URL.revokeObjectURL(blobUrl);
+
         toast.success("Document downloaded");
       } else {
         toast.error("Download failed");
@@ -295,96 +160,152 @@ function DocumentsList() {
 
   return (
     <>
-      {/* Search and Filter */}
-      <div className="flex flex-col sm:flex-row gap-4 mb-6">
-        <Input
-          placeholder="Search documents..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="flex-1"
-        />
-        <div className="flex gap-3">
-          <Select
-            value={filterStatus}
-            onValueChange={(value: DocumentStatus) => setFilterStatus(value)}
-          >
-            <SelectTrigger className="w-full sm:w-[180px]">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Statuses</SelectItem>
-              <SelectItem value="draft">Draft</SelectItem>
-              <SelectItem value="sent">Sent</SelectItem>
-              <SelectItem value="in_progress">In Progress</SelectItem>
-              <SelectItem value="completed">Completed</SelectItem>
-              <SelectItem value="expired">Expired</SelectItem>
-              <SelectItem value="cancelled">Cancelled</SelectItem>
-            </SelectContent>
-          </Select>
-          {(searchTerm !== "" || filterStatus !== "all") && (
-            <Button
-              variant="outline"
-              onClick={() => {
-                setSearchTerm("");
-                setFilterStatus("all");
-              }}
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-semibold tracking-tight">My Contracts</h1>
+      </div>
+      <div className="border border-muted rounded-2xl bg-card overflow-hidden">
+        {/* Actions Toolbar - Header of the list Area */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-muted/10 border-b border-muted">
+          <div className="flex items-center gap-4 flex-1">
+            <div className="relative flex-1 group max-w-md">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 transition-colors group-focus-within:text-foreground" />
+              <Input
+                placeholder="Search contracts..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+                className="pl-9 h-10 bg-background border-muted/50 focus-visible:ring-1 focus-visible:ring-ring transition-all rounded-lg text-sm pr-9"
+              />
+              {searchTerm !== debouncedSearchTerm && (
+                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
+                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Select
+              value={filterStatus}
+              onValueChange={(value: DocumentStatus) => setFilterStatus(value)}
             >
-              <XCircle className="w-4 h-4 mr-2" /> Clear
-            </Button>
+              <SelectTrigger className="w-fit min-w-[110px] h-10 bg-background border-muted/50 focus:ring-1 focus:ring-ring rounded-lg text-sm gap-2">
+                <Filter className="h-3.5 w-3.5 text-muted-foreground" />
+                <SelectValue placeholder="Status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Status</SelectItem>
+                <SelectItem value="draft">Draft</SelectItem>
+                <SelectItem value="sent">Waiting for Signature</SelectItem>
+                <SelectItem value="in_progress">Signing in Progress</SelectItem>
+                <SelectItem value="completed">Signed</SelectItem>
+                <SelectItem value="declined">Declined</SelectItem>
+              </SelectContent>
+            </Select>
+            <NewDocumentDialog>
+              <Button>
+                <Plus className="h-4 w-4 mr-2" />
+                New Contract
+              </Button>
+            </NewDocumentDialog>
+          </div>
+        </div>
+
+        {/* Document List Content */}
+        <div>
+          {status === "LoadingFirstPage" ? (
+            <DocumentTable
+              data={[]}
+              onDownload={handleDownload}
+              onDelete={handleDelete}
+              isLoading={true}
+            />
+          ) : documents && documents.length > 0 ? (
+            <DocumentTable
+              data={documents}
+              onDownload={handleDownload}
+              onDelete={handleDelete}
+              isLoading={false}
+            />
+          ) : (
+            <div className="flex flex-col items-center justify-center py-40 text-center bg-background relative overflow-hidden">
+              {/* Subtle background flair */}
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none opacity-50">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px]" />
+              </div>
+
+              <div className="relative">
+                <div className="relative mx-auto w-24 h-24 mb-8">
+                  <div className="absolute inset-0 bg-primary/10 rounded-3xl rotate-6" />
+                  <div className="absolute inset-0 bg-background border border-muted rounded-3xl shadow-sm flex items-center justify-center">
+                    <FileText className="w-10 h-10 text-primary" />
+                  </div>
+                  <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-background flex items-center justify-center shadow-sm">
+                    <Plus className="w-4 h-4 text-white" />
+                  </div>
+                </div>
+
+                <h3 className="text-2xl font-semibold tracking-tight text-foreground mb-3">
+                  {searchTerm || filterStatus !== "all" ? "No matches found" : "Ready for your next client?"}
+                </h3>
+                <p className="text-muted-foreground max-w-[320px] mb-10 text-balance leading-relaxed">
+                  {searchTerm || filterStatus !== "all"
+                    ? "We couldn't find any contracts matching your current filters. Try adjusting your search."
+                    : "Create and send professional contracts in seconds. Get your work signed and protected today."}
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <NewDocumentDialog>
+                    <Button>
+                      <Plus className="h-4 w-4 mr-2" />
+                      New Contract
+                    </Button>
+                  </NewDocumentDialog>
+                  {(searchTerm || filterStatus !== "all") && (
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        setSearchTerm("");
+                        setFilterStatus("all");
+                      }}
+                      className="rounded-lg h-10 px-6 font-medium"
+                    >
+                      Clear all filters
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </div>
 
-      {/* Document Table */}
-      <div className="mb-6">
-        {documents && documents.length > 0 ? (
-          <DocumentTable
-            data={documents}
-            onDownload={handleDownload}
-            onDelete={handleDelete}
-          />
-        ) : (
-          <div className="border rounded-lg text-center py-12">
-            <FileText className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              No documents found
-            </h3>
-            <p className="text-gray-600 mb-4">
-              {searchTerm || filterStatus !== "all"
-                ? "Try adjusting your search or filters"
-                : "Create your first document to get started"}
-            </p>
-            <NewDocumentDialog />
-          </div>
-        )}
-      </div>
-
-      {/* Load More - Needed for fetching more data from Convex, but table handles its own pagination */}
       {status === "CanLoadMore" && (
-        <div className="flex justify-center mb-6">
-          <Button onClick={() => loadMore(10)} variant="outline">
-            Load More Documents
+        <div className="flex justify-center mt-8">
+          <Button
+            onClick={() => loadMore(10)}
+            variant="ghost"
+            className="rounded-full px-8 underline-offset-4 hover:underline h-9 text-xs text-muted-foreground hover:text-foreground"
+          >
+            Load more
           </Button>
         </div>
       )}
 
-      {/* Delete Dialog */}
       {isDesktop ? (
         <AlertDialog
           open={isConfirmingDelete}
           onOpenChange={setIsConfirmingDelete}
         >
-          <AlertDialogContent>
+          <AlertDialogContent className="rounded-2xl border-none shadow-2xl">
             <AlertDialogHeader>
-              <AlertDialogTitle>Delete document?</AlertDialogTitle>
+              <AlertDialogTitle>Delete contract?</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. The document will be permanently
+                This action cannot be undone. The contract will be permanently
                 deleted.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={confirmDelete}>
+              <AlertDialogCancel className="rounded-xl border-none bg-muted hover:bg-muted/80">Cancel</AlertDialogCancel>
+              <AlertDialogAction onClick={confirmDelete} className="rounded-xl bg-destructive hover:bg-destructive/90 text-white">
                 Delete
               </AlertDialogAction>
             </AlertDialogFooter>
@@ -394,18 +315,18 @@ function DocumentsList() {
         <Drawer open={isConfirmingDelete} onOpenChange={setIsConfirmingDelete}>
           <DrawerContent>
             <DrawerHeader className="text-left">
-              <DrawerTitle>Delete document?</DrawerTitle>
+              <DrawerTitle>Delete contract?</DrawerTitle>
               <DrawerDescription>
-                This action cannot be undone. The document will be permanently
+                This action cannot be undone. The contract will be permanently
                 deleted.
               </DrawerDescription>
             </DrawerHeader>
             <DrawerFooter className="pt-2">
-              <Button variant="destructive" onClick={confirmDelete}>
+              <Button variant="destructive" onClick={confirmDelete} className="rounded-xl">
                 Delete
               </Button>
               <DrawerClose asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline" className="rounded-xl">Cancel</Button>
               </DrawerClose>
             </DrawerFooter>
           </DrawerContent>
@@ -417,34 +338,45 @@ function DocumentsList() {
 
 // Main Dashboard Component
 export default function Dashboard() {
-  const { user } = useUser();
+  useResumePendingDocument()
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-6xl">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-        <div>
-          <p className="text-muted-foreground">
-            Welcome back,{" "}
-            <span className="text-lg font-semibold text-foreground">
-              {user?.firstName ||
-                user?.emailAddresses[0]?.emailAddress?.split("@")[0] ||
-                "User"}
-            </span>
-          </p>
-        </div>
-        <NewDocumentDialog />
-      </div>
-
-      {/* Stats - Load independently */}
-      <Suspense fallback={<StatsLoadingSkeleton />}>
-        <DashboardStats />
-      </Suspense>
-
-      {/* Documents List - Load independently */}
-      <Suspense fallback={<div className="h-64"><Skeleton className="h-full w-full rounded-lg" /></div>}>
-        <DocumentsList />
-      </Suspense>
+    <div className="min-h-screen bg-background selection:bg-primary/10">
+      <main className="max-w-6xl mx-auto px-6 py-12 md:pb-20">
+        <Suspense fallback={
+          <div className="space-y-6">
+            <div className="flex items-center justify-between">
+              <Skeleton className="h-8 w-48 rounded-lg" />
+            </div>
+            <div className="border border-muted rounded-2xl bg-card overflow-hidden">
+              {/* Toolbar skeleton */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-muted/10 border-b border-muted">
+                <Skeleton className="h-10 w-full max-w-md rounded-lg" />
+                <div className="flex items-center gap-2">
+                  <Skeleton className="h-10 w-32 rounded-lg" />
+                  <Skeleton className="h-10 w-40 rounded-lg" />
+                </div>
+              </div>
+              {/* Table skeleton */}
+              <div className="p-4 space-y-3">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <div key={i} className="flex items-center gap-4 p-3 rounded-lg bg-muted/5">
+                    <Skeleton className="h-4 flex-1 rounded" />
+                    <Skeleton className="h-4 w-24 rounded" />
+                    <Skeleton className="h-4 w-32 rounded" />
+                    <div className="flex gap-2">
+                      <Skeleton className="h-8 w-8 rounded" />
+                      <Skeleton className="h-8 w-8 rounded" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        }>
+          <DocumentsList />
+        </Suspense>
+      </main>
     </div>
   );
 }

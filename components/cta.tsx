@@ -1,5 +1,5 @@
-import { Avatar, AvatarImage } from "./ui/avatar";
 import StartTrialBtn from "./StartTrialBtn";
+import { Avatar, AvatarImage } from "./ui/avatar";
 
 const avatars = [
   {
@@ -59,7 +59,7 @@ const Cta = () => {
 
         {/* Trust indicators */}
         <p className="text-sm text-primary-foreground/80 mt-6">
-          7-day free trial • No credit card required • No account needed for signers • Cancel anytime
+          7-day free trial • No credit card required • No account needed for clients • Cancel anytime
         </p>
       </div>
     </section>
