@@ -7,6 +7,7 @@ import { action } from "./_generated/server";
 import {
   DocumentComplete,
   NewYearGift,
+  Otp,
   SignerCopy,
   SigningConfirmation,
   SigningRequest,
@@ -229,47 +230,21 @@ export const sendOtpEmail = action({
     purpose: v.union(v.literal("signer_verification"), v.literal("email_verification")),
   },
   handler: async (ctx, args) => {
-    let subject = "";
-    let textContent = "";
-    let htmlContent = "";
-
-    if (args.purpose === "signer_verification") {
-      subject = "Your Document Signing Verification Code";
-      textContent = `Your verification code for document signing is: ${args.otp}\n\nThis code will expire in 5 minutes.`;
-      htmlContent = `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2>Document Signing Verification</h2>
-          <p>Your verification code for document signing is:</p>
-          <div style="font-size: 24px; font-weight: bold; text-align: center; margin: 20px 0; padding: 10px; background-color: #f3f4f6; border-radius: 5px;">
-            ${args.otp}
-          </div>
-          <p>This code will expire in 24 hour.</p>
-          <p>If you did not request this code, please ignore this email.</p>
-        </div>
-      `;
-    } else if (args.purpose === "email_verification") {
-      subject = "Your Verification Code";
-      textContent = `Your verification code is: ${args.otp}\n\nThis code will expire in 5 minutes.`;
-      htmlContent = `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2>Email Verification</h2>
-          <p>Your verification code is:</p>
-          <div style="font-size: 24px; font-weight: bold; text-align: center; margin: 20px 0; padding: 10px; background-color: #f3f4f6; border-radius: 5px;">
-            ${args.otp}
-          </div>
-          <p>This code will expire in 24 hour.</p>
-          <p>If you did not request this code, please ignore this email.</p>
-        </div>
-      `;
-    }
+    let subject = args.purpose === "signer_verification"
+      ? "Your Document Signing Verification Code"
+      : "Your Verification Code";
 
     try {
       const res = await resend.sendEmail(ctx, {
-        from: "Boopsign <verify-email@mailer.boopsign.com>",
+        from: "Boopsign <alerts@mailer.boopsign.com>",
         to: args.email,
         subject,
-        text: textContent,
-        html: htmlContent,
+        html: await render(
+          Otp({
+            otp: args.otp,
+            purpose: args.purpose,
+          }),
+        ),
       });
       console.log("OTP email sent successfully!", res);
     } catch (error) {

@@ -51,7 +51,7 @@ export const SigningNavbar = memo(({
 
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 h-9 w-9">
+            <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 h-9 w-9 cursor-pointer">
               <span className="sr-only">Details</span>
               <div className="flex flex-col gap-[3px]">
                 <div className="w-1 h-1 rounded-full bg-current" />
@@ -121,7 +121,7 @@ export const SigningNavbar = memo(({
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 px-2 md:px-4">
+              <Button variant="ghost" size="sm" className="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 px-2 md:px-4 cursor-pointer">
                 <FileText className="w-4 h-4 md:mr-2" />
                 <span className="hidden md:inline">Details</span>
               </Button>

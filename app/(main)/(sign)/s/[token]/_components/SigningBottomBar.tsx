@@ -25,7 +25,7 @@ export const SigningBottomBar = memo(({
           <Button
             size="lg"
             className={cn(
-              "w-full h-14 rounded-full font-black uppercase tracking-widest text-sm transition-all shadow-xl active:scale-[0.98]",
+              "w-full h-14 rounded-full font-black uppercase tracking-widest text-sm transition-all shadow-xl active:scale-[0.98] cursor-pointer",
               incompleteRequiredFields.length === 0
                 ? "bg-green-600 hover:bg-green-700 text-white shadow-green-600/30"
                 : "bg-primary hover:bg-primary/90 text-primary-foreground shadow-primary/30"

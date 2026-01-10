@@ -157,21 +157,16 @@ const DialogContentShared: FC<DialogContentSharedProps> = ({
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <p className="font-semibold text-sm text-gray-900 truncate">
+                    <p className="font-bold text-sm text-gray-900 truncate">
                       {signer.name && signer.name !== signer.email
                         ? signer.name
-                        : signer.email}
+                        : `Signer ${index + 1}`}
                     </p>
-                    <span className="px-1.5 py-0.5 rounded text-[10px] font-medium bg-gray-100 text-gray-600 border capitalize">
-                      Signer {index + 1}
-                    </span>
                   </div>
-                  {signer.name && signer.name !== signer.email && (
-                    <p className="text-sm text-gray-500 truncate flex items-center gap-1.5 mt-0.5">
-                      <Mail className="w-3 h-3" />
-                      {signer.email}
-                    </p>
-                  )}
+                  <p className="text-xs text-gray-500 truncate flex items-center gap-1.5 mt-0.5">
+                    <Mail className="w-3 h-3 text-gray-400" />
+                    {signer.email}
+                  </p>
                 </div>
 
                 <div className="text-right">
@@ -231,6 +226,7 @@ export function ShareDialog({
   const [customMessage, setCustomMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const [expandedSigners, setExpandedSigners] = useState<Set<string>>(new Set());
   const isDesktop = useMediaQuery("(min-width: 640px)");
 
   useEffect(() => {
@@ -359,7 +355,7 @@ export function ShareDialog({
         )}
         <Dialog open={open} onOpenChange={onOpenChange}>
           <DialogTrigger asChild>
-            <Button className="w-full sm:w-auto font-semibold shadow-sm">
+            <Button className="w-full sm:w-auto font-semibold shadow-sm cursor-pointer">
               <Send className="w-4 h-4 mr-2" />
               Request Signature
             </Button>
@@ -389,7 +385,7 @@ export function ShareDialog({
 
                 <div className="p-6 bg-gray-50 border-t flex justify-center">
                   <DialogClose asChild>
-                    <Button className="w-full sm:w-auto min-w-[120px] font-semibold bg-white text-gray-900 border hover:bg-gray-50 shadow-sm">
+                    <Button className="w-full font-semibold bg-white text-gray-900 border hover:bg-gray-50 shadow-sm">
                       Close
                     </Button>
                   </DialogClose>
@@ -411,55 +407,89 @@ export function ShareDialog({
                   {/* Audit Trail for Completed Documents */}
                   {document?.status === 'completed' && signatureFields && (
                     <div className="p-6 space-y-4">
-                      <div className="flex items-center gap-2 mb-4">
-                        <FileCheck className="w-5 h-5 text-gray-400" />
-                        <h3 className="font-semibold text-gray-900 text-sm uppercase tracking-wider">Audit Trail</h3>
+                      <div className="flex items-center gap-2 mb-4 px-2">
+                        <FileCheck className="w-5 h-5 text-blue-600" />
+                        <h3 className="font-bold text-gray-900 text-sm uppercase tracking-wider">Audit Trail</h3>
                       </div>
 
-                      <div className="relative pl-4 border-l-2 border-gray-100 space-y-8">
-                        {signatureFields
-                          .filter(field => field.isCompleted && field.auditTrail)
-                          .map((field) => (
-                            <div key={field._id} className="relative">
-                              <div className="absolute -left-[21px] top-0 w-3 h-3 rounded-full bg-green-500 ring-4 ring-white" />
+                      <div className="relative pl-4 border-l-2 border-blue-50 space-y-4">
+                        {Array.from(
+                          signatureFields
+                            .filter(field => field.isCompleted && field.auditTrail)
+                            .reduce((acc, field) => {
+                              const existing = acc.get(field.signerEmail);
+                              if (!existing || (field.auditTrail?.signedAt || 0) > (existing.auditTrail?.signedAt || 0)) {
+                                acc.set(field.signerEmail, field);
+                              }
+                              return acc;
+                            }, new Map<string, typeof signatureFields[0]>())
+                            .values()
+                        ).map((field, index) => {
+                          const isExpanded = expandedSigners.has(field.signerEmail);
+                          return (
+                            <div key={field._id} className="relative group/audit">
+                              <div className={cn(
+                                "absolute -left-[21px] top-6 w-3 h-3 rounded-full ring-4 ring-white transition-colors duration-300",
+                                isExpanded ? "bg-blue-500" : "bg-gray-300"
+                              )} />
 
-                              <div className="bg-gray-50 rounded-xl p-4 border border-gray-100 hover:border-gray-200 transition-colors">
-                                <div className="flex justify-between items-start mb-3">
-                                  <div>
-                                    <h4 className="font-bold text-gray-900 text-sm">
+                              <div
+                                className={cn(
+                                  "bg-white border rounded-xl overflow-hidden transition-all duration-300 cursor-pointer",
+                                  isExpanded ? "ring-1 ring-blue-100 shadow-md border-blue-100" : "hover:border-gray-300 hover:bg-gray-50/50"
+                                )}
+                                onClick={() => {
+                                  const next = new Set(expandedSigners);
+                                  if (next.has(field.signerEmail)) next.delete(field.signerEmail);
+                                  else next.add(field.signerEmail);
+                                  setExpandedSigners(next);
+                                }}
+                              >
+                                <div className="p-4 flex justify-between items-center group-hover:bg-gray-50/30 transition-colors">
+                                  <div className="flex-1 min-w-0">
+                                    <h4 className="font-bold text-gray-900 text-sm truncate">
                                       {field.signerName && field.signerName !== field.signerEmail
                                         ? field.signerName
-                                        : field.signerEmail}
+                                        : `Signer ${index + 1}`}
                                     </h4>
-                                    {field.signerName && field.signerName !== field.signerEmail && (
-                                      <p className="text-xs text-gray-500 font-medium mt-0.5">{field.signerEmail}</p>
-                                    )}
+                                    <p className="text-[10px] text-gray-500 font-medium truncate flex items-center gap-1.5 mt-0.5">
+                                      <Mail className="w-2.5 h-2.5 opacity-60" />
+                                      {field.signerEmail}
+                                    </p>
                                   </div>
-                                  <Badge variant="secondary" className="bg-white border shadow-sm text-xs">
-                                    {field.fieldType}
-                                  </Badge>
+                                  <div className="flex items-center gap-3">
+                                    <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-100 text-[10px]">
+                                      Verified
+                                    </Badge>
+                                    <Clock className={cn("w-4 h-4 text-gray-300 transition-transform duration-300", isExpanded ? "rotate-180 text-blue-500" : "")} />
+                                  </div>
                                 </div>
 
-                                {field.auditTrail && (
-                                  <div className="grid grid-cols-2 gap-y-2 gap-x-4 text-xs text-gray-600 bg-white rounded-lg p-3 border border-gray-100/50">
-                                    <div>
-                                      <span className="text-gray-400 block text-[10px] uppercase tracking-wider mb-0.5">Time</span>
-                                      <span className="font-medium">{new Date(field.auditTrail.signedAt).toLocaleTimeString()}</span>
-                                    </div>
-                                    <div>
-                                      <span className="text-gray-400 block text-[10px] uppercase tracking-wider mb-0.5">Date</span>
-                                      <span className="font-medium">{new Date(field.auditTrail.signedAt).toLocaleDateString()}</span>
-                                    </div>
-                                    <div>
-                                      <span className="text-gray-400 block text-[10px] uppercase tracking-wider mb-0.5">IP Address</span>
-                                      <span className="font-mono bg-gray-100 px-1 py-0.5 rounded text-[10px]">{field.auditTrail.ip}</span>
+                                {isExpanded && field.auditTrail && (
+                                  <div className="px-4 pb-4 animate-in slide-in-from-top-2 duration-300">
+                                    <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-xs text-gray-600 bg-gray-50/50 rounded-lg p-3 ring-1 ring-gray-100/50">
+                                      <div>
+                                        <span className="text-gray-400 block text-[10px] uppercase tracking-wider mb-1">Time Signed</span>
+                                        <span className="font-bold text-gray-900">{new Date(field.auditTrail.signedAt).toLocaleTimeString()}</span>
+                                      </div>
+                                      <div>
+                                        <span className="text-gray-400 block text-[10px] uppercase tracking-wider mb-1">Date Signed</span>
+                                        <span className="font-bold text-gray-900">{new Date(field.auditTrail.signedAt).toLocaleDateString()}</span>
+                                      </div>
+                                      <div className="col-span-2">
+                                        <span className="text-gray-400 block text-[10px] uppercase tracking-wider mb-1">Security Footprint</span>
+                                        <div className="flex items-center gap-2">
+                                          <span className="font-mono bg-blue-50 text-blue-700 px-1.5 py-0.5 rounded text-[10px] border border-blue-100/50">IP: {field.auditTrail.ip}</span>
+                                          <span className="text-[10px] text-gray-400">Browser Verified</span>
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 )}
                               </div>
                             </div>
-                          ))
-                        }
+                          );
+                        })}
                       </div>
                     </div>
                   )}
@@ -582,21 +612,64 @@ export function ShareDialog({
                 <p className="text-gray-600 mb-6">{statusDisplay.message}</p>
                 {/* Simplified Audit for Mobile */}
                 {document?.status === 'completed' && signatureFields && (
-                  <div className="space-y-4">
-                    <h4 className="font-semibold text-sm uppercase text-gray-500">History</h4>
-                    {signatureFields.filter(f => f.isCompleted).map(f => (
-                      <div key={f._id} className="text-sm border-l-2 border-green-500 pl-3 py-1">
-                        <p className="font-medium">
-                          {f.signerName && f.signerName !== f.signerEmail
-                            ? f.signerName
-                            : f.signerEmail}
-                        </p>
-                        {f.signerName && f.signerName !== f.signerEmail && (
-                          <p className="text-xs text-gray-500">{f.signerEmail}</p>
-                        )}
-                        <p className="text-xs text-gray-500">{new Date(f.auditTrail?.signedAt || 0).toLocaleDateString()}</p>
-                      </div>
-                    ))}
+                  <div className="p-4 space-y-4">
+                    <h4 className="font-bold text-xs uppercase text-gray-400 tracking-widest flex items-center gap-2 mb-2">
+                      <Shield className="w-3 h-3" />
+                      Digital Audit Log
+                    </h4>
+                    {Array.from(
+                      signatureFields
+                        .filter(f => f.isCompleted && f.auditTrail)
+                        .reduce((acc, field) => {
+                          const existing = acc.get(field.signerEmail);
+                          if (!existing || (field.auditTrail?.signedAt || 0) > (existing.auditTrail?.signedAt || 0)) {
+                            acc.set(field.signerEmail, field);
+                          }
+                          return acc;
+                        }, new Map<string, typeof signatureFields[0]>())
+                        .values()
+                    ).map((f, index) => {
+                      const isExpanded = expandedSigners.has(f.signerEmail);
+                      return (
+                        <div key={f._id} className="border rounded-xl overflow-hidden bg-white">
+                          <button
+                            onClick={() => {
+                              const next = new Set(expandedSigners);
+                              if (next.has(f.signerEmail)) next.delete(f.signerEmail);
+                              else next.add(f.signerEmail);
+                              setExpandedSigners(next);
+                            }}
+                            className="w-full text-left p-4 flex justify-between items-center active:bg-gray-50"
+                          >
+                            <div className="min-w-0 flex-1">
+                              <p className="font-bold text-sm text-gray-900 truncate">
+                                {f.signerName && f.signerName !== f.signerEmail ? f.signerName : `Signer ${index + 1}`}
+                              </p>
+                              <p className="text-[10px] text-gray-500 truncate mt-0.5">{f.signerEmail}</p>
+                            </div>
+                            <Clock className={cn("w-4 h-4 text-gray-300 transition-transform", isExpanded ? "rotate-180 text-blue-500" : "")} />
+                          </button>
+                          {isExpanded && f.auditTrail && (
+                            <div className="px-4 pb-4 animate-in slide-in-from-top-1">
+                              <div className="grid grid-cols-2 gap-3 p-3 bg-gray-50 rounded-lg text-[11px]">
+                                <div>
+                                  <span className="text-gray-400 block uppercase text-[9px] mb-1">Time</span>
+                                  <span className="font-bold text-gray-700">{new Date(f.auditTrail.signedAt).toLocaleTimeString()}</span>
+                                </div>
+                                <div>
+                                  <span className="text-gray-400 block uppercase text-[9px] mb-1">Date</span>
+                                  <span className="font-bold text-gray-700">{new Date(f.auditTrail.signedAt).toLocaleDateString()}</span>
+                                </div>
+                                <div className="col-span-2">
+                                  <span className="text-gray-400 block uppercase text-[9px] mb-1">IP Verification</span>
+                                  <span className="font-mono text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-100/50">{f.auditTrail.ip}</span>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
               </div>

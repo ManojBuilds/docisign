@@ -1,6 +1,6 @@
 "use node";
 
-import { Button, Heading, Hr, Link, Section, Text } from "@react-email/components";
+import { Button, Heading, Section, Text } from "@react-email/components";
 import { EmailLayout } from "../layout";
 
 interface TrialReminder1DayProps {
@@ -9,10 +9,6 @@ interface TrialReminder1DayProps {
   planPrice?: string;
 }
 
-/**
- * Trial Reminder (1 Day) Email
- * Adobe Sign-inspired minimal design
- */
 export default function TrialReminder1Day({
   userName = "User",
   upgradeUrl = "#",
@@ -22,96 +18,55 @@ export default function TrialReminder1Day({
 
   return (
     <EmailLayout preview={preview}>
-      <Section style={{ marginBottom: "24px" }}>
-        <div style={{ backgroundColor: "#000000", color: "#ffffff", borderRadius: "8px", padding: "16px 20px", textAlign: "center" }}>
-          <Text style={{ fontSize: "16px", fontWeight: 600, margin: 0 }}>
-            Your trial expires tomorrow
+      <Section className="my-[24px]">
+        <div className="bg-black rounded-lg py-2 px-4 text-center">
+          <Text className="m-0 text-[12px] font-bold text-white uppercase tracking-wider">
+            Trial expires tomorrow
           </Text>
         </div>
       </Section>
 
-      <Section style={{ marginBottom: "32px" }}>
-        <Heading style={{ fontSize: "24px", fontWeight: 600, color: "#0f172a", margin: "0 0 12px 0", lineHeight: "1.3" }}>
-          Don't lose your documents
-        </Heading>
-        <Text style={{ fontSize: "16px", color: "#334155", margin: 0, lineHeight: "1.6" }}>
-          Hi {userName}, your free trial ends in 24 hours. Upgrade now to keep all your documents, templates, and settings.
+      <Heading className="mx-0 my-[30px] p-0 text-center font-normal text-[24px] text-black">
+        Don't lose your <strong>Documents</strong>
+      </Heading>
+
+      <Text className="text-[14px] text-black leading-[24px]">
+        Hello {userName},
+      </Text>
+
+      <Text className="text-[14px] text-black leading-[24px]">
+        Your free trial ends in 24 hours. Upgrade now to keep all your documents, templates, and settings.
+      </Text>
+
+      <Section className="my-[24px] rounded border border-solid border-red-100 bg-red-50 p-[20px]">
+        <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-red-600 mb-4 opacity-70">
+          What happens next?
         </Text>
-      </Section>
-
-      <Section style={{ marginBottom: "32px" }}>
-        <div style={{ border: "1px solid #fecaca", borderRadius: "8px", padding: "20px", backgroundColor: "#fef2f2" }}>
-          <Text style={{ fontSize: "14px", fontWeight: 600, color: "#7f1d1d", margin: "0 0 12px 0" }}>
-            What happens without upgrade
+        <div className="flex flex-col gap-2">
+          <Text className="m-0 text-[13px] text-red-800">
+            • You can't send new signature requests
           </Text>
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <Text style={{ fontSize: "14px", color: "#991b1b", margin: 0 }}>• You can't send new signature requests</Text>
-            <Text style={{ fontSize: "14px", color: "#991b1b", margin: 0 }}>• Your saved documents become inaccessible</Text>
-            <Text style={{ fontSize: "14px", color: "#991b1b", margin: 0 }}>• You lose access to trial features</Text>
-          </div>
+          <Text className="m-0 text-[13px] text-red-800">
+            • Your saved documents become inaccessible
+          </Text>
+          <Text className="m-0 text-[13px] text-red-800">
+            • You lose access to premium trial tools
+          </Text>
         </div>
       </Section>
 
-      <Section style={{ textAlign: "center", marginBottom: "32px" }}>
+      <Section className="mt-[32px] mb-[32px] text-center">
         <Button
+          className="rounded bg-brand px-10 py-3 text-center text-[12px] font-semibold text-white no-underline"
           href={upgradeUrl}
-          style={{
-            backgroundColor: "#000000",
-            color: "#ffffff",
-            padding: "16px 32px",
-            borderRadius: "8px",
-            textDecoration: "none",
-            fontWeight: 600,
-            fontSize: "16px",
-            display: "inline-block",
-          }}
         >
           Save My Documents — {planPrice}
         </Button>
       </Section>
 
-      <Hr style={{ borderTop: "1px solid #e2e8f0", margin: "32px 0" }} />
-
-      <Section style={{ marginBottom: "32px" }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-          <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-            <div style={{ width: "24px", height: "24px", backgroundColor: "#dcfce7", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Text style={{ fontSize: "12px", fontWeight: 600, color: "#15803d", margin: 0 }}>✓</Text>
-            </div>
-            <Text style={{ fontSize: "14px", color: "#334155", margin: 0 }}>
-              Keep all documents and templates
-            </Text>
-          </div>
-          <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-            <div style={{ width: "24px", height: "24px", backgroundColor: "#dcfce7", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Text style={{ fontSize: "12px", fontWeight: 600, color: "#15803d", margin: 0 }}>✓</Text>
-            </div>
-            <Text style={{ fontSize: "14px", color: "#334155", margin: 0 }}>
-              Send unlimited signature requests
-            </Text>
-          </div>
-          <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
-            <div style={{ width: "24px", height: "24px", backgroundColor: "#dcfce7", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Text style={{ fontSize: "12px", fontWeight: 600, color: "#15803d", margin: 0 }}>✓</Text>
-            </div>
-            <Text style={{ fontSize: "14px", color: "#334155", margin: 0 }}>
-              Priority support and secure storage
-            </Text>
-          </div>
-        </div>
-      </Section>
-
-      <Section style={{ textAlign: "center" }}>
-        <Text style={{ fontSize: "14px", color: "#475569", margin: "0 0 12px 0" }}>
-          Need help?{" "}
-          <Link href="#" style={{ color: "#000000", textDecoration: "none", fontWeight: 500 }}>
-            Contact Support
-          </Link>
-        </Text>
-        <Text style={{ fontSize: "12px", color: "#64748b", margin: 0 }}>
-          You can restore access anytime by upgrading later.
-        </Text>
-      </Section>
+      <Text className="text-[12px] text-muted leading-[24px] text-center italic">
+        "One of the best decisions for our workflow." — Early Adopter
+      </Text>
     </EmailLayout>
   );
 }

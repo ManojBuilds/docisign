@@ -1,6 +1,6 @@
 "use node";
 
-import { Button, Heading, Hr, Link, Section, Text } from "@react-email/components";
+import { Button, Heading, Link, Section, Text } from "@react-email/components";
 import { EmailLayout } from "../layout";
 
 interface WelcomeProps {
@@ -9,10 +9,6 @@ interface WelcomeProps {
   tutorialUrl?: string;
 }
 
-/**
- * Welcome Email
- * Adobe Sign-inspired minimal design
- */
 export default function Welcome({
   userName = "there",
   dashboardUrl = "#",
@@ -20,92 +16,47 @@ export default function Welcome({
 }: WelcomeProps) {
   return (
     <EmailLayout preview={`Welcome to Boopsign, ${userName}`}>
-      <Section style={{ marginBottom: "32px" }}>
-        <Heading style={{ fontSize: "24px", fontWeight: 600, color: "#0f172a", margin: "0 0 12px 0", lineHeight: "1.3" }}>
-          Welcome to Boopsign
-        </Heading>
-        <Text style={{ fontSize: "16px", color: "#334155", margin: 0, lineHeight: "1.6" }}>
-          Hi {userName}, get documents signed in minutes — no printing, no scanning.
-        </Text>
-      </Section>
+      <Heading className="mx-0 my-[30px] p-0 text-center font-normal text-[24px] text-black">
+        Welcome to <strong>Boopsign</strong>
+      </Heading>
 
-      <Section style={{ textAlign: "center", marginBottom: "32px" }}>
+      <Text className="text-[14px] text-black leading-[24px]">
+        Hello {userName},
+      </Text>
+
+      <Text className="text-[14px] text-black leading-[24px]">
+        Get documents signed in minutes — no printing, no scanning, just Boopsign. We're excited to help you streamline your signing workflows.
+      </Text>
+
+      <Section className="mt-[32px] mb-[32px] text-center">
         <Button
+          className="rounded bg-brand px-10 py-3 text-center text-[12px] font-semibold text-white no-underline"
           href={dashboardUrl}
-          style={{
-            backgroundColor: "#000000",
-            color: "#ffffff",
-            padding: "16px 32px",
-            borderRadius: "8px",
-            textDecoration: "none",
-            fontWeight: 600,
-            fontSize: "16px",
-            display: "inline-block",
-          }}
         >
           Send Your First Document
         </Button>
       </Section>
 
-      <Hr style={{ borderTop: "1px solid #e2e8f0", margin: "32px 0" }} />
-
-      <Section style={{ marginBottom: "32px" }}>
-        <Text style={{ fontSize: "14px", fontWeight: 600, color: "#0f172a", margin: "0 0 16px 0" }}>
+      <Section className="my-[24px] rounded border border-solid border-border bg-[#f9f9f9] p-[20px]">
+        <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-muted mb-4 opacity-70">
           How it works
         </Text>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-          <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
-            <div style={{ width: "24px", height: "24px", backgroundColor: "#f1f5f9", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Text style={{ fontSize: "12px", fontWeight: 600, color: "#334155", margin: 0 }}>1</Text>
-            </div>
-            <Text style={{ fontSize: "14px", color: "#334155", margin: 0, lineHeight: "1.5" }}>
-              Upload your document
-            </Text>
-          </div>
-
-          <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
-            <div style={{ width: "24px", height: "24px", backgroundColor: "#f1f5f9", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Text style={{ fontSize: "12px", fontWeight: 600, color: "#334155", margin: 0 }}>2</Text>
-            </div>
-            <Text style={{ fontSize: "14px", color: "#334155", margin: 0, lineHeight: "1.5" }}>
-              Place signature fields
-            </Text>
-          </div>
-
-          <div style={{ display: "flex", gap: "12px", alignItems: "flex-start" }}>
-            <div style={{ width: "24px", height: "24px", backgroundColor: "#f1f5f9", borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-              <Text style={{ fontSize: "12px", fontWeight: 600, color: "#334155", margin: 0 }}>3</Text>
-            </div>
-            <Text style={{ fontSize: "14px", color: "#334155", margin: 0, lineHeight: "1.5" }}>
-              Send and track signatures
-            </Text>
-          </div>
-        </div>
-      </Section>
-
-      <Section style={{ marginBottom: "32px" }}>
-        <div style={{ border: "1px solid #e2e8f0", borderRadius: "8px", padding: "20px", backgroundColor: "#f8fafc" }}>
-          <Text style={{ fontSize: "14px", fontWeight: 600, color: "#0f172a", margin: "0 0 12px 0" }}>
-            What's included
+        <div className="flex flex-col gap-4">
+          <Text className="m-0 text-[14px] text-black">
+            <strong>1. Upload</strong> your document to the dashboard.
           </Text>
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <Text style={{ fontSize: "14px", color: "#334155", margin: 0 }}>• Unlimited documents during trial</Text>
-            <Text style={{ fontSize: "14px", color: "#334155", margin: 0 }}>• Unlimited signers</Text>
-            <Text style={{ fontSize: "14px", color: "#334155", margin: 0 }}>• Mobile-friendly signing</Text>
-            <Text style={{ fontSize: "14px", color: "#334155", margin: 0 }}>• Real-time notifications</Text>
-          </div>
+          <Text className="m-0 text-[14px] text-black">
+            <strong>2. Place</strong> signature fields where needed.
+          </Text>
+          <Text className="m-0 text-[14px] text-black">
+            <strong>3. Send</strong> and track signatures in real-time.
+          </Text>
         </div>
       </Section>
 
-      <Section style={{ textAlign: "center" }}>
-        <Text style={{ fontSize: "14px", color: "#475569", margin: 0 }}>
-          Need help?{" "}
-          <Link href={tutorialUrl} style={{ color: "#000000", textDecoration: "none", fontWeight: 500 }}>
-            View tutorial
-          </Link>
-        </Text>
-      </Section>
+      <Text className="text-[14px] text-black leading-[24px]">
+        Need help getting started? Check out our <Link href={tutorialUrl} className="text-blue-600 no-underline">quick tutorial</Link> or reply to this email.
+      </Text>
     </EmailLayout>
   );
 }

@@ -54,10 +54,11 @@ export default function SigningPdfControls({
                     size="icon"
                     onClick={goToPrevPage}
                     disabled={pageNumber <= 1}
+                    className={`${pageNumber <= 1 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:bg-accent'}`}
                 >
                     <ChevronLeft className="w-4 h-4" />
                 </Button>
-                <span className="text-sm">
+                <span className="text-sm select-none">
                     {pageNumber} / {numPages}
                 </span>
                 <Button
@@ -65,6 +66,7 @@ export default function SigningPdfControls({
                     size="icon"
                     onClick={goToNextPage}
                     disabled={pageNumber >= numPages}
+                    className={`${pageNumber >= numPages ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:bg-accent'}`}
                 >
                     <ChevronRight className="w-4 h-4" />
                 </Button>
@@ -72,13 +74,30 @@ export default function SigningPdfControls({
 
             {/* Zoom Controls */}
             <div className="flex items-center space-x-2">
-                <Button variant="ghost" size="icon" onClick={zoomOut} disabled={scale <= 0.5}>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={zoomOut}
+                    disabled={scale <= 0.5}
+                    className={`${scale <= 0.5 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:bg-accent'}`}
+                >
                     <ZoomOut className="w-4 h-4" />
                 </Button>
-                <Button variant="ghost" size="icon" onClick={resetZoom}>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={resetZoom}
+                    className="cursor-pointer hover:bg-accent"
+                >
                     {Math.round(scale * 100)}%
                 </Button>
-                <Button variant="ghost" size="icon" onClick={zoomIn} disabled={scale >= 2.0}>
+                <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={zoomIn}
+                    disabled={scale >= 2.0}
+                    className={`${scale >= 2.0 ? 'cursor-not-allowed opacity-50' : 'cursor-pointer hover:bg-accent'}`}
+                >
                     <ZoomIn className="w-4 h-4" />
                 </Button>
             </div>

@@ -18,7 +18,7 @@ export const SigningZoomControls = memo(({
       <Button
         variant="ghost"
         size="icon"
-        className="h-8 w-8 rounded-full text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+        className="h-8 w-8 rounded-full text-gray-500 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
         onClick={() => setScale(Math.max(0.5, (scale as number) - 0.1))}
         disabled={scale <= 0.5}
       >
@@ -30,7 +30,7 @@ export const SigningZoomControls = memo(({
       <Button
         variant="ghost"
         size="icon"
-        className="h-8 w-8 rounded-full text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+        className="h-8 w-8 rounded-full text-gray-500 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
         onClick={() => setScale(Math.min(2.0, (scale as number) + 0.1))}
         disabled={scale >= 2.0}
       >
@@ -40,7 +40,7 @@ export const SigningZoomControls = memo(({
       <Button
         variant="ghost"
         size="icon"
-        className="h-8 w-8 rounded-full text-gray-500 hover:text-gray-900 hover:bg-gray-100"
+        className="h-8 w-8 rounded-full text-gray-500 hover:text-gray-900 hover:bg-gray-100 cursor-pointer"
         onClick={() => setScale(1.0)}
         title="Reset Zoom"
       >

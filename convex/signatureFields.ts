@@ -1,6 +1,6 @@
 import { v } from "convex/values";
+import { api } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
-import { api, internal } from "./_generated/api";
 
 // Add signature field
 export const addSignatureField = mutation({
@@ -150,26 +150,89 @@ export const completeSignatureField = mutation({
       };
     }
 
+    const signerEmail = field.signerEmail.trim().toLowerCase();
     await ctx.db.patch(args.fieldId, updates);
 
     // Check if all fields for this signer are completed
-    const remainingFields = await ctx.db
+    // We only care about fields for this signer on this document
+    const signerFields = await ctx.db
       .query("signatureFields")
       .withIndex("by_document_and_signer", (q) =>
         q
           .eq("documentId", field.documentId)
-          .eq("signerEmail", field.signerEmail)
+          .eq("signerEmail", signerEmail)
       )
-      .filter(q => q.eq(q.field("isCompleted"), false))
       .collect();
 
-    // If no remaining fields, trigger finalization logic
+    const remainingIncomplete = signerFields.filter(f => !f.isCompleted && f._id !== args.fieldId);
 
-    if (remainingFields.length === 0) {
-      // Update the signer's overall status to "signed"
+    // If no remaining fields, trigger finalization logic
+    if (remainingIncomplete.length === 0) {
       await ctx.runMutation(api.signers.finalizeDocument, {
         documentId: field.documentId,
-        signerEmail: field.signerEmail,
+        signerEmail: signerEmail,
+      });
+    }
+  },
+});
+
+// Complete multiple signature fields at once
+export const batchCompleteSignatureFields = mutation({
+  args: {
+    fields: v.array(v.object({
+      fieldId: v.id("signatureFields"),
+      signatureData: v.string(),
+    })),
+    auditInfo: v.optional(v.object({
+      ip: v.string(),
+      timestamp: v.string(),
+      userAgent: v.string(),
+    })),
+  },
+  handler: async (ctx, args) => {
+    if (args.fields.length === 0) return;
+
+    const firstField = await ctx.db.get(args.fields[0].fieldId);
+    if (!firstField) throw new Error("Signature field not found");
+
+    const documentId = firstField.documentId;
+    const signerEmail = firstField.signerEmail.trim().toLowerCase();
+
+    for (const fieldUpdate of args.fields) {
+      const updates: any = {
+        isCompleted: true,
+        signatureData: fieldUpdate.signatureData,
+        completedAt: Date.now(),
+        status: "signed",
+        signedAt: Date.now(),
+      };
+
+      if (args.auditInfo) {
+        updates.auditTrail = {
+          ...args.auditInfo,
+          signedAt: Date.now(),
+        };
+      }
+
+      await ctx.db.patch(fieldUpdate.fieldId, updates);
+    }
+
+    // After updating all fields, check if document should be finalized for this signer
+    const signerFields = await ctx.db
+      .query("signatureFields")
+      .withIndex("by_document_and_signer", (q) =>
+        q
+          .eq("documentId", documentId)
+          .eq("signerEmail", signerEmail)
+      )
+      .collect();
+
+    const remainingIncomplete = signerFields.filter(f => !f.isCompleted);
+
+    if (remainingIncomplete.length === 0) {
+      await ctx.runMutation(api.signers.finalizeDocument, {
+        documentId,
+        signerEmail,
       });
     }
   },
@@ -236,6 +299,7 @@ export const saveSignatureFields = mutation({
     for (const field of args.fields) {
       await ctx.db.insert("signatureFields", {
         ...field,
+        signerEmail: field.signerEmail.trim().toLowerCase(),
         documentId: args.documentId,
         isRequired: field.isRequired ?? true,
         isCompleted: false,

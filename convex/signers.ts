@@ -16,13 +16,14 @@ export const addSigner = mutation({
     signingOrder: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
+    const email = args.email.trim().toLowerCase();
     // Check if signer already exists by checking for any signature fields assigned to this email
     const existingSignatureFields = await ctx.db
       .query("signatureFields")
       .withIndex("by_document_and_signer", (q) =>
         q
           .eq("documentId", args.documentId)
-          .eq("signerEmail", args.email),
+          .eq("signerEmail", email),
       )
       .collect();
 
@@ -43,8 +44,8 @@ export const addSigner = mutation({
       height: 60,
       isRequired: true, // Default to required
       label: "Signature", // Default label
-      signerEmail: args.email,
-      signerName: args.name || args.email,
+      signerEmail: email,
+      signerName: args.name || email,
       signerOrder: args.signingOrder,
       status: "pending",
       accessToken,
@@ -56,7 +57,7 @@ export const addSigner = mutation({
     // Add activity log
     await ctx.db.insert("documentActivities", {
       documentId: args.documentId,
-      actorEmail: args.email,
+      actorEmail: email,
       actorType: "signer",
       actionType: "created",
       details: "Signer added to document",
@@ -497,9 +498,19 @@ export const sendSignedEmailToOwner = internalAction({
       documentId: args.documentId,
     });
 
+    // Re-fetch document to get the new fileStorageId
+    const updatedDocument = await ctx.runQuery(api.documents.getDocument, {
+      documentId: args.documentId,
+    });
+
+    if (!updatedDocument) {
+      console.error("Document not found after PDF generation");
+      return;
+    }
+
     // Get the updated document URL which now includes all completed signatures so far
     const downloadUrl = await ctx.runMutation(api.documents.getFileUrl, {
-      storageId: document.fileStorageId,
+      storageId: updatedDocument.fileStorageId,
     });
 
     // Send Signing Confirmation Email to owner
@@ -667,12 +678,13 @@ export const finalizeDocument = mutation({
     signerEmail: v.string(),
   },
   handler: async (ctx, args) => {
+    const signerEmail = args.signerEmail.trim().toLowerCase();
     const signatureFields = await ctx.db
       .query("signatureFields")
       .withIndex("by_document_and_signer", (q) =>
         q
           .eq("documentId", args.documentId)
-          .eq("signerEmail", args.signerEmail),
+          .eq("signerEmail", signerEmail),
       )
       .collect();
 
@@ -681,18 +693,22 @@ export const finalizeDocument = mutation({
     const document = await ctx.db.get(args.documentId);
     if (!document) throw new Error("Document not found");
 
+    let updatedAnyField = false;
     // Update all signature fields for this signer to "signed" status
     const now = Date.now();
     for (const field of signatureFields) {
-      if (field.status !== "signed") {
+      if (field.status !== "signed" || !field.isCompleted) {
+        updatedAnyField = true;
         await ctx.db.patch(field._id, {
           status: "signed",
-          signedAt: now,
+          isCompleted: true,
+          signedAt: field.signedAt || now,
+          completedAt: field.completedAt || now,
         });
 
         await ctx.db.insert("documentActivities", {
           documentId: args.documentId,
-          actorEmail: args.signerEmail,
+          actorEmail: signerEmail,
           actorType: "signer",
           actionType: "signed",
           details: "Document signed by signer",
@@ -735,11 +751,14 @@ export const finalizeDocument = mutation({
       (s) => s.status === "signed",
     );
 
-    // Send email to owner and a copy to the signer who just signed
-    await ctx.scheduler.runAfter(0, internal.signers.sendSignedEmailToOwner, {
-      documentId: args.documentId,
-      signerEmail: args.signerEmail,
-    });
+    if (signatureFields.every(f => f.status === "signed" && f.isCompleted)) {
+      // The signer has completed all their fields
+      // Send email to owner and a copy to the signer
+      await ctx.scheduler.runAfter(0, internal.signers.sendSignedEmailToOwner, {
+        documentId: args.documentId,
+        signerEmail: signerEmail,
+      });
+    }
 
     if (
       allRequiredHaveSigned &&
@@ -792,7 +811,8 @@ export const finalizeDocument = mutation({
               totalSigners: allSigners.length,
             },
           );
-        } else {
+        } else if (participant.email !== args.signerEmail) {
+          // Send to other signers who didn't just sign (they need the fully executed copy)
           await ctx.scheduler.runAfter(0, api.emails.sendSignerCopyEmail, {
             to: participant.email,
             signerName: participant.name || participant.email,

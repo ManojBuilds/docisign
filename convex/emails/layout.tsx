@@ -8,139 +8,72 @@ import {
   Link,
   Preview,
   Section,
+  Tailwind,
   Text,
+  pixelBasedPreset,
 } from "@react-email/components";
 import * as React from "react";
-
-interface LogoProps {
-  baseUrl?: string;
-  showText?: boolean;
-  logoSrc?: string;
-}
-
-export function Logo({ baseUrl = "", showText = true, logoSrc }: LogoProps) {
-  const src = logoSrc || `${baseUrl.replace(/\/$/, "")}/logo.png`;
-
-  return (
-    <Link
-      href={baseUrl || "#"}
-      style={{ display: "flex", alignItems: "center", gap: "8px", textDecoration: "none" }}
-    >
-      <Img
-        src={src}
-        alt="Boopsign"
-        width={32}
-        height={32}
-        style={{ display: "block", borderRadius: "6px" }}
-      />
-      {showText && (
-        <Text style={{ fontSize: "18px", fontWeight: "bold", color: "#0f172a", margin: 0, letterSpacing: "-0.025em" }}>
-          Boopsign
-        </Text>
-      )}
-    </Link>
-  );
-}
-
-interface EmailHeaderProps {
-  baseUrl?: string;
-  logoSrc?: string;
-}
-
-export function EmailHeader({ baseUrl = "", logoSrc }: EmailHeaderProps) {
-  return (
-    <Section style={{ textAlign: "left", paddingTop: "24px", paddingBottom: "24px", marginBottom: "8px" }}>
-      <Logo baseUrl={baseUrl} logoSrc={logoSrc} />
-    </Section>
-  );
-}
-
-export function EmailFooter({ baseUrl = "" }: { baseUrl?: string }) {
-  const year = new Date().getFullYear();
-  return (
-    <Section style={{ marginTop: "48px", paddingTop: "32px", paddingBottom: "24px" }}>
-      <Hr style={{ borderTop: "1px solid #e2e8f0", marginBottom: "24px" }} />
-
-      <Text style={{ fontSize: "14px", color: "#475569", lineHeight: "1.6", margin: "0 0 16px 0" }}>
-        <Link
-          href={`${baseUrl || "#"}/support`}
-          style={{ color: "#0f172a", textDecoration: "none", fontWeight: 500 }}
-        >
-          Support
-        </Link>
-        {" • "}
-        <Link
-          href={`${baseUrl || "#"}/privacy`}
-          style={{ color: "#475569", textDecoration: "none" }}
-        >
-          Privacy
-        </Link>
-        {" • "}
-        <Link
-          href={`${baseUrl || "#"}/terms`}
-          style={{ color: "#475569", textDecoration: "none" }}
-        >
-          Terms
-        </Link>
-      </Text>
-
-      <Text style={{ fontSize: "12px", color: "#94a3b8", margin: 0 }}>
-        © {year} Boopsign. All rights reserved.
-      </Text>
-    </Section>
-  );
-}
 
 interface EmailLayoutProps {
   preview: string;
   children: React.ReactNode;
   baseUrl?: string;
-  logoSrc?: string;
 }
 
-/**
- * Minimal, Premium Email Layout
- *
- * Design Principles (Adobe Sign-inspired):
- * - Ultra-clean, minimal design
- * - High contrast typography
- * - Generous white space
- * - Subtle borders, no heavy shadows
- * - Professional color palette
- */
+const baseUrlDefault = "https://boopsign.com";
+
 export function EmailLayout({
   preview,
   children,
-  baseUrl = "",
-  logoSrc = "https://boopsign.com/logo.png",
+  baseUrl = baseUrlDefault,
 }: EmailLayoutProps) {
   return (
     <Html>
       <Head />
       <Preview>{preview}</Preview>
-
-      <Body
-        style={{
-          margin: 0,
-          padding: 0,
-          backgroundColor: "#ffffff",
-          fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-          color: "#0f172a",
+      <Tailwind
+        config={{
+          presets: [pixelBasedPreset],
+          theme: {
+            extend: {
+              colors: {
+                brand: "#000000",
+                muted: "#666666",
+                border: "#eaeaea",
+              },
+            },
+          },
         }}
       >
-        <Container
-          style={{ maxWidth: "600px", margin: "0 auto", padding: "24px 32px" }}
-        >
-          <EmailHeader baseUrl={baseUrl} logoSrc={logoSrc} />
+        <Body className="mx-auto my-auto bg-white px-2 font-sans">
+          <Container className="mx-auto my-[40px] max-w-[465px] rounded border border-solid border-border p-[20px]">
+            <Section className="mt-[32px]">
+              <Img
+                src={`${baseUrl}/logo.png`}
+                width="40"
+                height="40"
+                alt="Boopsign Logo"
+                className="mx-auto my-0 rounded-lg"
+              />
+            </Section>
 
-          {/* Content Section */}
-          <Section style={{ backgroundColor: "#ffffff", padding: "16px 0" }}>
             {children}
-          </Section>
 
-          <EmailFooter baseUrl={baseUrl} />
-        </Container>
-      </Body>
+            <Hr className="mx-0 my-[26px] w-full border border-solid border-border" />
+
+            <Section className="text-center">
+              <Text className="text-[12px] text-muted leading-[24px]">
+                © {new Date().getFullYear()} Boopsign. All rights reserved.
+              </Text>
+              <Text className="text-[12px] text-muted leading-[20px] mt-2">
+                <Link href={`${baseUrl}/support`} className="text-brand font-semibold no-underline mr-3">Support</Link>
+                <Link href={`${baseUrl}/privacy`} className="text-muted no-underline mr-3">Privacy</Link>
+                <Link href={`${baseUrl}/terms`} className="text-muted no-underline">Terms</Link>
+              </Text>
+            </Section>
+          </Container>
+        </Body>
+      </Tailwind>
     </Html>
   );
 }

@@ -276,7 +276,12 @@ function DraggableSignatureField({
     <div
       ref={setNodeRef}
       {...attributes}
-      className={`absolute select-none ${isDesktop && selectedTool === "selection" ? "cursor-grab" : ""} ${isSelected ? "ring ring-blue-300 ring-opacity-50" : ""} ${selectedTool !== "selection" ? "pointer-events-none" : ""}`}
+      className={cn(
+        "absolute select-none",
+        isDesktop && selectedTool === "selection" ? "cursor-grab" : "",
+        isSelected ? "ring ring-blue-300 ring-opacity-50" : "",
+        selectedTool !== "selection" ? "pointer-events-none" : "pointer-events-auto"
+      )}
       style={{
         left: pixelX * pdfViewerScale,
         top: pixelY * pdfViewerScale,
@@ -294,11 +299,11 @@ function DraggableSignatureField({
       )}
       <div
         className={cn(
-          "w-full h-full border flex items-center justify-center relative group hover:bg-opacity-30 transition-all rounded backdrop-blur-[1px]",
+          "w-full h-full border flex items-center justify-center relative group hover:bg-opacity-30 transition-all backdrop-blur-[1px]",
           getSignerColor(localField.fieldType, localField.signerEmail)
         )}
         style={{
-          opacity: 0.95,
+          backgroundColor: 'rgba(255, 255, 255, 0.3)',
         }}
       >
         {isDesktop ? (
@@ -313,8 +318,9 @@ function DraggableSignatureField({
             {/* Top controls bar */}
             {isSelected && (
               <div
-                className="absolute w-fit -top-8 left-0 flex items-center space-x-1.5 z-10 pointer-events-auto bg-gray-900 text-white rounded-lg p-1.5 shadow-xl animate-in fade-in zoom-in-95 duration-200"
+                className="absolute w-fit -top-8 left-0 flex items-center space-x-1.5 z-30 pointer-events-auto bg-gray-900 text-white rounded-lg p-1.5 shadow-xl animate-in fade-in zoom-in-95 duration-200 cursor-default"
                 onMouseDown={(e) => e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()}
               >
                 {/* Field type selector */}
                 <DropdownMenu>
@@ -557,12 +563,13 @@ function SignatureField(props: SignatureFieldProps) {
 
     return (
       <div
-        className={`absolute border-2 border-dashed border-opacity-50 bg-opacity-10 flex items-center justify-center text-xs ${getSignerColor(field.fieldType, field.signerEmail)}`}
+        className={`absolute border-2 border-dashed border-opacity-50 flex items-center justify-center text-xs ${getSignerColor(field.fieldType, field.signerEmail)}`}
         style={{
           left: pixelX,
           top: pixelY,
           width: pixelWidth,
           height: pixelHeight,
+          backgroundColor: 'rgba(255, 255, 255, 0.3)',
         }}
       >
         {getFieldIcon(field.fieldType)}

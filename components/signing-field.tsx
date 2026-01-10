@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
@@ -10,6 +11,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
   Sheet,
   SheetContent,
@@ -20,6 +22,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMobile } from "@/hooks/useMobile";
 import { cn } from "@/lib/utils";
+import { format } from "date-fns";
 import {
   ALargeSmall,
   CalendarDays,
@@ -139,7 +142,7 @@ function SigningDialog({
       timer = setTimeout(() => {
         onOpenChange(false);
         setShowSuccess(false);
-      }, 1500); // Close after 1.5 seconds
+      }, 800); // Close faster (previously 1500ms)
     }
     return () => clearTimeout(timer);
   }, [showSuccess, onOpenChange, setShowSuccess]);
@@ -214,7 +217,7 @@ function SigningDialog({
                   variant="ghost"
                   size="sm"
                   onClick={clearCanvas}
-                  className="text-gray-400 hover:text-red-500 hover:bg-red-50 text-[10px] font-bold uppercase tracking-widest h-8"
+                  className="text-gray-400 hover:text-red-500 hover:bg-red-50 text-[10px] font-bold uppercase tracking-widest h-8 cursor-pointer"
                 >
                   Clear Canvas
                 </Button>
@@ -322,14 +325,14 @@ function SigningDialog({
             <Button
               variant="ghost"
               onClick={() => onOpenChange(false)}
-              className="px-8 font-bold uppercase tracking-[0.15em] text-[9px] h-11 text-gray-400 hover:text-gray-900 hover:bg-transparent"
+              className="px-8 font-bold uppercase tracking-[0.15em] text-[9px] h-11 text-gray-400 hover:text-gray-900 hover:bg-transparent cursor-pointer"
             >
               Cancel
             </Button>
             <Button
               onClick={() => handleSignatureComplete(activeTab)}
               disabled={isCompleting || !isSignatureProvided || !agreementChecked}
-              className="w-full sm:w-auto px-10 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-bold uppercase tracking-[0.15em] text-[9px] transition-all duration-300 disabled:opacity-40"
+              className="w-full sm:w-auto px-10 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-bold uppercase tracking-[0.15em] text-[9px] transition-all duration-300 disabled:opacity-40 cursor-pointer"
             >
               {isCompleting ? (
                 <div className="flex items-center gap-1.5">
@@ -366,14 +369,91 @@ function SigningDialog({
             <Button
               variant="ghost"
               onClick={() => onOpenChange(false)}
-              className="px-8 font-bold uppercase tracking-widest text-[10px] h-11"
+              className="px-8 font-bold uppercase tracking-widest text-[10px] h-11 cursor-pointer"
             >
               Cancel
             </Button>
             <Button
               onClick={() => handleSignatureComplete("text")}
               disabled={isCompleting || !isSignatureProvided}
-              className="px-8 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-bold uppercase tracking-widest text-[10px]"
+              className="px-8 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-bold uppercase tracking-widest text-[10px] cursor-pointer"
+            >
+              {isCompleting ? (
+                <>
+                  <Loader2 className="mr-2 h-3 w-3 animate-spin" />
+                  Processing...
+                </>
+              ) : (
+                "Complete Field"
+              )}
+            </Button>
+          </div>
+        </div>
+      );
+    }
+
+    if (field.fieldType === "date") {
+      return (
+        <div className={`space-y-6 ${isMobile ? "px-4 pb-4" : ""}`}>
+          <div className="space-y-3">
+            <Label htmlFor="date-field" className="text-xs font-bold uppercase tracking-wider text-gray-400">
+              {field.label || "Select a date"}
+              {field.isRequired && <span className="text-red-500 ml-1">*</span>}
+            </Label>
+            <div className="space-y-4">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-full h-14 justify-start text-left font-normal border-2 bg-gray-50/50 hover:bg-white transition-all rounded-xl px-4 cursor-pointer",
+                      !signatureData && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarDays className="mr-3 h-5 w-5 text-primary/60" />
+                    {signatureData ? (
+                      <span className="text-gray-900 font-medium">
+                        {format(new Date(signatureData), "PPP")}
+                      </span>
+                    ) : (
+                      <span className="text-gray-400">Pick a date</span>
+                    )}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0 rounded-2xl border shadow-2xl overflow-hidden" align="start">
+                  <div className="bg-white p-1">
+                    <Calendar
+                      mode="single"
+                      selected={signatureData ? new Date(signatureData) : undefined}
+                      onSelect={(date) => {
+                        if (date) {
+                          const formattedDate = `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
+                          setSignatureData(formattedDate);
+                        }
+                      }}
+                      initialFocus
+                      captionLayout="dropdown"
+                      fromYear={1900}
+                      toYear={new Date().getFullYear() + 10}
+                      className="p-3"
+                    />
+                  </div>
+                </PopoverContent>
+              </Popover>
+            </div>
+          </div>
+          <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-8">
+            <Button
+              variant="ghost"
+              onClick={() => onOpenChange(false)}
+              className="px-8 font-bold uppercase tracking-widest text-[10px] h-11 cursor-pointer"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => handleSignatureComplete("date")}
+              disabled={isCompleting || !signatureData}
+              className="px-8 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-bold uppercase tracking-widest text-[10px] cursor-pointer"
             >
               {isCompleting ? (
                 <>
@@ -493,10 +573,13 @@ export default function SigningField({
   const handleFieldClick = () => {
     if (field.isCompleted) return;
     if (field.fieldType === "date") {
-      const now = new Date();
-      // Adobe Sign standard format: MM/DD/YYYY
-      const formattedDate = `${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}/${now.getFullYear()}`;
-      onComplete(field.id, formattedDate);
+      setIsOpen(true);
+      // Initialize with current date if no date is selected yet
+      if (!signatureData) {
+        const now = new Date();
+        const formattedDate = `${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}/${now.getFullYear()}`;
+        setSignatureData(formattedDate);
+      }
       return;
     }
     setIsOpen(true);
@@ -522,6 +605,8 @@ export default function SigningField({
       }
     } else if (field.fieldType === "text") {
       finalSignatureData = signatureData.trim();
+    } else if (field.fieldType === "date") {
+      finalSignatureData = signatureData; // Date is already formatted as MM/DD/YYYY
     }
 
     if (finalSignatureData) {
@@ -542,6 +627,9 @@ export default function SigningField({
   const isSignatureProvided = () => {
     if (field.fieldType === "text") {
       return signatureData.trim() !== "";
+    }
+    if (field.fieldType === "date") {
+      return signatureData !== ""; // Date field is considered provided if there's a date selected
     }
     if (activeTab === "draw") {
       return hasSigned;

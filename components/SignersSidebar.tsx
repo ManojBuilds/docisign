@@ -102,7 +102,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
 
   if (selectedField) {
     return (
-      <aside className="w-full max-w-sm bg-white border-l flex flex-col h-full shadow-xl z-20 overflow-hidden animate-in fade-in slide-in-from-right-4 duration-300">
+      <aside id="signers-sidebar" className="w-full max-w-sm bg-white border-l flex flex-col h-full shadow-xl z-20 overflow-hidden animate-in fade-in slide-in-from-right-4 duration-300">
         {/* Settings Header */}
         <div className="px-2 py-3 bg-gray-50/80 border-b backdrop-blur-sm sticky top-0 z-10">
           <div className="flex items-center justify-between mb-1">
@@ -154,7 +154,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
   }
 
   return (
-    <aside className="w-full max-w-sm bg-white border-l flex flex-col h-full shadow-xl z-20 overflow-hidden">
+    <aside id="signers-sidebar" className="w-full max-w-sm bg-white border-l flex flex-col h-full shadow-xl z-20 overflow-hidden">
       {/* Tools Section */}
       <div className="p-4 bg-gray-50/50 border-b">
         <div className="flex items-center justify-between mb-3">

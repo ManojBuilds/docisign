@@ -90,7 +90,7 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
     <div
       className={cn(
         "absolute inset-0 z-10",
-        selectedTool !== "selection" ? "cursor-crosshair bg-primary/[0.005]" : "pointer-events-none"
+        selectedTool !== "selection" ? "cursor-crosshair bg-primary/[0.005]" : "pointer-events-auto"
       )}
       onMouseDown={handleMouseDown}
       onClick={() => {

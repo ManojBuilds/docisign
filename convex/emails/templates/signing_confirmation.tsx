@@ -12,96 +12,72 @@ interface SigningConfirmationProps {
   remainingSigners?: number;
 }
 
-/**
- * Signing Confirmation Email
- * Adobe Sign-inspired minimal design
- */
 export default function SigningConfirmation({
-  ownerName = "User",
-  signerName = "Signer",
-  documentTitle = "Document",
+  ownerName = "Manoj Kumar",
+  signerName = "mkumar.react@gmail.com",
+  documentTitle = "Boopsign_Sample_Freelance_Contract",
   dashboardUrl = "#",
-  signedAt = "Today",
+  signedAt = new Date().toString(),
   remainingSigners = 0,
 }: SigningConfirmationProps) {
-  const preview = `${signerName} signed "${documentTitle}"${remainingSigners > 0 ? ` — ${remainingSigners} more needed` : " — complete!"}`;
+  const isComplete = remainingSigners === 0;
+  const preview = `${signerName} signed "${documentTitle}"${!isComplete ? ` — ${remainingSigners} more needed` : " — complete!"}`;
 
   return (
     <EmailLayout preview={preview}>
-      <Section style={{ marginBottom: "32px" }}>
-        <Heading style={{ fontSize: "24px", fontWeight: 600, color: "#0f172a", margin: "0 0 12px 0", lineHeight: "1.3" }}>
-          Document signed
-        </Heading>
-        <Text style={{ fontSize: "16px", color: "#334155", margin: 0, lineHeight: "1.6" }}>
-          Hi {ownerName}, {signerName} signed{" "}
-          <strong style={{ color: "#0f172a", fontWeight: 600 }}>"{documentTitle}"</strong>
-          {remainingSigners > 0
-            ? ` — ${remainingSigners} more signature${remainingSigners > 1 ? "s" : ""} needed.`
-            : " — all done!"}
-        </Text>
-      </Section>
+      <Heading className="mx-0 my-[30px] p-0 text-center font-normal text-[24px] text-black">
+        Document <strong>{isComplete ? "Complete" : "Signed"}</strong>
+      </Heading>
 
-      <Section style={{ marginBottom: "32px" }}>
-        <div style={{ border: "1px solid #e2e8f0", borderRadius: "8px", padding: "20px", backgroundColor: "#f8fafc" }}>
-          <Text style={{ fontSize: "14px", fontWeight: 600, color: "#0f172a", margin: "0 0 12px 0" }}>
-            Signing details
+      <Text className="text-[14px] text-black leading-[24px]">
+        Hello {ownerName},
+      </Text>
+
+      <Text className="text-[14px] text-black leading-[24px]">
+        <strong>{signerName}</strong> has signed <strong>{documentTitle}</strong>.
+        {isComplete
+          ? " All signatures have been collected and the agreement is now fully executed."
+          : ` There are still ${remainingSigners} more signature${remainingSigners > 1 ? "s" : ""} needed to complete the process.`}
+      </Text>
+
+      <Section className="my-[24px] rounded border border-solid border-border bg-[#f9f9f9] p-[20px]">
+        <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-muted mb-4 opacity-70 text-center">
+          Signing Details
+        </Text>
+        <div className="flex flex-col gap-2">
+          <Text className="m-0 text-[14px] text-black">
+            <strong>Signer:</strong> {signerName}
           </Text>
-          <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Text style={{ fontSize: "14px", color: "#475569", margin: 0 }}>Signer</Text>
-              <Text style={{ fontSize: "14px", color: "#0f172a", fontWeight: 500, margin: 0 }}>{signerName}</Text>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <Text style={{ fontSize: "14px", color: "#475569", margin: 0 }}>Signed at</Text>
-              <Text style={{ fontSize: "14px", color: "#0f172a", margin: 0 }}>{signedAt}</Text>
-            </div>
-            {remainingSigners > 0 && (
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <Text style={{ fontSize: "14px", color: "#475569", margin: 0 }}>Remaining</Text>
-                <Text style={{ fontSize: "14px", color: "#0f172a", margin: 0 }}>
-                  {remainingSigners} signer{remainingSigners > 1 ? "s" : ""}
-                </Text>
-              </div>
-            )}
-          </div>
+          <Text className="m-0 text-[14px] text-black">
+            <strong>Time:</strong> {new Date(signedAt).toLocaleString("en-US", {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+              hour: "numeric",
+              minute: "2-digit",
+              hour12: true,
+            })}
+          </Text>
+          <Text className="m-0 text-[14px] text-black">
+            <strong>Status:</strong> {isComplete ? "Fully Executed" : `${remainingSigners} signing(s) pending`}
+          </Text>
         </div>
       </Section>
 
-      {remainingSigners > 0 ? (
-        <Section style={{ marginBottom: "32px" }}>
-          <div style={{ borderLeft: "4px solid #000000", paddingLeft: "16px", paddingTop: "8px", paddingBottom: "8px" }}>
-            <Text style={{ fontSize: "14px", color: "#334155", margin: 0, lineHeight: "1.6" }}>
-              We'll notify you as each person signs. Once complete, you'll receive the final document.
-            </Text>
-          </div>
-        </Section>
-      ) : (
-        <Section style={{ marginBottom: "32px" }}>
-          <div style={{ borderLeft: "4px solid #16a34a", paddingLeft: "16px", paddingTop: "8px", paddingBottom: "8px" }}>
-            <Text style={{ fontSize: "14px", color: "#334155", margin: 0, lineHeight: "1.6" }}>
-              Your document is complete. All parties have received their signed copy.
-            </Text>
-          </div>
-        </Section>
-      )}
-
-      <Section style={{ textAlign: "center", marginBottom: "32px" }}>
+      <Section className="mt-[32px] mb-[32px] text-center">
         <Button
+          className="rounded bg-brand px-10 py-3 text-center text-[12px] font-semibold text-white no-underline"
           href={dashboardUrl}
-          style={{
-            backgroundColor: "#000000",
-            color: "#ffffff",
-            padding: "16px 32px",
-            borderRadius: "8px",
-            textDecoration: "none",
-            fontWeight: 600,
-            fontSize: "16px",
-            display: "inline-block",
-          }}
         >
-          {remainingSigners > 0 ? "Track Progress" : "View Document"}
+          {isComplete ? "View Final Document" : "Track Progress"}
         </Button>
       </Section>
+
+      <Text className="text-[14px] text-black leading-[24px]">
+        {isComplete
+          ? "You can now download the fully executed document from your dashboard."
+          : "We'll notify you as soon as the remaining participants have signed."}
+      </Text>
     </EmailLayout>
   );
 }
