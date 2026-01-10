@@ -189,7 +189,7 @@ export default function SigningPage() {
   const batchCompleteFields = useMutation(
     api.signatureFields.batchCompleteSignatureFields,
   );
-  const finalizeDocument = useMutation(api.signers.finalizeDocument);
+  // const finalizeDocument = useMutation(api.signers.finalizeDocument);
   // const generateOtp = useMutation(api.otp.generateOTP);
   const declineDocumentMutation = useMutation(api.signers.declineDocument);
 
@@ -216,7 +216,6 @@ export default function SigningPage() {
   const [showConfetti, setShowConfetti] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
   const [showDeclineDialog, setShowDeclineDialog] = useState(false);
-  const [showMockSubmission, setShowMockSubmission] = useState(false);
 
   const participants = useMemo(() => {
     if (!allDocumentFields) return [];
@@ -953,11 +952,9 @@ export default function SigningPage() {
   return (
     <div className="h-dvh flex flex-col bg-gray-50/30 relative">
       {/* Adobe Sign Inspired Submitting Overlay */}
-      {(isSubmitting || showMockSubmission) && (
+      {(isSubmitting) && (
         <div
-          onClick={() => setShowMockSubmission(false)}
-          className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center animate-in fade-in duration-700 cursor-pointer"
-          title="Click to dismiss preview"
+          className="fixed inset-0 z-[100] bg-white/70 backdrop-blur-sm flex flex-col items-center justify-center animate-in fade-in duration-700"
         >
           <div className="flex flex-col items-center max-w-sm w-full space-y-12">
             {/* Custom Adobe-style Spinning Circle */}
@@ -994,17 +991,6 @@ export default function SigningPage() {
             </p>
           </div>
         </div>
-      )}
-
-      {/* Floating Preview Button (Visible only when document is completed) */}
-      {isCompleted && !isSubmitting && !showMockSubmission && (
-        <button
-          onClick={() => setShowMockSubmission(true)}
-          className="fixed bottom-6 left-6 z-50 bg-blue-600 text-white px-4 py-2 rounded-full shadow-2xl hover:bg-blue-700 transition-all font-bold text-xs uppercase tracking-widest flex items-center gap-2 group"
-        >
-          <Loader2 className="w-3 h-3 group-hover:animate-spin" />
-          Preview Submission UI
-        </button>
       )}
 
       <SigningNavbar
