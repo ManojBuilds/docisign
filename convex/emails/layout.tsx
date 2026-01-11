@@ -29,7 +29,6 @@ export function EmailLayout({
 }: EmailLayoutProps) {
   return (
     <Html>
-      <Head />
       <Preview>{preview}</Preview>
       <Tailwind
         config={{
@@ -45,6 +44,7 @@ export function EmailLayout({
           },
         }}
       >
+        <Head />
         <Body className="mx-auto my-auto bg-white px-2 font-sans">
           <Container className="mx-auto my-[40px] max-w-[465px] rounded border border-solid border-border p-[20px]">
             <Section className="mt-[32px]">

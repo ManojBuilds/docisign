@@ -41,26 +41,44 @@ export default function SigningConfirmation({
       </Text>
 
       <Section className="my-[24px] rounded border border-solid border-border bg-[#f9f9f9] p-[20px]">
-        <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-muted mb-4 opacity-70 text-center">
+        <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-muted mb-6 opacity-70 text-center">
           Signing Details
         </Text>
-        <div className="flex flex-col gap-2">
-          <Text className="m-0 text-[14px] text-black">
-            <strong>Signer:</strong> {signerName}
-          </Text>
-          <Text className="m-0 text-[14px] text-black">
-            <strong>Time:</strong> {new Date(signedAt).toLocaleString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-              hour: "numeric",
-              minute: "2-digit",
-              hour12: true,
-            })}
-          </Text>
-          <Text className="m-0 text-[14px] text-black">
-            <strong>Status:</strong> {isComplete ? "Fully Executed" : `${remainingSigners} signing(s) pending`}
-          </Text>
+
+        <div className="mt-4">
+          <div className="mb-4">
+            <Text className="m-0 text-[11px] font-bold uppercase tracking-wider text-muted mb-1">
+              Signer
+            </Text>
+            <Text className="m-0 text-[14px] text-black font-medium">
+              {signerName}
+            </Text>
+          </div>
+
+          <div className="mb-4">
+            <Text className="m-0 text-[11px] font-bold uppercase tracking-wider text-muted mb-1">
+              Time
+            </Text>
+            <Text className="m-0 text-[14px] text-black font-medium">
+              {new Date(signedAt).toLocaleString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true,
+              })}
+            </Text>
+          </div>
+
+          <div>
+            <Text className="m-0 text-[11px] font-bold uppercase tracking-wider text-muted mb-1">
+              Status
+            </Text>
+            <Text className="m-0 text-[14px] text-black font-medium">
+              {isComplete ? "Fully Executed" : `${remainingSigners} signing(s) pending`}
+            </Text>
+          </div>
         </div>
       </Section>
 

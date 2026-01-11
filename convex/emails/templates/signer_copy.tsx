@@ -14,11 +14,15 @@ interface SignerCopyProps {
 export default function SignerCopy({
   signerName = "User",
   documentTitle = "Document",
-  downloadUrl = "#",
-  signedAt = "Today",
+  downloadUrl = "https://sincere-schnauzer-177.convex.cloud/api/storage/69a0c6f1-73c0-473e-b0f3-cae17a1b9f26",
+  signedAt = new Date().toISOString(),
   senderName = "Someone",
 }: SignerCopyProps) {
   const preview = `Your signed copy of "${documentTitle}" is ready`;
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://boopsign.com";
+  const proxiedDownloadUrl = downloadUrl && downloadUrl !== "#"
+    ? `${appUrl}/api/download?url=${encodeURIComponent(downloadUrl)}&filename=${encodeURIComponent(documentTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase())}_signed.pdf`
+    : downloadUrl;
 
   return (
     <EmailLayout preview={preview}>
@@ -35,33 +39,51 @@ export default function SignerCopy({
       </Text>
 
       <Section className="my-[24px] rounded border border-solid border-border bg-[#f9f9f9] p-[20px]">
-        <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-muted mb-4 opacity-70 text-center">
+        <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-muted mb-6 opacity-70 text-center">
           Signing Summary
         </Text>
-        <div className="flex flex-col gap-2">
-          <Text className="m-0 text-[14px] text-black">
-            <strong>Document:</strong> {documentTitle}
-          </Text>
-          <Text className="m-0 text-[14px] text-black">
-            <strong>Signed on:</strong> {new Date(signedAt).toLocaleString("en-US", {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-              hour: "numeric",
-              minute: "2-digit",
-              hour12: true,
-            })}
-          </Text>
-          <Text className="m-0 text-[14px] text-black">
-            <strong>Requested by:</strong> {senderName}
-          </Text>
+
+        <div className="mt-4">
+          <div className="mb-4">
+            <Text className="m-0 text-[11px] font-bold uppercase tracking-wider text-muted mb-1">
+              Document
+            </Text>
+            <Text className="m-0 text-[14px] text-black font-medium">
+              {documentTitle}
+            </Text>
+          </div>
+
+          <div className="mb-4">
+            <Text className="m-0 text-[11px] font-bold uppercase tracking-wider text-muted mb-1">
+              Signed on
+            </Text>
+            <Text className="m-0 text-[14px] text-black font-medium">
+              {new Date(signedAt).toLocaleString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+                hour: "numeric",
+                minute: "2-digit",
+                hour12: true,
+              })}
+            </Text>
+          </div>
+
+          <div>
+            <Text className="m-0 text-[11px] font-bold uppercase tracking-wider text-muted mb-1">
+              Requested by
+            </Text>
+            <Text className="m-0 text-[14px] text-black font-medium">
+              {senderName}
+            </Text>
+          </div>
         </div>
       </Section>
 
       <Section className="mt-[32px] mb-[32px] text-center">
         <Button
           className="rounded bg-brand px-10 py-3 text-center text-[12px] font-semibold text-white no-underline"
-          href={downloadUrl}
+          href={proxiedDownloadUrl}
         >
           Download Signed PDF
         </Button>
@@ -73,8 +95,8 @@ export default function SignerCopy({
 
       <Text className="text-[14px] text-black leading-[24px] mt-4">
         Direct link:{" "}
-        <Link href={downloadUrl} className="text-blue-600 no-underline">
-          {downloadUrl}
+        <Link href={proxiedDownloadUrl} className="text-blue-600 no-underline">
+          {proxiedDownloadUrl}
         </Link>
       </Text>
     </EmailLayout>

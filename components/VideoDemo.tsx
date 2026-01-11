@@ -192,7 +192,7 @@ const VideoDemo = () => {
           {/* Tella Embed */}
           <iframe
             className="w-full h-full border-0"
-            src="https://www.tella.tv/video/vid_cmk7unk6h012f04kzbebi9wgw/embed?b=0&title=0&a=1&loop=0&autoPlay=true&t=0&muted=1&wt=0"
+            src="https://www.tella.tv/video/vid_cmk9oadwu001b04jx5iq0b35n/embed?b=0&title=0&a=1&loop=0&autoPlay=true&t=0&muted=1&wt=0"
             allowFullScreen
             title="Boopsign Demo"
           ></iframe>
