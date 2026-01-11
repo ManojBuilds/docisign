@@ -30,7 +30,7 @@ export const PageOverlay = memo(({
   const fields = useDocumentEditorStore(
     useShallow((state) =>
       state.signatureFields.filter(
-        (f) => f.page === pageNumber && f.status !== "signed" && !f.isCompleted
+        (f) => f.page === pageNumber
       )
     )
   );

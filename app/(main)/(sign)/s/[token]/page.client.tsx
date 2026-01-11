@@ -217,28 +217,48 @@ export default function SigningPage() {
   const [isDownloading, setIsDownloading] = useState(false);
   const [showDeclineDialog, setShowDeclineDialog] = useState(false);
 
+  useEffect(() => {
+    if (showConfetti) {
+      const timer = setTimeout(() => setShowConfetti(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showConfetti]);
+
   const participants = useMemo(() => {
     if (!allDocumentFields) return [];
 
     // Check if we have locally completed the document to optimistically update status
     // This prevents a race condition where the UI shows "Pending" while the query revalidates
-    const currentSignerEmail = signingSession?.signer?.email;
+    const currentSignerEmail = signingSession?.signer?.email?.toLowerCase().trim();
 
     const uniqueSigners = new Map();
     allDocumentFields.forEach(field => {
-      if (!uniqueSigners.has(field.signerEmail)) {
-        let status = field.status;
+      const email = field.signerEmail?.toLowerCase().trim();
+      if (!email) return;
 
-        // Optimistic update for current user
-        if (currentSignerEmail && field.signerEmail === currentSignerEmail) {
-          if (isDeclined) {
-            status = 'declined';
-          } else if (isCompleted) {
-            status = 'signed';
-          }
+      let status = field.status;
+
+      // Optimistic update for current user
+      if (currentSignerEmail && email === currentSignerEmail) {
+        const serverStatus = signingSession?.signer?.status;
+        if (isDeclined || serverStatus === 'declined') {
+          status = 'declined';
+        } else if (isCompleted || serverStatus === 'signed') {
+          status = 'signed';
         }
+      }
 
-        uniqueSigners.set(field.signerEmail, {
+      // If we already saw this signer, only update if the new status is more "advanced"
+      // Ranking: pending (0) < sent (1) < viewed (2) < signed (3)
+      const statusRank = (s: string) => {
+        if (s === 'signed') return 3;
+        if (s === 'viewed') return 2;
+        if (s === 'sent') return 1;
+        return 0;
+      };
+
+      if (!uniqueSigners.has(email) || statusRank(status) > statusRank(uniqueSigners.get(email).status)) {
+        uniqueSigners.set(email, {
           email: field.signerEmail,
           name: field.signerName,
           status: status,
@@ -495,8 +515,6 @@ export default function SigningPage() {
       toast.success("Contract signed successfully!");
       setShowConfetti(true);
       setIsCompleted(true);
-      // Keep confetti for 5 seconds
-      setTimeout(() => setShowConfetti(false), 5000);
     } catch (error) {
       console.error(error);
       toast.error("Failed to finalize contract");
@@ -658,7 +676,9 @@ export default function SigningPage() {
 
   const isCancelled = signingSession.document?.status === "cancelled" || signingSession.document?.status === "declined" || isDeclined;
 
-  if (isCompleted || signingSession.document?.status === "completed" || isCancelled) {
+  const isAlreadySigned = signingSession.signer?.status === "signed";
+
+  if (isCompleted || signingSession.document?.status === "completed" || isAlreadySigned || isCancelled) {
     return (
       <>
         {showConfetti && (
@@ -704,7 +724,7 @@ export default function SigningPage() {
             </div>
           </header>
 
-          <main className="flex-1 w-full max-w-6xl mx-auto px-4 py-6 sm:px-6 sm:py-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          <main className="flex-1 w-full max-w-6xl mx-auto px-4 py-6 sm:px-6 sm:py-8 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-start">
             {/* Left Column Container: Hero & primary actions stack on desktop, but interleave on mobile via contents */}
             <div className="contents lg:flex lg:flex-col lg:col-span-7 space-y-8">
               {/* 1. Hero Text - Top on both */}
@@ -735,17 +755,17 @@ export default function SigningPage() {
                   )}
                 </h1>
 
-                <p className="text-sm sm:text-base lg:text-lg text-gray-600 font-medium leading-relaxed max-w-2xl">
+                <p className="text-sm sm:text-base lg:text-lg text-gray-600 font-medium leading-relaxed max-w-2xl break-words px-1">
                   {isCancelled ? (
                     <>
-                      You have chosen to decline
-                      <span className="text-gray-900 font-bold mx-1.5">&ldquo;{signingSession.document?.title}&rdquo;</span>.
+                      You have chosen to decline{" "}
+                      <span className="text-gray-900 font-bold inline-block break-all sm:break-normal">&ldquo;{signingSession.document?.title}&rdquo;</span>.{" "}
                       The sender has been notified and the document is now void.
                     </>
                   ) : (
                     <>
-                      The document
-                      <span className="text-gray-900 font-bold mx-1.5">&ldquo;{signingSession.document?.title}&rdquo;</span>
+                      The document{" "}
+                      <span className="text-gray-900 font-bold inline-block break-all sm:break-normal">&ldquo;{signingSession.document?.title}&rdquo;</span>{" "}
                       has been successfully signed and returned to the sender.
                     </>
                   )}
@@ -753,13 +773,13 @@ export default function SigningPage() {
               </div>
 
               {/* 3. Primary Actions (Download) - Row 2 Left on Desktop, Order 3 on Mobile */}
-              <div className="order-3 space-y-6 sm:space-y-8">
+              <div className="order-3 space-y-2 sm:space-y-8">
                 {!isCancelled && (
                   <div className="space-y-4">
                     <Button
                       onClick={handleDownload}
                       disabled={isDownloading}
-                      className="w-full sm:w-auto px-8 sm:px-12 bg-gray-900 hover:bg-black text-white rounded-2xl h-14 sm:h-16 font-bold text-base shadow-2xl shadow-gray-200 uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 group cursor-pointer mt-6"
+                      className="w-full sm:w-auto px-8 sm:px-12 bg-gray-900 hover:bg-black text-white rounded-2xl h-14 sm:h-16 font-bold text-base shadow-2xl shadow-gray-200 uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 group cursor-pointer mt-4 sm:mt-6"
                     >
                       {isDownloading ? (
                         <>
@@ -844,12 +864,18 @@ export default function SigningPage() {
                             <p className="text-xs sm:text-sm font-bold text-gray-900 truncate leading-none mb-1.5">{participant.email}</p>
                             <p className={cn(
                               "text-[10px] font-black uppercase tracking-widest flex items-center gap-1.5",
-                              participant.status === "signed" ? "text-emerald-600" : "text-gray-400"
+                              participant.status === "signed" ? "text-emerald-600" :
+                                participant.status === "viewed" ? "text-blue-500" : "text-gray-400"
                             )}>
                               {participant.status === "signed" ? (
                                 <>
                                   <Check className="w-3 h-3 stroke-[3]" />
                                   Signed
+                                </>
+                              ) : participant.status === "viewed" ? (
+                                <>
+                                  <Info className="w-3 h-3" />
+                                  Viewed
                                 </>
                               ) : (
                                 <>Pending</>
@@ -954,7 +980,7 @@ export default function SigningPage() {
       {/* Adobe Sign Inspired Submitting Overlay */}
       {(isSubmitting) && (
         <div
-          className="fixed inset-0 z-[100] bg-white/70 backdrop-blur-sm flex flex-col items-center justify-center animate-in fade-in duration-700"
+          className="fixed inset-0 z-[100] bg-white flex flex-col items-center justify-center animate-in fade-in duration-700"
         >
           <div className="flex flex-col items-center max-w-sm w-full space-y-12">
             {/* Custom Adobe-style Spinning Circle */}

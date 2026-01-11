@@ -11,6 +11,7 @@ import { useDocumentEditorStore } from "@/stores/document-editor-store";
 import { useSignersStore } from "@/stores/signersStore";
 import { useMutation, useQuery } from "convex/react";
 import {
+  AlertCircle,
   PenTool
 } from "lucide-react";
 import Link from "next/link";
@@ -337,9 +338,10 @@ export default function DocumentEditor() {
           return true;
         })
         .map(field => {
-          const dims = pageDimensions[field.page];
+          const dims = pageDimensions[field.page] || { width: 0, height: 0 };
           // Convert normalized coordinates back to absolute for the DB
           return {
+            id: field.id, // Include the ID
             fieldType: field.fieldType,
             page: field.page,
             x: field.normalizedX * dims.width,
@@ -518,6 +520,13 @@ export default function DocumentEditor() {
         setIsShareDialogOpen={setIsShareDialogOpen}
         onAddField={(type) => handleAddSignatureField(type)}
       />
+
+      {document?.status === "completed" && (
+        <div className="bg-amber-50 border-b border-amber-200 px-4 py-2 flex items-center justify-center gap-2 text-amber-800 text-sm font-medium animate-in slide-in-from-top duration-300">
+          <AlertCircle className="w-4 h-4 text-amber-500" />
+          <span>This document is already completed. Adding new fields will re-open it for signature.</span>
+        </div>
+      )}
 
       {/* Main Content Area with 3 Columns */}
       <div className="flex-1 flex min-h-0 bg-transparent">

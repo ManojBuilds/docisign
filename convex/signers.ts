@@ -384,50 +384,49 @@ export const sendSigningEmail = internalAction({
     customMessage: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
-    const signer = await ctx.runQuery(api.signers.getSigner, {
-      id: args.signerId,
-    });
+    try {
+      const signer = await ctx.runQuery(api.signers.getSigner, {
+        id: args.signerId,
+      });
 
-    if (!signer) {
-      console.error("Signer not found");
-      return;
+      if (!signer) {
+        console.error("Signer not found");
+        return;
+      }
+
+      const document = await ctx.runQuery(api.documents.getDocument, {
+        documentId: args.documentId,
+      });
+
+      if (!document) {
+        console.error("Document not found");
+        return;
+      }
+
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL;
+      if (!appUrl) {
+        throw new Error("APP_URL environment variable not set!");
+      }
+
+      const owner = await ctx.runQuery(api.users.getCurrentUser, {
+        clerkId: document.ownerId,
+      });
+      if (!owner) {
+        console.error("Owner not found");
+        return;
+      }
+
+      await ctx.runAction(api.emails.sendSigningRequestEmail, {
+        signerName: signer.name || signer.email,
+        senderName: owner.firstName || owner.email,
+        documentTitle: document.title,
+        signingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/s/${signer.accessToken}`,
+        customMessage: args.customMessage,
+        to: signer.email,
+      });
+    } catch (error) {
+      console.error("Error in background signing email task:", error);
     }
-
-    const document = await ctx.runQuery(api.documents.getDocument, {
-      documentId: args.documentId,
-    });
-
-    if (!document) {
-      console.error("Document not found");
-      return;
-    }
-
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL;
-    if (!appUrl) {
-      throw new Error("APP_URL environment variable not set!");
-    }
-
-    const convexUrl = process.env.CONVEX_SITE_URL;
-    if (!convexUrl) {
-      throw new Error("CONVEX_SITE environment variable not set!");
-    }
-
-    const owner = await ctx.runQuery(api.users.getCurrentUser, {
-      clerkId: document.ownerId,
-    });
-    if (!owner) {
-      console.error("Owner not found");
-      return;
-    }
-
-    await ctx.runAction(api.emails.sendSigningRequestEmail, {
-      signerName: signer.name || signer.email,
-      senderName: owner.firstName || owner.email,
-      documentTitle: document.title,
-      signingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/s/${signer.accessToken}`,
-      customMessage: args.customMessage,
-      to: signer.email,
-    });
   },
 });
 
@@ -437,104 +436,113 @@ export const sendSignedEmailToOwner = internalAction({
     signerEmail: v.string(),
   },
   handler: async (ctx, args) => {
-    const document = await ctx.runQuery(api.documents.getDocument, {
-      documentId: args.documentId,
-    });
-    if (!document) {
-      console.error("Document not found");
-      return;
-    }
-
-    const owner = await ctx.runQuery(api.users.getCurrentUser, {
-      clerkId: document.ownerId,
-    });
-    if (!owner) {
-      console.error("Owner not found");
-      return;
-    }
-
-    const signer = await ctx.runQuery(
-      internal.signers.getInternalSignerByDocumentAndEmail,
-      {
+    try {
+      const document = await ctx.runQuery(api.documents.getDocument, {
         documentId: args.documentId,
-        email: args.signerEmail,
-      },
-    );
+      });
+      if (!document) {
+        console.error("Document not found");
+        return;
+      }
 
-    if (!signer) {
-      console.error("Signer not found");
-      return;
+      const owner = await ctx.runQuery(api.users.getCurrentUser, {
+        clerkId: document.ownerId,
+      });
+      if (!owner) {
+        console.error("Owner not found");
+        return;
+      }
+
+      const signer = await ctx.runQuery(
+        internal.signers.getInternalSignerByDocumentAndEmail,
+        {
+          documentId: args.documentId,
+          email: args.signerEmail,
+        },
+      );
+
+      if (!signer) {
+        console.error("Signer not found");
+        return;
+      }
+
+      // Count remaining signers based on uncompleted signature fields
+      const signatureFields = await ctx.runQuery(api.signatureFields.getDocumentSignatureFields, {
+        documentId: args.documentId,
+      });
+
+      const uncompletedFields = signatureFields.filter(
+        (field) => !field.isCompleted
+      );
+
+      // Count unique signers who still have uncompleted fields assigned to them
+      const remainingSignerEmails = new Set(
+        uncompletedFields
+          .map(field => field.signerEmail)
+          .filter(email => email)
+      );
+
+      const remainingSigners = remainingSignerEmails.size;
+
+      const appUrl = process.env.NEXT_PUBLIC_APP_URL || "";
+
+      // Generate a PDF with all currently completed signatures
+      try {
+        await ctx.runAction(internal.actions.generateSignedPdf, {
+          documentId: args.documentId,
+        });
+      } catch (pdfError) {
+        console.error("Critical: Failed to generate signed PDF audit trail:", pdfError);
+        // We continue because we still want to try sending notifications if possible,
+        // though the download might point to an old version.
+      }
+
+      // Re-fetch document to get potential new fileStorageId
+      const updatedDocument = await ctx.runQuery(api.documents.getDocument, {
+        documentId: args.documentId,
+      }) || document;
+
+      // Get update download URL
+      let downloadUrl = "";
+      try {
+        downloadUrl = await ctx.runMutation(api.documents.getFileUrl, {
+          storageId: updatedDocument.fileStorageId,
+        }) || "";
+      } catch (urlError) {
+        console.error("Failed to get download URL for emails:", urlError);
+      }
+
+      // Send Signing Confirmation Email to owner
+      try {
+        await ctx.runAction(api.emails.sendSigningConfirmationEmail, {
+          ownerName: owner.firstName || owner.email,
+          signerName: signer.name || signer.email,
+          documentTitle: document.title,
+          dashboardUrl: `${appUrl}/dashboard`,
+          signedAt: new Date(signer.signedAt || Date.now()).toLocaleString(),
+          remainingSigners: remainingSigners,
+          to: owner.email,
+        });
+      } catch (emailError) {
+        console.error("Failed to send signing confirmation email to owner:", emailError);
+      }
+
+      // Send Signer Copy Email to signer
+      try {
+        await ctx.runAction(api.emails.sendSignerCopyEmail, {
+          signerName: signer.name || signer.email,
+          documentTitle: document.title,
+          downloadUrl: downloadUrl || "",
+          signedAt: new Date(signer.signedAt || Date.now()).toLocaleString(),
+          senderName: owner.firstName || owner.email,
+          to: signer.email,
+        });
+      } catch (signerEmailError) {
+        console.error("Failed to send copy email to signer:", signerEmailError);
+      }
+    } catch (globalError) {
+      console.error("Error in sendSignedEmailToOwner background task:", globalError);
     }
-
-    const allSigners = await ctx.runQuery(api.signers.getSigners, {
-      documentId: args.documentId,
-    });
-
-    // Count remaining signers based on uncompleted signature fields
-    const signatureFields = await ctx.runQuery(api.signatureFields.getDocumentSignatureFields, {
-      documentId: args.documentId,
-    });
-
-    const uncompletedFields = signatureFields.filter(
-      (field) => !field.isCompleted
-    );
-
-    // Count unique signers who still have uncompleted fields assigned to them
-    const remainingSignerEmails = new Set(
-      uncompletedFields
-        .map(field => field.signerEmail)
-        .filter(email => email)
-    );
-
-    const remainingSigners = remainingSignerEmails.size;
-
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL;
-    if (!appUrl) {
-      throw new Error("APP_URL environment variable not set!");
-    }
-
-    // Generate a PDF with all currently completed signatures for the signer's copy
-    await ctx.runAction(internal.actions.generateSignedPdf, {
-      documentId: args.documentId,
-    });
-
-    // Re-fetch document to get the new fileStorageId
-    const updatedDocument = await ctx.runQuery(api.documents.getDocument, {
-      documentId: args.documentId,
-    });
-
-    if (!updatedDocument) {
-      console.error("Document not found after PDF generation");
-      return;
-    }
-
-    // Get the updated document URL which now includes all completed signatures so far
-    const downloadUrl = await ctx.runMutation(api.documents.getFileUrl, {
-      storageId: updatedDocument.fileStorageId,
-    });
-
-    // Send Signing Confirmation Email to owner
-    await ctx.runAction(api.emails.sendSigningConfirmationEmail, {
-      ownerName: owner.firstName || owner.email,
-      signerName: signer.name || signer.email,
-      documentTitle: document.title,
-      dashboardUrl: `${appUrl}/dashboard`,
-      // @ts-expect-error
-      signedAt: new Date(signer.signedAt).toLocaleString(),
-      remainingSigners: remainingSigners,
-      to: owner.email,
-    });
-
-    // Send Signer Copy Email to signer
-    await ctx.runAction(api.emails.sendSignerCopyEmail, {
-      signerName: signer.name || signer.email,
-      documentTitle: document.title,
-      downloadUrl: downloadUrl || "",
-      // @ts-expect-error
-      signedAt: new Date(signer.signedAt).toLocaleString(),
-      senderName: owner.firstName || owner.email,
-      to: signer.email,
-    });
   },
 });
 
@@ -651,21 +659,31 @@ export const markDocumentAsViewed = mutation({
       throw new Error("Invalid access token");
     }
 
-    // Update signature field status
-    await ctx.db.patch(signatureField._id, {
-      status: "viewed",
-      viewedAt: Date.now(),
-    });
+    // Update signature field status only if it's not already signed or viewed
+    if (signatureField.status !== "signed" && signatureField.status !== "declined" && signatureField.status !== "viewed") {
+      await ctx.db.patch(signatureField._id, {
+        status: "viewed",
+        viewedAt: Date.now(),
+      });
 
-    // Add activity log
-    await ctx.db.insert("documentActivities", {
-      documentId: signatureField.documentId,
-      actorEmail: signatureField.signerEmail,
-      actorType: "signer",
-      actionType: "viewed",
-      details: "Document viewed by signer",
-      timestamp: Date.now(),
-    });
+      // Also mark the document as in_progress if it was just "sent"
+      const document = await ctx.db.get(signatureField.documentId);
+      if (document && document.status === "sent") {
+        await ctx.db.patch(document._id, {
+          status: "in_progress",
+          updatedAt: Date.now(),
+        });
+      }
+      // Add activity log only on first view
+      await ctx.db.insert("documentActivities", {
+        documentId: signatureField.documentId,
+        actorEmail: signatureField.signerEmail,
+        actorType: "signer",
+        actionType: "viewed",
+        details: "Document viewed by signer",
+        timestamp: Date.now(),
+      });
+    }
 
     return { success: true };
   },
@@ -758,6 +776,14 @@ export const finalizeDocument = mutation({
         documentId: args.documentId,
         signerEmail: signerEmail,
       });
+
+      // Update document to in_progress if not already and not finished
+      if (document.status === "sent") {
+        await ctx.db.patch(args.documentId, {
+          status: "in_progress",
+          updatedAt: Date.now(),
+        });
+      }
     }
 
     if (
@@ -784,44 +810,45 @@ export const finalizeDocument = mutation({
         timestamp: completedTimestamp,
       });
 
-      const owner = await ctx.runQuery(api.users.getCurrentUser, {
-        clerkId: document.ownerId,
-      });
-      if (!owner) {
-        console.error("Owner not found, cannot send completion emails.");
-        return { success: true };
-      }
-
-      const downloadUrl = await ctx.runMutation(api.documents.getFileUrl, {
-        storageId: document.fileStorageId,
-      });
-
-      for (const participant of allSigners) {
-        if (participant.email === owner.email) {
-          await ctx.scheduler.runAfter(
-            0,
-            api.emails.sendDocumentCompleteEmail,
-            {
-              to: owner.email,
-              ownerName: owner.firstName || owner.email,
-              documentTitle: document.title,
-              dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
-              downloadUrl: downloadUrl || "",
-              completedAt: new Date(completedTimestamp).toLocaleString(),
-              totalSigners: allSigners.length,
-            },
-          );
-        } else if (participant.email !== args.signerEmail) {
-          // Send to other signers who didn't just sign (they need the fully executed copy)
-          await ctx.scheduler.runAfter(0, api.emails.sendSignerCopyEmail, {
-            to: participant.email,
-            signerName: participant.name || participant.email,
-            documentTitle: document.title,
-            downloadUrl: downloadUrl || "",
-            signedAt: new Date(completedTimestamp).toLocaleString(),
-            senderName: owner.firstName || owner.email,
+      try {
+        const owner = await ctx.runQuery(api.users.getCurrentUser, {
+          clerkId: document.ownerId,
+        });
+        if (owner) {
+          const downloadUrl = await ctx.runMutation(api.documents.getFileUrl, {
+            storageId: document.fileStorageId,
           });
+
+          for (const participant of allSigners) {
+            if (participant.email === owner.email) {
+              await ctx.scheduler.runAfter(
+                0,
+                api.emails.sendDocumentCompleteEmail,
+                {
+                  to: owner.email,
+                  ownerName: owner.firstName || owner.email,
+                  documentTitle: document.title,
+                  dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
+                  downloadUrl: downloadUrl || "",
+                  completedAt: new Date(completedTimestamp).toLocaleString(),
+                  totalSigners: allSigners.length,
+                },
+              );
+            } else if (participant.email !== args.signerEmail) {
+              // Send to other signers who didn't just sign (they need the fully executed copy)
+              await ctx.scheduler.runAfter(0, api.emails.sendSignerCopyEmail, {
+                to: participant.email,
+                signerName: participant.name || participant.email,
+                documentTitle: document.title,
+                downloadUrl: downloadUrl || "",
+                signedAt: new Date(completedTimestamp).toLocaleString(),
+                senderName: owner.firstName || owner.email,
+              });
+            }
+          }
         }
+      } catch (error) {
+        console.error("Failed to schedule completion emails, but document is marked as completed:", error);
       }
     } else if (document.status !== "completed") {
       // The email was already sent above - no need to send again

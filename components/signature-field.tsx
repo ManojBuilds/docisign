@@ -139,7 +139,7 @@ function DraggableSignatureField({
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: field.id,
-      disabled: !isEditMode || isResizingRef.current || (!isDesktop && isDrawerOpen) || selectedTool !== "selection",
+      disabled: !isEditMode || isResizingRef.current || (!isDesktop && isDrawerOpen) || selectedTool !== "selection" || field.isCompleted,
     });
 
 
@@ -290,16 +290,16 @@ function DraggableSignatureField({
         ...style,
       }}
     >
-      {isEditMode && (
+      {isEditMode && !localField.isCompleted && (
         <div
           onPointerDown={onResizePointerDown}
-          className={`absolute bottom-[-3px] right-[-3px] w-3 h-3 bg-white border-2 border-gray-400 cursor-se-resize rounded-sm z-20 ${pixelWidth < 30 || pixelHeight < 30 ? 'w-2 h-2' : 'w-3 h-3'}`}
+          className={`absolute bottom-[-3px] right-[-3px] w-3 h-3 bg-white border-2 border-gray-400 cursor-se-resize rounded-none z-20 ${pixelWidth < 30 || pixelHeight < 30 ? 'w-2 h-2' : 'w-3 h-3'}`}
           style={{ pointerEvents: 'auto' }}
         />
       )}
       <div
         className={cn(
-          "w-full h-full border flex items-center justify-center relative group hover:bg-opacity-30 transition-all backdrop-blur-[1px]",
+          "w-full h-full border flex items-center justify-center relative group hover:bg-opacity-30 transition-all backdrop-blur-[1px] rounded-none",
           getSignerColor(localField.fieldType, localField.signerEmail)
         )}
         style={{
@@ -316,7 +316,7 @@ function DraggableSignatureField({
             }}
           >
             {/* Top controls bar */}
-            {isSelected && (
+            {isSelected && !localField.isCompleted && (
               <div
                 className="absolute w-fit -top-8 left-0 flex items-center space-x-1.5 z-30 pointer-events-auto bg-gray-900 text-white rounded-lg p-1.5 shadow-xl animate-in fade-in zoom-in-95 duration-200 cursor-default"
                 onMouseDown={(e) => e.stopPropagation()}
@@ -385,7 +385,6 @@ function DraggableSignatureField({
                 {/* Editable label */}
                 <input
                   type="text"
-                  autoFocus
                   value={localField.label || ""}
                   onChange={(e) => {
                     handleFieldUpdate({ label: e.target.value });
@@ -428,8 +427,17 @@ function DraggableSignatureField({
             )}
 
             {/* Main field content - icon and label */}
-            <div className="flex items-center justify-center w-full h-full">
+            <div className="flex items-center justify-center w-full h-full relative">
               {getFieldIcon(localField.fieldType)}
+              {localField.isCompleted && (
+                <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center">
+                  <div className="bg-green-500 text-white rounded-full p-0.5 shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         ) : (

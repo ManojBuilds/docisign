@@ -36,6 +36,7 @@ export const logActivity = mutation({
       v.literal("completed"),
       v.literal("expired"),
       v.literal("cancelled"),
+      v.literal("declined"),
       v.literal("reminder_sent")
     ),
     details: v.optional(v.string()),

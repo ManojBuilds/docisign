@@ -90,7 +90,13 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
     <div
       className={cn(
         "absolute inset-0 z-10",
-        selectedTool !== "selection" ? "cursor-crosshair bg-primary/[0.005]" : "pointer-events-auto"
+        selectedTool !== "selection" ? cn(
+          "cursor-crosshair",
+          selectedTool === 'signature' && "bg-blue-500/[0.01]",
+          selectedTool === 'initial' && "bg-emerald-500/[0.01]",
+          selectedTool === 'date' && "bg-amber-500/[0.01]",
+          selectedTool === 'text' && "bg-purple-500/[0.01]"
+        ) : "pointer-events-auto"
       )}
       onMouseDown={handleMouseDown}
       onClick={() => {
@@ -124,7 +130,13 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
 
       {isDragging && dragStart && dragCurrent && (
         <div
-          className="absolute border-2 border-primary bg-primary/10 rounded-sm shadow-lg flex items-center justify-center overflow-hidden"
+          className={cn(
+            "absolute border-2 shadow-xl flex items-center justify-center overflow-hidden rounded-none",
+            selectedTool === 'signature' && "border-blue-500 bg-blue-500/10",
+            selectedTool === 'initial' && "border-emerald-500 bg-emerald-500/10",
+            selectedTool === 'date' && "border-amber-500 bg-amber-500/10",
+            selectedTool === 'text' && "border-purple-500 bg-purple-500/10"
+          )}
           style={{
             left: Math.min(dragStart.x, dragCurrent.x) * scale,
             top: Math.min(dragStart.y, dragCurrent.y) * scale,
@@ -133,7 +145,13 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
             zIndex: 100,
           }}
         >
-          <div className="bg-primary text-white text-[10px] px-1 py-0.5 rounded-br capitalize">
+          <div className={cn(
+            "absolute top-0 left-0 text-white text-[9px] font-bold px-1.5 py-0.5 uppercase tracking-tighter rounded-none",
+            selectedTool === 'signature' && "bg-blue-500",
+            selectedTool === 'initial' && "bg-emerald-500",
+            selectedTool === 'date' && "bg-amber-500",
+            selectedTool === 'text' && "bg-purple-500"
+          )}>
             {selectedTool}
           </div>
         </div>

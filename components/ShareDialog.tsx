@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/drawer";
 import { Label } from "@/components/ui/label";
 import { api } from "@/convex/_generated/api";
-import { Id } from "@/convex/_generated/dataModel";
+import { Doc, Id } from "@/convex/_generated/dataModel";
 import useMediaQuery from "@/hooks/use-media-query";
 import { cn } from "@/lib/utils";
 import { useSignersStore } from "@/stores/signersStore";
@@ -41,7 +41,7 @@ import {
   UserPlus,
   X
 } from "lucide-react";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { Dispatch, FC, SetStateAction, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { Textarea } from "./ui/textarea";
 
@@ -104,14 +104,28 @@ interface DialogContentSharedProps {
   customMessage: string;
   setCustomMessage: Dispatch<SetStateAction<string>>;
   documentStatus?: string;
+  signatureFields?: Doc<"signatureFields">[];
 }
 
 const DialogContentShared: FC<DialogContentSharedProps> = ({
   hasUnassignedFields,
   customMessage,
   setCustomMessage,
+  signatureFields,
 }) => {
   const { signers } = useSignersStore();
+  const [expandedSigners, setExpandedSigners] = useState<Set<string>>(new Set());
+
+  const getSignerStatus = (email: string) => {
+    if (!signatureFields) return "pending";
+    const signerFields = signatureFields.filter(f => f.signerEmail === email);
+    if (signerFields.length === 0) return "pending";
+    const allCompleted = signerFields.every(f => f.isCompleted);
+    const someCompleted = signerFields.some(f => f.isCompleted);
+    if (allCompleted) return "signed";
+    if (someCompleted) return "partially_signed";
+    return "pending";
+  };
 
   return (
     <div className="space-y-6">
@@ -170,10 +184,31 @@ const DialogContentShared: FC<DialogContentSharedProps> = ({
                 </div>
 
                 <div className="text-right">
-                  <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
-                    <Clock className="w-3 h-3 mr-1" />
-                    Pending
-                  </span>
+                  {(() => {
+                    const status = getSignerStatus(signer.email);
+                    if (status === "signed") {
+                      return (
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
+                          <CheckCircle2 className="w-3 h-3 mr-1" />
+                          Signed
+                        </span>
+                      );
+                    }
+                    if (status === "partially_signed") {
+                      return (
+                        <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
+                          <FileCheck className="w-3 h-3 mr-1" />
+                          Partial
+                        </span>
+                      );
+                    }
+                    return (
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 border border-yellow-200">
+                        <Clock className="w-3 h-3 mr-1" />
+                        Pending
+                      </span>
+                    );
+                  })()}
                 </div>
               </div>
             ))
@@ -208,6 +243,65 @@ const DialogContentShared: FC<DialogContentSharedProps> = ({
           </div>
         </div>
       </div>
+
+      {/* Audit Trail in Config (New) */}
+      {signatureFields?.some(f => f.isCompleted) && (
+        <div className="pt-4 border-t border-dashed">
+          <div className="flex items-center gap-2 mb-4">
+            <Shield className="w-4 h-4 text-blue-600" />
+            <h3 className="font-bold text-gray-900 text-[10px] uppercase tracking-wider">Previous Audit Trail</h3>
+          </div>
+          <div className="space-y-2">
+            {Array.from(
+              signatureFields
+                .filter(field => field.isCompleted && field.auditTrail)
+                .reduce((acc, field) => {
+                  const existing = acc.get(field.signerEmail);
+                  if (!existing || (field.auditTrail?.signedAt || 0) > (existing.auditTrail?.signedAt || 0)) {
+                    acc.set(field.signerEmail, field);
+                  }
+                  return acc;
+                }, new Map<string, Doc<"signatureFields">>())
+                .values()
+            ).map((field, index) => {
+              const isExpanded = expandedSigners.has(field.signerEmail);
+              return (
+                <div key={field._id} className="bg-gray-50 border border-gray-100 rounded-lg overflow-hidden transition-all">
+                  <button
+                    onClick={() => {
+                      const next = new Set(expandedSigners);
+                      if (next.has(field.signerEmail)) next.delete(field.signerEmail);
+                      else next.add(field.signerEmail);
+                      setExpandedSigners(next);
+                    }}
+                    className="w-full text-left p-3 flex justify-between items-center hover:bg-white/50 transition-colors"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <p className="font-bold text-xs text-gray-900 truncate">{field.signerName || `Signer ${index + 1}`}</p>
+                      <p className="text-[9px] text-gray-500 truncate">{field.signerEmail}</p>
+                    </div>
+                    <Badge variant="outline" className="bg-emerald-50 text-emerald-700 border-emerald-100 text-[9px]">Signed</Badge>
+                  </button>
+                  {isExpanded && field.auditTrail && (
+                    <div className="px-3 pb-3 pt-1 animate-in slide-in-from-top-1 duration-200">
+                      <div className="grid grid-cols-2 gap-2 text-[10px] text-gray-600 bg-white/50 rounded p-2">
+                        <div>
+                          <span className="text-gray-400 block text-[8px] uppercase tracking-wider">Date</span>
+                          <span className="font-bold text-gray-900">{new Date(field.auditTrail.signedAt).toLocaleDateString()}</span>
+                        </div>
+                        <div>
+                          <span className="text-gray-400 block text-[8px] uppercase tracking-wider">IP</span>
+                          <span className="font-mono text-gray-900">{field.auditTrail.ip}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -224,10 +318,23 @@ export function ShareDialog({
   const signatureFields = useQuery(api.signatureFields.getDocumentSignatureFields, { documentId });
   const { signers, setSigners } = useSignersStore();
   const [customMessage, setCustomMessage] = useState("");
+  const [forceShowConfig, setForceShowConfig] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
   const [expandedSigners, setExpandedSigners] = useState<Set<string>>(new Set());
+  const hasPendingFields = signatureFields?.some(field => field.status === 'pending');
+  const hasCompletedFields = signatureFields?.some(field => field.isCompleted);
   const isDesktop = useMediaQuery("(min-width: 640px)");
+  const [internalOpen, setInternalOpen] = useState(false);
+  const isActualOpen = open !== undefined ? open : internalOpen;
+  const isOpenRef = useRef(isActualOpen);
+  isOpenRef.current = isActualOpen;
+  useEffect(() => {
+    if (showConfetti) {
+      const timer = setTimeout(() => setShowConfetti(false), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [showConfetti]);
 
   useEffect(() => {
     if (document && document.signatureFields) {
@@ -279,6 +386,7 @@ export function ShareDialog({
       customMessage={customMessage}
       setCustomMessage={setCustomMessage}
       documentStatus={document?.status}
+      signatureFields={signatureFields}
     />
   );
 
@@ -338,6 +446,19 @@ export function ShareDialog({
 
   const statusDisplay = getStatusDisplay();
 
+
+  const handleOpenChange = (val: boolean) => {
+    if (!val) {
+      setForceShowConfig(false);
+      setShowConfetti(false);
+    }
+    if (open !== undefined) {
+      onOpenChange?.(val);
+    } else {
+      setInternalOpen(val);
+    }
+  };
+
   if (isDesktop) {
     return (
       <>
@@ -353,7 +474,7 @@ export function ShareDialog({
             />
           </div>
         )}
-        <Dialog open={open} onOpenChange={onOpenChange}>
+        <Dialog open={isActualOpen} onOpenChange={handleOpenChange}>
           <DialogTrigger asChild>
             <Button className="w-full sm:w-auto font-semibold shadow-sm cursor-pointer">
               <Send className="w-4 h-4 mr-2" />
@@ -391,21 +512,42 @@ export function ShareDialog({
                   </DialogClose>
                 </div>
               </div>
-            ) : statusDisplay ? (
+            ) : (statusDisplay && !forceShowConfig) ? (
               <div className="flex flex-col h-full">
                 <div className={cn("p-8 text-center border-b", statusDisplay.color)}>
                   <div className="w-16 h-16 bg-white/50 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm backdrop-blur-sm">
                     {statusDisplay.icon}
                   </div>
-                  <DialogTitle className="text-xl font-bold mb-2 tracking-tight text-center">{statusDisplay.title}</DialogTitle>
+                  <DialogTitle className="text-xl font-bold mb-2 tracking-tight text-center">
+                    {hasPendingFields ? "New Fields Added" : statusDisplay.title}
+                  </DialogTitle>
                   <p className="text-sm opacity-90 max-w-sm mx-auto font-medium">
-                    {statusDisplay.message}
+                    {hasPendingFields
+                      ? "You have added new fields to this document. Save and send the request to notify signers."
+                      : statusDisplay.message}
                   </p>
                 </div>
 
                 <div className="flex-1 overflow-y-auto max-h-[60vh]">
-                  {/* Audit Trail for Completed Documents */}
-                  {document?.status === 'completed' && signatureFields && (
+                  {/* Action to re-send if new fields exist */}
+                  {hasPendingFields && (
+                    <div className="p-6 bg-blue-50/50 border-b border-blue-100 italic text-sm text-blue-700 text-center">
+                      <Button
+                        variant="link"
+                        onClick={() => {
+                          // This is a bit of a hack to force showing the config UI
+                          // by making statusDisplay effectively null for the main render
+                          setForceShowConfig(true);
+                        }}
+                        className="text-blue-600 font-bold hover:text-blue-700 underline"
+                      >
+                        Click here to configure and send new requests
+                      </Button>
+                    </div>
+                  )}
+
+                  {/* Audit Trail for Documents with at least one signature */}
+                  {hasCompletedFields && signatureFields && (
                     <div className="p-6 space-y-4">
                       <div className="flex items-center gap-2 mb-4 px-2">
                         <FileCheck className="w-5 h-5 text-blue-600" />
@@ -422,7 +564,7 @@ export function ShareDialog({
                                 acc.set(field.signerEmail, field);
                               }
                               return acc;
-                            }, new Map<string, typeof signatureFields[0]>())
+                            }, new Map<string, Doc<"signatureFields">>())
                             .values()
                         ).map((field, index) => {
                           const isExpanded = expandedSigners.has(field.signerEmail);
@@ -495,12 +637,20 @@ export function ShareDialog({
                   )}
                 </div>
 
-                <div className="p-6 border-t bg-gray-50">
+                <div className="p-6 border-t bg-gray-50 flex gap-3">
                   <DialogClose asChild>
-                    <Button variant="outline" className="w-full font-semibold bg-white shadow-sm">
+                    <Button variant="outline" className="flex-1 font-semibold bg-white shadow-sm">
                       Close
                     </Button>
                   </DialogClose>
+                  {hasPendingFields && (
+                    <Button
+                      onClick={() => setForceShowConfig(true)}
+                      className="flex-1 font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-md"
+                    >
+                      Configure & Send
+                    </Button>
+                  )}
                 </div>
               </div>
             ) : (
@@ -571,7 +721,7 @@ export function ShareDialog({
           />
         </div>
       )}
-      <Drawer open={open} onOpenChange={onOpenChange}>
+      <Drawer open={isActualOpen} onOpenChange={handleOpenChange}>
         <DrawerTrigger asChild>
           <Button className="w-full sm:w-auto font-semibold shadow-sm">
             <Send className="w-4 h-4 mr-2" />
@@ -599,19 +749,33 @@ export function ShareDialog({
                 </DrawerClose>
               </DrawerFooter>
             </div>
-          ) : statusDisplay ? (
-            /* Reuse Status Logic for Mobile */
+          ) : (statusDisplay && !forceShowConfig) ? (
             <div className="flex flex-col h-full">
               <DrawerHeader className="border-b">
                 <DrawerTitle className="flex items-center gap-2">
                   {statusDisplay.icon}
-                  {statusDisplay.title}
+                  {hasPendingFields ? "New Fields Added" : statusDisplay.title}
                 </DrawerTitle>
               </DrawerHeader>
               <div className="p-4 overflow-y-auto">
-                <p className="text-gray-600 mb-6">{statusDisplay.message}</p>
+                <p className="text-gray-600 mb-6 font-medium text-sm">
+                  {hasPendingFields
+                    ? "You have added new fields to this document. Save and send the request to notify signers."
+                    : statusDisplay.message}
+                </p>
+
+                {hasPendingFields && (
+                  <Button
+                    variant="outline"
+                    onClick={() => setForceShowConfig(true)}
+                    className="w-full mb-6 py-6 border-blue-200 text-blue-700 bg-blue-50/50 font-bold"
+                  >
+                    Configure & Send New Requests
+                  </Button>
+                )}
+
                 {/* Simplified Audit for Mobile */}
-                {document?.status === 'completed' && signatureFields && (
+                {hasCompletedFields && signatureFields && (
                   <div className="p-4 space-y-4">
                     <h4 className="font-bold text-xs uppercase text-gray-400 tracking-widest flex items-center gap-2 mb-2">
                       <Shield className="w-3 h-3" />
@@ -626,7 +790,7 @@ export function ShareDialog({
                             acc.set(field.signerEmail, field);
                           }
                           return acc;
-                        }, new Map<string, typeof signatureFields[0]>())
+                        }, new Map<string, Doc<"signatureFields">>())
                         .values()
                     ).map((f, index) => {
                       const isExpanded = expandedSigners.has(f.signerEmail);

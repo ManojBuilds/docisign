@@ -8,6 +8,7 @@ import { Problem } from "@/components/Problem";
 // import TestimonialsSection from "@/components/testimonials";
 import Hero from "@/components/Hero";
 import Pricing from "@/components/Pricing";
+import VideoDemo from "@/components/VideoDemo";
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
 
       <main className="px-4 sm:px-0 w-full flex-1">
         <Hero />
+        <VideoDemo />
         <HowItWorks />
         <Problem />
         <Features />

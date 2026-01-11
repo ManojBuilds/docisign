@@ -56,7 +56,9 @@ export function Header({
               <Button variant="ghost" asChild>
                 <Link href="/dashboard">Dashboard</Link>
               </Button>
-              <UserButton afterSignOutUrl="/" />
+              <span className="hidden sm:block">
+                <UserButton afterSignOutUrl="/" />
+              </span>
             </>
           ) : (
             <>
@@ -108,11 +110,7 @@ export function Header({
             >
               {isSignedIn ? (
                 <div className="flex flex-col gap-2">
-                  <Button variant="ghost" asChild className="w-full">
-                    <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)}>
-                      Dashboard
-                    </Link>
-                  </Button>
+
                   <UserButton afterSignOutUrl="/" />
                 </div>
               ) : (
