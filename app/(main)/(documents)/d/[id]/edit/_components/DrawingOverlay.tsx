@@ -25,6 +25,9 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
   const handleMouseDown = (e: React.MouseEvent) => {
     if (selectedTool === "selection") return;
 
+    // Prevent default browser behavior (text selection, image drag, etc.)
+    e.preventDefault();
+
     const rect = (e.currentTarget as HTMLDivElement).getBoundingClientRect();
     const x = (e.clientX - rect.left) / scale;
     const y = (e.clientY - rect.top) / scale;
@@ -36,25 +39,22 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
   };
 
   useEffect(() => {
-    if (!isDragging) return;
+    if (!isDragging || !dragRect || !dragStart) return;
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!dragRect) return;
       const x = (e.clientX - dragRect.left) / scale;
       const y = (e.clientY - dragRect.top) / scale;
       setDragCurrent({ x, y });
     };
 
-    const handleMouseUp = () => {
-      if (!dragStart || !dragCurrent) {
-        setIsDragging(false);
-        return;
-      }
+    const handleMouseUp = (e: MouseEvent) => {
+      const currentX = (e.clientX - dragRect.left) / scale;
+      const currentY = (e.clientY - dragRect.top) / scale;
 
-      const x = Math.min(dragStart.x, dragCurrent.x);
-      const y = Math.min(dragStart.y, dragCurrent.y);
-      const width = Math.abs(dragStart.x - dragCurrent.x);
-      const height = Math.abs(dragStart.y - dragCurrent.y);
+      const x = Math.min(dragStart.x, currentX);
+      const y = Math.min(dragStart.y, currentY);
+      const width = Math.abs(dragStart.x - currentX);
+      const height = Math.abs(dragStart.y - currentY);
 
       if (width < 20 || height < 10) {
         onAddField(selectedTool as SignatureFieldData["fieldType"], {
@@ -84,12 +84,12 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mouseup", handleMouseUp);
     };
-  }, [isDragging, dragStart, dragCurrent, dragRect, scale, selectedTool, onAddField, pageNumber]);
+  }, [isDragging, dragRect, dragStart, scale, selectedTool, onAddField, pageNumber]);
 
   return (
     <div
       className={cn(
-        "absolute inset-0 z-10",
+        "absolute inset-0 z-10 select-none",
         selectedTool !== "selection" ? cn(
           "cursor-crosshair",
           selectedTool === 'signature' && "bg-blue-500/[0.01]",

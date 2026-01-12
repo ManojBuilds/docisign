@@ -68,6 +68,7 @@ const UploadContent: FC<UploadContentProps> = ({
   file,
   setFile,
   isUploading,
+  setTitle,
   uploadProgress,
   statusMessage,
   currentEmail,
@@ -124,7 +125,7 @@ const UploadContent: FC<UploadContentProps> = ({
                 variant="ghost"
                 size="icon"
                 className="text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full"
-                onClick={() => setFile(null)}
+                onClick={() => { setFile(null); setTitle(''); }}
                 disabled={isUploading}
               >
                 <X className="w-4 h-4" />

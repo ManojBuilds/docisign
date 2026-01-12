@@ -189,12 +189,12 @@ const VideoDemo = () => {
       {/* Video Container Area */}
       <div className="relative max-w-5xl w-full p-2 sm:p-4 md:p-8 rounded-2xl md:rounded-[2rem] bg-amber-50/50 border border-amber-100/50">
         <div className="relative w-full aspect-video rounded-xl md:rounded-2xl overflow-hidden shadow-2xl bg-white border border-slate-200">
-          {/* Tella Embed */}
+          {/* Mux Embed */}
           <iframe
-            className="w-full h-full border-0"
-            src="https://www.tella.tv/video/vid_cmk9oadwu001b04jx5iq0b35n/embed?b=0&title=0&a=1&loop=0&autoPlay=true&t=0&muted=1&wt=0"
+            src="https://player.mux.com/r00gX1OF5Esw3iCPhFiYEK1LFE0200a8U1hxHggV7K8X600"
+            style={{ width: "100%", border: "none", aspectRatio: "16/9" }}
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
             allowFullScreen
-            title="Boopsign Demo"
           ></iframe>
         </div>
 

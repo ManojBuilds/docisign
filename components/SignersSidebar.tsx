@@ -4,6 +4,7 @@ import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { cn } from '@/lib/utils';
 import { useDocumentEditorStore } from '@/stores/document-editor-store';
+import { useSignersStore } from '@/stores/signersStore';
 import { useUser } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import {
@@ -53,15 +54,25 @@ export function SignersSidebar({ }: SignersSidebarProps) {
   const { user } = useUser();
   const allSigners = useQuery(api.signers.getUserSigners, user ? { ownerId: user.id } : 'skip');
 
+  const { signers: storeSigners } = useSignersStore();
+
   const documentSigners = useMemo(() => {
     const signersMap = new Map<string, string>();
+
+    // First, add all signers from the store
+    storeSigners.forEach(s => {
+      signersMap.set(s.email, s.name || s.email);
+    });
+
+    // Then, potentially add signers from fields (though they should already be in storeSigners)
     signatureFields.forEach(field => {
-      if (field.signerEmail) {
+      if (field.signerEmail && !signersMap.has(field.signerEmail)) {
         signersMap.set(field.signerEmail, field.signerName || field.signerEmail);
       }
     });
+
     return Array.from(signersMap.entries()).map(([email, name]) => ({ email, name }));
-  }, [signatureFields]);
+  }, [storeSigners, signatureFields]);
 
   const activeFields = useMemo(() => {
     return signatureFields

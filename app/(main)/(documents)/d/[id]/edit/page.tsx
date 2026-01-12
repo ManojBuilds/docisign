@@ -11,8 +11,7 @@ import { useDocumentEditorStore } from "@/stores/document-editor-store";
 import { useSignersStore } from "@/stores/signersStore";
 import { useMutation, useQuery } from "convex/react";
 import {
-  AlertCircle,
-  PenTool
+  AlertCircle
 } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -201,11 +200,24 @@ export default function DocumentEditor() {
     setIsLoaded(false);
   }, [documentId]);
 
-  // Sync signers list from signature fields - Memoized for performance
+  // Get signers from the recipients store (URL/Manual additions)
+  const recipientSigners = useSignersStore((s) => s.signers);
+
+  // Sync signers list from both signature fields and the recipient store - Memoized for performance
   const uniqueSignersMap = useMemo(() => {
     const map = new Map<string, Signer>();
+
+    // 1. Start with signers from the store (populated from URL or manual add)
+    recipientSigners.forEach(s => {
+      map.set(s.email, {
+        email: s.email,
+        name: s.name || "",
+      });
+    });
+
+    // 2. Add/Sync from signature fields (official source of document state)
     signatureFields.forEach((field) => {
-      if (field.signerEmail && !map.has(field.signerEmail)) {
+      if (field.signerEmail) {
         map.set(field.signerEmail, {
           email: field.signerEmail,
           name: field.signerName || "",
@@ -213,7 +225,7 @@ export default function DocumentEditor() {
       }
     });
     return Array.from(map.values()).sort((a, b) => a.email.localeCompare(b.email));
-  }, [signatureFields]);
+  }, [signatureFields, recipientSigners]);
 
   useEffect(() => {
     const sortedCurrent = [...(signers || [])].sort((a, b) =>
@@ -229,90 +241,25 @@ export default function DocumentEditor() {
   const [autoPlaced, setAutoPlaced] = useState(false);
 
   useEffect(() => {
-    console.log("Auto-placing signature fields...", autoPlaced);
-    if (autoPlaced) return; // Don't run if already placed
+    if (autoPlaced) return;
 
     const urlParams = new URLSearchParams(window.location.search);
     const clientEmailsParam = urlParams.get('clientEmails');
-    console.log("Client emails param:", clientEmailsParam);
 
     if (clientEmailsParam) {
       const clientEmails = clientEmailsParam.split(',').map(decodeURIComponent);
 
-      // Only proceed if document signature fields have been loaded to avoid duplication
-      if (!document?.signatureFields) {
-        console.log("Document signature fields not loaded yet, waiting...");
-        return;
-      }
-
-      // Check if signature fields already exist for these emails to avoid duplication
-      // Get existing signer emails from current document signature fields
-      const existingSignerEmails = document.signatureFields
-        .filter(field => field && field.signerEmail) // Filter out null/undefined fields and emails
-        .map(field => field.signerEmail);
-
-      // Only process emails that don't already have signature fields
-      const newEmails = clientEmails.filter(email => !existingSignerEmails.includes(email));
-
-      if (newEmails.length === 0) {
-        // All emails already have signature fields, mark as auto-placed
-        setAutoPlaced(true);
-        console.log("All emails already have signature fields, marking as auto-placed");
-        return;
-      }
-
-      console.log("New emails to create fields for:", newEmails);
-
-      // Check if we have page dimensions for page 1 before proceeding
-      const dims = pageDimensions[1];
-      if (!dims) {
-        console.log("Page dimensions not ready for page 1");
-        return; // Wait until dimensions are available
-      }
-
-      // Auto-place signature fields for each new client email
-      newEmails.forEach((email, index) => {
-        // Center the field horizontally and place it in the upper middle
-        const fieldWidth = 150;
-        const fieldHeight = 40;
-        const x = (dims.width - fieldWidth) / 2;
-        const y = (dims.height * 0.3) + (index * 60); // Stack them with spacing
-
-        const tempId = crypto.randomUUID();
-
-        const newField: SignatureFieldData = {
-          id: tempId,
-          fieldType: "signature",
-          page: 1,
-          signerEmail: email,
-          signerName: "",
-          isRequired: true,
-          label: "",
-          normalizedX: x / dims.width,
-          normalizedY: y / dims.height,
-          normalizedWidth: fieldWidth / dims.width,
-          normalizedHeight: fieldHeight / dims.height,
-        };
-
-        addFieldToStore(newField);
-        // UX Enhancement: Auto-select the newly created field so user notices it immediately
-        setSelectedFieldId(tempId);
-
-        // Also add to signers store for consistency
+      // Add these emails to the signers store so they are available for assignment
+      clientEmails.forEach(email => {
         useSignersStore.getState().addSigner({ email, name: "" });
       });
 
-      toast.info("Signature field added. Drag to position it correctly.", {
-        duration: 4000,
-        icon: <PenTool className="w-4 h-4" />,
-      });
-
-      setAutoPlaced(true); // Mark as auto-placed to prevent re-running
+      console.log("Registered signers from URL:", clientEmails);
+      setAutoPlaced(true);
     } else {
-      // If there are no client emails in URL, still mark as auto-placed to prevent any potential issues
       setAutoPlaced(true);
     }
-  }, [pageDimensions, documentId, addFieldToStore, autoPlaced, document?.signatureFields, setSelectedFieldId]);
+  }, [autoPlaced]);
 
   const handleSaveAllFields = useCallback(async () => {
     if (!isLoaded || Object.keys(pageDimensions).length === 0) {
@@ -385,13 +332,23 @@ export default function DocumentEditor() {
       const height = dimensions?.height ?? 40;
 
       const tempId = crypto.randomUUID();
+      let firstSignerEmail = signers[0]?.email || recipientSigners[0]?.email || "";
+
+      // Fallback: Check URL directly if stores haven't synced yet
+      if (!firstSignerEmail) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const clientEmailsParam = urlParams.get('clientEmails');
+        if (clientEmailsParam) {
+          firstSignerEmail = decodeURIComponent(clientEmailsParam.split(',')[0]);
+        }
+      }
 
       const newField: SignatureFieldData = {
         id: tempId,
         fieldType,
         page,
-        signerEmail: "",
-        signerName: "",
+        signerEmail: firstSignerEmail,
+        signerName: "", // We don't have the name in the URL fallback
         isRequired: true,
         label: "",
         normalizedX: x / dims.width,
@@ -403,7 +360,7 @@ export default function DocumentEditor() {
       addFieldToStore(newField);
       setSelectedFieldId(tempId);
     },
-    [pageDimensions, currentPage, addFieldToStore, setSelectedFieldId],
+    [pageDimensions, currentPage, addFieldToStore, setSelectedFieldId, signers, recipientSigners],
   );
 
   const handleUpdateFieldInStore = useCallback((updatedField: SignatureFieldData) => {
