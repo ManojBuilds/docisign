@@ -14,7 +14,7 @@ const Footer = () => {
                 The simplest e-signature solution for modern businesses.
               </p>
               <div className="flex items-center text-sm text-muted-foreground">
-                <ShieldCheckIcon size={18} className="text-primary"/>
+                <ShieldCheckIcon size={18} className="text-primary" />
                 <span>Secure & legally binding</span>
               </div>
               <p className="text-xs text-muted-foreground/80 mt-4">
@@ -123,6 +123,61 @@ const Footer = () => {
                   <div className="flex items-start">
                     <span className="mr-2 text-green-500">✓</span>
                     <span>Real estate solutions</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/healthcare-document-signing"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-green-500">✓</span>
+                    <span>Healthcare solutions</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/fintech-document-signing"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-green-500">✓</span>
+                    <span>Fintech & Finance</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/education-document-signing"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-green-500">✓</span>
+                    <span>Education & Schools</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/esignature-for-freelancers"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-green-500">✓</span>
+                    <span>For Freelancers</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/esignature-for-consultants"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-green-500">✓</span>
+                    <span>For Consultants</span>
                   </div>
                 </a>
               </li>

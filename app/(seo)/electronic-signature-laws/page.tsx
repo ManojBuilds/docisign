@@ -1,13 +1,13 @@
-import { CheckCircle, Star, ArrowRight, FileText, Shield, Globe, Users, BookOpen } from "lucide-react";
-import { Metadata } from "next";
 import StartTrialBtn from "@/components/StartTrialBtn";
-import Faq from "@/components/faq";
 import Cta from "@/components/cta";
+import Faq from "@/components/faq";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, BookOpen, CheckCircle, FileText, Globe, Shield, Star, Users } from "lucide-react";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Complete Guide to Electronic Signature Laws & Regulations in 2025",
+  title: "Complete Guide to Electronic Signature Laws & Regulations in 2026",
   description:
     "Everything you need to know about e-signature legality worldwide. ESIGN Act, eIDAS, UETA and more. Informational guide for compliance.",
   keywords: [
@@ -88,7 +88,7 @@ export default function ElectronicSignatureLawsPage() {
             </Badge>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Complete Guide to <span className="text-blue-600">Electronic Signature Laws</span> 
+            Complete Guide to <span className="text-blue-600">Electronic Signature Laws</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-4xl mx-auto mb-8">
             Understand e-signature legality worldwide. Learn about ESIGN Act, eIDAS, UETA and compliance requirements for legally binding digital agreements.
@@ -413,26 +413,26 @@ export default function ElectronicSignatureLawsPage() {
                   </div>
                 </div>
                 <p className="text-gray-700">
-                  Basic e-signature captured through a click, typed name, or drawn signature. 
+                  Basic e-signature captured through a click, typed name, or drawn signature.
                   Legally binding with proper consent and intent verification.
                 </p>
                 <ul className="text-left text-gray-700 space-y-2 pl-4">
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Most commonly used type</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Sufficient for most business documents</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Lower security requirements</span>
                   </li>
                 </ul>
               </CardContent>
             </Card>
-            
+
             <Card className="bg-gray-50">
               <CardHeader>
                 <h3 className="font-bold text-xl">Advanced Electronic Signature</h3>
@@ -444,26 +444,26 @@ export default function ElectronicSignatureLawsPage() {
                   </div>
                 </div>
                 <p className="text-gray-700">
-                  E-signature linked to a verified signer's identity with enhanced security measures. 
+                  E-signature linked to a verified signer's identity with enhanced security measures.
                   Uniquely linked to the signatory and capable of identifying them.
                 </p>
                 <ul className="text-left text-gray-700 space-y-2 pl-4">
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Identity verification required</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Protected against tampering</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Higher legal weight</span>
                   </li>
                 </ul>
               </CardContent>
             </Card>
-            
+
             <Card className="bg-gray-50">
               <CardHeader>
                 <h3 className="font-bold text-xl">Qualified Electronic Signature</h3>
@@ -475,20 +475,20 @@ export default function ElectronicSignatureLawsPage() {
                   </div>
                 </div>
                 <p className="text-gray-700">
-                  Most secure type of e-signature requiring a qualified certificate from a trusted provider. 
+                  Most secure type of e-signature requiring a qualified certificate from a trusted provider.
                   Legal equivalent of a handwritten signature under EU law.
                 </p>
                 <ul className="text-left text-gray-700 space-y-2 pl-4">
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Highest level of security</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Qualified certificate required</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Presumed valid in court</span>
                   </li>
                 </ul>
@@ -509,7 +509,7 @@ export default function ElectronicSignatureLawsPage() {
               Key elements that ensure your electronic signatures meet legal standards.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-10">
             <div>
               <h3 className="text-xl font-bold mb-6">Essential Requirements</h3>
@@ -551,7 +551,7 @@ export default function ElectronicSignatureLawsPage() {
                 </li>
               </ul>
             </div>
-            
+
             <div>
               <h3 className="text-xl font-bold mb-6">Best Practices</h3>
               <ul className="space-y-4">
@@ -704,8 +704,8 @@ export default function ElectronicSignatureLawsPage() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2 text-gray-700">
                   <ArrowRight /> Consider carefully if...
-                  </CardTitle>
-                </CardHeader>
+                </CardTitle>
+              </CardHeader>
               <CardContent>
                 <ul className="space-y-2 text-gray-700 list-disc pl-5">
                   <li>You need to sign documents requiring notarization</li>

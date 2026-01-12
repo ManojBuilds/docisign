@@ -1,5 +1,6 @@
-import Footer from "@/components/Footer";
 import { ClientHeaderWrapper } from "@/components/ClientHeaderWrapper";
+import Footer from "@/components/Footer";
+import TestimonialsSection from "@/components/testimonials";
 import React from "react";
 
 export default function SeoLayout({ children }: { children: React.ReactNode }) {
@@ -7,6 +8,7 @@ export default function SeoLayout({ children }: { children: React.ReactNode }) {
     <>
       <ClientHeaderWrapper />
       {children}
+      <TestimonialsSection />
       <Footer />
       <div
         style={{

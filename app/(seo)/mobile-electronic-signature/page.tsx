@@ -1,7 +1,7 @@
-import type { Metadata } from "next";
+import Cta from "@/components/cta";
 import Faq from "@/components/faq";
 import { CheckCircle, XCircle } from "lucide-react";
-import Cta from "@/components/cta";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
@@ -406,7 +406,7 @@ export default function MobileElectronicSignaturePage() {
                   <tr>
                     <td className="py-4 px-4 text-gray-700">Cost per Month</td>
                     <td className="py-4 px-4 text-center font-bold text-green-600">
-                      $12
+                      $15
                     </td>
                     <td className="py-4 px-4 text-center text-red-600">$25+</td>
                   </tr>

@@ -1,13 +1,13 @@
-import { CheckCircle, XCircle, ArrowRight, FileText, Zap, Smartphone, Shield, User, Link as LinkIcon, Download, Upload } from "lucide-react";
-import { Metadata } from "next";
 import StartTrialBtn from "@/components/StartTrialBtn";
-import Faq from "@/components/faq";
 import Cta from "@/components/cta";
+import Faq from "@/components/faq";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, CheckCircle, Download, FileText, Link as LinkIcon, Shield, Smartphone, Upload, User, XCircle, Zap } from "lucide-react";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "How to Create Electronic Signatures: Complete Step-by-Step Guide 2025",
+  title: "How to Create Electronic Signatures: Complete Step-by-Step Guide 2026",
   description:
     "Learn how to create electronic signatures in 5 minutes. Step-by-step instructions for mobile, desktop, and PDF documents. Legally compliant with BoopSign.",
   keywords: [
@@ -75,7 +75,7 @@ const signatureCreationFaq = [
     id: "faq-8",
     question: "Are there any costs associated with creating electronic signatures?",
     answer:
-      "Basic signature creation is usually free, but for legally compliant solutions with audit trails and security features, platforms like BoopSign cost just $12/month for unlimited signatures.",
+      "Basic signature creation is usually free, but for legally compliant solutions with audit trails and security features, platforms like BoopSign cost just $15/month for unlimited signatures.",
   },
 ];
 

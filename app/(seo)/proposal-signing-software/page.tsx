@@ -1,14 +1,14 @@
-import { CheckCircle, XCircle, Star, ArrowRight, FileText, Send, Zap, DollarSign, Smartphone } from "lucide-react";
-import { Metadata } from "next";
-import Link from "next/link";
 import StartTrialBtn from "@/components/StartTrialBtn";
-import Faq from "@/components/faq";
 import Cta from "@/components/cta";
+import Faq from "@/components/faq";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, CheckCircle, DollarSign, FileText, Send, Smartphone, Star, XCircle, Zap } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Best Proposal Signing Software for Freelancers & Small Businesses in 2025",
+  title: "Best Proposal Signing Software for Freelancers & Small Businesses in 2026",
   description:
     "BoopSign is the proposal signing software that gets documents signed 3x faster with no account required. Perfect for freelancers and consultants.",
   keywords: [
@@ -83,10 +83,10 @@ export default function ProposalSigningSoftwarePage() {
       <section className="text-center py-16 md:py-20 px-4">
         <div className="container mx-auto max-w-6xl">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            The Best <span className="text-blue-600">Proposal Signing Software</span> 
+            The Best <span className="text-blue-600">Proposal Signing Software</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-4xl mx-auto mb-8">
-            Get your proposals signed 3x faster with BoopSign. No account required for signers, 
+            Get your proposals signed 3x faster with BoopSign. No account required for signers,
             mobile-first design, and built specifically for freelancers and consultants.
           </p>
 
@@ -132,7 +132,7 @@ export default function ProposalSigningSoftwarePage() {
             Why Fast Proposal Signing is Critical for Your Business
           </h2>
           <p className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
-            Research shows that 52% of proposals are signed within 24 hours when using mobile-optimized 
+            Research shows that 52% of proposals are signed within 24 hours when using mobile-optimized
             signing tools. BoopSign's streamlined process helps you close deals 3x faster than traditional tools.
           </p>
 
@@ -145,19 +145,19 @@ export default function ProposalSigningSoftwarePage() {
               </CardHeader>
               <CardContent className="space-y-4 text-gray-700">
                 <p>
-                  <span className="font-bold">📱 Mobile Incompatibility:</span> Many 
+                  <span className="font-bold">📱 Mobile Incompatibility:</span> Many
                   traditional tools don't work well on mobile devices.
                 </p>
                 <p>
-                  <span className="font-bold">🔐 Account Requirements:</span> Forcing 
+                  <span className="font-bold">🔐 Account Requirements:</span> Forcing
                   clients to create accounts creates friction and delays.
                 </p>
                 <p>
-                  <span className="font-bold">⏰ Slow Processing:</span> Average 
+                  <span className="font-bold">⏰ Slow Processing:</span> Average
                   proposal signing takes 7-9 minutes with complex tools.
                 </p>
                 <p>
-                  <span className="font-bold">💸 Expensive Overkill:</span> Paying for 
+                  <span className="font-bold">💸 Expensive Overkill:</span> Paying for
                   enterprise features you'll never use.
                 </p>
               </CardContent>
@@ -172,29 +172,29 @@ export default function ProposalSigningSoftwarePage() {
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />{" "}
                   <span>
-                    <span className="font-bold">Mobile-First Design:</span> Optimized 
+                    <span className="font-bold">Mobile-First Design:</span> Optimized
                     for signing on any device with touch interfaces.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />{" "}
                   <span>
-                    <span className="font-bold">No Account Required:</span> Clients 
+                    <span className="font-bold">No Account Required:</span> Clients
                     click a link and sign instantly.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />{" "}
                   <span>
-                    <span className="font-bold">3-Minute Signing:</span> 3x faster 
+                    <span className="font-bold">3-Minute Signing:</span> 3x faster
                     than traditional tools.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />{" "}
                   <span>
-                    <span className="font-bold">Simple & Affordable:</span> Just 
-                    $12/month total, not per user or document.
+                    <span className="font-bold">Simple & Affordable:</span> Just
+                    $15/month total, not per user or document.
                   </span>
                 </p>
               </CardContent>
@@ -224,7 +224,7 @@ export default function ProposalSigningSoftwarePage() {
                 <div>
                   <h3 className="font-bold text-xl mb-2">Proposal Templates & Customization</h3>
                   <p className="text-gray-700">
-                    Start with professional proposal templates or upload your existing ones. 
+                    Start with professional proposal templates or upload your existing ones.
                     Add your branding, pricing tables, and signature fields for a polished presentation.
                   </p>
                 </div>
@@ -236,7 +236,7 @@ export default function ProposalSigningSoftwarePage() {
                 <div>
                   <h3 className="font-bold text-xl mb-2">Mobile-Optimized Proposal Experience</h3>
                   <p className="text-gray-700">
-                    Clients can review your proposals and sign seamlessly on smartphones, 
+                    Clients can review your proposals and sign seamlessly on smartphones,
                     tablets, or desktops without any app downloads. Perfect for on-the-go decision makers.
                   </p>
                 </div>
@@ -248,7 +248,7 @@ export default function ProposalSigningSoftwarePage() {
                 <div>
                   <h3 className="font-bold text-xl mb-2">Real-Time Proposal Tracking</h3>
                   <p className="text-gray-700">
-                    Know exactly when clients open, view specific sections of, and sign your proposals. 
+                    Know exactly when clients open, view specific sections of, and sign your proposals.
                     Follow up strategically with engagement data to close deals faster.
                   </p>
                 </div>
@@ -262,7 +262,7 @@ export default function ProposalSigningSoftwarePage() {
                 <div>
                   <h3 className="font-bold text-xl mb-2">Instant Proposal Delivery</h3>
                   <p className="text-gray-700">
-                    Send professionally branded proposals directly to clients via email or secure link. 
+                    Send professionally branded proposals directly to clients via email or secure link.
                     Include auto-reminders to ensure your proposals don't get lost in crowded inboxes.
                   </p>
                 </div>
@@ -274,7 +274,7 @@ export default function ProposalSigningSoftwarePage() {
                 <div>
                   <h3 className="font-bold text-xl mb-2">Legally Binding Signatures</h3>
                   <p className="text-gray-700">
-                    Electronic signatures are legally compliant with ESIGN Act 
+                    Electronic signatures are legally compliant with ESIGN Act
                     and eIDAS regulations with audit trails for full legal validity.
                   </p>
                 </div>
@@ -286,7 +286,7 @@ export default function ProposalSigningSoftwarePage() {
                 <div>
                   <h3 className="font-bold text-xl mb-2">Proposal-Specific Pricing</h3>
                   <p className="text-gray-700">
-                    No per-proposal charges or per-signer fees. Just one flat rate 
+                    No per-proposal charges or per-signer fees. Just one flat rate
                     that scales with your business, perfect for high-volume proposers.
                   </p>
                 </div>
@@ -364,7 +364,7 @@ export default function ProposalSigningSoftwarePage() {
                       Monthly Cost
                     </td>
                     <td className="py-4 px-4 text-center font-bold text-green-600">
-                      $12/month
+                      $15/month
                     </td>
                     <td className="py-4 px-4 text-center text-red-600">
                       $25+/month per user
@@ -391,7 +391,7 @@ export default function ProposalSigningSoftwarePage() {
             Perfect for All Types of Professionals
           </h2>
           <p className="text-xl mb-12 opacity-90">
-            Whether you're a freelancer, consultant, or small business owner, BoopSign 
+            Whether you're a freelancer, consultant, or small business owner, BoopSign
             streamlines your proposal workflow.
           </p>
 
@@ -407,26 +407,26 @@ export default function ProposalSigningSoftwarePage() {
                   </div>
                 </div>
                 <p className="text-gray-700">
-                  Send proposals and get them signed without the complexity of enterprise tools. 
+                  Send proposals and get them signed without the complexity of enterprise tools.
                   Close deals faster and focus on your work.
                 </p>
                 <ul className="text-left text-gray-700 space-y-2 pl-4">
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Simple interface</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Mobile-friendly for clients</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Affordable pricing</span>
                   </li>
                 </ul>
               </CardContent>
             </Card>
-            
+
             <Card className="bg-gray-50">
               <CardHeader>
                 <h3 className="font-bold text-xl">Consultants</h3>
@@ -438,27 +438,27 @@ export default function ProposalSigningSoftwarePage() {
                   </div>
                 </div>
                 <p className="text-gray-700">
-                  Professional proposal templates with seamless signature collection. 
-                  Impress clients with a polished, efficient process. See how our {" "} <Link href="/mobile-electronic-signature" className="text-blue-600 hover:underline mr-1">mobile-first approach</Link> 
+                  Professional proposal templates with seamless signature collection.
+                  Impress clients with a polished, efficient process. See how our {" "} <Link href="/mobile-electronic-signature" className="text-blue-600 hover:underline mr-1">mobile-first approach</Link>
                   benefits consultants specifically.
                 </p>
                 <ul className="text-left text-gray-700 space-y-2 pl-4">
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Brand consistency</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Real-time tracking</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Client-friendly process</span>
                   </li>
                 </ul>
               </CardContent>
             </Card>
-            
+
             <Card className="bg-gray-50">
               <CardHeader>
                 <h3 className="font-bold text-xl">Small Businesses</h3>
@@ -470,20 +470,20 @@ export default function ProposalSigningSoftwarePage() {
                   </div>
                 </div>
                 <p className="text-gray-700">
-                  Streamline your sales process with fast, efficient proposal signing. 
+                  Streamline your sales process with fast, efficient proposal signing.
                   Reduce friction and accelerate your revenue cycle.
                 </p>
                 <ul className="text-left text-gray-700 space-y-2 pl-4">
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Cost-effective</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Quick setup</span>
                   </li>
                   <li className="flex items-start">
-                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" /> 
+                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                     <span>Improved close rates</span>
                   </li>
                 </ul>
@@ -516,8 +516,8 @@ export default function ProposalSigningSoftwarePage() {
                   <Star />
                 </div>
                 <p className="mb-4 italic">
-                  "As a freelance designer, my clients were always complaining about signing 
-                  complex documents. BoopSign has made it so easy - they get the link, 
+                  "As a freelance designer, my clients were always complaining about signing
+                  complex documents. BoopSign has made it so easy - they get the link,
                   sign on their phone in seconds, and I get paid faster."
                 </p>
                 <p className="font-semibold">- Emma S., Freelance Designer</p>
@@ -533,8 +533,8 @@ export default function ProposalSigningSoftwarePage() {
                   <Star />
                 </div>
                 <p className="mb-4 italic">
-                  "My consulting proposals were getting stuck in email chains. Since switching 
-                  to BoopSign, signing time dropped from days to hours. The mobile experience 
+                  "My consulting proposals were getting stuck in email chains. Since switching
+                  to BoopSign, signing time dropped from days to hours. The mobile experience
                   made all the difference for my clients."
                 </p>
                 <p className="font-semibold">
@@ -552,8 +552,8 @@ export default function ProposalSigningSoftwarePage() {
                   <Star />
                 </div>
                 <p className="mb-4 italic">
-                  "We switched from a complex enterprise tool to BoopSign and reduced our 
-                  proposal-to-payment cycle by 60%. The no-account requirement is a game-changer 
+                  "We switched from a complex enterprise tool to BoopSign and reduced our
+                  proposal-to-payment cycle by 60%. The no-account requirement is a game-changer
                   for getting client signatures."
                 </p>
                 <p className="font-semibold">
@@ -573,7 +573,7 @@ export default function ProposalSigningSoftwarePage() {
               Top 5 Reasons for Proposal Signing Success
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              BoopSign is more than just a proposal signing tool. It's a complete 
+              BoopSign is more than just a proposal signing tool. It's a complete
               solution for closing deals faster.
             </p>
           </div>
@@ -586,7 +586,7 @@ export default function ProposalSigningSoftwarePage() {
                 <div>
                   <h3 className="font-bold text-xl mb-2">Accelerate Your Sales Cycle</h3>
                   <p className="text-gray-700">
-                    Get proposals signed in 3 minutes instead of days. Remove friction 
+                    Get proposals signed in 3 minutes instead of days. Remove friction
                     that's costing you deals and accelerate your revenue cycle.
                   </p>
                 </div>
@@ -598,7 +598,7 @@ export default function ProposalSigningSoftwarePage() {
                 <div>
                   <h3 className="font-bold text-xl mb-2">Mobile-First Experience</h3>
                   <p className="text-gray-700">
-                    Most of your clients will sign on mobile devices. BoopSign is optimized 
+                    Most of your clients will sign on mobile devices. BoopSign is optimized
                     for touch interfaces and provides the best mobile signing experience.
                   </p>
                 </div>
@@ -612,8 +612,8 @@ export default function ProposalSigningSoftwarePage() {
                     Eliminate Signer Friction
                   </h3>
                   <p className="text-gray-700">
-                    No more "I can't remember my account password" or "I didn't get your email." 
-                    Signers get a direct link and can sign immediately. Our <Link href="/no-account-esignature" className="text-blue-600 hover:underline">no-account approach</Link> 
+                    No more "I can't remember my account password" or "I didn't get your email."
+                    Signers get a direct link and can sign immediately. Our <Link href="/no-account-esignature" className="text-blue-600 hover:underline">no-account approach</Link>
                     removes all friction from the signing process.
                   </p>
                 </div>
@@ -629,7 +629,7 @@ export default function ProposalSigningSoftwarePage() {
                     Proposal-to-Payment Workflow
                   </h3>
                   <p className="text-gray-700">
-                    Streamline your entire process from proposal creation to signature collection 
+                    Streamline your entire process from proposal creation to signature collection
                     to payment requests in one seamless workflow.
                   </p>
                 </div>
@@ -643,7 +643,7 @@ export default function ProposalSigningSoftwarePage() {
                     Professional Presentation
                   </h3>
                   <p className="text-gray-700">
-                    Create polished, branded proposals that reflect your business quality 
+                    Create polished, branded proposals that reflect your business quality
                     and build client confidence in your service offering.
                   </p>
                 </div>

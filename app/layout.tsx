@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     template: "%s | BoopSign",
   },
   description:
-    "The simplest DocuSign alternative built for speed. Send contracts, NDAs, and proposals in under 3 minutes. Your clients sign instantly—no login, no app download, no friction. $12/month for unlimited signing.",
+    "The simplest DocuSign alternative built for speed. Send contracts, NDAs, and proposals in under 3 minutes. Your clients sign instantly—no login, no app download, no friction. $15/month for unlimited signing.",
   keywords: [
     "e-signature for freelancers",
     "e-signature for consultants",
@@ -42,6 +42,9 @@ export const metadata: Metadata = {
     "consulting agreement signing",
     "freelancer esignature",
     "no login document signing",
+    "healthcare document signing",
+    "fintech document signing",
+    "education document signing",
   ],
   authors: [{ name: "BoopSign Team" }],
   creator: "BoopSign",
@@ -58,7 +61,7 @@ export const metadata: Metadata = {
     siteName: "BoopSign",
     title: "BoopSign — E-Signature for Freelancers & Consultants | No Account Required",
     description:
-      "The simplest DocuSign alternative. Send contracts, NDAs, and proposals in under 3 minutes. No login required for signers. $12/month for unlimited signing.",
+      "The simplest DocuSign alternative. Send contracts, NDAs, and proposals in under 3 minutes. No login required for signers. $15/month for unlimited signing.",
     images: [
       {
         url: "https://boopsign.com/og-image.png",
@@ -72,7 +75,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "BoopSign — E-Signature for Freelancers & Consultants",
     description:
-      "The simplest DocuSign alternative. Get contracts signed in under 3 minutes. No account needed for signers. $12/month.",
+      "The simplest DocuSign alternative. Get contracts signed in under 3 minutes. No account needed for signers. $15/month.",
     images: ["https://boopsign.com/og-image.png"],
     creator: "@boopsign",
   },
@@ -134,9 +137,9 @@ export default function RootLayout({
               operatingSystem: "Web, iOS, Android",
               offers: {
                 "@type": "Offer",
-                price: "12",
+                price: "15",
                 priceCurrency: "USD",
-                priceValidUntil: "2025-12-31",
+                priceValidUntil: "2026-12-31",
               },
               aggregateRating: {
                 "@type": "AggregateRating",

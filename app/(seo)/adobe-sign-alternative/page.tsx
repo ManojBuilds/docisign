@@ -1,16 +1,16 @@
-import { CheckCircle, XCircle, Star, ArrowRight, Zap, Shield, DollarSign, Smartphone, Clock, Users } from "lucide-react";
-import { Metadata } from "next";
-import Link from "next/link";
 import StartTrialBtn from "@/components/StartTrialBtn";
-import Faq from "@/components/faq";
 import Cta from "@/components/cta";
+import Faq from "@/components/faq";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, CheckCircle, Clock, DollarSign, Shield, Smartphone, Star, Users, XCircle, Zap } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Best Adobe Sign Alternative 2025 | BoopSign vs Adobe Acrobat Sign",
+  title: "Best Adobe Sign Alternative 2026 | BoopSign vs Adobe Acrobat Sign",
   description:
-    "Looking for an Adobe Sign alternative? BoopSign is 75% cheaper ($12 vs $45/month), simpler, and mobile-first. No account needed for signers. Try free for 7 days.",
+    "Looking for an Adobe Sign alternative? BoopSign is 75% cheaper ($15 vs $45/month), simpler, and mobile-first. No account needed for signers. Try free for 7 days.",
   keywords: [
     "adobe sign alternative",
     "adobe sign competitor",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     canonical: "https://boopsign.com/adobe-sign-alternative",
   },
   openGraph: {
-    title: "Best Adobe Sign Alternative 2025 | BoopSign vs Adobe Acrobat Sign",
+    title: "Best Adobe Sign Alternative 2026 | BoopSign vs Adobe Acrobat Sign",
     description:
       "BoopSign is 75% cheaper than Adobe Sign, simpler, and built for mobile-first teams. No account needed for signers.",
     url: "https://boopsign.com/adobe-sign-alternative",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Best Adobe Sign Alternative 2025 | BoopSign",
+    title: "Best Adobe Sign Alternative 2026 | BoopSign",
     description: "75% cheaper, simpler, mobile-first. No account needed for signers.",
     images: ["https://boopsign.com/og-image.png"],
   },
@@ -78,7 +78,7 @@ const adobeSignFaq = [
     id: "faq-4",
     question: "How does BoopSign pricing compare to Adobe Sign?",
     answer:
-      "BoopSign is significantly cheaper than Adobe Sign. Adobe Sign costs $45/user/month for their standard plan, while BoopSign Pro is just $12/month total—that's 75% cheaper. No per-user fees, no hidden costs, unlimited signatures. You save $456/year per user compared to Adobe Sign.",
+      "BoopSign is significantly cheaper than Adobe Sign. Adobe Sign costs $45/user/month for their standard plan, while BoopSign Pro is just $15/month total—that's 75% cheaper. No per-user fees, no hidden costs, unlimited signatures. You save $456/year per user compared to Adobe Sign.",
   },
   {
     id: "faq-5",
@@ -116,9 +116,9 @@ export default function AdobeSignAlternativePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            name: "BoopSign - Best Adobe Sign Alternative 2025",
+            name: "BoopSign - Best Adobe Sign Alternative 2026",
             description:
-              "Mobile-first electronic signature platform, 75% cheaper than Adobe Sign ($12 vs $45/month) with no account required for signers. Simple, fast, and focused on what matters: getting documents signed quickly.",
+              "Mobile-first electronic signature platform, 75% cheaper than Adobe Sign ($15 vs $45/month) with no account required for signers. Simple, fast, and focused on what matters: getting documents signed quickly.",
             url: "https://boopsign.com/adobe-sign-alternative",
             applicationCategory: "BusinessApplication",
             operatingSystem: "Web, iOS, Android",
@@ -212,7 +212,7 @@ export default function AdobeSignAlternativePage() {
               Adobe Sign Alternative
             </Badge>
           </div>
-          
+
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             Adobe Sign Alternative That&apos;s <span className="text-blue-600">75% Cheaper</span> & Actually Works on Mobile
           </h1>
@@ -220,11 +220,11 @@ export default function AdobeSignAlternativePage() {
           <p className="text-lg md:text-xl text-gray-700 max-w-4xl mx-auto mb-8">
             Tired of Adobe Sign&apos;s <span className="font-semibold">complex interface</span>,{" "}
             <span className="font-semibold">high prices</span>, and{" "}
-            <span className="font-semibold">complicated workflows</span>? 
-            Since Adobe Sign is part of the broader Adobe Document Cloud ecosystem, many users find it 
-            expensive and overly complex for simple e-signature needs. 
-            BoopSign is the{" "} <span className="font-bold">simple, affordable alternative</span> built specifically for 
-            freelancers, consultants, and small businesses—<span className="font-bold"> $12/month, 5-minute setup, zero signer friction</span>.
+            <span className="font-semibold">complicated workflows</span>?
+            Since Adobe Sign is part of the broader Adobe Document Cloud ecosystem, many users find it
+            expensive and overly complex for simple e-signature needs.
+            BoopSign is the{" "} <span className="font-bold">simple, affordable alternative</span> built specifically for
+            freelancers, consultants, and small businesses—<span className="font-bold"> $15/month, 5-minute setup, zero signer friction</span>.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 mb-10 text-sm md:text-base">
@@ -292,8 +292,8 @@ export default function AdobeSignAlternativePage() {
                 <div className="text-5xl font-bold text-red-600 mb-2">75%</div>
                 <p className="text-gray-700 font-semibold mb-2">Higher Cost</p>
                 <p className="text-sm text-gray-600">
-                  Adobe Sign costs $45/user/month vs BoopSign at just $12/month total.
-                  For a team of 5, that's $2,700 vs $144 per year.
+                  Adobe Sign costs $45/user/month vs BoopSign at just $15/month total.
+                  For a team of 5, that's $2,700 vs $228 per year.
                 </p>
               </CardContent>
             </Card>
@@ -323,7 +323,7 @@ export default function AdobeSignAlternativePage() {
 
           <div className="rounded-lg p-8">
             <h3 className="text-2xl font-bold mb-6 text-center">
-              What Adobe Sign Users Are Actually Saying (2024-2025)
+              What Adobe Sign Users Are Actually Saying (2024-2026)
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="border-l-4 border-red-500 pl-4">
@@ -331,7 +331,7 @@ export default function AdobeSignAlternativePage() {
                   &quot;Adobe Sign is part of this massive Adobe ecosystem that costs a fortune.
                   I just needed simple e-signatures and was paying $45/month per user for features I never used.&quot;
                 </p>
-                <p className="text-sm text-gray-500">— G2 Review, Feb 2025</p>
+                <p className="text-sm text-gray-500">— G2 Review, Feb 2026</p>
               </div>
               <div className="border-l-4 border-red-500 pl-4">
                 <p className="text-gray-700 italic mb-2">
@@ -349,10 +349,10 @@ export default function AdobeSignAlternativePage() {
               </div>
               <div className="border-l-4 border-red-500 pl-4">
                 <p className="text-gray-700 italic mb-2">
-                  &quot;For basic e-signatures, Adobe Sign is massive overkill. 
+                  &quot;For basic e-signatures, Adobe Sign is massive overkill.
                   I switched to a simpler tool and cut my costs by 75% without losing functionality.&quot;
                 </p>
-                <p className="text-sm text-gray-500">— TrustRadius Review, Jan 2025</p>
+                <p className="text-sm text-gray-500">— TrustRadius Review, Jan 2026</p>
               </div>
             </div>
           </div>
@@ -378,23 +378,23 @@ export default function AdobeSignAlternativePage() {
               </CardHeader>
               <CardContent className="space-y-4 text-gray-700">
                 <p>
-                  <span className="font-bold">💸 Expensive Pricing:</span> $45/user/month 
+                  <span className="font-bold">💸 Expensive Pricing:</span> $45/user/month
                   for Standard plan, with additional costs for advanced features.
                 </p>
                 <p>
-                  <span className="font-bold">🔐 Account Friction:</span> Signers need to create 
+                  <span className="font-bold">🔐 Account Friction:</span> Signers need to create
                   Adobe accounts to sign documents, creating significant barriers.
                 </p>
                 <p>
-                  <span className="font-bold">📱 Complex Mobile Experience:</span> 
+                  <span className="font-bold">📱 Complex Mobile Experience:</span>
                   Interface designed for desktop and adapted for mobile, not optimized for phones.
                 </p>
                 <p>
-                  <span className="font-bold">🔧 Feature Bloat:</span> Over 100 features in the 
+                  <span className="font-bold">🔧 Feature Bloat:</span> Over 100 features in the
                   Adobe ecosystem, most users only need 10% of them.
                 </p>
                 <p>
-                  <span className="font-bold">🔄 Complex Workflows:</span> 
+                  <span className="font-bold">🔄 Complex Workflows:</span>
                   Setting up simple document signing requires navigating through advanced options.
                 </p>
               </CardContent>
@@ -410,35 +410,35 @@ export default function AdobeSignAlternativePage() {
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Affordable Pricing:</span> Just $12/month 
+                    <span className="font-bold">Affordable Pricing:</span> Just $15/month
                     total. No per-user fees. Save $456/year per user.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Zero Friction:</span> Signers click link 
+                    <span className="font-bold">Zero Friction:</span> Signers click link
                     and sign instantly. No accounts, no login.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Mobile-First:</span> Works perfectly in 
+                    <span className="font-bold">Mobile-First:</span> Works perfectly in
                     any mobile browser. No app needed.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Focused Features:</span> Designed specifically 
+                    <span className="font-bold">Focused Features:</span> Designed specifically
                     for e-signatures, nothing more, nothing less.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Simple Workflows:</span> Upload document, 
+                    <span className="font-bold">Simple Workflows:</span> Upload document,
                     add fields, send. That's it.
                   </span>
                 </p>
@@ -455,7 +455,7 @@ export default function AdobeSignAlternativePage() {
             Adobe Sign vs BoopSign: Complete Comparison
           </h2>
           <p className="text-xl mb-12 text-gray-600">
-            See how BoopSign stacks up against Adobe Sign in 2025
+            See how BoopSign stacks up against Adobe Sign in 2026
           </p>
 
           <div className="bg-white rounded-xl p-8">
@@ -472,7 +472,7 @@ export default function AdobeSignAlternativePage() {
                   <tr className="border-b border-gray-200 bg-blue-50/30">
                     <td className="py-4 px-4 text-gray-700 font-semibold">Monthly Cost</td>
                     <td className="py-4 px-4 text-center font-bold text-green-600">
-                      $12/month
+                      $15/month
                     </td>
                     <td className="py-4 px-4 text-center text-red-600">
                       $45/user/month
@@ -712,7 +712,7 @@ export default function AdobeSignAlternativePage() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 border-b">
                     <span className="text-gray-600">Pro Plan</span>
-                    <span className="font-bold text-green-600">$12/month</span>
+                    <span className="font-bold text-green-600">$15/month</span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b">
                     <span className="text-gray-600">Unlimited users</span>
@@ -728,7 +728,7 @@ export default function AdobeSignAlternativePage() {
                   </div>
                   <div className="flex justify-between items-center py-3 bg-green-50 rounded px-3 mt-4">
                     <span className="font-bold text-gray-800">Total Annual Cost</span>
-                    <span className="font-bold text-2xl text-green-600">$144/year</span>
+                    <span className="font-bold text-2xl text-green-600">$228/year</span>
                   </div>
                 </div>
               </div>
@@ -804,7 +804,7 @@ export default function AdobeSignAlternativePage() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  Pay just $12/month instead of Adobe Sign&apos;s $45/user/month.
+                  Pay just $15/month instead of Adobe Sign&apos;s $45/user/month.
                   That&apos;s $456 saved per year per user. No per-user fees, no hidden costs,
                   unlimited signatures included.
                 </p>
@@ -1093,7 +1093,7 @@ export default function AdobeSignAlternativePage() {
                 </div>
                 <p className="text-gray-700 mb-4 italic">
                   &quot;I was paying $45/month for Adobe Sign and only using 10% of the features.
-                  BoopSign does everything I need at a fraction of the cost. My clients love how 
+                  BoopSign does everything I need at a fraction of the cost. My clients love how
                   much faster and easier it is to sign.&quot;
                 </p>
                 <p className="font-semibold text-gray-900">Robert F.</p>
@@ -1111,8 +1111,8 @@ export default function AdobeSignAlternativePage() {
                   <Star className="fill-current" />
                 </div>
                 <p className="text-gray-700 mb-4 italic">
-                  &quot;Adobe Sign was overkill for my small architecture firm. The complex interface 
-                  confused my clients. BoopSign is so much simpler and my contracts are getting 
+                  &quot;Adobe Sign was overkill for my small architecture firm. The complex interface
+                  confused my clients. BoopSign is so much simpler and my contracts are getting
                   signed 3x faster.&quot;
                 </p>
                 <p className="font-semibold text-gray-900">Michael S.</p>
@@ -1130,8 +1130,8 @@ export default function AdobeSignAlternativePage() {
                   <Star className="fill-current" />
                 </div>
                 <p className="text-gray-700 mb-4 italic">
-                  &quot;My clients were always asking about Adobe account requirements. 
-                  With BoopSign, they just click and sign. Contract turnaround time 
+                  &quot;My clients were always asking about Adobe account requirements.
+                  With BoopSign, they just click and sign. Contract turnaround time
                   went from 3 days to 2 hours!&quot;
                 </p>
                 <p className="font-semibold text-gray-900">Jennifer T.</p>
@@ -1311,12 +1311,12 @@ export default function AdobeSignAlternativePage() {
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <StartTrialBtn />
-                 <Link
-                href="/pricing"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-600 rounded-full font-semibold hover:bg-blue-50 transition-colors"
-              >
-                View Pricing <ArrowRight className="w-4 h-4" />
-              </Link>
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-600 rounded-full font-semibold hover:bg-blue-50 transition-colors"
+                >
+                  View Pricing <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
               <p className="text-sm text-blue-100 mt-4">
                 💡 Pro tip: Most users complete migration during their 7-day free trial

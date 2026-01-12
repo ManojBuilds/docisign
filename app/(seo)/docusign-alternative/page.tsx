@@ -1,14 +1,14 @@
-import { CheckCircle, XCircle, Star, ArrowRight } from "lucide-react";
-import { Metadata } from "next";
 import StartTrialBtn from "@/components/StartTrialBtn";
-import Faq from "@/components/faq";
 import Cta from "@/components/cta";
+import Faq from "@/components/faq";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, CheckCircle, Star, XCircle } from "lucide-react";
+import { Metadata } from "next";
 
 
 export const metadata: Metadata = {
-  title: "The Best DocuSign Alternative for Mobile-First Teams in 2025",
+  title: "The Best DocuSign Alternative for Mobile-First Teams in 2026",
   description:
     "BoopSign is the DocuSign alternative that's 3x faster, 50% cheaper, and built for mobile-first teams. Join 2,847+ businesses who switched.",
   keywords: [
@@ -159,7 +159,7 @@ export default function DocusignAlternativePage() {
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />{" "}
                   <span>
                     <span className="font-bold">Transparent Pricing:</span> Just
-                    $12/month total. 50% cheaper.
+                    $15/month total. 50% cheaper.
                   </span>
                 </p>
                 <p className="flex items-start">
@@ -199,7 +199,7 @@ export default function DocusignAlternativePage() {
             Head-to-Head: DocuSign vs BoopSign
           </h2>
           <p className="text-xl mb-12 opacity-90">
-            A direct comparison for 2025.
+            A direct comparison for 2026.
           </p>
 
           <div className="rounded-xl p-8">
@@ -216,7 +216,7 @@ export default function DocusignAlternativePage() {
                   <tr className="border-b border-gray-200">
                     <td className="py-4 px-4 text-gray-700">Monthly Cost</td>
                     <td className="py-4 px-4 text-center font-bold text-green-600">
-                      $12/month
+                      $15/month
                     </td>
                     <td className="py-4 px-4 text-center text-red-600">
                       $25/month (Standard)
@@ -300,7 +300,7 @@ export default function DocusignAlternativePage() {
                   <Star />
                 </div>
                 <p className="mb-4 italic">
-                  &quot;DocuSign was costing us $200/month for our 8-person team.                  BoopSign does everything we need for $12. The mobile                  experience is night and day better.&quot;
+                  &quot;DocuSign was costing us $200/month for our 8-person team.                  BoopSign does everything we need for $15. The mobile                  experience is night and day better.&quot;
                 </p>
                 <p className="font-semibold">- Sarah L., Real Estate Agent</p>
               </CardContent>
@@ -317,7 +317,7 @@ export default function DocusignAlternativePage() {
                 <p className="mb-4 italic">
                   &ldquo;Our clients kept saying they never got the DocuSign email or
                   couldn&apos;t sign on their phones. With BoopSign, they click and
-                  sign in 30 seconds.&rdquo;        
+                  sign in 30 seconds.&rdquo;
                 </p>
                 <p className="font-semibold">
                   - Mike R., Creative Agency Founder
@@ -334,7 +334,7 @@ export default function DocusignAlternativePage() {
                   <Star />
                 </div>
                 <p className="mb-4 italic">
-                 &ldquo; The best DocuSign competitor, period. The UI is clean, and
+                  &ldquo; The best DocuSign competitor, period. The UI is clean, and
                   not forcing my clients to create an account is a
                   game-changer.&rdquo;
                 </p>
@@ -369,7 +369,7 @@ export default function DocusignAlternativePage() {
                   <h3 className="font-bold text-xl mb-2">Save 50% on Costs</h3>
                   <p className="text-gray-700">
                     DocuSign&apos;s Standard plan costs $25/month per user. BoopSign
-                    is just $12/month total. For a 5-person team, that&apos;s
+                    is just $15/month total. For a 5-person team, that&apos;s
                     $1,500/year in savings.
                   </p>
                 </div>

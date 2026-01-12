@@ -1,13 +1,13 @@
-import { CheckCircle, Star, FileText, Zap, DollarSign, Shield, Lock, Key, AlertCircle } from "lucide-react";
-import { Metadata } from "next";
 import StartTrialBtn from "@/components/StartTrialBtn";
-import Faq from "@/components/faq";
 import Cta from "@/components/cta";
+import Faq from "@/components/faq";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { AlertCircle, CheckCircle, DollarSign, FileText, Key, Lock, Shield, Star, Zap } from "lucide-react";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "E-Signature vs Digital Signature: Key Differences Explained in 2025",
+    title: "E-Signature vs Digital Signature: Key Differences Explained in 2026",
     description:
         "Confused about e-signatures vs digital signatures? Learn the key differences, security features, legal validity, and when to use each type. Clear, simple explanations for business owners.",
     keywords: [
@@ -118,7 +118,7 @@ export default function ESignatureVsDigitalSignaturePage() {
                             variant="outline"
                             className="bg-orange-100 text-orange-800 border-orange-200"
                         >
-                            2025 Updated
+                            2026 Updated
                         </Badge>
                     </div>
 
@@ -214,7 +214,7 @@ export default function ESignatureVsDigitalSignaturePage() {
                                             Cost
                                         </td>
                                         <td className="py-4 px-4 text-center font-bold text-green-600">
-                                            $12-50/month
+                                            $15-50/month
                                         </td>
                                         <td className="py-4 px-4 text-center font-bold text-red-600">
                                             $100+/month + certificates
@@ -579,8 +579,8 @@ export default function ESignatureVsDigitalSignaturePage() {
                                 <div>
                                     <p className="font-semibold text-gray-900 mb-2">E-Signatures:</p>
                                     <p className="text-gray-700 text-sm">
-                                        Affordable at $12-50/month for unlimited signatures. BoopSign is just
-                                        $12/month with no per-signature fees or hidden costs.
+                                        Affordable at $15-50/month for unlimited signatures. BoopSign is just
+                                        $15/month with no per-signature fees or hidden costs.
                                     </p>
                                 </div>
                                 <div>
@@ -843,7 +843,7 @@ export default function ESignatureVsDigitalSignaturePage() {
                             <div className="w-12 h-12 bg-white/20 rounded-lg flex items-center justify-center mb-4">
                                 <DollarSign className="w-6 h-6" />
                             </div>
-                            <h3 className="text-xl font-bold mb-3">Just $12/Month</h3>
+                            <h3 className="text-xl font-bold mb-3">Just $15/Month</h3>
                             <p className="text-blue-100">
                                 Unlimited signatures, unlimited documents. No per-signature fees, no hidden
                                 costs. 10x cheaper than digital signature solutions.
@@ -1053,9 +1053,9 @@ export default function ESignatureVsDigitalSignaturePage() {
             {/* FAQ Section */}
             <section className="py-16 md:py-20 px-4 bg-white">
                 <div className="container mx-auto max-w-4xl">
-                    <Faq 
-                        heading="E-Signature vs Digital Signature: Your Questions Answered" 
-                        items={signatureComparisonFaq} 
+                    <Faq
+                        heading="E-Signature vs Digital Signature: Your Questions Answered"
+                        items={signatureComparisonFaq}
                     />
                 </div>
             </section>

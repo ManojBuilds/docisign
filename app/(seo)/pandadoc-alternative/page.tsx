@@ -1,16 +1,16 @@
-import { CheckCircle, XCircle, Star, ArrowRight, Zap, Shield, DollarSign, Smartphone, Clock, Users } from "lucide-react";
-import { Metadata } from "next";
-import Link from "next/link";
 import StartTrialBtn from "@/components/StartTrialBtn";
-import Faq from "@/components/faq";
 import Cta from "@/components/cta";
+import Faq from "@/components/faq";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, CheckCircle, Clock, DollarSign, Shield, Smartphone, Star, Users, XCircle, Zap } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Best PandaDoc Alternative 2025 | BoopSign - Simpler & 60% Cheaper",
+  title: "Best PandaDoc Alternative 2026 | BoopSign - Simpler & 60% Cheaper",
   description:
-    "Looking for a PandaDoc alternative? BoopSign is 60% cheaper ($12 vs $35/month), simpler, and mobile-first. No bloated features. No account needed for signers. Try free for 7 days.",
+    "Looking for a PandaDoc alternative? BoopSign is 60% cheaper ($15 vs $35/month), simpler, and mobile-first. No bloated features. No account needed for signers. Try free for 7 days.",
   keywords: [
     "pandadoc alternative",
     "pandadoc competitor",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     canonical: "https://boopsign.com/pandadoc-alternative",
   },
   openGraph: {
-    title: "Best PandaDoc Alternative 2025 | BoopSign - Simpler & 60% Cheaper",
+    title: "Best PandaDoc Alternative 2026 | BoopSign - Simpler & 60% Cheaper",
     description:
       "BoopSign is 60% cheaper than PandaDoc, simpler, and built for mobile-first teams. No bloated features. No account needed for signers.",
     url: "https://boopsign.com/pandadoc-alternative",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Best PandaDoc Alternative 2025 | BoopSign",
+    title: "Best PandaDoc Alternative 2026 | BoopSign",
     description: "60% cheaper, simpler, mobile-first. No bloated features. No account needed for signers.",
     images: ["https://boopsign.com/og-image.png"],
   },
@@ -84,7 +84,7 @@ const pandadocFaq = [
     id: "faq-5",
     question: "How much money will I save switching from PandaDoc to BoopSign?",
     answer:
-      "PandaDoc's Essentials plan starts at $35/month (billed annually), while BoopSign is just $12/month with unlimited signatures. That's a savings of $276 per year per user. For a team of 5, you'd save $1,380 annually. Plus, there are no hidden fees or surprise charges with BoopSign.",
+      "PandaDoc's Essentials plan starts at $35/month (billed annually), while BoopSign is just $15/month with unlimited signatures. That's a savings of $276 per year per user. For a team of 5, you'd save $1,380 annually. Plus, there are no hidden fees or surprise charges with BoopSign.",
   },
   {
     id: "faq-6",
@@ -116,9 +116,9 @@ export default function PandaDocAlternativePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            name: "BoopSign - Best PandaDoc Alternative 2025",
+            name: "BoopSign - Best PandaDoc Alternative 2026",
             description:
-              "Mobile-first electronic signature platform, 60% cheaper than PandaDoc ($12 vs $35/month) with no account required for signers. Simple, lightweight, and focused on what matters: getting documents signed fast.",
+              "Mobile-first electronic signature platform, 60% cheaper than PandaDoc ($15 vs $35/month) with no account required for signers. Simple, lightweight, and focused on what matters: getting documents signed fast.",
             url: "https://boopsign.com/pandadoc-alternative",
             applicationCategory: "BusinessApplication",
             operatingSystem: "Web, iOS, Android",
@@ -216,7 +216,7 @@ export default function PandaDocAlternativePage() {
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-4xl mx-auto mb-8">
             Tired of paying for PandaDoc features you never use? BoopSign is{" "}
-            <span className="font-bold">60% cheaper ($12 vs $35/month)</span>, simpler, and
+            <span className="font-bold">60% cheaper ($15 vs $35/month)</span>, simpler, and
             mobile-first. Get documents signed in 3 minutes—no bloated features, no account
             creation for signers, no complexity.
           </p>
@@ -307,7 +307,7 @@ export default function PandaDocAlternativePage() {
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />{" "}
                   <span>
-                    <span className="font-bold">Affordable:</span> Just $12/month total. Save
+                    <span className="font-bold">Affordable:</span> Just $15/month total. Save
                     $276/year. 60% cheaper than PandaDoc.
                   </span>
                 </p>
@@ -366,7 +366,7 @@ export default function PandaDocAlternativePage() {
               <p className="text-gray-600 mb-4">
                 PandaDoc: $35-$49/month per user
                 <br />
-                BoopSign: $12/month, unlimited signatures
+                BoopSign: $15/month, unlimited signatures
               </p>
               <div className="bg-green-50 border border-green-200 rounded-lg p-4">
                 <p className="text-green-800 font-semibold">Save $276-$444/year</p>
@@ -454,7 +454,7 @@ export default function PandaDocAlternativePage() {
             PandaDoc vs BoopSign: Complete Comparison
           </h2>
           <p className="text-xl mb-12 text-gray-600">
-            See how BoopSign stacks up against PandaDoc in 2025
+            See how BoopSign stacks up against PandaDoc in 2026
           </p>
 
           <div className="overflow-x-auto">
@@ -470,12 +470,12 @@ export default function PandaDocAlternativePage() {
                 <tr className="hover:bg-gray-50">
                   <td className="p-4 font-medium">Monthly Price (per user)</td>
                   <td className="p-4 text-center">$35-$49</td>
-                  <td className="p-4 text-center bg-green-50 font-bold text-green-700">$12</td>
+                  <td className="p-4 text-center bg-green-50 font-bold text-green-700">$15</td>
                 </tr>
                 <tr className="hover:bg-gray-50">
                   <td className="p-4 font-medium">Annual Cost (per user)</td>
                   <td className="p-4 text-center">$420-$588</td>
-                  <td className="p-4 text-center bg-green-50 font-bold text-green-700">$144</td>
+                  <td className="p-4 text-center bg-green-50 font-bold text-green-700">$228</td>
                 </tr>
                 <tr className="hover:bg-gray-50">
                   <td className="p-4 font-medium">Unlimited Signatures</td>
@@ -624,7 +624,7 @@ export default function PandaDocAlternativePage() {
                   <h3 className="font-bold text-xl mb-2">Save 60% on Costs</h3>
                   <p className="text-gray-600">
                     PandaDoc charges $35-$49 per user per month ($420-$588 annually). BoopSign is just
-                    $12/month with unlimited signatures. That&apos;s a savings of $276-$444 per year per
+                    $15/month with unlimited signatures. That&apos;s a savings of $276-$444 per year per
                     user. For a team of 5, you&apos;d save $1,380-$2,220 annually. No hidden fees, no
                     surprise charges, no complex pricing tiers.
                   </p>
@@ -724,7 +724,7 @@ export default function PandaDocAlternativePage() {
               </div>
               <p className="text-gray-700 mb-4 italic">
                 &quot;I was paying $49/month for PandaDoc and using maybe 10% of the features. BoopSign
-                does everything I need for $12. My clients love how fast they can sign now.&quot;
+                does everything I need for $15. My clients love how fast they can sign now.&quot;
               </p>
               <p className="font-semibold text-gray-900">- Sarah K., Freelance Consultant</p>
               <p className="text-sm text-gray-500">Switched from PandaDoc Essentials</p>
@@ -825,9 +825,9 @@ export default function PandaDocAlternativePage() {
                 <div className="border-b border-blue-200 pb-4">
                   <div className="flex justify-between items-center mb-2">
                     <span className="font-semibold">Pro Plan</span>
-                    <span className="text-4xl font-bold text-blue-600">$12/mo</span>
+                    <span className="text-4xl font-bold text-blue-600">$15/mo</span>
                   </div>
-                  <p className="text-sm text-gray-700">Total. Not per user. ($144/year)</p>
+                  <p className="text-sm text-gray-700">Total. Not per user. ($228/year)</p>
                   <p className="text-sm text-gray-600 mt-2">
                     Unlimited signatures, unlimited templates, all features included
                   </p>
@@ -870,21 +870,21 @@ export default function PandaDocAlternativePage() {
                     <td className="p-3 font-medium">1 user</td>
                     <td className="p-3 text-center">$420/year</td>
                     <td className="p-3 text-center">$588/year</td>
-                    <td className="p-3 text-center bg-green-50 font-bold">$144/year</td>
+                    <td className="p-3 text-center bg-green-50 font-bold">$228/year</td>
                     <td className="p-3 text-center bg-green-100 font-bold text-green-700">$276-$444</td>
                   </tr>
                   <tr>
                     <td className="p-3 font-medium">3 users</td>
                     <td className="p-3 text-center">$1,260/year</td>
                     <td className="p-3 text-center">$1,764/year</td>
-                    <td className="p-3 text-center bg-green-50 font-bold">$144/year</td>
+                    <td className="p-3 text-center bg-green-50 font-bold">$228/year</td>
                     <td className="p-3 text-center bg-green-100 font-bold text-green-700">$1,116-$1,620</td>
                   </tr>
                   <tr>
                     <td className="p-3 font-medium">5 users</td>
                     <td className="p-3 text-center">$2,100/year</td>
                     <td className="p-3 text-center">$2,940/year</td>
-                    <td className="p-3 text-center bg-green-50 font-bold">$144/year</td>
+                    <td className="p-3 text-center bg-green-50 font-bold">$228/year</td>
                     <td className="p-3 text-center bg-green-100 font-bold text-green-700">$1,956-$2,796</td>
                   </tr>
                 </tbody>

@@ -74,25 +74,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
 
     },
-{
+    {
       url: `${baseUrl}/contract-signing-best-practices`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
     },
-{
+    {
       url: `${baseUrl}/document-security-guide`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
     },
-{
+    {
       url: `${baseUrl}/electronic-signature-laws`,
       lastModified: new Date(),
       changeFrequency: "weekly",
       priority: 0.9,
     },
-{
+    {
       url: `${baseUrl}/esignature-vs-digital-signature`,
       lastModified: new Date(),
       changeFrequency: "weekly",
@@ -146,8 +146,38 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.9,
     },
- 
-  
+    {
+      url: `${baseUrl}/healthcare-document-signing`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/fintech-document-signing`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/education-document-signing`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/esignature-for-freelancers`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/esignature-for-consultants`,
+      lastModified: new Date(),
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+
+
     {
       url: `${baseUrl}/how-to-create-electronic-signature`,
       lastModified: new Date(),

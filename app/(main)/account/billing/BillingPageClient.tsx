@@ -1,24 +1,24 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { Crown, CreditCard, Calendar, Loader2 } from "lucide-react";
-import { useTrialStatus } from "@/hooks/useTrialStatus";
 import { PlanBadge } from "@/components/PlanBadge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { useTrialStatus } from "@/hooks/useTrialStatus";
+import { useAuth } from "@clerk/clerk-react";
+import { Calendar, CreditCard, Crown, Loader2 } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useAuth } from "@clerk/clerk-react";
 
 export default function BillingPageClient() {
     const trialStatus = useTrialStatus();
-    const {userId} = useAuth()
+    const { userId } = useAuth()
     const [isLoading, setIsLoading] = useState(false)
 
     const handleManageSubscription = async () => {
         try {
             setIsLoading(true)
-            const res = await fetch('/api/customer-portal', { method: 'POST', body: JSON.stringify({clerkId: userId}) });
+            const res = await fetch('/api/customer-portal', { method: 'POST', body: JSON.stringify({ clerkId: userId }) });
             const data = await res.json()
             if (data.link) {
                 window.open(data.link, "_blank");
@@ -64,7 +64,7 @@ export default function BillingPageClient() {
                                     <div>
                                         <p className="text-sm font-medium">Plan</p>
                                         <p className="text-2xl font-bold">Boopsign Pro</p>
-                                        <p className="text-sm text-muted-foreground">$12/month</p>
+                                        <p className="text-sm text-muted-foreground">$15/month</p>
                                     </div>
                                     <div>
                                         <p className="text-sm font-medium">Status</p>

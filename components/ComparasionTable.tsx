@@ -1,9 +1,9 @@
 "use client"
-import { cn } from "@/lib/utils";
-import React, { useState } from "react";
-import { Check, X, Star, Users, Clock, Shield, Smartphone, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Check, Clock, CreditCard, Shield, Smartphone, Star, Users, X } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 interface ComparisonFeature {
   category: string;
@@ -26,7 +26,7 @@ const comparisonData: ComparisonFeature[] = [
   {
     category: "Pricing",
     feature: "Monthly Cost (Individual)",
-    boopSign: { value: "$12/month", highlight: true },
+    boopSign: { value: "$15/month", highlight: true },
     docuSign: { value: "$25/month", highlight: false },
     important: true
   },
@@ -168,7 +168,7 @@ const categoryIcons = {
 const ComparasionTable = ({ className }: { className?: string }) => {
   const [activeCategory, setActiveCategory] = useState<string>("Pricing");
   const categories = Array.from(new Set(comparisonData.map(item => item.category)));
-  
+
   const renderValue = (value: string | boolean, highlight?: boolean, isBoopSign?: boolean) => {
     if (typeof value === 'boolean') {
       return value ? (
@@ -177,7 +177,7 @@ const ComparasionTable = ({ className }: { className?: string }) => {
         <X className={`w-5 h-5 mx-auto ${highlight ? 'text-destructive' : 'text-muted-foreground'}`} />
       );
     }
-    
+
     return (
       <span className={`${highlight ? (isBoopSign ? 'text-primary font-semibold' : 'text-foreground font-semibold') : 'text-muted-foreground'}`}>
         {value}
@@ -259,8 +259,8 @@ const ComparasionTable = ({ className }: { className?: string }) => {
               </thead>
               <tbody>
                 {filteredData.map((item) => (
-                  <tr 
-                    key={`${item.category}-${item.feature}`} 
+                  <tr
+                    key={`${item.category}-${item.feature}`}
                     className={cn(
                       "border-b transition-colors hover:bg-muted/30",
                       item.important && "bg-accent/20"
@@ -302,7 +302,7 @@ const ComparasionTable = ({ className }: { className?: string }) => {
             <CreditCard className="w-8 h-8 text-primary mb-3" />
             <h3 className="font-semibold text-lg mb-2">50% Cheaper</h3>
             <p className="text-muted-foreground text-sm">
-              $12/month vs DocuSign&apos;s $25/month starting price
+              $15/month vs DocuSign&apos;s $25/month starting price
             </p>
           </div>
           <div className="flex flex-col items-center text-center">
@@ -335,7 +335,7 @@ const ComparasionTable = ({ className }: { className?: string }) => {
         {/* Fine Print */}
         <div className="text-center mt-8">
           <p className="text-sm text-muted-foreground">
-            * Pricing as of September 2025. DocuSign pricing may vary by plan and features.
+            * Pricing as of September 2026. DocuSign pricing may vary by plan and features.
             <br />
             Blue dots indicate key differentiating features.
           </p>

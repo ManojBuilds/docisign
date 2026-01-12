@@ -1,13 +1,13 @@
-import { CheckCircle, XCircle, Star, ArrowRight, FileText, Send, Zap, DollarSign, Smartphone } from "lucide-react";
-import { Metadata } from "next";
 import StartTrialBtn from "@/components/StartTrialBtn";
-import Faq from "@/components/faq";
 import Cta from "@/components/cta";
+import Faq from "@/components/faq";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, CheckCircle, DollarSign, FileText, Send, Smartphone, Star, XCircle, Zap } from "lucide-react";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
-    title: "Free Freelance Contract Template | Download & Sign Instantly in 2025",
+    title: "Free Freelance Contract Template | Download & Sign Instantly in 2026",
     description:
         "Download our free freelance contract template and sign it instantly with BoopSign. Get paid on time, avoid scope creep, and protect your business with professional contracts.",
     keywords: [
@@ -363,7 +363,7 @@ export default function FreelanceContractTemplatePage() {
                                             Monthly Cost
                                         </td>
                                         <td className="py-4 px-4 text-center font-bold text-green-600">
-                                            $12/month
+                                            $15/month
                                         </td>
                                         <td className="py-4 px-4 text-center text-red-600">
                                             $25+/month

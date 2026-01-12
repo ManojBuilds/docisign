@@ -12,7 +12,7 @@ interface TrialReminder1DayProps {
 export default function TrialReminder1Day({
   userName = "User",
   upgradeUrl = "#",
-  planPrice = "$12/month",
+  planPrice = "$15/month",
 }: TrialReminder1DayProps) {
   const preview = `Last day of your trial, ${userName}`;
 

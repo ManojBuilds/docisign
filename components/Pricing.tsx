@@ -29,7 +29,7 @@ const Pricing = () => {
       <div className="container mx-auto px-4 py-20 text-center">
         <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
           One plan. All features. <br className="hidden md:block" />
-          <span className="text-primary">$12/month.</span>
+          <span className="text-primary">$15/month.</span>
         </h1>
         <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
           Get everything you need to sign contracts online. No hidden fees. Start your 7-day free trial today.
@@ -62,7 +62,7 @@ const Pricing = () => {
                 BoopSign Pro
               </Badge>
               <div className="flex items-baseline justify-center gap-1 mb-2">
-                <span className="text-5xl font-bold tracking-tight">$12</span>
+                <span className="text-5xl font-bold tracking-tight">$15</span>
                 <span className="text-lg text-muted-foreground font-medium">/month</span>
               </div>
               <CardDescription className="text-base">

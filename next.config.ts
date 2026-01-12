@@ -57,6 +57,46 @@ const nextConfig: NextConfig = {
         destination: "/docusign-alternative",
         permanent: true,
       },
+      {
+        source: "/realestate",
+        destination: "/real-estate-document-signing",
+        permanent: true,
+      },
+      {
+        source: "/real-estate",
+        destination: "/real-estate-document-signing",
+        permanent: true,
+      },
+      {
+        source: "/healthcare",
+        destination: "/healthcare-document-signing",
+        permanent: true,
+      },
+      {
+        source: "/fintech",
+        destination: "/fintech-document-signing",
+        permanent: true,
+      },
+      {
+        source: "/financial-services",
+        destination: "/fintech-document-signing",
+        permanent: true,
+      },
+      {
+        source: "/education",
+        destination: "/education-document-signing",
+        permanent: true,
+      },
+      {
+        source: "/freelancers",
+        destination: "/esignature-for-freelancers",
+        permanent: true,
+      },
+      {
+        source: "/consultants",
+        destination: "/esignature-for-consultants",
+        permanent: true,
+      },
     ];
   },
 };

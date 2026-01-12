@@ -1,14 +1,14 @@
-import { CheckCircle, XCircle, Star, Zap, Shield, Clock } from "lucide-react";
-import { Metadata } from "next";
 import StartTrialBtn from "@/components/StartTrialBtn";
-import Faq from "@/components/faq";
 import Cta from "@/components/cta";
+import Faq from "@/components/faq";
 import { Badge } from "@/components/ui/badge";
+import { CheckCircle, Clock, Shield, Star, XCircle, Zap } from "lucide-react";
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "E-Signature Without Account Creation — Sign in 30 Seconds | BoopSign",
   description:
-    "The only e-signature tool where signers don't need accounts. Send contracts, NDAs, and proposals—your clients sign instantly without login. No friction, just signatures. $12/month.",
+    "The only e-signature tool where signers don't need accounts. Send contracts, NDAs, and proposals—your clients sign instantly without login. No friction, just signatures. $15/month.",
   keywords: [
     "e-signature no account needed",
     "no account e-signature",

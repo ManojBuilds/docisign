@@ -1,16 +1,16 @@
-import { CheckCircle, XCircle, Star, ArrowRight, Zap, Shield, DollarSign, Smartphone, Clock, Users } from "lucide-react";
-import { Metadata } from "next";
-import Link from "next/link";
 import StartTrialBtn from "@/components/StartTrialBtn";
-import Faq from "@/components/faq";
 import Cta from "@/components/cta";
+import Faq from "@/components/faq";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, CheckCircle, Clock, DollarSign, Shield, Smartphone, Star, Users, XCircle, Zap } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Best Dropbox Sign Alternative 2025 | BoopSign vs Dropbox Sign",
+  title: "Best Dropbox Sign Alternative 2026 | BoopSign vs Dropbox Sign",
   description:
-    "Looking for a Dropbox Sign alternative? BoopSign is 52% cheaper ($12 vs $25/month), simpler, and mobile-first. No account needed for signers. Try free for 7 days.",
+    "Looking for a Dropbox Sign alternative? BoopSign is 52% cheaper ($15 vs $25/month), simpler, and mobile-first. No account needed for signers. Try free for 7 days.",
   keywords: [
     "dropbox sign alternative",
     "dropbox sign competitor",
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     canonical: "https://boopsign.com/dropbox-sign-alternative",
   },
   openGraph: {
-    title: "Best Dropbox Sign Alternative 2025 | BoopSign vs Dropbox Sign",
+    title: "Best Dropbox Sign Alternative 2026 | BoopSign vs Dropbox Sign",
     description:
       "BoopSign is 52% cheaper than Dropbox Sign, simpler, and built for mobile-first teams. No account needed for signers.",
     url: "https://boopsign.com/dropbox-sign-alternative",
@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Best Dropbox Sign Alternative 2025 | BoopSign",
+    title: "Best Dropbox Sign Alternative 2026 | BoopSign",
     description: "52% cheaper, simpler, mobile-first. No account needed for signers.",
     images: ["https://boopsign.com/og-image.png"],
   },
@@ -78,7 +78,7 @@ const dropboxSignFaq = [
     id: "faq-4",
     question: "How does BoopSign pricing compare to Dropbox Sign?",
     answer:
-      "BoopSign is significantly cheaper than Dropbox Sign. Dropbox Sign costs $25/user/month for their standard plan, while BoopSign Pro is just $12/month total—that's 52% cheaper. No per-user fees, no hidden costs, unlimited signatures. You save $156/year per user compared to Dropbox Sign.",
+      "BoopSign is significantly cheaper than Dropbox Sign. Dropbox Sign costs $25/user/month for their standard plan, while BoopSign Pro is just $15/month total—that's 52% cheaper. No per-user fees, no hidden costs, unlimited signatures. You save $156/year per user compared to Dropbox Sign.",
   },
   {
     id: "faq-5",
@@ -116,9 +116,9 @@ export default function DropboxSignAlternativePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            name: "BoopSign - Best Dropbox Sign Alternative 2025",
+            name: "BoopSign - Best Dropbox Sign Alternative 2026",
             description:
-              "Mobile-first electronic signature platform, 52% cheaper than Dropbox Sign ($12 vs $25/month) with no account required for signers. Simple, fast, and focused on what matters: getting documents signed quickly.",
+              "Mobile-first electronic signature platform, 52% cheaper than Dropbox Sign ($15 vs $25/month) with no account required for signers. Simple, fast, and focused on what matters: getting documents signed quickly.",
             url: "https://boopsign.com/dropbox-sign-alternative",
             applicationCategory: "BusinessApplication",
             operatingSystem: "Web, iOS, Android",
@@ -212,7 +212,7 @@ export default function DropboxSignAlternativePage() {
               Dropbox Sign Alternative
             </Badge>
           </div>
-          
+
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             Dropbox Sign Alternative That&apos;s <span className="text-blue-600">52% Cheaper</span> & Actually Works on Mobile
           </h1>
@@ -222,7 +222,7 @@ export default function DropboxSignAlternativePage() {
             If you&apos;re a <span className="font-semibold">freelancer, consultant, or small business</span> tired of paying $25-65/month for features you don&apos;t need,
             BoopSign is the{" "}
             <span className="font-bold">simple, affordable alternative</span> built specifically for you—
-            <span className="font-bold"> $12/month, 3-minute setup, zero signer friction</span>.
+            <span className="font-bold"> $15/month, 3-minute setup, zero signer friction</span>.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 mb-10 text-sm md:text-base">
@@ -290,7 +290,7 @@ export default function DropboxSignAlternativePage() {
                 <div className="text-5xl font-bold text-red-600 mb-2">67%</div>
                 <p className="text-gray-700 font-semibold mb-2">Price Increase</p>
                 <p className="text-sm text-gray-600">
-                  Dropbox Sign (formerly HelloSign) went from $15/month (2020) to $25/month (2025).
+                  Dropbox Sign (formerly HelloSign) went from $15/month (2020) to $25/month (2026).
                   Premium tier now $65/month.
                 </p>
               </CardContent>
@@ -301,7 +301,7 @@ export default function DropboxSignAlternativePage() {
                 <div className="text-5xl font-bold text-orange-600 mb-2">43%</div>
                 <p className="text-gray-700 font-semibold mb-2">Slower Signing</p>
                 <p className="text-sm text-gray-600">
-                  Average signing time increased from 5 minutes (2020) to 7-9 minutes (2025)
+                  Average signing time increased from 5 minutes (2020) to 7-9 minutes (2026)
                   due to forced Dropbox account prompts.
                 </p>
               </CardContent>
@@ -321,7 +321,7 @@ export default function DropboxSignAlternativePage() {
 
           <div className="rounded-lg p-8">
             <h3 className="text-2xl font-bold mb-6 text-center">
-              What Dropbox Sign Users Are Actually Saying (2024-2025)
+              What Dropbox Sign Users Are Actually Saying (2024-2026)
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="border-l-4 border-red-500 pl-4">
@@ -329,7 +329,7 @@ export default function DropboxSignAlternativePage() {
                   &quot;After Dropbox bought HelloSign and renamed it to Dropbox Sign, they keep pushing me to upgrade to Dropbox Business.
                   My clients are confused why they need a Dropbox account to sign a simple contract.&quot;
                 </p>
-                <p className="text-sm text-gray-500">— G2 Review, Jan 2025</p>
+                <p className="text-sm text-gray-500">— G2 Review, Jan 2026</p>
               </div>
               <div className="border-l-4 border-red-500 pl-4">
                 <p className="text-gray-700 italic mb-2">
@@ -376,19 +376,19 @@ export default function DropboxSignAlternativePage() {
               </CardHeader>
               <CardContent className="space-y-4 text-gray-700">
                 <p>
-                  <span className="font-bold">💸 Expensive Pricing:</span> $25/user/month 
+                  <span className="font-bold">💸 Expensive Pricing:</span> $25/user/month
                   for Standard plan, $65/month for Premium.
                 </p>
                 <p>
-                  <span className="font-bold">🔐 Account Friction:</span> Signers often 
+                  <span className="font-bold">🔐 Account Friction:</span> Signers often
                   need to create accounts or log in to Dropbox.
                 </p>
                 <p>
-                  <span className="font-bold">📱 Mobile Complexity:</span> Requires app 
+                  <span className="font-bold">📱 Mobile Complexity:</span> Requires app
                   download for best experience, not browser-optimized.
                 </p>
                 <p>
-                  <span className="font-bold">🏢 Enterprise Focus:</span> Since Dropbox 
+                  <span className="font-bold">🏢 Enterprise Focus:</span> Since Dropbox
                   acquisition, less focus on freelancers and small teams.
                 </p>
               </CardContent>
@@ -404,28 +404,28 @@ export default function DropboxSignAlternativePage() {
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Affordable Pricing:</span> Just $12/month 
+                    <span className="font-bold">Affordable Pricing:</span> Just $15/month
                     total. No per-user fees. Save $156/year.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Zero Friction:</span> Signers click link 
+                    <span className="font-bold">Zero Friction:</span> Signers click link
                     and sign instantly. No accounts, no login.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Mobile-First:</span> Works perfectly in 
+                    <span className="font-bold">Mobile-First:</span> Works perfectly in
                     any mobile browser. No app needed.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Built for You:</span> Designed specifically 
+                    <span className="font-bold">Built for You:</span> Designed specifically
                     for freelancers, consultants, and small businesses.
                   </span>
                 </p>
@@ -442,7 +442,7 @@ export default function DropboxSignAlternativePage() {
             Dropbox Sign vs BoopSign: Complete Comparison
           </h2>
           <p className="text-xl mb-12 text-gray-600">
-            See how BoopSign stacks up against Dropbox Sign in 2025
+            See how BoopSign stacks up against Dropbox Sign in 2026
           </p>
 
           <div className="bg-white rounded-xl p-8">
@@ -459,7 +459,7 @@ export default function DropboxSignAlternativePage() {
                   <tr className="border-b border-gray-200 bg-blue-50/30">
                     <td className="py-4 px-4 text-gray-700 font-semibold">Monthly Cost</td>
                     <td className="py-4 px-4 text-center font-bold text-green-600">
-                      $12/month
+                      $15/month
                     </td>
                     <td className="py-4 px-4 text-center text-red-600">
                       $25/user/month
@@ -701,7 +701,7 @@ export default function DropboxSignAlternativePage() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 border-b">
                     <span className="text-gray-600">Pro Plan</span>
-                    <span className="font-bold text-green-600">$12/month</span>
+                    <span className="font-bold text-green-600">$15/month</span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b">
                     <span className="text-gray-600">Unlimited users</span>
@@ -717,7 +717,7 @@ export default function DropboxSignAlternativePage() {
                   </div>
                   <div className="flex justify-between items-center py-3 bg-green-50 rounded px-3 mt-4">
                     <span className="font-bold text-gray-800">Total Annual Cost</span>
-                    <span className="font-bold text-2xl text-green-600">$144/year</span>
+                    <span className="font-bold text-2xl text-green-600">$228/year</span>
                   </div>
                 </div>
               </div>
@@ -793,7 +793,7 @@ export default function DropboxSignAlternativePage() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  Pay just $12/month instead of Dropbox Sign&apos;s $25/user/month.
+                  Pay just $15/month instead of Dropbox Sign&apos;s $25/user/month.
                   That&apos;s $156 saved per year. No per-user fees, no hidden costs,
                   unlimited signatures included.
                 </p>
@@ -1300,12 +1300,12 @@ export default function DropboxSignAlternativePage() {
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <StartTrialBtn />
-                 <Link
-                href="/pricing"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-600 rounded-full font-semibold hover:bg-blue-50 transition-colors"
-              >
-                View Pricing <ArrowRight className="w-4 h-4" />
-              </Link>
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-600 rounded-full font-semibold hover:bg-blue-50 transition-colors"
+                >
+                  View Pricing <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
               <p className="text-sm text-blue-100 mt-4">
                 💡 Pro tip: Most users complete migration during their 7-day free trial

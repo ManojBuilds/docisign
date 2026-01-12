@@ -1,14 +1,14 @@
-import { CheckCircle, XCircle, Star, ArrowRight, Zap, Shield, DollarSign, Smartphone, Clock, Users } from "lucide-react";
-import { Metadata } from "next";
-import Link from "next/link";
 import StartTrialBtn from "@/components/StartTrialBtn";
-import Faq from "@/components/faq";
 import Cta from "@/components/cta";
+import Faq from "@/components/faq";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, CheckCircle, Clock, DollarSign, Shield, Smartphone, Star, Users, XCircle, Zap } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Best Zoho Sign Alternative 2025 | BoopSign vs Zoho Sign",
+  title: "Best Zoho Sign Alternative 2026 | BoopSign vs Zoho Sign",
   description:
     "Looking for a Zoho Sign alternative? BoopSign offers simpler signer experience, 3x faster signing, and 40% savings. No account needed for signers. Try free for 7 days.",
   keywords: [
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     canonical: "https://boopsign.com/zoho-sign-alternative",
   },
   openGraph: {
-    title: "Best Zoho Sign Alternative 2025 | BoopSign vs Zoho Sign",
+    title: "Best Zoho Sign Alternative 2026 | BoopSign vs Zoho Sign",
     description:
       "BoopSign offers simpler signer experience than Zoho Sign with 40% cost savings. Built for mobile-first teams, no account needed for signers.",
     url: "https://boopsign.com/zoho-sign-alternative",
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Best Zoho Sign Alternative 2025 | BoopSign",
+    title: "Best Zoho Sign Alternative 2026 | BoopSign",
     description: "Simpler experience, 40% cheaper, 3x faster. No account needed for signers.",
     images: ["https://boopsign.com/og-image.png"],
   },
@@ -81,7 +81,7 @@ const zohoSignFaq = [
     id: "faq-4",
     question: "How does BoopSign pricing compare to Zoho Sign?",
     answer:
-      "BoopSign is significantly more affordable. Zoho Sign typically costs $15/user/month, while BoopSign Pro is just $12/month total—no per-user fees. This means you save money even with multiple users compared to Zoho Sign, and get unlimited signatures included.",
+      "BoopSign is significantly more affordable. Zoho Sign typically costs $15/user/month, while BoopSign Pro is just $15/month total—no per-user fees. This means you save money even with multiple users compared to Zoho Sign, and get unlimited signatures included.",
   },
   {
     id: "faq-5",
@@ -119,7 +119,7 @@ export default function ZohoSignAlternativePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            name: "BoopSign - Best Zoho Sign Alternative 2025",
+            name: "BoopSign - Best Zoho Sign Alternative 2026",
             description:
               "Mobile-first electronic signature platform that offers simpler global experience than Zoho Sign. No account required for signers. 3x faster signing, unlimited signatures, bank-level security.",
             url: "https://boopsign.com/zoho-sign-alternative",
@@ -129,7 +129,7 @@ export default function ZohoSignAlternativePage() {
               "@type": "Offer",
               price: "12",
               priceCurrency: "USD",
-              priceValidUntil: "2025-12-31",
+              priceValidUntil: "2026-12-31",
               availability: "https://schema.org/InStock",
               seller: {
                 "@type": "Organization",
@@ -222,16 +222,16 @@ export default function ZohoSignAlternativePage() {
               Zoho Sign Alternative
             </Badge>
           </div>
-          
+
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             Zoho Sign Alternative That&apos;s <span className="text-blue-600">Simpler</span> & Actually Works on Mobile
           </h1>
 
           <p className="text-lg md:text-xl text-gray-700 max-w-4xl mx-auto mb-8">
-            Zoho Sign excels in the Indian market with Aadhaar integration and local compliance features, 
+            Zoho Sign excels in the Indian market with Aadhaar integration and local compliance features,
             but if you&apos;re looking for a <span className="font-semibold">simpler, more globally accessible</span> e-signature solution,
             BoopSign offers a streamlined experience that works seamlessly for international clients too.
-            BoopSign is <span className="font-bold">40% more affordable</span> with a <span className="font-bold">mobile-first design</span> that ensures 
+            BoopSign is <span className="font-bold">40% more affordable</span> with a <span className="font-bold">mobile-first design</span> that ensures
             <span className="font-bold"> faster completion rates</span>.
           </p>
 
@@ -322,8 +322,8 @@ export default function ZohoSignAlternativePage() {
                 <div className="text-5xl font-bold text-yellow-600 mb-2">$15</div>
                 <p className="text-gray-700 font-semibold mb-2">Per User Monthly Cost</p>
                 <p className="text-sm text-gray-600">
-                  Zoho Sign starts at $15/user/month while BoopSign costs just 
-                  $12/month total for unlimited users.
+                  Zoho Sign starts at $15/user/month while BoopSign costs just
+                  $15/month total for unlimited users.
                 </p>
               </CardContent>
             </Card>
@@ -336,28 +336,28 @@ export default function ZohoSignAlternativePage() {
             <div className="grid md:grid-cols-2 gap-6">
               <div className="border-l-4 border-green-500 pl-4">
                 <p className="text-gray-700 italic mb-2">
-                  &quot;Zoho Sign is excellent for Indian businesses. The Aadhaar eSign and 
+                  &quot;Zoho Sign is excellent for Indian businesses. The Aadhaar eSign and
                   eMudhra eKYC integration are game-changers for our compliance requirements.&quot;
                 </p>
                 <p className="text-sm text-gray-500">— Indian IT Company Review</p>
               </div>
               <div className="border-l-4 border-red-500 pl-4">
                 <p className="text-gray-700 italic mb-2">
-                  &quot;Great for local compliance but international clients find it complex. 
+                  &quot;Great for local compliance but international clients find it complex.
                   They prefer simpler signing experiences when working with us globally.&quot;
                 </p>
                 <p className="text-sm text-gray-500">— Export Company Review</p>
               </div>
               <div className="border-l-4 border-red-500 pl-4">
                 <p className="text-gray-700 italic mb-2">
-                  &quot;For simple contracts with clients outside India, Zoho Sign feels 
+                  &quot;For simple contracts with clients outside India, Zoho Sign feels
                   unnecessarily complex. We need something more streamlined.&quot;
                 </p>
                 <p className="text-sm text-gray-500">— International Consulting Firm</p>
               </div>
               <div className="border-l-4 border-green-500 pl-4">
                 <p className="text-gray-700 italic mb-2">
-                  &quot;The local data centers in India provide the security and compliance 
+                  &quot;The local data centers in India provide the security and compliance
                   our industry demands. Perfect for domestic operations.&quot;
                 </p>
                 <p className="text-sm text-gray-500">— Indian Financial Services</p>
@@ -386,19 +386,19 @@ export default function ZohoSignAlternativePage() {
               </CardHeader>
               <CardContent className="space-y-4 text-gray-700">
                 <p>
-                  <span className="font-bold">🇮🇳 India-First:</span> Zoho Sign excels in 
+                  <span className="font-bold">🇮🇳 India-First:</span> Zoho Sign excels in
                   Indian market compliance with Aadhaar eSign, eMudhra eKYC, and local data centers.
                 </p>
                 <p>
-                  <span className="font-bold">🌐 Limited Global Use:</span> International 
+                  <span className="font-bold">🌐 Limited Global Use:</span> International
                   clients often find it complex due to Indian-focused features and authentication.
                 </p>
                 <p>
-                  <span className="font-bold">📱 Mobile Experience:</span> Requires app 
+                  <span className="font-bold">📱 Mobile Experience:</span> Requires app
                   download for optimal experience, less ideal for simple browser-based signing.
                 </p>
                 <p>
-                  <span className="font-bold">💼 Enterprise Focus:</span> More feature-rich 
+                  <span className="font-bold">💼 Enterprise Focus:</span> More feature-rich
                   for large organizations than needed for freelancers and small businesses.
                 </p>
               </CardContent>
@@ -414,28 +414,28 @@ export default function ZohoSignAlternativePage() {
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Affordable Pricing:</span> Just $12/month 
+                    <span className="font-bold">Affordable Pricing:</span> Just $15/month
                     total. No per-user fees. Save money compared to Zoho Sign.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Zero Friction:</span> Signers click link 
+                    <span className="font-bold">Zero Friction:</span> Signers click link
                     and sign instantly. No accounts, no login, no complex verification.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Mobile-First:</span> Works perfectly in 
+                    <span className="font-bold">Mobile-First:</span> Works perfectly in
                     any mobile browser. No app needed.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Designed for Global Use:</span> Simple interface 
+                    <span className="font-bold">Designed for Global Use:</span> Simple interface
                     that works for international clients without confusing compliance features.
                   </span>
                 </p>
@@ -468,7 +468,7 @@ export default function ZohoSignAlternativePage() {
               <CardContent>
                 <p className="text-gray-600">
                   International signers often encounter unnecessary authentication steps
-                  and compliance features that don&apos;t apply to them. Zoho Sign&apos;s 
+                  and compliance features that don&apos;t apply to them. Zoho Sign&apos;s
                   India-focused design confuses users outside the country.
                 </p>
               </CardContent>
@@ -525,7 +525,7 @@ export default function ZohoSignAlternativePage() {
               BoopSign: Built for Global Business Simplicity
             </h3>
             <p className="text-gray-600 mb-6">
-              Our solution eliminates these common Zoho Sign problems with a streamlined, 
+              Our solution eliminates these common Zoho Sign problems with a streamlined,
               international-friendly approach that works for any business anywhere in the world.
             </p>
             <div className="grid md:grid-cols-3 gap-6 text-left">
@@ -539,7 +539,7 @@ export default function ZohoSignAlternativePage() {
               </div>
               <div className="border-l-4 border-green-500 pl-4">
                 <h4 className="font-bold text-lg mb-2">Simple Pricing</h4>
-                <p className="text-gray-600">Flat $12/month for unlimited users and signatures</p>
+                <p className="text-gray-600">Flat $15/month for unlimited users and signatures</p>
               </div>
             </div>
           </div>
@@ -553,7 +553,7 @@ export default function ZohoSignAlternativePage() {
             Zoho Sign vs BoopSign: Complete Comparison
           </h2>
           <p className="text-xl mb-12 text-gray-600">
-            See how BoopSign stacks up against Zoho Sign in 2025
+            See how BoopSign stacks up against Zoho Sign in 2026
           </p>
 
           <div className="bg-white rounded-xl p-8 ">
@@ -570,7 +570,7 @@ export default function ZohoSignAlternativePage() {
                   <tr className="border-b border-gray-200 bg-blue-50/30">
                     <td className="py-4 px-4 text-gray-700 font-semibold">Monthly Cost</td>
                     <td className="py-4 px-4 text-center font-bold text-green-600">
-                      $12/month total
+                      $15/month total
                     </td>
                     <td className="py-4 px-4 text-center text-red-600">
                       $15/user/month
@@ -825,7 +825,7 @@ export default function ZohoSignAlternativePage() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 border-b">
                     <span className="text-gray-600">Pro Plan</span>
-                    <span className="font-bold text-green-600">$12/month</span>
+                    <span className="font-bold text-green-600">$15/month</span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b">
                     <span className="text-gray-600">Unlimited users</span>
@@ -841,7 +841,7 @@ export default function ZohoSignAlternativePage() {
                   </div>
                   <div className="flex justify-between items-center py-3 bg-green-50 rounded px-3 mt-4">
                     <span className="font-bold text-gray-800">Total Annual Cost</span>
-                    <span className="font-bold text-2xl text-green-600">$144/year</span>
+                    <span className="font-bold text-2xl text-green-600">$228/year</span>
                   </div>
                 </div>
               </div>
@@ -913,7 +913,7 @@ export default function ZohoSignAlternativePage() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  Pay just $12/month instead of Zoho Sign&apos;s $15/user/month.
+                  Pay just $15/month instead of Zoho Sign&apos;s $15/user/month.
                   That&apos;s money saved per year. No per-user fees, no hidden costs,
                   unlimited signatures included.
                 </p>
@@ -1202,7 +1202,7 @@ export default function ZohoSignAlternativePage() {
                 </div>
                 <p className="text-gray-700 mb-4 italic">
                   &quot;Zoho Sign is indispensable for our Indian clients due to Aadhaar compliance,
-                  but when working with international partners, BoopSign is far superior. 
+                  but when working with international partners, BoopSign is far superior.
                   The simple interface means contracts get signed in hours, not days.&quot;
                 </p>
                 <p className="font-semibold text-gray-900">Suresh K.</p>
@@ -1221,7 +1221,7 @@ export default function ZohoSignAlternativePage() {
                 </div>
                 <p className="text-gray-700 mb-4 italic">
                   &quot;I use Zoho Sign for Indian operations but BoopSign for everything else.
-                  The pricing is much better for my small consulting business, and clients 
+                  The pricing is much better for my small consulting business, and clients
                   prefer the simpler signing process.&quot;
                 </p>
                 <p className="font-semibold text-gray-900">Priya N.</p>
@@ -1239,8 +1239,8 @@ export default function ZohoSignAlternativePage() {
                   <Star className="fill-current" />
                 </div>
                 <p className="text-gray-700 mb-4 italic">
-                  &quot;Zoho Sign is great for compliance-heavy industries in India, 
-                  but for simple service agreements with global clients, BoopSign 
+                  &quot;Zoho Sign is great for compliance-heavy industries in India,
+                  but for simple service agreements with global clients, BoopSign
                   provides a much better user experience.&quot;
                 </p>
                 <p className="font-semibold text-gray-900">Michael R.</p>
@@ -1348,7 +1348,7 @@ export default function ZohoSignAlternativePage() {
                 <div>
                   <h3 className="font-bold text-lg mb-2">Export Your Zoho Sign Templates</h3>
                   <p className="text-gray-600">
-                    Download your existing templates from Zoho Sign as PDFs. Note that compliance-specific 
+                    Download your existing templates from Zoho Sign as PDFs. Note that compliance-specific
                     features like Aadhaar eSign won't transfer, but standard templates work fine.
                     Your document history stays in Zoho Sign for record keeping.
                   </p>
@@ -1398,7 +1398,7 @@ export default function ZohoSignAlternativePage() {
                   <p className="text-gray-600">
                     Send your first document and see how much faster your international clients sign.
                     No account creation, no complex verification, just simple signatures.
-                    Continue using Zoho Sign for Indian compliance needs while using BoopSign 
+                    Continue using Zoho Sign for Indian compliance needs while using BoopSign
                     for global operations.
                   </p>
                 </div>
@@ -1425,12 +1425,12 @@ export default function ZohoSignAlternativePage() {
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <StartTrialBtn />
-                 <Link
-                href="/pricing"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-600 rounded-full font-semibold hover:bg-blue-50 transition-colors"
-              >
-                View Pricing <ArrowRight className="w-4 h-4" />
-              </Link>
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-600 rounded-full font-semibold hover:bg-blue-50 transition-colors"
+                >
+                  View Pricing <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
               <p className="text-sm text-blue-100 mt-4">
                 💡 Pro tip: Most users complete migration during their 7-day free trial

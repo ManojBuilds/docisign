@@ -1,6 +1,8 @@
-import type { Metadata } from "next";
 import OnlineSignatureCreator from "@/components/OnlineSignatureCreator";
 import Faq from "@/components/faq";
+import TestimonialsSection from "@/components/testimonials";
+import { ArrowRight, Check, Shield, Smartphone, Zap } from "lucide-react";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
@@ -33,44 +35,32 @@ const signatureMakerFaq = [
     id: "faq-1",
     question: "Are signatures created with this free tool legally binding?",
     answer:
-      "Signatures created with our free online signature maker are great for personal documents and basic business uses. However, for legally binding contracts and documents requiring comprehensive audit trails, we recommend using BoopSign's full electronic signature platform, which provides advanced security features and legal compliance.",
+      "Signatures created with our free online signature maker are great for personal documents and basic business uses. For legally binding contracts requiring a full audit trail (IP address, timestamp, etc.), we recommend using the BoopSign platform.",
   },
   {
     id: "faq-2",
     question: "Do you save or store the signatures I create?",
     answer:
-      "Absolutely not. Your privacy is our top priority. We do not save, store, or have access to any signatures created with this free tool. Everything happens in your browser locally, and only you have access to download your signature.",
+      "Absolutely not. Everything happens locally in your browser. We never see, store, or have access to the signatures you create with this tool.",
   },
   {
     id: "faq-3",
     question: "How can I use the signature I download?",
     answer:
-      "You can download your signature as a high-quality, transparent PNG file. This makes it easy to add to documents in Microsoft Word, Google Docs, Adobe Acrobat, or any image editing software. The transparent background ensures it looks professional on any document.",
+      "You get a high-quality, transparent PNG file. You can easily drag and drop this into Word, Google Docs, PDFs, or email signatures.",
   },
   {
     id: "faq-4",
-    question: "Is this online signature maker really completely free?",
+    question: "Is this really 100% free?",
     answer:
-      "Yes, 100% free with no hidden costs, registration requirements, or limits on downloads. We offer this signature creator tool as a way to introduce you to the convenience of electronic signatures. For full document signing workflows, check out BoopSign.",
-  },
-  {
-    id: "faq-5",
-    question: "Can I create multiple signature styles?",
-    answer:
-      "Yes! You can draw different signature styles with your mouse or finger, or type your name and choose from various handwriting-style fonts. Create as many versions as you want until you find the perfect signature style.",
-  },
-  {
-    id: "faq-6",
-    question: "Does this work on mobile devices?",
-    answer:
-      "Absolutely! Our signature maker is fully optimized for mobile devices. You can easily draw your signature on your phone or tablet using your finger, just like signing on paper.",
+      "Yes. No catch. We provide this tool to help you experience how easy digital signing can be. If you need to send docs to others, you can try our main app.",
   },
 ];
 
 export default function OnlineSignatureMakerPage() {
   return (
-    <main className="bg-gray-50">
-      {/* Schema Markup for Rich Snippets */}
+    <main className="min-h-screen bg-white">
+      {/* Schema Markup */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -78,248 +68,174 @@ export default function OnlineSignatureMakerPage() {
             "@context": "https://schema.org",
             "@type": "WebApplication",
             name: "Free Online Signature Maker",
-            description:
-              "Create professional electronic signatures online for free. No registration required.",
+            description: "Create professional electronic signatures online for free.",
             url: "https://boopsign.com/online-signature-maker",
             applicationCategory: "BusinessApplication",
-            operatingSystem: "Web Browser",
-            offers: {
-              "@type": "Offer",
-              price: "0",
-              priceCurrency: "USD",
-            },
-            provider: {
-              "@type": "Organization",
-              name: "BoopSign",
-              url: "https://boopsign.com",
-            },
+            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
           }),
         }}
       />
 
-      {/* Hero/Tool Section */}
-      <section className="text-center py-16 md:py-20 px-4">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          Free Online Signature Maker
-        </h1>
-        <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto mb-6">
-          Create your perfect electronic signature in seconds. Draw it with your
-          mouse or finger, or type it and choose from professional fonts.{" "}
-          <strong>No registration required.</strong>
-        </p>
-        <div className="flex flex-wrap justify-center gap-3 mb-10 text-sm">
-          <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full">
-            ✓ 100% Free
-          </span>
-          <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
-            ✓ Works on Mobile
-          </span>
-          <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full">
-            ✓ Instant Download
-          </span>
-          <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full">
-            ✓ No Registration
-          </span>
-        </div>
-        <OnlineSignatureCreator />
-      </section>
+      {/* Hero Section with Gradient */}
+      <section className="relative pt-20 pb-24 overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[600px] bg-[radial-gradient(50%_50%_at_50%_0%,rgba(59,130,246,0.08)_0%,rgba(255,255,255,0)_100%)]" />
 
-      {/* Benefits Section */}
-      <section className="py-16 md:py-20 px-4 bg-white">
-        <div className="container mx-auto text-center max-w-6xl">
-          <h2 className="text-3xl font-bold mb-4">
-            Why Choose Our Online Signature Maker?
-          </h2>
-          <p className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
-            Join thousands of professionals who trust our free signature
-            generator for creating beautiful, professional electronic
-            signatures.
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-600 text-sm font-medium mb-6">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+            </span>
+            100% Free & No Registration Required
+          </div>
+
+          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-slate-900 mb-6">
+            Free Online <span className="text-blue-600">Signature Maker</span>
+          </h1>
+          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto mb-10 leading-relaxed">
+            Create a professional electronic signature in seconds. Draw it, type it, and download a transparent PNG instantly.
           </p>
 
-          <div className="grid md:grid-cols-3 gap-8">
-            <div className="p-6 bg-gray-50 rounded-lg">
-              <div className="text-4xl mb-4">🚀</div>
-              <h3 className="text-xl font-semibold mb-3">Lightning Fast</h3>
-              <p className="text-gray-600">
-                Create and download your signature in under 30 seconds. No
-                complex forms or lengthy registration processes.
-              </p>
+          <OnlineSignatureCreator />
+        </div>
+      </section>
+
+      {/* Trust Bar */}
+      <section className="py-8 border-y border-slate-100 bg-slate-50/50">
+        <div className="container mx-auto px-4 flex flex-wrap justify-center items-center gap-8 md:gap-16">
+          <div className="flex items-center gap-2 text-slate-500 font-medium">
+            <Shield className="w-5 h-5 text-blue-500" /> Secure & Private
+          </div>
+          <div className="flex items-center gap-2 text-slate-500 font-medium">
+            <Zap className="w-5 h-5 text-yellow-500" /> Instant Download
+          </div>
+          <div className="flex items-center gap-2 text-slate-500 font-medium">
+            <Check className="w-5 h-5 text-green-500" /> Transparent PNG
+          </div>
+          <div className="flex items-center gap-2 text-slate-500 font-medium">
+            <Smartphone className="w-5 h-5 text-purple-500" /> Mobile Ready
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison Table Section */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Go Beyond Simple Signatures</h2>
+            <p className="text-slate-600">When you're ready for real business, upgrade to the full BoopSign experience.</p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Free Tool */}
+            <div className="p-8 rounded-2xl border border-slate-200 bg-slate-50 relative">
+              <h3 className="text-xl font-bold mb-4">Free Creator Tool</h3>
+              <p className="text-slate-500 mb-6 text-sm">Perfect for personal use and quick tasks.</p>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check className="w-5 h-5 text-green-500 mt-0.5" /> <span>Draw or Type Signatures</span>
+                </li>
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check className="w-5 h-5 text-green-500 mt-0.5" /> <span>Transparent PNG Download</span>
+                </li>
+                <li className="flex items-start gap-3 text-slate-700">
+                  <Check className="w-5 h-5 text-green-500 mt-0.5" /> <span>Works on all devices</span>
+                </li>
+                <li className="flex items-start gap-3 text-slate-400">
+                  <div className="w-5 h-5 border border-slate-300 rounded-full flex items-center justify-center text-[10px] mt-0.5">X</div>
+                  <span>No Audit Trail / Proof</span>
+                </li>
+                <li className="flex items-start gap-3 text-slate-400">
+                  <div className="w-5 h-5 border border-slate-300 rounded-full flex items-center justify-center text-[10px] mt-0.5">X</div>
+                  <span>Cannot request signatures</span>
+                </li>
+              </ul>
             </div>
 
-            <div className="p-6 bg-gray-50 rounded-lg">
-              <div className="text-4xl mb-4">📱</div>
-              <h3 className="text-xl font-semibold mb-3">Mobile Optimized</h3>
-              <p className="text-gray-600">
-                Works perfectly on phones and tablets. Sign with your finger
-                just like you would on paper.
-              </p>
-            </div>
-
-            <div className="p-6 bg-gray-50 rounded-lg">
-              <div className="text-4xl mb-4">🔒</div>
-              <h3 className="text-xl font-semibold mb-3">Privacy First</h3>
-              <p className="text-gray-600">
-                We never save or store your signature. Everything happens
-                locally in your browser for maximum privacy.
-              </p>
+            {/* BoopSign App */}
+            <div className="p-8 rounded-2xl border-2 border-blue-600 bg-blue-50/50 relative overflow-hidden">
+              <div className="absolute top-0 right-0 bg-blue-600 text-white px-4 py-1 text-xs font-bold rounded-bl-lg">RECOMMENDED</div>
+              <h3 className="text-xl font-bold mb-4 text-blue-900">BoopSign Full App</h3>
+              <p className="text-blue-700 mb-6 text-sm">For professionals who need legally binding documents.</p>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3 text-blue-900">
+                  <Check className="w-5 h-5 text-blue-600 mt-0.5" /> <span>Legally Binding (ESIGN & eIDAS)</span>
+                </li>
+                <li className="flex items-start gap-3 text-blue-900">
+                  <Check className="w-5 h-5 text-blue-600 mt-0.5" /> <span>Full Audit Trail (IP, Timestamp)</span>
+                </li>
+                <li className="flex items-start gap-3 text-blue-900">
+                  <Check className="w-5 h-5 text-blue-600 mt-0.5" /> <span>Send docs to multiple signers</span>
+                </li>
+                <li className="flex items-start gap-3 text-blue-900 font-semibold">
+                  <Check className="w-5 h-5 text-blue-600 mt-0.5" /> <span>Auto-reminders & Tracking</span>
+                </li>
+                <li className="flex items-start gap-3 text-blue-900 font-semibold">
+                  <Check className="w-5 h-5 text-blue-600 mt-0.5" /> <span>Secure Document Storage</span>
+                </li>
+              </ul>
+              <a href="/signup" className="mt-8 flex items-center justify-center w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition-all gap-2 group">
+                Try BoopSign Free <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* How it Works Section */}
-      <section className="py-16 md:py-20 px-4 bg-gray-50">
-        <div className="container mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Create Your Electronic Signature in 3 Simple Steps
-          </h2>
-          <p className="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">
-            Our signature maker is designed to be intuitive and fast. Get your
-            professional signature ready in minutes.
-          </p>
+      {/* Testimonials */}
+      <TestimonialsSection />
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="p-6 bg-white rounded-lg shadow-sm">
-              <div className="text-5xl font-bold text-blue-600 opacity-80 mb-4">
-                1
-              </div>
-              <h3 className="text-xl font-semibold mb-3">
-                Create Your Signature
-              </h3>
-              <p className="text-gray-600">
-                Draw your signature with your mouse, trackpad, or finger on
-                mobile. Or simply type your name for a clean, professional look.
-              </p>
+      {/* How it Works - Modernized */}
+      <section className="py-24 bg-slate-50">
+        <div className="container mx-auto px-4 text-center max-w-5xl">
+          <h2 className="text-3xl font-bold mb-12">How it works</h2>
+          <div className="grid md:grid-cols-3 gap-12">
+            <div>
+              <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6 text-2xl font-bold text-blue-600 border border-slate-100">1</div>
+              <h3 className="font-bold mb-3 text-lg">Create</h3>
+              <p className="text-slate-600 leading-relaxed">Draw your signature with your mouse/touch, or type your name.</p>
             </div>
-
-            <div className="p-6 bg-white rounded-lg shadow-sm">
-              <div className="text-5xl font-bold text-blue-600 opacity-80 mb-4">
-                2
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Choose Your Style</h3>
-              <p className="text-gray-600">
-                Select from various handwriting-style fonts if typing, or adjust
-                the thickness and smoothness of your drawn signature.
-              </p>
+            <div>
+              <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6 text-2xl font-bold text-blue-600 border border-slate-100">2</div>
+              <h3 className="font-bold mb-3 text-lg">Download</h3>
+              <p className="text-slate-600 leading-relaxed">Save your signature as a high-resolution, transparent PNG.</p>
             </div>
-
-            <div className="p-6 bg-white rounded-lg shadow-sm">
-              <div className="text-5xl font-bold text-blue-600 opacity-80 mb-4">
-                3
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Download Instantly</h3>
-              <p className="text-gray-600">
-                Get your signature as a high-quality, transparent PNG file.
-                Perfect for adding to any document or PDF.
-              </p>
+            <div>
+              <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-6 text-2xl font-bold text-blue-600 border border-slate-100">3</div>
+              <h3 className="font-bold mb-3 text-lg">Sign</h3>
+              <p className="text-slate-600 leading-relaxed">Drag and drop the PNG onto any document or email.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Use Cases Section */}
-      <section className="py-16 md:py-20 px-4 bg-white">
-        <div className="container mx-auto text-center max-w-4xl">
-          <h2 className="text-3xl font-bold mb-4">
-            Perfect for These Documents
-          </h2>
-          <p className="text-lg text-gray-600 mb-12">
-            Use your electronic signature on various documents for personal and
-            business purposes.
-          </p>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="text-center">
-              <div className="text-3xl mb-3">📄</div>
-              <h4 className="font-semibold mb-2">PDFs</h4>
-              <p className="text-sm text-gray-600">Add to any PDF document</p>
-            </div>
-
-            <div className="text-center">
-              <div className="text-3xl mb-3">📧</div>
-              <h4 className="font-semibold mb-2">Emails</h4>
-              <p className="text-sm text-gray-600">
-                Professional email signatures
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl mb-3">📝</div>
-              <h4 className="font-semibold mb-2">Letters</h4>
-              <p className="text-sm text-gray-600">Personal correspondence</p>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl mb-3">💼</div>
-              <h4 className="font-semibold mb-2">Forms</h4>
-              <p className="text-sm text-gray-600">Applications and forms</p>
-            </div>
-          </div>
-        </div>
-      </section>
       {/* FAQ Section */}
-      <section className="py-16 md:py-20 px-4 bg-gray-50">
-        <Faq
-          heading="Frequently Asked Questions About Our Signature Maker"
-          items={signatureMakerFaq}
-        />
-      </section>
+      <Faq
+        heading="Common Questions"
+        items={signatureMakerFaq}
+        className="py-24 bg-white"
+      />
 
-      {/* Upgrade CTA Section */}
-      <section className="py-16 md:py-20 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white text-center">
-        <div className="container mx-auto max-w-4xl">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Need to Send Documents for Signing?
-          </h2>
-          <p className="text-xl mb-8 opacity-90">
-            While our free signature maker is perfect for creating signatures,
-            BoopSign makes it easy to send documents for signature - 3x faster
-            than DocuSign.
+      {/* Final CTA */}
+      <section className="py-24 px-4 bg-slate-900 text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[500px] h-[500px] bg-blue-500/20 blur-[120px] rounded-full" />
+        <div className="container mx-auto max-w-4xl text-center relative z-10">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6">Need to send documents for signing?</h2>
+          <p className="text-xl text-slate-400 mb-10 max-w-2xl mx-auto">
+            BoopSign is 3x faster than DocuSign and 50% cheaper. Join professionals signing smarter.
           </p>
-
-          <div className="grid md:grid-cols-3 gap-6 mb-8 text-left">
-            <div className="bg-white/10 p-6 rounded-lg">
-              <h3 className="font-semibold mb-2">📱 Mobile-First</h3>
-              <p className="text-sm opacity-90">
-                Signers can sign on any device without downloads
-              </p>
-            </div>
-
-            <div className="bg-white/10 p-6 rounded-lg">
-              <h3 className="font-semibold mb-2">⚡ 3-Minute Signing</h3>
-              <p className="text-sm opacity-90">
-                Average signing time vs 7-9 minutes with DocuSign
-              </p>
-            </div>
-
-            <div className="bg-white/10 p-6 rounded-lg">
-              <h3 className="font-semibold mb-2">💰 $12/Month</h3>
-              <p className="text-sm opacity-90">
-                50% cheaper than DocuSign Standard plan
-              </p>
-            </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a href="/signup" className="w-full sm:w-auto px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all text-lg">
+              Start 7-Day Free Trial
+            </a>
+            <a href="/pricing" className="w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-xl font-bold transition-all text-lg border border-white/10">
+              View Pricing
+            </a>
           </div>
-
-          <a
-            href="/signup"
-            className="inline-block bg-white text-blue-600 font-semibold px-8 py-4 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            Start 7-Day Free Trial
-          </a>
-        </div>
-      </section>
-
-      {/* Trust Signals */}
-      <section className="py-12 px-4 bg-white text-center">
-        <div className="container mx-auto">
-          <p className="text-gray-600 mb-4">
-            Trusted by professionals worldwide
-          </p>
-          <div className="flex flex-col md:flex-row gap-2 justify-center items-center md:gap-8 text-sm text-gray-500">
-            <span>✓ 500,000+ signatures created</span>
-            <span>✓ 100% free forever</span>
-            <span>✓ No registration required</span>
-          </div>
+          <p className="mt-8 text-slate-500 text-sm">No credit card required to start.</p>
         </div>
       </section>
     </main>
   );
 }
+

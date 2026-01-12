@@ -1,16 +1,16 @@
-import { CheckCircle, XCircle, Star, ArrowRight, Zap, Shield, DollarSign, Smartphone, Clock, Users } from "lucide-react";
-import { Metadata } from "next";
-import Link from "next/link";
 import StartTrialBtn from "@/components/StartTrialBtn";
-import Faq from "@/components/faq";
 import Cta from "@/components/cta";
+import Faq from "@/components/faq";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowRight, CheckCircle, Clock, DollarSign, Shield, Smartphone, Star, Users, XCircle, Zap } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Best SignNow Alternative 2025 | BoopSign vs SignNow",
+  title: "Best SignNow Alternative 2026 | BoopSign vs SignNow",
   description:
-    "Looking for a SignNow alternative? BoopSign is 40% cheaper ($12 vs $20/month), 3x faster, and mobile-first. No account needed for signers. Try free for 7 days.",
+    "Looking for a SignNow alternative? BoopSign is 40% cheaper ($15 vs $20/month), 3x faster, and mobile-first. No account needed for signers. Try free for 7 days.",
   keywords: [
     "signnow alternative",
     "signnow competitor",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     canonical: "https://boopsign.com/signnow-alternative",
   },
   openGraph: {
-    title: "Best SignNow Alternative 2025 | BoopSign vs SignNow",
+    title: "Best SignNow Alternative 2026 | BoopSign vs SignNow",
     description:
       "BoopSign is 50% cheaper than SignNow, 3x faster, and built for mobile-first teams. No account needed for signers.",
     url: "https://boopsign.com/signnow-alternative",
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Best SignNow Alternative 2025 | BoopSign",
+    title: "Best SignNow Alternative 2026 | BoopSign",
     description: "50% cheaper, 3x faster, mobile-first. No account needed for signers.",
     images: ["https://boopsign.com/og-image.png"],
   },
@@ -77,7 +77,7 @@ const signnowFaq = [
     id: "faq-4",
     question: "How does BoopSign pricing compare to SignNow?",
     answer:
-      "BoopSign is significantly cheaper. SignNow Business plan costs $20/month, while BoopSign Pro is just $12/month total—that's 40% cheaper. SignNow also offers a usage-based pricing model at $1.50 per signature invite, which can become expensive for high-volume users. BoopSign includes unlimited signatures with no per-use fees. You save $96/year compared to SignNow's Business plan.",
+      "BoopSign is significantly cheaper. SignNow Business plan costs $20/month, while BoopSign Pro is just $15/month total—that's 40% cheaper. SignNow also offers a usage-based pricing model at $1.50 per signature invite, which can become expensive for high-volume users. BoopSign includes unlimited signatures with no per-use fees. You save $96/year compared to SignNow's Business plan.",
   },
   {
     id: "faq-5",
@@ -115,9 +115,9 @@ export default function SignNowAlternativePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
-            name: "BoopSign - Best SignNow Alternative 2025",
+            name: "BoopSign - Best SignNow Alternative 2026",
             description:
-              "Mobile-first electronic signature platform, 40% cheaper than SignNow ($12 vs $20/month) with no account required for signers. 3x faster signing, unlimited signatures, bank-level security.",
+              "Mobile-first electronic signature platform, 40% cheaper than SignNow ($15 vs $20/month) with no account required for signers. 3x faster signing, unlimited signatures, bank-level security.",
             url: "https://boopsign.com/signnow-alternative",
             applicationCategory: "BusinessApplication",
             operatingSystem: "Web, iOS, Android",
@@ -125,7 +125,7 @@ export default function SignNowAlternativePage() {
               "@type": "Offer",
               price: "12",
               priceCurrency: "USD",
-              priceValidUntil: "2025-12-31",
+              priceValidUntil: "2026-12-31",
               availability: "https://schema.org/InStock",
               seller: {
                 "@type": "Organization",
@@ -195,7 +195,7 @@ export default function SignNowAlternativePage() {
               SignNow Alternative
             </Badge>
           </div>
-          
+
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
             SignNow Alternative That&apos;s <span className="text-blue-600">40% Cheaper</span> & Actually Works on Mobile
           </h1>
@@ -205,7 +205,7 @@ export default function SignNowAlternativePage() {
             If you&apos;re a <span className="font-semibold">freelancer, consultant, or small business</span> tired of paying $20+/month or $1.50/signature for features you don&apos;t need,
             BoopSign is the{" "}
             <span className="font-bold">simple, affordable alternative</span> built specifically for you—
-            <span className="font-bold"> $12/month, 3-minute setup, zero signer friction</span>.
+            <span className="font-bold"> $15/month, 3-minute setup, zero signer friction</span>.
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 mb-10 text-sm md:text-base">
@@ -304,33 +304,33 @@ export default function SignNowAlternativePage() {
 
           <div className="bg-white rounded-lg p-8 ">
             <h3 className="text-2xl font-bold mb-6 text-center">
-              What SignNow Users Are Actually Saying (2024-2025)
+              What SignNow Users Are Actually Saying (2024-2026)
             </h3>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="border-l-4 border-red-500 pl-4">
                 <p className="text-gray-700 italic mb-2">
-                  &quot;SignNow used to be great for small businesses, but now it feels like it's 
+                  &quot;SignNow used to be great for small businesses, but now it feels like it's
                   targeting enterprises with complex features I don't need. Looking for something simpler.&quot;
                 </p>
-                <p className="text-sm text-gray-500">— G2 Review, Jan 2025</p>
+                <p className="text-sm text-gray-500">— G2 Review, Jan 2026</p>
               </div>
               <div className="border-l-4 border-red-500 pl-4">
                 <p className="text-gray-700 italic mb-2">
-                  &quot;Paying $20/month for basic signing needs feels expensive. 
+                  &quot;Paying $20/month for basic signing needs feels expensive.
                   The interface has become cluttered. Want something more focused on simple signing.&quot;
                 </p>
                 <p className="text-sm text-gray-500">— Capterra Review, Oct 2024</p>
               </div>
               <div className="border-l-4 border-red-500 pl-4">
                 <p className="text-gray-700 italic mb-2">
-                  &quot;My clients complain about needing to create accounts to sign documents. 
+                  &quot;My clients complain about needing to create accounts to sign documents.
                   It creates unnecessary friction in the signing process.&quot;
                 </p>
                 <p className="text-sm text-gray-500">— Reddit r/smallbusiness, Dec 2024</p>
               </div>
               <div className="border-l-4 border-red-500 pl-4">
                 <p className="text-gray-700 italic mb-2">
-                  &quot;Used to love SignNow for contracts, but now it's too complex and expensive 
+                  &quot;Used to love SignNow for contracts, but now it's too complex and expensive
                   for my freelance business. Looking for a better alternative.&quot;
                 </p>
                 <p className="text-sm text-gray-500">— TrustRadius Review, Nov 2024</p>
@@ -359,19 +359,19 @@ export default function SignNowAlternativePage() {
               </CardHeader>
               <CardContent className="space-y-4 text-gray-700">
                 <p>
-                  <span className="font-bold">💸 Expensive Pricing:</span> $20/month 
+                  <span className="font-bold">💸 Expensive Pricing:</span> $20/month
                   for Business plan, or $1.50 per signature invite for usage-based model.
                 </p>
                 <p>
-                  <span className="font-bold">🔐 Account Friction:</span> Signers often 
+                  <span className="font-bold">🔐 Account Friction:</span> Signers often
                   need to create accounts or log in to access documents.
                 </p>
                 <p>
-                  <span className="font-bold">📱 Complexity:</span> Interface has become 
+                  <span className="font-bold">📱 Complexity:</span> Interface has become
                   cluttered with enterprise features, making simple tasks harder.
                 </p>
                 <p>
-                  <span className="font-bold">🏢 Enterprise Focus:</span> Since becoming 
+                  <span className="font-bold">🏢 Enterprise Focus:</span> Since becoming
                   part of airSlate, more focus on enterprise features rather than small business needs.
                 </p>
               </CardContent>
@@ -387,28 +387,28 @@ export default function SignNowAlternativePage() {
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Affordable Pricing:</span> Just $12/month 
+                    <span className="font-bold">Affordable Pricing:</span> Just $15/month
                     total. No per-user fees. Save $96/year.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Zero Friction:</span> Signers click link 
+                    <span className="font-bold">Zero Friction:</span> Signers click link
                     and sign instantly. No accounts, no login.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Mobile-First:</span> Works perfectly in 
+                    <span className="font-bold">Mobile-First:</span> Works perfectly in
                     any mobile browser. No app needed.
                   </span>
                 </p>
                 <p className="flex items-start">
                   <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />
                   <span>
-                    <span className="font-bold">Built for You:</span> Designed specifically 
+                    <span className="font-bold">Built for You:</span> Designed specifically
                     for freelancers, consultants, and small businesses.
                   </span>
                 </p>
@@ -425,7 +425,7 @@ export default function SignNowAlternativePage() {
             SignNow vs BoopSign: Complete Comparison
           </h2>
           <p className="text-xl mb-12 text-gray-600">
-            See how BoopSign stacks up against SignNow in 2025
+            See how BoopSign stacks up against SignNow in 2026
           </p>
 
           <div className="bg-white rounded-xl p-8 ">
@@ -442,7 +442,7 @@ export default function SignNowAlternativePage() {
                   <tr className="border-b border-gray-200 bg-blue-50/30">
                     <td className="py-4 px-4 text-gray-700 font-semibold">Monthly Cost</td>
                     <td className="py-4 px-4 text-center font-bold text-green-600">
-                      $12/month
+                      $15/month
                     </td>
                     <td className="py-4 px-4 text-center text-red-600">
                       $20/month
@@ -684,7 +684,7 @@ export default function SignNowAlternativePage() {
                 <div className="space-y-3">
                   <div className="flex justify-between items-center py-2 border-b">
                     <span className="text-gray-600">Pro Plan</span>
-                    <span className="font-bold text-green-600">$12/month</span>
+                    <span className="font-bold text-green-600">$15/month</span>
                   </div>
                   <div className="flex justify-between items-center py-2 border-b">
                     <span className="text-gray-600">Unlimited users</span>
@@ -700,7 +700,7 @@ export default function SignNowAlternativePage() {
                   </div>
                   <div className="flex justify-between items-center py-3 bg-green-50 rounded px-3 mt-4">
                     <span className="font-bold text-gray-800">Total Annual Cost</span>
-                    <span className="font-bold text-2xl text-green-600">$144/year</span>
+                    <span className="font-bold text-2xl text-green-600">$228/year</span>
                   </div>
                 </div>
               </div>
@@ -772,7 +772,7 @@ export default function SignNowAlternativePage() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-600">
-                  Pay just $12/month instead of SignNow&apos;s $20/month.
+                  Pay just $15/month instead of SignNow&apos;s $20/month.
                   That&apos;s $96 saved per year. No per-user fees, no hidden costs,
                   unlimited signatures included.
                 </p>
@@ -1270,12 +1270,12 @@ export default function SignNowAlternativePage() {
               </p>
               <div className="flex flex-wrap justify-center gap-4">
                 <StartTrialBtn />
-                 <Link
-                href="/pricing"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-600 rounded-full font-semibold hover:bg-blue-50 transition-colors"
-              >
-                View Pricing <ArrowRight className="w-4 h-4" />
-              </Link>
+                <Link
+                  href="/pricing"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-white text-blue-600 rounded-full font-semibold hover:bg-blue-50 transition-colors"
+                >
+                  View Pricing <ArrowRight className="w-4 h-4" />
+                </Link>
               </div>
               <p className="text-sm text-blue-100 mt-4">
                 💡 Pro tip: Most users complete migration during their 7-day free trial
