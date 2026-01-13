@@ -14,6 +14,7 @@ import type * as brevo from "../brevo.js";
 import type * as crons from "../crons.js";
 import type * as dashboard from "../dashboard.js";
 import type * as documents from "../documents.js";
+import type * as dodo from "../dodo.js";
 import type * as emails_layout from "../emails/layout.js";
 import type * as emails_templates_document_complete from "../emails/templates/document_complete.js";
 import type * as emails_templates_index from "../emails/templates/index.js";
@@ -30,6 +31,7 @@ import type * as files from "../files.js";
 import type * as http from "../http.js";
 import type * as notifications from "../notifications.js";
 import type * as otp from "../otp.js";
+import type * as payments from "../payments.js";
 import type * as signatureFields from "../signatureFields.js";
 import type * as signers from "../signers.js";
 import type * as users from "../users.js";
@@ -55,6 +57,7 @@ declare const fullApi: ApiFromModules<{
   crons: typeof crons;
   dashboard: typeof dashboard;
   documents: typeof documents;
+  dodo: typeof dodo;
   "emails/layout": typeof emails_layout;
   "emails/templates/document_complete": typeof emails_templates_document_complete;
   "emails/templates/index": typeof emails_templates_index;
@@ -71,6 +74,7 @@ declare const fullApi: ApiFromModules<{
   http: typeof http;
   notifications: typeof notifications;
   otp: typeof otp;
+  payments: typeof payments;
   signatureFields: typeof signatureFields;
   signers: typeof signers;
   users: typeof users;
@@ -213,6 +217,79 @@ export declare const components: {
             | "failed";
         },
         null
+      >;
+    };
+  };
+  dodopayments: {
+    lib: {
+      checkout: FunctionReference<
+        "action",
+        "internal",
+        {
+          apiKey: string;
+          environment: "test_mode" | "live_mode";
+          payload: {
+            allowed_payment_method_types?: Array<string>;
+            billing_address?: {
+              city?: string;
+              country: string;
+              state?: string;
+              street?: string;
+              zipcode?: string;
+            };
+            billing_currency?: string;
+            confirm?: boolean;
+            customer?:
+              | { email: string; name?: string; phone_number?: string }
+              | { customer_id: string };
+            customization?: {
+              force_language?: string;
+              show_on_demand_tag?: boolean;
+              show_order_details?: boolean;
+              theme?: string;
+            };
+            discount_code?: string;
+            feature_flags?: {
+              allow_currency_selection?: boolean;
+              allow_discount_code?: boolean;
+              allow_phone_number_collection?: boolean;
+              allow_tax_id?: boolean;
+              always_create_new_customer?: boolean;
+            };
+            force_3ds?: boolean;
+            metadata?: Record<string, string>;
+            product_cart: Array<{
+              addons?: Array<{ addon_id: string; quantity: number }>;
+              amount?: number;
+              product_id: string;
+              quantity: number;
+            }>;
+            return_url?: string;
+            show_saved_payment_methods?: boolean;
+            subscription_data?: {
+              on_demand?: {
+                adaptive_currency_fees_inclusive?: boolean;
+                mandate_only: boolean;
+                product_currency?: string;
+                product_description?: string;
+                product_price?: number;
+              };
+              trial_period_days?: number;
+            };
+          };
+        },
+        { checkout_url: string }
+      >;
+      customerPortal: FunctionReference<
+        "action",
+        "internal",
+        {
+          apiKey: string;
+          dodoCustomerId: string;
+          environment: "test_mode" | "live_mode";
+          send_email?: boolean;
+        },
+        { portal_url: string }
       >;
     };
   };

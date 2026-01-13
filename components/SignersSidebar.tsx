@@ -182,7 +182,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                   <button
                     onClick={() => setSelectedTool(tool.id)}
                     className={cn(
-                      'flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl transition-all border-2',
+                      'cursor-pointer flex flex-col items-center justify-center gap-1.5 py-3 rounded-xl transition-all border-2',
                       selectedTool === tool.id
                         ? 'bg-primary border-primary text-primary-foreground shadow-lg shadow-primary/20 scale-105'
                         : 'bg-white border-gray-100 text-gray-400 hover:border-gray-200 hover:bg-gray-50'

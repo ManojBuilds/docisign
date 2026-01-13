@@ -1,6 +1,18 @@
 import { v } from "convex/values";
 import { api } from "./_generated/api";
-import { mutation, query } from "./_generated/server";
+import { internalMutation, internalQuery, mutation, query } from "./_generated/server";
+
+// Internal query for DodoPayments component
+export const getByClerkId = internalQuery({
+  args: { clerkId: v.string() },
+  handler: async (ctx, args) => {
+    return await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
+      .first();
+  },
+});
+
 
 // Create user with automatic 7-day trial
 export const createUser = mutation({
@@ -129,6 +141,40 @@ export const updateSubscriptionStatus = mutation({
     });
   },
 });
+
+// Internal mutation for updating subscription status (called by webhooks)
+export const updateSubscriptionStatusInternal = internalMutation({
+  args: {
+    clerkId: v.string(),
+    subscriptionStatus: v.union(
+      v.literal("active"),
+      v.literal("cancelled"),
+      v.literal("expired"),
+      v.literal("past_due")
+    ),
+    dodoCustomerId: v.optional(v.string()),
+    dodoSubscriptionId: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
+      .first();
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    await ctx.db.patch(user._id, {
+      subscriptionStatus: args.subscriptionStatus,
+      plan: args.subscriptionStatus === "active" ? "pro" : user.plan,
+      dodoCustomerId: args.dodoCustomerId,
+      dodoSubscriptionId: args.dodoSubscriptionId,
+      updatedAt: Date.now(),
+    });
+  },
+});
+
 
 // Check if user can create documents (trial or paid)
 export const canCreateDocument = query({

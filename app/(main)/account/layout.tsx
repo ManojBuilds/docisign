@@ -1,16 +1,16 @@
-import Footer from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { TrialBanner } from "@/components/TrialBanner";
 
-export default function BillingLayout({
+export default function AccountLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <div className="flex flex-col">
-      <Header />
+      <TrialBanner />
+      <Header classNames="container lg:max-w-6xl mx-auto" />
       <main className="flex min-h-screen flex-1 flex-col">{children}</main>
-      <Footer />
     </div>
   );
 }

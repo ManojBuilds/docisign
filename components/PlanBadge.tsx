@@ -1,7 +1,7 @@
 // components/PlanBadge.tsx
 import { Badge } from "@/components/ui/badge";
-import { Crown, Clock } from "lucide-react";
 import { useTrialStatus } from "@/hooks/useTrialStatus";
+import { Clock, Crown } from "lucide-react";
 
 interface PlanBadgeProps {
     showDetails?: boolean;
@@ -17,11 +17,11 @@ export const PlanBadge = ({ showDetails = false }: PlanBadgeProps) => {
 
     if (trialStatus.isPaidUser) {
         return (
-            <Badge variant="default">
+            <Badge variant="secondary" className="bg-primary/10 text-primary border border-primary/20">
                 <Crown className="h-3 w-3 mr-1" />
-                Pro Plan
+                BoopSign Pro
                 {showDetails && (
-                    <span className="ml-1 text-xs opacity-80">• {" "} Active</span>
+                    <span className="ml-1 opacity-80 font-normal">Active</span>
                 )}
             </Badge>
         );
@@ -29,11 +29,11 @@ export const PlanBadge = ({ showDetails = false }: PlanBadgeProps) => {
 
     if (trialStatus.isTrialActive) {
         return (
-            <Badge variant="outline" className="border-orange-300 text-orange-700">
+            <Badge variant="outline" className="border-orange-200 text-orange-600 bg-orange-50">
                 <Clock className="h-3 w-3 mr-1" />
-                Trial
+                Free Trial
                 {showDetails && (
-                    <span className="ml-1 text-xs">
+                    <span className="ml-1 font-normal text-muted-foreground">
                         • {trialStatus.daysRemaining} days left
                     </span>
                 )}

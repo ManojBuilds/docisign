@@ -1,7 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/clerk-react";
+import { useAction } from "convex/react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "nextjs-toploader/app";
 import { ReactNode, useState } from "react";
@@ -17,6 +19,7 @@ const CheckoutButton = ({
   const { user } = useUser();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const createCheckout = useAction(api.payments.createCheckout);
 
   const handleUpgrade = async () => {
     if (!user) {
@@ -26,24 +29,24 @@ const CheckoutButton = ({
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/create-checkout", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          clerkId: user.id,
-          email: user.emailAddresses[0]?.emailAddress,
-          name: `${user.firstName || ""} ${user.lastName || ""}`.trim(),
-        }),
+      // Get the product ID from environment variable
+      const productId = process.env.NEXT_PUBLIC_DODO_PRICE_ID_PRO;
+
+      if (!productId) {
+        toast.error("Product configuration missing. Please contact support.");
+        setIsLoading(false);
+        return;
+      }
+
+      const result = await createCheckout({
+        productId,
+        returnUrl: `${window.location.origin}/upgrade/success`,
       });
 
-      const data = await response.json();
-
-      if (data.success && data.checkoutUrl) {
-        window.location.href = data.checkoutUrl;
+      if (result?.checkout_url) {
+        window.location.href = result.checkout_url;
       } else {
-        toast.error(data.error || "Failed to create checkout session");
+        toast.error("Failed to create checkout session");
       }
     } catch (err) {
       toast.error("Something went wrong. Please try again.");
