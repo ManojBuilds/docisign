@@ -1,19 +1,19 @@
 "use client";
-import { useState, useCallback, useRef, useEffect, useMemo } from "react";
-import { Document, Page, pdfjs } from "react-pdf";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { useMobile } from "@/hooks/useMobile";
 import {
+  AlertCircle,
   ChevronLeft,
   ChevronRight,
   ZoomIn,
   ZoomOut,
-  AlertCircle,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import "react-pdf/dist/Page/TextLayer.css";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
+import "react-pdf/dist/Page/TextLayer.css";
 import { usePdfDimensions } from "./PdfDimensionsContext";
-import { useMobile } from "@/hooks/useMobile";
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 interface PDFViewerProps {
@@ -53,6 +53,7 @@ export default function PDFViewer({
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
+  const [visiblePages, setVisiblePages] = useState<Set<number>>(new Set());
 
   const { pageDimensions, scale, setPageDimensions, setScale } =
     usePdfDimensions();
@@ -60,13 +61,33 @@ export default function PDFViewer({
   const pageRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const isMobile = useMobile();
 
-  // Handle intersection for updating current page while scrolling
+  // Handle intersection for updating current page while scrolling and tracking visible pages
   useEffect(() => {
     if (numPages === 0 || !containerRef.current) return;
 
     const observer = new IntersectionObserver(
       (entries) => {
-        // Find the page with the highest intersection ratio
+        // Update visible pages for lazy rendering
+        setVisiblePages((prev) => {
+          const newVisible = new Set(prev);
+          entries.forEach((entry) => {
+            const pageNum = parseInt(entry.target.getAttribute("data-page-number") || "1");
+            if (entry.isIntersecting) {
+              // Add current page and preload adjacent pages
+              newVisible.add(pageNum);
+              if (pageNum > 1) newVisible.add(pageNum - 1);
+              if (pageNum < numPages) newVisible.add(pageNum + 1);
+            } else {
+              // Keep pages near current page loaded
+              if (Math.abs(pageNum - currentPage) > 3) {
+                newVisible.delete(pageNum);
+              }
+            }
+          });
+          return newVisible;
+        });
+
+        // Find the page with the highest intersection ratio for current page tracking
         const visiblePages = entries
           .filter(entry => entry.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
@@ -82,7 +103,7 @@ export default function PDFViewer({
       {
         root: containerRef.current,
         threshold: [0, 0.2, 0.5, 0.8, 1],
-        rootMargin: "-10% 0px -10% 0px" // Add some margin to be more decisive
+        rootMargin: "200px 0px" // Preload pages 200px before they come into view
       }
     );
 
@@ -326,6 +347,12 @@ export default function PDFViewer({
           >
             {Array.from(new Array(numPages), (_, index) => {
               const pNum = index + 1;
+              const isVisible = visiblePages.has(pNum);
+              const isNearCurrent = Math.abs(pNum - currentPage) <= 2;
+
+              // Only render pages that are visible or near current page
+              const shouldRender = isVisible || isNearCurrent || pNum === 1;
+
               return (
                 <div
                   key={`page_container_${pNum}`}
@@ -337,27 +364,52 @@ export default function PDFViewer({
                     height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 842) * scale,
                   }}
                 >
-                  <Page
-                    pageNumber={pNum}
-                    scale={scale}
-                    devicePixelRatio={Math.min(2, window.devicePixelRatio || 1)}
-                    onRenderSuccess={(page) => onPageRenderSuccess(page, pNum)}
-                    loading={null}
-                    renderTextLayer={false}
-                    renderAnnotationLayer={false}
-                  />
+                  {shouldRender ? (
+                    <>
+                      <Page
+                        pageNumber={pNum}
+                        scale={scale}
+                        devicePixelRatio={Math.min(2, window.devicePixelRatio || 1)}
+                        onRenderSuccess={(page) => onPageRenderSuccess(page, pNum)}
+                        loading={
+                          <div
+                            className="flex items-center justify-center bg-gray-50"
+                            style={{
+                              width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 595) * scale,
+                              height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 842) * scale,
+                            }}
+                          >
+                            <div className="text-gray-400 text-sm">Loading page {pNum}...</div>
+                          </div>
+                        }
+                        renderTextLayer={false}
+                        renderAnnotationLayer={false}
+                      />
 
-                  {/* Overlay for this specific page */}
-                  {!isLoading && (
+                      {/* Overlay for this specific page */}
+                      {!isLoading && (
+                        <div
+                          className="absolute inset-0 z-10"
+                          style={{
+                            width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 0) * scale,
+                            height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 0) * scale,
+                          }}
+                        >
+                          {/* We'll pass information about the page to children if it's a function */}
+                          {typeof children === 'function' ? (children as any)(pNum) : children}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    // Placeholder for non-visible pages
                     <div
-                      className="absolute inset-0 z-10"
+                      className="flex items-center justify-center bg-gray-100"
                       style={{
-                        width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 0) * scale,
-                        height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 0) * scale,
+                        width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 595) * scale,
+                        height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 842) * scale,
                       }}
                     >
-                      {/* We'll pass information about the page to children if it's a function */}
-                      {typeof children === 'function' ? (children as any)(pNum) : children}
+                      <div className="text-gray-400 text-sm">Page {pNum}</div>
                     </div>
                   )}
                 </div>

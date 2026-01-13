@@ -318,7 +318,7 @@ function DraggableSignatureField({
             {/* Top controls bar */}
             {isSelected && !localField.isCompleted && (
               <div
-                className="absolute w-fit -top-8 left-0 flex items-center space-x-1.5 z-30 pointer-events-auto bg-gray-900 text-white rounded-lg p-1.5 shadow-xl animate-in fade-in zoom-in-95 duration-200 cursor-default"
+                className="field-control-bar absolute w-fit -top-8 left-0 flex items-center space-x-1.5 z-30 pointer-events-auto bg-gray-900 text-white rounded-lg p-1.5 shadow-xl animate-in fade-in zoom-in-95 duration-200 cursor-default"
                 onMouseDown={(e) => e.stopPropagation()}
                 onClick={(e) => e.stopPropagation()}
               >

@@ -51,8 +51,11 @@ export const PageOverlay = memo(({
       // Check if the click is inside the signers sidebar
       const isSidebar = !!target.closest('#signers-sidebar');
 
-      if (overlayRef.current && !overlayRef.current.contains(target) && !isPortal && !isSidebar) {
-        // If the click is truly outside the overlay and not on a portal/sidebar, unselect the field
+      // Check if the click is on field controls (the control bar with buttons and input)
+      const isFieldControl = !!target.closest('.field-control-bar');
+
+      if (overlayRef.current && !overlayRef.current.contains(target) && !isPortal && !isSidebar && !isFieldControl) {
+        // If the click is truly outside the overlay and not on a portal/sidebar/field-control, unselect the field
         setSelectedFieldId("");
       }
     };

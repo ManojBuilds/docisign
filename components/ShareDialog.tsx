@@ -463,7 +463,7 @@ export function ShareDialog({
     return (
       <>
         {showConfetti && (
-          <div className="fixed inset-0 z-50 pointer-events-none">
+          <div className="fixed inset-0 z-[999] pointer-events-none">
             <Confetti
               className="w-full h-full"
               options={{

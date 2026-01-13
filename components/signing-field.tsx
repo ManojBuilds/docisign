@@ -37,7 +37,6 @@ import { useDropzone } from "react-dropzone";
 import SignatureCanvas from "react-signature-canvas";
 import { usePdfDimensions } from "./PdfDimensionsContext";
 import { SignatureIcon } from "./SignatureIcon";
-import { Confetti } from "./ui/confetti";
 import { Label } from "./ui/label";
 
 export interface SignatureFieldData {
@@ -88,11 +87,23 @@ interface SigningDialogProps {
   setHasSigned: (val: boolean) => void;
 }
 
-// Color palette for signers - allows up to 8 different signers to have distinct colors
-// Professional Adobe-inspired color palette for all fields
-const getSignerColor = () => {
-  // Use a consistent, high-contrast Adobe Blue for all signing fields
-  return "border-blue-500 bg-blue-100 text-blue-600 rounded-none";
+const SIGNER_COLORS = [
+  "border-blue-500 bg-blue-50 text-blue-600",
+  "border-indigo-500 bg-indigo-50 text-indigo-600",
+  "border-red-500 bg-red-50 text-red-600",
+  "border-emerald-500 bg-emerald-50 text-emerald-600",
+  "border-amber-500 bg-amber-50 text-amber-600",
+  "border-rose-500 bg-rose-50 text-rose-600",
+];
+
+const getSignerColor = (email: string) => {
+  if (!email) return "border-blue-500 bg-blue-50 text-blue-600 rounded-none";
+  let hash = 0;
+  for (let i = 0; i < email.length; i++) {
+    hash = email.charCodeAt(i) + ((hash << 4) - hash);
+  }
+  const index = Math.abs(hash) % SIGNER_COLORS.length;
+  return SIGNER_COLORS[index] + " rounded-none";
 };
 
 const getFieldIcon = (fieldType: string) => {
@@ -269,7 +280,7 @@ function SigningDialog({
                       <img
                         src={signatureData}
                         alt="Signature preview"
-                        className="max-h-24 mx-auto object-contain p-2 bg-white rounded-lg border border-gray-50 uppercase"
+                        className="max-h-24 mx-auto object-contain p-2 bg-white rounded-lg border border-gray-50"
                       />
                     </div>
                     <div>
@@ -527,6 +538,7 @@ function SigningDialog({
 export default function SigningField({
   field,
   onComplete,
+  isFocused,
 }: SigningFieldProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [signatureData, setSignatureData] = useState(field.signatureData || "");
@@ -540,7 +552,6 @@ export default function SigningField({
   const [isCompleting, setIsCompleting] = useState(false);
   const [agreementChecked, setAgreementChecked] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [showConfetti, setShowConfetti] = useState(false);
   const [hasSigned, setHasSigned] = useState(false);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -566,11 +577,11 @@ export default function SigningField({
     }
     return cn(
       "border transition-all duration-300 backdrop-blur-[2px]",
-      getSignerColor()
+      getSignerColor(field.signerEmail)
     );
   };
 
-  const handleFieldClick = () => {
+  const handleFieldClick = useCallback(() => {
     if (field.isCompleted) return;
     if (field.fieldType === "date") {
       setIsOpen(true);
@@ -585,6 +596,43 @@ export default function SigningField({
     setIsOpen(true);
     setAgreementChecked(false); // Reset agreement checkbox when dialog opens
     setHasSigned(false); // Reset signed state when dialog opens
+  }, [field.isCompleted, field.fieldType, signatureData, setSignatureData]);
+
+  useEffect(() => {
+    if (isFocused && !field.isCompleted && !isOpen) {
+      handleFieldClick();
+    }
+    // We intentionally exclude 'isOpen' from dependencies to prevent the dialog
+    // from re-opening immediately after the user manually closes it while it's still focused.
+  }, [isFocused, field.isCompleted, handleFieldClick]);
+
+  const createTextDataUrl = (text: string) => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return "";
+
+    // Increase canvas resolution for sharper text in PDF
+    canvas.width = 1200;
+    canvas.height = 320;
+
+    // Clear background
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Adobe Sign typically uses a script font for typed signatures
+    ctx.font = 'italic 140px "Style Script", cursive';
+    ctx.fillStyle = "#000000";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+
+    // Subtle shadow for depth
+    ctx.shadowColor = "rgba(0,0,0,0.1)";
+    ctx.shadowBlur = 2;
+    ctx.shadowOffsetX = 1;
+    ctx.shadowOffsetY = 1;
+
+    // Position text lower (65% of height) to align with bottom of signature field
+    ctx.fillText(text, canvas.width / 2, canvas.height * 0.65);
+    return canvas.toDataURL("image/png", 1.0);
   };
 
   const handleSignatureComplete = async (activeTab: string) => {
@@ -615,9 +663,6 @@ export default function SigningField({
         await onComplete(field.id, finalSignatureData);
         // Don't close the dialog yet, show success state first
         setShowSuccess(true);
-        setShowConfetti(true);
-        // Hide confetti after it completes
-        setTimeout(() => setShowConfetti(false), 3000);
       } finally {
         setIsCompleting(false);
       }
@@ -641,35 +686,6 @@ export default function SigningField({
       return signatureData !== "";
     }
     return false;
-  };
-
-  const createTextDataUrl = (text: string) => {
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return "";
-
-    // Increase canvas resolution for sharper text in PDF
-    canvas.width = 1200;
-    canvas.height = 320;
-
-    // Clear background
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    // Adobe Sign typically uses a script font for typed signatures
-    ctx.font = 'italic 140px "Style Script", cursive';
-    ctx.fillStyle = "#000000";
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-
-    // Subtle shadow for depth
-    ctx.shadowColor = "rgba(0,0,0,0.1)";
-    ctx.shadowBlur = 2;
-    ctx.shadowOffsetX = 1;
-    ctx.shadowOffsetY = 1;
-
-    // Position text lower (65% of height) to align with bottom of signature field
-    ctx.fillText(text, canvas.width / 2, canvas.height * 0.65);
-    return canvas.toDataURL("image/png", 1.0);
   };
 
   const clearCanvas = () => {
@@ -715,19 +731,21 @@ export default function SigningField({
     return (
       <div className="relative w-full h-full flex items-stretch overflow-visible group/adobe cursor-pointer select-none">
         {/* Floating Label - Top Left outside (Restored/Preserved) */}
-        <div className="absolute -top-6 left-0 flex items-center gap-1.5 px-2 py-0.5 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-t-md border-b-0 animate-in fade-in slide-in-from-bottom-1 box-content h-4 z-10 transition-colors group-hover/adobe:border-gray-300">
-          <div className={cn("w-1.5 h-1.5 rounded-full", getSignerColor().split(' ')[0].replace('border-', 'bg-'))} />
-          <span className="text-[10px] font-bold text-gray-600 truncate max-w-[150px]">
-            {field.label || field.fieldType}
-          </span>
-        </div>
+        {field.label && (
+          <div className="absolute -top-6 left-0 flex items-center gap-1.5 px-2 py-0.5 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-t-md border-b-0 animate-in fade-in slide-in-from-bottom-1 box-content h-4 z-10 transition-colors group-hover/adobe:border-gray-300">
+            <div className={cn("w-1.5 h-1.5 rounded-full", getSignerColor(field.signerEmail).split(' ')[0].replace('border-', 'bg-'))} />
+            <span className="text-[10px] font-bold text-gray-600 truncate max-w-[150px]">
+              {field.label}
+            </span>
+          </div>
+        )}
 
         {/* Adobe-style colored Side Flag (Sign Indicator) */}
         {!field.isCompleted && (
           <div
             className={cn(
               "w-8 flex flex-col items-center justify-center shrink-0 relative",
-              getSignerColor().split(' ')[0].replace('border-', 'bg-')
+              getSignerColor(field.signerEmail).split(' ')[0].replace('border-', 'bg-')
             )}
           >
             <span className="[writing-mode:vertical-lr] rotate-180 text-[9px] font-black text-white uppercase tracking-widest py-1 select-none">
@@ -736,7 +754,7 @@ export default function SigningField({
             {/* The signature-pointing arrow */}
             <div className={cn(
               "absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 rotate-45 z-10",
-              getSignerColor().split(' ')[0].replace('border-', 'bg-')
+              getSignerColor(field.signerEmail).split(' ')[0].replace('border-', 'bg-')
             )} />
           </div>
         )}
@@ -765,18 +783,6 @@ export default function SigningField({
 
   return (
     <>
-      {showConfetti && (
-        <div className="fixed inset-0 z-50 pointer-events-none">
-          <Confetti
-            className="w-full h-full"
-            options={{
-              particleCount: 150,
-              spread: 70,
-              origin: { y: 0.6 }
-            }}
-          />
-        </div>
-      )}
       <div
         id={`field-${field.id}`}
         className={cn(
@@ -805,7 +811,6 @@ export default function SigningField({
           setIsOpen(open);
           if (!open) {
             setAgreementChecked(false); // Reset checkbox when dialog is closed
-            setShowSuccess(false); // Reset success state when dialog closes
           }
         }}
         activeTab={activeTab}

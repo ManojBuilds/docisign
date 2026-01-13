@@ -65,7 +65,7 @@ http.route({
       const subscriptionId = data.subscription_id;
       const customerId = data.customer.customer_id;
       const email = data.customer.email;
-
+      console.log(data, type)
       if (!clerkId) {
         console.error("⚠️ No clerkId in webhook metadata");
         return new Response(JSON.stringify({ error: "Missing clerkId" }), {

@@ -12,29 +12,29 @@ import { memo } from "react";
 interface SigningNavbarProps {
   signingSession: any;
   owner: any;
-  completedFields: number;
-  totalFields: number;
   handleSubmitDocument: () => void;
   isSubmitting: boolean;
-  isReady: boolean;
   signatureFields: any[];
   completedRequiredFields: number;
   requiredFields: any[];
   onDecline: () => void;
+  hasStarted: boolean;
+  handleStartSigning: () => void;
+  goToNextSignatureField: () => void;
 }
 
 export const SigningNavbar = memo(({
   signingSession,
   owner,
-  completedFields,
-  totalFields,
   handleSubmitDocument,
   isSubmitting,
-  isReady,
   signatureFields,
   completedRequiredFields,
   requiredFields,
   onDecline,
+  hasStarted,
+  handleStartSigning,
+  goToNextSignatureField,
 }: SigningNavbarProps) => {
   return (
     <>
@@ -181,29 +181,38 @@ export const SigningNavbar = memo(({
           </Sheet>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="flex flex-col items-end mr-2">
-            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">Progress</span>
-            <span className="text-xs font-bold text-gray-900 font-mono tracking-tighter">
-              {completedFields} / {totalFields} Fields
-            </span>
-          </div>
+        <Button
+          onClick={
+            completedRequiredFields >= requiredFields.length
+              ? handleSubmitDocument
+              : !hasStarted
+                ? handleStartSigning
+                : goToNextSignatureField
+          }
+          disabled={isSubmitting || signatureFields.length === 0}
+          className={cn("px-8 font-black uppercase tracking-widest text-[10px] h-10 rounded-lg transition-all shadow-none border-none", {
+            "bg-blue-600 hover:bg-blue-700 text-white": !hasStarted && signatureFields.length > 0 && completedRequiredFields < requiredFields.length,
+            "bg-primary hover:bg-primary/90 text-primary-foreground": hasStarted && completedRequiredFields < requiredFields.length,
+            "bg-green-600 hover:bg-green-700 text-white": completedRequiredFields >= requiredFields.length && signatureFields.length > 0 && !isSubmitting,
+            "bg-gray-100 text-gray-400 font-bold": signatureFields.length === 0
+          })}
+        >
+          {isSubmitting ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : completedRequiredFields >= requiredFields.length ? (
+            "Finish Signature"
+          ) : !hasStarted ? (
+            "Ready to Sign"
+          ) : (
+            <div className="flex items-center gap-2">
+              <span>Next Field</span>
+              <span className="bg-white/20 px-1.5 py-0.5 rounded text-[8px] font-bold">
+                {requiredFields.length - completedRequiredFields} Left
+              </span>
+            </div>
+          )}
+        </Button>
 
-          <Button
-            onClick={handleSubmitDocument}
-            disabled={isSubmitting || !isReady || signatureFields.length === 0 || completedRequiredFields < requiredFields.length}
-            className={cn("px-8 font-black uppercase tracking-widest text-[10px] h-10 rounded-lg transition-all shadow-none border-none", {
-              "bg-green-600 hover:bg-green-700 text-white": isReady && signatureFields.length > 0 && completedRequiredFields >= requiredFields.length && !isSubmitting,
-              "bg-gray-100 text-gray-400 font-bold": !isReady || signatureFields.length === 0 || completedRequiredFields < requiredFields.length
-            })}
-          >
-            {isSubmitting ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              "Finish Signature"
-            )}
-          </Button>
-        </div>
       </header>
     </>
   );

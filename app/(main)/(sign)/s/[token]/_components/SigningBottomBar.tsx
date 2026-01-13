@@ -10,6 +10,8 @@ interface SigningBottomBarProps {
   isSubmitting: boolean;
   onNext: () => void;
   onSubmit: () => void;
+  hasStarted: boolean;
+  handleStartSigning: () => void;
 }
 
 export const SigningBottomBar = memo(({
@@ -17,7 +19,18 @@ export const SigningBottomBar = memo(({
   isSubmitting,
   onNext,
   onSubmit,
+  hasStarted,
+  handleStartSigning,
 }: SigningBottomBarProps) => {
+  const handleClick = () => {
+    if (incompleteRequiredFields.length === 0) {
+      onSubmit();
+    } else if (!hasStarted) {
+      handleStartSigning();
+    } else {
+      onNext();
+    }
+  };
   return (
     <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 animate-in slide-in-from-bottom duration-300">
       <div className="bg-white/80 backdrop-blur-xl border-t border-gray-100 shadow-[0_-8px_30px_rgba(0,0,0,0.05)] pb-[calc(env(safe-area-inset-bottom))]">
@@ -25,21 +38,25 @@ export const SigningBottomBar = memo(({
           <Button
             size="lg"
             className={cn(
-              "w-full h-14 rounded-full font-black uppercase tracking-widest text-sm transition-all shadow-xl active:scale-[0.98] cursor-pointer",
+              "w-full h-14 rounded-full font-black uppercase tracking-widest text-xs transition-all shadow-xl active:scale-[0.98] cursor-pointer",
               incompleteRequiredFields.length === 0
                 ? "bg-green-600 hover:bg-green-700 text-white shadow-green-600/30"
-                : "bg-primary hover:bg-primary/90 text-primary-foreground shadow-primary/30"
+                : !hasStarted
+                  ? "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-600/30"
+                  : "bg-primary hover:bg-primary/90 text-primary-foreground shadow-primary/30"
             )}
-            onClick={incompleteRequiredFields.length > 0 ? onNext : onSubmit}
+            onClick={handleClick}
             disabled={isSubmitting}
           >
-            {incompleteRequiredFields.length > 0 ? (
+            {incompleteRequiredFields.length === 0 ? (
+              <span className="flex items-center gap-2">Click to Sign <Check className="w-5 h-5" /></span>
+            ) : !hasStarted ? (
+              <span className="flex items-center gap-2">Ready to Sign <Check className="w-5 h-5" /></span>
+            ) : (
               <div className="flex items-center gap-2">
                 <span>Next</span>
                 <span className="bg-white/20 px-1.5 py-0.5 rounded text-[10px] font-bold">{incompleteRequiredFields.length}</span>
               </div>
-            ) : (
-              <span className="flex items-center gap-2">Click to Sign <Check className="w-5 h-5" /></span>
             )}
           </Button>
         </div>
