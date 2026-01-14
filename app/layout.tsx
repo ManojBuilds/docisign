@@ -4,6 +4,7 @@ import { PendingDocumentProcessor } from "@/components/PendingDocumentProcessor"
 import { Toaster } from "@/components/ui/sonner";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
 import NextTopLoader from 'nextjs-toploader';
@@ -167,6 +168,7 @@ export default function RootLayout({
         </Suspense>
         <Toaster position="top-center" />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
