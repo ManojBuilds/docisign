@@ -7,8 +7,8 @@ import { cva } from "class-variance-authority";
 import { X } from "lucide-react";
 import { Drawer as DrawerPrimitive, Content as VaulDrawerContent } from "vaul";
 
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
-import useMediaQuery from "@/hooks/use-media-query";
 
 export type ResponsiveDialogProps = React.ComponentProps<
   typeof DrawerPrimitive.Root
@@ -291,13 +291,13 @@ const ResponsiveDialogContent = React.forwardRef<
             shouldUseDialog && { onEscapeKeyDown: (e) => e.preventDefault() })}
           {...(shouldPreventOutsideInteraction &&
             shouldUseDialog && {
-              onInteractOutside: (e) => e.preventDefault(),
-            })}
+            onInteractOutside: (e) => e.preventDefault(),
+          })}
           {...(!shouldUseDialog &&
             shouldPreventOutsideInteraction && {
-              onPointerDownOutside: (e) => e.preventDefault(),
-              onInteractOutside: (e) => e.preventDefault(),
-            })}
+            onPointerDownOutside: (e) => e.preventDefault(),
+            onInteractOutside: (e) => e.preventDefault(),
+          })}
           className={cn(
             ResponsiveDialogContentVariants({
               device: shouldUseDialog ? "desktop" : "mobile",
@@ -422,5 +422,6 @@ export {
   ResponsiveDialogOverlay,
   ResponsiveDialogPortal,
   ResponsiveDialogTitle,
-  ResponsiveDialogTrigger,
+  ResponsiveDialogTrigger
 };
+

@@ -33,7 +33,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import useMediaQuery from "@/hooks/use-media-query";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useResumePendingDocument } from "@/hooks/usePendingResumeDocument";
 import { useUser } from "@clerk/clerk-react";
 import { useMutation, usePaginatedQuery } from "convex/react";

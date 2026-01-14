@@ -21,8 +21,7 @@ export const generateSignedPdf = internalAction({
     if (!pdfFile) throw new Error("PDF file not found");
 
     const pdfDoc = await PDFDocument.load(await pdfFile.arrayBuffer());
-    const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-    const courierItalicFont = await pdfDoc.embedFont(StandardFonts.CourierOblique);
+    const timesItalicFont = await pdfDoc.embedFont(StandardFonts.TimesRoman);
     const SIGNATURE_FONT_SIZE = 12;
 
     for (const field of signatureFields) {
@@ -61,15 +60,12 @@ export const generateSignedPdf = internalAction({
             console.error("Failed to embed signature image:", err);
           }
         } else {
-          // For regular text content (date, text fields) or typed signatures
-          const isSignatureType = field.fieldType === "signature" || field.fieldType === "initial";
-          const font = isSignatureType ? courierItalicFont : helveticaFont;
-          const textHeight = font.heightAtSize(SIGNATURE_FONT_SIZE);
+          const textHeight = timesItalicFont.heightAtSize(SIGNATURE_FONT_SIZE);
 
           page.drawText(field.signatureData, {
             x: field.x + 4, // Padding
             y: pageHeight - field.y - field.height + (field.height - textHeight) / 2 + 2,
-            font: font,
+            font: timesItalicFont,
             size: SIGNATURE_FONT_SIZE,
             color: rgb(0, 0, 0),
             maxWidth: field.width - 8,
@@ -79,13 +75,21 @@ export const generateSignedPdf = internalAction({
     }
 
     const pdfBytes = await pdfDoc.save();
+
+    // Store the new signed PDF
     const newFileId = await ctx.storage.store(new Blob([pdfBytes as any], { type: "application/pdf" }));
 
+    // Delete the old PDF file to prevent storage bloat
+    const oldFileId = document.fileStorageId;
+    await ctx.storage.delete(oldFileId);
+
+    // Update the document to reference the new file
     await ctx.runMutation(internal.documents.updateDocumentFile, {
       documentId: args.documentId,
       fileStorageId: newFileId,
     });
 
     console.log("Signed PDF generated and stored with ID:", newFileId);
+    console.log("Old PDF file deleted:", oldFileId);
   },
 });

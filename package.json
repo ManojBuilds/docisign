@@ -6,12 +6,11 @@
     "dev": "npm-run-all --parallel dev:frontend dev:backend",
     "dev:frontend": "next dev",
     "dev:backend": "convex dev",
-    "email:preview": "email dev --dir convex/emails --port 3001",
+    "email:preview": "email dev --dir convex/emails/templates --port 3001",
     "predev": "convex dev --until-success && convex dashboard",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "extend-trial": "node scripts/extend-trial.js"
+    "lint": "next lint"
   },
   "dependencies": {
     "@clerk/clerk-react": "^5.25.0",

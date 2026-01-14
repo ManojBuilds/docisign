@@ -24,11 +24,25 @@ const Hero = () => {
         </p>
 
         {/* Upload Box (PRIMARY CTA) */}
-        <div className="mt-12 w-full max-w-3xl transform hover:scale-[1.01] transition-all duration-300 drop-shadow-2xl">
-          <div className="bg-white rounded-2xl p-2 border border-slate-200 shadow-xl overflow-hidden">
-            <DragAndClickUpload />
+        <div className="mt-12 w-full max-w-3xl">
+          <div className="relative group/upload">
+            {/* Subtle ambient glow - visible by default */}
+            <div className="absolute -inset-4 bg-gradient-to-br from-blue-50/30 to-indigo-50/30 rounded-3xl blur-3xl opacity-50 group-hover/upload:opacity-100 transition-opacity duration-700" />
+
+            {/* Main container with ring depth */}
+            <div className="relative bg-white rounded-2xl p-2.5
+                          ring-2 ring-white/80
+                          ring-offset-2 ring-offset-slate-100/50
+                          group-hover/upload:ring-4 group-hover/upload:ring-white/80
+                          group-hover/upload:ring-offset-2 group-hover/upload:ring-offset-slate-200/40
+                          group-hover/upload:-translate-y-0.5
+                          transition-all duration-500 overflow-hidden
+                          shadow-sm shadow-slate-100/50">
+              <DragAndClickUpload />
+            </div>
           </div>
-          <p className="mt-4 text-sm font-medium text-slate-400">
+
+          <p className="mt-6 text-sm font-medium text-slate-400 text-center">
             ⚡ Takes less than 60 seconds
           </p>
         </div>

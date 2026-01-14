@@ -32,6 +32,7 @@ import {
   TextCursor,
   Upload,
 } from "lucide-react";
+import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import SignatureCanvas from "react-signature-canvas";
@@ -277,9 +278,11 @@ function SigningDialog({
                 {signatureData ? (
                   <div className="space-y-4">
                     <div className="relative inline-block">
-                      <img
+                      <Image
                         src={signatureData}
                         alt="Signature preview"
+                        width={200}
+                        height={96}
                         className="max-h-24 mx-auto object-contain p-2 bg-white rounded-lg border border-gray-50"
                       />
                     </div>
@@ -602,8 +605,6 @@ export default function SigningField({
     if (isFocused && !field.isCompleted && !isOpen) {
       handleFieldClick();
     }
-    // We intentionally exclude 'isOpen' from dependencies to prevent the dialog
-    // from re-opening immediately after the user manually closes it while it's still focused.
   }, [isFocused, field.isCompleted, handleFieldClick]);
 
   const createTextDataUrl = (text: string) => {
@@ -698,9 +699,11 @@ export default function SigningField({
       if (field.fieldType === "signature" || field.fieldType === "initial") {
         return (
           <div className="w-full h-full flex items-center justify-center p-1">
-            <img
-              src={field.signatureData}
+            <Image
+              src={field.signatureData || ""}
               alt="Signature"
+              width={200}
+              height={100}
               className="max-w-full max-h-full object-contain filter"
             />
           </div>
