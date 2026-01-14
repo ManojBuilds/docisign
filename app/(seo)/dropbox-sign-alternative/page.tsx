@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://boopsign.com/og-image.png",
+        url: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5",
         width: 1200,
         height: 630,
         alt: "BoopSign vs Dropbox Sign Comparison",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Best Dropbox Sign Alternative 2026 | BoopSign",
     description: "52% cheaper, simpler, mobile-first. No account needed for signers.",
-    images: ["https://boopsign.com/og-image.png"],
+    images: ["https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5"],
   },
   robots: {
     index: true,

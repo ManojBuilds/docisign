@@ -5,7 +5,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useMobile } from "@/hooks/useMobile";
 import { useDocumentEditorStore } from "@/stores/document-editor-store";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import DocumentEditorLoading from "./loading";
 
 // Components
@@ -64,31 +64,44 @@ export default function DocumentEditor() {
   // Custom hooks
   const { document, fileUrl, setFileUrl } = useDocumentData(documentId);
 
+  // Store state for sync and loading
+  const isLoaded = useDocumentEditorStore((s) => s.isLoaded);
+  const setIsLoaded = useDocumentEditorStore((s) => s.setIsLoaded);
+  const lastSavedFieldsJson = useDocumentEditorStore(
+    (s) => s.lastSavedFieldsJson
+  );
+  const setLastSavedFieldsJson = useDocumentEditorStore(
+    (s) => s.setLastSavedFieldsJson
+  );
+
   useFileUrlLoader(document?.fileStorageId, setFileUrl);
 
   useKeyboardShortcuts(setSelectedTool, setSelectedFieldId);
 
-  const { isLoaded, setIsLoaded, lastSavedFieldsJson, setLastSavedFieldsJson } =
-    useSignatureFieldsSync(
-      document?.signatureFields,
-      pageDimensions,
-      setSignatureFields
-    );
+  useSignatureFieldsSync(
+    document?.signatureFields,
+    pageDimensions,
+    setSignatureFields
+  );
 
   useSignersSync(signatureFields, setSigners, signers);
 
   useAutoPlaceFields();
 
-  const { handleAddSignatureField, handleUpdateFieldInStore, handleSaveField, handleDeleteField } =
-    useFieldOperations(
-      pageDimensions,
-      currentPage,
-      signers,
-      addFieldToStore,
-      updateSignatureFieldInStore,
-      deleteSignatureFieldInStore,
-      setSelectedFieldId
-    );
+  const {
+    handleAddSignatureField,
+    handleUpdateFieldInStore,
+    handleSaveField,
+    handleDeleteField,
+  } = useFieldOperations(
+    pageDimensions,
+    currentPage,
+    signers,
+    addFieldToStore,
+    updateSignatureFieldInStore,
+    deleteSignatureFieldInStore,
+    setSelectedFieldId
+  );
 
   const { isSaving, hasUnsavedChanges, handleSaveAllFields } = useSaveFields(
     documentId,
@@ -118,6 +131,12 @@ export default function DocumentEditor() {
     setIsLoaded(false);
   }, [documentId, setIsLoaded]);
 
+  // Memoized Banner to prevent double re-renders of the page
+  const isCompleted = document?.status === "completed";
+  const memoizedBanner = useMemo(() => {
+    return <CompletedDocumentBanner isCompleted={isCompleted} />;
+  }, [isCompleted]);
+
   // Loading state
   if (!document) {
     return <DocumentEditorLoading />;
@@ -146,7 +165,7 @@ export default function DocumentEditor() {
         onAddField={(type) => handleAddSignatureField(type)}
       />
 
-      <CompletedDocumentBanner isCompleted={document?.status === "completed"} />
+      {memoizedBanner}
 
       {/* Main Content Area with 3 Columns */}
       <div className="flex-1 flex min-h-0 bg-transparent">

@@ -32,13 +32,6 @@ const comparisonData: ComparisonFeature[] = [
   },
   {
     category: "Pricing",
-    feature: "Monthly Cost (3 users)",
-    boopSign: { value: "$36/month", highlight: true },
-    docuSign: { value: "$75/month", highlight: false },
-    important: true
-  },
-  {
-    category: "Pricing",
     feature: "Setup Fees",
     boopSign: { value: "$0", highlight: true },
     docuSign: { value: "$0" }
@@ -80,7 +73,7 @@ const comparisonData: ComparisonFeature[] = [
   // User Experience
   {
     category: "User Experience",
-    feature: "Account Creation (Signers)",
+    feature: "Client account required",
     boopSign: { value: false, highlight: true },
     docuSign: { value: true },
     important: true
@@ -109,7 +102,7 @@ const comparisonData: ComparisonFeature[] = [
   {
     category: "Features",
     feature: "Document Formats Supported",
-    boopSign: { value: "PDF, DOC, DOCX" },
+    boopSign: { value: "PDF" },
     docuSign: { value: "PDF, DOC, DOCX, PPT, XLS" }
   },
   {
@@ -263,7 +256,8 @@ const ComparasionTable = ({ className }: { className?: string }) => {
                     key={`${item.category}-${item.feature}`}
                     className={cn(
                       "border-b transition-colors hover:bg-muted/30",
-                      item.important && "bg-accent/20"
+                      item.important && "bg-accent/20",
+                      item.feature === "Client account required" && "bg-primary/5 ring-1 ring-primary/20"
                     )}
                   >
                     <td className="py-4 px-6">

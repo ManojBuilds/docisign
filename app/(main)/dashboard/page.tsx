@@ -127,8 +127,6 @@ function DocumentsList() {
 
         // Clean up the blob URL
         window.URL.revokeObjectURL(blobUrl);
-
-        toast.success("Document downloaded");
       } else {
         toast.error("Download failed");
       }
@@ -147,7 +145,6 @@ function DocumentsList() {
     if (documentToDelete) {
       try {
         await deleteDocument({ documentId: documentToDelete });
-        toast.success("Document deleted");
       } catch (error) {
         console.error(error);
         toast.error("Delete failed");

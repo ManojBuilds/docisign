@@ -54,7 +54,7 @@ const Cta = () => {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <StartTrialBtn />
+          <StartTrialBtn label="Send Your First Contract" />
         </div>
 
         {/* Trust indicators */}

@@ -11,7 +11,7 @@ const Features = () => {
           Everything You Need. Nothing You Don&apos;t.
         </h2>
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-          Unlike DocuSign, PandaDoc, or HelloSign, we focus on what actually matters: getting contracts signed fast.
+          Built specifically for freelancers, consultants, and small teams. Unlike DocuSign or PandaDoc, we focus on what actually matters: getting contracts signed fast.
         </p>
         <div className="mt-14 grid gap-6 lg:mt-20 lg:grid-cols-2 xl:grid-cols-4">
           <div className="rounded-lg bg-accent p-5">

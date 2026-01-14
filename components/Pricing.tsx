@@ -10,7 +10,7 @@ import {
   CardHeader
 } from "@/components/ui/card";
 import { useTrialStatus } from "@/hooks/useTrialStatus";
-import { Check, Info, Loader2, Shield, Zap } from "lucide-react";
+import { ArrowRight, Check, Info, Loader2, Shield, Zap } from "lucide-react";
 import Link from "next/link";
 import CheckoutButton from "./checkout-btn";
 
@@ -54,8 +54,11 @@ const Pricing = () => {
                 <span className="text-5xl font-bold tracking-tight text-foreground">$15</span>
                 <span className="text-lg text-muted-foreground font-medium">/month</span>
               </div>
-              <CardDescription className="text-base text-muted-foreground">
-                All-inclusive. 7-day free trial.
+              <CardDescription className="text-base text-slate-900 font-bold mb-1">
+                No per-signer fees • Unlimited documents
+              </CardDescription>
+              <CardDescription className="text-sm text-muted-foreground">
+                Everything included. 7-day free trial.
               </CardDescription>
             </CardHeader>
 
@@ -100,6 +103,17 @@ const Pricing = () => {
         </div>
       </div>
 
+      {/* Comparison Section */}
+      <div className="container mx-auto px-4 py-32 text-center border-t border-slate-100">
+        <h2 className="text-3xl font-bold mb-6 text-slate-900">Stop overpaying for enterprise bloat.</h2>
+        <p className="text-lg text-slate-600 mb-10 max-w-2xl mx-auto">
+          We don't charge for 500-user hierarchical permissions or API integrations you'll never use. We just do e-signatures, beautifully.
+        </p>
+        <Link href="/docusign-vs-boopsign" className="inline-flex items-center gap-2 font-bold text-blue-600 hover:text-blue-700 transition-colors group">
+          See how we compare to DocuSign <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
+        </Link>
+      </div>
+
       {/* Feature Highlights Grid - Cleaner */}
       <div className="container mx-auto px-4 py-24 bg-secondary/20">
         <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
@@ -108,7 +122,7 @@ const Pricing = () => {
               <Zap className="h-7 w-7" />
             </div>
             <h3 className="text-lg font-bold mb-3 text-foreground">Lightning Fast</h3>
-            <p className="text-muted-foreground leading-relaxed px-4">
+            <p className="text-muted-foreground leading-relaxed px-4 text-sm">
               Send contracts for signature in seconds. Sign instantly on any device without apps.
             </p>
           </div>
@@ -117,7 +131,7 @@ const Pricing = () => {
               <Shield className="h-7 w-7" />
             </div>
             <h3 className="text-lg font-bold mb-3 text-foreground">Bank-Level Security</h3>
-            <p className="text-muted-foreground leading-relaxed px-4">
+            <p className="text-muted-foreground leading-relaxed px-4 text-sm">
               Protected with 256-bit encryption. comprehensive audit trails for every transaction.
             </p>
           </div>
@@ -126,7 +140,7 @@ const Pricing = () => {
               <Info className="h-7 w-7" />
             </div>
             <h3 className="text-lg font-bold mb-3 text-foreground">Legally Binding</h3>
-            <p className="text-muted-foreground leading-relaxed px-4">
+            <p className="text-muted-foreground leading-relaxed px-4 text-sm">
               ESIGN and UETA compliant signatures. As legally binding as pen and paper.
             </p>
           </div>

@@ -61,6 +61,12 @@ export default function PDFViewer({
   const pageRefs = useRef<Record<number, HTMLDivElement | null>>({});
   const isMobile = useMobile();
 
+  // Keep a ref to currentPage state to access it inside the effect without adding it to dependencies
+  const currentPageRef = useRef(currentPage);
+  useEffect(() => {
+    currentPageRef.current = currentPage;
+  }, [currentPage]);
+
   // Handle intersection for updating current page while scrolling and tracking visible pages
   useEffect(() => {
     if (numPages === 0 || !containerRef.current) return;
@@ -79,7 +85,7 @@ export default function PDFViewer({
               if (pageNum < numPages) newVisible.add(pageNum + 1);
             } else {
               // Keep pages near current page loaded
-              if (Math.abs(pageNum - currentPage) > 3) {
+              if (Math.abs(pageNum - currentPageRef.current) > 3) {
                 newVisible.delete(pageNum);
               }
             }
@@ -94,7 +100,7 @@ export default function PDFViewer({
 
         if (visiblePages.length > 0) {
           const pageNum = parseInt(visiblePages[0].target.getAttribute("data-page-number") || "1");
-          if (pageNum !== currentPage) {
+          if (pageNum !== currentPageRef.current) {
             setCurrentPage(pageNum);
             onPageChange?.(pageNum);
           }
@@ -112,7 +118,7 @@ export default function PDFViewer({
     });
 
     return () => observer.disconnect();
-  }, [numPages, onPageChange, currentPage]);
+  }, [numPages, onPageChange]); // Removed currentPage dependency
 
   // Sync with controlled page number (scrolling to page)
   useEffect(() => {
@@ -184,10 +190,19 @@ export default function PDFViewer({
     (page: any, pNum: number) => {
       const viewport = page.getViewport({ scale: 1 });
       setPageDimensions(
-        (prev: Record<number, { width: number; height: number }>) => ({
-          ...prev,
-          [pNum]: { width: viewport.width, height: viewport.height },
-        }),
+        (prev: Record<number, { width: number; height: number }>) => {
+          // Only update if dimensions actually changed (prevent re-renders)
+          if (
+            prev[pNum]?.width === viewport.width &&
+            prev[pNum]?.height === viewport.height
+          ) {
+            return prev;
+          }
+          return {
+            ...prev,
+            [pNum]: { width: viewport.width, height: viewport.height },
+          };
+        }
       );
     },
     [setPageDimensions],

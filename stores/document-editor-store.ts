@@ -1,6 +1,6 @@
-import { create } from "zustand";
 import { SignatureFieldData } from "@/components/signature-field";
 import { Id } from "@/convex/_generated/dataModel";
+import { create } from "zustand";
 
 interface Signer {
   email: string;
@@ -28,6 +28,11 @@ interface DocumentEditorState {
 
   selectedTool: SignatureFieldData["fieldType"] | "selection";
   setSelectedTool: (tool: SignatureFieldData["fieldType"] | "selection") => void;
+
+  isLoaded: boolean;
+  setIsLoaded: (isLoaded: boolean) => void;
+  lastSavedFieldsJson: string;
+  setLastSavedFieldsJson: (json: string) => void;
 }
 
 export const useDocumentEditorStore = create<DocumentEditorState>()(
@@ -43,6 +48,8 @@ export const useDocumentEditorStore = create<DocumentEditorState>()(
           currentPage: 1,
           signers: [],
           selectedTool: "selection",
+          isLoaded: false,
+          lastSavedFieldsJson: "",
         });
       }
     },
@@ -95,5 +102,10 @@ export const useDocumentEditorStore = create<DocumentEditorState>()(
 
     selectedTool: "selection",
     setSelectedTool: (tool) => set({ selectedTool: tool }),
+
+    isLoaded: false,
+    setIsLoaded: (isLoaded) => set({ isLoaded }),
+    lastSavedFieldsJson: "",
+    setLastSavedFieldsJson: (lastSavedFieldsJson) => set({ lastSavedFieldsJson }),
   })
 );

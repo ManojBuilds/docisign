@@ -1,6 +1,6 @@
 import { SignatureFieldData } from "@/components/signature-field";
 import { useDocumentEditorStore } from "@/stores/document-editor-store";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 interface SignatureField {
   _id: string;
@@ -27,8 +27,10 @@ export function useSignatureFieldsSync(
   pageDimensions: Record<number, { width: number; height: number }>,
   setSignatureFields: (fields: SignatureFieldData[]) => void
 ) {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [lastSavedFieldsJson, setLastSavedFieldsJson] = useState<string>("");
+  const isLoaded = useDocumentEditorStore((s) => s.isLoaded);
+  const setIsLoaded = useDocumentEditorStore((s) => s.setIsLoaded);
+  const lastSavedFieldsJson = useDocumentEditorStore((s) => s.lastSavedFieldsJson);
+  const setLastSavedFieldsJson = useDocumentEditorStore((s) => s.setLastSavedFieldsJson);
 
   useEffect(() => {
     if (!documentFields || isLoaded) {
@@ -40,8 +42,10 @@ export function useSignatureFieldsSync(
     );
 
     if (validFields.length === 0) {
-      setIsLoaded(true);
-      setLastSavedFieldsJson(JSON.stringify([]));
+      useDocumentEditorStore.setState({
+        isLoaded: true,
+        lastSavedFieldsJson: JSON.stringify([]),
+      });
       return;
     }
 
@@ -71,8 +75,25 @@ export function useSignatureFieldsSync(
       }
     }
 
-    // Only update the store when we have normalized some fields
-    if (normalizedFields.length > 0) {
+    // Update everything in one go if we are ready
+    if (allReady && normalizedFields.length > 0) {
+      const currentFieldsJson = JSON.stringify(
+        useDocumentEditorStore.getState().signatureFields
+      );
+      const nextFieldsJson = JSON.stringify(normalizedFields);
+
+      const updates: Partial<any> = {
+        isLoaded: true,
+        lastSavedFieldsJson: nextFieldsJson,
+      };
+
+      if (currentFieldsJson !== nextFieldsJson) {
+        updates.signatureFields = normalizedFields;
+      }
+
+      useDocumentEditorStore.setState(updates);
+    } else if (normalizedFields.length > 0) {
+      // Partially ready - just update fields
       const currentFieldsJson = JSON.stringify(
         useDocumentEditorStore.getState().signatureFields
       );
@@ -81,11 +102,6 @@ export function useSignatureFieldsSync(
       if (currentFieldsJson !== nextFieldsJson) {
         setSignatureFields(normalizedFields);
       }
-    }
-
-    if (allReady) {
-      setIsLoaded(true);
-      setLastSavedFieldsJson(JSON.stringify(normalizedFields));
     }
   }, [documentFields, pageDimensions, isLoaded, setSignatureFields]);
 

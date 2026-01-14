@@ -9,7 +9,7 @@ const Footer = () => {
           {/* Logo and Info */}
           <div className="md:col-span-1">
             <div className="flex flex-col space-y-4">
-              <Logo />
+              <Logo showStatus={true} />
               <p className="text-sm text-muted-foreground">
                 The simplest e-signature solution for modern businesses.
               </p>
@@ -279,122 +279,57 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Legal & Support */}
+          {/* Freelancer Guides */}
           <div className="md:col-span-1">
-            <h3 className="font-bold text-lg mb-4 text-foreground">Trust & Support</h3>
+            <h3 className="font-bold text-lg mb-4 text-foreground">Freelancer Guides</h3>
             <ul className="space-y-3">
               <li>
                 <a
-                  href="/electronic-signature-laws"
+                  href="/guides/3-minute-freelance-workflow"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
-                    <span className="mr-2 text-purple-500">•</span>
-                    <span>Electronic signature laws</span>
+                    <span className="mr-2 text-orange-500">→</span>
+                    <span>3-Minute Workflow</span>
                   </div>
                 </a>
               </li>
               <li>
                 <a
-                  href="/esignature-vs-digital-signature"
+                  href="/guides/why-clients-hate-esignature"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
-                    <span className="mr-2 text-purple-500">•</span>
-                    <span>E-signature vs Digital signature</span>
+                    <span className="mr-2 text-orange-500">→</span>
+                    <span>Why Clients Delay</span>
                   </div>
                 </a>
               </li>
               <li>
                 <a
-                  href="/how-to-create-electronic-signature"
+                  href="/guides/esignature-cost-comparison"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
-                    <span className="mr-2 text-purple-500">•</span>
-                    <span>How to create e-signatures</span>
+                    <span className="mr-2 text-orange-500">→</span>
+                    <span>$15 vs $65 Analysis</span>
                   </div>
                 </a>
               </li>
               <li>
                 <a
-                  href="/contract-signing-best-practices"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                  href="/docusign-vs-boopsign"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block font-semibold text-blue-600"
                 >
                   <div className="flex items-start">
-                    <span className="mr-2 text-purple-500">•</span>
-                    <span>Contract signing best practices</span>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/document-security-guide"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-purple-500">•</span>
-                    <span>Contract security guide</span>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/nda-template-free"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-purple-500">•</span>
-                    <span>Free NDA templates</span>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/consulting-agreement-template"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-purple-500">•</span>
-                    <span>Consulting agreement templates</span>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/privacy-policy"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-purple-500">•</span>
-                    <span>Privacy Policy</span>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:mkumar.react@gmail.com"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-purple-500">•</span>
-                    <span>Support Center</span>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="mailto:mkumar.react@gmail.com"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-purple-500">•</span>
-                    <span>Contact Sales</span>
+                    <span className="mr-2 text-blue-500">★</span>
+                    <span>BoopSign vs DocuSign</span>
                   </div>
                 </a>
               </li>
             </ul>
           </div>
+
         </div>
 
         {/* Bottom section */}

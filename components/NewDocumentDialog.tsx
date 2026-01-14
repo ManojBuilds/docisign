@@ -325,7 +325,7 @@ export function NewDocumentDialog({
         setTitle(initialFile.name.replace(/\.[^/.]+$/, ''));
       }
     }
-  }, [initialFile, isOpen]);
+  }, [initialFile]);
 
   const generateUploadUrl = useMutation(api.files.generateUploadUrl)
   const createDocument = useMutation(api.documents.createDocument)

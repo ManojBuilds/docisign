@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, MousePointer, Send, Upload } from "lucide-react";
+import { Check, Send, Upload } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -20,90 +20,85 @@ interface HowItWorksProps {
 
 const HowItWorks = ({
     button = {
-        text: "Start Free Trial — No Credit Card →",
+        text: "Try BoopSign Free for 7 Days",
         url: "/dashboard",
     },
     steps = [
         {
             number: "01",
-            icon: <Upload className="size-6" />,
-            title: "Upload Your Contract",
-            description: "Upload any PDF. Drag and drop signature fields where you need them. Takes 30 seconds."
+            icon: <Upload className="size-6 text-blue-600" />,
+            title: "Upload any PDF",
+            description: "Drop your PDF manually or import from your favorite cloud storage. We handle the formatting automatically."
         },
         {
             number: "02",
-            icon: <MousePointer className="size-6" />,
-            title: "Add Client Email",
-            description: "Enter your client's email. No account creation needed—they'll get a secure, one-time signing link instantly."
+            icon: <Send className="size-6 text-orange-600" />,
+            title: "Add signature fields",
+            description: "Click anywhere to place signature, initials, or date fields. Assigned to your signers with one click."
         },
         {
             number: "03",
-            icon: <Send className="size-6" />,
-            title: "Get It Signed in Minutes",
-            description: "They click, sign, and you're done. Signed PDF + legally binding audit trail delivered to your inbox immediately."
+            icon: <Check className="size-6 text-green-600" />,
+            title: "Send & get signed",
+            description: "Clients sign instantly from their inbox. You get notified the second the deal is closed. Zero friction."
         }
     ]
 }: HowItWorksProps) => {
     return (
-        <section className="py-32">
-            <div className="container mx-auto">
+        <section id="how-it-works" className="py-24 md:py-32 bg-slate-50/50">
+            <div className="container mx-auto px-4">
                 {/* Header */}
-                <div className="text-center mb-20">
-                    <div className="mx-auto flex max-w-4xl flex-col gap-6">
-                        <h2 className="text-3xl font-extrabold lg:text-5xl text-gray-900">
-                            Sign Contracts in Under 3 Minutes
+                <div className="text-center mb-16 md:mb-24">
+                    <div className="mx-auto flex max-w-4xl flex-col gap-4">
+                        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
+                            Signing contracts shouldn&apos;t <span className="text-blue-600 underline decoration-blue-500/20">slow you down</span>
                         </h2>
-                        <p className="text-muted-foreground text-balance lg:text-lg max-w-3xl mx-auto">
-                            No training required. No complex workflows. Just upload, send, and get signatures—faster than any DocuSign alternative.
+                        <p className="text-slate-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+                            Stop wasting hours on paperwork. BoopSign is designed for speed, so you can spend more time on billable work.
                         </p>
                     </div>
                 </div>
 
-                {/* Steps */}
+                {/* Steps with Glassmorphism */}
                 <div className="mx-auto max-w-6xl">
-                    <div className="grid gap-12 md:grid-cols-3">
+                    <div className="grid gap-8 md:grid-cols-3">
                         {steps.map((step, index) => (
-                            <div key={index} className="relative flex flex-col items-center text-center">
-                                {/* Step Number */}
-                                {/* <div className="mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-secondary font-bold text-lg">
-                  {step.number}
-                </div> */}
+                            <div key={index} className="group relative flex flex-col p-8 bg-white border border-slate-200 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                                {/* Step Number Badge */}
+                                <div className="absolute top-4 right-4 text-xs font-bold text-slate-300 group-hover:text-blue-200 transition-colors">
+                                    STEP {step.number}
+                                </div>
 
-                                {/* Icon */}
-                                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-secondary text-primary">
+                                {/* Icon Bagde */}
+                                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-50 border border-slate-100 group-hover:bg-blue-50 group-hover:border-blue-100 transition-colors">
                                     {step.icon}
                                 </div>
 
                                 {/* Content */}
-                                <h3 className="mb-3 text-xl font-bold text-gray-900">
+                                <h3 className="mb-3 text-xl font-bold text-slate-900">
                                     {step.title}
                                 </h3>
-                                <p className="text-muted-foreground leading-relaxed">
+                                <p className="text-slate-500 leading-relaxed text-sm md:text-base">
                                     {step.description}
                                 </p>
-
-                                {/* Arrow (desktop only, not on last item) */}
-                                {index < steps.length - 1 && (
-                                    <div className="absolute top-8 left-full hidden md:flex w-12 items-center justify-center">
-                                        <ArrowRight className="h-6 w-6 opacity-50" />
-                                    </div>
-                                )}
                             </div>
                         ))}
                     </div>
                 </div>
 
-                {/* Bottom Text & CTA */}
-                <div className="text-center mt-16">
-                    <p className="text-lg text-muted-foreground mb-8 font-medium">
-                        That&apos;s it. No training, no complexity, no wasted time. Just simple contract signing that works.
-                    </p>
-                    <Button asChild size="lg">
-                        <Link href={button.url}>{button.text}</Link>
-                    </Button>
-                    <p className="text-sm text-muted-foreground mt-4">
-                        7-day free trial • No credit card required • Cancel anytime
-                    </p>
+                {/* Secondary Bottom CTA */}
+                <div className="text-center mt-16 md:mt-24">
+                    <div className="inline-flex flex-col items-center p-8 bg-white rounded-3xl border border-blue-100 shadow-lg max-w-2xl mx-auto">
+                        <p className="text-lg text-slate-700 mb-6 font-medium">
+                            The fastest workflow for freelance contracts. Period.
+                        </p>
+                        <Button asChild size="lg" className="h-12 px-8 text-base">
+                            <Link href={button.url}>{button.text}</Link>
+                        </Button>
+                        <p className="text-xs text-slate-400 mt-4 font-medium flex items-center gap-2">
+                            <Check className="size-3 text-green-500" /> No credit card required • <Check className="size-3 text-green-500" /> Cancel anytime
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>

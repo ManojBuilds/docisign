@@ -158,9 +158,9 @@ const VideoDemo = () => {
 
         <div className="text-center">
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-4 md:mb-6 tracking-tight text-slate-900 leading-[1.2] md:leading-[1.1]">
-            eSignature made{" "}
+            From upload to signed — in{" "}
             <span className="relative inline-block">
-              simple
+              minutes
               {/* Squiggly Underline - Positioned specifically under "simple" */}
               <svg
                 className="absolute left-0 top-[90%] w-[110%] h-auto -ml-[5%]"
@@ -181,7 +181,7 @@ const VideoDemo = () => {
             </span>
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-slate-500 font-medium max-w-2xl mx-auto px-4">
-            Built for freelancers and small teams. Get your contracts signed instantly without forcing clients to create an account.
+            No setup. No learning curve. Get your contracts signed instantly without forcing clients to create an account.
           </p>
         </div>
       </div>

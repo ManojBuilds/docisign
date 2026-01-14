@@ -23,7 +23,10 @@ export default function TestimonialsSection() {
     <section className="w-full py-12 md:py-24 lg:py-32">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center max-w-3xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-widest mb-4">
+            Trusted by Early Adopters
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900">
             What People Are Saying
           </h2>
           <div className="flex items-center justify-center mt-4 gap-1">

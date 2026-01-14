@@ -49,7 +49,7 @@ const Faq = ({
     {
       id: "faq-6",
       question: "What file types do you support?",
-      answer: "We support PDF, DOCX, DOC, and image files (PNG, JPG). Upload any contract type and we'll handle the rest. Signed contracts are always delivered as PDFs with embedded audit trails."
+      answer: "We support only PDF. Upload any contract type and we'll handle the rest. Signed contracts are always delivered as PDFs with embedded audit trails."
     },
     {
       id: "faq-7",
@@ -58,6 +58,11 @@ const Faq = ({
     },
     {
       id: "faq-8",
+      question: "How does email verification work?",
+      answer: "Every signer receives a unique, encrypted link via their verified email address. We track the IP address, timestamp, and browser fingerprint for every signature to ensure authenticity. This creates a legally binding audit trail without requiring the signer to manage another password."
+    },
+    {
+      id: "faq-9",
       question: "Can I try it before paying?",
       answer: "Yes! Start with a 7-day free trial of BoopSign Pro—no credit card required. Test unlimited contract signing, all features included. If you don't love it, cancel anytime with one click."
     },

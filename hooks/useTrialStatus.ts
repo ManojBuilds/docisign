@@ -1,10 +1,11 @@
+"use client";
 import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 
 export const useTrialStatus = () => {
   const { user, isLoaded } = useUser();
-  
+
   const trialStatus = useQuery(
     api.users.getTrialStatus,
     user ? { clerkId: user.id } : "skip"
@@ -27,7 +28,7 @@ export const useTrialStatus = () => {
       trialEnded: null,
     };
   }
-  
+
   return {
     ...trialStatus,
     isAuthenticated: true,

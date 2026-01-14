@@ -1,4 +1,5 @@
 import { ClientHeaderWrapper } from "@/components/ClientHeaderWrapper";
+import ComparasionTable from "@/components/ComparasionTable";
 import Cta from "@/components/cta";
 import Faq from "@/components/faq";
 import Features from "@/components/Features";
@@ -26,6 +27,7 @@ export default function Home() {
         <VideoDemo />
         <HowItWorks />
         <Problem />
+        <ComparasionTable />
         <Features />
         <TestimonialsSection />
         <Pricing />

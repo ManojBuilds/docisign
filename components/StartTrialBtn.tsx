@@ -1,10 +1,12 @@
+import { type VariantProps } from "class-variance-authority";
 import Link from "next/link";
 import { Button, buttonVariants } from "./ui/button";
-import { type VariantProps } from "class-variance-authority";
 
-interface StartTrialBtnProps extends VariantProps<typeof buttonVariants> {}
+interface StartTrialBtnProps extends VariantProps<typeof buttonVariants> {
+  label?: string;
+}
 
-const StartTrialBtn = ({ variant }: StartTrialBtnProps) => {
+const StartTrialBtn = ({ variant, label = "Start Your 7-Day Free Trial" }: StartTrialBtnProps) => {
   return (
     <div className="relative">
       <Link href={"/sign-in"}>
@@ -13,7 +15,7 @@ const StartTrialBtn = ({ variant }: StartTrialBtnProps) => {
           className="px-8 py-6 text-lg rounded-xl shadow-lg transition-transform duration-200 hover:scale-105"
           variant={variant}
         >
-          Start Your 7-Day Free Trial
+          {label}
         </Button>
       </Link>
     </div>

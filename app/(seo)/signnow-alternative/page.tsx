@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "https://boopsign.com/og-image.png",
+        url: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5",
         width: 1200,
         height: 630,
         alt: "BoopSign vs SignNow Comparison",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Best SignNow Alternative 2026 | BoopSign",
     description: "50% cheaper, 3x faster, mobile-first. No account needed for signers.",
-    images: ["https://boopsign.com/og-image.png"],
+    images: ["https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5"],
   },
   robots: {
     index: true,
@@ -149,7 +149,7 @@ export default function SignNowAlternativePage() {
               "Template library",
               "Email support",
             ],
-            screenshot: "https://boopsign.com/og-image.png",
+            screenshot: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5",
           }),
         }}
       />
