@@ -3,6 +3,16 @@ import Pricing from "@/components/Pricing";
 import PricingFaq from "@/components/PricingFaq";
 import TestimonialsSection from "@/components/testimonials";
 
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "BoopSign Pricing - $15/mo for Freelancers | No Per-User Fees",
+  description: "Simple, transparent pricing for freelancers. $15/month for unlimited documents. No per-user fees, no hidden costs. Compare vs DocuSign and save 50%.",
+  alternates: {
+    canonical: "https://boopsign.com/pricing",
+  },
+};
+
 export default function PricingPage() {
 
   return (

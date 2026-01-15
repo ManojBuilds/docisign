@@ -8,6 +8,7 @@ import Hero from "@/components/Hero";
 import HowItWorks from "@/components/HowItWorks";
 import Pricing from "@/components/Pricing";
 import { Problem } from "@/components/Problem";
+import { TemplateShowcase } from "@/components/TemplateShowcase";
 import TestimonialsSection from "@/components/testimonials";
 import VideoDemo from "@/components/VideoDemo";
 
@@ -26,6 +27,7 @@ export default function Home() {
         <Hero />
         <VideoDemo />
         <HowItWorks />
+        <TemplateShowcase />
         <Problem />
         <ComparasionTable />
         <Features />

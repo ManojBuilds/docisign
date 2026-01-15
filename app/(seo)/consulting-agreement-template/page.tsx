@@ -1,8 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { TemplateSidebar } from "@/components/templates/TemplateSidebar";
 import { Card } from "@/components/ui/card";
-import { Briefcase, Check, FileText, Shield, Zap } from "lucide-react";
+import { Check, FileText } from "lucide-react";
 import { Metadata } from "next";
-import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Professional Consulting Agreement Template | Download & E-Sign",
@@ -19,43 +18,21 @@ export const metadata: Metadata = {
   },
 };
 
+import { TemplatePageHeader } from "@/components/templates/TemplatePageHeader";
+
 export default function ConsultingAgreementPage() {
   return (
     <main className="min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="bg-slate-50 border-b border-slate-100 py-24 relative overflow-hidden">
-        <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
-          <div className="flex justify-center mb-8">
-            <div className="size-16 bg-blue-600 rounded-3xl rotate-12 flex items-center justify-center text-white shadow-xl shadow-blue-600/20">
-              <Briefcase className="size-8" />
-            </div>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight text-slate-900">
-            Consulting Agreement <br />
-            <span className="text-blue-600">Template for 2026</span>
-          </h1>
-          <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Clear terms, professional structure, and mobile-ready signing. Everything you need to close the deal and start billable work.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg" className="h-14 px-10 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-lg font-bold shadow-xl shadow-blue-600/20">
-              <Link href="/dashboard">
-                Sign this Agreement <Zap className="ml-2 size-4" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="h-14 px-10 border-slate-200 rounded-2xl text-lg font-bold hover:bg-slate-50">
-              <Link href="#preview">
-                Preview Layout
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <TemplatePageHeader
+        title="Consulting Agreement Template for 2026"
+        subtitle="Formalize your consulting relationships. Clear terms, professional structure, and mobile-ready signing. Everything you need to close the deal and start billable work."
+        category="Freelance & Consulting"
+      />
 
       {/* Main Content Area */}
       <section className="py-24" id="preview">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="grid lg:grid-cols-5 gap-16 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-16 items-start">
             {/* Template Side */}
             <div className="lg:col-span-3 space-y-12">
               <div className="bg-white rounded-[2rem] border border-slate-200 shadow-2xl overflow-hidden ring-8 ring-slate-100/50">
@@ -144,47 +121,24 @@ export default function ConsultingAgreementPage() {
             </div>
 
             {/* CTA Side */}
-            <div className="lg:col-span-2 space-y-8">
-              <div className="p-10 bg-slate-900 rounded-[2.5rem] text-white shadow-2xl relative overflow-hidden ring-1 ring-white/10">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-600/20 blur-[60px]" />
-                <h3 className="text-3xl font-bold mb-6">Stop chasing signatures.</h3>
-                <p className="text-slate-400 mb-10 leading-relaxed">
-                  Don't just download a Word doc. Use BoopSign to send this agreement and get it signed by your client in 60 seconds.
-                </p>
+            <div className="lg:col-span-2 space-y-8 sticky top-24">
+              <TemplateSidebar
+                title="Seal the Deal"
+                subtitle="Formal & Professional"
+                buttonText="Sign This Contract Free"
+                className="mt-0"
+                features={[
+                  "100% Legally Binding",
+                  "No Client Accounts Required",
+                  "Real-time Tracking",
+                  "PDF Audit Trail"
+                ]}
+              />
 
-                <div className="space-y-6 mb-12">
-                  <div className="flex items-center gap-4 group">
-                    <div className="size-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-blue-600/20 transition-colors">
-                      <Shield className="size-5 text-blue-400" />
-                    </div>
-                    <p className="text-sm font-medium">100% Legally Binding</p>
-                  </div>
-                  <div className="flex items-center gap-4 group">
-                    <div className="size-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-blue-600/20 transition-colors">
-                      <Check className="size-5 text-blue-400" />
-                    </div>
-                    <p className="text-sm font-medium">No Client Accounts Required</p>
-                  </div>
-                  <div className="flex items-center gap-4 group">
-                    <div className="size-10 bg-white/5 rounded-xl flex items-center justify-center group-hover:bg-blue-600/20 transition-colors">
-                      <Zap className="size-5 text-blue-400" />
-                    </div>
-                    <p className="text-sm font-medium">Real-time Tracking</p>
-                  </div>
-                </div>
-
-                <Button asChild className="w-full h-16 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl text-xl font-black shadow-xl shadow-blue-600/40">
-                  <Link href="/dashboard">
-                    Sign This Contract Free
-                  </Link>
-                </Button>
-                <p className="text-center mt-6 text-slate-500 text-sm font-medium">Try our 7-day free trial. No credit card required.</p>
-              </div>
-
-              <Card className="rounded-[2.5rem] border-slate-100 shadow-sm bg-slate-50/50 p-8">
+              <Card className="rounded-[2rem] border-slate-100 shadow-sm bg-slate-50/50 p-8">
                 <h4 className="font-bold text-slate-900 mb-4">Pro Tip for Consultants</h4>
                 <p className="text-sm text-slate-600 leading-relaxed">
-                  Always append a clear "Exhibit A" for your scope of work. It prevents scope-creep and ensures everyone knows exactly what is being signed for.
+                  Always append a clear "Exhibit A" for your scope of work in the editor. It prevents scope-creep and ensures everyone knows exactly what is being signed for.
                 </p>
               </Card>
             </div>

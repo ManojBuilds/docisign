@@ -1,7 +1,5 @@
-import StartTrialBtn from "@/components/StartTrialBtn";
 import Cta from "@/components/cta";
 import Faq from "@/components/faq";
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, CheckCircle, DollarSign, FileText, Send, Smartphone, Star, XCircle, Zap } from "lucide-react";
 import { Metadata } from "next";
@@ -75,9 +73,12 @@ const contractTemplateFaq = [
     },
 ];
 
+import { TemplatePageHeader } from "@/components/templates/TemplatePageHeader";
+import { TemplateSidebar } from "@/components/templates/TemplateSidebar";
+
 export default function FreelanceContractTemplatePage() {
     return (
-        <div >
+        <div className="bg-background min-h-screen">
             {/* Schema Markup for SEO */}
             <script
                 type="application/ld+json"
@@ -112,129 +113,65 @@ export default function FreelanceContractTemplatePage() {
                 }}
             />
 
-            {/* Hero Section */}
-            <section className="text-center py-16 md:py-20 px-4 ">
-                <div className="container mx-auto max-w-6xl">
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-                        Free <span className="text-blue-600">Freelance Contract Template</span> & Sign Instantly
-                    </h1>
-                    <p className="text-lg md:text-xl text-gray-700 max-w-4xl mx-auto mb-8">
-                        Download our professional contract template and sign it instantly with BoopSign.
-                        Customize the template, add signature fields, and get contracts signed in seconds.
-                    </p>
+            <TemplatePageHeader
+                title="Free Freelance Contract Template"
+                subtitle="Download our professional contract template and sign it instantly. Customize terms, add signature fields, and get secure, legally binding signatures in minutes."
+                category="Freelance & Consulting"
+            />
 
-                    <div className="flex flex-wrap justify-center gap-4 mb-10 text-sm md:text-base">
-                        <Badge
-                            variant="outline"
-                            className="bg-green-100 text-green-800 border-green-200"
-                        >
-                            Free Download
-                        </Badge>
-                        <Badge
-                            variant="outline"
-                            className="bg-blue-100 text-blue-800 border-blue-200"
-                        >
-                            No Account Required
-                        </Badge>
-                        <Badge
-                            variant="outline"
-                            className="bg-purple-100 text-purple-800 border-purple-200"
-                        >
-                            Mobile-First Design
-                        </Badge>
-                        <Badge
-                            variant="outline"
-                            className="bg-orange-100 text-orange-800 border-orange-200"
-                        >
-                            Industry Standard Templates
-                        </Badge>
+
+            {/* Why Freelancers Need Contracts & Sidebar */}
+            <div className="container mx-auto px-4 max-w-6xl -mt-10 relative z-20">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+
+                    {/* Left Content */}
+                    <div className="lg:col-span-2 space-y-12">
+                        <section className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm">
+                            <h2 className="text-3xl font-bold mb-6">Why Every Freelancer Needs a Contract</h2>
+                            <p className="text-lg text-gray-600 mb-8">
+                                Research shows that freelancers with contracts get paid 78% faster and prevent 90% of disputes.
+                                Don't leave your business vulnerable to scope creep and payment issues.
+                            </p>
+
+                            <div className="grid md:grid-cols-2 gap-6">
+                                <Card className="bg-red-50 border-red-100">
+                                    <CardHeader className="pb-2">
+                                        <CardTitle className="text-red-800 text-lg">Without a Contract</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="space-y-3 text-sm text-gray-700">
+                                        <p><span className="font-bold">💸 Payment Issues:</span> No legal recourse.</p>
+                                        <p><span className="font-bold">📏 Scope Creep:</span> Unlimited extra work.</p>
+                                        <p><span className="font-bold">🛡️ IP Disputes:</span> Unclear ownership.</p>
+                                    </CardContent>
+                                </Card>
+                                <Card className="bg-green-50 border-green-100">
+                                    <CardHeader className="pb-2">
+                                        <CardTitle className="text-green-800 text-lg">With a Contract</CardTitle>
+                                    </CardHeader>
+                                    <CardContent className="space-y-3 text-sm text-gray-700">
+                                        <p><span className="font-bold">✅ Legal Protection:</span> Recourse for non-payment.</p>
+                                        <p><span className="font-bold">🚧 Clear Boundaries:</span> Defined scope.</p>
+                                        <p><span className="font-bold">🔒 IP Clarity:</span> Protected ownership.</p>
+                                    </CardContent>
+                                </Card>
+                            </div>
+                        </section>
                     </div>
 
-                    <StartTrialBtn />
-
-                    <div className="mt-8 text-sm text-gray-600">
-                        Join 2,847+ freelancers who've streamlined their contract process
-                    </div>
+                    {/* Sidebar */}
+                    <TemplateSidebar
+                        title="Get Protected"
+                        subtitle="Free Contract Template"
+                        buttonText="Start Signing Now"
+                        features={[
+                            "Prevents Payment Disputes",
+                            "Defines Scope Clearly",
+                            "Professional Appearance",
+                            "Legally Binding eSignature"
+                        ]}
+                    />
                 </div>
-            </section>
-
-            {/* Why Freelancers Need Contracts */}
-            <section className="py-16 md:py-20 px-4 bg-white">
-                <div className="container mx-auto text-center max-w-5xl">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                        Why Every Freelancer Needs a Contract
-                    </h2>
-                    <p className="text-lg text-gray-600 mb-12 max-w-3xl mx-auto">
-                        Research shows that freelancers with contracts get paid 78% faster and prevent 90% of disputes.
-                        Don't leave your business vulnerable to scope creep and payment issues.
-                    </p>
-
-                    <div className="grid md:grid-cols-2 gap-8 text-left">
-                        <Card className="bg-red-50 border-red-100">
-                            <CardHeader>
-                                <CardTitle className="text-red-800">
-                                    Without a Contract: The Risks
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4 text-gray-700">
-                                <p>
-                                    <span className="font-bold">💸 Payment Issues:</span> No legal recourse
-                                    if clients refuse to pay or delay payment.
-                                </p>
-                                <p>
-                                    <span className="font-bold">📏 Scope Creep:</span> Unlimited extra work
-                                    demands with no additional compensation.
-                                </p>
-                                <p>
-                                    <span className="font-bold">🛡️ IP Disputes:</span> Unclear ownership
-                                    of intellectual property and deliverables.
-                                </p>
-                                <p>
-                                    <span className="font-bold">❌ Unprofessional Image:</span> Appears
-                                    unprofessional to serious clients who expect formal agreements.
-                                </p>
-                            </CardContent>
-                        </Card>
-                        <Card className="bg-green-50 border-green-100">
-                            <CardHeader>
-                                <CardTitle className="text-green-800">
-                                    With a Contract: The Protection
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent className="space-y-4 text-gray-700">
-                                <p className="flex items-start">
-                                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />{" "}
-                                    <span>
-                                        <span className="font-bold">Legal Protection:</span> Recourse for
-                                        non-payment, scope changes, and disputes.
-                                    </span>
-                                </p>
-                                <p className="flex items-start">
-                                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />{" "}
-                                    <span>
-                                        <span className="font-bold">Clear Boundaries:</span> Defined scope
-                                        prevents unauthorized work additions.
-                                    </span>
-                                </p>
-                                <p className="flex items-start">
-                                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />{" "}
-                                    <span>
-                                        <span className="font-bold">IP Clarity:</span> Ownership rights clearly
-                                        defined and protected.
-                                    </span>
-                                </p>
-                                <p className="flex items-start">
-                                    <CheckCircle className="text-green-500 mr-2 mt-1 flex-shrink-0" />{" "}
-                                    <span>
-                                        <span className="font-bold">Professional Image:</span> Establishes
-                                        you as a legitimate business partner.
-                                    </span>
-                                </p>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </div>
-            </section>
+            </div>
 
             {/* Essential Contract Clauses */}
             <section className="py-16 md:py-20 px-4 bg-gray-50">

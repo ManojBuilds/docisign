@@ -1,6 +1,6 @@
+import { TemplateSidebar } from "@/components/templates/TemplateSidebar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, Check, FileText, Layout, Shield, Zap } from "lucide-react";
+import { FileText, Layout, Shield } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 
@@ -18,6 +18,8 @@ export const metadata: Metadata = {
     canonical: "https://boopsign.com/nda-template-free",
   },
 };
+
+import { TemplatePageHeader } from "@/components/templates/TemplatePageHeader";
 
 export default function NdaTemplatePage() {
   return (
@@ -56,39 +58,16 @@ export default function NdaTemplatePage() {
         }}
       />
 
-      {/* Hero Section */}
-      <section className="bg-slate-900 text-white py-24 relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-600/10 blur-[120px] rounded-full translate-x-1/2" />
-        <div className="container mx-auto px-4 relative z-10 text-center max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-sm font-bold mb-6">
-            FREE LEGAL TEMPLATE
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight">
-            Protect Your Work with our <br />
-            <span className="text-blue-500">Free NDA Template</span>
-          </h1>
-          <p className="text-xl text-slate-400 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Download our lawyer-vetted Non-Disclosure Agreement and get it signed legally by your client in under 3 minutes.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Button asChild size="lg" className="h-14 px-8 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-lg font-bold shadow-xl shadow-blue-600/20">
-              <Link href="/dashboard">
-                Upload & Sign Now <Zap className="ml-2 size-4" />
-              </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="h-14 px-8 bg-white/5 hover:bg-white/10 text-white border-white/10 rounded-xl text-lg font-bold">
-              <Link href="#template">
-                Preview Template
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      <TemplatePageHeader
+        title="Free Non-Disclosure Agreement (NDA) Template"
+        subtitle="Protect your proprietary information and client lists. Download our lawyer-vetted NDA template and get it signed legally in minutes."
+        category="Legal & General"
+      />
 
       {/* Main Content Area */}
       <section className="py-24" id="template">
         <div className="container mx-auto px-4 max-w-6xl">
-          <div className="grid lg:grid-cols-3 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
             {/* Template Preview (Sticky) */}
             <div className="lg:col-span-2 space-y-8">
               <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl overflow-hidden">
@@ -158,50 +137,19 @@ export default function NdaTemplatePage() {
               </div>
             </div>
 
-            {/* Sidebar CTA */}
-            <div className="space-y-8 lg:sticky lg:top-24">
-              <Card className="rounded-3xl border-2 border-blue-600 overflow-hidden shadow-2xl">
-                <div className="bg-blue-600 p-6 text-white text-center">
-                  <h3 className="text-2xl font-black italic">Speed Matters</h3>
-                  <p className="text-blue-100 text-sm mt-1">Sign in 60 seconds</p>
-                </div>
-                <CardContent className="p-8">
-                  <ul className="space-y-4 mb-8">
-                    <li className="flex items-center gap-3 text-sm font-medium">
-                      <Check className="size-4 text-emerald-500" /> No Account for Signers
-                    </li>
-                    <li className="flex items-center gap-3 text-sm font-medium">
-                      <Check className="size-4 text-emerald-500" /> Full Audit Trail
-                    </li>
-                    <li className="flex items-center gap-3 text-sm font-medium">
-                      <Check className="size-4 text-emerald-500" /> Mobile-Optimized
-                    </li>
-                    <li className="flex items-center gap-3 text-sm font-medium">
-                      <Check className="size-4 text-emerald-500" /> Legally Binding
-                    </li>
-                  </ul>
-                  <Button asChild className="w-full h-14 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold shadow-lg shadow-blue-600/30">
-                    <Link href="/dashboard">
-                      Use this Template <ArrowRight className="ml-2 size-4" />
-                    </Link>
-                  </Button>
-                </CardContent>
-              </Card>
 
-              <div className="p-8 bg-slate-900 rounded-3xl text-white">
-                <h4 className="font-bold mb-4">FAQ</h4>
-                <div className="space-y-6">
-                  <div>
-                    <p className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-1">Legality</p>
-                    <p className="text-sm text-slate-400">Yes, signatures through BoopSign are legally binding under the ESIGN Act.</p>
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-1">Pricing</p>
-                    <p className="text-sm text-slate-400">You can use this template and sign it for free during your 7-day trial.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {/* Sidebar CTA */}
+            <TemplateSidebar
+              title="Speed Matters"
+              subtitle="Sign in 60 seconds"
+              buttonText="Use this Template"
+              features={[
+                "No Account for Signers",
+                "Full Audit Trail",
+                "Mobile-Optimized",
+                "Legally Binding"
+              ]}
+            />
           </div>
         </div>
       </section>

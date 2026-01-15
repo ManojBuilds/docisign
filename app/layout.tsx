@@ -14,11 +14,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://boopsign.com"),
   title: {
-    default: "BoopSign — No-Account E-Signature for Freelancers & Consultants",
+    default: "BoopSign - E-Signature Software Built for Freelancers & Consultants | $15/mo",
     template: "%s | BoopSign",
   },
   description:
-    "Send contracts clients can sign instantly — no accounts, no passwords. BoopSign is a lightweight DocuSign alternative for freelancers. Mobile signing, audit trail, unlimited documents. $15/month.",
+    "The e-signature tool freelancers love. No client accounts required. Get contracts signed in 3 minutes, not 3 days. 52% cheaper than DocuSign. Try free for 7 days.",
   keywords: [
     "esignature for freelancers",
     "no account esignature",

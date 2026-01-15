@@ -76,6 +76,23 @@ const Faq = ({
   return (
     <section className={className} id="faq">
       <div className="container max-w-3xl mx-auto">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "FAQPage",
+              mainEntity: items.map((item) => ({
+                "@type": "Question",
+                name: item.question,
+                acceptedAnswer: {
+                  "@type": "Answer",
+                  text: item.answer,
+                },
+              })),
+            }),
+          }}
+        />
         <h2 className="mb-4 text-3xl font-semibold md:mb-11 md:text-4xl">
           {heading}
         </h2>

@@ -42,7 +42,12 @@ export default function robots(): MetadataRoute.Robots {
         '/healthcare-document-signing',
         '/guides/3-minute-freelance-workflow',
         '/guides/why-clients-hate-esignature',
-        '/guides/esignature-cost-comparison'
+        '/guides/esignature-cost-comparison',
+        '/social-media-management-contract-template',
+        '/wedding-photography-contract-template',
+        '/house-cleaning-service-agreement-template',
+        '/contract-templates',
+        '/how-it-works'
       ],
       disallow: [
         '/dashboard/',

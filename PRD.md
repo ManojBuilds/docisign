@@ -1,5 +1,10 @@
 # Product Requirements Document (PRD): Boopsign
 
+Target "Long-Tail" Keywords:
+Ranking for pandadoc alternative is hard (Position 64).
+Ranking for affordable proposal software for freelancers is easier. You represent a specific niche.
+Recommendation: In future content updates, we should double down on specific use cases (e.g., "Best signature app for freelance designers") rather than just broad "alternatives."
+
 ## 1. Executive Summary
 
 Boopsign is a lightweight, secure e-signature SaaS built for freelancers and very small agencies (1-3 people). **Mission:** Provide the fastest and most secure way for freelancers to get contracts signed. **Core Promise:** "Clients can sign contracts without creating an account."

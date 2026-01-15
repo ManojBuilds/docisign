@@ -279,29 +279,62 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Freelancer Guides */}
+          {/* Resources & Templates */}
           <div className="md:col-span-1">
-            <h3 className="font-bold text-lg mb-4 text-foreground">Freelancer Guides</h3>
+            <h3 className="font-bold text-lg mb-4 text-foreground">Resources & Templates</h3>
             <ul className="space-y-3">
+              <li>
+                <a
+                  href="/contract-templates"
+                  className="text-sm text-foreground font-semibold hover:text-blue-600 hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-blue-500">★</span>
+                    <span>Free Contract Library</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/social-media-management-contract-template"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-orange-500">→</span>
+                    <span>Social Media Contract</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/wedding-photography-contract-template"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-orange-500">→</span>
+                    <span>Wedding Photo Contract</span>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/house-cleaning-service-agreement-template"
+                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
+                >
+                  <div className="flex items-start">
+                    <span className="mr-2 text-orange-500">→</span>
+                    <span>Cleaning Service Agreement</span>
+                  </div>
+                </a>
+              </li>
               <li>
                 <a
                   href="/guides/3-minute-freelance-workflow"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
-                    <span className="mr-2 text-orange-500">→</span>
+                    <span className="mr-2 text-slate-400">•</span>
                     <span>3-Minute Workflow</span>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/guides/why-clients-hate-esignature"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-orange-500">→</span>
-                    <span>Why Clients Delay</span>
                   </div>
                 </a>
               </li>
@@ -311,19 +344,8 @@ const Footer = () => {
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
-                    <span className="mr-2 text-orange-500">→</span>
-                    <span>$15 vs $65 Analysis</span>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="/docusign-vs-boopsign"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block font-semibold text-blue-600"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-blue-500">★</span>
-                    <span>BoopSign vs DocuSign</span>
+                    <span className="mr-2 text-slate-400">•</span>
+                    <span>Cost Analysis</span>
                   </div>
                 </a>
               </li>

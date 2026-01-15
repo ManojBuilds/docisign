@@ -1,8 +1,8 @@
-import { Metadata } from "next";
-import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Construction, FileText, Shield, Clock, Mail } from "lucide-react";
+import { Clock, FileText, Mail, Shield } from "lucide-react";
+import { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Client Onboarding Documents | Streamline Your Process | Coming Soon",
@@ -21,21 +21,18 @@ export const metadata: Metadata = {
   },
 };
 
+import { TemplatePageHeader } from "@/components/templates/TemplatePageHeader";
+
 export default function ClientOnboardingDocumentsPage() {
   return (
-    <div className="min-h-screen py-12 px-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-blue-100 rounded-full mb-6">
-            <Construction className="w-10 h-10 text-blue-600" />
-          </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Client Onboarding Documents
-          </h1>
-          <p className="text-xl text-gray-600 mb-8">
-            This page is currently under construction. We're working hard to bring you the best practices for streamlining your client onboarding process.
-          </p>
-        </div>
+    <div className="min-h-screen bg-white">
+      <TemplatePageHeader
+        title="Client Onboarding Documents"
+        subtitle="Streamline your client intake process with our comprehensive onboarding document bundle. Coming soon to BoopSign."
+        category="Service Business"
+      />
+
+      <div className="max-w-4xl mx-auto px-4 py-12">
 
         <Card className="bg-white shadow-lg mb-8">
           <CardHeader>

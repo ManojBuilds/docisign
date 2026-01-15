@@ -12,6 +12,9 @@ export const metadata: Metadata = {
     "mobile electronic signature",
     "electronic signature mobile app",
     "sign documents on phone",
+    "sign pdf on iphone without app",
+    "sign document on iphone no app",
+    "how to sign pdf on iphone",
     "mobile esignature solution",
     "electronic signature tablet",
     "mobile first esignature",
@@ -259,6 +262,54 @@ export default function MobileElectronicSignaturePage() {
                 <strong>Completion rate:</strong> 94% vs 67% with app-required
                 platforms
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How to Sign on iPhone Section (SEO Target) */}
+      <section className="py-16 md:py-20 px-4 bg-white border-y border-gray-100">
+        <div className="container mx-auto max-w-4xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              How to Sign PDF on iPhone Without an App
+            </h2>
+            <p className="text-lg text-gray-600">
+              Stop searching for "free signature apps" that force you to upgrade. BoopSign is the easiest way to sign on iPhone.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <div className="flex gap-4">
+                <div className="size-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold flex-shrink-0">1</div>
+                <div>
+                  <h3 className="font-bold text-lg">Open the Link in Safari</h3>
+                  <p className="text-gray-600 text-sm">Tap the BoopSign link sent to your email. It opens instantly in Safari, Chrome, or any mobile browser.</p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="size-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold flex-shrink-0">2</div>
+                <div>
+                  <h3 className="font-bold text-lg">Draw Your Signature</h3>
+                  <p className="text-gray-600 text-sm">Use your finger (or Apple Pencil) to draw your signature directly on the screen. It's smooth and optimized for touch.</p>
+                </div>
+              </div>
+              <div className="flex gap-4">
+                <div className="size-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold flex-shrink-0">3</div>
+                <div>
+                  <h3 className="font-bold text-lg">Tap Finish</h3>
+                  <p className="text-gray-600 text-sm">That's it. The document is legally signed and a PDF copy is automatically emailed to you.</p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-gray-50 rounded-2xl p-8 border border-gray-200 text-center">
+              <p className="font-bold text-gray-900 mb-2">Why this beats the "Markup" tool</p>
+              <ul className="text-sm text-gray-600 space-y-3 text-left">
+                <li className="flex gap-2"><CheckCircle className="size-4 text-green-500 mt-0.5" /> <span><b>Legally Binding:</b> Markup is just an image. BoopSign creates a legal audit trail.</span></li>
+                <li className="flex gap-2"><CheckCircle className="size-4 text-green-500 mt-0.5" /> <span><b>Nothing to Save:</b> No need to save to Files and re-email. It stays in the cloud.</span></li>
+                <li className="flex gap-2"><CheckCircle className="size-4 text-green-500 mt-0.5" /> <span><b>Formatted:</b> Signature aligns perfectly on the dotted line.</span></li>
+              </ul>
             </div>
           </div>
         </div>
