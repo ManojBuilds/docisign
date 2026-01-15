@@ -169,12 +169,17 @@ export const updateDocumentFile = internalMutation({
   args: {
     documentId: v.id("documents"),
     fileStorageId: v.id("_storage"),
+    fileType: v.optional(v.union(v.literal("pdf"), v.literal("doc"), v.literal("docx"))),
   },
   handler: async (ctx, args) => {
-    await ctx.db.patch(args.documentId, {
+    const patch: any = {
       fileStorageId: args.fileStorageId,
       updatedAt: Date.now(),
-    });
+    };
+    if (args.fileType) {
+      patch.fileType = args.fileType;
+    }
+    await ctx.db.patch(args.documentId, patch);
   },
 });
 

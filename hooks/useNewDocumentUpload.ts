@@ -1,23 +1,18 @@
 "use client";
 
-import { useState, useCallback, useEffect } from 'react';
 import { useClerk } from '@clerk/nextjs';
+import { useAction, useMutation, useQuery } from 'convex/react';
 import { useRouter } from 'nextjs-toploader/app';
-import { useMutation, useQuery } from 'convex/react';
-import { useDropzone, FileRejection } from 'react-dropzone';
+import { useCallback, useEffect, useState } from 'react';
+import { FileRejection, useDropzone } from 'react-dropzone';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { api } from '@/convex/_generated/api';
-import { useSignersStore } from '@/stores/signersStore';
+import { computeFileHash } from '@/lib/crypto';
 import { PENDING_DOC_KEY } from '@/lib/utils';
+import { useSignersStore } from '@/stores/signersStore';
 
-async function computeFileHash(file: File): Promise<string> {
-  const buffer = await file.arrayBuffer();
-  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
 
 interface UseNewDocumentUploadProps {
   initialFile?: File | null;
@@ -49,6 +44,7 @@ export function useNewDocumentUpload({ initialFile, isOpen, onOpenChange }: UseN
 
   const generateUploadUrl = useMutation(api.files.generateUploadUrl);
   const createDocument = useMutation(api.documents.createDocument);
+  const docToPdf = useAction(api.conversion.docToPdfConversion);
   const canCreate = useQuery(
     api.users.canCreateDocument,
     user ? { clerkId: user.id } : "skip"
@@ -67,7 +63,7 @@ export function useNewDocumentUpload({ initialFile, isOpen, onOpenChange }: UseN
       }
     }
   }, [addEmail, currentEmail, emailSchema]);
-  
+
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: FileRejection[]) => {
     if (fileRejections.length > 0) {
       toast.error('File exceeds 10MB limit or is invalid type');
@@ -87,6 +83,8 @@ export function useNewDocumentUpload({ initialFile, isOpen, onOpenChange }: UseN
     onDrop,
     accept: {
       'application/pdf': ['.pdf'],
+      'application/msword': ['.doc'],
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
     },
     maxSize: 10 * 1024 * 1024,
   });
@@ -94,32 +92,55 @@ export function useNewDocumentUpload({ initialFile, isOpen, onOpenChange }: UseN
   const handleAnonymousUpload = useCallback(async () => {
     if (!file) return;
     setIsUploading(true);
-    setStatusMessage('Uploading document...');
-    setUploadProgress(20);
+    setStatusMessage('Preparing...');
+    setUploadProgress(0);
+
     try {
+      let uploadStorageId: string;
+      let finalFileSize = file.size;
+      const originalName = file.name;
+
+      if (file.type !== 'application/pdf') {
+        setStatusMessage('Converting to PDF...');
+        setUploadProgress(20);
+
+        const fileData = await file.arrayBuffer();
+        setUploadProgress(40);
+
+        const { storageId, size } = await docToPdf({ fileData });
+        uploadStorageId = storageId;
+        finalFileSize = size;
+        setUploadProgress(60);
+      } else {
+        setStatusMessage('Uploading PDF...');
+        setUploadProgress(20);
+
+        const uploadUrl = await generateUploadUrl();
+        const res = await fetch(uploadUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/pdf' },
+          body: file,
+        });
+
+        if (!res.ok) throw new Error('Upload failed');
+        const { storageId } = await res.json();
+        uploadStorageId = storageId;
+        setUploadProgress(60);
+      }
+
+      setStatusMessage('Encrypting...');
       const documentHash = await computeFileHash(file);
-      setUploadProgress(40);
+      setUploadProgress(80);
 
-      const uploadUrl = await generateUploadUrl();
-      const res = await fetch(uploadUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/pdf' },
-        body: file,
-      });
-
-      if (!res.ok) throw new Error('Upload failed');
-      const { storageId } = await res.json();
-
-      setUploadProgress(70);
-
+      setStatusMessage('Saving locally...');
       localStorage.setItem(
         PENDING_DOC_KEY,
         JSON.stringify({
-          storageId,
-          originalFileName: file.name,
-          fileSizeBytes: file.size,
+          storageId: uploadStorageId,
+          originalFileName: originalName,
+          fileSizeBytes: finalFileSize,
           fileType: 'pdf',
-          title: title || file.name.replace(/\.[^/.]+$/, ''),
+          title: title || originalName.replace(/\.[^/.]+$/, ''),
           documentHash,
           signers: signers.map(s => s.email),
           createdAt: Date.now(),
@@ -130,10 +151,10 @@ export function useNewDocumentUpload({ initialFile, isOpen, onOpenChange }: UseN
       onOpenChange(false);
     } catch (err) {
       console.error(err);
-      toast.error('Upload failed');
+      toast.error('Upload failed. Please try again.');
       setIsUploading(false);
     }
-  }, [file, generateUploadUrl, onOpenChange, redirectToSignIn, signers, title]);
+  }, [docToPdf, file, generateUploadUrl, onOpenChange, redirectToSignIn, signers, title]);
 
   const handleAuthenticatedUpload = useCallback(async () => {
     if (!file || !user) return;
@@ -144,21 +165,40 @@ export function useNewDocumentUpload({ initialFile, isOpen, onOpenChange }: UseN
 
     try {
       const originalName = file.name;
-      const uploadBlob = file;
+      let uploadStorageId: string;
+      let finalFileSize = file.size;
+
+      if (file.type !== 'application/pdf') {
+        setStatusMessage('Converting to PDF...');
+        setUploadProgress(20);
+
+        const fileData = await file.arrayBuffer();
+        setUploadProgress(40);
+
+        const { storageId, size } = await docToPdf({ fileData });
+        uploadStorageId = storageId;
+        finalFileSize = size;
+        setUploadProgress(60);
+      } else {
+        setStatusMessage('Uploading PDF...');
+        setUploadProgress(20);
+
+        const uploadUrl = await generateUploadUrl();
+        const storageResult = await fetch(uploadUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/pdf' },
+          body: file,
+        });
+
+        if (!storageResult.ok) throw new Error('Upload failed');
+        const { storageId } = await storageResult.json();
+        uploadStorageId = storageId;
+        setUploadProgress(60);
+      }
 
       setStatusMessage('Encrypting...');
       const documentHash = await computeFileHash(file);
-      setUploadProgress(60);
-
-      const uploadUrl = await generateUploadUrl();
-      const storageResult = await fetch(uploadUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/pdf' },
-        body: uploadBlob,
-      });
-
-      if (!storageResult.ok) throw new Error('Upload failed');
-      const { storageId } = await storageResult.json();
+      setUploadProgress(80);
 
       setStatusMessage('Finalizing...');
       setUploadProgress(90);
@@ -166,9 +206,9 @@ export function useNewDocumentUpload({ initialFile, isOpen, onOpenChange }: UseN
       const documentId = await createDocument({
         title: documentTitle,
         originalFileName: originalName,
-        fileStorageId: storageId,
+        fileStorageId: uploadStorageId as any,
         fileType: 'pdf',
-        fileSizeBytes: uploadBlob.size,
+        fileSizeBytes: finalFileSize,
         ownerId: user.id,
         pageCount: 1,
         documentHash,
@@ -185,7 +225,7 @@ export function useNewDocumentUpload({ initialFile, isOpen, onOpenChange }: UseN
       toast.error('Upload failed. Please try again.');
       setIsUploading(false);
     }
-  }, [createDocument, file, generateUploadUrl, onOpenChange, router, signers, title, user]);
+  }, [createDocument, docToPdf, file, generateUploadUrl, onOpenChange, router, signers, title, user]);
 
   const handleUpload = useCallback(async () => {
     if (!file) return;
@@ -211,10 +251,10 @@ export function useNewDocumentUpload({ initialFile, isOpen, onOpenChange }: UseN
     setIsUploading(false);
     clearSigners();
   }, [clearSigners]);
-  
+
   const handleRemoveFile = useCallback(() => {
-      setFile(null);
-      setTitle('');
+    setFile(null);
+    setTitle('');
   }, [])
 
   return {

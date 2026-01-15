@@ -4,7 +4,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "How BoopSign Works - 3-Minute Setup for Freelance E-Signatures",
-  description: "See how easy it is to get contracts signed with BoopSign. Upload PDF, add signature fields, and send in 3 minutes. Clients sign instantly without an account.",
+  description: "See how easy it is to get contracts signed with BoopSign. Upload PDF or Word files, add signature fields, and send in 3 minutes. Clients sign instantly without an account.",
   alternates: {
     canonical: "https://boopsign.com/how-it-works",
   },

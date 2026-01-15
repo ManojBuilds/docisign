@@ -122,6 +122,9 @@ importers:
       debounce:
         specifier: ^3.0.0
         version: 3.0.0
+      docxtemplater:
+        specifier: ^3.67.6
+        version: 3.67.6
       dodopayments:
         specifier: ^1.34.1
         version: 1.52.5
@@ -158,6 +161,9 @@ importers:
       pdf-lib:
         specifier: ^1.17.1
         version: 1.17.1
+      pizzip:
+        specifier: ^3.2.0
+        version: 3.2.0
       react:
         specifier: ^19.0.0
         version: 19.1.1
@@ -2859,6 +2865,10 @@ packages:
     resolution: {integrity: sha512-cQzWCtO6C8TQiYl1ruKNn2U6Ao4o4WBBcbL61yJl84x+j5sOWWFU9X7DpND8XZG3daDppSsigMdfAIl2upQBRw==}
     engines: {node: '>=10.0.0'}
 
+  '@xmldom/xmldom@0.9.8':
+    resolution: {integrity: sha512-p96FSY54r+WJ50FIOsCOjyj/wavs8921hG5+kVMmZgKcvIKxMXHTrjNJvRgWa/zuX3B6t2lijLNFaOyuxUH+2A==}
+    engines: {node: '>=14.6'}
+
   '@xtuc/ieee754@1.2.0':
     resolution: {integrity: sha512-DX8nKgqcGwsc0eJSqYt5lwP4DH5FlHnmuWWBRy7X0NcaGR0ZtuyeESgMwTYVEtxmsNGY+qit4QYT/MIYTOTPeA==}
 
@@ -3438,6 +3448,10 @@ packages:
   doctrine@2.1.0:
     resolution: {integrity: sha512-35mSku4ZXK0vfCuHEDAwt55dg2jNajHZ1odvF+8SSr82EsZY4QmXfuWso8oEd8zRhVObSN18aM0CjSdoBX7zIw==}
     engines: {node: '>=0.10.0'}
+
+  docxtemplater@3.67.6:
+    resolution: {integrity: sha512-IvdTz9druTlQrsB0zlqvAqrImEydFgtvHp0uUnx+hQ9W4hmBsorrJIBJKCfkhK6QRz/jpJnA6BaTd6rEK6/Usw==}
+    engines: {node: '>=0.10'}
 
   dodopayments@1.52.5:
     resolution: {integrity: sha512-Qgg8Q3DV48BfUr6xXEVnY8pK6w3WoPhg+vjiCP6BxQVQsTFxRw7RcCmm5RfcJjdzcpR5+fu7YZXQPdeL3p03Bw==}
@@ -4863,6 +4877,9 @@ packages:
   pirates@4.0.7:
     resolution: {integrity: sha512-TfySrs/5nm8fQJDcBDuUng3VOUKsd7S+zqvbOTiGXHfxX4wK31ard+hoNuvkicM/2YFzlpDgABOevKSsB4G/FA==}
     engines: {node: '>= 6'}
+
+  pizzip@3.2.0:
+    resolution: {integrity: sha512-X4NPNICxCfIK8VYhF6wbksn81vTiziyLbvKuORVAmolvnUzl1A1xmz9DAWKxPRq9lZg84pJOOAMq3OE61bD8IQ==}
 
   pkg-types@2.3.0:
     resolution: {integrity: sha512-SIqCzDRg0s9npO5XQ3tNZioRY1uK06lA41ynBC1YmFTmnY6FjUjVt6s4LoADmwoig1qqD0oK8h1p/8mlMx8Oig==}
@@ -8340,6 +8357,8 @@ snapshots:
 
   '@xmldom/xmldom@0.8.11': {}
 
+  '@xmldom/xmldom@0.9.8': {}
+
   '@xtuc/ieee754@1.2.0': {}
 
   '@xtuc/long@4.2.2': {}
@@ -8899,6 +8918,10 @@ snapshots:
   doctrine@2.1.0:
     dependencies:
       esutils: 2.0.3
+
+  docxtemplater@3.67.6:
+    dependencies:
+      '@xmldom/xmldom': 0.9.8
 
   dodopayments@1.52.5:
     dependencies:
@@ -10535,6 +10558,10 @@ snapshots:
   pify@3.0.0: {}
 
   pirates@4.0.7: {}
+
+  pizzip@3.2.0:
+    dependencies:
+      pako: 2.1.0
 
   pkg-types@2.3.0:
     dependencies:

@@ -27,8 +27,8 @@ const HowItWorks = ({
         {
             number: "01",
             icon: <Upload className="size-6 text-blue-600" />,
-            title: "Upload any PDF",
-            description: "Drop your PDF manually or import from your favorite cloud storage. We handle the formatting automatically."
+            title: "Upload document",
+            description: "Drop your PDF or Word file manually. We handle the formatting and conversion automatically."
         },
         {
             number: "02",

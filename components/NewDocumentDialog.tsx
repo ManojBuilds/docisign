@@ -23,10 +23,11 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { api } from '@/convex/_generated/api'
 import { useMobile } from '@/hooks/useMobile'
+import { computeFileHash } from '@/lib/crypto'
 import { cn, PENDING_DOC_KEY } from '@/lib/utils'
 import { useSignersStore } from '@/stores/signersStore'
 import { useClerk } from '@clerk/nextjs'
-import { useMutation, useQuery } from 'convex/react'
+import { useAction, useMutation, useQuery } from 'convex/react'
 import { FileText, Loader2, Upload, X } from 'lucide-react'
 import { useRouter } from 'nextjs-toploader/app'
 import { Dispatch, FC, ReactNode, SetStateAction, useCallback, useEffect, useState } from 'react'
@@ -103,7 +104,7 @@ const UploadContent: FC<UploadContentProps> = ({
                 {isDragActive ? 'Drop to start' : 'Upload your document'}
               </p>
               <p className="text-sm text-gray-500">
-                PDF up to 10MB
+                PDF or Word up to 10MB
               </p>
             </div>
           </div>
@@ -288,12 +289,6 @@ const UploadFooter: FC<UploadFooterProps> = ({
   );
 };
 
-async function computeFileHash(file: File): Promise<string> {
-  const buffer = await file.arrayBuffer();
-  const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
 
 export function NewDocumentDialog({
   children,
@@ -329,6 +324,7 @@ export function NewDocumentDialog({
 
   const generateUploadUrl = useMutation(api.files.generateUploadUrl)
   const createDocument = useMutation(api.documents.createDocument)
+  const docToPdf = useAction(api.conversion.docToPdfConversion)
   const canCreate = useQuery(
     api.users.canCreateDocument,
     user ? { clerkId: user.id } : "skip"
@@ -367,6 +363,8 @@ export function NewDocumentDialog({
     onDrop,
     accept: {
       'application/pdf': ['.pdf'],
+      'application/msword': ['.doc'],
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document': ['.docx'],
     },
     maxSize: 10 * 1024 * 1024,
   })
@@ -374,44 +372,68 @@ export function NewDocumentDialog({
 
 
   async function handleAnonymousUpload() {
+    if (!file) return;
     setIsUploading(true);
-    setStatusMessage('Uploading document...');
-    setUploadProgress(20);
+    setStatusMessage('Preparing...');
+    setUploadProgress(0);
+
     try {
-      const documentHash = await computeFileHash(file!);
-      setUploadProgress(40);
+      let uploadStorageId: string;
+      let finalFileSize = file.size;
+      const originalName = file.name;
 
-      const uploadUrl = await generateUploadUrl();
-      const res = await fetch(uploadUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/pdf' },
-        body: file!,
-      });
+      if (file.type !== 'application/pdf') {
+        setStatusMessage('Converting to PDF...');
+        setUploadProgress(20);
 
-      if (!res.ok) throw new Error('Upload failed');
-      const { storageId } = await res.json();
+        const fileData = await file.arrayBuffer();
+        setUploadProgress(40);
 
-      setUploadProgress(70);
+        const { storageId, size } = await docToPdf({ fileData });
+        uploadStorageId = storageId;
+        finalFileSize = size;
+        setUploadProgress(60);
+      } else {
+        setStatusMessage('Uploading PDF...');
+        setUploadProgress(20);
 
+        const uploadUrl = await generateUploadUrl();
+        const res = await fetch(uploadUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/pdf' },
+          body: file,
+        });
+
+        if (!res.ok) throw new Error('Upload failed');
+        const { storageId } = await res.json();
+        uploadStorageId = storageId;
+        setUploadProgress(60);
+      }
+
+      setStatusMessage('Encrypting...');
+      const documentHash = await computeFileHash(file);
+      setUploadProgress(80);
+
+      setStatusMessage('Saving locally...');
       localStorage.setItem(
         PENDING_DOC_KEY,
         JSON.stringify({
-          storageId,
-          originalFileName: file!.name,
-          fileSizeBytes: file!.size,
+          storageId: uploadStorageId,
+          originalFileName: originalName,
+          fileSizeBytes: finalFileSize,
           fileType: 'pdf',
-          title: title || file!.name.replace(/\.[^/.]+$/, ''),
+          title: title || originalName.replace(/\.[^/.]+$/, ''),
           documentHash,
           signers: signers.map(s => s.email),
           createdAt: Date.now(),
         })
       );
       setUploadProgress(100);
-      redirectToSignIn()
+      redirectToSignIn();
       onOpenChange(false);
     } catch (err) {
-      console.error(err)
-      toast.error('Upload failed');
+      console.error(err);
+      toast.error('Upload failed. Please try again.');
       setIsUploading(false);
     }
   }
@@ -426,32 +448,43 @@ export function NewDocumentDialog({
 
     try {
       const originalName = file.name;
-      const uploadBlob = file;
+      let uploadStorageId: string;
+      let finalFileSize = file.size;
 
-      // if (file.type !== 'application/pdf') {
-      //   setStatusMessage('Converting to PDF...');
-      //   setUploadProgress(20);
-      //   const formData = new FormData();
-      //   formData.append('file', file);
-      //   const convRes = await fetch('/api/convert-to-pdf', { method: 'POST', body: formData });
-      //   if (!convRes.ok) throw new Error('Conversion failed');
-      //   uploadBlob = await convRes.blob();
-      //   setUploadProgress(45);
-      // }
+      if (file.type !== 'application/pdf') {
+        setStatusMessage('Converting to PDF...');
+        setUploadProgress(20);
+
+        // 1. Get file data as ArrayBuffer
+        const fileData = await file.arrayBuffer();
+        setUploadProgress(40);
+
+        // 2. Convert to PDF via Convex Action
+        const { storageId: pdfStorageId, size: pdfSize } = await docToPdf({ fileData });
+        uploadStorageId = pdfStorageId;
+        finalFileSize = pdfSize;
+
+        setUploadProgress(60);
+      } else {
+        setStatusMessage('Uploading PDF...');
+        setUploadProgress(20);
+
+        const uploadUrl = await generateUploadUrl();
+        const storageResult = await fetch(uploadUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/pdf' },
+          body: file,
+        });
+
+        if (!storageResult.ok) throw new Error('Upload failed');
+        const { storageId } = await storageResult.json();
+        uploadStorageId = storageId;
+        setUploadProgress(60);
+      }
 
       setStatusMessage('Encrypting...');
       const documentHash = await computeFileHash(file);
-      setUploadProgress(60);
-
-      const uploadUrl = await generateUploadUrl();
-      const storageResult = await fetch(uploadUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/pdf' },
-        body: uploadBlob,
-      });
-
-      if (!storageResult.ok) throw new Error('Upload failed');
-      const { storageId } = await storageResult.json();
+      setUploadProgress(80);
 
       setStatusMessage('Finalizing...');
       setUploadProgress(90);
@@ -459,9 +492,9 @@ export function NewDocumentDialog({
       const documentId = await createDocument({
         title: documentTitle,
         originalFileName: originalName,
-        fileStorageId: storageId,
+        fileStorageId: uploadStorageId as any, // Cast because it returns a string but expects a specific Id type
         fileType: 'pdf',
-        fileSizeBytes: uploadBlob.size,
+        fileSizeBytes: finalFileSize,
         ownerId: user.id,
         pageCount: 1,
         documentHash,

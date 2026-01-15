@@ -49,7 +49,7 @@ const Faq = ({
     {
       id: "faq-6",
       question: "What file types do you support?",
-      answer: "We support only PDF. Upload any contract type and we'll handle the rest. Signed contracts are always delivered as PDFs with embedded audit trails."
+      answer: "We support PDF and Word files. Upload any contract type and we'll handle the rest. Signed contracts are always delivered as PDFs with embedded audit trails."
     },
     {
       id: "faq-7",

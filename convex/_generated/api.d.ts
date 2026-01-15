@@ -11,6 +11,7 @@
 import type * as actions from "../actions.js";
 import type * as activities from "../activities.js";
 import type * as brevo from "../brevo.js";
+import type * as conversion from "../conversion.js";
 import type * as crons from "../crons.js";
 import type * as dashboard from "../dashboard.js";
 import type * as documents from "../documents.js";
@@ -34,6 +35,7 @@ import type * as otp from "../otp.js";
 import type * as payments from "../payments.js";
 import type * as signatureFields from "../signatureFields.js";
 import type * as signers from "../signers.js";
+import type * as templates from "../templates.js";
 import type * as users from "../users.js";
 
 import type {
@@ -54,6 +56,7 @@ declare const fullApi: ApiFromModules<{
   actions: typeof actions;
   activities: typeof activities;
   brevo: typeof brevo;
+  conversion: typeof conversion;
   crons: typeof crons;
   dashboard: typeof dashboard;
   documents: typeof documents;
@@ -77,6 +80,7 @@ declare const fullApi: ApiFromModules<{
   payments: typeof payments;
   signatureFields: typeof signatureFields;
   signers: typeof signers;
+  templates: typeof templates;
   users: typeof users;
 }>;
 declare const fullApiWithMounts: typeof fullApi;

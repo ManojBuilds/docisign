@@ -68,6 +68,7 @@ export default defineSchema({
     completedAt: v.optional(v.number()),
     customMessage: v.optional(v.string()),
     documentHash: v.optional(v.string()), // For integrity verification
+    templateId: v.optional(v.string()), // Track which template this was created from
   })
     .index("by_owner", ["ownerId"])
     .index("by_status", ["status"])

@@ -1,80 +1,30 @@
 "use client";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowRight, BadgeCheck, FileText, Search, Shield, Zap } from "lucide-react";
+import { ArrowRight, FileText, Search } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-const templates = [
-  {
-    category: "Creative & Freelance",
-    items: [
-      {
-        title: "Social Media Management Contract",
-        desc: "For SMM agencies and freelancers. Includes scope, payment, and platform independence clauses.",
-        href: "/social-media-management-contract-template",
-        popular: true,
-      },
-      {
-        title: "Wedding Photography Contract",
-        desc: "Secure your dates. Includes model release, meals, and harassment clauses.",
-        href: "/wedding-photography-contract-template",
-        popular: true,
-      },
-      {
-        title: "Freelance Contract Template",
-        desc: "General purpose agreement for consultants, designers, and developers.",
-        href: "/freelance-contract-template",
-        popular: false,
-      },
-      {
-        title: "Consulting Agreement",
-        desc: "For professional consultants. Defines deliverables, timelines, and confidentiality.",
-        href: "/consulting-agreement-template",
-        popular: false,
-      },
-    ],
-  },
-  {
-    category: "Service Business",
-    items: [
-      {
-        title: "House Cleaning Service Agreement",
-        desc: "For residential cleaners. Covers access, supplies, and liability limits.",
-        href: "/house-cleaning-service-agreement-template",
-        popular: true,
-      },
-      {
-        title: "Client Onboarding Documents",
-        desc: "A bundle of essential forms for welcoming new clients properly.",
-        href: "/client-onboarding-documents",
-        popular: false,
-      },
-    ],
-  },
-  {
-    category: "Legal & General",
-    items: [
-      {
-        title: "Non-Disclosure Agreement (NDA)",
-        desc: "Protect your ideas. Standard mutual NDA for business meetings.",
-        href: "/nda-template-free",
-        popular: true,
-      },
-      {
-        title: "Remote Team Signing",
-        desc: "Documents for hiring and managing remote employees.",
-        href: "/remote-team-document-signing",
-        popular: false,
-      },
-    ],
-  },
-];
+interface HubTemplateItem {
+  title: string;
+  desc: string;
+  href: string;
+  popular: boolean;
+}
 
-export default function ContractTemplatesHubPage() {
+interface HubCategory {
+  category: string;
+  items: HubTemplateItem[];
+}
+
+interface TemplatesHubProps {
+  initialTemplates: HubCategory[];
+}
+
+export function TemplatesHub({ initialTemplates }: TemplatesHubProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredTemplates = templates
+  const filteredTemplates = initialTemplates
     .map((section) => ({
       ...section,
       items: section.items.filter(
@@ -86,7 +36,7 @@ export default function ContractTemplatesHubPage() {
     .filter((section) => section.items.length > 0);
 
   return (
-    <main className="min-h-screen bg-slate-50/50">
+    <>
       {/* Hero Section */}
       <section className="bg-white border-b border-slate-200 py-24">
         <div className="container mx-auto px-4 text-center max-w-4xl">
@@ -161,30 +111,6 @@ export default function ContractTemplatesHubPage() {
           )}
         </div>
       </section>
-
-      {/* SEO Content */}
-      <section className="bg-slate-900 text-slate-400 py-20 border-t border-slate-800">
-        <div className="container mx-auto px-4 max-w-4xl text-center">
-          <h2 className="text-2xl font-bold text-white mb-6">Why use BoopSign templates?</h2>
-          <div className="grid md:grid-cols-3 gap-8">
-            <div>
-              <Shield className="size-8 text-emerald-500 mx-auto mb-4" />
-              <h3 className="text-white font-bold mb-2">Legally Vetted</h3>
-              <p className="text-sm">Drafted to comply with common US/EU business laws.</p>
-            </div>
-            <div>
-              <Zap className="size-8 text-amber-500 mx-auto mb-4" />
-              <h3 className="text-white font-bold mb-2">Edit & Sign</h3>
-              <p className="text-sm">Don't just download. Edit them in our browser and send for signature.</p>
-            </div>
-            <div>
-              <BadgeCheck className="size-8 text-blue-500 mx-auto mb-4" />
-              <h3 className="text-white font-bold mb-2">Always Free</h3>
-              <p className="text-sm">Our template library is 100% free to access and use.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
+    </>
   );
 }

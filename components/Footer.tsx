@@ -1,4 +1,5 @@
 import { ShieldCheckIcon } from "lucide-react";
+import Link from "next/link";
 import Logo from "./Logo";
 
 const Footer = () => {
@@ -28,7 +29,7 @@ const Footer = () => {
             <h3 className="font-bold text-lg mb-4 text-foreground">Powerful Features</h3>
             <ul className="space-y-3">
               <li>
-                <a
+                <Link
                   href="/online-signature-maker"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -36,10 +37,10 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>Create signatures instantly</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/proposal-signing-software"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -47,10 +48,10 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>Proposal signing software</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/freelance-contract-template"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -58,10 +59,10 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>Contract templates</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/mobile-electronic-signature"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -69,10 +70,10 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>Mobile-first design</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/no-account-esignature"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -80,10 +81,10 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>No account required</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/remote-team-document-signing"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -91,10 +92,10 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>Remote team solutions</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/hr-document-signing"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -102,10 +103,10 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>HR contract management</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/client-onboarding-documents"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -113,10 +114,10 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>Client onboarding contracts</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/real-estate-document-signing"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -124,10 +125,10 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>Real estate solutions</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/healthcare-document-signing"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -135,10 +136,10 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>Healthcare solutions</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/fintech-document-signing"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -146,10 +147,10 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>Fintech & Finance</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/education-document-signing"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -157,10 +158,10 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>Education & Schools</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/esignature-for-freelancers"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -168,10 +169,10 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>For Freelancers</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/esignature-for-consultants"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -179,7 +180,7 @@ const Footer = () => {
                     <span className="mr-2 text-green-500">✓</span>
                     <span>For Consultants</span>
                   </div>
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -189,7 +190,7 @@ const Footer = () => {
             <h3 className="font-bold text-lg mb-4 text-foreground">Ditch the Expensive</h3>
             <ul className="space-y-3">
               <li>
-                <a
+                <Link
                   href="/docusign-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -197,10 +198,10 @@ const Footer = () => {
                     <span className="mr-2 text-blue-500">&gt;</span>
                     <span>DocuSign alternative</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/hellosign-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -208,10 +209,10 @@ const Footer = () => {
                     <span className="mr-2 text-blue-500">&gt;</span>
                     <span>HelloSign alternative</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/pandadoc-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -219,10 +220,10 @@ const Footer = () => {
                     <span className="mr-2 text-blue-500">&gt;</span>
                     <span>PandaDoc alternative</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/adobe-sign-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -230,10 +231,10 @@ const Footer = () => {
                     <span className="mr-2 text-blue-500">&gt;</span>
                     <span>Adobe Sign alternative</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/dropbox-sign-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -241,10 +242,10 @@ const Footer = () => {
                     <span className="mr-2 text-blue-500">&gt;</span>
                     <span>Dropbox Sign alternative</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/signnow-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -252,10 +253,10 @@ const Footer = () => {
                     <span className="mr-2 text-blue-500">&gt;</span>
                     <span>Signnow alternative</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/signrequest-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -263,10 +264,10 @@ const Footer = () => {
                     <span className="mr-2 text-blue-500">&gt;</span>
                     <span>Signrequest alternative</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/zoho-sign-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -274,7 +275,7 @@ const Footer = () => {
                     <span className="mr-2 text-blue-500">&gt;</span>
                     <span>Zoho Sign alternative</span>
                   </div>
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -284,18 +285,18 @@ const Footer = () => {
             <h3 className="font-bold text-lg mb-4 text-foreground">Resources & Templates</h3>
             <ul className="space-y-3">
               <li>
-                <a
-                  href="/contract-templates"
+                <Link
+                  href="/templates"
                   className="text-sm text-foreground font-semibold hover:text-blue-600 hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
                     <span className="mr-2 text-blue-500">★</span>
                     <span>Free Contract Library</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/social-media-management-contract-template"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -303,10 +304,10 @@ const Footer = () => {
                     <span className="mr-2 text-orange-500">→</span>
                     <span>Social Media Contract</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/wedding-photography-contract-template"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -314,10 +315,10 @@ const Footer = () => {
                     <span className="mr-2 text-orange-500">→</span>
                     <span>Wedding Photo Contract</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/house-cleaning-service-agreement-template"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -325,10 +326,10 @@ const Footer = () => {
                     <span className="mr-2 text-orange-500">→</span>
                     <span>Cleaning Service Agreement</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/guides/3-minute-freelance-workflow"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -336,10 +337,10 @@ const Footer = () => {
                     <span className="mr-2 text-slate-400">•</span>
                     <span>3-Minute Workflow</span>
                   </div>
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/guides/esignature-cost-comparison"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
@@ -347,7 +348,7 @@ const Footer = () => {
                     <span className="mr-2 text-slate-400">•</span>
                     <span>Cost Analysis</span>
                   </div>
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

@@ -34,9 +34,9 @@ export function TemplatePageHeader({
 
       <div className="container relative z-10 mx-auto px-4 max-w-5xl">
         {/* Breadcrumb Navigation */}
-        <nav className="flex items-center text-sm text-muted-foreground mb-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <nav className="flex items-center text-sm text-muted-foreground mb-8">
           <Link
-            href="/contract-templates"
+            href="/templates"
             className="flex items-center hover:text-blue-600 transition-colors font-medium"
           >
             <ArrowLeft className="w-4 h-4 mr-1" />
@@ -47,7 +47,7 @@ export function TemplatePageHeader({
         </nav>
 
         {/* Hero Content */}
-        <div className="text-center max-w-4xl mx-auto animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
+        <div className="text-center max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold mb-6 border border-blue-100 shadow-sm">
             <CheckCircle className="w-3 h-3" />
             LAWYER VETTED & FREE

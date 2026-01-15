@@ -13,7 +13,7 @@ export function DragAndClickUpload() {
 
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: any[]) => {
     if (fileRejections.length > 0) {
-      toast.error("Only PDF files up to 10MB are allowed");
+      toast.error("Only PDF or Word files up to 10MB are allowed");
       return;
     }
 
@@ -25,7 +25,13 @@ export function DragAndClickUpload() {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { "application/pdf": [".pdf"] },
+    accept: {
+      "application/pdf": [".pdf"],
+      "application/msword": [".doc"],
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [
+        ".docx",
+      ],
+    },
     maxSize: 10 * 1024 * 1024,
   });
 
@@ -49,7 +55,7 @@ export function DragAndClickUpload() {
         {isDragActive && (
           <div className="absolute inset-0 rounded-2xl bg-primary/10 backdrop-blur-sm flex items-center justify-center z-10">
             <p className="text-lg font-semibold text-primary">
-              Drop PDF to upload
+              Drop file to upload
             </p>
           </div>
         )}
@@ -73,7 +79,7 @@ export function DragAndClickUpload() {
           </p>
 
           <p className="text-sm text-gray-500">
-            or click to upload · Contract up to 10MB
+            or click to upload · PDF or Word up to 10MB
           </p>
         </div>
       </div>

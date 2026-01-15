@@ -1,6 +1,7 @@
 "use client";
 
 import { api } from '@/convex/_generated/api';
+import { computeFileHash } from '@/lib/crypto';
 import { useUser } from '@clerk/nextjs';
 import { useMutation } from 'convex/react';
 import { useRouter } from 'nextjs-toploader/app';
@@ -18,12 +19,6 @@ function base64ToBlob(base64: string, type: string): Blob {
     return new Blob([byteArray], { type: type });
 }
 
-async function computeFileHash(file: Blob): Promise<string> {
-    const buffer = await file.arrayBuffer();
-    const hashBuffer = await crypto.subtle.digest('SHA-256', buffer);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-}
 
 
 export function PendingDocumentProcessor() {
