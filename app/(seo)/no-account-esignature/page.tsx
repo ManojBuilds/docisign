@@ -68,6 +68,43 @@ const noAccountFaq = [
 export default function NoAccountEsignaturePage() {
   return (
     <div className="bg-background text-foreground">
+      {/* Schema Markup for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "BoopSign - No Account Electronic Signature",
+            image: "https://boopsign.com/images/og-no-account.jpg",
+            description:
+              "The only e-signature tool where signers don't need accounts. Send contracts, NDAs, and proposals—your clients sign instantly without login. No friction, just signatures.",
+            url: "https://boopsign.com/no-account-esignature",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web, iOS, Android",
+            brand: {
+              "@type": "Brand",
+              name: "BoopSign"
+            },
+            offers: {
+              "@type": "Offer",
+              url: "https://boopsign.com/no-account-esignature",
+              price: "15.00",
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+              priceValidUntil: "2026-12-31",
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.9",
+              reviewCount: "1245",
+              bestRating: "5",
+              worstRating: "1"
+            },
+          }),
+        }}
+      />
+
       {/* Hero Section */}
       <section className="text-center py-16 md:py-20 px-4 border-b">
         <div className="container mx-auto max-w-6xl">

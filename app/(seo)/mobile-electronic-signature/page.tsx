@@ -79,31 +79,30 @@ export default function MobileElectronicSignaturePage() {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
             name: "BoopSign Mobile Electronic Signature",
+            image: "https://boopsign.com/images/og-mobile-esign.jpg",
             description:
               "Mobile-first electronic signature platform for signing documents on phones and tablets",
             url: "https://boopsign.com/mobile-electronic-signature",
             applicationCategory: "BusinessApplication",
             operatingSystem: ["iOS", "Android", "Web Browser"],
+            brand: {
+              "@type": "Brand",
+              name: "BoopSign"
+            },
             offers: {
               "@type": "Offer",
-              price: "12",
+              url: "https://boopsign.com/mobile-electronic-signature",
+              price: "15.00",
               priceCurrency: "USD",
-              priceSpecification: {
-                "@type": "UnitPriceSpecification",
-                price: "12.00",
-                priceCurrency: "USD",
-                unitText: "MONTH",
-              },
+              availability: "https://schema.org/InStock",
+              priceValidUntil: "2026-12-31",
             },
             aggregateRating: {
               "@type": "AggregateRating",
               ratingValue: "4.9",
-              ratingCount: "2847",
-            },
-            provider: {
-              "@type": "Organization",
-              name: "BoopSign",
-              url: "https://boopsign.com",
+              reviewCount: "2847",
+              bestRating: "5",
+              worstRating: "1"
             },
           }),
         }}

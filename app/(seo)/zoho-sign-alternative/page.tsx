@@ -120,28 +120,30 @@ export default function ZohoSignAlternativePage() {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
             name: "BoopSign - Best Zoho Sign Alternative 2026",
+            image: "https://boopsign.com/images/og-zoho-alt.jpg",
             description:
               "Mobile-first electronic signature platform that offers simpler global experience than Zoho Sign. No account required for signers. 3x faster signing, unlimited signatures, bank-level security.",
             url: "https://boopsign.com/zoho-sign-alternative",
             applicationCategory: "BusinessApplication",
             operatingSystem: "Web, iOS, Android",
+            brand: {
+              "@type": "Brand",
+              name: "BoopSign"
+            },
             offers: {
               "@type": "Offer",
-              price: "12",
+              url: "https://boopsign.com/zoho-sign-alternative",
+              price: "15.00",
               priceCurrency: "USD",
-              priceValidUntil: "2026-12-31",
               availability: "https://schema.org/InStock",
-              seller: {
-                "@type": "Organization",
-                name: "BoopSign",
-              },
+              priceValidUntil: "2026-12-31",
             },
             aggregateRating: {
               "@type": "AggregateRating",
               ratingValue: "4.9",
-              ratingCount: "127",
+              reviewCount: "127",
               bestRating: "5",
-              worstRating: "1",
+              worstRating: "1"
             },
             featureList: [
               "No account required for signers",
@@ -154,7 +156,6 @@ export default function ZohoSignAlternativePage() {
               "Global accessibility",
               "Email support"
             ],
-            screenshot: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5",
           }),
         }}
       />

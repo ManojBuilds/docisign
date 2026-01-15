@@ -117,26 +117,30 @@ export default function DropboxSignAlternativePage() {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
             name: "BoopSign - Best Dropbox Sign Alternative 2026",
+            image: "https://boopsign.com/images/og-dropbox-alt.jpg",
             description:
               "Mobile-first electronic signature platform, 52% cheaper than Dropbox Sign ($15 vs $25/month) with no account required for signers. Simple, fast, and focused on what matters: getting documents signed quickly.",
             url: "https://boopsign.com/dropbox-sign-alternative",
             applicationCategory: "BusinessApplication",
             operatingSystem: "Web, iOS, Android",
+            brand: {
+              "@type": "Brand",
+              name: "BoopSign"
+            },
             offers: {
               "@type": "Offer",
-              price: "12",
+              url: "https://boopsign.com/dropbox-sign-alternative",
+              price: "15.00",
               priceCurrency: "USD",
-              priceSpecification: {
-                "@type": "UnitPriceSpecification",
-                price: "12.00",
-                priceCurrency: "USD",
-                billingDuration: "P1M",
-              },
+              availability: "https://schema.org/InStock",
+              priceValidUntil: "2026-12-31",
             },
             aggregateRating: {
               "@type": "AggregateRating",
               ratingValue: "4.9",
-              ratingCount: "127",
+              reviewCount: "127",
+              bestRating: "5",
+              worstRating: "1"
             },
             featureList: [
               "Unlimited electronic signatures",

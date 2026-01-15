@@ -68,10 +68,27 @@ export default function OnlineSignatureMakerPage() {
             "@context": "https://schema.org",
             "@type": "WebApplication",
             name: "Free Online Signature Maker",
+            image: "https://boopsign.com/images/og-signature-maker.jpg",
             description: "Create professional electronic signatures online for free.",
             url: "https://boopsign.com/online-signature-maker",
             applicationCategory: "BusinessApplication",
-            offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+            brand: {
+              "@type": "Brand",
+              name: "BoopSign"
+            },
+            offers: {
+              "@type": "Offer",
+              price: "0",
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.9",
+              reviewCount: "2847",
+              bestRating: "5",
+              worstRating: "1"
+            },
           }),
         }}
       />

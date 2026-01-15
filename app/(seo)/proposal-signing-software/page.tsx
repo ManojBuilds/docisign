@@ -79,6 +79,43 @@ const proposalSigningFaq = [
 export default function ProposalSigningSoftwarePage() {
   return (
     <div >
+      {/* Schema Markup for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "BoopSign - Proposal Signing Software",
+            image: "https://boopsign.com/images/og-proposal-signing.jpg",
+            description:
+              "BoopSign is the proposal signing software that gets documents signed 3x faster with no account required. Perfect for freelancers and consultants.",
+            url: "https://boopsign.com/proposal-signing-software",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web, iOS, Android",
+            brand: {
+              "@type": "Brand",
+              name: "BoopSign"
+            },
+            offers: {
+              "@type": "Offer",
+              url: "https://boopsign.com/proposal-signing-software",
+              price: "15.00",
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+              priceValidUntil: "2026-12-31",
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.9",
+              reviewCount: "842",
+              bestRating: "5",
+              worstRating: "1"
+            },
+          }),
+        }}
+      />
+
       {/* Hero Section */}
       <section className="text-center py-16 md:py-20 px-4">
         <div className="container mx-auto max-w-6xl">

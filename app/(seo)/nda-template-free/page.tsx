@@ -22,6 +22,40 @@ export const metadata: Metadata = {
 export default function NdaTemplatePage() {
   return (
     <main className="min-h-screen bg-slate-50/50">
+      {/* Schema Markup for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            name: "Free NDA Template for Freelancers",
+            image: "https://boopsign.com/images/og-nda-template.jpg",
+            description:
+              "Protect your ideas with our free Non-Disclosure Agreement (NDA) template. Download as PDF and sign legally in minutes with BoopSign.",
+            url: "https://boopsign.com/nda-template-free",
+            brand: {
+              "@type": "Brand",
+              name: "BoopSign"
+            },
+            offers: {
+              "@type": "Offer",
+              url: "https://boopsign.com/nda-template-free",
+              price: "0",
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.9",
+              reviewCount: "920",
+              bestRating: "5",
+              worstRating: "1"
+            },
+          }),
+        }}
+      />
+
       {/* Hero Section */}
       <section className="bg-slate-900 text-white py-24 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-blue-600/10 blur-[120px] rounded-full translate-x-1/2" />

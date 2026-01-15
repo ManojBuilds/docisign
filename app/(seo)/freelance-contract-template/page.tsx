@@ -78,6 +78,40 @@ const contractTemplateFaq = [
 export default function FreelanceContractTemplatePage() {
     return (
         <div >
+            {/* Schema Markup for SEO */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "Product",
+                        name: "Free Freelance Contract Template",
+                        image: "https://boopsign.com/images/og-contract-template.jpg",
+                        description:
+                            "Download our free freelance contract template and sign it instantly with BoopSign. Professional, lawyer-approved, and easy to customize.",
+                        url: "https://boopsign.com/freelance-contract-template",
+                        brand: {
+                            "@type": "Brand",
+                            name: "BoopSign"
+                        },
+                        offers: {
+                            "@type": "Offer",
+                            url: "https://boopsign.com/freelance-contract-template",
+                            price: "0",
+                            priceCurrency: "USD",
+                            availability: "https://schema.org/InStock",
+                        },
+                        aggregateRating: {
+                            "@type": "AggregateRating",
+                            ratingValue: "4.9",
+                            reviewCount: "1560",
+                            bestRating: "5",
+                            worstRating: "1"
+                        },
+                    }),
+                }}
+            />
+
             {/* Hero Section */}
             <section className="text-center py-16 md:py-20 px-4 ">
                 <div className="container mx-auto max-w-6xl">

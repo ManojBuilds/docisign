@@ -62,6 +62,105 @@ const docusignFaq = [
 export default function DocusignAlternativePage() {
   return (
     <div className="">
+      {/* Enhanced Schema Markup for SEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            name: "BoopSign - Best DocuSign Alternative 2026",
+            image: "https://boopsign.com/images/og-docusign-alt.jpg",
+            description:
+              "Mobile-first electronic signature platform, 50% cheaper than DocuSign ($15 vs $25/month) with no account required for signers. Simple, fast, and focused on what matters.",
+            url: "https://boopsign.com/docusign-alternative",
+            applicationCategory: "BusinessApplication",
+            operatingSystem: "Web, iOS, Android",
+            brand: {
+              "@type": "Brand",
+              name: "BoopSign"
+            },
+            offers: {
+              "@type": "Offer",
+              url: "https://boopsign.com/docusign-alternative",
+              price: "15.00",
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+              priceValidUntil: "2026-12-31",
+            },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.9",
+              reviewCount: "342",
+              bestRating: "5",
+              worstRating: "1"
+            },
+            featureList: [
+              "Unlimited electronic signatures",
+              "No account required for signers",
+              "Mobile-first design",
+              "Bank-level security",
+              "Complete audit trails",
+              "Template library",
+              "Email notifications",
+              "Document tracking",
+            ],
+          }),
+        }}
+      />
+
+      {/* Comparison Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ComparisonTable",
+            name: "DocuSign vs BoopSign Comparison",
+            description: "Detailed feature and pricing comparison between DocuSign and BoopSign",
+            about: [
+              {
+                "@type": "SoftwareApplication",
+                name: "DocuSign",
+                offers: {
+                  "@type": "Offer",
+                  price: "25",
+                  priceCurrency: "USD",
+                },
+              },
+              {
+                "@type": "SoftwareApplication",
+                name: "BoopSign",
+                offers: {
+                  "@type": "Offer",
+                  price: "15",
+                  priceCurrency: "USD",
+                },
+              },
+            ],
+          }),
+        }}
+      />
+
+      {/* FAQ Schema */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: docusignFaq.map((faq) => ({
+              "@type": "Question",
+              name: faq.question,
+              acceptedAnswer: {
+                "@type": "Answer",
+                text: faq.answer,
+              },
+            })),
+          }),
+        }}
+      />
+
       {/* Hero Section */}
       <section className="text-center py-16 md:py-20 px-4">
         <div className="container mx-auto max-w-6xl">

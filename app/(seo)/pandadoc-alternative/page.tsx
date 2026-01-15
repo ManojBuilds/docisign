@@ -117,6 +117,7 @@ export default function PandaDocAlternativePage() {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
             name: "BoopSign - Best PandaDoc Alternative 2026",
+            image: "https://boopsign.com/images/og-pandadoc-alt.jpg",
             description:
               "Mobile-first electronic signature platform, 60% cheaper than PandaDoc ($15 vs $35/month) with no account required for signers. Simple, lightweight, and focused on what matters: getting documents signed fast.",
             url: "https://boopsign.com/pandadoc-alternative",
@@ -124,19 +125,18 @@ export default function PandaDocAlternativePage() {
             operatingSystem: "Web, iOS, Android",
             offers: {
               "@type": "Offer",
-              price: "12",
+              url: "https://boopsign.com/pandadoc-alternative",
+              price: "15.00",
               priceCurrency: "USD",
-              priceSpecification: {
-                "@type": "UnitPriceSpecification",
-                price: "12.00",
-                priceCurrency: "USD",
-                billingDuration: "P1M",
-              },
+              availability: "https://schema.org/InStock",
+              priceValidUntil: "2026-12-31",
             },
             aggregateRating: {
               "@type": "AggregateRating",
               ratingValue: "4.9",
-              ratingCount: "127",
+              reviewCount: "127",
+              bestRating: "5",
+              worstRating: "1"
             },
             featureList: [
               "Unlimited electronic signatures",

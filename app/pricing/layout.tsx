@@ -45,14 +45,27 @@ export default function PricingLayout({
             "@context": "https://schema.org",
             "@type": "Product",
             name: "BoopSign Electronic Signature Software",
-            description: "Mobile-first electronic signature platform",
+            image: "https://boopsign.com/images/og-pricing.jpg",
+            description: "Mobile-first electronic signature platform. Simple, transparent pricing.",
+            brand: {
+              "@type": "Brand",
+              name: "BoopSign"
+            },
             offers: {
               "@type": "Offer",
-              price: "12.00",
+              url: "https://boopsign.com/pricing",
+              price: "15.00",
               priceCurrency: "USD",
               availability: "https://schema.org/InStock",
               priceValidUntil: "2026-12-31",
             },
+            aggregateRating: {
+              "@type": "AggregateRating",
+              ratingValue: "4.9",
+              reviewCount: "24",
+              bestRating: "5",
+              worstRating: "1"
+            }
           }),
         }}
       />

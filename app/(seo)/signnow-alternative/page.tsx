@@ -116,28 +116,30 @@ export default function SignNowAlternativePage() {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
             name: "BoopSign - Best SignNow Alternative 2026",
+            image: "https://boopsign.com/images/og-signnow-alt.jpg",
             description:
               "Mobile-first electronic signature platform, 40% cheaper than SignNow ($15 vs $20/month) with no account required for signers. 3x faster signing, unlimited signatures, bank-level security.",
             url: "https://boopsign.com/signnow-alternative",
             applicationCategory: "BusinessApplication",
             operatingSystem: "Web, iOS, Android",
+            brand: {
+              "@type": "Brand",
+              name: "BoopSign"
+            },
             offers: {
               "@type": "Offer",
-              price: "12",
+              url: "https://boopsign.com/signnow-alternative",
+              price: "15.00",
               priceCurrency: "USD",
-              priceValidUntil: "2026-12-31",
               availability: "https://schema.org/InStock",
-              seller: {
-                "@type": "Organization",
-                name: "BoopSign",
-              },
+              priceValidUntil: "2026-12-31",
             },
             aggregateRating: {
               "@type": "AggregateRating",
               ratingValue: "4.9",
-              ratingCount: "127",
+              reviewCount: "127",
               bestRating: "5",
-              worstRating: "1",
+              worstRating: "1"
             },
             featureList: [
               "No account required for signers",
@@ -149,7 +151,6 @@ export default function SignNowAlternativePage() {
               "Template library",
               "Email support",
             ],
-            screenshot: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5",
           }),
         }}
       />

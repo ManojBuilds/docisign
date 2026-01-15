@@ -117,26 +117,30 @@ export default function SignRequestAlternativePage() {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
             name: "BoopSign - Best SignRequest Alternative 2026",
+            image: "https://boopsign.com/images/og-signrequest-alt.jpg",
             description:
               "Mobile-first electronic signature platform, 67% cheaper than SignRequest ($15 vs $36/month) with no account required for signers. Simple, fast, and focused on what matters: getting documents signed quickly.",
             url: "https://boopsign.com/signrequest-alternative",
             applicationCategory: "BusinessApplication",
             operatingSystem: "Web, iOS, Android",
+            brand: {
+              "@type": "Brand",
+              name: "BoopSign"
+            },
             offers: {
               "@type": "Offer",
-              price: "12",
+              url: "https://boopsign.com/signrequest-alternative",
+              price: "15.00",
               priceCurrency: "USD",
-              priceSpecification: {
-                "@type": "UnitPriceSpecification",
-                price: "12.00",
-                priceCurrency: "USD",
-                billingDuration: "P1M",
-              },
+              availability: "https://schema.org/InStock",
+              priceValidUntil: "2026-12-31",
             },
             aggregateRating: {
               "@type": "AggregateRating",
               ratingValue: "4.9",
-              ratingCount: "127",
+              reviewCount: "127",
+              bestRating: "5",
+              worstRating: "1"
             },
             featureList: [
               "Unlimited electronic signatures",

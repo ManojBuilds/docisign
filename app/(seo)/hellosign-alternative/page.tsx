@@ -117,26 +117,28 @@ export default function HelloSignAlternativePage() {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
             name: "BoopSign - Best HelloSign Alternative 2026",
+            image: "https://boopsign.com/images/og-hellosign-alt.jpg",
             description:
               "Mobile-first electronic signature platform, 52% cheaper than HelloSign ($15 vs $25/month) with no account required for signers. 3x faster signing, unlimited signatures, bank-level security.",
             url: "https://boopsign.com/hellosign-alternative",
             applicationCategory: "BusinessApplication",
             operatingSystem: "Web, iOS, Android",
+            brand: {
+              "@type": "Brand",
+              name: "BoopSign"
+            },
             offers: {
               "@type": "Offer",
-              price: "12",
+              url: "https://boopsign.com/hellosign-alternative",
+              price: "15.00",
               priceCurrency: "USD",
-              priceValidUntil: "2026-12-31",
               availability: "https://schema.org/InStock",
-              seller: {
-                "@type": "Organization",
-                name: "BoopSign",
-              },
+              priceValidUntil: "2026-12-31",
             },
             aggregateRating: {
               "@type": "AggregateRating",
               ratingValue: "4.9",
-              ratingCount: "127",
+              reviewCount: "127",
               bestRating: "5",
               worstRating: "1",
             },
@@ -150,7 +152,6 @@ export default function HelloSignAlternativePage() {
               "Template library",
               "Email support",
             ],
-            screenshot: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5",
           }),
         }}
       />
