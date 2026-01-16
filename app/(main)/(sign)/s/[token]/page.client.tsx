@@ -154,6 +154,7 @@ export default function SigningPage() {
 
   return (
     <>
+
       {isSubmitting && <SubmittingOverlay />}
 
       <MainSigningView

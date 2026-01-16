@@ -12,13 +12,14 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { api } from "@/convex/_generated/api";
+import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
 import { useMutation, useQuery } from "convex/react";
 import { Image as ImageIcon, Loader2, Palette, Upload } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
-export function BrandingSettings() {
+export function BrandingSettings({ triggerClassName }: { triggerClassName?: string }) {
   const { user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
@@ -110,7 +111,7 @@ export function BrandingSettings() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="h-10 border-muted/50 gap-2">
+        <Button variant="outline" className={cn("h-10 border-muted/50 gap-2", triggerClassName)}>
           <Palette className="h-4 w-4" />
           <span className="hidden sm:inline">Branding</span>
         </Button>

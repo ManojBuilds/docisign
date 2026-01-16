@@ -8,6 +8,7 @@ import {
   DialogTitle
 } from "@/components/ui/dialog";
 import { Check, ShieldCheck } from "lucide-react";
+import Image from "next/image";
 
 interface WelcomeDialogProps {
   open: boolean;
@@ -39,15 +40,28 @@ export function WelcomeDialog({
         <div className="bg-gray-900 p-8 text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-10">
             {brandLogoUrl ? (
-              <img src={brandLogoUrl} alt="Logo" className="w-32 h-32 object-contain" />
+              <Image
+                src={brandLogoUrl}
+                alt="Logo"
+                width={128}
+                height={128}
+                className="size-32 rounded-xl object-cover"
+                unoptimized
+              />
             ) : (
               <ShieldCheck className="w-32 h-32" />
             )}
           </div>
           <div className="relative z-10 flex items-center gap-4">
             {brandLogoUrl && (
-              <div className="size-12 bg-white rounded-xl flex items-center justify-center p-2 shrink-0 shadow-xl">
-                <img src={brandLogoUrl} alt="Logo" className="size-full object-contain" />
+              <div className="size-12 bg-white rounded-xl flex items-center justify-center p-2 shrink-0 shadow-xl relative overflow-hidden">
+                <Image
+                  src={brandLogoUrl}
+                  alt="Logo"
+                  fill
+                  className="object-contain p-2"
+                  unoptimized
+                />
               </div>
             )}
             <div className="space-y-1">
@@ -60,7 +74,7 @@ export function WelcomeDialog({
           <p className="text-gray-400 text-sm font-medium mt-4">
             Document sent by <span className="text-white font-bold">{brandName || senderEmail}</span>
           </p>
-        </div>
+        </div >
 
         <div className="p-8 space-y-8">
           <div className="space-y-4">
@@ -101,7 +115,7 @@ export function WelcomeDialog({
             </p>
           </DialogFooter>
         </div>
-      </DialogContent>
-    </Dialog>
+      </DialogContent >
+    </Dialog >
   );
 }

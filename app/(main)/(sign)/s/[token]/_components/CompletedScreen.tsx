@@ -2,7 +2,6 @@
 
 import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
-import { Confetti } from "@/components/ui/confetti";
 import { cn } from "@/lib/utils";
 import {
   Check,
@@ -15,7 +14,8 @@ import {
   User
 } from "lucide-react";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
+import confetti from "canvas-confetti"
 
 interface CompletedScreenProps {
   signingSession: any;
@@ -38,11 +38,6 @@ export function CompletedScreen({
   isCompleted,
   isDeclined,
 }: CompletedScreenProps) {
-  const confettiOptions = useMemo(() => ({
-    particleCount: 150,
-    spread: 70,
-    origin: { y: 0.6 }
-  }), []);
   const participants = useMemo(() => {
     if (!allDocumentFields) return [];
 
@@ -84,21 +79,42 @@ export function CompletedScreen({
   }, [allDocumentFields, isCompleted, isDeclined, signingSession?.signer?.email, signingSession?.signer?.status]);
 
 
+  const handleFireworks = () => {
+    const duration = 5 * 1000
+    const animationEnd = Date.now() + duration
+    const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
+
+    const randomInRange = (min: number, max: number) =>
+      Math.random() * (max - min) + min
+
+    const interval = window.setInterval(() => {
+      const timeLeft = animationEnd - Date.now()
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval)
+      }
+
+      const particleCount = 50 * (timeLeft / duration)
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+      })
+      confetti({
+        ...defaults,
+        particleCount,
+        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+      })
+    }, 250)
+  }
+
+  useEffect(() => {
+   handleFireworks() 
+  }, [])
+
+
   return (
     <>
-      {showConfetti &&
-        <div className="fixed inset-0 z-50 pointer-events-none">
-          <Confetti
-            className="w-full h-full"
-            options={{
-              ...confettiOptions,
-              particleCount: 150,
-              spread: 70,
-              origin: { y: 0.6 }
-            }}
-          />
-        </div>}
-
       <div className="min-h-screen bg-white flex flex-col items-center relative overflow-hidden">
         {/* Background Pattern */}
         <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.4]"

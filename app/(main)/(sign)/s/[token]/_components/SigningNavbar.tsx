@@ -48,7 +48,7 @@ export const SigningNavbar = memo(({
                   src={signingSession.ownerBranding.logoUrl}
                   alt={signingSession.ownerBranding.brandName || "Logo"}
                   fill
-                  className="object-contain"
+                  className="object-cover"
                 />
               </div>
             ) : (

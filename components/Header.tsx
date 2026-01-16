@@ -3,6 +3,7 @@
 import { UserButton } from "@clerk/clerk-react";
 import { GetProCTA } from "./get-pro-cta";
 // import { SupportModal } from "./support";
+import { BrandingSettings } from "@/components/branding/BrandingSettings";
 import { cn } from "@/lib/utils";
 import Logo from "./Logo";
 
@@ -16,8 +17,11 @@ export function Header({ classNames }: { classNames?: string }) {
         </div>
         <div className="flex items-center gap-3.5 text-xs sm:text-sm">
           {/* <SupportModal /> */}
+
+          <BrandingSettings triggerClassName="h-8" />
           <GetProCTA className="h-8" />
           <UserButton />
+
         </div>
       </div>
     </header>
