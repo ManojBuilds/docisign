@@ -110,6 +110,7 @@ export default async function TemplatePage({ params }: Props) {
         title={template.name}
         subtitle={template.subtitle}
         category={template.category}
+        templateId={template.id}
       />
 
       {/* Main Content Area */}

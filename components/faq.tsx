@@ -22,9 +22,24 @@ const Faq = ({
   className = "py-32",
   items = [
     {
+      id: "faq-freelancer-1",
+      question: "Is BoopSign good for freelancers?",
+      answer: "Absolutely. BoopSign was built specifically for freelancers and solo professionals who need to get contracts signed quickly without the enterprise bloat of DocuSign. It's simple, professional, and helps you get paid faster by removing signing friction."
+    },
+    {
+      id: "faq-freelancer-2",
+      question: "Do my clients need accounts to sign?",
+      answer: "Never. Your clients receive a secure link in their email and can sign your contract instantly on any device without creating an account, downloading an app, or remembering a password. This is why BoopSign has a much higher completion rate than traditional tools."
+    },
+    {
+      id: "faq-freelancer-3",
+      question: "How much does BoopSign cost for freelancers?",
+      answer: "We offer a single, simple plan for $19/month that includes unlimited documents and signers. There are no per-envelope fees or hidden charges. You can also start with a 7-day free trial to see how much time it saves you before committed."
+    },
+    {
       id: "faq-1",
       question: "How is BoopSign different from DocuSign?",
-      answer: "BoopSign is built for speed and simplicity. Unlike DocuSign, your clients don't need to create accounts—they sign directly from email. We're also 10x cheaper ($15/month vs $150+/month) with no per-contract fees. Perfect for freelancers and consultants who need simple e-signatures without enterprise complexity."
+      answer: "BoopSign is built for speed and simplicity. Unlike DocuSign, your clients don't need to create accounts—they sign directly from email. We're also 10x cheaper ($19/month vs $150+/month) with no per-contract fees. Perfect for freelancers and consultants who need simple e-signatures without enterprise complexity."
     },
     {
       id: "faq-2",
@@ -34,7 +49,7 @@ const Faq = ({
     {
       id: "faq-3",
       question: "What's your pricing? Any hidden fees?",
-      answer: "Simple, transparent pricing: $15/month for unlimited contract signing. No per-contract charges, no user fees, no setup costs. Start with a 7-day free trial—no credit card required. Cancel anytime with no questions asked."
+      answer: "Simple, transparent pricing: $19/month for unlimited contract signing. No per-contract charges, no user fees, no setup costs. Start with a 7-day free trial—no credit card required. Cancel anytime with no questions asked."
     },
     {
       id: "faq-4",

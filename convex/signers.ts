@@ -82,6 +82,7 @@ export const getSignerByToken = query({
     if (!signatureField) return null;
 
     const document = await ctx.db.get(signatureField.documentId);
+    if (!document) return null;
     const signatureFields = await ctx.db
       .query("signatureFields")
       .withIndex("by_document_and_signer", (q) =>
@@ -90,6 +91,16 @@ export const getSignerByToken = query({
           .eq("signerEmail", signatureField.signerEmail),
       )
       .collect();
+
+    const owner = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", document.ownerId))
+      .first();
+
+    let ownerLogoUrl = null;
+    if (owner?.brandLogoStorageId) {
+      ownerLogoUrl = await ctx.storage.getUrl(owner.brandLogoStorageId);
+    }
 
     return {
       signer: {
@@ -109,6 +120,10 @@ export const getSignerByToken = query({
       },
       document,
       signatureFields,
+      ownerBranding: {
+        brandName: owner?.brandName || "",
+        logoUrl: ownerLogoUrl,
+      },
     };
   },
 });
@@ -416,6 +431,13 @@ export const sendSigningEmail = internalAction({
         return;
       }
 
+      let brandLogoUrl = "";
+      if (owner.brandLogoStorageId) {
+        brandLogoUrl = (await ctx.runMutation(api.documents.getFileUrl, {
+          storageId: owner.brandLogoStorageId,
+        })) || "";
+      }
+
       await ctx.runAction(api.emails.sendSigningRequestEmail, {
         signerName: signer.name || signer.email,
         senderName: owner.firstName || owner.email,
@@ -423,6 +445,8 @@ export const sendSigningEmail = internalAction({
         signingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/s/${signer.accessToken}`,
         customMessage: args.customMessage,
         to: signer.email,
+        brandName: owner.brandName,
+        brandLogoUrl: brandLogoUrl || undefined,
       });
     } catch (error) {
       console.error("Error in background signing email task:", error);
@@ -584,6 +608,17 @@ export const getSigningSession = query({
         )
         .collect();
 
+      // Get owner branding
+      const owner = await ctx.db
+        .query("users")
+        .withIndex("by_clerk_id", (q) => q.eq("clerkId", document.ownerId))
+        .first();
+
+      let ownerLogoUrl = null;
+      if (owner?.brandLogoStorageId) {
+        ownerLogoUrl = await ctx.storage.getUrl(owner.brandLogoStorageId);
+      }
+
       return {
         signer: {
           _id: signatureField._id,
@@ -602,6 +637,10 @@ export const getSigningSession = query({
         },
         document,
         signatureFields,
+        ownerBranding: {
+          brandName: owner?.brandName || "",
+          logoUrl: ownerLogoUrl,
+        },
       };
     } catch (error) {
       return { error: "Failed to load signing session" };
@@ -634,9 +673,15 @@ export const getSigningSessionForMetadata = query({
         .withIndex("by_clerk_id", (q) => q.eq("clerkId", document.ownerId))
         .first();
 
+      let ownerLogoUrl = null;
+      if (owner?.brandLogoStorageId) {
+        ownerLogoUrl = await ctx.storage.getUrl(owner.brandLogoStorageId);
+      }
+
       return {
         documentTitle: document.title,
-        ownerName: owner?.firstName || owner?.email || "Someone",
+        ownerName: owner?.brandName || owner?.firstName || owner?.email || "Someone",
+        ownerLogoUrl: ownerLogoUrl,
       };
     } catch (error) {
       return null;

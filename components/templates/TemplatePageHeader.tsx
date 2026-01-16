@@ -1,13 +1,18 @@
+"use client"
 import StartTrialBtn from "@/components/StartTrialBtn";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, CheckCircle, ChevronRight, Download } from "lucide-react";
+import { getTemplateConfig } from "@/lib/template-variables";
+import { ArrowLeft, CheckCircle, ChevronRight, Download, Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface TemplatePageHeaderProps {
   title: string;
   subtitle: string;
   category?: string;
   backgroundImage?: string;
+  templateId?: string;
 }
 
 export function TemplatePageHeader({
@@ -15,7 +20,41 @@ export function TemplatePageHeader({
   subtitle,
   category = "Contracts",
   backgroundImage = "/noise.png",
+  templateId,
 }: TemplatePageHeaderProps) {
+  const [isDownloading, setIsDownloading] = useState(false);
+  const templateConfig = templateId ? getTemplateConfig(templateId) : null;
+
+  const handleDownload = async () => {
+    if (!templateConfig?.fileUrl) return;
+
+    setIsDownloading(true);
+    try {
+      const response = await fetch(
+        `/api/download?url=${encodeURIComponent(templateConfig.fileUrl)}&filename=${templateId}.docx`
+      );
+
+      if (!response.ok) throw new Error("Download failed");
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${templateId}.docx`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      toast.success("Word document download started");
+    } catch (error) {
+      console.error("Download error:", error);
+      toast.error("Failed to download template");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <div className="relative pt-12 pb-12 md:pt-16 md:pb-16 overflow-hidden">
       {/* Background with noise and gradient similar to homepage */}
@@ -63,9 +102,24 @@ export function TemplatePageHeader({
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
             <StartTrialBtn />
-            <Button variant="outline" size="lg" className="h-12 px-8 rounded-full border-slate-300 hover:bg-slate-50 hover:text-slate-900 w-full sm:w-auto">
-              <Download className="mr-2 w-4 h-4" />
-              Download PDF
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={handleDownload}
+              disabled={isDownloading || !templateId}
+              className="h-12 px-8 rounded-full border-slate-300 hover:bg-slate-50 hover:text-slate-900 w-full sm:w-auto"
+            >
+              {isDownloading ? (
+                <>
+                  <Loader2 className="mr-2 w-4 h-4 animate-spin" />
+                  Downloading...
+                </>
+              ) : (
+                <>
+                  <Download className="mr-2 w-4 h-4" />
+                  Download Word
+                </>
+              )}
             </Button>
           </div>
 

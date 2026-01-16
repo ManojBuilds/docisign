@@ -297,7 +297,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/social-media-management-contract-template"
+                  href="/templates/social-media-management-contract-template"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -308,7 +308,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/wedding-photography-contract-template"
+                  href="/templates/wedding-photography-contract-template"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -319,7 +319,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/house-cleaning-service-agreement-template"
+                  href="/templates/house-cleaning-service-agreement-template"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">

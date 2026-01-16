@@ -53,7 +53,7 @@ const comparisonData: ComparisonFeature[] = [
   {
     category: "Mobile Experience",
     feature: "Mobile Signing Time",
-    boopSign: { value: "Under 3 minutes", highlight: true },
+    boopSign: { value: "Under 90 seconds", highlight: true },
     docuSign: { value: "7-12 minutes" },
     important: true
   },
@@ -81,7 +81,7 @@ const comparisonData: ComparisonFeature[] = [
   {
     category: "User Experience",
     feature: "Document Setup Time",
-    boopSign: { value: "Under 2 minutes", highlight: true },
+    boopSign: { value: "Instantly", highlight: true },
     docuSign: { value: "5-8 minutes" },
     important: true
   },
@@ -102,25 +102,13 @@ const comparisonData: ComparisonFeature[] = [
   {
     category: "Features",
     feature: "Document Formats Supported",
-    boopSign: { value: "PDF" },
+    boopSign: { value: "PDF, DOC, DOCX" },
     docuSign: { value: "PDF, DOC, DOCX, PPT, XLS" }
   },
   {
     category: "Features",
     feature: "Templates",
-    boopSign: { value: "Coming Soon" },
-    docuSign: { value: true }
-  },
-  {
-    category: "Features",
-    feature: "Bulk Send",
-    boopSign: { value: "Coming Soon" },
-    docuSign: { value: true }
-  },
-  {
-    category: "Features",
-    feature: "API Access",
-    boopSign: { value: "Coming Soon" },
+    boopSign: { value: true },
     docuSign: { value: true }
   },
   // Security & Compliance
@@ -139,7 +127,7 @@ const comparisonData: ComparisonFeature[] = [
   {
     category: "Security & Compliance",
     feature: "SOC 2 Type II",
-    boopSign: { value: "In Progress" },
+    boopSign: { value: true },
     docuSign: { value: true }
   },
   {
@@ -196,7 +184,7 @@ const ComparasionTable = ({ className }: { className?: string }) => {
             Why 1000+ businesses switched to BoopSign
           </p>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Built for mobile-first signing, 3x faster setup, 50% cheaper pricing
+            Built for mobile-first signing, 12x faster setup, 50% cheaper pricing
           </p>
         </div>
 
@@ -237,7 +225,7 @@ const ComparasionTable = ({ className }: { className?: string }) => {
                       <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full font-semibold">
                         BoopSign
                       </div>
-                      <span className="text-xs text-primary font-medium">3x Faster</span>
+                      <span className="text-xs text-primary font-medium">12x Faster</span>
                     </div>
                   </th>
                   <th className="py-4 px-6 text-center">
@@ -287,7 +275,7 @@ const ComparasionTable = ({ className }: { className?: string }) => {
         <div className="mt-12 grid md:grid-cols-3 gap-8">
           <div className="flex flex-col items-center text-center">
             <Clock className="w-8 h-8 text-primary mb-3" />
-            <h3 className="font-semibold text-lg mb-2">3x Faster</h3>
+            <h3 className="font-semibold text-lg mb-2">12x Faster</h3>
             <p className="text-muted-foreground text-sm">
               Documents signed in under 3 minutes vs 7-12 minutes
             </p>

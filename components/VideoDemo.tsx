@@ -160,7 +160,7 @@ const VideoDemo = () => {
           <h2 className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-4 md:mb-6 tracking-tight text-slate-900 leading-[1.2] md:leading-[1.1]">
             From upload to signed — in{" "}
             <span className="relative inline-block">
-              minutes
+              seconds
               {/* Squiggly Underline - Positioned specifically under "simple" */}
               <svg
                 className="absolute left-0 top-[90%] w-[110%] h-auto -ml-[5%]"
@@ -204,7 +204,7 @@ const VideoDemo = () => {
             <Play className="fill-current ml-0.5 md:ml-1 w-4 h-4 md:w-6 md:h-6" />
           </div>
           <span className="font-bold text-[10px] md:text-sm tracking-[0.05em] md:tracking-[0.1em] uppercase text-slate-800 truncate">
-            Watch Boopsign in action — 1 minute
+            Watch Boopsign in action — 90 seconds
           </span>
         </div>
       </div>

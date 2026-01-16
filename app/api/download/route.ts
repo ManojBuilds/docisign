@@ -14,9 +14,10 @@ export async function GET(request: NextRequest) {
     return new NextResponse("URL is required", { status: 400 });
   }
 
-  // Security check: Only allow proxying Convex storage URLs or local dev URLs
+  // Security check: Only allow proxying Convex storage URLs, UploadThing, or local dev URLs
   const isAllowedHost =
     url.includes(".convex.cloud") ||
+    url.includes("ufs.sh") ||
     url.includes("localhost") ||
     url.includes("127.0.0.1") ||
     url.startsWith("/"); // Allow relative URLs if any
@@ -36,7 +37,10 @@ export async function GET(request: NextRequest) {
 
     // Force download by setting Content-Disposition
     headers.set("Content-Disposition", `attachment; filename="${filename}"`);
-    headers.set("Content-Type", "application/pdf");
+
+    // Use the content type from the source response if available
+    const contentType = response.headers.get("Content-Type") || "application/octet-stream";
+    headers.set("Content-Type", contentType);
 
     return new NextResponse(blob, {
       status: 200,

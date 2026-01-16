@@ -42,11 +42,27 @@ export const SigningNavbar = memo(({
       <header className="md:hidden h-14 flex items-center justify-between px-4 bg-white/80 backdrop-blur-xl shrink-0 border-b border-gray-100 z-30">
         <div className="flex items-center gap-3 overflow-hidden">
           <div className="scale-75 origin-left">
-            <Logo showText={false} />
+            {signingSession.ownerBranding?.logoUrl ? (
+              <div className="size-8 relative">
+                <Image
+                  src={signingSession.ownerBranding.logoUrl}
+                  alt={signingSession.ownerBranding.brandName || "Logo"}
+                  fill
+                  className="object-contain"
+                />
+              </div>
+            ) : (
+              <Logo showText={false} />
+            )}
           </div>
-          <h1 className="text-sm font-semibold truncate leading-none tracking-tight text-gray-900">
-            {signingSession.document.title}
-          </h1>
+          <div className="flex flex-col">
+            <h1 className="text-xs font-bold truncate leading-none tracking-tight text-gray-900 mb-1">
+              {signingSession.document.title}
+            </h1>
+            <p className="text-[10px] text-muted-foreground truncate italic">
+              via {signingSession.ownerBranding?.brandName || "BoopSign"}
+            </p>
+          </div>
         </div>
 
         <Sheet>
@@ -102,21 +118,27 @@ export const SigningNavbar = memo(({
       <header className="hidden md:flex h-16 items-center justify-between px-6 bg-white border-b z-30 shrink-0">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-3">
-            {(owner as any)?.companyLogoUrl ? (
-              <Image
-                src={(owner as any).companyLogoUrl}
-                alt={(owner as any).companyName || "Logo"}
-                width={32}
-                height={32}
-                className="rounded-md object-contain"
-              />
+            {signingSession.ownerBranding?.logoUrl ? (
+              <div className="size-8 relative">
+                <Image
+                  src={signingSession.ownerBranding.logoUrl}
+                  alt={signingSession.ownerBranding.brandName || "Logo"}
+                  fill
+                  className="object-contain"
+                />
+              </div>
             ) : (
-              <Logo />
+              <Logo showStatus={false} />
             )}
-            <div className="h-4 w-[1px] bg-gray-200" />
-            <h1 className="text-sm font-bold truncate max-w-[200px] text-gray-900 uppercase tracking-tight">
-              {signingSession.document.title}
-            </h1>
+            <div className="h-4 w-[1px] bg-gray-200 mx-1" />
+            <div className="flex flex-col">
+              <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">
+                {signingSession.ownerBranding?.brandName || "BoopSign"}
+              </span>
+              <h1 className="text-sm font-bold truncate max-w-[200px] text-gray-900 tracking-tight leading-none">
+                {signingSession.document.title}
+              </h1>
+            </div>
           </div>
 
           <Sheet>
@@ -154,11 +176,25 @@ export const SigningNavbar = memo(({
                     Sender
                   </h3>
                   <div className="flex items-center gap-3 p-4 bg-white border border-gray-100 rounded-2xl">
-                    <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center font-bold text-gray-400">
-                      {((owner as any)?.email || 'S').charAt(0).toUpperCase()}
+                    <div className="w-10 h-10 rounded-full bg-slate-50 border border-slate-100 flex items-center justify-center overflow-hidden">
+                      {signingSession.ownerBranding?.logoUrl ? (
+                        <Image
+                          src={signingSession.ownerBranding.logoUrl}
+                          alt="Logo"
+                          width={40}
+                          height={40}
+                          className="object-contain p-1"
+                        />
+                      ) : (
+                        <span className="font-bold text-slate-400">
+                          {((owner as any)?.email || 'S').charAt(0).toUpperCase()}
+                        </span>
+                      )}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-bold text-gray-900 truncate">{(owner as any)?.email}</p>
+                      <p className="text-sm font-bold text-gray-900 truncate">
+                        {signingSession.ownerBranding?.brandName || (owner as any)?.email}
+                      </p>
                       <p className="text-[10px] text-gray-500 font-medium">Agreement Owner</p>
                     </div>
                   </div>

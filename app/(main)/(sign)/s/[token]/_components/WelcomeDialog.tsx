@@ -15,6 +15,8 @@ interface WelcomeDialogProps {
   onConfirm: () => void;
   documentTitle: string;
   senderEmail: string;
+  brandName?: string;
+  brandLogoUrl?: string;
 }
 
 export function WelcomeDialog({
@@ -23,6 +25,8 @@ export function WelcomeDialog({
   onConfirm,
   documentTitle,
   senderEmail,
+  brandName,
+  brandLogoUrl,
 }: WelcomeDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -34,17 +38,28 @@ export function WelcomeDialog({
       >
         <div className="bg-gray-900 p-8 text-white relative overflow-hidden">
           <div className="absolute top-0 right-0 p-8 opacity-10">
-            <ShieldCheck className="w-32 h-32" />
+            {brandLogoUrl ? (
+              <img src={brandLogoUrl} alt="Logo" className="w-32 h-32 object-contain" />
+            ) : (
+              <ShieldCheck className="w-32 h-32" />
+            )}
           </div>
-          <div className="relative z-10 space-y-2">
-            <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-400">Review & Act</h3>
-            <DialogTitle className="text-2xl font-black tracking-tight leading-tight">
-              Ready to Sign?
-            </DialogTitle>
-            <p className="text-gray-400 text-sm font-medium">
-              Document sent by <span className="text-white font-bold">{senderEmail}</span>
-            </p>
+          <div className="relative z-10 flex items-center gap-4">
+            {brandLogoUrl && (
+              <div className="size-12 bg-white rounded-xl flex items-center justify-center p-2 shrink-0 shadow-xl">
+                <img src={brandLogoUrl} alt="Logo" className="size-full object-contain" />
+              </div>
+            )}
+            <div className="space-y-1">
+              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-400">Review & Act</h3>
+              <DialogTitle className="text-2xl font-black tracking-tight leading-tight uppercase">
+                Ready to Sign?
+              </DialogTitle>
+            </div>
           </div>
+          <p className="text-gray-400 text-sm font-medium mt-4">
+            Document sent by <span className="text-white font-bold">{brandName || senderEmail}</span>
+          </p>
         </div>
 
         <div className="p-8 space-y-8">

@@ -2,6 +2,7 @@
 
 import { DocumentTable } from "@/components/DocumentTable";
 import { NewDocumentDialog } from "@/components/NewDocumentDialog";
+import { BrandingSettings } from "@/components/branding/BrandingSettings";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -198,12 +199,15 @@ function DocumentsList() {
                 <SelectItem value="declined">Declined</SelectItem>
               </SelectContent>
             </Select>
-            <NewDocumentDialog>
-              <Button>
-                <Plus className="h-4 w-4 mr-2" />
-                New Contract
-              </Button>
-            </NewDocumentDialog>
+            <div className="flex items-center gap-2">
+              <BrandingSettings />
+              <NewDocumentDialog>
+                <Button>
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Contract
+                </Button>
+              </NewDocumentDialog>
+            </div>
           </div>
         </div>
 

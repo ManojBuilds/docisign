@@ -9,6 +9,8 @@ interface SigningRequestProps {
   documentTitle?: string;
   signingUrl?: string;
   customMessage?: string;
+  brandLogoUrl?: string;
+  brandName?: string;
 }
 
 export default function SigningRequest({
@@ -17,9 +19,15 @@ export default function SigningRequest({
   documentTitle = "Boopsign_Sample_Freelance_Contract",
   signingUrl = "#",
   customMessage = "Please sign ",
+  brandLogoUrl,
+  brandName,
 }: SigningRequestProps) {
   return (
-    <EmailLayout preview={`${senderName} sent you "${documentTitle}" to sign`}>
+    <EmailLayout
+      preview={`${senderName} sent you "${documentTitle}" to sign`}
+      brandLogoUrl={brandLogoUrl}
+      brandName={brandName}
+    >
       <Heading className="mx-0 my-[30px] p-0 text-center font-normal text-[24px] text-black">
         Signature requested
       </Heading>
@@ -29,7 +37,7 @@ export default function SigningRequest({
       </Text>
 
       <Text className="text-[14px] text-black leading-[24px]">
-        <strong>{senderName}</strong> has invited you to sign the document <strong>{documentTitle}</strong> using Boopsign.
+        <strong>{senderName}</strong> has invited you to sign the document <strong>{documentTitle}</strong> using {brandName || "Boopsign"}.
       </Text>
 
       {customMessage && (

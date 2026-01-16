@@ -190,6 +190,8 @@ export default function SigningPage() {
         }}
         documentTitle={signingSession.document?.title || "Document"}
         senderEmail={owner?.email || "the sender"}
+        brandName={signingSession.ownerBranding?.brandName}
+        brandLogoUrl={signingSession.ownerBranding?.logoUrl ?? undefined}
       />
 
       <DeclineDialog

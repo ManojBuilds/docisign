@@ -21,12 +21,12 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 
 ### Day 2 - Google Search Console Setup
 **Task:** Reindex site and set up tracking
-- [ ] Go to Google Search Console → Sitemaps
-- [ ] Remove current sitemap
-- [ ] Resubmit sitemap.xml
-- [ ] Request indexing for homepage using URL Inspection tool
-- [ ] Request indexing for /online-signature-maker (your top performer)
-- [ ] Request indexing for /esignature-for-freelancers
+- [✅] Go to Google Search Console → Sitemaps
+- [✅] Remove current sitemap
+- [✅] Resubmit sitemap.xml
+- [✅] Request indexing for homepage using URL Inspection tool
+- [✅] Request indexing for /online-signature-maker (your top performer)
+- [✅] Request indexing for /esignature-for-freelancers
 
 **Time:** 30 minutes
 

@@ -18,6 +18,8 @@ interface EmailLayoutProps {
   preview: string;
   children: React.ReactNode;
   baseUrl?: string;
+  brandLogoUrl?: string;
+  brandName?: string;
 }
 
 const baseUrlDefault = "https://boopsign.com";
@@ -26,6 +28,8 @@ export function EmailLayout({
   preview,
   children,
   baseUrl = baseUrlDefault,
+  brandLogoUrl,
+  brandName,
 }: EmailLayoutProps) {
   return (
     <Html>
@@ -49,10 +53,10 @@ export function EmailLayout({
           <Container className="mx-auto my-[40px] max-w-[465px] rounded border border-solid border-border p-[20px]">
             <Section className="mt-[32px]">
               <Img
-                src={`${baseUrl}/logo.png`}
+                src={brandLogoUrl || `${baseUrl}/logo.png`}
                 width="40"
                 height="40"
-                alt="Boopsign Logo"
+                alt={brandName || "Boopsign"}
                 className="mx-auto my-0 rounded-lg"
               />
             </Section>
@@ -63,7 +67,7 @@ export function EmailLayout({
 
             <Section className="text-center">
               <Text className="text-[12px] text-muted leading-[24px]">
-                © {new Date().getFullYear()} Boopsign. All rights reserved.
+                © {new Date().getFullYear()} {brandName || "Boopsign"}. All rights reserved.
               </Text>
               <Text className="text-[12px] text-muted leading-[20px] mt-2">
                 <Link href={`${baseUrl}/support`} className="text-brand font-semibold no-underline mr-3">Support</Link>

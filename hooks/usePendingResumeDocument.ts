@@ -13,12 +13,19 @@ export function useResumePendingDocument() {
   const router = useRouter();
 
   useEffect(() => {
-    if (!userId) return;
-
     const raw = localStorage.getItem(PENDING_DOC_KEY);
     if (!raw) return;
 
     const pending = JSON.parse(raw);
+
+    // Check for 24h expiration
+    const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+    if (pending.createdAt && Date.now() - pending.createdAt > TWENTY_FOUR_HOURS) {
+      localStorage.removeItem(PENDING_DOC_KEY);
+      return;
+    }
+
+    if (!userId) return;
 
     async function resume() {
       try {
@@ -48,5 +55,5 @@ export function useResumePendingDocument() {
     }
 
     resume();
-  }, [userId]);
+  }, [userId, createDocument, router]);
 }

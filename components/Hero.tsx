@@ -64,13 +64,12 @@ const Hero = () => {
         {/* Social Proof */}
         <div className="mt-12 pt-8 border-t border-slate-100 w-full max-w-2xl">
           <p className="text-xs uppercase tracking-widest text-slate-400 font-bold mb-6">Trusted by 3,000+ professionals</p>
-          <div className="flex justify-center items-center gap-12 grayscale opacity-50 contrast-125">
-            {/* These would be logos of companies like Stripe, Vercel, etc. if available */}
+          {/* <div className="flex justify-center items-center gap-12 grayscale opacity-50 contrast-125">
             <span className="font-bold text-xl tracking-tighter">CONSULTANTS</span>
             <span className="font-bold text-xl tracking-tighter">AGENCIES</span>
             <span className="font-bold text-xl tracking-tighter">WRITERS</span>
             <span className="font-bold text-xl tracking-tighter">DESIGNERS</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

@@ -38,6 +38,10 @@ export default defineSchema({
       day1: v.boolean(),
     })),
 
+    // Branding fields
+    brandLogoStorageId: v.optional(v.id("_storage")),
+    brandName: v.optional(v.string()),
+
     createdAt: v.number(),
     updatedAt: v.number(),
   })

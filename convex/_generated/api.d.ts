@@ -10,6 +10,7 @@
 
 import type * as actions from "../actions.js";
 import type * as activities from "../activities.js";
+import type * as branding from "../branding.js";
 import type * as brevo from "../brevo.js";
 import type * as conversion from "../conversion.js";
 import type * as crons from "../crons.js";
@@ -55,6 +56,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   actions: typeof actions;
   activities: typeof activities;
+  branding: typeof branding;
   brevo: typeof brevo;
   conversion: typeof conversion;
   crons: typeof crons;

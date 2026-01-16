@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useClerk } from "@clerk/nextjs";
@@ -10,6 +11,7 @@ import { api } from "@/convex/_generated/api";
 import { computeFileHash } from "@/lib/crypto";
 import { replaceVariablesInDocx } from "@/lib/process-template";
 import { getTemplateConfig } from "@/lib/template-variables";
+import { PENDING_DOC_KEY } from "@/lib/utils";
 
 interface UseTemplateUploadProps {
   templateId: string;
@@ -39,11 +41,6 @@ export function useTemplateUpload({
   const docToPdf = useAction(api.conversion.docToPdfConversion);
 
   const handleTemplateUpload = useCallback(async (variables?: Record<string, string>) => {
-    if (!user) {
-      redirectToSignIn();
-      return;
-    }
-
     setIsUploading(true);
     setUploadProgress(0);
     setStatusMessage("Loading template...");
@@ -94,6 +91,26 @@ export function useTemplateUpload({
       // Calculate hash for the processed document
       const documentHash = await computeFileHash(blob);
 
+      if (!user) {
+        setStatusMessage("Saving locally...");
+        localStorage.setItem(
+          PENDING_DOC_KEY,
+          JSON.stringify({
+            storageId: pdfStorageId,
+            originalFileName: `${templateId}.docx`,
+            fileSizeBytes: pdfSize,
+            fileType: "pdf",
+            title: templateTitle,
+            documentHash,
+            signers: [],
+            createdAt: Date.now(),
+          })
+        );
+        setUploadProgress(100);
+        redirectToSignIn();
+        return;
+      }
+
       // Step 4: Create document record
       const documentId = await createDocumentFromTemplate({
         templateId,
@@ -116,6 +133,7 @@ export function useTemplateUpload({
     } catch (error) {
       console.error("Template upload error:", error);
       toast.error("Failed to load template. Please try again.");
+    } finally {
       setIsUploading(false);
       setUploadProgress(0);
       setStatusMessage("");
@@ -125,6 +143,7 @@ export function useTemplateUpload({
     redirectToSignIn,
     templateId,
     templateTitle,
+    templateConfig?.fileUrl,
     createDocumentFromTemplate,
     docToPdf,
     router,
@@ -132,11 +151,6 @@ export function useTemplateUpload({
 
 
   const handleQuickStart = useCallback(() => {
-    if (!user) {
-      redirectToSignIn();
-      return;
-    }
-
     // If template has variables, show dialog
     if (hasVariables) {
       setShowVariableDialog(true);
@@ -144,7 +158,7 @@ export function useTemplateUpload({
       // Otherwise upload directly
       handleTemplateUpload();
     }
-  }, [user, redirectToSignIn, hasVariables, handleTemplateUpload]);
+  }, [hasVariables, handleTemplateUpload]);
 
   const handleVariableSubmit = useCallback(
     async (variables: Record<string, string>) => {

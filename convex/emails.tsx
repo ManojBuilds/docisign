@@ -80,14 +80,16 @@ export const sendSigningRequestEmail = action({
     signingUrl: v.string(),
     customMessage: v.optional(v.string()),
     to: v.string(),
+    brandLogoUrl: v.optional(v.string()),
+    brandName: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
     try {
       console.log("args", args);
       const res = await resend.sendEmail(ctx, {
-        from: "Boopsign <alerts@mailer.boopsign.com>",
+        from: `${args.brandName || "Boopsign"} <alerts@mailer.boopsign.com>`,
         to: args.to,
-        subject: `${args.senderName} has sent you a document to sign: ${args.documentTitle}`,
+        subject: `${args.brandName || args.senderName} has sent you a document to sign: ${args.documentTitle}`,
         html: await render(SigningRequest(args)),
       });
       console.log("Signing request email sent successfully!", res);

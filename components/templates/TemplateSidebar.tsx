@@ -4,9 +4,12 @@ import { VariableDialog } from "@/components/templates/VariableDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTemplateUpload } from "@/hooks/useTemplateUpload";
+import { getTemplateConfig } from "@/lib/template-variables";
 import { cn } from "@/lib/utils";
-import { Check, FileSignature, Loader2, Shield } from "lucide-react";
+import { Check, Download, FileCode, FileSignature, Loader2, Shield } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface TemplateSidebarProps {
   title: string;
@@ -39,12 +42,46 @@ export function TemplateSidebar({
     showVariableDialog,
     setShowVariableDialog,
     handleVariableSubmit,
+    statusMessage,
   } = useTemplateUpload({
     templateId: templateId || "",
     templateTitle: templateTitle || title,
   });
 
   const isTemplateMode = !!templateId;
+  const templateConfig = templateId ? getTemplateConfig(templateId) : null;
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    if (!templateConfig?.fileUrl) return;
+
+    setIsDownloading(true);
+    try {
+      const response = await fetch(
+        `/api/download?url=${encodeURIComponent(templateConfig.fileUrl)}&filename=${templateId}.docx`
+      );
+
+      if (!response.ok) throw new Error("Download failed");
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${templateId}.docx`;
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+
+      toast.success("Word document download started");
+    } catch (error) {
+      console.error("Download error:", error);
+      toast.error("Failed to download template");
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
   return (
     <div className={cn("sticky top-24", className)}>
       {/* Adobe-Sign inspired Clean Card */}
@@ -95,26 +132,44 @@ export function TemplateSidebar({
                 className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold text-base shadow-none transition-all disabled:opacity-50"
               >
                 {isUploading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Loading... {uploadProgress}%
-                  </>
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="flex items-center mb-0.5">
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      <span className="text-sm font-bold">{statusMessage || "Processing..."}</span>
+                    </div>
+                    <span className="text-[10px] font-medium opacity-80">{uploadProgress}% Complete</span>
+                  </div>
                 ) : (
                   buttonText
                 )}
               </Button>
 
               <Button
-                asChild
                 variant="outline"
-                className="w-full h-10 border-slate-300 hover:bg-slate-50 text-slate-700 rounded-lg font-medium text-sm"
+                onClick={handleDownload}
+                disabled={isDownloading}
+                className="w-full h-14 border-slate-200 hover:bg-slate-50 hover:border-blue-200 text-slate-700 rounded-xl px-4 flex items-center justify-start gap-4 transition-all group shadow-sm bg-white"
               >
-                <a
-                  href={`/api/templates/${templateId}`}
-                  download={`${templateId}.docx`}
-                >
-                  Download to Edit in Word
-                </a>
+                {isDownloading ? (
+                  <div className="relative flex items-center justify-center w-10 h-10">
+                    <Loader2 className="w-6 h-6 animate-spin text-blue-600" />
+                  </div>
+                ) : (
+                  <div className="w-10 h-10 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center group-hover:bg-blue-100 transition-colors border border-blue-100">
+                    <FileCode className="w-5 h-5" />
+                  </div>
+                )}
+                <div className="flex flex-col items-start">
+                  <span className="text-sm font-bold text-slate-900 leading-tight">
+                    {isDownloading ? "Downloading..." : "Microsoft Word"}
+                  </span>
+                  <span className="text-[11px] font-medium text-slate-400 leading-tight mt-0.5">
+                    Edit and customize locally
+                  </span>
+                </div>
+                {!isDownloading && (
+                  <Download className="w-4 h-4 ml-auto text-slate-300 group-hover:text-blue-500 transition-colors" />
+                )}
               </Button>
             </div>
           ) : (
@@ -146,6 +201,7 @@ export function TemplateSidebar({
           templateId={templateId}
           onSubmit={handleVariableSubmit}
           isProcessing={isUploading}
+          statusMessage={statusMessage}
         />
       )}
     </div>

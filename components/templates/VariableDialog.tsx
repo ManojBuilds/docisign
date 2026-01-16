@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { formatCurrency, formatDate, getTemplateConfig, type TemplateVariable } from "@/lib/template-variables";
-import { Loader2 } from "lucide-react";
+import { Loader2, Sparkles } from "lucide-react";
 import { useState } from "react";
 
 interface VariableDialogProps {
@@ -21,6 +21,7 @@ interface VariableDialogProps {
   templateId: string;
   onSubmit: (variables: Record<string, string>) => void;
   isProcessing?: boolean;
+  statusMessage?: string;
 }
 
 export function VariableDialog({
@@ -29,6 +30,7 @@ export function VariableDialog({
   templateId,
   onSubmit,
   isProcessing = false,
+  statusMessage = "",
 }: VariableDialogProps) {
   const templateConfig = getTemplateConfig(templateId);
   const [values, setValues] = useState<Record<string, string>>({});
@@ -63,40 +65,40 @@ export function VariableDialog({
     return Object.keys(newErrors).length === 0;
   };
 
-  // const fillDemoData = () => {
-  //   const demoData: Record<string, string> = {};
-  //   templateConfig.variables.forEach((variable) => {
-  //     // Priority: defaultValue > placeholder (cleaned) > type-based default
-  //     let value = variable.defaultValue || "";
+  const fillDemoData = () => {
+    const demoData: Record<string, string> = {};
+    templateConfig.variables.forEach((variable) => {
+      // Priority: defaultValue > placeholder (cleaned) > type-based default
+      let value = variable.defaultValue || "";
 
-  //     if (!value && variable.placeholder) {
-  //       // Clean placeholder: remove "e.g., " and take only the first option if multiple are listed
-  //       value = variable.placeholder
-  //         .replace(/^e\.g\.,\s*/i, "")
-  //         .split(/ or |\/|,/)[0]
-  //         .trim();
-  //     }
+      if (!value && variable.placeholder) {
+        // Clean placeholder: remove "e.g., " and take only the first option if multiple are listed
+        value = variable.placeholder
+          .replace(/^e\.g\.,\s*/i, "")
+          .split(/ or |\/|,/)[0]
+          .trim();
+      }
 
-  //     if (!value) {
-  //       if (variable.type === "date") {
-  //         value = new Date().toISOString().split("T")[0];
-  //       } else if (variable.type === "email") {
-  //         value = "john@example.com";
-  //       } else if (variable.type === "currency") {
-  //         value = "1500";
-  //       } else if (variable.type === "number") {
-  //         value = "5";
-  //       } else {
-  //         value = "Sample Text";
-  //       }
-  //     }
+      if (!value) {
+        if (variable.type === "date") {
+          value = new Date().toISOString().split("T")[0];
+        } else if (variable.type === "email") {
+          value = "john@example.com";
+        } else if (variable.type === "currency") {
+          value = "1500";
+        } else if (variable.type === "number") {
+          value = "5";
+        } else {
+          value = "Sample Text";
+        }
+      }
 
-  //     demoData[variable.key] = value;
-  //   });
+      demoData[variable.key] = value;
+    });
 
-  //   setValues(demoData);
-  //   setErrors({});
-  // };
+    setValues(demoData);
+    setErrors({});
+  };
 
   const handleSubmit = () => {
     if (!validateForm()) {
@@ -177,7 +179,7 @@ export function VariableDialog({
         </div>
 
         <div className="flex gap-3 justify-between items-center border-t pt-4">
-          {/* <Button
+          <Button
             type="button"
             variant="ghost"
             size="sm"
@@ -187,7 +189,7 @@ export function VariableDialog({
           >
             <Sparkles className="w-4 h-4" />
             Fill Demo Data
-          </Button> */}
+          </Button>
 
           <div className="flex gap-3 flex-1 justify-end">
             <Button
@@ -205,7 +207,7 @@ export function VariableDialog({
               {isProcessing ? (
                 <>
                   <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Processing...
+                  {statusMessage || "Processing..."}
                 </>
               ) : (
                 "Continue to Sign"

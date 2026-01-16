@@ -2,6 +2,7 @@
 
 import { api } from '@/convex/_generated/api';
 import { computeFileHash } from '@/lib/crypto';
+import { PENDING_DOC_KEY } from '@/lib/utils';
 import { useUser } from '@clerk/nextjs';
 import { useMutation } from 'convex/react';
 import { useRouter } from 'nextjs-toploader/app';
@@ -21,6 +22,7 @@ function base64ToBlob(base64: string, type: string): Blob {
 
 
 
+
 export function PendingDocumentProcessor() {
     const { user, isLoaded } = useUser();
     const router = useRouter();
@@ -30,6 +32,21 @@ export function PendingDocumentProcessor() {
     const createDocument = useMutation(api.documents.createDocument);
 
     useEffect(() => {
+        // Cleanup old pending documents (v1)
+        const v1Pending = localStorage.getItem(PENDING_DOC_KEY);
+        if (v1Pending) {
+            try {
+                const pending = JSON.parse(v1Pending);
+                const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+                if (pending.createdAt && Date.now() - pending.createdAt > TWENTY_FOUR_HOURS) {
+                    localStorage.removeItem(PENDING_DOC_KEY);
+                }
+            } catch (e) {
+                console.error("Failed to parse v1Pending", e);
+                localStorage.removeItem(PENDING_DOC_KEY);
+            }
+        }
+
         if (!isLoaded || !user || isProcessing) return;
 
         const pendingDocumentJSON = localStorage.getItem('pendingDocument');
