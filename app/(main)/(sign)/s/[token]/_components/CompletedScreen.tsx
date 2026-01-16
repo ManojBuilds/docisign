@@ -3,6 +3,7 @@
 import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import confetti from "canvas-confetti";
 import {
   Check,
   Download,
@@ -14,8 +15,7 @@ import {
   User
 } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useMemo, useRef } from "react";
-import confetti from "canvas-confetti"
+import { useEffect, useMemo } from "react";
 
 interface CompletedScreenProps {
   signingSession: any;
@@ -30,7 +30,6 @@ interface CompletedScreenProps {
 
 export function CompletedScreen({
   signingSession,
-  showConfetti,
   isCancelled,
   handleDownload,
   isDownloading,
@@ -109,7 +108,7 @@ export function CompletedScreen({
   }
 
   useEffect(() => {
-   handleFireworks() 
+    handleFireworks()
   }, [])
 
 

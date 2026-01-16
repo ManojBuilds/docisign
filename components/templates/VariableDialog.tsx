@@ -179,18 +179,6 @@ export function VariableDialog({
         </div>
 
         <div className="flex gap-3 justify-between items-center border-t pt-4">
-          // <Button
-          //   type="button"
-          //   variant="ghost"
-          //   size="sm"
-          //   onClick={fillDemoData}
-          //   disabled={isProcessing}
-          //   className="text-muted-foreground hover:text-primary flex items-center gap-2"
-          // >
-          //   <Sparkles className="w-4 h-4" />
-          //   Fill Demo Data
-          // </Button>
-
           <div className="flex gap-3 flex-1 justify-end">
             <Button
               variant="outline"
