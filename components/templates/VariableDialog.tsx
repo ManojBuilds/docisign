@@ -11,9 +11,19 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { formatCurrency, formatDate, getTemplateConfig, type TemplateVariable } from "@/lib/template-variables";
+import { formatCurrency, formatDate } from "@/lib/format";
+import { allTemplates } from "content-collections";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
+
+interface TemplateVariable {
+  key: string;
+  label: string;
+  required: boolean;
+  type?: "text" | "email" | "number" | "currency" | "date" | "textarea";
+  placeholder?: string;
+  defaultValue?: string;
+}
 
 interface VariableDialogProps {
   open: boolean;
@@ -32,11 +42,12 @@ export function VariableDialog({
   isProcessing = false,
   statusMessage = "",
 }: VariableDialogProps) {
-  const templateConfig = getTemplateConfig(templateId);
+  const template = allTemplates.find((t) => t.slug === templateId);
+  const variables = (template?.variables || []) as any[] as TemplateVariable[];
   const [values, setValues] = useState<Record<string, string>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  if (!templateConfig) {
+  if (!template) {
     return null;
   }
 
@@ -55,7 +66,7 @@ export function VariableDialog({
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
 
-    templateConfig.variables.forEach((variable) => {
+    variables.forEach((variable) => {
       if (variable.required && !values[variable.key]?.trim()) {
         newErrors[variable.key] = "This field is required";
       }
@@ -67,10 +78,10 @@ export function VariableDialog({
 
   // const fillDemoData = () => {
   //   const demoData: Record<string, string> = {};
-  //   templateConfig.variables.forEach((variable) => {
+  //   template.variables.forEach((variable) => {
   //     // Priority: defaultValue > placeholder (cleaned) > type-based default
   //     let value = variable.defaultValue || "";
-  //
+
   //     if (!value && variable.placeholder) {
   //       // Clean placeholder: remove "e.g., " and take only the first option if multiple are listed
   //       value = variable.placeholder
@@ -78,7 +89,7 @@ export function VariableDialog({
   //         .split(/ or |\/|,/)[0]
   //         .trim();
   //     }
-  //
+
   //     if (!value) {
   //       if (variable.type === "date") {
   //         value = new Date().toISOString().split("T")[0];
@@ -92,10 +103,10 @@ export function VariableDialog({
   //         value = "Sample Text";
   //       }
   //     }
-  //
+
   //     demoData[variable.key] = value;
   //   });
-  //
+
   //   setValues(demoData);
   //   setErrors({});
   // };
@@ -107,7 +118,7 @@ export function VariableDialog({
 
     // Format values before submitting
     const formattedValues: Record<string, string> = {};
-    templateConfig.variables.forEach((variable) => {
+    variables.forEach((variable) => {
       const value = values[variable.key] || "";
       if (variable.type === "currency" && value) {
         formattedValues[variable.key] = formatCurrency(value);
@@ -175,11 +186,12 @@ export function VariableDialog({
         </DialogHeader>
 
         <div className="space-y-4 py-4">
-          {templateConfig.variables.map((variable) => renderField(variable))}
+          {variables.map((variable) => renderField(variable))}
         </div>
 
         <div className="flex gap-3 justify-between items-center border-t pt-4">
           <div className="flex gap-3 flex-1 justify-end">
+            {/* <Button onClick={fillDemoData}>Fill for Demo</Button> */}
             <Button
               variant="outline"
               onClick={() => onOpenChange(false)}

@@ -2,7 +2,6 @@ import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { PdfDimensionsProvider } from "@/components/PdfDimensionsContext";
 import { PendingDocumentProcessor } from "@/components/PendingDocumentProcessor";
 import { Toaster } from "@/components/ui/sonner";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata, Viewport } from "next";
@@ -159,12 +158,10 @@ export default function RootLayout({
           crawlSpeed={200}
         />
         <Suspense>
-          <ClerkProvider>
-            <ConvexClientProvider>
-              <PendingDocumentProcessor />
-              <PdfDimensionsProvider>{children}</PdfDimensionsProvider>
-            </ConvexClientProvider>
-          </ClerkProvider>
+          <ConvexClientProvider>
+            <PendingDocumentProcessor />
+            <PdfDimensionsProvider>{children}</PdfDimensionsProvider>
+          </ConvexClientProvider>
         </Suspense>
         <Toaster position="top-center" />
         <Analytics />

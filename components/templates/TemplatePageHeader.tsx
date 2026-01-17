@@ -1,7 +1,7 @@
 "use client"
 import StartTrialBtn from "@/components/StartTrialBtn";
 import { Button } from "@/components/ui/button";
-import { getTemplateConfig } from "@/lib/template-variables";
+import { allTemplates } from "content-collections";
 import { ArrowLeft, CheckCircle, ChevronRight, Download, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -23,15 +23,16 @@ export function TemplatePageHeader({
   templateId,
 }: TemplatePageHeaderProps) {
   const [isDownloading, setIsDownloading] = useState(false);
-  const templateConfig = templateId ? getTemplateConfig(templateId) : null;
+  const template = templateId ? allTemplates.find((t) => t.slug === templateId) : null;
+  const downloadUrl = template?.downloadUrl;
 
   const handleDownload = async () => {
-    if (!templateConfig?.fileUrl) return;
+    if (!downloadUrl) return;
 
     setIsDownloading(true);
     try {
       const response = await fetch(
-        `/api/download?url=${encodeURIComponent(templateConfig.fileUrl)}&filename=${templateId}.docx`
+        `/api/download?url=${encodeURIComponent(downloadUrl)}&filename=${templateId}.docx`
       );
 
       if (!response.ok) throw new Error("Download failed");

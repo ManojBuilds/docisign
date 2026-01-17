@@ -4,8 +4,8 @@ import { VariableDialog } from "@/components/templates/VariableDialog";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useTemplateUpload } from "@/hooks/useTemplateUpload";
-import { getTemplateConfig } from "@/lib/template-variables";
 import { cn } from "@/lib/utils";
+import { allTemplates } from "content-collections";
 import { Check, Download, FileCode, FileSignature, Loader2, Shield } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -34,6 +34,7 @@ export function TemplateSidebar({
   templateId,
   templateTitle,
 }: TemplateSidebarProps) {
+  console.log(templateId)
   // Use template upload hook if templateId is provided
   const {
     isUploading,
@@ -49,16 +50,17 @@ export function TemplateSidebar({
   });
 
   const isTemplateMode = !!templateId;
-  const templateConfig = templateId ? getTemplateConfig(templateId) : null;
+  const template = templateId ? allTemplates.find((t) => t.slug === templateId) : null;
+  const downloadUrl = template?.downloadUrl;
   const [isDownloading, setIsDownloading] = useState(false);
 
   const handleDownload = async () => {
-    if (!templateConfig?.fileUrl) return;
+    if (!downloadUrl) return;
 
     setIsDownloading(true);
     try {
       const response = await fetch(
-        `/api/download?url=${encodeURIComponent(templateConfig.fileUrl)}&filename=${templateId}.docx`
+        `/api/download?url=${encodeURIComponent(downloadUrl)}&filename=${templateId}.docx`
       );
 
       if (!response.ok) throw new Error("Download failed");

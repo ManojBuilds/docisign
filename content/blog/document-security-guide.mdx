@@ -1,0 +1,125 @@
+---
+title: "Document Security & Compliance — BoopSign"
+description: "How BoopSign protects your documents: encryption, access control, storage, compliance and auditability."
+date: "2026-01-17"
+image: "/images/blog/document-security-guide.png"
+category: "Security"
+readingTime: "7 min read"
+---
+
+<div className="text-center py-16 md:py-20 px-4 not-prose">
+  <div className="container mx-auto max-w-6xl">
+    <div className="mb-6">
+      <Badge variant="outline" className="bg-indigo-100 text-indigo-800 border-indigo-200">
+        Security & Compliance
+      </Badge>
+    </div>
+    <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-slate-900">
+      Your Documents, <span className="text-indigo-600">Protected by Design</span>
+    </h1>
+    <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8">
+      We protect documents from upload to signature and beyond — encryption, access controls,
+      auditable trails, and compliance-ready policies.
+    </p>
+
+    <div className="flex flex-wrap justify-center gap-4 mb-8 text-sm md:text-base">
+      <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
+        TLS & AES-256
+      </Badge>
+      <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-200">
+        Audit Trails
+      </Badge>
+      <Badge variant="outline" className="bg-yellow-100 text-yellow-800 border-yellow-200">
+        GDPR-ready
+      </Badge>
+    </div>
+
+    <StartTrialBtn />
+  </div>
+</div>
+
+## Encryption & Data Protection
+
+We use industry-standard encryption and modern key management to keep documents private and tamper-evident.
+
+<div className="grid md:grid-cols-3 gap-6 my-12 not-prose">
+  <Card className="bg-slate-50 border-slate-200">
+    <CardHeader>
+      <CardTitle className="flex gap-2 items-center text-indigo-600">
+        <Lock className="size-5" /> In Transit
+      </CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-sm text-slate-700">All network traffic is protected with TLS 1.3. Uploads use pre-signed URLs.</p>
+    </CardContent>
+  </Card>
+
+  <Card className="bg-slate-50 border-slate-200">
+    <CardHeader>
+      <CardTitle className="flex gap-2 items-center text-indigo-600">
+        <ShieldCheck className="size-5" /> At Rest
+      </CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-sm text-slate-700">Documents are stored using AES-256 encryption. Keys are managed by HSMs.</p>
+    </CardContent>
+  </Card>
+
+  <Card className="bg-slate-50 border-slate-200">
+    <CardHeader>
+      <CardTitle className="flex gap-2 items-center text-indigo-600">
+        <FileLock className="size-5" /> Tamper-evident
+      </CardTitle>
+    </CardHeader>
+    <CardContent>
+      <p className="text-sm text-slate-700">Any post-sign modification invalidates the document audit chain.</p>
+    </CardContent>
+  </Card>
+</div>
+
+## Compliance & Legal
+
+We design our processes to be compatible with major regulatory frameworks.
+
+<div className="grid md:grid-cols-2 gap-8 my-16 not-prose">
+  <Card className="bg-white">
+    <CardHeader>
+      <CardTitle>Data Privacy</CardTitle>
+    </CardHeader>
+    <CardContent className="space-y-3">
+      <p className="text-sm text-slate-700 flex gap-2">
+        <CheckCircle className="size-4 text-green-500 mt-0.5 shrink-0" />
+        <span>GDPR-ready: Supporting export, delete, and rectification.</span>
+      </p>
+      <p className="text-sm text-slate-700 flex gap-2">
+        <CheckCircle className="size-4 text-green-500 mt-0.5 shrink-0" />
+        <span>Privacy-by-design: Minimal data collection principles.</span>
+      </p>
+    </CardContent>
+  </Card>
+
+  <Card className="bg-white">
+    <CardHeader>
+      <CardTitle>Standards</CardTitle>
+    </CardHeader>
+    <CardContent className="space-y-3">
+      <p className="text-sm text-slate-700 flex gap-2">
+        <CheckCircle className="size-4 text-green-500 mt-0.5 shrink-0" />
+        <span>SOC 2 / ISO 27001-compliant cloud infrastructure.</span>
+      </p>
+      <p className="text-sm text-slate-700 flex gap-2">
+        <CheckCircle className="size-4 text-green-500 mt-0.5 shrink-0" />
+        <span>US ESIGN Act and EU eIDAS compliant workflows.</span>
+      </p>
+    </CardContent>
+  </Card>
+</div>
+
+<div className="my-16 p-8 bg-slate-900 rounded-[3rem] text-white text-center relative overflow-hidden not-prose shadow-2xl">
+  <DownloadCloud className="mx-auto size-12 text-indigo-400 mb-6" />
+  <h3 className="text-2xl font-bold mb-3">Security isn't a feature — it's our foundation.</h3>
+  <p className="text-slate-400 mb-8 max-w-2xl mx-auto text-lg">Start a secure workflow for document signing and management with BoopSign.</p>
+  <StartTrialBtn />
+</div>
+
+<Cta />

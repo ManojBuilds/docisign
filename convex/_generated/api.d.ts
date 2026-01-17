@@ -17,6 +17,7 @@ import type * as crons from "../crons.js";
 import type * as dashboard from "../dashboard.js";
 import type * as documents from "../documents.js";
 import type * as dodo from "../dodo.js";
+import type * as emails from "../emails.js";
 import type * as emails_layout from "../emails/layout.js";
 import type * as emails_templates_document_complete from "../emails/templates/document_complete.js";
 import type * as emails_templates_index from "../emails/templates/index.js";
@@ -28,7 +29,6 @@ import type * as emails_templates_signing_request from "../emails/templates/sign
 import type * as emails_templates_trial_reminder_1day from "../emails/templates/trial_reminder_1day.js";
 import type * as emails_templates_trial_reminder_3days from "../emails/templates/trial_reminder_3days.js";
 import type * as emails_templates_welcome from "../emails/templates/welcome.js";
-import type * as emails from "../emails.js";
 import type * as files from "../files.js";
 import type * as http from "../http.js";
 import type * as notifications from "../notifications.js";
@@ -45,14 +45,6 @@ import type {
   FunctionReference,
 } from "convex/server";
 
-/**
- * A utility for referencing Convex functions in your app's API.
- *
- * Usage:
- * ```js
- * const myFunctionReference = api.myModule.myFunction;
- * ```
- */
 declare const fullApi: ApiFromModules<{
   actions: typeof actions;
   activities: typeof activities;
@@ -63,6 +55,7 @@ declare const fullApi: ApiFromModules<{
   dashboard: typeof dashboard;
   documents: typeof documents;
   dodo: typeof dodo;
+  emails: typeof emails;
   "emails/layout": typeof emails_layout;
   "emails/templates/document_complete": typeof emails_templates_document_complete;
   "emails/templates/index": typeof emails_templates_index;
@@ -74,7 +67,6 @@ declare const fullApi: ApiFromModules<{
   "emails/templates/trial_reminder_1day": typeof emails_templates_trial_reminder_1day;
   "emails/templates/trial_reminder_3days": typeof emails_templates_trial_reminder_3days;
   "emails/templates/welcome": typeof emails_templates_welcome;
-  emails: typeof emails;
   files: typeof files;
   http: typeof http;
   notifications: typeof notifications;
@@ -85,14 +77,30 @@ declare const fullApi: ApiFromModules<{
   templates: typeof templates;
   users: typeof users;
 }>;
-declare const fullApiWithMounts: typeof fullApi;
 
+/**
+ * A utility for referencing Convex functions in your app's public API.
+ *
+ * Usage:
+ * ```js
+ * const myFunctionReference = api.myModule.myFunction;
+ * ```
+ */
 export declare const api: FilterApi<
-  typeof fullApiWithMounts,
+  typeof fullApi,
   FunctionReference<any, "public">
 >;
+
+/**
+ * A utility for referencing Convex functions in your app's internal API.
+ *
+ * Usage:
+ * ```js
+ * const myFunctionReference = internal.myModule.myFunction;
+ * ```
+ */
 export declare const internal: FilterApi<
-  typeof fullApiWithMounts,
+  typeof fullApi,
   FunctionReference<any, "internal">
 >;
 

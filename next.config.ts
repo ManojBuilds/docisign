@@ -1,5 +1,5 @@
+import { withContentCollections } from "@content-collections/next";
 import type { NextConfig } from "next";
-
 const nextConfig: NextConfig = {
   /* config options here */
   experimental: {
@@ -59,11 +59,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/docusign-vs-boopsign",
-        destination: "/docusign-alternative",
-        permanent: true,
-      },
-      {
         source: "/realestate",
         destination: "/real-estate-document-signing",
         permanent: true,
@@ -107,4 +102,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+export default withContentCollections(nextConfig);

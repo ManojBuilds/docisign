@@ -1,6 +1,7 @@
 "use client";
 
 import { Download, Trash2 } from "lucide-react";
+import Link from "next/link";
 import { useRef, useState } from "react";
 import SignatureCanvas from "react-signature-canvas";
 import styles from "./OnlineSignatureCreator.module.css";
@@ -127,12 +128,12 @@ export default function OnlineSignatureCreator() {
               <h4 className="font-bold text-lg leading-tight mb-1">Signature Downloaded! 🎉</h4>
               <p className="text-blue-100 text-sm">Now use it to sign any PDF document in under 3 minutes.</p>
             </div>
-            <a
+            <Link
               href="/signup"
               className="w-full md:w-auto bg-white text-blue-600 px-6 py-3 rounded-lg font-bold text-center hover:bg-blue-50 transition-colors shadow-lg"
             >
               Sign My PDF Now
-            </a>
+            </Link>
           </div>
         </div>
       ) : (

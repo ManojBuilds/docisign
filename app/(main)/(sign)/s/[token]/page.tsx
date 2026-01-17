@@ -2,6 +2,9 @@ import { api } from "@/convex/_generated/api";
 import { convexClient } from "@/lib/convex";
 import SigningPage from "./page.client";
 
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
 export async function generateMetadata({
   params,
 }: {

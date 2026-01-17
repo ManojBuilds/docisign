@@ -10,8 +10,8 @@ import { toast } from "sonner";
 import { api } from "@/convex/_generated/api";
 import { computeFileHash } from "@/lib/crypto";
 import { replaceVariablesInDocx } from "@/lib/process-template";
-import { getTemplateConfig } from "@/lib/template-variables";
 import { PENDING_DOC_KEY } from "@/lib/utils";
+import { allTemplates } from "content-collections";
 
 interface UseTemplateUploadProps {
   templateId: string;
@@ -35,8 +35,9 @@ export function useTemplateUpload({
   );
 
   // Check if template has variables defined
-  const templateConfig = getTemplateConfig(templateId);
-  const hasVariables = templateConfig && templateConfig.variables.length > 0;
+  const template = allTemplates.find((t) => t.slug === templateId);
+  const hasVariables = !!(template?.variables && (template.variables as any[]).length > 0);
+  const downloadUrl = template?.downloadUrl;
 
   const docToPdf = useAction(api.conversion.docToPdfConversion);
 
@@ -49,7 +50,7 @@ export function useTemplateUpload({
       // Step 1: Fetch the template file
       setUploadProgress(10);
 
-      const fetchUrl = templateConfig?.fileUrl
+      const fetchUrl = downloadUrl;
       const response = await fetch(fetchUrl!);
 
       if (!response.ok) {
@@ -143,7 +144,7 @@ export function useTemplateUpload({
     redirectToSignIn,
     templateId,
     templateTitle,
-    templateConfig?.fileUrl,
+    downloadUrl,
     createDocumentFromTemplate,
     docToPdf,
     router,
