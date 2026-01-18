@@ -13,7 +13,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://boopsign.com"),
   title: {
-    default: "BoopSign - E-Signature Software Built for Freelancers & Consultants | $15/mo",
+    default: "BoopSign - E-Signature Software Built for Freelancers & Consultants | $20/mo",
     template: "%s | BoopSign",
   },
   description:
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "No-Account E-Signatures for Freelancers | BoopSign",
     description:
-      "The simplest DocuSign alternative. Get contracts signed in under 3 minutes. No account needed for signers. $15/month.",
+      "The simplest DocuSign alternative. Get contracts signed in under 3 minutes. No account needed for signers. $20/month.",
     images: ["https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5"],
     creator: "@boopsign",
   },

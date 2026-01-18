@@ -329,23 +329,7 @@ export const saveSignatureFields = mutation({
         updatedAt: Date.now(),
       });
 
-      await ctx.db.insert("documentActivities", {
-        documentId: args.documentId,
-        actorEmail: "owner", // Should ideally be current user email, but we don't have it here easily without more args
-        actorType: "owner",
-        actionType: "updated",
-        details: "Document re-opened for new signatures.",
-        timestamp: Date.now(),
-      });
     } else {
-      await ctx.db.insert("documentActivities", {
-        documentId: args.documentId,
-        actorEmail: "owner",
-        actorType: "owner",
-        actionType: "updated",
-        details: "Signature fields updated.",
-        timestamp: Date.now(),
-      });
     }
 
     return { success: true };

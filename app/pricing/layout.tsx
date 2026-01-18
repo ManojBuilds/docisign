@@ -3,9 +3,9 @@ import Footer from "@/components/Footer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pricing - $15/Month | No Hidden Fees | BoopSign",
+  title: "Pricing - $20/Month | No Hidden Fees | BoopSign",
   description:
-    "Simple pricing: $15/month for unlimited documents. 7-day free trial. No per-user fees, no hidden costs. 50% cheaper than DocuSign's $25/month plan.",
+    "Simple pricing: $20/month for unlimited documents. 7-day free trial. No per-user fees, no hidden costs. 50% cheaper than DocuSign's $25/month plan.",
   keywords: [
     "boopsign pricing",
     "docusign alternative pricing",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "affordable document signing",
   ],
   openGraph: {
-    title: "BoopSign Pricing - $15/Month vs DocuSign's $25+",
+    title: "BoopSign Pricing - $20/Month vs DocuSign's $25+",
     description:
       "Simple, transparent pricing. 50% cheaper than DocuSign with better mobile experience.",
     url: "https://boopsign.com/pricing",

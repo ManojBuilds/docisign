@@ -1,4 +1,5 @@
 import { SignatureFieldData } from "@/components/signature-field";
+import { useDocumentEditorStore } from "@/stores/document-editor-store";
 import { useSignersStore } from "@/stores/signersStore";
 import { useCallback } from "react";
 
@@ -36,8 +37,16 @@ export function useFieldOperations(
       const height = dimensions?.height ?? 40;
 
       const tempId = crypto.randomUUID();
+
+      // Get the latest signature fields from the store to find a potential signer
+      const currentFields = useDocumentEditorStore.getState().signatureFields;
+      const firstFieldWithSigner = currentFields.find(f => f.signerEmail);
+
       let firstSignerEmail =
-        signers[0]?.email || recipientSigners[0]?.email || "";
+        signers[0]?.email ||
+        recipientSigners[0]?.email ||
+        firstFieldWithSigner?.signerEmail ||
+        "";
 
       // Fallback: Check URL directly if stores haven't synced yet
       if (!firstSignerEmail) {
@@ -55,7 +64,7 @@ export function useFieldOperations(
         fieldType,
         page,
         signerEmail: firstSignerEmail,
-        signerName: "", // We don't have the name in the URL fallback
+        signerName: firstFieldWithSigner?.signerName || "",
         isRequired: true,
         label: "",
         normalizedX: x / dims.width,

@@ -1,7 +1,7 @@
 import type { SignatureFieldData as SigningFieldDataType } from "@/components/signing-field";
 import { api } from "@/convex/_generated/api";
 import { useMutation } from "convex/react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
 interface UseDocumentSubmissionProps {
@@ -17,9 +17,26 @@ export function useDocumentSubmission({ accessToken, signingSession }: UseDocume
   const [isCompleted, setIsCompleted] = useState(false);
   const [isDeclined, setIsDeclined] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
+  const clientIPRef = useRef<string>("unknown");
 
   const batchCompleteFields = useMutation(api.signatureFields.batchCompleteSignatureFields);
   const declineDocumentMutation = useMutation(api.signers.declineDocument);
+
+
+  useEffect(() => {
+    const fetchIP = async () => {
+      try {
+        const response = await fetch('https://api.ipify.org/?format=json');
+        if (response.ok) {
+          const data = await response.json();
+          clientIPRef.current = data.ip;
+        }
+      } catch (error) {
+        console.warn('Failed to pre-fetch client IP:', error);
+      }
+    };
+    fetchIP();
+  }, []);
 
   const handleDecline = useCallback(async () => {
     try {
@@ -46,7 +63,6 @@ export function useDocumentSubmission({ accessToken, signingSession }: UseDocume
       toast.error(
         `Please complete all required fields (${incompleteRequired.length} remaining) to sign the contract`,
       );
-      // Return details for navigation if needed
       return {
         success: false,
         firstIncomplete: incompleteRequired[0],
@@ -55,29 +71,9 @@ export function useDocumentSubmission({ accessToken, signingSession }: UseDocume
     }
 
     setIsSubmitting(true);
-    toast.info("Finalizing your agreement...", { duration: 3000 });
+    const finalizingToastId = toast.info("Finalizing your agreement...", { duration: Infinity });
+
     try {
-      const auditInfo = {
-        timestamp: new Date().toISOString(),
-        userAgent: navigator.userAgent,
-      };
-
-      let clientIP = 'unknown';
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 2000);
-
-        const response = await fetch('/api/client-info', { signal: controller.signal });
-        clearTimeout(timeoutId);
-
-        if (response.ok) {
-          const data = await response.json();
-          clientIP = data.ip;
-        }
-      } catch (error) {
-        console.warn('Failed to get client IP or timed out:', error);
-      }
-
       const fieldsToComplete = currentFields
         .filter(f => f.isCompleted && f.signatureData)
         .map(f => ({
@@ -89,17 +85,20 @@ export function useDocumentSubmission({ accessToken, signingSession }: UseDocume
         await batchCompleteFields({
           fields: fieldsToComplete,
           auditInfo: {
-            ...auditInfo,
-            ip: clientIP || 'unknown'
+            timestamp: new Date().toISOString(),
+            userAgent: navigator.userAgent,
+            ip: clientIPRef.current
           }
         });
       }
 
+      toast.dismiss(finalizingToastId);
       toast.success("Contract signed successfully!");
       setShowConfetti(true);
       setIsCompleted(true);
       return { success: true };
     } catch (error) {
+      toast.dismiss(finalizingToastId);
       console.error(error);
       toast.error("Failed to finalize contract");
       return { success: false };

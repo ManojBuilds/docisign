@@ -13,7 +13,7 @@ interface TrialReminder3DaysProps {
 export default function TrialReminder3Days({
   userName = "User",
   upgradeUrl = "#",
-  planPrice = "$15/month",
+  planPrice = "$20/month",
   daysLeft = 3,
 }: TrialReminder3DaysProps) {
   const preview = `Your Boopsign trial ends in ${daysLeft} days`;

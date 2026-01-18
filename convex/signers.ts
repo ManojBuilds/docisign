@@ -54,15 +54,6 @@ export const addSigner = mutation({
       reminderCount: 0,
     });
 
-    // Add activity log
-    await ctx.db.insert("documentActivities", {
-      documentId: args.documentId,
-      actorEmail: email,
-      actorType: "signer",
-      actionType: "created",
-      details: "Signer added to document",
-      timestamp: Date.now(),
-    });
 
     return siginingId;
   },
@@ -304,18 +295,6 @@ export const updateSignerStatus = mutation({
 
     await ctx.db.patch(args.signerId, updateData);
 
-    // Log activity
-    const signatureField = await ctx.db.get(args.signerId);
-    if (signatureField && args.status !== "pending") {
-      await ctx.db.insert("documentActivities", {
-        documentId: signatureField.documentId,
-        actorEmail: signatureField.signerEmail,
-        actorType: "signer",
-        actionType: args.status,
-        details: `Signer ${args.status} the document`,
-        timestamp: now,
-      });
-    }
   },
 });
 
@@ -378,15 +357,6 @@ export const sendDocumentForSigning = mutation({
       });
     }
 
-    // Log activity
-    await ctx.db.insert("documentActivities", {
-      documentId: args.documentId,
-      actorEmail: identity.email,
-      actorType: "owner",
-      actionType: "sent",
-      details: "Document sent for signing",
-      timestamp: Date.now(),
-    });
 
     return uniqueSigners; // Return unique signers for email sending
   },
@@ -585,17 +555,16 @@ export const getSigningSession = query({
         return { error: "Document has expired" };
       }
 
-      // Get signature fields assigned to this signer
-      const signatureFields = await ctx.db
+      // Get all signature fields for this document
+      const allDocumentFields = await ctx.db
         .query("signatureFields")
-        .withIndex("by_document_and_signer", (q) =>
-          q
-            .eq("documentId", signatureField.documentId)
-            .eq("signerEmail", signatureField.signerEmail),
-        )
+        .withIndex("by_document", (q) => q.eq("documentId", signatureField.documentId))
         .collect();
 
-      // Get owner branding
+      // Get signature fields assigned to this signer
+      const signatureFields = allDocumentFields.filter(f => f.signerEmail === signatureField.signerEmail);
+
+      // Get owner details
       const owner = await ctx.db
         .query("users")
         .withIndex("by_clerk_id", (q) => q.eq("clerkId", document.ownerId))
@@ -605,6 +574,9 @@ export const getSigningSession = query({
       if (owner?.brandLogoStorageId) {
         ownerLogoUrl = await ctx.storage.getUrl(owner.brandLogoStorageId);
       }
+
+      // Get document file URL
+      const fileUrl = await ctx.storage.getUrl(document.fileStorageId);
 
       return {
         signer: {
@@ -624,12 +596,16 @@ export const getSigningSession = query({
         },
         document,
         signatureFields,
+        allDocumentFields,
+        owner,
+        fileUrl,
         ownerBranding: {
           brandName: owner?.brandName || "",
           logoUrl: ownerLogoUrl,
         },
       };
     } catch (error) {
+      console.error("Error loading signing session:", error);
       return { error: "Failed to load signing session" };
     }
   },
@@ -706,15 +682,6 @@ export const markDocumentAsViewed = mutation({
           updatedAt: Date.now(),
         });
       }
-      // Add activity log only on first view
-      await ctx.db.insert("documentActivities", {
-        documentId: signatureField.documentId,
-        actorEmail: signatureField.signerEmail,
-        actorType: "signer",
-        actionType: "viewed",
-        details: "Document viewed by signer",
-        timestamp: Date.now(),
-      });
     }
 
     return { success: true };
@@ -756,14 +723,6 @@ export const finalizeDocument = mutation({
           completedAt: field.completedAt || now,
         });
 
-        await ctx.db.insert("documentActivities", {
-          documentId: args.documentId,
-          actorEmail: signerEmail,
-          actorType: "signer",
-          actionType: "signed",
-          details: "Document signed by signer",
-          timestamp: now,
-        });
       }
     }
 
@@ -833,14 +792,6 @@ export const finalizeDocument = mutation({
       // The signed PDF was already generated when the last signer completed their signature
       // via the sendSignedEmailToOwner call, so no need to regenerate here
 
-      await ctx.db.insert("documentActivities", {
-        documentId: args.documentId,
-        actorEmail: "system",
-        actorType: "system",
-        actionType: "completed",
-        details: "All required signatures have been collected.",
-        timestamp: completedTimestamp,
-      });
 
       try {
         const owner = await ctx.runQuery(api.users.getCurrentUser, {
@@ -931,15 +882,6 @@ export const declineDocument = mutation({
       updatedAt: now,
     });
 
-    // Log decline activity
-    await ctx.db.insert("documentActivities", {
-      documentId: signatureField.documentId,
-      actorEmail: signatureField.signerEmail,
-      actorType: "signer",
-      actionType: "declined",
-      details: `Document declined by signer${args.reason ? `: ${args.reason}` : ""}`,
-      timestamp: now,
-    });
 
     return { success: true };
   },

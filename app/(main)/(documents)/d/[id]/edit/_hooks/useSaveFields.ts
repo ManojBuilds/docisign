@@ -23,8 +23,9 @@ export function useSaveFields(
   );
 
   const hasUnsavedChanges = useMemo(() => {
+    if (!isLoaded) return false;
     return JSON.stringify(signatureFields) !== lastSavedFieldsJson;
-  }, [signatureFields, lastSavedFieldsJson]);
+  }, [signatureFields, lastSavedFieldsJson, isLoaded]);
 
   const handleSaveAllFields = useCallback(async () => {
     if (!isLoaded || Object.keys(pageDimensions).length === 0) {
@@ -76,7 +77,6 @@ export function useSaveFields(
         fields: fieldsToSave,
       });
       setIsLoaded(false); // Trigger re-sync to get official DB IDs
-      setLastSavedFieldsJson(JSON.stringify(signatureFields));
       toast.success("All changes saved successfully");
     } catch (error) {
       console.error("Save error:", error);

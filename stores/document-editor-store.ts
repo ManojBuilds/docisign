@@ -49,7 +49,7 @@ export const useDocumentEditorStore = create<DocumentEditorState>()(
           signers: [],
           selectedTool: "selection",
           isLoaded: false,
-          lastSavedFieldsJson: "",
+          lastSavedFieldsJson: "[]",
         });
       }
     },
@@ -105,7 +105,7 @@ export const useDocumentEditorStore = create<DocumentEditorState>()(
 
     isLoaded: false,
     setIsLoaded: (isLoaded) => set({ isLoaded }),
-    lastSavedFieldsJson: "",
+    lastSavedFieldsJson: "[]",
     setLastSavedFieldsJson: (lastSavedFieldsJson) => set({ lastSavedFieldsJson }),
   })
 );

@@ -70,9 +70,9 @@ export function EmailLayout({
                 © {new Date().getFullYear()} {brandName || "Boopsign"}. All rights reserved.
               </Text>
               <Text className="text-[12px] text-muted leading-[20px] mt-2">
-                <Link href={`${baseUrl}/support`} className="text-brand font-semibold no-underline mr-3">Support</Link>
-                <Link href={`${baseUrl}/privacy`} className="text-muted no-underline mr-3">Privacy</Link>
-                <Link href={`${baseUrl}/terms`} className="text-muted no-underline">Terms</Link>
+                <Link href={`${baseUrl}/`} className="text-brand font-semibold no-underline mr-3">Support</Link>
+                <Link href={`${baseUrl}/privacy-policy`} className="text-muted no-underline mr-3">Privacy</Link>
+                <Link href={`${baseUrl}/`} className="text-muted no-underline">Terms</Link>
               </Text>
             </Section>
           </Container>

@@ -19,25 +19,26 @@ export function useFileLoader({ accessToken, signingSession }: UseFileLoaderProp
   const getFileUrl = useMutation(api.documents.getFileUrl);
   const markAsViewed = useMutation(api.signers.markDocumentAsViewed);
 
-  const loadAndMarkViewed = useCallback(async () => {
+  useEffect(() => {
+    if (signingSession?.fileUrl) {
+      setFileUrl(signingSession.fileUrl);
+    }
+  }, [signingSession?.fileUrl]);
+
+  const markViewed = useCallback(async () => {
     if (signingSession && !hasMarkedViewed && signingSession.document) {
       try {
-        const url = await getFileUrl({
-          storageId: signingSession.document.fileStorageId,
-        });
-        if (url) setFileUrl(url);
-
         await markAsViewed({ accessToken });
         setHasMarkedViewed(true);
       } catch (error) {
-        console.error("Error loading signing session:", error);
+        console.error("Error marking as viewed:", error);
       }
     }
-  }, [signingSession, hasMarkedViewed, getFileUrl, markAsViewed, accessToken]);
+  }, [signingSession, hasMarkedViewed, markAsViewed, accessToken]);
 
   useEffect(() => {
-    loadAndMarkViewed();
-  }, [loadAndMarkViewed]);
+    markViewed();
+  }, [markViewed]);
 
   const handleDownload = useCallback(async () => {
     if (!signingSession?.document?.fileStorageId) return;

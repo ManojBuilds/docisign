@@ -1,6 +1,7 @@
 import { SignatureFieldData } from "@/components/signature-field";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
+import { useSignersStore } from "@/stores/signersStore";
 import { useMutation } from "convex/react";
 import { useCallback, useMemo } from "react";
 import { toast } from "sonner";
@@ -24,10 +25,16 @@ export function useSignerOperations(
 
   const handleSignerAdd = useCallback(
     (signer: Signer) => {
+      // Add to signers store so it persists in the session and UI
+      useSignersStore.getState().addSigner(signer);
+
       const unassignedFields = signatureFields.filter(
         (field) => !field.signerEmail
       );
-      if (unassignedFields.length === 0) return;
+      if (unassignedFields.length === 0) {
+        toast.info(`Added ${signer.email} to recipients.`);
+        return;
+      }
 
       unassignedFields.forEach((field) => {
         const updatedField = {

@@ -4,15 +4,17 @@ import { usePdfDimensions } from "@/components/PdfDimensionsContext";
 import { useParams } from "next/navigation";
 import { useCallback, useState } from "react";
 
+import dynamic from "next/dynamic";
 import {
-  CompletedScreen,
-  DeclineDialog,
   ErrorScreen,
   LoadingScreen,
   MainSigningView,
-  SubmittingOverlay,
   WelcomeDialog
 } from "./_components";
+
+const CompletedScreen = dynamic(() => import("./_components/CompletedScreen").then(m => m.CompletedScreen));
+const DeclineDialog = dynamic(() => import("./_components/DeclineDialog").then(m => m.DeclineDialog));
+const SubmittingOverlay = dynamic(() => import("./_components/SubmittingOverlay").then(m => m.SubmittingOverlay));
 
 import {
   useDocumentSubmission,

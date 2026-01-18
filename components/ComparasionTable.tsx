@@ -32,7 +32,7 @@ const getComparisonData = (competitorPrice: string | number): ComparisonFeature[
   {
     category: "Pricing",
     feature: "Monthly Cost (Individual)",
-    boopSign: { value: "$15/month", highlight: true },
+    boopSign: { value: "$20/month", highlight: true },
     competitor: { value: `$${competitorPrice}/month`, highlight: false },
     important: true
   },
@@ -291,7 +291,7 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
             <CreditCard className="w-8 h-8 text-primary mb-3" />
             <h3 className="font-semibold text-lg mb-2">50% Cheaper</h3>
             <p className="text-muted-foreground text-sm">
-              $15/month vs {competitorName}&apos;s ${competitorPrice}/month starting price
+              $20/month vs {competitorName}&apos;s ${competitorPrice}/month starting price
             </p>
           </div>
           <div className="flex flex-col items-center text-center">

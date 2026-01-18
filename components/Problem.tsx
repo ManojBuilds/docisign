@@ -19,7 +19,7 @@ export function Problem() {
     },
     {
       title: "Fair Pricing, Period",
-      description: "$19/month for unlimited documents. No hidden fees, no per-envelope charges, no enterprise pricing games.",
+      description: "$20/month for unlimited documents. No hidden fees, no per-envelope charges, no enterprise pricing games.",
       icon: <DollarSign className="size-6 text-emerald-500" />,
       tag: "Value",
       color: "emerald"

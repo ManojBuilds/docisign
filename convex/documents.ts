@@ -22,15 +22,6 @@ export const createDocument = mutation({
       documentHash: args.documentHash
     });
 
-    // Log activity
-    await ctx.db.insert("documentActivities", {
-      documentId,
-      actorEmail: "", // Will be filled from user data
-      actorType: "owner",
-      actionType: "created",
-      details: `Document "${args.title}" created`,
-      timestamp: Date.now(),
-    });
 
     return documentId;
   },
@@ -108,15 +99,6 @@ export const updateDocumentStatus = mutation({
 
     await ctx.db.patch(args.documentId, updateData);
 
-    // Log activity
-    await ctx.db.insert("documentActivities", {
-      documentId: args.documentId,
-      actorEmail: "", // Fill from context
-      actorType: "owner",
-      actionType: args.status === "completed" ? "completed" : "updated",
-      details: `Document status changed to ${args.status}`,
-      timestamp: Date.now(),
-    });
   },
 });
 
@@ -139,15 +121,6 @@ export const deleteDocument = mutation({
       await ctx.db.delete(field._id);
     }
 
-    // Delete activities
-    const activities = await ctx.db
-      .query("documentActivities")
-      .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
-      .collect();
-
-    for (const activity of activities) {
-      await ctx.db.delete(activity._id);
-    }
 
     // Delete the file from storage
     await ctx.storage.delete(document.fileStorageId);

@@ -10,21 +10,10 @@ export function useSigningSession(accessToken: string) {
     accessToken,
   });
 
-  const ownerId = signingSession?.document?.ownerId;
-  const owner = useQuery(
-    api.users.getUserByClerkId,
-    ownerId ? { clerkId: ownerId } : "skip",
-  );
-
-  const allDocumentFields = useQuery(
-    api.signatureFields.getDocumentSignatureFields,
-    signingSession?.document?._id ? { documentId: signingSession.document._id } : "skip"
-  );
-
   return {
     signingSession,
-    owner,
-    allDocumentFields,
+    owner: signingSession?.owner,
+    allDocumentFields: signingSession?.allDocumentFields,
     isLoading: signingSession === undefined,
     hasError: signingSession?.error,
   };

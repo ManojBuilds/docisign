@@ -2,13 +2,13 @@ import type { SignatureFieldData as SigningFieldDataType } from "@/components/si
 import { ThumbnailSidebar } from "@/components/ThumbnailSidebar";
 import { cn } from "@/lib/utils";
 import { Loader2 } from "lucide-react";
-import { Suspense, lazy } from "react";
+import { Suspense } from "react";
 import { SigningBottomBar } from "./SigningBottomBar";
 import { SigningNavbar } from "./SigningNavbar";
 import { SigningPageOverlay } from "./SigningPageOverlay";
 import { SigningZoomControls } from "./SigningZoomControls";
 
-const PdfViewerWrapper = lazy(() => import("@/components/pdf-viewer-wrapper"));
+import PdfViewerWrapper from "@/components/pdf-viewer-wrapper";
 
 interface MainSigningViewProps {
   signingSession: any;
@@ -41,7 +41,6 @@ export function MainSigningView({
   owner,
   handleSubmitDocument,
   isSubmitting,
-  isReady,
   setIsReady,
   signatureFields,
   completedRequiredFieldsCount,
@@ -102,7 +101,7 @@ export function MainSigningView({
             }}
           />
 
-          <div className={cn("flex-1 z-10 h-full transition-all duration-700 bg-transparent pb-[80px] md:pb-0", (!fileUrl || !isReady) ? "opacity-0 scale-[0.99] translate-y-1 pointer-events-none" : "opacity-100 scale-100 translate-y-0")}>
+          <div className={cn("flex-1 z-10 h-full transition-all duration-300 bg-transparent pb-[80px] md:pb-0", (!fileUrl) ? "opacity-0 scale-[0.99] translate-y-1 pointer-events-none" : "opacity-100 scale-100 translate-y-0")}>
             {fileUrl && (
               <Suspense fallback={
                 <div className="flex items-center justify-center h-full">

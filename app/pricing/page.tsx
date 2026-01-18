@@ -6,8 +6,8 @@ import TestimonialsSection from "@/components/testimonials";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "BoopSign Pricing - $15/mo for Freelancers | No Per-User Fees",
-  description: "Simple, transparent pricing for freelancers. $15/month for unlimited documents. No per-user fees, no hidden costs. Compare vs DocuSign and save 50%.",
+  title: "BoopSign Pricing - $20/mo for Freelancers | No Per-User Fees",
+  description: "Simple, transparent pricing for freelancers. $20/month for unlimited documents. No per-user fees, no hidden costs. Compare vs DocuSign and save 50%.",
   alternates: {
     canonical: "https://boopsign.com/pricing",
   },

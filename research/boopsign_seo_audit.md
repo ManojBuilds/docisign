@@ -68,7 +68,7 @@ Your average position of 64.8 suggests:
 
 **SEO Fixes:**
 ```
-Title: BoopSign - E-Signature Software Built for Freelancers & Consultants | $15/mo
+Title: BoopSign - E-Signature Software Built for Freelancers & Consultants | $20/mo
 Meta Description: The e-signature tool freelancers love. No client accounts required. Get contracts signed in 3 minutes, not 3 days. 52% cheaper than DocuSign. Try free for 7 days.
 ```
 
@@ -106,7 +106,7 @@ Current Title: ✓For Freelancers | BoopSign
 Better Title: Electronic Signature for Freelancers: Simple, Fast & Affordable | BoopSign
 
 Current URL: ✓ (good)
-Meta Description: Get freelance contracts signed in minutes. No client accounts needed. Perfect for designers, writers, developers & consultants. $15/mo. Try free.
+Meta Description: Get freelance contracts signed in minutes. No client accounts needed. Perfect for designers, writers, developers & consultants. $20/mo. Try free.
 ```
 
 **Content Expansion Needed (Target: 2,500+ words):**
@@ -197,7 +197,7 @@ Meta Description: Create professional electronic signatures in seconds. Perfect 
 ### NEW PAGE 1: /freelance-contract-template
 
 **Why:** High search volume (2,900/month), low competition
-**Target Keywords:** 
+**Target Keywords:**
 - freelance contract template
 - freelance agreement template
 - independent contractor agreement template
@@ -408,8 +408,8 @@ Meta Description Formula: [Hook] [Benefit 1], [Benefit 2], [Benefit 3]. [Trust s
 
 **/pricing**
 ```
-Title: BoopSign Pricing - $15/mo for Freelancers | No Per-User Fees
-Meta: Simple pricing for freelancers. Just $15/mo, unlimited signatures, no client accounts required. 52% cheaper than DocuSign. Try free for 7 days.
+Title: BoopSign Pricing - $20/mo for Freelancers | No Per-User Fees
+Meta: Simple pricing for freelancers. Just $20/mo, unlimited signatures, no client accounts required. 52% cheaper than DocuSign. Try free for 7 days.
 ```
 
 **/how-it-works**
@@ -519,7 +519,7 @@ Meta: Send freelance contracts in 3 minutes. Upload document → Add signature f
 - Freelancers Union community
 - Facebook: Freelance to Freedom Project, The Freelance Success Network
 
-**Strategy:** 
+**Strategy:**
 - Answer questions about contracts
 - Share your free templates (not product)
 - Build reputation first, then mention BoopSign when relevant
@@ -652,7 +652,7 @@ Target: Compelling, benefit-driven, with CTA
     "name": "Is BoopSign good for freelancers?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Yes, BoopSign is specifically built for freelancers. It costs just $15/mo (52% cheaper than DocuSign), clients don't need accounts, and contracts get signed 3x faster. Perfect for freelance designers, writers, developers, and consultants."
+      "text": "Yes, BoopSign is specifically built for freelancers. It costs just $20/mo (52% cheaper than DocuSign), clients don't need accounts, and contracts get signed 3x faster. Perfect for freelance designers, writers, developers, and consultants."
     }
   }]
 }
@@ -803,9 +803,9 @@ Target: Compelling, benefit-driven, with CTA
 | Month 12 | 3,500 | 50+ | ~45 |
 
 **Realistic Revenue Impact:**
-- Month 3: 450 visitors × 2% conversion × $15/mo = $135 MRR
-- Month 6: 1,200 visitors × 3% conversion × $15/mo = $540 MRR
-- Month 12: 3,500 visitors × 4% conversion × $15/mo = $2,100 MRR
+- Month 3: 450 visitors × 2% conversion × $20/mo = $135 MRR
+- Month 6: 1,200 visitors × 3% conversion × $20/mo = $540 MRR
+- Month 12: 3,500 visitors × 4% conversion × $20/mo = $2,100 MRR
 
 ---
 

@@ -3,12 +3,12 @@ import { action } from "./_generated/server";
 import { checkout, customerPortal } from "./dodo";
 
 /**
- * Create a checkout session for the $15/month Pro plan with 7-day free trial
+ * Create a checkout session for the $20/month Pro plan with 7-day free trial
  * This action creates a DodoPayments checkout session
  */
 export const createCheckout = action({
   args: {
-    productId: v.string(), // The DodoPayments product ID for the $15/month plan
+    productId: v.string(), // The DodoPayments product ID for the $20/month plan
     returnUrl: v.optional(v.string()),
   },
   handler: async (ctx, args) => {

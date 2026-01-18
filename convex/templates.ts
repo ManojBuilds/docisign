@@ -33,15 +33,6 @@ export const createDocumentFromTemplate = mutation({
       templateId: args.templateId,
     });
 
-    // Log activity
-    await ctx.db.insert("documentActivities", {
-      documentId,
-      actorEmail: "",
-      actorType: "owner",
-      actionType: "created",
-      details: `Document "${args.title}" created from template "${args.templateId}"`,
-      timestamp: Date.now(),
-    });
 
     return documentId;
   },

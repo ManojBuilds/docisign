@@ -131,34 +131,6 @@ export default defineSchema({
     .index("by_status", ["documentId", "status"])
     .index("by_access_token", ["accessToken"]),
 
-  documentActivities: defineTable({
-    documentId: v.id("documents"),
-    actorEmail: v.string(),
-    actorType: v.union(
-      v.literal("owner"),
-      v.literal("signer"),
-      v.literal("system"),
-    ),
-    actionType: v.union(
-      v.literal("created"),
-      v.literal("updated"),
-      v.literal("sent"),
-      v.literal("viewed"),
-      v.literal("signed"),
-      v.literal("completed"),
-      v.literal("expired"),
-      v.literal("cancelled"),
-      v.literal("declined"),
-      v.literal("reminder_sent"),
-    ),
-    details: v.optional(v.string()),
-    metadata: v.optional(v.any()),
-    timestamp: v.number(),
-    ipAddress: v.optional(v.string()), // For tracking IP address
-    userAgent: v.optional(v.string()), // For tracking user agent
-  })
-    .index("by_document", ["documentId"])
-    .index("by_timestamp", ["timestamp"]),
 
   otps: defineTable({
     email: v.string(),

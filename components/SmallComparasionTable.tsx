@@ -22,7 +22,7 @@ interface ComparasionTableProps {
 const getComparisonData = (competitorPrice: string | number): ComparisonItem[] => [
   {
     feature: "Monthly Cost (Individual)",
-    boopSign: { value: "$15/month", highlight: true },
+    boopSign: { value: "$20/month", highlight: true },
     competitor: { value: `$${competitorPrice}/month`, highlight: false },
   },
   {
@@ -78,56 +78,56 @@ const SmallComparasionTable = ({ competitorName, competitorPrice, className }: C
 
   return (
     <div className={cn("border rounded-lg my-8", className)}>
-        <div className="overflow-x-auto">
+      <div className="overflow-x-auto">
         <table className="w-full">
-            <thead>
+          <thead>
             <tr className="border-b bg-muted/30">
-                <th className="py-4 px-6 text-left font-semibold">
+              <th className="py-4 px-6 text-left font-semibold">
                 Key Difference
-                </th>
-                <th className="py-4 px-6 text-center">
+              </th>
+              <th className="py-4 px-6 text-center">
                 <div className="flex flex-col items-center gap-2">
-                    <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full font-semibold">
+                  <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full font-semibold">
                     BoopSign
-                    </div>
+                  </div>
                 </div>
-                </th>
-                <th className="py-4 px-6 text-center">
+              </th>
+              <th className="py-4 px-6 text-center">
                 <div className="flex flex-col items-center gap-2">
-                    <div className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full font-semibold">
+                  <div className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full font-semibold">
                     {competitorName}
-                    </div>
+                  </div>
                 </div>
-                </th>
+              </th>
             </tr>
-            </thead>
-            <tbody>
+          </thead>
+          <tbody>
             {comparisonData.map((item) => (
-                <tr
+              <tr
                 key={item.feature}
                 className={cn(
-                    "border-b transition-colors hover:bg-muted/30",
-                    item.feature === "Client account required" && "bg-primary/5 ring-1 ring-primary/20"
+                  "border-b transition-colors hover:bg-muted/30",
+                  item.feature === "Client account required" && "bg-primary/5 ring-1 ring-primary/20"
                 )}
-                >
+              >
                 <td className="py-4 px-6">
-                    <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2">
                     <span className={'font-semibold'}>
-                        {item.feature}
+                      {item.feature}
                     </span>
-                    </div>
+                  </div>
                 </td>
                 <td className="py-4 px-6 text-center">
-                    {renderValue(item.boopSign.value, item.boopSign.highlight, true)}
+                  {renderValue(item.boopSign.value, item.boopSign.highlight, true)}
                 </td>
                 <td className="py-4 px-6 text-center">
-                    {renderValue(item.competitor.value, item.competitor.highlight, false)}
+                  {renderValue(item.competitor.value, item.competitor.highlight, false)}
                 </td>
-                </tr>
+              </tr>
             ))}
-            </tbody>
+          </tbody>
         </table>
-        </div>
+      </div>
     </div>
   );
 };
