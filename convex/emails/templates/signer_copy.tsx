@@ -18,7 +18,7 @@ export default function SignerCopy({
   signedAt = new Date().toISOString(),
   senderName = "Someone",
 }: SignerCopyProps) {
-  const preview = `Your signed copy of "${documentTitle}" is ready`;
+  const preview = `Here's your signed copy of "${documentTitle}"`;
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://boopsign.com";
   const proxiedDownloadUrl = downloadUrl && downloadUrl !== "#"
     ? `${appUrl}/api/download?url=${encodeURIComponent(downloadUrl)}&filename=${encodeURIComponent(documentTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase())}_signed.pdf`
@@ -27,15 +27,16 @@ export default function SignerCopy({
   return (
     <EmailLayout preview={preview}>
       <Heading className="mx-0 my-[30px] p-0 text-center font-normal text-[24px] text-black">
-        Your <strong>Signed Copy</strong>
+        Here's Your <strong>Signed Copy</strong>
       </Heading>
 
       <Text className="text-[14px] text-black leading-[24px]">
-        Hello {signerName},
+        Hi {signerName},
       </Text>
 
       <Text className="text-[14px] text-black leading-[24px]">
-        Thank you for signing <strong>{documentTitle}</strong>. Your fully signed copy is now ready for download.
+        Thanks for signing <strong>{documentTitle}</strong>! A fully signed copy
+        is now ready for you to download.
       </Text>
 
       <Section className="my-[24px] rounded border border-solid border-border bg-[#f9f9f9] p-[20px]">
@@ -90,12 +91,16 @@ export default function SignerCopy({
       </Section>
 
       <Text className="text-[14px] text-black leading-[24px]">
-        Please keep this copy for your records. {senderName} has also received a copy of the completed agreement.
+        We recommend keeping this for your records. For your convenience,{" "}
+        {senderName} has also been sent a copy of the completed agreement.
       </Text>
 
       <Text className="text-[14px] text-black leading-[24px] mt-4">
-        Direct link:{" "}
-        <Link href={proxiedDownloadUrl} className="text-blue-600 no-underline">
+        If the button doesn't work, copy this link into your browser:{" "}
+        <Link
+          href={proxiedDownloadUrl}
+          className="text-blue-600 no-underline break-all"
+        >
           {proxiedDownloadUrl}
         </Link>
       </Text>

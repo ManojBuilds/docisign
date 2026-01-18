@@ -20,7 +20,7 @@ export default function DocumentComplete({
   completedAt = new Date().toString(),
   totalSigners = 1,
 }: DocumentCompleteProps) {
-  const preview = `"${documentTitle}" is fully executed`;
+  const preview = `It's official: "${documentTitle}" is complete!`;
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://boopsign.com";
   const proxiedDownloadUrl = (downloadUrl || dashboardUrl) && (downloadUrl || dashboardUrl) !== "#"
     ? `${appUrl}/api/download?url=${encodeURIComponent(downloadUrl || dashboardUrl)}&filename=${encodeURIComponent(documentTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase())}_completed.pdf`
@@ -29,15 +29,16 @@ export default function DocumentComplete({
   return (
     <EmailLayout preview={preview}>
       <Heading className="mx-0 my-[30px] p-0 text-center font-normal text-[24px] text-black">
-        Document <strong>Complete</strong>
+        It's Official! <strong>Your Document is Complete</strong>
       </Heading>
 
       <Text className="text-[14px] text-black leading-[24px]">
-        Hello {ownerName},
+        Hi {ownerName},
       </Text>
 
       <Text className="text-[14px] text-black leading-[24px]">
-        Great news! The document <strong>{documentTitle}</strong> has been fully executed by all <strong>{totalSigners}</strong> signers.
+        Excellent news! The document <strong>{documentTitle}</strong> has now been
+        signed by all <strong>{totalSigners}</strong> participants.
       </Text>
 
       <Section className="my-[24px] rounded border border-solid border-border bg-[#f9f9f9] p-[20px]">
@@ -51,7 +52,7 @@ export default function DocumentComplete({
               Status
             </Text>
             <Text className="m-0 text-[14px] text-black font-medium">
-              Fully Executed
+              Signed & Completed
             </Text>
           </div>
 
@@ -87,18 +88,22 @@ export default function DocumentComplete({
           className="rounded bg-brand px-10 py-3 text-center text-[12px] font-semibold text-white no-underline"
           href={proxiedDownloadUrl}
         >
-          {downloadUrl ? "Download Document" : "View Document"}
+          {downloadUrl ? "Download Completed PDF" : "View Completed Document"}
         </Button>
       </Section>
 
       <Text className="text-[14px] text-black leading-[24px]">
-        A copy of the signed document has been sent to all participants for their records.
+        For everyone's convenience, a final copy has also been sent to all
+        participants.
       </Text>
 
       {downloadUrl && (
         <Text className="text-[14px] text-black leading-[24px] mt-4">
           Direct link:{" "}
-          <Link href={proxiedDownloadUrl} className="text-blue-600 no-underline">
+          <Link
+            href={proxiedDownloadUrl}
+            className="text-blue-600 no-underline break-all"
+          >
             {proxiedDownloadUrl}
           </Link>
         </Text>

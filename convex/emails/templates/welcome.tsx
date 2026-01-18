@@ -15,17 +15,19 @@ export default function Welcome({
   tutorialUrl = "#",
 }: WelcomeProps) {
   return (
-    <EmailLayout preview={`Welcome to Boopsign, ${userName}`}>
+    <EmailLayout preview={`Welcome to Boopsign, ${userName}!`}>
       <Heading className="mx-0 my-[30px] p-0 text-center font-normal text-[24px] text-black">
         Welcome to <strong>Boopsign</strong>
       </Heading>
 
       <Text className="text-[14px] text-black leading-[24px]">
-        Hello {userName},
+        Hi {userName},
       </Text>
 
       <Text className="text-[14px] text-black leading-[24px]">
-        Get documents signed in minutes — no printing, no scanning, just Boopsign. We're excited to help you streamline your signing workflows.
+        We're thrilled to have you on board! With Boopsign, you can get
+        documents signed in minutes—no printing, no scanning, just simple,
+        secure e-signatures. Let's get your first document out the door.
       </Text>
 
       <Section className="mt-[32px] mb-[32px] text-center">
@@ -39,23 +41,26 @@ export default function Welcome({
 
       <Section className="my-[24px] rounded border border-solid border-border bg-[#f9f9f9] p-[20px]">
         <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-muted mb-4 opacity-70">
-          How it works
+          Getting Started is Easy:
         </Text>
         <div className="flex flex-col gap-4">
           <Text className="m-0 text-[14px] text-black">
-            <strong>1. Upload</strong> your document to the dashboard.
+            <strong>1. Upload:</strong> Drag and drop any document.
           </Text>
           <Text className="m-0 text-[14px] text-black">
-            <strong>2. Place</strong> signature fields where needed.
+            <strong>2. Place Fields:</strong> Add signature and text fields for
+            your signers.
           </Text>
           <Text className="m-0 text-[14px] text-black">
-            <strong>3. Send</strong> and track signatures in real-time.
+            <strong>3. Send & Track:</strong> Invite signers and monitor
+            progress in real-time.
           </Text>
         </div>
       </Section>
 
       <Text className="text-[14px] text-black leading-[24px]">
-        Need help getting started? Check out our <Link href={tutorialUrl} className="text-blue-600 no-underline">quick tutorial</Link> or reply to this email.
+        Have questions or need a hand getting started? Feel free to reply
+        directly to this email. We're here to help!
       </Text>
     </EmailLayout>
   );

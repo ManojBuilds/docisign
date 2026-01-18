@@ -54,10 +54,10 @@ export function EmailLayout({
             <Section className="mt-[32px]">
               <Img
                 src={brandLogoUrl || `${baseUrl}/logo.png`}
-                width="40"
-                height="40"
+                width="60"
+                height="60"
                 alt={brandName || "Boopsign"}
-                className="mx-auto my-0 rounded-lg"
+                className="mx-auto my-0 rounded-lg bg-white object-cover"
               />
             </Section>
 

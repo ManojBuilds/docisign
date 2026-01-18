@@ -16,35 +16,37 @@ export default function TrialReminder3Days({
   planPrice = "$15/month",
   daysLeft = 3,
 }: TrialReminder3DaysProps) {
-  const preview = `${daysLeft} days left in your trial, ${userName}`;
+  const preview = `Your Boopsign trial ends in ${daysLeft} days`;
 
   return (
     <EmailLayout preview={preview}>
       <Heading className="mx-0 my-[30px] p-0 text-center font-normal text-[24px] text-black">
-        Trial ends in <strong>{daysLeft} days</strong>
+        Your Trial Ends in <strong>{daysLeft} Days</strong>
       </Heading>
 
       <Text className="text-[14px] text-black leading-[24px]">
-        Hello {userName},
+        Hi {userName},
       </Text>
 
       <Text className="text-[14px] text-black leading-[24px]">
-        Your free trial of Boopsign will end soon. Upgrade now to ensure uninterrupted access to your documents and signature requests.
+        Just a friendly heads-up that your Boopsign free trial is ending in{" "}
+        {daysLeft} days. We hope you've enjoyed the seamless signing
+        experience! Upgrade now to ensure uninterrupted access.
       </Text>
 
       <Section className="my-[24px] rounded border border-solid border-border bg-[#f9f9f9] p-[20px]">
         <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-muted mb-4 opacity-70">
-          Upgrade to keep:
+          By upgrading, you'll keep:
         </Text>
         <div className="flex flex-col gap-2">
           <Text className="m-0 text-[13px] text-black">
-            ✓ All documents created during trial
+            ✓ Seamlessly send unlimited signature requests
           </Text>
           <Text className="m-0 text-[13px] text-black">
-            ✓ Unlimited signature requests
+            ✓ Access all documents created during your trial
           </Text>
           <Text className="m-0 text-[13px] text-black">
-            ✓ Priority support and secure storage
+            ✓ Enjoy priority support and secure cloud storage
           </Text>
         </div>
       </Section>
@@ -54,12 +56,13 @@ export default function TrialReminder3Days({
           className="rounded bg-brand px-10 py-3 text-center text-[12px] font-semibold text-white no-underline"
           href={upgradeUrl}
         >
-          Upgrade Now — {planPrice}
+          Keep My Features — {planPrice}
         </Button>
       </Section>
 
       <Text className="text-[14px] text-black leading-[24px]">
-        Without an upgrade, you won't be able to send new requests once the trial expires. You can restore access anytime by upgrading later.
+        After the trial, you won't be able to send new signature requests, but
+        you can always upgrade later to restore full access.
       </Text>
     </EmailLayout>
   );

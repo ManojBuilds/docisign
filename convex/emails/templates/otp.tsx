@@ -13,8 +13,8 @@ export default function Otp({
   purpose = "email_verification",
 }: OtpProps) {
   const isSigner = purpose === "signer_verification";
-  const preview = `Your verification code: ${otp}`;
-  const title = isSigner ? "Verify your identity" : "Verify your email";
+  const preview = `Your Boopsign verification code is ${otp}`;
+  const title = isSigner ? "Verify Your Identity to Sign" : "Verify Your Email";
 
   return (
     <EmailLayout preview={preview}>
@@ -23,9 +23,13 @@ export default function Otp({
       </Heading>
 
       <Text className="text-[14px] text-black leading-[24px]">
+        Hi there,
+      </Text>
+
+      <Text className="text-[14px] text-black leading-[24px]">
         {isSigner
-          ? "Use the verification code below to complete your document signing process."
-          : "Use the verification code below to verify your email address."}
+          ? "To securely complete the document signing process, please use the verification code below."
+          : "To finish setting up your account, please use the verification code below to confirm your email address."}
       </Text>
 
       <Section className="my-[32px] rounded border border-solid border-border bg-[#f9f9f9] p-[32px] text-center">
@@ -35,7 +39,8 @@ export default function Otp({
       </Section>
 
       <Text className="text-[12px] text-muted leading-[24px]">
-        This code will expire in 24 hours for your security. If you didn't request this code, you can safely ignore this email.
+        For your security, this code will expire in 10 minutes. If you didn't
+        request this, you can safely ignore this email.
       </Text>
     </EmailLayout>
   );
