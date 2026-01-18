@@ -19,7 +19,7 @@ export default function PricingPage() {
     <div className="min-h-screen bg-background">
       <Pricing />
       <TestimonialsSection />
-      <CompetitorComparisonTable />
+      <CompetitorComparisonTable competitorName="Top Competitor" competitorPrice={30} />
       <PricingFaq />
     </div>
   );

@@ -2,47 +2,58 @@
 import { cn } from "@/lib/utils";
 import { Check, X } from "lucide-react";
 
+interface ValueWithHighlight {
+  value: string | boolean;
+  highlight?: boolean;
+}
+
+interface ComparisonItem {
+  feature: string;
+  boopSign: ValueWithHighlight;
+  competitor: ValueWithHighlight;
+}
+
 interface ComparasionTableProps {
   competitorName: string;
   competitorPrice: string | number;
   className?: string;
 }
 
-const getComparisonData = (competitorPrice: string | number) => [
+const getComparisonData = (competitorPrice: string | number): ComparisonItem[] => [
   {
     feature: "Monthly Cost (Individual)",
     boopSign: { value: "$15/month", highlight: true },
-    competitor: { value: `$${competitorPrice}/month` },
+    competitor: { value: `$${competitorPrice}/month`, highlight: false },
   },
   {
     feature: "App Download Required",
     boopSign: { value: false, highlight: true },
-    competitor: { value: true },
+    competitor: { value: true, highlight: false },
   },
   {
     feature: "Mobile Signing Time",
     boopSign: { value: "Under 90 seconds", highlight: true },
-    competitor: { value: "7-12 minutes" },
+    competitor: { value: "7-12 minutes", highlight: false },
   },
   {
     feature: "Mobile-First Design",
     boopSign: { value: true, highlight: true },
-    competitor: { value: false },
+    competitor: { value: false, highlight: false },
   },
   {
     feature: "Client account required",
     boopSign: { value: false, highlight: true },
-    competitor: { value: true },
+    competitor: { value: true, highlight: false },
   },
   {
     feature: "Document Setup Time",
     boopSign: { value: "Instantly", highlight: true },
-    competitor: { value: "5-8 minutes" },
+    competitor: { value: "5-8 minutes", highlight: false },
   },
   {
     feature: "Email Delivery Issues",
     boopSign: { value: "Rare", highlight: true },
-    competitor: { value: "Common" },
+    competitor: { value: "Common", highlight: false },
   },
 ];
 

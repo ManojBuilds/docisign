@@ -29,7 +29,7 @@ export default function Home() {
         <HowItWorks />
         <TemplateShowcase />
         <Problem />
-        <ComparasionTable />
+        <ComparasionTable competitorName="Top Competitor" competitorPrice={30} />
         <Features />
         <TestimonialsSection />
         <Pricing />
