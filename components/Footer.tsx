@@ -52,7 +52,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/freelance-contract-template"
+                  href="/templates/freelance-contract-template"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">

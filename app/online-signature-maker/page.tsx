@@ -4,6 +4,8 @@ import TestimonialsSection from "@/components/testimonials";
 import { ArrowRight, Check, FileText, Shield, Smartphone, Zap } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { ClientHeaderWrapper } from "@/components/ClientHeaderWrapper";
+import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   title:
@@ -60,7 +62,9 @@ const signatureMakerFaq = [
 
 export default function OnlineSignatureMakerPage() {
   return (
-    <main className="min-h-screen bg-white">
+    <div className="min-h-screen flex flex-col bg-white">
+      <ClientHeaderWrapper />
+      <main className="flex-grow">
       {/* Schema Markup */}
       <script
         type="application/ld+json"
@@ -268,6 +272,8 @@ export default function OnlineSignatureMakerPage() {
           </div>
         </div>
       </section>
-    </main>
+      </main>
+      <Footer />
+    </div>
   );
 }

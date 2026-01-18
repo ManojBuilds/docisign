@@ -1,4 +1,3 @@
-import Faq from "@/components/faq";
 import { MDXContent } from "@/components/mdx/MDXContent";
 import { TemplatePageHeader } from "@/components/templates/TemplatePageHeader";
 import { TemplateSidebar } from "@/components/templates/TemplateSidebar";
@@ -141,7 +140,7 @@ export default async function TemplatePage({ params }: Props) {
             <div className="lg:col-span-2 space-y-16">
 
               {/* What's Inside Section */}
-              <div className="bg-white rounded-3xl p-8 md:p-12 border border-slate-200 shadow-sm">
+              <div className="">
                 <div className="text-center mb-12">
                   <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">{template.whatsInside?.title}</h2>
                   <p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
@@ -191,33 +190,6 @@ export default async function TemplatePage({ params }: Props) {
                 </div>
               </div>
 
-              {/* MDX Content */}
-              <div className="prose prose-slate  max-w-none
-                prose-headings:font-primary prose-headings:font-black prose-headings:tracking-tight
-                prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
-                prose-strong:text-slate-900 prose-blockquote:border-l-blue-500 prose-blockquote:not-italic
-                prose-img:rounded-3xl prose-img:ring-1 prose-img:ring-slate-100
-                prose-h2:mt-16 prose-h2:mb-8 prose-h2:text-3xl
-                prose-h3:mt-12 prose-h3:mb-6 prose-h3:text-xl
-                prose-p:leading-relaxed prose-p:text-slate-700
-                prose-ul:mb-6 prose-li:mb-2">
-                <MDXContent code={template.mdx} />
-              </div>
-            </div>
-
-            {/* Enhanced Sidebar CTA */}
-            <div className="space-y-8 lg:sticky lg:top-24">
-              <div className="bg-gradient-to-b from-white to-slate-50 rounded-3xl p-8 border border-slate-200 shadow-sm sticky top-24">
-                <TemplateSidebar
-                  title={template.sidebar?.title || ""}
-                  subtitle={template.sidebar?.subtitle || ""}
-                  buttonText="Start Signing Now"
-                  templateId={template.slug}
-                  templateTitle={template.title}
-                  stats={template.sidebar?.stats}
-                />
-              </div>
-
               {/* Trust Section */}
               {template.testimonial && (
                 <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
@@ -236,6 +208,33 @@ export default async function TemplatePage({ params }: Props) {
                   </div>
                 </div>
               )}
+
+              {/* MDX Content */}
+              <div className="prose prose-slate  max-w-none
+                prose-headings:font-primary prose-headings:font-black prose-headings:tracking-tight
+                prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
+                prose-strong:text-slate-900 prose-blockquote:border-l-blue-500 prose-blockquote:not-italic
+                prose-img:rounded-3xl prose-img:ring-1 prose-img:ring-slate-100
+                prose-h2:mt-16 prose-h2:mb-8 prose-h2:text-3xl
+                prose-h3:mt-12 prose-h3:mb-6 prose-h3:text-xl
+                prose-p:leading-relaxed prose-p:text-slate-700
+                prose-ul:mb-6 prose-li:mb-2">
+                <MDXContent code={template.mdx} />
+              </div>
+            </div>
+
+            {/* Enhanced Sidebar CTA */}
+            <div className="space-y-8 lg:sticky lg:top-24">
+              <TemplateSidebar
+                title={template.sidebar?.title || ""}
+                subtitle={template.sidebar?.subtitle || ""}
+                buttonText="Start Signing Now"
+                templateId={template.slug}
+                templateTitle={template.title}
+                stats={template.sidebar?.stats}
+              />
+
+
             </div>
 
           </div>
@@ -243,11 +242,9 @@ export default async function TemplatePage({ params }: Props) {
       </section>
 
       {/* FAQ */}
-      <section className="bg-slate-900 text-slate-400 py-20 border-t border-slate-800">
-        <div className="container max-w-6xl mx-auto px-4">
-          <Faq heading="Common Questions" items={template.faqs} />
-        </div>
-      </section>
+      {/* <section className="container max-w-6xl mx-auto px-4">
+        <Faq heading="Common Questions" items={template.faqs} />
+      </section> */}
     </main>
   );
 }
