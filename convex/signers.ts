@@ -551,19 +551,6 @@ export const sendSignedEmailToOwner = internalAction({
         console.error("Failed to send signing confirmation email to owner:", emailError);
       }
 
-      // Send Signer Copy Email to signer
-      try {
-        await ctx.runAction(api.emails.sendSignerCopyEmail, {
-          signerName: signer.name || signer.email,
-          documentTitle: document.title,
-          downloadUrl: downloadUrl || "",
-          signedAt: new Date(signer.signedAt || Date.now()).toLocaleString(),
-          senderName: owner.firstName || owner.email,
-          to: signer.email,
-        });
-      } catch (signerEmailError) {
-        console.error("Failed to send copy email to signer:", signerEmailError);
-      }
     } catch (globalError) {
       console.error("Error in sendSignedEmailToOwner background task:", globalError);
     }
@@ -879,7 +866,7 @@ export const finalizeDocument = mutation({
                   totalSigners: allSigners.length,
                 },
               );
-            } else if (participant.email !== args.signerEmail) {
+            } else {
               // Send to other signers who didn't just sign (they need the fully executed copy)
               await ctx.scheduler.runAfter(0, api.emails.sendSignerCopyEmail, {
                 to: participant.email,

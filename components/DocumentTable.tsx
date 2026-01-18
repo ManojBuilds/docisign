@@ -2,7 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Id } from "@/convex/_generated/dataModel";
+import { cn } from "@/lib/utils";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -34,6 +40,7 @@ interface Document {
   updatedAt?: number;
   fileStorageId: Id<"_storage">;
   originalFileName: string;
+  signers?: string[];
 }
 
 // Table component for documents
@@ -63,11 +70,56 @@ export const DocumentTable = ({
       cell: ({ row }) => (
         <Link
           href={`/d/${row.original._id}/edit`}
-          className="font-medium text-gray-900 hover:text-blue-600"
+          className="font-medium text-gray-900 hover:text-blue-600 block max-w-[200px] truncate"
+          title={row.getValue("title")}
         >
           {row.getValue("title")}
         </Link>
       ),
+    },
+    {
+      accessorKey: "signers",
+      header: "Recipients",
+      cell: ({ row }) => {
+        const signers = row.original.signers || [];
+        if (signers.length === 0) return <span className="text-muted-foreground text-[12px] italic">Draft - No recipients</span>;
+
+        const MAX_VISIBLE = 3;
+        const visibleSigners = signers.slice(0, MAX_VISIBLE);
+        const remaining = signers.length - MAX_VISIBLE;
+
+        return (
+          <div className="flex items-center pl-2">
+            {visibleSigners.map((email, index) => (
+              <Tooltip key={`${email}-${index}`}>
+                <TooltipTrigger asChild>
+                  <div
+                    className={cn(
+                      "w-7 h-7 rounded-full flex items-center justify-center text-white text-[10px] font-bold ring-2 ring-white cursor-default transition-transform hover:scale-110 hover:z-10 bg-gradient-to-br shadow-sm",
+                      index > 0 && "-ml-2.5",
+                      (index % 5 === 0) ? 'from-blue-500 to-indigo-600' :
+                        (index % 5 === 1) ? 'from-violet-500 to-purple-600' :
+                          (index % 5 === 2) ? 'from-fuchsia-500 to-pink-600' :
+                            (index % 5 === 3) ? 'from-rose-500 to-red-600' :
+                              'from-orange-500 to-amber-600'
+                    )}
+                  >
+                    {email.charAt(0).toUpperCase()}
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>{email}</p>
+                </TooltipContent>
+              </Tooltip>
+            ))}
+            {remaining > 0 && (
+              <div className="w-7 h-7 rounded-full flex items-center justify-center bg-gray-100 text-gray-600 text-[10px] font-bold ring-2 ring-white -ml-2.5 shadow-sm">
+                +{remaining}
+              </div>
+            )}
+          </div>
+        )
+      }
     },
     {
       accessorKey: "status",
@@ -276,18 +328,20 @@ export const DocumentTable = ({
         <div className="text-sm text-muted-foreground">
           Showing{" "}
           <span className="font-medium text-foreground">
-            {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}
+            {table.getFilteredRowModel().rows.length > 0
+              ? table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1
+              : 0}
           </span>{" "}
           to{" "}
           <span className="font-medium text-foreground">
             {Math.min(
               (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
-              table.getRowModel().rows.length
+              table.getFilteredRowModel().rows.length
             )}
           </span>{" "}
           of{" "}
           <span className="font-medium text-foreground">
-            {table.getRowModel().rows.length}
+            {table.getFilteredRowModel().rows.length}
           </span>{" "}
           contracts
         </div>

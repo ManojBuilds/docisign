@@ -86,13 +86,12 @@ export default async function ComparisonPage({ params }: Props) {
       />
 
       {/* Hero Section */}
-      <header className="bg-slate-50 border-b border-slate-100 py-24 md:py-40 relative overflow-hidden">
+      <header className="bg-gradient-to-b from-blue-50/50 via-white to-white border-b border-slate-100 py-24 md:py-12 relative overflow-hidden">
         <div className="absolute top-0 inset-x-0 h-full bg-[url('/bg-noise.png')] opacity-[0.03]" />
 
         {/* Background Decorations */}
-        <div className="absolute top-0 left-1/4 size-[500px] bg-blue-100/30 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-1/4 size-[500px] bg-indigo-100/20 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,transparent_0%,rgba(255,255,255,0.8)_100%)]" />
+        <div className="absolute -top-1/4 left-0 size-[600px] bg-blue-100/40 rounded-full blur-[150px]" />
+        <div className="absolute -bottom-1/4 -right-1/4 size-[800px] bg-indigo-100/20 rounded-full blur-[150px]" />
 
         <div className="container mx-auto px-4 max-w-6xl relative z-10 text-center">
           <Link
@@ -111,29 +110,29 @@ export default async function ComparisonPage({ params }: Props) {
             </div>
           </div>
 
-          <h1 className="text-5xl md:text-8xl font-black tracking-tight text-slate-900 mb-8 leading-[1.05] font-primary">
+          <h1 className="text-4xl md:text-7xl font-black tracking-tight text-slate-900 mb-8 leading-[1.05] font-primary">
             {comparison.competitorName} <span className="text-slate-300 font-light italic">vs</span> <span className="text-white bg-blue-600 px-4 py-1 rounded-2xl rotate-2 inline-block shadow-xl shadow-blue-600/20">BoopSign</span>
           </h1>
 
-          <p className="text-xl md:text-3xl text-slate-600 leading-relaxed max-w-3xl mb-12 font-medium">
-            Tired of {comparison.competitorName}&apos;s complexity? Switch to the mobile-first alternative that&apos;s <span className="text-slate-900 font-bold underline decoration-blue-500 underline-offset-4">built for freelancers</span>.
+          <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl mx-auto mb-12 font-medium">
+            Tired of {comparison.competitorName}&apos;s complexity? Switch to the mobile-first alternative that&apos;s <span className="text-white font-bold px-3 py-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg shadow-md">built for freelancers</span>.
           </p>
 
-          <div className="flex flex-col md:flex-row items-stretch gap-6 mb-16 max-w-4xl mx-auto">
-            <div className="flex-1 bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm relative overflow-hidden group hover:border-blue-200 transition-colors">
+          <div className="grid md:grid-cols-2 items-center gap-8 md:gap-0 mb-16 max-w-4xl mx-auto relative">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 hidden md:flex items-center justify-center">
+              <div className="size-16 bg-white rounded-full flex items-center justify-center font-black text-slate-400 shadow-2xl border border-slate-100">VS</div>
+            </div>
+
+            <div className="bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-slate-200 shadow-lg relative md:rotate-[-3deg] md:hover:rotate-[-1deg] transition-transform duration-300">
               <div className="absolute top-0 right-0 p-4">
-                <Badge variant="outline" className="text-slate-400 font-bold border-slate-200 uppercase tracking-widest text-[10px]">The Giant</Badge>
+                <Badge variant="outline" className="text-slate-400 font-bold border-slate-200 uppercase tracking-widest text-[10px] bg-white">The Giant</Badge>
               </div>
-              <h3 className="text-xl font-bold text-slate-400 mb-4">{comparison.competitorName}</h3>
-              <div className="text-4xl font-black text-slate-300 line-through mb-2">${comparison.priceComparison?.them || '45'}<span className="text-sm font-bold text-slate-300 ml-1">/mo</span></div>
+              <h3 className="text-xl font-bold text-slate-500 mb-4">{comparison.competitorName}</h3>
+              <div className="text-4xl font-black text-slate-400 line-through mb-2">${comparison.priceComparison?.them || '45'}<span className="text-sm font-bold text-slate-400 ml-1">/mo</span></div>
               <p className="text-sm text-slate-500 font-medium">Limited documents & complex dashboard</p>
             </div>
 
-            <div className="flex items-center justify-center -my-4 md:-mx-4 z-10 relative">
-              <div className="size-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-black shadow-xl shadow-blue-600/30 rotate-12">VS</div>
-            </div>
-
-            <div className="flex-1 bg-blue-600 p-8 rounded-[2rem] shadow-2xl shadow-blue-600/20 relative overflow-hidden group border-2 border-blue-500">
+            <div className="bg-blue-600 p-8 rounded-3xl shadow-2xl shadow-blue-600/30 relative md:scale-110 z-20 md:rotate-[3deg] md:hover:rotate-[1deg] transition-transform duration-300">
               <div className="absolute top-0 right-0 p-4">
                 <Badge variant="secondary" className="bg-blue-500/50 text-white font-bold border-transparent uppercase tracking-widest text-[10px]">The Winner</Badge>
               </div>
@@ -144,7 +143,7 @@ export default async function ComparisonPage({ params }: Props) {
             </div>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center gap-6 mb-16">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
             <StartTrialBtn />
             <div className="flex items-center gap-3 text-sm text-slate-500 font-bold">
               <div className="flex -space-x-3">
@@ -158,37 +157,32 @@ export default async function ComparisonPage({ params }: Props) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl pt-10 border-t border-slate-200/60">
-            {[
-              { text: "75% Cheaper", icon: <DollarSign className="size-4 text-green-500" /> },
-              { text: "Unlimited Docs", icon: <CheckCircle className="size-4 text-blue-500" /> },
-              { text: "Sign in Seconds", icon: <Clock className="size-4 text-orange-500" /> },
-              { text: "No Login Needed", icon: <Zap className="size-4 text-purple-500" /> }
-            ].map((item, i) => (
-              <div key={i} className="flex items-center gap-3 text-sm font-bold text-slate-700 bg-white/50 px-4 py-2 rounded-xl ring-1 ring-slate-200/60">
-                {item.icon}
-                {item.text}
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-4 border border-slate-200/60">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                {[
+                  { text: "75% Cheaper", icon: <DollarSign className="size-4 text-green-500" /> },
+                  { text: "Unlimited Docs", icon: <CheckCircle className="size-4 text-blue-500" /> },
+                  { text: "Sign in Seconds", icon: <Clock className="size-4 text-orange-500" /> },
+                  { text: "No Login Needed", icon: <Zap className="size-4 text-purple-500" /> }
+                ].map((item, i) => (
+                  <div key={i} className="flex items-center justify-center gap-3 text-sm font-bold text-slate-700 bg-white/50 px-4 py-2 rounded-xl ring-1 ring-slate-200/60">
+                    {item.icon}
+                    {item.text}
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </header>
 
-      {/* Sticky CTA (Mobile/Desktop) */}
-      <div className="fixed bottom-8 inset-x-0 z-50 px-4 pointer-events-none flex justify-center translate-y-20 animate-in slide-in-from-bottom-10 fill-mode-forwards delay-1000">
-        <div className="bg-white/80 backdrop-blur-xl border border-slate-200/60 p-2 rounded-2xl shadow-2xl flex items-center gap-4 pointer-events-auto ring-1 ring-slate-900/5">
-          <div className="pl-4 pr-2 border-r border-slate-100 hidden sm:block">
-            <p className="text-xs font-bold text-slate-500 uppercase tracking-widest">Switch to BoopSign</p>
-            <p className="text-sm font-black text-slate-900 leading-none">Save 75% Yearly</p>
-          </div>
-          <StartTrialBtn />
-        </div>
-      </div>
+
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-20 md:py-32 max-w-6xl flex flex-col lg:flex-row gap-20">
         <div className="flex-1 max-w-4xl mx-auto lg:mx-0">
-          <article className="prose prose-slate prose-lg md:prose-xl max-w-none
+          <article className="prose prose-slate   max-w-none
             prose-headings:font-primary prose-headings:tracking-tight prose-headings:font-black
             prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
             prose-strong:text-slate-900 prose-blockquote:border-l-blue-500
@@ -238,7 +232,7 @@ export default async function ComparisonPage({ params }: Props) {
 
           {/* FAQ Section */}
           {faqItems.length > 0 && (
-            <section className="mt-32 pt-32 border-t border-slate-100">
+            <section className="border-t border-slate-100">
               <Faq
                 heading={`${comparison.competitorName} vs BoopSign: Frequently Asked Questions`}
                 items={faqItems}
@@ -246,27 +240,7 @@ export default async function ComparisonPage({ params }: Props) {
             </section>
           )}
 
-          {/* Final CTA */}
-          <div className="mt-32 relative group">
-            <div className="absolute -inset-1 bg-gradient-to-r from-white/50 to-white/50 rounded-[3rem] blur opacity-25 group-hover:opacity-40 transition duration-1000 group-hover:duration-200"></div>
-            <div className="relative bg-white border border-slate-100 rounded-[3rem] p-10 md:p-20 text-center overflow-hidden">
-              <div className="absolute top-0 right-0 -mr-20 -mt-20 size-64 bg-blue-50 rounded-full opacity-50 blur-3xl" />
-              <div className="absolute bottom-0 left-0 -ml-20 -mb-20 size-64 bg-indigo-50 rounded-full opacity-50 blur-3xl" />
 
-              <h3 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight relative z-10 font-primary leading-tight">
-                Ready to switch and save <br className="hidden md:block" /> over $450 every year?
-              </h3>
-              <p className="text-xl text-slate-600 mb-10 max-w-xl mx-auto relative z-10 font-medium whitespace-pre-wrap">
-                Join thousands of solo-pros and small teams who choose simplicity over enterprise bloat.
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
-                <StartTrialBtn />
-                <Link href="/pricing" className="px-8 py-4 bg-slate-50 text-slate-900 font-bold rounded-2xl border border-slate-200 hover:bg-slate-100 transition-all text-lg">
-                  View Pricing
-                </Link>
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Sidebar for Desktop */}

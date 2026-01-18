@@ -191,7 +191,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li>
                 <Link
-                  href="/docusign-alternative"
+                  href="/alternatives/docusign-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -202,7 +202,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/hellosign-alternative"
+                  href="/alternatives/hellosign-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -213,7 +213,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/pandadoc-alternative"
+                  href="/alternatives/pandadoc-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -224,7 +224,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/adobe-sign-alternative"
+                  href="/alternatives/adobe-sign-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -235,7 +235,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/dropbox-sign-alternative"
+                  href="/alternatives/dropbox-sign-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -246,7 +246,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/signnow-alternative"
+                  href="/alternatives/signnow-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -257,7 +257,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/signrequest-alternative"
+                  href="/alternatives/signrequest-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -268,7 +268,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/zoho-sign-alternative"
+                  href="/alternatives/zoho-sign-alternative"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -297,7 +297,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/templates/social-media-management-contract-template"
+                  href="/templates/social-media-management-contract"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -308,7 +308,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/templates/wedding-photography-contract-template"
+                  href="/templates/wedding-photography-contract"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -319,7 +319,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/templates/house-cleaning-service-agreement-template"
+                  href="/templates/house-cleaning-service-agreement"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -330,7 +330,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/guides/3-minute-freelance-workflow"
+                  href="/blog/3-minute-freelance-workflow"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">
@@ -341,7 +341,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link
-                  href="/guides/esignature-cost-comparison"
+                  href="/blog/esignature-cost-comparison"
                   className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
                 >
                   <div className="flex items-start">

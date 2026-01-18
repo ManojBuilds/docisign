@@ -13,7 +13,7 @@ interface ComparisonFeature {
     highlight?: boolean;
     tooltip?: string;
   };
-  docuSign: {
+  competitor: {
     value: string | boolean;
     highlight?: boolean;
     tooltip?: string;
@@ -21,81 +21,87 @@ interface ComparisonFeature {
   important?: boolean;
 }
 
-const comparisonData: ComparisonFeature[] = [
+interface ComparasionTableProps {
+  competitorName: string;
+  competitorPrice: string | number;
+  className?: string;
+}
+
+const getComparisonData = (competitorPrice: string | number): ComparisonFeature[] => [
   // Pricing Category
   {
     category: "Pricing",
     feature: "Monthly Cost (Individual)",
     boopSign: { value: "$15/month", highlight: true },
-    docuSign: { value: "$25/month", highlight: false },
+    competitor: { value: `$${competitorPrice}/month`, highlight: false },
     important: true
   },
   {
     category: "Pricing",
     feature: "Setup Fees",
     boopSign: { value: "$0", highlight: true },
-    docuSign: { value: "$0" }
+    competitor: { value: "$0" }
   },
   {
     category: "Pricing",
     feature: "Free Trial",
     boopSign: { value: "7 days", highlight: true },
-    docuSign: { value: "30 days" }
+    competitor: { value: "30 days" }
   },
   // Mobile Experience
   {
     category: "Mobile Experience",
     feature: "App Download Required",
     boopSign: { value: false, highlight: true },
-    docuSign: { value: true },
+    competitor: { value: true },
     important: true
   },
   {
     category: "Mobile Experience",
     feature: "Mobile Signing Time",
     boopSign: { value: "Under 90 seconds", highlight: true },
-    docuSign: { value: "7-12 minutes" },
+    competitor: { value: "7-12 minutes" },
     important: true
   },
   {
     category: "Mobile Experience",
     feature: "Mobile-First Design",
     boopSign: { value: true, highlight: true },
-    docuSign: { value: false },
+    competitor: { value: false },
     important: true
   },
   {
     category: "Mobile Experience",
     feature: "Touch-Optimized Interface",
     boopSign: { value: true, highlight: true },
-    docuSign: { value: "Partial" }
+    competitor: { value: "Partial" }
   },
   // User Experience
   {
     category: "User Experience",
     feature: "Client account required",
     boopSign: { value: false, highlight: true },
-    docuSign: { value: true },
+    competitor: { value: true },
     important: true
   },
   {
     category: "User Experience",
     feature: "Document Setup Time",
     boopSign: { value: "Instantly", highlight: true },
-    docuSign: { value: "5-8 minutes" },
+    competitor: { value: "5-8 minutes" },
     important: true
   },
   {
     category: "User Experience",
     feature: "Learning Curve",
     boopSign: { value: "None", highlight: true },
-    docuSign: { value: "Moderate" }
+    competitor: { value: "Moderate" }
   },
   {
     category: "User Experience",
     feature: "Email Delivery Issues",
     boopSign: { value: "Rare", highlight: true },
-    docuSign: { value: "Common" },
+    competitor: { value: "Common" },
     important: true
   },
   // Features
@@ -103,38 +109,38 @@ const comparisonData: ComparisonFeature[] = [
     category: "Features",
     feature: "Document Formats Supported",
     boopSign: { value: "PDF, DOC, DOCX" },
-    docuSign: { value: "PDF, DOC, DOCX, PPT, XLS" }
+    competitor: { value: "PDF, DOC, DOCX, PPT, XLS" }
   },
   {
     category: "Features",
     feature: "Templates",
     boopSign: { value: true },
-    docuSign: { value: true }
+    competitor: { value: true }
   },
   // Security & Compliance
   {
     category: "Security & Compliance",
     feature: "ESIGN Act Compliant",
     boopSign: { value: true },
-    docuSign: { value: true }
+    competitor: { value: true }
   },
   {
     category: "Security & Compliance",
     feature: "UETA Compliant",
     boopSign: { value: true },
-    docuSign: { value: true }
+    competitor: { value: true }
   },
   {
     category: "Security & Compliance",
     feature: "SOC 2 Type II",
     boopSign: { value: true },
-    docuSign: { value: true }
+    competitor: { value: true }
   },
   {
     category: "Security & Compliance",
     feature: "Data Encryption",
     boopSign: { value: "AES-256" },
-    docuSign: { value: "AES-256" }
+    competitor: { value: "AES-256" }
   }
 ];
 
@@ -146,8 +152,9 @@ const categoryIcons = {
   "Security & Compliance": Shield
 };
 
-const ComparasionTable = ({ className }: { className?: string }) => {
+const ComparasionTable = ({ competitorName, competitorPrice, className }: ComparasionTableProps) => {
   const [activeCategory, setActiveCategory] = useState<string>("Pricing");
+  const comparisonData = getComparisonData(competitorPrice);
   const categories = Array.from(new Set(comparisonData.map(item => item.category)));
 
   const renderValue = (value: string | boolean, highlight?: boolean, isBoopSign?: boolean) => {
@@ -178,7 +185,7 @@ const ComparasionTable = ({ className }: { className?: string }) => {
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            BoopSign vs DocuSign
+            BoopSign vs {competitorName}
           </h2>
           <p className="text-xl md:text-2xl mb-4 text-muted-foreground">
             Why 1000+ businesses switched to BoopSign
@@ -231,7 +238,7 @@ const ComparasionTable = ({ className }: { className?: string }) => {
                   <th className="py-4 px-6 text-center">
                     <div className="flex flex-col items-center gap-2">
                       <div className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full font-semibold">
-                        DocuSign
+                        {competitorName}
                       </div>
                       <span className="text-xs text-muted-foreground">Industry Standard</span>
                     </div>
@@ -262,7 +269,7 @@ const ComparasionTable = ({ className }: { className?: string }) => {
                       {renderValue(item.boopSign.value, item.boopSign.highlight, true)}
                     </td>
                     <td className="py-4 px-6 text-center">
-                      {renderValue(item.docuSign.value, item.docuSign.highlight, false)}
+                      {renderValue(item.competitor.value, item.competitor.highlight, false)}
                     </td>
                   </tr>
                 ))}
@@ -284,7 +291,7 @@ const ComparasionTable = ({ className }: { className?: string }) => {
             <CreditCard className="w-8 h-8 text-primary mb-3" />
             <h3 className="font-semibold text-lg mb-2">50% Cheaper</h3>
             <p className="text-muted-foreground text-sm">
-              $15/month vs DocuSign&apos;s $25/month starting price
+              $15/month vs {competitorName}&apos;s ${competitorPrice}/month starting price
             </p>
           </div>
           <div className="flex flex-col items-center text-center">
@@ -317,7 +324,7 @@ const ComparasionTable = ({ className }: { className?: string }) => {
         {/* Fine Print */}
         <div className="text-center mt-8">
           <p className="text-sm text-muted-foreground">
-            * Pricing as of September 2026. DocuSign pricing may vary by plan and features.
+            * Pricing as of September 2026. {competitorName} pricing may vary by plan and features.
             <br />
             Blue dots indicate key differentiating features.
           </p>

@@ -90,7 +90,7 @@ const Faq = ({
 }: Faq1Props) => {
   return (
     <section className={className} id="faq">
-      <div className="container max-w-3xl mx-auto">
+      <div className="container max-w-5xl mx-auto">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

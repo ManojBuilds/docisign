@@ -250,7 +250,7 @@ export default async function LandingPageLayout({ params }: Props) {
 
       {/* MDX Content */}
       <section className="px-4">
-        <div className="container mx-auto max-w-4xl prose prose-lg prose-slate">
+        <div className="container mx-auto max-w-4xl prose  prose-slate">
           <MDXContent code={page.mdx} />
         </div>
       </section>

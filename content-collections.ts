@@ -108,6 +108,7 @@ const posts = defineCollection({
     image: z.string().optional(),
     category: z.string().optional().default('Article'),
     readingTime: z.string().optional(),
+    status: z.enum(['published', 'draft']).optional().default('published'),
   }),
   transform: async (document, context) => {
     const mdx = await compileMDX(context, document);

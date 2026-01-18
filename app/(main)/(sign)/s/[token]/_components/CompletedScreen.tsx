@@ -193,27 +193,45 @@ export function CompletedScreen({
             <div className="order-3 space-y-2 sm:space-y-8">
               {!isCancelled && (
                 <div className="space-y-4">
-                  <Button
-                    onClick={handleDownload}
-                    disabled={isDownloading}
-                    className="w-full sm:w-auto px-8 sm:px-12 bg-gray-900 hover:bg-black text-white rounded-2xl h-14 sm:h-16 font-bold text-base shadow-2xl shadow-gray-200 uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 group cursor-pointer mt-4 sm:mt-6"
-                  >
-                    {isDownloading ? (
-                      <>
-                        Downloading
-                        <Loader2 className="h-6 w-6 animate-spin" />
-                      </>
-                    ) : (
-                      <>
-                        <Download className="h-6 w-6 mr-3 group-hover:translate-y-0.5 transition-transform" />
-                        Download Signed PDF
-                      </>
-                    )}
-                  </Button>
-                  <div className="flex items-center gap-2 text-[10px] text-gray-400 font-bold uppercase tracking-[0.15em] ml-2">
-                    <Mail className="w-3 h-3" />
-                    <span>A copy has been sent to your email</span>
-                  </div>
+                  {signingSession.document?.status === "completed" ? (
+                    <>
+                      <Button
+                        onClick={handleDownload}
+                        disabled={isDownloading}
+                        className="w-full sm:w-auto px-8 sm:px-12 bg-gray-900 hover:bg-black text-white rounded-2xl h-14 sm:h-16 font-bold text-base shadow-2xl shadow-gray-200 uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 group cursor-pointer mt-4 sm:mt-6"
+                      >
+                        {isDownloading ? (
+                          <>
+                            Downloading
+                            <Loader2 className="h-6 w-6 animate-spin" />
+                          </>
+                        ) : (
+                          <>
+                            <Download className="h-6 w-6 mr-3 group-hover:translate-y-0.5 transition-transform" />
+                            Download Signed PDF
+                          </>
+                        )}
+                      </Button>
+                      <div className="flex items-center gap-2 text-[10px] text-gray-400 font-bold uppercase tracking-[0.15em] ml-2">
+                        <Mail className="w-3 h-3" />
+                        <span>A final copy has been sent to your email</span>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="mt-6 p-6 bg-amber-50 rounded-2xl border border-amber-100/50">
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center shrink-0">
+                          <Info className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-gray-900 text-sm uppercase tracking-wide mb-1">Waiting for others</h4>
+                          <p className="text-xs text-gray-600 leading-relaxed">
+                            The document is not yet fully executed. You will receive the final PDF and download link via email once all parties have signed.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
 

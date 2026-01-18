@@ -133,28 +133,32 @@ export default async function TemplatePage({ params }: Props) {
       />
 
       {/* Main Content Area */}
-      <section className="py-24" id="preview">
+      <section className="py-16 md:py-24" id="preview">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
 
             {/* Template Breakdown */}
-            <div className="lg:col-span-2 space-y-12">
-              <div>
-                <h2 className="text-3xl font-bold text-slate-900 mb-6">{template.whatsInside?.title}</h2>
-                <p className="text-lg text-slate-600 leading-relaxed mb-8">
-                  {template.whatsInside?.description}
-                </p>
+            <div className="lg:col-span-2 space-y-16">
+
+              {/* What's Inside Section */}
+              <div className="bg-white rounded-3xl p-8 md:p-12 border border-slate-200 shadow-sm">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">{template.whatsInside?.title}</h2>
+                  <p className="text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto">
+                    {template.whatsInside?.description}
+                  </p>
+                </div>
 
                 <div className="grid md:grid-cols-2 gap-6">
                   {template.whatsInside?.features?.map((feature, idx) => (
-                    <Card key={idx} className="bg-white border-slate-200">
+                    <Card key={idx} className="bg-white border-slate-200 hover:shadow-md transition-shadow">
                       <CardContent className="p-6">
-                        <div className={`size-10 rounded-lg flex items-center justify-center mb-4 ${idx % 4 === 0 ? "bg-indigo-100 text-indigo-600" :
+                        <div className={`size-12 rounded-xl flex items-center justify-center mb-4 ${idx % 4 === 0 ? "bg-indigo-100 text-indigo-600" :
                           idx % 4 === 1 ? "bg-emerald-100 text-emerald-600" :
                             idx % 4 === 2 ? "bg-amber-100 text-amber-600" :
                               "bg-rose-100 text-rose-600"
                           }`}>
-                          <Icon name={feature.icon || "FileText"} className="size-5" />
+                          <Icon name={feature.icon || "FileText"} className="size-6" />
                         </div>
                         <h3 className="font-bold text-lg mb-2">{feature.title}</h3>
                         <p className="text-sm text-slate-500">{feature.description}</p>
@@ -164,37 +168,55 @@ export default async function TemplatePage({ params }: Props) {
                 </div>
               </div>
 
-              <div className={`rounded-3xl p-8 border ${selectedThemeClass}`}>
-                <h3 className="text-xl font-bold mb-4">{template.whyUse?.title}</h3>
-                <p className="mb-6 opacity-90">
-                  {template.whyUse?.description}
-                </p>
-                <ul className="space-y-3">
-                  {template.whyUse?.benefits?.map((benefit, idx) => (
-                    <li key={idx} className="flex items-center gap-3">
-                      <Check className={`size-5 ${selectedTextColorClass}`} />
-                      <span dangerouslySetInnerHTML={{ __html: benefit }} />
-                    </li>
-                  ))}
-                </ul>
+              {/* Why Use Section */}
+              <div className={`rounded-3xl p-8 md:p-12 border ${selectedThemeClass} bg-gradient-to-br from-white to-transparent`}>
+                <div className="text-center mb-8">
+                  <h3 className="text-2xl md:text-3xl font-black mb-4">{template.whyUse?.title}</h3>
+                  <p className="text-lg opacity-90 max-w-2xl mx-auto">
+                    {template.whyUse?.description}
+                  </p>
+                </div>
+
+                <div className="max-w-2xl mx-auto">
+                  <ul className="space-y-4">
+                    {template.whyUse?.benefits?.map((benefit, idx) => (
+                      <li key={idx} className="flex items-start gap-4 p-4 rounded-xl bg-white/50">
+                        <div className={`size-10 rounded-full flex items-center justify-center flex-shrink-0 ${selectedTextColorClass} bg-white shadow-sm`}>
+                          <Check className="size-5" />
+                        </div>
+                        <span className="pt-1" dangerouslySetInnerHTML={{ __html: benefit }} />
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
 
               {/* MDX Content */}
-              <div className="prose prose-lg max-w-none">
+              <div className="prose prose-slate  max-w-none
+                prose-headings:font-primary prose-headings:font-black prose-headings:tracking-tight
+                prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
+                prose-strong:text-slate-900 prose-blockquote:border-l-blue-500 prose-blockquote:not-italic
+                prose-img:rounded-3xl prose-img:ring-1 prose-img:ring-slate-100
+                prose-h2:mt-16 prose-h2:mb-8 prose-h2:text-3xl
+                prose-h3:mt-12 prose-h3:mb-6 prose-h3:text-xl
+                prose-p:leading-relaxed prose-p:text-slate-700
+                prose-ul:mb-6 prose-li:mb-2">
                 <MDXContent code={template.mdx} />
               </div>
             </div>
 
-            {/* Sidebar CTA */}
+            {/* Enhanced Sidebar CTA */}
             <div className="space-y-8 lg:sticky lg:top-24">
-              <TemplateSidebar
-                title={template.sidebar?.title || ""}
-                subtitle={template.sidebar?.subtitle || ""}
-                buttonText="Start Signing Now"
-                templateId={template.slug}
-                templateTitle={template.title}
-                stats={template.sidebar?.stats}
-              />
+              <div className="bg-gradient-to-b from-white to-slate-50 rounded-3xl p-8 border border-slate-200 shadow-sm sticky top-24">
+                <TemplateSidebar
+                  title={template.sidebar?.title || ""}
+                  subtitle={template.sidebar?.subtitle || ""}
+                  buttonText="Start Signing Now"
+                  templateId={template.slug}
+                  templateTitle={template.title}
+                  stats={template.sidebar?.stats}
+                />
+              </div>
 
               {/* Trust Section */}
               {template.testimonial && (
@@ -221,8 +243,8 @@ export default async function TemplatePage({ params }: Props) {
       </section>
 
       {/* FAQ */}
-      <section className="py-24 bg-white border-t border-slate-100">
-        <div className="container mx-auto px-4 max-w-4xl">
+      <section className="bg-slate-900 text-slate-400 py-20 border-t border-slate-800">
+        <div className="container max-w-6xl mx-auto px-4">
           <Faq heading="Common Questions" items={template.faqs} />
         </div>
       </section>

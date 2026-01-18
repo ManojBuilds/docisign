@@ -11,9 +11,11 @@ interface Props {
 }
 
 export async function generateStaticParams() {
-  return allPosts.map((p) => ({
-    slug: p.slug,
-  }));
+  return allPosts
+    .filter((p) => p.status === "published")
+    .map((p) => ({
+      slug: p.slug,
+    }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -32,12 +34,12 @@ function getPostBySlug(slug: string) {
 export default async function Post({ params }: Props) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
-  if (!post) return notFound();
+  if (!post || post.status !== "published") return notFound();
 
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-slate-50 border-b border-slate-100 py-16 md:py-24 relative overflow-hidden">
+      <header className="bg-slate-50 border-b border-slate-100 py-16 md:py-12 relative overflow-hidden">
         <div className="absolute top-0 inset-x-0 h-full bg-[url('/bg-noise.png')] opacity-[0.03]" />
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
           <Link
@@ -87,22 +89,46 @@ export default async function Post({ params }: Props) {
 
       {/* Content */}
       <main className="container mx-auto px-4 py-16 max-w-4xl">
-        <article className="prose prose-gray prose-lg md:prose-xl max-w-none
-          prose-img:rounded-3xl prose-img:ring-1 prose-img:ring-slate-100">
+        <article className="prose prose-slate  max-w-none
+          prose-headings:font-primary prose-headings:font-black prose-headings:tracking-tight
+          prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
+          prose-strong:text-slate-900 prose-blockquote:border-l-blue-500 prose-blockquote:not-italic
+          prose-img:rounded-3xl prose-img:ring-1 prose-img:ring-slate-100
+          prose-h2:mt-16 prose-h2:mb-8 prose-h2:text-3xl
+          prose-h3:mt-12 prose-h3:mb-6 prose-h3:text-xl
+          prose-p:leading-relaxed prose-p:text-slate-700
+          prose-ul:mb-6 prose-li:mb-2">
           <MDXContent code={post.mdx} />
         </article>
 
-        <hr className="my-16 border-slate-100" />
+        <hr className="my-16 border-slate-200" />
 
-        <div className="bg-slate-50 rounded-2xl p-8 md:p-12 text-center">
-          <h3 className="text-2xl font-bold text-slate-900 mb-4">Enjoyed this article?</h3>
-          <p className="text-slate-600 mb-8 max-w-lg mx-auto">
-            Get more freelance tips and contract templates delivered straight to your inbox.
-          </p>
-          <div className="flex justify-center gap-4">
-            <Link href="/signup" className="px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-colors">
-              Get Started for Free
-            </Link>
+        {/* Newsletter CTA */}
+        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-3xl p-10 md:p-16 text-center border border-blue-100 relative overflow-hidden">
+          <div className="absolute -top-20 -right-20 size-60 bg-blue-500/5 rounded-full blur-3xl" />
+          <div className="absolute -bottom-20 -left-20 size-60 bg-indigo-500/5 rounded-full blur-3xl" />
+
+          <div className="relative z-10">
+            <h3 className="text-3xl font-black text-slate-900 mb-4">
+              Enjoyed this article?
+            </h3>
+            <p className="text-lg text-slate-600 mb-8 max-w-lg mx-auto">
+              Get more freelance tips and contract templates delivered straight to your inbox.
+            </p>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link
+                href="/signup"
+                className="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
+              >
+                Get Started for Free
+              </Link>
+              <Link
+                href="/blog"
+                className="px-8 py-4 bg-white text-slate-900 font-bold rounded-2xl border border-slate-200 hover:bg-slate-50 transition-colors"
+              >
+                Browse More Articles
+              </Link>
+            </div>
           </div>
         </div>
       </main>

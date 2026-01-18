@@ -63,7 +63,26 @@ export const searchDocuments = query({
       baseQuery = baseQuery.filter((q) => q.eq(q.field("status"), status));
     }
 
-    return await baseQuery.paginate(paginationOpts)
+    const results = await baseQuery.paginate(paginationOpts);
+
+    return {
+      ...results,
+      page: await Promise.all(
+        results.page.map(async (doc) => {
+          const signatureFields = await ctx.db
+            .query("signatureFields")
+            .withIndex("by_document", (q) => q.eq("documentId", doc._id))
+            .collect();
+
+          const uniqueSigners = [...new Set(signatureFields.map((f) => f.signerEmail))];
+
+          return {
+            ...doc,
+            signers: uniqueSigners,
+          };
+        })
+      ),
+    };
   },
 });
 

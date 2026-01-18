@@ -57,9 +57,11 @@ import Image from "next/image";
 import Link from "next/link";
 import ComparasionTable from "../ComparasionTable";
 import HowItWorks from "../HowItWorks";
+import SmallComparasionTable from "../SmallComparasionTable";
 import { Callout } from "./Callout";
 
 const sharedComponents = {
+  SmallComparasionTable,
   HowItWorks,
   ComparasionTable,
   Callout,
