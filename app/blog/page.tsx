@@ -1,8 +1,8 @@
 import { allPosts, type Post } from "content-collections";
 import { compareDesc } from "date-fns";
 import { ArrowRight } from "lucide-react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
 function PostCard({ post }: { post: Post }) {
   return (
@@ -15,8 +15,8 @@ function PostCard({ post }: { post: Post }) {
           <Image
             src={post.image}
             alt={post.title}
-            width={400}
-            height={200}
+            width={1200}
+            height={630}
             className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
           />
         </div>
@@ -39,7 +39,7 @@ function PostCard({ post }: { post: Post }) {
           {post.description}
         </p>
 
-        <div className="flex items-center text-blue-600 font-semibold text-sm mt-auto">
+        <div className="flex items-center text-blue-600 font-semibold text-sm">
           Read Article <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </div>
       </div>

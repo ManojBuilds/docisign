@@ -69,12 +69,12 @@ export default async function Post({ params }: Props) {
             {post.title}
           </h1>
 
-          <p className="text-xl text-slate-600 leading-relaxed max-w-2xl mb-12">
+          <p className="text-xl text-slate-600 leading-relaxed max-w-2xl mb-6">
             {post.description}
           </p>
 
           {post.image && (
-            <div className="relative aspect-[21/9] w-full overflow-hidden rounded-[2rem] ring-1 ring-slate-200">
+            <div className="relative aspect-video w-full overflow-hidden rounded-lg ring-1 ring-slate-200/5">
               <Image
                 src={post.image}
                 alt={post.title}

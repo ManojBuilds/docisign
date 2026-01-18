@@ -89,8 +89,8 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 
 ### Day 7 - Expand /esignature-for-freelancers Page (Part 1)
 **Task:** Add first 800 words of new content
-- [ ] Add H2: "Why Freelancers Need E-Signature Software"
-- [ ] Write 4 key reasons (200 words each):
+- [x] Add H2: "Why Freelancers Need E-Signature Software"
+- [x] Write 4 key reasons (200 words each):
   - Chasing signatures wastes time
   - Legal protection
   - Professional image
