@@ -176,7 +176,7 @@ const UploadContent: FC<UploadContentProps> = ({
               onClick={handleAddEmail}
               size="sm"
               disabled={isUploading || !currentEmail.trim()}
-              className="rounded-lg px-4 bg-gray-900 hover:bg-black text-white"
+              className="rounded-lg h-auto px-4 bg-gray-900 hover:bg-black text-white"
             >
               Add
             </Button>

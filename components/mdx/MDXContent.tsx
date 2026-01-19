@@ -13,7 +13,9 @@ import { Separator } from "@/components/ui/separator";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow
@@ -137,40 +139,59 @@ const sharedComponents = {
       </a>
     );
   },
-  table: ({ children }: { children: React.ReactNode }) => (
+  Table,
+  TableHeader,
+  TableBody,
+  TableFooter,
+  TableHead,
+  TableRow,
+  TableCell,
+  TableCaption,
+  table: ({ className, ...props }: React.ComponentProps<typeof Table>) => (
     <div className="my-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm ring-1 ring-slate-900/5">
-      <Table>{children}</Table>
+      <Table className={cn("m-0", className)} {...props} />
     </div>
   ),
-  thead: ({ children }: { children: React.ReactNode }) => (
-    <TableHeader className="bg-slate-50">{children}</TableHeader>
+  thead: ({ className, ...props }: React.ComponentProps<typeof TableHeader>) => (
+    <TableHeader className={cn("bg-slate-50", className)} {...props} />
   ),
-  tbody: ({ children }: { children: React.ReactNode }) => (
-    <TableBody>{children}</TableBody>
+  tbody: ({ className, ...props }: React.ComponentProps<typeof TableBody>) => (
+    <TableBody className={className} {...props} />
   ),
-  th: ({ children }: { children: React.ReactNode }) => {
+  tfoot: ({ className, ...props }: React.ComponentProps<typeof TableFooter>) => (
+    <TableFooter className={className} {...props} />
+  ),
+  tr: ({ className, ...props }: React.ComponentProps<typeof TableRow>) => (
+    <TableRow className={cn("group/row", className)} {...props} />
+  ),
+  th: ({ className, children, ...props }: React.ComponentProps<typeof TableHead>) => {
     const isBoopSign = typeof children === "string" && children.toLowerCase().includes("boopsign");
     return (
-      <TableHead className={cn(
-        "px-6 py-4 font-black uppercase tracking-widest text-[10px] md:text-xs",
-        isBoopSign ? "text-blue-600 bg-blue-50/50" : "text-slate-900"
-      )}>
+      <TableHead
+        className={cn(
+          "px-6 py-4 font-black uppercase tracking-widest text-[10px] md:text-xs whitespace-normal",
+          isBoopSign ? "text-blue-600 bg-blue-50/50" : "text-slate-900",
+          className
+        )}
+        {...props}
+      >
         {children}
       </TableHead>
     );
   },
-  tr: ({ children }: { children: React.ReactNode }) => (
-    <TableRow className="group/row">
-      {children}
-    </TableRow>
-  ),
-  td: ({ children }: { children: React.ReactNode }) => {
+  td: ({ className, children, ...props }: React.ComponentProps<typeof TableCell>) => {
     const content = typeof children === "string" ? children : "";
     const isPositive = content.includes("✅") || content.includes("Yes");
-    const isNegative = content.includes("❌") || content.includes("No") && !content.includes("None");
+    const isNegative = content.includes("❌") || (content.includes("No") && !content.includes("None"));
 
     return (
-      <TableCell className="px-6 py-5 align-top text-slate-600 group-hover/row:text-slate-900 transition-colors">
+      <TableCell
+        className={cn(
+          "px-6 py-5 align-top text-slate-600 group-hover/row:text-slate-900 transition-colors whitespace-normal",
+          className
+        )}
+        {...props}
+      >
         <span className={cn(
           isPositive ? "text-green-600 font-medium" :
             isNegative ? "text-red-500" : ""
@@ -180,6 +201,9 @@ const sharedComponents = {
       </TableCell>
     );
   },
+  caption: ({ className, ...props }: React.ComponentProps<typeof TableCaption>) => (
+    <TableCaption className={className} {...props} />
+  ),
 };
 
 interface MDXContentProps {

@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogTitle
 } from "@/components/ui/dialog";
-import { Check, ShieldCheck } from "lucide-react";
+import { Check, ShieldCheck, Mail, FileText } from "lucide-react";
 import Image from "next/image";
+import { motion } from "motion/react";
 
 interface WelcomeDialogProps {
   open: boolean;
@@ -35,85 +35,102 @@ export function WelcomeDialog({
         showCloseButton={false}
         onPointerDownOutside={(e) => e.preventDefault()}
         onEscapeKeyDown={(e) => e.preventDefault()}
-        className="sm:max-w-[500px] p-0 overflow-hidden border-none shadow-2xl rounded-3xl bg-white focus-visible:outline-none"
+        className="max-w-[calc(100vw-32px)] sm:max-w-[480px] p-0 overflow-hidden border-none shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] rounded-[32px] bg-white focus-visible:outline-none focus:outline-none"
       >
-        <div className="bg-gray-900 p-8 text-white relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-8 opacity-10">
-            {brandLogoUrl ? (
-              <Image
-                src={brandLogoUrl}
-                alt="Logo"
-                width={128}
-                height={128}
-                className="size-32 rounded-xl object-cover"
-                unoptimized
-              />
-            ) : (
-              <ShieldCheck className="w-32 h-32" />
-            )}
-          </div>
-          <div className="relative z-10 flex items-center gap-4">
-            {brandLogoUrl && (
-              <div className="size-12 bg-white rounded-xl flex items-center justify-center p-2 shrink-0 shadow-xl relative overflow-hidden">
-                <Image
-                  src={brandLogoUrl}
-                  alt="Logo"
-                  fill
-                  className="object-contain p-2"
-                  unoptimized
-                />
+        <div className="bg-gray-950 p-6 sm:p-10 text-white relative overflow-hidden">
+          {/* Decorative background elements */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl -mr-32 -mt-32" />
+          <div className="absolute bottom-0 left-0 w-48 h-48 bg-emerald-600/5 rounded-full blur-3xl -ml-24 -mb-24" />
+
+          <div className="relative z-10 flex flex-col gap-6">
+            <div className="flex items-center justify-between">
+              {brandLogoUrl ? (
+                <div className="size-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center p-2.5 shrink-0 border border-white/10 shadow-xl overflow-hidden group">
+                  <Image
+                    src={brandLogoUrl}
+                    alt="Logo"
+                    fill
+                    className="object-cover p-2 group-hover:scale-110 transition-transform duration-500"
+                    unoptimized
+                  />
+                </div>
+              ) : (
+                <div className="size-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center shrink-0 border border-white/10 shadow-xl">
+                  <ShieldCheck className="w-7 h-7 text-blue-400" />
+                </div>
+              )}
+              <div className="px-3 py-1 bg-white/5 backdrop-blur-sm border border-white/10 rounded-full">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-400">Secure Review</span>
               </div>
-            )}
-            <div className="space-y-1">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-400">Review & Act</h3>
-              <DialogTitle className="text-2xl font-black tracking-tight leading-tight uppercase">
-                Ready to Sign?
+            </div>
+
+            <div className="space-y-2">
+              <DialogTitle className="text-2xl sm:text-3xl font-black tracking-tight leading-tight uppercase italic flex flex-col">
+                <span>Verification</span>
+                <span className="text-blue-500">Required</span>
               </DialogTitle>
+              <p className="text-gray-400 text-sm font-medium">
+                Document sent for your review by <span className="text-white font-bold">{brandName || senderEmail}</span>
+              </p>
             </div>
           </div>
-          <p className="text-gray-400 text-sm font-medium mt-4">
-            Document sent by <span className="text-white font-bold">{brandName || senderEmail}</span>
-          </p>
         </div >
 
-        <div className="p-8 space-y-8">
-          <div className="space-y-4">
-            <div className="flex items-start gap-4">
-              <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-                <Check className="w-4 h-4 text-blue-600 stroke-[3]" />
+        <div className="p-6 sm:p-10 space-y-8">
+          <div className="space-y-6">
+            <motion.div
+              initial={{ x: -10, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.1 }}
+              className="flex items-start gap-5"
+            >
+              <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center shrink-0 border border-blue-100/50">
+                <FileText className="w-5 h-5 text-blue-600" />
               </div>
-              <div className="space-y-1">
-                <p className="text-sm font-bold text-gray-900">Review the Document</p>
-                <p className="text-xs text-gray-500 leading-relaxed">
-                  Carefully read through <span className="font-bold text-gray-700 italic">"{documentTitle}"</span> before proceeding with the digital signature.
+              <div className="space-y-1 py-1">
+                <p className="text-sm font-bold text-gray-900">Review Terms</p>
+                <p className="text-[13px] text-gray-500 leading-relaxed">
+                  Please review <span className="font-bold text-gray-900">"{documentTitle}"</span> carefully before signing.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="flex items-start gap-4">
-              <div className="w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center shrink-0">
-                <Check className="w-4 h-4 text-blue-600 stroke-[3]" />
+            <motion.div
+              initial={{ x: -10, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ delay: 0.2 }}
+              className="flex items-start gap-5"
+            >
+              <div className="w-10 h-10 rounded-2xl bg-blue-50 flex items-center justify-center shrink-0 border border-blue-100/50">
+                <ShieldCheck className="w-5 h-5 text-blue-600" />
               </div>
-              <div className="space-y-1">
-                <p className="text-sm font-bold text-gray-900">Electronic Consent</p>
-                <p className="text-xs text-gray-500 leading-relaxed">
-                  By clicking continue, you agree to conduct this transaction electronically and use electronic records and signatures.
+              <div className="space-y-1 py-1">
+                <p className="text-sm font-bold text-gray-900">Digital Consent</p>
+                <p className="text-[13px] text-gray-500 leading-relaxed">
+                  You agree to conduct this transaction electronically as per the ESIGN Act.
                 </p>
               </div>
-            </div>
+            </motion.div>
           </div>
 
-          <DialogFooter className="flex flex-col gap-2 sm:flex-col sm:justify-center">
+          <div className="space-y-4">
             <Button
               onClick={onConfirm}
-              className="w-full bg-gray-900 hover:bg-black text-white h-12 rounded-xl font-black uppercase tracking-[0.2em] text-[10px] shadow-xl shadow-gray-200 transition-all hover:scale-[1.02] active:scale-95 cursor-pointer"
+              className="w-full bg-gray-950 hover:bg-black text-white h-14 rounded-2xl font-black uppercase tracking-[0.2em] text-[11px] shadow-2xl shadow-gray-200 transition-all hover:scale-[1.02] active:scale-95 group cursor-pointer relative overflow-hidden"
             >
-              Continue
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                Continue to Sign
+                <Check className="size-4 stroke-[3]" />
+              </span>
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
             </Button>
-            <p className="text-[9px] text-gray-400 text-center font-medium leading-none">
-              Your signature will be legally binding under the ESIGN Act.
-            </p>
-          </DialogFooter>
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest flex items-center gap-1.5 justify-center">
+                <Mail className="size-3" />
+                {senderEmail}
+              </p>
+            </div>
+          </div>
         </div>
       </DialogContent >
     </Dialog >

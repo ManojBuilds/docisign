@@ -71,8 +71,6 @@ export function useDocumentSubmission({ accessToken, signingSession }: UseDocume
     }
 
     setIsSubmitting(true);
-    const finalizingToastId = toast.info("Finalizing your agreement...", { duration: Infinity });
-
     try {
       const fieldsToComplete = currentFields
         .filter(f => f.isCompleted && f.signatureData)
@@ -92,13 +90,12 @@ export function useDocumentSubmission({ accessToken, signingSession }: UseDocume
         });
       }
 
-      toast.dismiss(finalizingToastId);
       toast.success("Contract signed successfully!");
       setShowConfetti(true);
       setIsCompleted(true);
       return { success: true };
     } catch (error) {
-      toast.dismiss(finalizingToastId);
+      console.error(error);
       console.error(error);
       toast.error("Failed to finalize contract");
       return { success: false };

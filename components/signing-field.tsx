@@ -551,7 +551,7 @@ export default function SigningField({
   const { pageDimensions, scale } = usePdfDimensions();
   const currentPageDimensions = pageDimensions[field.page];
   const isMobile = useMobile();
-  const mobileSize = 40; // Define mobile size for consistent field appearance
+  const mobileSize = 48; // Define mobile size for consistent field appearance
   const [isCompleting, setIsCompleting] = useState(false);
   const [agreementChecked, setAgreementChecked] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -721,11 +721,14 @@ export default function SigningField({
     if (isMobile) {
       return (
         <div className="w-full h-full flex items-center justify-center">
-          <div className="relative">
-            <div className="absolute inset-0 bg-primary/10 blur-md rounded-full animate-pulse" />
-            <div className="relative bg-white text-primary rounded-full p-2.5 border border-gray-100">
+          <div className="relative group">
+            <div className="absolute inset-0 bg-blue-500/20 blur-md rounded-full animate-pulse group-active:scale-110 transition-transform" />
+            <div className="relative bg-white text-blue-600 rounded-full p-3 border-2 border-blue-100 shadow-xl shadow-blue-900/5 active:scale-95 transition-all">
               {getFieldIcon(field.fieldType)}
             </div>
+            {!isFocused && (
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white animate-bounce" />
+            )}
           </div>
         </div>
       );

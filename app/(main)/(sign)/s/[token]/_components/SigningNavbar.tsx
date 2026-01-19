@@ -2,7 +2,6 @@
 
 import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { FileText, Info, Loader2, User } from "lucide-react";
@@ -39,79 +38,108 @@ export const SigningNavbar = memo(({
   return (
     <>
       {/* Mobile-Specific Header */}
-      <header className="md:hidden h-14 flex items-center justify-between px-4 bg-white/80 backdrop-blur-xl shrink-0 border-b border-gray-100 z-30">
-        <div className="flex items-center gap-3 overflow-hidden">
-          <div className="scale-75 origin-left">
-            {signingSession.ownerBranding?.logoUrl ? (
-              <div className="size-8 relative">
-                <Image
-                  src={signingSession.ownerBranding.logoUrl}
-                  alt={signingSession.ownerBranding.brandName || "Logo"}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            ) : (
-              <Logo showText={false} />
-            )}
+      <header className="md:hidden sticky top-0 h-16 flex flex-col bg-white/90 backdrop-blur-xl border-b border-gray-100 z-30 transition-all duration-300">
+        <div className="flex-1 flex items-center justify-between px-4">
+          <div className="flex items-center gap-3 overflow-hidden">
+            <div className="flex items-center justify-center p-1.5 bg-gray-50 rounded-xl border border-gray-200/50 shadow-sm">
+              {signingSession.ownerBranding?.logoUrl ? (
+                <div className="size-6 relative">
+                  <Image
+                    src={signingSession.ownerBranding.logoUrl}
+                    alt={signingSession.ownerBranding.brandName || "Logo"}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              ) : (
+                <div className="scale-75 origin-center">
+                  <Logo showText={false} />
+                </div>
+              )}
+            </div>
+            <div className="flex flex-col min-w-0">
+              <h1 className="text-[13px] font-bold truncate leading-none tracking-tight text-gray-900 mb-1">
+                {signingSession.document.title}
+              </h1>
+              <p className="text-[10px] text-gray-500 truncate font-medium">
+                from <span className="text-gray-900 font-bold">{signingSession.ownerBranding?.brandName || "BoopSign"}</span>
+              </p>
+            </div>
           </div>
-          <div className="flex flex-col">
-            <h1 className="text-xs font-bold truncate leading-none tracking-tight text-gray-900 mb-1">
-              {signingSession.document.title}
-            </h1>
-            <p className="text-[10px] text-muted-foreground truncate italic">
-              via {signingSession.ownerBranding?.brandName || "BoopSign"}
-            </p>
+
+          <div className="flex items-center gap-2">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 h-10 w-10 cursor-pointer rounded-xl transition-all">
+                  <div className="flex flex-col gap-[3px] items-end pr-1">
+                    <div className="w-5 h-[2px] rounded-full bg-current opacity-80" />
+                    <div className="w-3 h-[2px] rounded-full bg-current opacity-80" />
+                    <div className="w-4 h-[2px] rounded-full bg-current opacity-80" />
+                  </div>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="bottom" className="h-[80vh] rounded-t-[32px] p-0 border-t-0 bg-white overflow-hidden shadow-2xl">
+                <div className="absolute top-3 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-gray-200 rounded-full" />
+                <SheetHeader className="p-8 pt-10 border-b border-gray-50">
+                  <SheetTitle className="text-left text-2xl font-black text-gray-900 tracking-tight uppercase">Document Details</SheetTitle>
+                </SheetHeader>
+                <div className="p-8 space-y-8 overflow-y-auto max-h-[calc(80vh-120px)] pb-12">
+                  <div className="space-y-6">
+                    <div className="space-y-2">
+                      <span className="text-[10px] font-black text-gray-400 theme-text-muted uppercase tracking-[0.2em]">Agreement Status</span>
+                      <div className="flex items-center gap-2.5">
+                        <div className="size-2 rounded-full bg-blue-500 animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                        <span className="text-base font-bold text-gray-900">Awaiting your signature</span>
+                      </div>
+                    </div>
+
+                    <div className="p-6 bg-gray-50/50 rounded-2xl border border-gray-100 flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm overflow-hidden">
+                        {signingSession.ownerBranding?.logoUrl ? (
+                          <Image src={signingSession.ownerBranding.logoUrl} alt="Logo" width={48} height={48} className="object-contain p-2" />
+                        ) : (
+                          <span className="font-bold text-gray-400">{((owner as any)?.email || 'S').charAt(0).toUpperCase()}</span>
+                        )}
+                      </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Sender</span>
+                        <span className="text-sm font-bold text-gray-900 truncate">{(owner as any)?.email}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center justify-between text-sm py-4 border-y border-gray-50">
+                      <span className="text-gray-500 font-medium">Sent on</span>
+                      <span className="text-gray-900 font-bold">{new Date(signingSession.document.createdAt).toLocaleDateString(undefined, { dateStyle: 'medium' })}</span>
+                    </div>
+                  </div>
+
+                  <div className="pt-4">
+                    <Button
+                      variant="outline"
+                      className="w-full text-red-600 border-red-100 bg-red-50/50 hover:bg-red-100 hover:text-red-700 h-14 rounded-2xl font-bold text-sm transition-all"
+                      onClick={onDecline}
+                    >
+                      Decline to Sign
+                    </Button>
+                    <p className="mt-3 text-[10px] text-gray-400 text-center font-medium leading-relaxed px-4">
+                      Declining will immediately void this agreement.
+                    </p>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
           </div>
         </div>
 
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="ghost" size="icon" className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 h-9 w-9 cursor-pointer">
-              <span className="sr-only">Details</span>
-              <div className="flex flex-col gap-[3px]">
-                <div className="w-1 h-1 rounded-full bg-current" />
-                <div className="w-1 h-1 rounded-full bg-current" />
-                <div className="w-1 h-1 rounded-full bg-current" />
-              </div>
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="bottom" className="h-[85vh] rounded-t-[20px]">
-            <SheetHeader className="border-b pb-4 mb-4">
-              <SheetTitle className="text-left text-lg font-bold text-slate-900">Agreement Details</SheetTitle>
-            </SheetHeader>
-            <div className="space-y-6 overflow-y-auto max-h-[70vh] pb-8">
-              <div className="space-y-4 px-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-slate-500 uppercase font-bold tracking-wider">Status</span>
-                  <span className="text-sm font-bold text-slate-900">Pending Signature</span>
-                </div>
-                <Separator />
-                <div>
-                  <span className="text-xs text-slate-500 uppercase font-bold tracking-wider block mb-2">Sender</span>
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center font-bold text-slate-600">
-                      {((owner as any)?.email || 'S').charAt(0).toUpperCase()}
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-bold text-slate-900 line-clamp-1">{(owner as any)?.email}</span>
-                      <span className="text-xs text-slate-500">{new Date(signingSession.document.createdAt).toLocaleDateString()}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="p-4">
-                <Button
-                  variant="outline"
-                  className="w-full text-red-600 border-red-100 bg-red-50 hover:bg-red-100 hover:text-red-700 h-12"
-                  onClick={onDecline}
-                >
-                  Decline to Sign
-                </Button>
-              </div>
-            </div>
-          </SheetContent>
-        </Sheet>
+        {/* Improved Progress Bar */}
+        <div className="h-[3px] w-full bg-gray-100 relative overflow-hidden">
+          <div
+            className="absolute top-0 left-0 h-full bg-blue-600 transition-all duration-700 ease-in-out shadow-[0_0_8px_rgba(37,99,235,0.4)]"
+            style={{
+              width: `${(completedRequiredFields / (requiredFields.length || 1)) * 100}%`
+            }}
+          />
+        </div>
       </header>
 
       {/* Desktop Header */}

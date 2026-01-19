@@ -50,77 +50,80 @@ export function Header({
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto max-w-6xl flex h-14 sm:h-16 items-center justify-between px-4 md:px-6">
-        <div className="flex items-center gap-6 md:gap-10">
-          <div className="flex shrink-0 justify-start items-center min-w-max">
-            <Logo showStatus={true} />
-          </div>
-          <nav className="hidden items-center gap-6 md:flex lg:gap-8">
-            <DropdownMenu>
-              <DropdownMenuTrigger className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-sm font-medium transition-colors outline-none">
-                Solutions <ChevronDown className="size-3" />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="w-56 p-2">
-                {solutions.map((item) => (
-                  <DropdownMenuItem key={item.label} asChild>
-                    <Link href={item.href} className="flex items-center gap-2 cursor-pointer w-full text-sm">
-                      <item.icon className="size-4 text-primary" />
-                      <span>{item.label}</span>
-                    </Link>
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {navbarItems.map((item) => (
-              <Link
-                key={item.label}
-                href={item.href}
-                className="text-muted-foreground hover:text-foreground group relative text-sm font-medium transition-colors"
-              >
-                {item.label}
-                <span className="bg-primary absolute -bottom-1 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>
-              </Link>
-            ))}
-          </nav>
+      <div className="mx-auto max-w-6xl flex h-14 sm:h-16 items-center justify-between px-4 md:px-6 relative">
+        <div className="flex shrink-0 justify-start items-center">
+          <Logo showStatus={true} />
         </div>
+
+        {/* Centered Navigation */}
+        <nav className="hidden md:flex items-center gap-6 lg:gap-8 absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <DropdownMenu>
+            <DropdownMenuTrigger className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-sm font-medium transition-colors outline-none">
+              Solutions <ChevronDown className="size-3" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-56 p-2">
+              {solutions.map((item) => (
+                <DropdownMenuItem key={item.label} asChild>
+                  <Link href={item.href} className="flex items-center gap-2 cursor-pointer w-full text-sm">
+                    <item.icon className="size-4 text-primary" />
+                    <span>{item.label}</span>
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {navbarItems.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              className="text-muted-foreground hover:text-foreground group relative text-sm font-medium transition-colors"
+            >
+              {item.label}
+              <span className="bg-primary absolute -bottom-1 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+          ))}
+        </nav>
 
         <div className="flex items-center gap-4">
-          {isSignedIn ? (
-            <>
-              <Button variant="ghost" asChild className="hidden sm:inline-flex rounded-xl font-medium">
-                <Link href="/dashboard">Dashboard</Link>
-              </Button>
-              <UserMenu />
-            </>
-          ) : (
-            <>
-              <Button variant="ghost" asChild className="hidden sm:inline-flex">
-                <Link href="/sign-in">Sign In</Link>
-              </Button>
-              <Button asChild className="cursor-pointer rounded-full font-medium transition-transform hover:scale-105 h-9 md:h-10 px-4 md:px-5">
-                <Link href="/dashboard" prefetch>
-                  <span className="hidden sm:inline">Get Started</span>
-                  <span className="sm:hidden text-xs">Get Started</span>
-                  <ChevronRight className="ml-1 size-4" />
-                </Link>
-              </Button>
-            </>
-          )}
-        </div>
-        <div className="flex items-center gap-2 md:hidden">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className="size-5" />
+          <div className="flex items-center gap-4">
+            {isSignedIn ? (
+              <>
+                <Button variant="ghost" asChild className="hidden sm:inline-flex rounded-xl font-medium">
+                  <Link href="/dashboard">Dashboard</Link>
+                </Button>
+                <UserMenu />
+              </>
             ) : (
-              <Menu className="size-5" />
+              <>
+                <Button variant="ghost" asChild className="hidden sm:inline-flex">
+                  <Link href="/sign-in">Sign In</Link>
+                </Button>
+                <Button asChild className="cursor-pointer rounded-full font-medium transition-transform hover:scale-105 h-9 md:h-10 px-4 md:px-5">
+                  <Link href="/dashboard" prefetch>
+                    <span className="hidden sm:inline">Get Started</span>
+                    <span className="sm:hidden text-xs">Get Started</span>
+                    <ChevronRight className="ml-1 size-4" />
+                  </Link>
+                </Button>
+              </>
             )}
-            <span className="sr-only">Toggle menu</span>
-          </Button>
+          </div>
+
+          <div className="flex items-center gap-2 md:hidden">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? (
+                <X className="size-5" />
+              ) : (
+                <Menu className="size-5" />
+              )}
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+          </div>
         </div>
       </div>
       {/* Mobile menu */}

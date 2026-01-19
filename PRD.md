@@ -58,7 +58,6 @@ Boopsign is a lightweight, secure e-signature SaaS built for freelancers and ver
 ### Signing Flow
 
 - **Access:** Unique, cryptographically secure link sent via email.
-- **Verification:** Email OTP enforcement before viewing the document.
 - **Signing:** Client draws signature or types name.
 - **Completion:** PDF is flattened/sealed. Both parties receive the signed copy.
 
@@ -68,7 +67,6 @@ Boopsign is a lightweight, secure e-signature SaaS built for freelancers and ver
     - Contract Created (Timestamp, IP)
     - Email Sent
     - Link Opened (IP, User Agent)
-    - OTP Verified
     - Signed (Timestamp, IP, Signature Data)
 - **Data Security:**
     - No passwords stored.
