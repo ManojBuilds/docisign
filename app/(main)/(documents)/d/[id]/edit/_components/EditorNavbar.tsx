@@ -3,10 +3,10 @@
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { UserMenu } from "@/components/UserMenu";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
-import { UserButton } from "@clerk/clerk-react";
 import { useMutation, useQuery } from "convex/react";
 import { ArrowLeft, Loader2, Pencil, Save } from "lucide-react";
 import Link from "next/link";
@@ -138,7 +138,7 @@ export const EditorNavbar = memo(({
         </Suspense>
         <div className="w-1 h-6 border-l border-gray-200 mx-1" />
         <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center border shadow-sm">
-          <UserButton />
+          <UserMenu />
         </div>
       </div>
     </div>

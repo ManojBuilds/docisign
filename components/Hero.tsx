@@ -9,17 +9,17 @@ const Hero = () => {
 
       <div className="container mx-auto flex flex-col items-center text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-semibold mb-8 animate-fade-in">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-8 animate-fade-in">
           <span className="flex h-2 w-2 rounded-full bg-blue-600 animate-ping"></span>
-          The e-signature tool built for Freelancers & Solo Professionals
+          Built for Freelancers & Solo Pros
         </div>
 
         {/* Headline */}
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] max-w-5xl mb-6 bg-gradient-to-b from-slate-900 to-slate-700 bg-clip-text text-transparent">
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] max-w-5xl mb-6 bg-gradient-to-b from-slate-900 to-slate-700 bg-clip-text text-transparent">
           Get Paid Faster — <span className="text-blue-600">No Signer Accounts Required</span>
         </h1>
 
-        <p className="mt-2 text-xl sm:text-2xl text-slate-600 max-w-3xl font-medium leading-relaxed">
+        <p className="mt-2 text-lg sm:text-2xl text-slate-600 max-w-3xl font-medium leading-relaxed">
           Upload any PDF, add fields, and send a secure link. <span className="text-slate-900 font-semibold underline decoration-blue-500/30">Clients sign instantly from email</span> — no account required.
         </p>
 

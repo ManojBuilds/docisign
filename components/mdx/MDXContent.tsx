@@ -53,12 +53,12 @@ import {
   XCircle,
   Zap
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import ComparasionTable from "../ComparasionTable";
 import HowItWorks from "../HowItWorks";
 import SmallComparasionTable from "../SmallComparasionTable";
 import { Callout } from "./Callout";
+import CustomImage from "./Image";
 
 const sharedComponents = {
   SmallComparasionTable,
@@ -66,7 +66,8 @@ const sharedComponents = {
   ComparasionTable,
   Callout,
   Link,
-  Image,
+  Image: CustomImage,
+  img: CustomImage,
   StartTrialBtn,
   Cta,
   Faq,

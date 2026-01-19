@@ -7,10 +7,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { Activity, Briefcase, ChevronDown, ChevronRight, Coffee, GraduationCap, Home, Menu, Wallet, X } from "lucide-react";
 import Link from "next/link";
 import Logo from "../Logo";
+import { UserMenu } from "../UserMenu";
 
 interface HeaderProps {
   mobileMenuOpen: boolean;
@@ -48,9 +49,9 @@ export function Header({
   const { isSignedIn } = useUser();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-lg">
-      <div className="mx-auto max-w-5xl flex h-16 items-center justify-center px-4 md:px-6">
-        <div className="flex flex-1 justify-start">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
+      <div className="mx-auto max-w-5xl flex h-14 sm:h-16 items-center justify-between px-4 md:px-6 gap-4">
+        <div className="flex shrink-0 justify-start items-center min-w-max">
           <Logo showStatus={true} />
         </div>
         <nav className="hidden items-center gap-4 md:flex lg:gap-8">
@@ -84,21 +85,20 @@ export function Header({
         <div className="flex flex-1 justify-end items-center gap-4">
           {isSignedIn ? (
             <>
-              <Button variant="ghost" asChild>
+              <Button variant="ghost" asChild className="hidden sm:inline-flex rounded-xl font-medium">
                 <Link href="/dashboard">Dashboard</Link>
               </Button>
-              <span className="hidden sm:block">
-                <UserButton afterSignOutUrl="/" />
-              </span>
+              <UserMenu />
             </>
           ) : (
             <>
-              <Button variant="ghost" asChild>
+              <Button variant="ghost" asChild className="hidden sm:inline-flex">
                 <Link href="/sign-in">Sign In</Link>
               </Button>
-              <Button asChild className="cursor-pointer rounded-full font-medium transition-transform hover:scale-105">
+              <Button asChild className="cursor-pointer rounded-full font-medium transition-transform hover:scale-105 h-9 md:h-10 px-4 md:px-5">
                 <Link href="/dashboard" prefetch>
-                  Get Started
+                  <span className="hidden sm:inline">Get Started</span>
+                  <span className="sm:hidden text-xs">Get Started</span>
                   <ChevronRight className="ml-1 size-4" />
                 </Link>
               </Button>
@@ -152,30 +152,7 @@ export function Header({
                 <span className="bg-primary absolute bottom-0 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>
               </Link>
             ))}
-            <div
-              className="border-border/30 mt-2 border-t pt-2"
-            >
-              {isSignedIn ? (
-                <div className="flex flex-col gap-2">
 
-                  <UserButton afterSignOutUrl="/" />
-                </div>
-              ) : (
-                <div className="flex flex-col gap-2">
-                  <Button variant="ghost" asChild className="w-full">
-                    <Link href="/sign-in" onClick={() => setMobileMenuOpen(false)}>
-                      Sign In
-                    </Link>
-                  </Button>
-                  <Button asChild className="w-full rounded-full">
-                    <Link href="/dashboard" prefetch onClick={() => setMobileMenuOpen(false)}>
-                      Get Started
-                      <ChevronRight className="ml-2 size-4" />
-                    </Link>
-                  </Button>
-                </div>
-              )}
-            </div>
           </div>
         </div>
       )}

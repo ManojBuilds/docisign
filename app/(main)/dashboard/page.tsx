@@ -157,53 +157,74 @@ function DocumentsList() {
 
   return (
     <>
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-semibold tracking-tight">My Contracts</h1>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 md:mb-8 gap-4 px-1 sm:px-0">
+        <div>
+          <h1 className="text-lg md:text-3xl font-bold tracking-tight text-foreground">My Contracts</h1>
+          <p className="text-muted-foreground text-xs md:text-sm mt-1">Manage and track your signature requests</p>
+        </div>
+        <div className="hidden sm:block">
+          <NewDocumentDialog>
+            <Button className="rounded-xl h-11 px-6 shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98]">
+              <Plus className="h-4 w-4 mr-2 stroke-[3px]" />
+              New Contract
+            </Button>
+          </NewDocumentDialog>
+        </div>
       </div>
-      <div className="border border-muted rounded-2xl bg-card overflow-hidden">
+      <div className="overflow-hidden">
         {/* Actions Toolbar - Header of the list Area */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-muted/10 border-b border-muted">
-          <div className="flex items-center gap-4 flex-1">
-            <div className="relative flex-1 group max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 transition-colors group-focus-within:text-foreground" />
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 md:p-4 bg-muted/5 border-b border-muted/50">
+          <div className="flex items-center gap-2 flex-1 w-full">
+            <div className="relative flex-1 group">
+              <Search className="absolute left-3.5 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4 transition-colors group-focus-within:text-primary" />
               <Input
-                placeholder="Search contracts..."
+                placeholder="Search by contract name..."
                 value={searchTerm}
                 onChange={handleSearchChange}
-                className="pl-9 h-10 bg-background border-muted/50 focus-visible:ring-1 focus-visible:ring-ring transition-all rounded-lg text-sm pr-9"
+                className="pl-10 h-11 bg-background border-muted/60 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all rounded-xl text-sm pr-10"
               />
               {searchTerm !== debouncedSearchTerm && (
-                <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-                  <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
+                <div className="absolute right-3.5 top-1/2 transform -translate-y-1/2">
+                  <Loader2 className="h-4 w-4 animate-spin text-primary" />
                 </div>
               )}
             </div>
+
+            <div className="sm:hidden">
+              <NewDocumentDialog>
+                <Button size="icon" className="h-11 w-11 shrink-0 rounded-xl shadow-md">
+                  <Plus className="h-5 w-5 stroke-[3px]" />
+                </Button>
+              </NewDocumentDialog>
+            </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="hidden sm:flex items-center gap-2 w-full lg:w-auto">
             <Select
               value={filterStatus}
               onValueChange={(value: DocumentStatus) => setFilterStatus(value)}
             >
-              <SelectTrigger className="w-fit min-w-[110px] h-10 bg-background border-muted/50 focus:ring-1 focus:ring-ring rounded-lg text-sm gap-2">
-                <Filter className="h-3.5 w-3.5 text-muted-foreground" />
-                <SelectValue placeholder="Status" />
+              <SelectTrigger className="flex-1 lg:flex-none lg:w-[180px] h-11 bg-background border-muted/60 focus:ring-2 focus:ring-primary/20 rounded-xl text-sm gap-2">
+                <div className="flex items-center gap-2">
+                  <Filter className="h-4 w-4 text-muted-foreground" />
+                  <SelectValue placeholder="Status" />
+                </div>
               </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="draft">Draft</SelectItem>
+              <SelectContent className="rounded-xl border-muted/60 shadow-xl">
+                <SelectItem value="all">All Contracts</SelectItem>
+                <SelectItem value="draft">Drafts</SelectItem>
                 <SelectItem value="sent">Waiting for Signature</SelectItem>
                 <SelectItem value="in_progress">Signing in Progress</SelectItem>
-                <SelectItem value="completed">Signed</SelectItem>
+                <SelectItem value="completed">Signed & Completed</SelectItem>
                 <SelectItem value="declined">Declined</SelectItem>
               </SelectContent>
             </Select>
-            <div className="flex items-center gap-2">
 
+            <div className="lg:hidden">
               <NewDocumentDialog>
-                <Button>
-                  <Plus className="h-4 w-4 mr-2" />
-                  New Contract
+                <Button className="h-11 rounded-xl shadow-md">
+                  <Plus className="h-4 w-4 mr-2 stroke-[3px]" />
+                  New
                 </Button>
               </NewDocumentDialog>
             </div>
@@ -211,7 +232,7 @@ function DocumentsList() {
         </div>
 
         {/* Document List Content */}
-        <div>
+        <div className="mt-4 md:mt-0">
           {status === "LoadingFirstPage" ? (
             <DocumentTable
               data={[]}
@@ -227,36 +248,32 @@ function DocumentsList() {
               isLoading={false}
             />
           ) : (
-            <div className="flex flex-col items-center justify-center py-40 text-center bg-background relative overflow-hidden">
-              {/* Subtle background flair */}
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full pointer-events-none opacity-50">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px]" />
+            <div className="flex flex-col items-center justify-center py-24 sm:py-32 text-center bg-background relative overflow-hidden">
+              <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
               </div>
 
-              <div className="relative">
-                <div className="relative mx-auto w-24 h-24 mb-8">
-                  <div className="absolute inset-0 bg-primary/10 rounded-3xl rotate-6" />
-                  <div className="absolute inset-0 bg-background border border-muted rounded-3xl shadow-sm flex items-center justify-center">
-                    <FileText className="w-10 h-10 text-primary" />
-                  </div>
-                  <div className="absolute -bottom-2 -right-2 w-8 h-8 bg-green-500 rounded-full border-4 border-background flex items-center justify-center shadow-sm">
-                    <Plus className="w-4 h-4 text-white" />
+              <div className="relative px-6">
+                <div className="relative mx-auto w-20 h-20 mb-8 items-center justify-center flex">
+                  <div className="absolute inset-0 bg-primary/10 rounded-[2rem] rotate-6 transition-transform group-hover:rotate-12 duration-500" />
+                  <div className="absolute inset-0 bg-background border border-primary/20 rounded-[2rem] shadow-sm flex items-center justify-center">
+                    <FileText className="w-8 h-8 text-primary" />
                   </div>
                 </div>
 
-                <h3 className="text-2xl font-semibold tracking-tight text-foreground mb-3">
-                  {searchTerm || filterStatus !== "all" ? "No matches found" : "Ready for your next client?"}
+                <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mb-3">
+                  {searchTerm || filterStatus !== "all" ? "No matches found" : "Your dashboard is quiet"}
                 </h3>
-                <p className="text-muted-foreground max-w-[320px] mb-10 text-balance leading-relaxed">
+                <p className="text-muted-foreground max-w-[280px] mx-auto mb-8 text-sm sm:text-base leading-relaxed">
                   {searchTerm || filterStatus !== "all"
-                    ? "We couldn't find any contracts matching your current filters. Try adjusting your search."
-                    : "Create and send professional contracts in seconds. Get your work signed and protected today."}
+                    ? "Adjust your filters or search terms to find what you're looking for."
+                    : "Ready to get started? Upload your first contract and see how easy signing can be."}
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                   <NewDocumentDialog>
-                    <Button>
-                      <Plus className="h-4 w-4 mr-2" />
-                      New Contract
+                    <Button className="w-full sm:w-auto rounded-xl h-11 px-8 shadow-md">
+                      <Plus className="h-4 w-4 mr-2 stroke-[3px]" />
+                      Get Started
                     </Button>
                   </NewDocumentDialog>
                   {(searchTerm || filterStatus !== "all") && (
@@ -266,9 +283,9 @@ function DocumentsList() {
                         setSearchTerm("");
                         setFilterStatus("all");
                       }}
-                      className="rounded-lg h-10 px-6 font-medium"
+                      className="w-full sm:w-auto rounded-xl h-11 px-6 font-medium bg-background"
                     >
-                      Clear all filters
+                      Reset filters
                     </Button>
                   )}
                 </div>
@@ -342,7 +359,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background selection:bg-primary/10">
-      <main className="max-w-6xl mx-auto px-6 py-12 md:pb-20">
+      <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:pb-20">
         <Suspense fallback={
           <div className="space-y-6">
             <div className="flex items-center justify-between">

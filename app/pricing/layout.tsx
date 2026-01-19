@@ -54,7 +54,7 @@ export default function PricingLayout({
             offers: {
               "@type": "Offer",
               url: "https://boopsign.com/pricing",
-              price: "15.00",
+              price: "20.00",
               priceCurrency: "USD",
               availability: "https://schema.org/InStock",
               priceValidUntil: "2026-12-31",

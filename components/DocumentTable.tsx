@@ -8,6 +8,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Id } from "@/convex/_generated/dataModel";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 import {
   ColumnDef,
@@ -223,11 +224,13 @@ export const DocumentTable = ({
     },
   ], [onDownload, onDelete]);
 
+  const isDesktop = useMediaQuery("(min-width: 640px)");
+
   const table = useReactTable({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(), // This enables pagination
+    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     onSortingChange: setSorting,
@@ -240,116 +243,219 @@ export const DocumentTable = ({
     },
     initialState: {
       pagination: {
-        pageSize: 10, // Default page size
+        pageSize: 10,
       },
     },
   });
 
+  if (isLoading) {
+    return (
+      <div className="md:p-4 space-y-4">
+        {[1, 2, 3, 4, 5].map((i) => (
+          <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-2xl bg-muted/5 border border-muted/20">
+            <div className="flex-1 space-y-2">
+              <Skeleton className="h-5 w-3/4 rounded-lg" />
+              <div className="flex gap-2">
+                <Skeleton className="h-4 w-20 rounded-md" />
+                <Skeleton className="h-4 w-24 rounded-md" />
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <Skeleton className="h-8 w-8 rounded-full" />
+              <Skeleton className="h-8 w-8 rounded-full" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  const DocumentCard = ({ doc }: { doc: Document }) => {
+    const status = doc.status;
+    const getStatusStyles = () => {
+      switch (status) {
+        case "draft": return "bg-zinc-100 text-zinc-600 border-zinc-200";
+        case "sent": return "bg-blue-50 text-blue-600 border-blue-100";
+        case "in_progress": return "bg-amber-50 text-amber-600 border-amber-100";
+        case "completed": return "bg-emerald-50 text-emerald-600 border-emerald-100";
+        case "expired": return "bg-rose-50 text-rose-600 border-rose-100";
+        case "cancelled": return "bg-zinc-50 text-zinc-500 border-zinc-100";
+        case "declined": return "bg-orange-50 text-orange-600 border-orange-100";
+        default: return "bg-zinc-100 text-zinc-600 border-zinc-200";
+      }
+    };
+
+    const getStatusText = () => {
+      switch (status) {
+        case "draft": return "Draft";
+        case "sent": return "Waiting";
+        case "in_progress": return "Signing";
+        case "completed": return "Signed";
+        case "expired": return "Expired";
+        case "cancelled": return "Cancelled";
+        case "declined": return "Declined";
+        default: return status;
+      }
+    };
+
+    return (
+      <div className="space-y-4 md:p-4 flex items-center justify-between gap-4 group transition-all hover:bg-muted/30 border-b border-muted/50 last:border-0">
+        <div className="flex items-center gap-3 min-w-0">
+          <div className={cn(
+            "w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors",
+            status === "completed" ? "bg-emerald-50 text-emerald-600" : "bg-blue-50 text-blue-600"
+          )}>
+            <FileText className="w-5 h-5" />
+          </div>
+          <div className="min-w-0">
+            <Link
+              href={`/d/${doc._id}/edit`}
+              className="font-semibold text-sm text-foreground hover:text-primary block truncate mb-1"
+            >
+              {doc.title}
+            </Link>
+            <div className="flex items-center gap-2">
+              <span className={cn(
+                "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border shrink-0",
+                getStatusStyles()
+              )}>
+                {getStatusText()}
+              </span>
+              <span className="text-[11px] text-muted-foreground truncate">
+                {new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric" }).format(new Date(doc.createdAt))}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-1.5">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 rounded-full hover:bg-primary/10 hover:text-primary transition-colors"
+            onClick={() => onDownload(doc.fileStorageId, doc.originalFileName)}
+          >
+            <Download className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 rounded-full hover:bg-destructive/10 hover:text-destructive transition-colors"
+            onClick={() => onDelete(doc._id)}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="overflow-hidden bg-background">
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <tr key={headerGroup.id} className="border-b border-muted">
-                {headerGroup.headers.map((header) => (
-                  <th
-                    key={header.id}
-                    className="px-4 py-3 text-left text-[13px] font-medium text-muted-foreground uppercase tracking-tight"
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody className="divide-y divide-muted">
-            {isLoading ? (
-              // Show skeleton rows while loading
-              Array.from({ length: 5 }).map((_, idx) => (
-                <tr key={`skeleton-${idx}`} className="hover:bg-muted/30">
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <Skeleton className="h-4 w-full max-w-[200px]" />
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <Skeleton className="h-6 w-20 rounded-full" />
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <Skeleton className="h-4 w-24" />
-                  </td>
-                  <td className="px-4 py-3 whitespace-nowrap">
-                    <div className="flex items-center space-x-2">
-                      <Skeleton className="h-8 w-8 rounded" />
-                      <Skeleton className="h-8 w-8 rounded" />
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <tr key={row.id} className="hover:bg-muted/30">
-                  {row.getVisibleCells().map((cell) => (
-                    <td key={cell.id} className="px-4 py-3 whitespace-nowrap">
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
+      {/* Desktop Table View */}
+      {isDesktop ? (
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              {table.getHeaderGroups().map((headerGroup) => (
+                <tr key={headerGroup.id} className="border-b border-muted">
+                  {headerGroup.headers.map((header) => (
+                    <th
+                      key={header.id}
+                      className="px-4 py-4 text-left text-[11px] font-bold text-muted-foreground uppercase tracking-widest"
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    </th>
                   ))}
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan={columns.length}
-                  className="px-6 py-32 text-center text-muted-foreground"
-                >
-                  <FileText className="w-12 h-12 text-muted/50 mx-auto mb-4" />
-                  <h3 className="text-lg font-medium text-foreground mb-2">
-                    No documents found
-                  </h3>
-                  <p>
-                    No documents match your search criteria
-                  </p>
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+              ))}
+            </thead>
+            <tbody className="divide-y divide-muted">
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <tr key={row.id} className="hover:bg-muted/30 transition-colors">
+                    {row.getVisibleCells().map((cell) => (
+                      <td key={cell.id} className="px-4 py-4 whitespace-nowrap">
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={columns.length}
+                    className="px-6 py-32 text-center text-muted-foreground"
+                  >
+                    <FileText className="w-12 h-12 text-muted/20 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-foreground mb-2">
+                      No documents found
+                    </h3>
+                    <p>
+                      No documents match your search criteria
+                    </p>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        /* Mobile Card View */
+        <div className="flex flex-col divide-y divide-muted/50 border-t border-muted/50">
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <DocumentCard key={row.id} doc={row.original} />
+            ))
+          ) : (
+            <div className="px-6 py-20 text-center text-muted-foreground">
+              <FileText className="w-12 h-12 text-muted/20 mx-auto mb-4" />
+              <p className="text-sm">No documents found</p>
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Pagination */}
-      <div className="flex items-center justify-between border-t border-muted bg-background px-4 py-4">
-        <div className="text-sm text-muted-foreground">
+      <div className="flex items-center justify-between border-t border-muted bg-background px-4 py-4 sm:py-3">
+        <div className="hidden sm:block text-xs text-muted-foreground">
           Showing{" "}
-          <span className="font-medium text-foreground">
+          <span className="font-semibold text-foreground">
             {table.getFilteredRowModel().rows.length > 0
               ? table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1
               : 0}
           </span>{" "}
           to{" "}
-          <span className="font-medium text-foreground">
+          <span className="font-semibold text-foreground">
             {Math.min(
               (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
               table.getFilteredRowModel().rows.length
             )}
           </span>{" "}
           of{" "}
-          <span className="font-medium text-foreground">
+          <span className="font-semibold text-foreground">
             {table.getFilteredRowModel().rows.length}
           </span>{" "}
           contracts
         </div>
-        <div className="flex items-center space-x-1">
+
+        <div className="sm:hidden text-xs text-muted-foreground font-medium">
+          Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+        </div>
+
+        <div className="flex items-center gap-1">
           <Button
             variant="ghost"
             size="icon"
-            className="h-9 w-9 rounded-lg hover:bg-muted"
+            className="h-8 w-8 rounded-lg hover:bg-muted"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
@@ -358,21 +464,21 @@ export const DocumentTable = ({
           <Button
             variant="ghost"
             size="icon"
-            className="h-9 w-9 rounded-lg hover:bg-muted"
+            className="h-8 w-8 rounded-lg hover:bg-muted"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
             <ChevronLeft className="h-4 w-4" />
           </Button>
 
-          <div className="flex items-center px-2 text-sm font-medium">
-            Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
+          <div className="hidden sm:flex items-center px-3 text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
+            {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
           </div>
 
           <Button
             variant="ghost"
             size="icon"
-            className="h-9 w-9 rounded-lg hover:bg-muted"
+            className="h-8 w-8 rounded-lg hover:bg-muted"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
@@ -381,7 +487,7 @@ export const DocumentTable = ({
           <Button
             variant="ghost"
             size="icon"
-            className="h-9 w-9 rounded-lg hover:bg-muted"
+            className="h-8 w-8 rounded-lg hover:bg-muted"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >

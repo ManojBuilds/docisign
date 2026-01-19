@@ -23,18 +23,20 @@ export default function Home() {
         className="pointer-events-none [z-index:-1] absolute inset-0 bg-[size:180px] bg-repeat opacity-[0.835]"
       ></div>
 
-      <main className="px-4 sm:px-0 w-full flex-1">
-        <Hero />
-        <VideoDemo />
-        <HowItWorks />
-        <TemplateShowcase />
-        <Problem />
-        <ComparasionTable competitorName="Top Competitor" competitorPrice={30} />
-        <Features />
-        <TestimonialsSection />
-        <Pricing />
-        <Faq />
-        <Cta />
+      <main className="w-full flex-1 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-6xl mx-auto space-y-20 sm:space-y-32">
+          <Hero />
+          <VideoDemo />
+          <HowItWorks />
+          <TemplateShowcase />
+          <Problem />
+          <ComparasionTable competitorName="Top Competitor" competitorPrice={30} />
+          <Features />
+          <TestimonialsSection />
+          <Pricing />
+          <Faq />
+          <Cta />
+        </div>
       </main>
       <Footer />
     </div>

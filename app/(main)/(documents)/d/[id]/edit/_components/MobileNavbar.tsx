@@ -4,9 +4,9 @@ import Logo from "@/components/Logo";
 import { SignatureFieldData } from "@/components/signature-field";
 import { Button } from "@/components/ui/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@/components/ui/drawer";
+import { UserMenu } from "@/components/UserMenu";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { UserButton } from "@clerk/clerk-react";
 import { useMutation, useQuery } from "convex/react";
 import { ALargeSmall, CalendarDays, Pencil, PenTool, Share, TextCursor } from "lucide-react";
 import { memo, useEffect, useState } from "react";
@@ -127,7 +127,7 @@ export const MobileNavbar = memo(({
             </div>
           </DrawerContent>
         </Drawer>
-        <UserButton />
+        <UserMenu />
       </div>
     </div>
   );

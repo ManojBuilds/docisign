@@ -80,7 +80,7 @@ const UploadContent: FC<UploadContentProps> = ({
   const { signers, removeSigner } = useSignersStore();
 
   return (
-    <div className="space-y-6">
+    <div className="p-2 md:p-4 space-y-6">
       {/* File Upload Section */}
       <div>
         {!file ? (
@@ -259,7 +259,7 @@ const UploadFooter: FC<UploadFooterProps> = ({
   const { signers } = useSignersStore();
 
   return (
-    <div className="flex gap-3 w-full pt-2">
+    <div className="flex gap-3 w-full p-2">
       <CloseComponent asChild>
         <Button variant="ghost" disabled={isUploading} className="flex-1 rounded-lg font-semibold text-gray-600">
           Dismiss

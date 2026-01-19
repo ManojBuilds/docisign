@@ -119,7 +119,7 @@ export default function RootLayout({
               operatingSystem: "Web, iOS, Android",
               offers: {
                 "@type": "Offer",
-                price: "15",
+                price: "20",
                 priceCurrency: "USD",
                 priceValidUntil: "2026-12-31",
               },

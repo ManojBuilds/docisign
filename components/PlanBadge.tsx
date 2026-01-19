@@ -1,7 +1,7 @@
 // components/PlanBadge.tsx
 import { Badge } from "@/components/ui/badge";
 import { useTrialStatus } from "@/hooks/useTrialStatus";
-import { Clock, Crown } from "lucide-react";
+import { Clock, Gem } from "lucide-react";
 
 interface PlanBadgeProps {
     showDetails?: boolean;
@@ -18,8 +18,8 @@ export const PlanBadge = ({ showDetails = false }: PlanBadgeProps) => {
     if (trialStatus.isPaidUser) {
         return (
             <Badge variant="secondary" className="bg-primary/10 text-primary border border-primary/20">
-                <Crown className="h-3 w-3 mr-1" />
-                BoopSign Pro
+                <Gem className="h-3 w-3 mr-1" />
+                Pro
                 {showDetails && (
                     <span className="ml-1 opacity-80 font-normal">Active</span>
                 )}

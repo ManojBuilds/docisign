@@ -104,8 +104,8 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 
 ### Day 8 - Expand /esignature-for-freelancers Page (Part 2)
 **Task:** Add documents section
-- [ ] Add H2: "Common Freelance Documents You Can Sign"
-- [ ] List and explain 10 document types:
+- [x] Add H2: "Common Freelance Documents You Can Sign"
+- [x] List and explain 10 document types:
   - Master Service Agreements
   - Statements of Work
   - NDAs

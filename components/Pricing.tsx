@@ -51,7 +51,7 @@ const Pricing = () => {
                 BoopSign Pro
               </Badge>
               <div className="flex items-baseline justify-center gap-1 mb-2">
-                <span className="text-5xl font-bold tracking-tight text-foreground">$15</span>
+                <span className="text-5xl font-bold tracking-tight text-foreground">$20</span>
                 <span className="text-lg text-muted-foreground font-medium">/month</span>
               </div>
               <CardDescription className="text-base text-slate-900 font-bold mb-1">
