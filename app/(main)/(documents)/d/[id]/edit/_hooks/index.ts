@@ -6,7 +6,6 @@
 export { useAutoPlaceFields } from "./useAutoPlaceFields";
 export { useDocumentData } from "./useDocumentData";
 export { useFieldOperations } from "./useFieldOperations";
-export { useFileUrlLoader } from "./useFileUrlLoader";
 export { useKeyboardShortcuts } from "./useKeyboardShortcuts";
 export { useSaveFields } from "./useSaveFields";
 export { useSignatureFieldsSync } from "./useSignatureFieldsSync";

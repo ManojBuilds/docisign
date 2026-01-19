@@ -18,8 +18,8 @@ interface CustomImageProps extends Omit<ImageProps, 'placeholder'> {
 export default function CustomImage({
   src,
   alt,
-  width = 1920,
-  height = 1080,
+  width = 2400,
+  height = 1350,
   className = '',
   caption,
   ...props

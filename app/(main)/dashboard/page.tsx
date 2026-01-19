@@ -36,7 +36,7 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useResumePendingDocument } from "@/hooks/usePendingResumeDocument";
 import { useUser } from "@clerk/clerk-react";
-import { useMutation, usePaginatedQuery } from "convex/react";
+import { useConvex, useMutation, usePaginatedQuery } from "convex/react";
 import debounce from "debounce";
 import {
   FileText,
@@ -103,7 +103,7 @@ function DocumentsList() {
     },
   );
 
-  const getFileUrl = useMutation(api.documents.getFileUrl);
+  const convex = useConvex();
   const deleteDocument = useMutation(api.documents.deleteDocument);
 
   const handleDownload = async (
@@ -111,7 +111,7 @@ function DocumentsList() {
     fileName: string,
   ) => {
     try {
-      const url = await getFileUrl({ storageId: fileStorageId });
+      const url = await convex.query(api.documents.getFileUrl, { storageId: fileStorageId });
       if (url) {
         // Fetch the file content to ensure it's downloaded as a blob
         const response = await fetch(url);

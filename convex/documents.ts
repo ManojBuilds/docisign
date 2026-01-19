@@ -66,10 +66,13 @@ export const getDocument = query({
     }
     const signers = Array.from(uniqueSignersMap.values());
 
+    const fileUrl = await ctx.storage.getUrl(document.fileStorageId);
+
     return {
       ...document,
       signatureFields,
       signers,
+      fileUrl,
     };
   },
 });
@@ -131,7 +134,7 @@ export const deleteDocument = mutation({
 });
 
 // Generate file URL
-export const getFileUrl = mutation({
+export const getFileUrl = query({
   args: { storageId: v.id("_storage") },
   handler: async (ctx, args) => {
     return await ctx.storage.getUrl(args.storageId);

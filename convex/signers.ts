@@ -403,7 +403,7 @@ export const sendSigningEmail = internalAction({
 
       let brandLogoUrl = "";
       if (owner.brandLogoStorageId) {
-        brandLogoUrl = (await ctx.runMutation(api.documents.getFileUrl, {
+        brandLogoUrl = (await ctx.runQuery(api.documents.getFileUrl, {
           storageId: owner.brandLogoStorageId,
         })) || "";
       }
@@ -499,7 +499,7 @@ export const sendSignedEmailToOwner = internalAction({
       // Get update download URL
       let downloadUrl = "";
       try {
-        downloadUrl = await ctx.runMutation(api.documents.getFileUrl, {
+        downloadUrl = await ctx.runQuery(api.documents.getFileUrl, {
           storageId: updatedDocument.fileStorageId,
         }) || "";
       } catch (urlError) {
@@ -798,7 +798,7 @@ export const finalizeDocument = mutation({
           clerkId: document.ownerId,
         });
         if (owner) {
-          const downloadUrl = await ctx.runMutation(api.documents.getFileUrl, {
+          const downloadUrl = await ctx.runQuery(api.documents.getFileUrl, {
             storageId: document.fileStorageId,
           });
 

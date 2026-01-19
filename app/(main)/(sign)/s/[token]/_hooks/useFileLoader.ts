@@ -1,5 +1,5 @@
 import { api } from "@/convex/_generated/api";
-import { useMutation } from "convex/react";
+import { useConvex, useMutation } from "convex/react";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -16,7 +16,7 @@ export function useFileLoader({ accessToken, signingSession }: UseFileLoaderProp
   const [hasMarkedViewed, setHasMarkedViewed] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const getFileUrl = useMutation(api.documents.getFileUrl);
+  const convex = useConvex();
   const markAsViewed = useMutation(api.signers.markDocumentAsViewed);
 
   useEffect(() => {
@@ -45,7 +45,9 @@ export function useFileLoader({ accessToken, signingSession }: UseFileLoaderProp
 
     setIsDownloading(true);
     try {
-      const url = await getFileUrl({ storageId: signingSession.document.fileStorageId });
+      const url = await convex.query(api.documents.getFileUrl, {
+        storageId: signingSession.document.fileStorageId
+      });
       if (url) {
         const response = await fetch(url);
         const blob = await response.blob();
@@ -66,7 +68,7 @@ export function useFileLoader({ accessToken, signingSession }: UseFileLoaderProp
     } finally {
       setIsDownloading(false);
     }
-  }, [signingSession, getFileUrl]);
+  }, [signingSession, convex]);
 
   return {
     fileUrl,

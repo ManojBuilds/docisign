@@ -6,7 +6,6 @@ import { useMobile } from "@/hooks/useMobile";
 import { useDocumentEditorStore } from "@/stores/document-editor-store";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import DocumentEditorLoading from "./loading";
 
 // Components
 import { CompletedDocumentBanner } from "./_components/CompletedDocumentBanner";
@@ -22,7 +21,6 @@ import { SignersSidebarWrapper } from "./_components/SignersSidebarWrapper";
 import { useAutoPlaceFields } from "./_hooks/useAutoPlaceFields";
 import { useDocumentData } from "./_hooks/useDocumentData";
 import { useFieldOperations } from "./_hooks/useFieldOperations";
-import { useFileUrlLoader } from "./_hooks/useFileUrlLoader";
 import { useKeyboardShortcuts } from "./_hooks/useKeyboardShortcuts";
 import { useSaveFields } from "./_hooks/useSaveFields";
 import { useSignatureFieldsSync } from "./_hooks/useSignatureFieldsSync";
@@ -62,7 +60,7 @@ export default function DocumentEditor() {
   const setSelectedTool = useDocumentEditorStore((s) => s.setSelectedTool);
 
   // Custom hooks
-  const { document, fileUrl, setFileUrl } = useDocumentData(documentId);
+  const { document, fileUrl } = useDocumentData(documentId);
 
   // Store state for sync and loading
   const isLoaded = useDocumentEditorStore((s) => s.isLoaded);
@@ -73,8 +71,6 @@ export default function DocumentEditor() {
   const setLastSavedFieldsJson = useDocumentEditorStore(
     (s) => s.setLastSavedFieldsJson
   );
-
-  useFileUrlLoader(document?.fileStorageId, setFileUrl);
 
   useKeyboardShortcuts(setSelectedTool, setSelectedFieldId);
 
@@ -136,11 +132,6 @@ export default function DocumentEditor() {
   const memoizedBanner = useMemo(() => {
     return <CompletedDocumentBanner isCompleted={isCompleted} />;
   }, [isCompleted]);
-
-  // Loading state
-  if (!document) {
-    return <DocumentEditorLoading />;
-  }
 
   // Mobile restriction
   if (isMobile) {

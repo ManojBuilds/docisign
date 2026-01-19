@@ -50,39 +50,42 @@ export function Header({
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-xl supports-[backdrop-filter]:bg-background/60">
-      <div className="mx-auto max-w-5xl flex h-14 sm:h-16 items-center justify-between px-4 md:px-6 gap-4">
-        <div className="flex shrink-0 justify-start items-center min-w-max">
-          <Logo showStatus={true} />
-        </div>
-        <nav className="hidden items-center gap-4 md:flex lg:gap-8">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-xs font-medium transition-colors lg:text-sm outline-none">
-              Solutions <ChevronDown className="size-3" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-56 p-2">
-              {solutions.map((item) => (
-                <DropdownMenuItem key={item.label} asChild>
-                  <Link href={item.href} className="flex items-center gap-2 cursor-pointer w-full">
-                    <item.icon className="size-4 text-primary" />
-                    <span>{item.label}</span>
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+      <div className="mx-auto max-w-6xl flex h-14 sm:h-16 items-center justify-between px-4 md:px-6">
+        <div className="flex items-center gap-6 md:gap-10">
+          <div className="flex shrink-0 justify-start items-center min-w-max">
+            <Logo showStatus={true} />
+          </div>
+          <nav className="hidden items-center gap-6 md:flex lg:gap-8">
+            <DropdownMenu>
+              <DropdownMenuTrigger className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-sm font-medium transition-colors outline-none">
+                Solutions <ChevronDown className="size-3" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="w-56 p-2">
+                {solutions.map((item) => (
+                  <DropdownMenuItem key={item.label} asChild>
+                    <Link href={item.href} className="flex items-center gap-2 cursor-pointer w-full text-sm">
+                      <item.icon className="size-4 text-primary" />
+                      <span>{item.label}</span>
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-          {navbarItems.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              className="text-muted-foreground hover:text-foreground group relative text-xs font-medium transition-colors lg:text-sm"
-            >
-              {item.label}
-              <span className="bg-primary absolute -bottom-1 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          ))}
-        </nav>
-        <div className="flex flex-1 justify-end items-center gap-4">
+            {navbarItems.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="text-muted-foreground hover:text-foreground group relative text-sm font-medium transition-colors"
+              >
+                {item.label}
+                <span className="bg-primary absolute -bottom-1 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        <div className="flex items-center gap-4">
           {isSignedIn ? (
             <>
               <Button variant="ghost" asChild className="hidden sm:inline-flex rounded-xl font-medium">
