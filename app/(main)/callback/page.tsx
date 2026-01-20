@@ -7,6 +7,7 @@ import { useMutation } from "convex/react";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "nextjs-toploader/app";
 import { useEffect } from "react";
+import posthog from "posthog-js";
 
 export default function CallbackPage() {
     const { user, isLoaded } = useUser();
@@ -21,7 +22,18 @@ export default function CallbackPage() {
                 email: user.emailAddresses?.[0].emailAddress,
                 firstName: user.firstName || "",
                 lastName: user.lastName || ""
-            }).then(() => {
+            }).then(({ isNew }) => {
+                // Identify user in PostHog
+                posthog.identify(user.id, {
+                    email: user.emailAddresses?.[0].emailAddress,
+                    firstName: user.firstName,
+                    lastName: user.lastName
+                });
+
+                if (isNew) {
+                    posthog.capture('user_signed_up');
+                }
+
                 // Skip onboarding and redirect directly to dashboard
                 router.push("/dashboard");
             });

@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -5,8 +7,16 @@ import {
 } from "@/components/ui/card";
 import { CheckCircle2, ShieldCheck, Zap } from "lucide-react";
 import Link from "next/link";
+import { useEffect } from "react";
+import posthog from "posthog-js";
 
 export default function SuccessPage() {
+  useEffect(() => {
+    posthog.capture('subscription_started', {
+      plan: 'pro',
+    });
+  }, []);
+
   return (
     <div className="flex min-h-screen items-center justify-center bg-background p-4 font-sans">
       <div className="w-full max-w-lg space-y-8 animate-in fade-in zoom-in duration-500">

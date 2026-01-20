@@ -1,11 +1,12 @@
 import ConvexClientProvider from "@/components/ConvexClientProvider";
+import { PostHogClientProvider } from "@/components/providers/posthog-provider";
 import { PdfDimensionsProvider } from "@/components/PdfDimensionsContext";
 import { PendingDocumentProcessor } from "@/components/PendingDocumentProcessor";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google";
+import { Instrument_Sans, Manrope } from "next/font/google";
 import NextTopLoader from 'nextjs-toploader';
 import { Suspense } from "react";
 import "./globals.css";
@@ -77,13 +78,13 @@ export const metadata: Metadata = {
   },
 };
 
-const bricolage = Bricolage_Grotesque({
+const manrope = Manrope({
   subsets: ["latin"],
   variable: "--font-heading",
   display: "swap",
 });
 
-const inter = Instrument_Sans({
+const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
@@ -147,7 +148,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`antialiased relative ${bricolage.variable} ${inter.variable}`}>
+      <body className={`antialiased relative ${manrope.variable} ${instrumentSans.variable}`}>
         <NextTopLoader
           color="#2563eb"
           height={3}
@@ -159,8 +160,10 @@ export default function RootLayout({
         />
         <Suspense>
           <ConvexClientProvider>
-            <PendingDocumentProcessor />
-            <PdfDimensionsProvider>{children}</PdfDimensionsProvider>
+            <PostHogClientProvider>
+              <PendingDocumentProcessor />
+              <PdfDimensionsProvider>{children}</PdfDimensionsProvider>
+            </PostHogClientProvider>
           </ConvexClientProvider>
         </Suspense>
         <Toaster position="top-center" />

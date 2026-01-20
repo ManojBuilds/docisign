@@ -30,7 +30,7 @@ export const createUser = mutation({
       .first();
 
     if (existingUser) {
-      return existingUser._id;
+      return { userId: existingUser._id, isNew: false };
     }
 
     const now = Date.now();
@@ -61,7 +61,7 @@ export const createUser = mutation({
       lastName: args.lastName,
     });
 
-    return userId;
+    return { userId, isNew: true };
   },
 });
 

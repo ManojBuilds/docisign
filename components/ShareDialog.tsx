@@ -11,6 +11,7 @@ import { useQuery } from "convex/react";
 import { Send } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
+import posthog from "posthog-js";
 import { ConfigurationView } from "./share-dialog/ConfigurationView";
 import { StatusView } from "./share-dialog/StatusView";
 import { SuccessView } from "./share-dialog/SuccessView";
@@ -79,6 +80,12 @@ export function ShareDialog({
     setIsSending(true);
     try {
       await onSend(signers, customMessage);
+
+      posthog.capture('document_sent', {
+        document_id: documentId,
+        signer_count: signers.length,
+        has_custom_message: !!customMessage,
+      });
 
       // Trigger confetti effect
       setShowConfetti(true);

@@ -7,6 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useMutation } from "convex/react";
+import posthog from "posthog-js";
 import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
@@ -88,6 +89,12 @@ export function OnboardingDialog({ open, onComplete }: OnboardingDialogProps) {
         teamSize: onboardingData.teamSize,
         industry: onboardingData.industry,
       });
+      posthog.capture('onboarding_completed', {
+        user_role: onboardingData.userRole,
+        primary_use_case: onboardingData.primaryUseCase,
+        team_size: onboardingData.teamSize,
+        industry: onboardingData.industry,
+      });
       toast.success("Welcome aboard! Your account is all set up.");
       onComplete();
     } catch (error) {
@@ -120,7 +127,7 @@ export function OnboardingDialog({ open, onComplete }: OnboardingDialogProps) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={() => {}}>
+    <Dialog open={open} onOpenChange={() => { }}>
       <DialogContent className="sm:max-w-[600px]" showCloseButton={false}>
         <DialogHeader>
           <div className="flex items-center gap-2 mb-2">

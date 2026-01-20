@@ -11,16 +11,16 @@ const Hero = () => {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-8 animate-fade-in">
           <span className="flex h-2 w-2 rounded-full bg-blue-600 animate-ping"></span>
-          Built for Freelancers & Solo Pros
+          The Smartest Way to Sign
         </div>
 
         {/* Headline */}
         <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] max-w-5xl mb-6 bg-gradient-to-b from-slate-900 to-slate-700 bg-clip-text text-transparent">
-          Get Paid Faster — <span className="text-blue-600">No Signer Accounts Required</span>
+          The E-Signature Standard for <span className="text-blue-600">Freelancers & Consultants</span>
         </h1>
 
         <p className="mt-2 text-lg sm:text-2xl text-slate-600 max-w-3xl font-medium leading-relaxed">
-          Upload any PDF, add fields, and send a secure link. <span className="text-slate-900 font-semibold underline decoration-blue-500/30">Clients sign instantly from email</span> — no account required.
+          Stop forcing clients to create accounts. <span className="text-slate-900 font-semibold underline decoration-blue-500/30">Close deals instantly</span> with the frictionless alternative to DocuSign.
         </p>
 
         {/* Upload Box (PRIMARY CTA) */}
