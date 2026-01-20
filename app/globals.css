@@ -49,7 +49,8 @@
   --shadow-xl: 0px 2px 15.5px 0px hsl(0 0% 0% / 0.06), 0px 8px 10px -1px hsl(0 0% 0% / 0.06);
   --shadow-2xl: 0px 2px 15.5px 0px hsl(0 0% 0% / 0.15);
   /* Premium Spacing System */
-  --spacing-base: 0.25rem; /* 4px foundation */
+  --spacing-base: 0.25rem;
+  /* 4px foundation */
   --tracking-tightest: -0.04em;
   --tracking-tighter: -0.02em;
   --tracking-normal: -0.01em;
@@ -131,8 +132,10 @@
     @apply bg-background text-foreground;
     font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     line-height: var(--leading-relaxed);
-    letter-spacing: var(--tracking-normal); /* Slightly tighter for modern feel */
-    font-size: 1rem; /* Base size 16px */
+    letter-spacing: var(--tracking-normal);
+    /* Slightly tighter for modern feel */
+    font-size: 1rem;
+    /* Base size 16px */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -142,61 +145,77 @@
     Uses a standard minor third scale or similar for harmonious sizing.
   */
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-heading), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     color: var(--foreground);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tighter);
-    font-weight: 700; /* Bold looks premium with Manrope */
+    font-weight: 700;
+    /* Bold looks premium with Manrope */
   }
 
   h1 {
-    font-size: 2.5rem; /* 40px */
+    font-size: 2.5rem;
+    /* 40px */
     letter-spacing: var(--tracking-tightest);
+
     @media (min-width: 768px) {
-      font-size: 3.5rem; /* 56px */
+      font-size: 3.5rem;
+      /* 56px */
     }
   }
 
   h2 {
-    font-size: 2rem; /* 32px */
+    font-size: 2rem;
+    /* 32px */
     letter-spacing: var(--tracking-tighter);
+
     @media (min-width: 768px) {
-      font-size: 2.5rem; /* 40px */
+      font-size: 2.5rem;
+      /* 40px */
     }
   }
 
   h3 {
-    font-size: 1.5rem; /* 24px */
+    font-size: 1.5rem;
+
+    /* 24px */
     @media (min-width: 768px) {
-      font-size: 1.75rem; /* 28px */
+      font-size: 1.75rem;
+      /* 28px */
     }
   }
 
   h4 {
-    font-size: 1.25rem; /* 20px */
+    font-size: 1.25rem;
+    /* 20px */
     font-weight: 600;
   }
 
   h5 {
-    font-size: 1.125rem; /* 18px */
+    font-size: 1.125rem;
+    /* 18px */
     font-weight: 600;
   }
 
   h6 {
-    font-size: 1rem; /* 16px */
+    font-size: 1rem;
+    /* 16px */
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: var(--tracking-wide);
     color: var(--muted-foreground);
   }
 
-  p {
-    margin-bottom: 1rem; /* Consistent flow */
-  }
 
   small {
-    font-size: 0.875rem; /* 14px */
+    font-size: 0.875rem;
+    /* 14px */
     line-height: var(--leading-normal);
   }
 
@@ -204,7 +223,8 @@
   button,
   .btn {
     font-family: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    font-weight: 500; /* refined from 600 */
+    font-weight: 500;
+    /* refined from 600 */
     letter-spacing: var(--tracking-normal);
   }
 }

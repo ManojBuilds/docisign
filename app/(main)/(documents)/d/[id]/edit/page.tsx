@@ -26,6 +26,7 @@ import { useSaveFields } from "./_hooks/useSaveFields";
 import { useSignatureFieldsSync } from "./_hooks/useSignatureFieldsSync";
 import { useSignerOperations } from "./_hooks/useSignerOperations";
 import { useSignersSync } from "./_hooks/useSignersSync";
+import { useAutoSelectField } from "./_hooks/useAutoSelectField";
 
 export default function DocumentEditor() {
   const params = useParams();
@@ -83,12 +84,14 @@ export default function DocumentEditor() {
   useSignersSync(signatureFields, setSigners, signers);
 
   useAutoPlaceFields();
+  useAutoSelectField();
 
   const {
     handleAddSignatureField,
     handleUpdateFieldInStore,
     handleSaveField,
     handleDeleteField,
+    resetAssignmentCycle,
   } = useFieldOperations(
     pageDimensions,
     currentPage,
@@ -122,10 +125,11 @@ export default function DocumentEditor() {
     setDocumentId(documentId);
   }, [documentId, setDocumentId]);
 
-  // Reset isLoaded when documentId changes
+  // Reset isLoaded and assignment cycle when documentId changes
   useEffect(() => {
     setIsLoaded(false);
-  }, [documentId, setIsLoaded]);
+    resetAssignmentCycle(); // Reset the assignment cycle when changing documents
+  }, [documentId, setIsLoaded, resetAssignmentCycle]);
 
   // Memoized Banner to prevent double re-renders of the page
   const isCompleted = document?.status === "completed";

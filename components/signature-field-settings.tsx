@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -29,6 +30,25 @@ export function SignatureFieldSettings({
   onFieldUpdate,
   signers = []
 }: SignatureFieldSettingsProps) {
+  // Get the index of the current signer in the signers array
+  const currentSignerIndex = signers.findIndex(s => s.email === field.signerEmail);
+
+  // Calculate the next signer in the sequence
+  const getNextSigner = () => {
+    if (signers.length <= 1) return null;
+    const nextIndex = (currentSignerIndex + 1) % signers.length;
+    return signers[nextIndex];
+  };
+
+  const handleCycleSigner = () => {
+    const nextSigner = getNextSigner();
+    if (nextSigner) {
+      onFieldUpdate({
+        signerEmail: nextSigner.email,
+        signerName: nextSigner.name || nextSigner.email
+      });
+    }
+  };
 
   return (
     <div className="space-y-4 px-1">
@@ -62,7 +82,20 @@ export function SignatureFieldSettings({
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="signer">Assigned to (Email)</Label>
+        <div className="flex items-center justify-between">
+          <Label htmlFor="signer">Assigned to (Email)</Label>
+          {signers.length > 1 && (
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-6 px-2 text-xs"
+              onClick={handleCycleSigner}
+            >
+              Cycle signer
+            </Button>
+          )}
+        </div>
+
         <div className="space-y-2">
           <Input
             id="signer"

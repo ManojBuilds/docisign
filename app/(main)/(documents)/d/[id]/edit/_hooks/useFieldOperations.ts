@@ -1,7 +1,7 @@
 import { SignatureFieldData } from "@/components/signature-field";
 import { useDocumentEditorStore } from "@/stores/document-editor-store";
 import { useSignersStore } from "@/stores/signersStore";
-import { useCallback } from "react";
+import { useCallback, useRef } from "react";
 
 interface Signer {
   email: string;
@@ -22,6 +22,9 @@ export function useFieldOperations(
 ) {
   const recipientSigners = useSignersStore((s) => s.signers);
 
+  // Track the last assigned signer to enable cycling through signers
+  const lastAssignedSignerIndex = useRef(-1);
+
   const handleAddSignatureField = useCallback(
     (
       fieldType: SignatureFieldData["fieldType"] = "text",
@@ -38,24 +41,52 @@ export function useFieldOperations(
 
       const tempId = crypto.randomUUID();
 
-      // Get the latest signature fields from the store to find a potential signer
-      const currentFields = useDocumentEditorStore.getState().signatureFields;
-      const firstFieldWithSigner = currentFields.find(f => f.signerEmail);
+      // Get all unique signers (from props, store, and existing fields)
+      const allSignersSet = new Set<string>();
 
-      let firstSignerEmail =
-        signers[0]?.email ||
-        recipientSigners[0]?.email ||
-        firstFieldWithSigner?.signerEmail ||
-        "";
+      // Add signers from props
+      signers.forEach(signer => allSignersSet.add(signer.email));
+
+      // Add signers from store
+      recipientSigners.forEach(signer => allSignersSet.add(signer.email));
+
+      // Add signers from existing fields
+      const currentFields = useDocumentEditorStore.getState().signatureFields;
+      currentFields.forEach(field => {
+        if (field.signerEmail) allSignersSet.add(field.signerEmail);
+      });
 
       // Fallback: Check URL directly if stores haven't synced yet
-      if (!firstSignerEmail) {
-        const urlParams = new URLSearchParams(window.location.search);
-        const clientEmailsParam = urlParams.get("clientEmails");
-        if (clientEmailsParam) {
-          firstSignerEmail = decodeURIComponent(
-            clientEmailsParam.split(",")[0]
-          );
+      const urlParams = new URLSearchParams(window.location.search);
+      const clientEmailsParam = urlParams.get("clientEmails");
+      if (clientEmailsParam) {
+        const emails = decodeURIComponent(clientEmailsParam).split(",");
+        emails.forEach(email => allSignersSet.add(email.trim()));
+      }
+
+      const allSignersArray = Array.from(allSignersSet);
+
+      let assignedSignerEmail = "";
+      let assignedSignerName = "";
+
+      if (allSignersArray.length > 0) {
+        // If we have signers, use smart assignment logic
+        if (lastAssignedSignerIndex.current === -1) {
+          // First time: assign to the first signer
+          lastAssignedSignerIndex.current = 0;
+          assignedSignerEmail = allSignersArray[0];
+
+          // Find the full signer object to get the name
+          const fullSigner = [...signers, ...recipientSigners].find(s => s.email === assignedSignerEmail);
+          assignedSignerName = fullSigner?.name || "";
+        } else {
+          // Cycle through signers
+          lastAssignedSignerIndex.current = (lastAssignedSignerIndex.current + 1) % allSignersArray.length;
+          assignedSignerEmail = allSignersArray[lastAssignedSignerIndex.current];
+
+          // Find the full signer object to get the name
+          const fullSigner = [...signers, ...recipientSigners].find(s => s.email === assignedSignerEmail);
+          assignedSignerName = fullSigner?.name || assignedSignerEmail;
         }
       }
 
@@ -63,8 +94,8 @@ export function useFieldOperations(
         id: tempId,
         fieldType,
         page,
-        signerEmail: firstSignerEmail,
-        signerName: firstFieldWithSigner?.signerName || "",
+        signerEmail: assignedSignerEmail,
+        signerName: assignedSignerName,
         isRequired: true,
         label: "",
         normalizedX: x / dims.width,
@@ -108,10 +139,16 @@ export function useFieldOperations(
     [deleteSignatureFieldInStore, setSelectedFieldId]
   );
 
+  // Function to reset the assignment cycle (useful when all fields are cleared)
+  const resetAssignmentCycle = useCallback(() => {
+    lastAssignedSignerIndex.current = -1;
+  }, []);
+
   return {
     handleAddSignatureField,
     handleUpdateFieldInStore,
     handleSaveField,
     handleDeleteField,
+    resetAssignmentCycle,
   };
 }

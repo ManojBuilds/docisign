@@ -53,7 +53,10 @@ export default function PDFViewer({
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-  const [visiblePages, setVisiblePages] = useState<Set<number>>(new Set());
+  // Initialize with first 3 pages visible for immediate rendering
+  const [visiblePages, setVisiblePages] = useState<Set<number>>(() =>
+    new Set([1, 2, 3])
+  );
 
   const { pageDimensions, scale, setPageDimensions, setScale } =
     usePdfDimensions();

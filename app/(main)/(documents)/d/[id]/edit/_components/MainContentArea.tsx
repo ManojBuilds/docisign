@@ -1,15 +1,11 @@
 import { SignatureFieldData } from "@/components/signature-field";
-import { lazy, memo } from "react";
+import { ThumbnailSidebar } from "@/components/ThumbnailSidebar";
+import { PdfDocumentProvider } from "@/components/PdfDocumentContext";
+import { memo } from "react";
 import { BackgroundPattern } from "./BackgroundPattern";
 import { PdfLoadingState } from "./PdfLoadingState";
 import { PdfViewerContainer } from "./PdfViewerContainer";
 import { ZoomControls } from "./ZoomControls";
-
-const ThumbnailSidebar = lazy(() =>
-  import("@/components/ThumbnailSidebar").then((m) => ({
-    default: m.ThumbnailSidebar,
-  }))
-);
 
 interface MainContentAreaProps {
   fileUrl: string;
@@ -57,30 +53,32 @@ export const MainContentArea = memo(
           {!fileUrl ? (
             <PdfLoadingState />
           ) : (
-            <div className="flex-1 h-full w-full flex">
-              <ThumbnailSidebar
-                fileUrl={fileUrl}
-                numPages={numPages}
-                currentPage={currentPage}
-                onPageClick={onPageClick}
-              />
-              <div className="flex-1 relative h-full">
-                <PdfViewerContainer
+            <PdfDocumentProvider fileUrl={fileUrl}>
+              <div className="flex-1 h-full w-full flex">
+                <ThumbnailSidebar
                   fileUrl={fileUrl}
+                  numPages={numPages}
                   currentPage={currentPage}
-                  scale={scale}
-                  onPageChange={onPageChange}
-                  onScaleChange={onScaleChange}
-                  onNumPagesChange={onNumPagesChange}
-                  onAddField={onAddField}
-                  onUpdateField={onUpdateField}
-                  onDeleteField={onDeleteField}
-                  onSelectField={onSelectField}
-                  onSaveField={onSaveField}
+                  onPageClick={onPageClick}
                 />
-                <ZoomControls scale={scale} setScale={onScaleChange} />
+                <div className="flex-1 relative h-full">
+                  <PdfViewerContainer
+                    fileUrl={fileUrl}
+                    currentPage={currentPage}
+                    scale={scale}
+                    onPageChange={onPageChange}
+                    onScaleChange={onScaleChange}
+                    onNumPagesChange={onNumPagesChange}
+                    onAddField={onAddField}
+                    onUpdateField={onUpdateField}
+                    onDeleteField={onDeleteField}
+                    onSelectField={onSelectField}
+                    onSaveField={onSaveField}
+                  />
+                  <ZoomControls scale={scale} setScale={onScaleChange} />
+                </div>
               </div>
-            </div>
+            </PdfDocumentProvider>
           )}
         </div>
       </div>

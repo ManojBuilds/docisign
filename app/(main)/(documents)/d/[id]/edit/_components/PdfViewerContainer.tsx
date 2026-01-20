@@ -1,11 +1,9 @@
 import { SignatureFieldData } from "@/components/signature-field";
-import { lazy, memo, Suspense } from "react";
+import { memo, Suspense } from "react";
+import PdfViewerWrapper from "@/components/pdf-viewer-wrapper";
 import { PageOverlay } from "./PageOverlay";
 import { PdfLoadingState } from "./PdfLoadingState";
 
-const PdfViewerWrapper = lazy(() =>
-  import("@/components/pdf-viewer-wrapper")
-);
 
 interface PdfViewerContainerProps {
   fileUrl: string;

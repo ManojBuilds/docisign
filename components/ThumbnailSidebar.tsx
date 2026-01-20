@@ -86,7 +86,10 @@ export const ThumbnailSidebar = React.memo(({
 }: ThumbnailSidebarProps) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const thumbnailRefs = useRef<Record<number, HTMLDivElement | null>>({});
-  const [visiblePages, setVisiblePages] = useState<Set<number>>(new Set());
+  // Initialize with first 5 pages visible for immediate rendering
+  const [visiblePages, setVisiblePages] = useState<Set<number>>(() =>
+    new Set([1, 2, 3, 4, 5])
+  );
 
   const documentOptions = useMemo(
     () => ({

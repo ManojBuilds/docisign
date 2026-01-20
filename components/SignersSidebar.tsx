@@ -8,16 +8,14 @@ import { useSignersStore } from '@/stores/signersStore';
 import { useUser } from '@clerk/nextjs';
 import { useQuery } from 'convex/react';
 import {
-  ALargeSmall,
-  ArrowRight,
-  CalendarDays,
+  ALargeSmall, CalendarDays,
   ChevronLeft,
   MousePointer2,
   PenTool,
   Plus,
   Settings,
   TextCursor,
-  X,
+  X
 } from 'lucide-react';
 import { useMemo } from 'react';
 import { SignatureFieldData } from './signature-field';
@@ -275,7 +273,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                 {documentSigners.map((signer, index) => (
                   <div key={signer.email} className="flex items-center gap-2.5 px-1 group">
                     <div className={cn(
-                      'w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-bold text-white shrink-0 bg-gradient-to-tr',
+                      'w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-bold text-white shrink-0 bg-gradient-to-tr uppercase',
                       gradients[index % gradients.length]
                     )}>
                       {signer.name?.charAt(0) || signer.email.charAt(0)}
@@ -286,9 +284,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                         <p className="text-[9px] text-gray-500 font-medium truncate mt-[-1px]">{signer.email}</p>
                       )}
                     </div>
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      <ArrowRight className="w-3 h-3 text-gray-300" />
-                    </div>
+
                   </div>
                 ))}
               </div>
