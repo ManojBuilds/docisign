@@ -6,16 +6,16 @@ import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata, Viewport } from "next";
-import { Instrument_Sans, Manrope } from "next/font/google";
+
 import NextTopLoader from 'nextjs-toploader';
 import { Suspense } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://boopsign.com"),
+  metadataBase: new URL("https://Boopsign.com"),
   title: {
-    default: "BoopSign - E-Signature Software Built for Freelancers & Consultants | $20/mo",
-    template: "%s | BoopSign",
+    default: "Boopsign - E-Signature Software Built for Freelancers & Consultants | $20/mo",
+    template: "%s | Boopsign",
   },
   description:
     "The e-signature tool freelancers love. No client accounts required. Get contracts signed in 3 minutes, not 3 days. 52% cheaper than DocuSign. Try free for 7 days.",
@@ -27,11 +27,11 @@ export const metadata: Metadata = {
     "mobile contract signing",
     "freelance contract signing",
     "simple esignature tool",
-    "boopsign vs docusign",
+    "Boopsign vs docusign",
   ],
-  authors: [{ name: "BoopSign Team" }],
-  creator: "BoopSign",
-  publisher: "BoopSign",
+  authors: [{ name: "Boopsign Team" }],
+  creator: "Boopsign",
+  publisher: "Boopsign",
   formatDetection: {
     email: false,
     address: false,
@@ -40,9 +40,9 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://boopsign.com",
-    siteName: "BoopSign",
-    title: "BoopSign — Get Contracts Signed Without Client Accounts",
+    url: "https://Boopsign.com",
+    siteName: "Boopsign",
+    title: "Boopsign — Get Contracts Signed Without Client Accounts",
     description:
       "Upload a PDF, send a link, and get contracts signed in minutes. No login required for clients. Built for freelancers and consultants.",
     images: [
@@ -50,17 +50,17 @@ export const metadata: Metadata = {
         url: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5",
         width: 1200,
         height: 630,
-        alt: "BoopSign - Simple E-Signature for Freelancers & Consultants",
+        alt: "Boopsign - Simple E-Signature for Freelancers & Consultants",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "No-Account E-Signatures for Freelancers | BoopSign",
+    title: "No-Account E-Signatures for Freelancers | Boopsign",
     description:
       "The simplest DocuSign alternative. Get contracts signed in under 3 minutes. No account needed for signers. $20/month.",
     images: ["https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5"],
-    creator: "@boopsign",
+    creator: "@Boopsign",
   },
   robots: {
     index: true,
@@ -78,17 +78,7 @@ export const metadata: Metadata = {
   },
 };
 
-const manrope = Manrope({
-  subsets: ["latin"],
-  variable: "--font-heading",
-  display: "swap",
-});
 
-const instrumentSans = Instrument_Sans({
-  subsets: ["latin"],
-  variable: "--font-body",
-  display: "swap",
-});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -108,14 +98,15 @@ export default function RootLayout({
           name="google-site-verification"
           content="It-5F-rGTphiGn4oyRrSntPBqgQWbUohNCFKsdQ922M"
         />
-        <link rel="canonical" href="https://boopsign.com" />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vetixy/circular-std@1.0.0/dist/index.min.css" />
+        <link rel="canonical" href="https://Boopsign.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
-              name: "BoopSign",
+              name: "Boopsign",
               applicationCategory: "BusinessApplication",
               operatingSystem: "Web, iOS, Android",
               offers: {
@@ -131,7 +122,7 @@ export default function RootLayout({
               },
               description:
                 "E-signature for freelancers and consultants. The simplest DocuSign alternative built for speed. No account required for signers. Sign contracts, NDAs, and proposals in under 3 minutes.",
-              url: "https://boopsign.com",
+              url: "https://Boopsign.com",
               featureList: [
                 "No account required for signers",
                 "Mobile-optimized e-signatures",
@@ -148,7 +139,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`antialiased relative ${manrope.variable} ${instrumentSans.variable}`}>
+      <body className={`antialiased relative`}>
         <NextTopLoader
           color="#2563eb"
           height={3}

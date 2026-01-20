@@ -338,7 +338,7 @@ export function CompletedScreen({
                   <Logo />
                 </div>
                 <div className="relative z-10">
-                  <h3 className="font-bold text-xl mb-2 leading-tight">BoopSign for Business</h3>
+                  <h3 className="font-bold text-xl mb-2 leading-tight">Boopsign for Business</h3>
                   <p className="text-gray-400 text-xs mb-6 font-medium leading-relaxed max-w-[280px]">
                     Secure, verified digital signatures for your documents. Get started for free today.
                   </p>

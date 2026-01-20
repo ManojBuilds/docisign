@@ -47,7 +47,7 @@ export function TemplatesHub({ initialTemplates }: TemplatesHubProps) {
             Documents that <span className="text-blue-600">close deals</span>.
           </h1>
           <p className="text-xl text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed">
-            Stop copy-pasting from shady websites. Use our free, professional templates and get them signed in minutes with BoopSign.
+            Stop copy-pasting from shady websites. Use our free, professional templates and get them signed in minutes with Boopsign.
           </p>
 
           <div className="max-w-md mx-auto relative">

@@ -1,6 +1,6 @@
-# BoopSign Complete SEO Audit & Freelancer-Focused Growth Strategy
+# Boopsign Complete SEO Audit & Freelancer-Focused Growth Strategy
 **Date:** January 15, 2026
-**Domain:** boopsign.com
+**Domain:** Boopsign.com
 **Focus:** Positioning for freelancers & organic SEO growth
 
 ---
@@ -28,7 +28,7 @@ Your site is getting impressions but failing to convert them to clicks. You're r
 Your top-performing page is `/online-signature-maker` with 7 clicks, but I found only ONE page targeting freelancers: `/esignature-for-freelancers`. This is nowhere near enough.
 
 ### 2. **Weak Search Query Targeting**
-Top query driving traffic: "boopsign" (brand name)
+Top query driving traffic: "Boopsign" (brand name)
 - You're only ranking for your own brand
 - No rankings for high-value freelancer keywords
 - Missing opportunities in "electronic signature for freelancers," "freelance contract template," etc.
@@ -58,7 +58,7 @@ Your average position of 64.8 suggests:
 
 ## Page-by-Page Analysis & Fixes
 
-### Page 1: Homepage (www.boopsign.com)
+### Page 1: Homepage (www.Boopsign.com)
 
 **Current Issues:**
 - ❌ Generic positioning ("simplest e-signature solution")
@@ -68,7 +68,7 @@ Your average position of 64.8 suggests:
 
 **SEO Fixes:**
 ```
-Title: BoopSign - E-Signature Software Built for Freelancers & Consultants | $20/mo
+Title: Boopsign - E-Signature Software Built for Freelancers & Consultants | $20/mo
 Meta Description: The e-signature tool freelancers love. No client accounts required. Get contracts signed in 3 minutes, not 3 days. 52% cheaper than DocuSign. Try free for 7 days.
 ```
 
@@ -102,8 +102,8 @@ Meta Description: The e-signature tool freelancers love. No client accounts requ
 
 **SEO Fixes:**
 ```
-Current Title: ✓For Freelancers | BoopSign
-Better Title: Electronic Signature for Freelancers: Simple, Fast & Affordable | BoopSign
+Current Title: ✓For Freelancers | Boopsign
+Better Title: Electronic Signature for Freelancers: Simple, Fast & Affordable | Boopsign
 
 Current URL: ✓ (good)
 Meta Description: Get freelance contracts signed in minutes. No client accounts needed. Perfect for designers, writers, developers & consultants. $20/mo. Try free.
@@ -126,7 +126,7 @@ Meta Description: Get freelance contracts signed in minutes. No client accounts 
    - Copyright Transfer Forms
    - Freelance Contracts (W-9, W-8BEN-E for international)
 
-3. **Add H2: "BoopSign vs Other E-Signature Tools for Freelancers"**
+3. **Add H2: "Boopsign vs Other E-Signature Tools for Freelancers"**
    - Comparison table with DocuSign, HelloSign, PandaDoc
    - Focus on pricing, signer friction, mobile experience
 
@@ -139,7 +139,7 @@ Meta Description: Get freelance contracts signed in minutes. No client accounts 
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "BoopSign for Freelancers",
+  "name": "Boopsign for Freelancers",
   "applicationCategory": "BusinessApplication",
   "offers": {
     "@type": "Offer",
@@ -185,10 +185,10 @@ Meta Description: Create professional electronic signatures in seconds. Perfect 
 - ❌ Missing freelancer-specific comparison points
 
 **Quick Wins:**
-1. Add section: "Why Freelancers Choose BoopSign Over Dropbox Sign"
+1. Add section: "Why Freelancers Choose Boopsign Over Dropbox Sign"
 2. Add freelancer testimonials
 3. Add internal link to /esignature-for-freelancers
-4. Add FAQ: "Is BoopSign good for freelancers?" (Answer: Yes, specifically built for)
+4. Add FAQ: "Is Boopsign good for freelancers?" (Answer: Yes, specifically built for)
 
 ---
 
@@ -206,7 +206,7 @@ Meta Description: Create professional electronic signatures in seconds. Perfect 
 ```markdown
 # Free Freelance Contract Template - Legally Binding & Ready to Sign
 
-[Download Free Template] [Use BoopSign to Send]
+[Download Free Template] [Use Boopsign to Send]
 
 ## What's Included in This Freelance Contract Template
 - Scope of work definition
@@ -219,7 +219,7 @@ Meta Description: Create professional electronic signatures in seconds. Perfect 
 ## How to Use This Template
 1. Download the template (PDF or DOCX)
 2. Fill in your details and client information
-3. Upload to BoopSign
+3. Upload to Boopsign
 4. Send for electronic signature
 5. Both parties receive signed copy instantly
 
@@ -230,7 +230,7 @@ Meta Description: Create professional electronic signatures in seconds. Perfect 
 [Explain different clauses and when to use them]
 
 ## Send Your Freelance Contract for E-Signature
-[Pitch BoopSign as the easiest way to get it signed]
+[Pitch Boopsign as the easiest way to get it signed]
 ```
 
 **SEO Value:** This page alone could drive 100-300 visitors/month
@@ -252,7 +252,7 @@ Meta Description: Create professional electronic signatures in seconds. Perfect 
 ### NEW PAGE 3: /how-to-create-electronic-signature
 
 **Why:** 6,600 monthly searches, informational intent
-**Strategy:** Create best-in-class guide, then pitch BoopSign at end
+**Strategy:** Create best-in-class guide, then pitch Boopsign at end
 
 **Content Outline:**
 - What is an electronic signature?
@@ -260,7 +260,7 @@ Meta Description: Create professional electronic signatures in seconds. Perfect 
 - How to create e-signature (free tools)
 - How to add e-signature to documents
 - E-signature vs digital signature
-- Best e-signature software for freelancers (BoopSign)
+- Best e-signature software for freelancers (Boopsign)
 
 ---
 
@@ -286,7 +286,7 @@ Meta Description: Create professional electronic signatures in seconds. Perfect 
 **Content:**
 - 7 reasons freelance contracts take too long to sign
 - How to reduce contract turnaround from days to hours
-- Tools freelancers need (BoopSign)
+- Tools freelancers need (Boopsign)
 - Email templates to send with contracts
 
 ---
@@ -359,7 +359,7 @@ From every page, link to:
 3. Relevant comparison pages (DocuSign alt, etc.)
 
 Example internal links to add:
-- Homepage → "See how freelancers use BoopSign" → /esignature-for-freelancers
+- Homepage → "See how freelancers use Boopsign" → /esignature-for-freelancers
 - Template pages → "Send this template for e-signature" → /esignature-for-freelancers
 - Blog posts → "Best e-signature for freelancers" → /esignature-for-freelancers
 
@@ -377,7 +377,7 @@ Example for product pages:
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "BoopSign",
+  "name": "Boopsign",
   "operatingSystem": "Web, iOS, Android",
   "applicationCategory": "BusinessApplication",
   "offers": {
@@ -400,7 +400,7 @@ Example for product pages:
 
 **Formula for Every Page:**
 ```
-Title Formula: [Primary Keyword] - [Benefit] | [Secondary Keyword] | BoopSign
+Title Formula: [Primary Keyword] - [Benefit] | [Secondary Keyword] | Boopsign
 Meta Description Formula: [Hook] [Benefit 1], [Benefit 2], [Benefit 3]. [Trust signal]. [CTA].
 ```
 
@@ -408,13 +408,13 @@ Meta Description Formula: [Hook] [Benefit 1], [Benefit 2], [Benefit 3]. [Trust s
 
 **/pricing**
 ```
-Title: BoopSign Pricing - $20/mo for Freelancers | No Per-User Fees
+Title: Boopsign Pricing - $20/mo for Freelancers | No Per-User Fees
 Meta: Simple pricing for freelancers. Just $20/mo, unlimited signatures, no client accounts required. 52% cheaper than DocuSign. Try free for 7 days.
 ```
 
 **/how-it-works**
 ```
-Title: How BoopSign Works - 3-Minute Setup for Freelance E-Signatures
+Title: How Boopsign Works - 3-Minute Setup for Freelance E-Signatures
 Meta: Send freelance contracts in 3 minutes. Upload document → Add signature fields → Send. Clients sign instantly, no account needed. See how it works.
 ```
 
@@ -522,7 +522,7 @@ Meta: Send freelance contracts in 3 minutes. Upload document → Add signature f
 **Strategy:**
 - Answer questions about contracts
 - Share your free templates (not product)
-- Build reputation first, then mention BoopSign when relevant
+- Build reputation first, then mention Boopsign when relevant
 
 ---
 
@@ -530,7 +530,7 @@ Meta: Send freelance contracts in 3 minutes. Upload document → Add signature f
 
 **Your comparison pages are goldmine for links:**
 - Reach out to anyone who wrote "DocuSign alternatives" blog posts
-- Ask them to add BoopSign to their list
+- Ask them to add Boopsign to their list
 - Offer data: "We're 52% cheaper and have 4.9/5 rating"
 
 **Target blogs:**
@@ -551,7 +551,7 @@ Meta: Send freelance contracts in 3 minutes. Upload document → Add signature f
 
 **When relevant, respond with:**
 - Expert quote from your perspective
-- Link to BoopSign resource (guide, not product)
+- Link to Boopsign resource (guide, not product)
 
 ---
 
@@ -604,13 +604,13 @@ Meta: Send freelance contracts in 3 minutes. Upload document → Add signature f
 Current: Probably generic or missing
 Target: Compelling, benefit-driven, with CTA
 
-**Before:** "BoopSign - E-signature software"
+**Before:** "Boopsign - E-signature software"
 **After:** "Get freelance contracts signed in 3 min. No client accounts needed. 52% cheaper than DocuSign. Try free."
 
 ---
 
 ### 2. Add Freelancer Social Proof to Homepage
-- "1,200+ freelancers trust BoopSign"
+- "1,200+ freelancers trust Boopsign"
 - Add freelancer avatars/testimonials
 - Show freelancer-specific metrics: "Avg contract signed in 2.5 hours"
 
@@ -621,7 +621,7 @@ Target: Compelling, benefit-driven, with CTA
 - 100% focused on freelancer pain points
 - Testimonials only from freelancers
 - Use cases only for freelancers
-- Comparison: BoopSign vs expensive tools
+- Comparison: Boopsign vs expensive tools
 
 ---
 
@@ -649,10 +649,10 @@ Target: Compelling, benefit-driven, with CTA
   "@type": "FAQPage",
   "mainEntity": [{
     "@type": "Question",
-    "name": "Is BoopSign good for freelancers?",
+    "name": "Is Boopsign good for freelancers?",
     "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Yes, BoopSign is specifically built for freelancers. It costs just $20/mo (52% cheaper than DocuSign), clients don't need accounts, and contracts get signed 3x faster. Perfect for freelance designers, writers, developers, and consultants."
+      "text": "Yes, Boopsign is specifically built for freelancers. It costs just $20/mo (52% cheaper than DocuSign), clients don't need accounts, and contracts get signed 3x faster. Perfect for freelance designers, writers, developers, and consultants."
     }
   }]
 }
@@ -672,7 +672,7 @@ Target: Compelling, benefit-driven, with CTA
 - "electronic signature for freelancers"
 - "esignature for freelancers"
 - "freelance contract template"
-- "boopsign"
+- "Boopsign"
 
 **Goal:** See position improvements month-over-month
 
@@ -743,7 +743,7 @@ Target: Compelling, benefit-driven, with CTA
 - ✅ Guest post on freelance blog
 
 **Week 7:**
-- ✅ Create comparison guide: "BoopSign vs DocuSign for Freelancers"
+- ✅ Create comparison guide: "Boopsign vs DocuSign for Freelancers"
 - ✅ Write blog: "Do Freelancers Need Contracts?"
 - ✅ Submit templates to 5 template directories
 
@@ -850,7 +850,7 @@ Target: Compelling, benefit-driven, with CTA
 - Unique title/meta
 - Role-specific contract template
 - Role-specific use cases
-- Same CTA to BoopSign
+- Same CTA to Boopsign
 
 **Potential:** 50 pages × 50 visitors/month each = 2,500 visitors/month
 
@@ -870,17 +870,17 @@ Target: Compelling, benefit-driven, with CTA
 1. **Freelance Rate Calculator**
    - "How much should you charge per hour?"
    - Attracts massive traffic
-   - Links to BoopSign for contract templates
+   - Links to Boopsign for contract templates
 
 2. **Contract Clause Generator**
    - "Build your custom freelance contract"
    - Generates clauses based on selections
-   - "Send for signature with BoopSign"
+   - "Send for signature with Boopsign"
 
 3. **Project Scope Estimator**
    - "Estimate project hours and cost"
    - Creates PDF estimate
-   - "Send as proposal with BoopSign"
+   - "Send as proposal with Boopsign"
 
 **Value:** Each tool could bring 500-1,000 visitors/month
 
@@ -889,7 +889,7 @@ Target: Compelling, benefit-driven, with CTA
 ### Tactic 4: Wikipedia Link
 **Steps:**
 1. Improve "Electronic signature" Wikipedia page
-2. Add BoopSign to "See Also" section (if notable enough)
+2. Add Boopsign to "See Also" section (if notable enough)
 3. Or add to "List of electronic signature software"
 
 **Value:** 1 powerful backlink + brand visibility
@@ -900,7 +900,7 @@ Target: Compelling, benefit-driven, with CTA
 **Strategy:**
 - Find questions about freelance contracts/signatures
 - Write detailed, helpful answers
-- Subtly mention BoopSign and link to resources
+- Subtly mention Boopsign and link to resources
 - Over time, these answers rank in Google for questions
 
 **Example Questions:**

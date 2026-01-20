@@ -67,12 +67,12 @@ export default function BillingPageClient() {
                                 <PlanBadge />
                             </div>
                             <h2 className="text-3xl font-bold tracking-tight text-foreground">
-                                {trialStatus.isPaidUser ? "BoopSign Pro" : "Free Trial"}
+                                {trialStatus.isPaidUser ? "Boopsign Pro" : "Free Trial"}
                             </h2>
                             <p className="text-muted-foreground text-sm">
                                 {trialStatus.isPaidUser
-                                    ? "$15.00 / month • Renews automatically"
-                                    : "Experience the full power of BoopSign"
+                                    ? "$20.00 / month • Renews automatically"
+                                    : "Experience the full power of Boopsign"
                                 }
                             </p>
                         </div>
@@ -125,7 +125,7 @@ export default function BillingPageClient() {
                                 </div>
 
                                 <div className="bg-secondary/30 rounded-lg p-4 text-sm text-foreground/80 border border-border/50">
-                                    <p>Your trial gives you full access to BoopSign Pro. Upgrade anytime to keep using these features without interruption.</p>
+                                    <p>Your trial gives you full access to Boopsign Pro. Upgrade anytime to keep using these features without interruption.</p>
                                 </div>
                             </div>
                         )}

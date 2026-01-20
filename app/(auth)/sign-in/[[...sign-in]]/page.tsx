@@ -3,12 +3,12 @@ import type { Metadata } from "next";
 import { Loader } from "../../loader";
 
 export const metadata: Metadata = {
-  title: "Sign In to BoopSign - Access Your Documents",
+  title: "Sign In to Boopsign - Access Your Documents",
   description:
-    "Sign in to your BoopSign account to manage documents, track signatures, and send new documents for electronic signing.",
+    "Sign in to your Boopsign account to manage documents, track signatures, and send new documents for electronic signing.",
   keywords: [
-    "boopsign login",
-    "boopsign sign in",
+    "Boopsign login",
+    "Boopsign sign in",
     "electronic signature login",
     "document signing account",
   ],
@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://boopsign.com/sign-in",
+    canonical: "https://Boopsign.com/sign-in",
   },
   // No OpenGraph needed for login page
 };
@@ -31,12 +31,12 @@ export default function Page() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "WebPage",
-            name: "Sign In for BoopSign",
+            name: "Sign In for Boopsign",
             description: "Sign In to account for electronic signature software",
-            url: "https://boopsign.com/sign-in",
+            url: "https://Boopsign.com/sign-in",
             mainEntity: {
               "@type": "SoftwareApplication",
-              name: "BoopSign",
+              name: "Boopsign",
               offers: {
                 "@type": "Offer",
                 price: "0",

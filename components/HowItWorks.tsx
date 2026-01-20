@@ -20,7 +20,7 @@ interface HowItWorksProps {
 
 const HowItWorks = ({
     button = {
-        text: "Try BoopSign Free for 7 Days",
+        text: "Try Boopsign Free for 7 Days",
         url: "/dashboard",
     },
     steps = [
@@ -51,10 +51,10 @@ const HowItWorks = ({
                 <div className="text-center mb-16 md:mb-24">
                     <div className="mx-auto flex max-w-4xl flex-col gap-4">
                         <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
-                            Signing contracts shouldn&apos;t <span className="text-blue-600 underline decoration-blue-500/20">slow you down</span>
+                            Send Contracts in <span className="text-blue-600 underline decoration-blue-500/20">Seconds</span>, Not Minutes
                         </h2>
                         <p className="text-slate-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-                            Stop wasting hours on paperwork. BoopSign is designed for speed, so you can spend more time on billable work.
+                            Stop wasting hours on paperwork. Boopsign is designed for speed, so you can spend more time on billable work.
                         </p>
                     </div>
                 </div>
@@ -63,7 +63,7 @@ const HowItWorks = ({
                 <div className="mx-auto max-w-6xl">
                     <div className="grid gap-8 md:grid-cols-3">
                         {steps.map((step, index) => (
-                            <div key={index} className="group relative flex flex-col p-8 bg-white border border-slate-200 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                            <div key={index} className="group relative flex flex-col p-8 bg-white border border-slate-200 rounded-3xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                                 {/* Step Number Badge */}
                                 <div className="absolute top-4 right-4 text-xs font-bold text-slate-300 group-hover:text-blue-200 transition-colors">
                                     STEP {step.number}
@@ -88,7 +88,7 @@ const HowItWorks = ({
 
                 {/* Secondary Bottom CTA */}
                 <div className="text-center mt-16 md:mt-24">
-                    <div className="inline-flex flex-col items-center p-8 bg-white rounded-3xl border border-blue-100 shadow-lg max-w-2xl mx-auto">
+                    <div className="inline-flex flex-col items-center p-8 bg-white rounded-3xl border border-blue-100 max-w-2xl mx-auto">
                         <p className="text-lg text-slate-700 mb-6 font-medium">
                             The fastest workflow for freelance contracts. Period.
                         </p>

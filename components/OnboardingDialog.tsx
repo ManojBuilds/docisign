@@ -28,7 +28,7 @@ interface OnboardingData {
 const steps = [
   {
     id: 1,
-    title: "Welcome to BoopSign! 🎉",
+    title: "Welcome to Boopsign! 🎉",
     description: "Let's get you set up in just a few quick steps.",
   },
   {
@@ -38,7 +38,7 @@ const steps = [
   },
   {
     id: 3,
-    title: "What will you primarily use BoopSign for?",
+    title: "What will you primarily use Boopsign for?",
     description: "We'll tailor your workspace to match your workflow.",
   },
   {
@@ -259,7 +259,7 @@ export function OnboardingDialog({ open, onComplete }: OnboardingDialogProps) {
 
             {currentStep === 3 && (
               <div className="space-y-4">
-                <Label className="text-base font-medium">I'll mainly use BoopSign for...</Label>
+                <Label className="text-base font-medium">I'll mainly use Boopsign for...</Label>
                 <RadioGroup
                   value={onboardingData.primaryUseCase}
                   onValueChange={(value) => updateData("primaryUseCase", value)}

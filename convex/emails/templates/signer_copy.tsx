@@ -19,7 +19,7 @@ export default function SignerCopy({
   senderName = "Someone",
 }: SignerCopyProps) {
   const preview = `Here's your signed copy of "${documentTitle}"`;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://boopsign.com";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://Boopsign.com";
   const proxiedDownloadUrl = downloadUrl && downloadUrl !== "#"
     ? `${appUrl}/api/download?url=${encodeURIComponent(downloadUrl)}&filename=${encodeURIComponent(documentTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase())}_signed.pdf`
     : downloadUrl;

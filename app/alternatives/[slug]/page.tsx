@@ -71,10 +71,10 @@ export default async function ComparisonPage({ params }: Props) {
             name: `${comparison.title}`,
             image: comparison.openGraph?.images?.[0]?.url || "/images/default-og-image.jpg",
             description: comparison.description,
-            url: comparison.canonical || `https://boopsign.com/alternatives/${slug}`,
+            url: comparison.canonical || `https://Boopsign.com/alternatives/${slug}`,
             applicationCategory: "BusinessApplication",
             operatingSystem: "Web, iOS, Android",
-            brand: { "@type": "Brand", name: "BoopSign" },
+            brand: { "@type": "Brand", name: "Boopsign" },
             offers: {
               "@type": "Offer",
               price: comparison.priceComparison?.us?.toString() || "15.00",
@@ -111,7 +111,7 @@ export default async function ComparisonPage({ params }: Props) {
           </div>
 
           <h1 className="text-4xl md:text-7xl font-black tracking-tight text-slate-900 mb-8 leading-[1.05] font-primary">
-            {comparison.competitorName} <span className="text-slate-300 font-light italic">vs</span> <span className="text-white bg-blue-600 px-4 py-1 rounded-2xl rotate-2 inline-block shadow-xl shadow-blue-600/20">BoopSign</span>
+            {comparison.competitorName} <span className="text-slate-300 font-light italic">vs</span> <span className="text-white bg-blue-600 px-4 py-1 rounded-2xl rotate-2 inline-block shadow-xl shadow-blue-600/20">Boopsign</span>
           </h1>
 
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl mx-auto mb-12 font-medium">
@@ -137,7 +137,7 @@ export default async function ComparisonPage({ params }: Props) {
                 <Badge variant="secondary" className="bg-blue-500/50 text-white font-bold border-transparent uppercase tracking-widest text-[10px]">The Winner</Badge>
               </div>
               <div className="absolute -bottom-10 -right-10 size-40 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-700" />
-              <h3 className="text-xl font-bold text-blue-100 mb-4 tracking-tight">BoopSign</h3>
+              <h3 className="text-xl font-bold text-blue-100 mb-4 tracking-tight">Boopsign</h3>
               <div className="text-4xl font-black text-white mb-2">${comparison.priceComparison?.us || '15'}<span className="text-sm font-bold text-blue-200 ml-1">/mo</span></div>
               <p className="text-sm text-blue-100 font-medium">Unlimited signatures & zero friction</p>
             </div>
@@ -215,7 +215,7 @@ export default async function ComparisonPage({ params }: Props) {
             <div className="bg-blue-50/50 rounded-[2.5rem] p-10 border border-blue-100 hover:scale-[1.02] transition-transform duration-500">
               <h3 className="text-2xl font-black text-blue-600 mb-8 flex items-center gap-3">
                 <span className="size-8 bg-blue-600 rounded-lg flex items-center justify-center text-white italic">b</span>
-                The BoopSign Way
+                The Boopsign Way
               </h3>
               <ul className="space-y-6">
                 {comparison.pros?.map((pro, i) => (
@@ -234,7 +234,7 @@ export default async function ComparisonPage({ params }: Props) {
           {faqItems.length > 0 && (
             <section className="border-t border-slate-100">
               <Faq
-                heading={`${comparison.competitorName} vs BoopSign: Frequently Asked Questions`}
+                heading={`${comparison.competitorName} vs Boopsign: Frequently Asked Questions`}
                 items={faqItems}
               />
             </section>
@@ -270,7 +270,7 @@ export default async function ComparisonPage({ params }: Props) {
             <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100">
               <h4 className="text-slate-900 font-black text-lg mb-6 leading-tight">Legal Validity</h4>
               <p className="text-sm text-slate-500 font-medium leading-relaxed mb-6">
-                BoopSign is fully compliant with the ESIGN Act and UETA regulations. Every signature includes:
+                Boopsign is fully compliant with the ESIGN Act and UETA regulations. Every signature includes:
               </p>
               <ul className="space-y-4">
                 {[

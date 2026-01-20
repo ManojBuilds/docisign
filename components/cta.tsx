@@ -1,66 +1,62 @@
 import StartTrialBtn from "./StartTrialBtn";
-import { Avatar, AvatarImage } from "./ui/avatar";
 
-const avatars = [
-  {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-1.webp",
-    alt: "Avatar 1",
-  },
-  {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-2.webp",
-    alt: "Avatar 2",
-  },
-  {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-3.webp",
-    alt: "Avatar 3",
-  },
-  {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-4.webp",
-    alt: "Avatar 4",
-  },
-  {
-    src: "https://deifkwefumgah.cloudfront.net/shadcnblocks/block/avatar-5.webp",
-    alt: "Avatar 5",
-  },
-];
 
 const Cta = () => {
   return (
-    <section className="py-24 bg-gradient-tl from-muted/90 to-muted">
-      <div className="container max-w-5xl mx-auto px-4 text-center">
-        {/* Trust indicators */}
-        <div className="flex items-center justify-center gap-2 mb-6">
-          <div className="flex -space-x-2">
-            {avatars.map((avatar, index) => (
-              <Avatar key={index} className="h-8 w-8 border-2 border-primary-foreground/10">
-                <AvatarImage src={avatar.src} alt={avatar.alt} />
-              </Avatar>
-            ))}
-          </div>
-          <p className="text-sm ml-2">
-            Join <span className="font-semibold">freelancers & consultants</span> who switched from DocuSign
-          </p>
+    <section
+      className="py-24 md:py-32 relative overflow-hidden"
+      style={{
+        backgroundImage: 'url("/bg.webp")',
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="absolute inset-0 bg-black/75" />
+
+      <div className="container max-w-4xl mx-auto px-4 text-center relative z-10">
+
+        {/* Trust Badge */}
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700 backdrop-blur-sm mb-10">
+          <span className="text-slate-200 text-sm font-medium pl-2">
+            Join <span className="text-white font-bold">1,000+ freelancers</span>
+          </span>
         </div>
 
-        {/* Main heading */}
-        <h2 className="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-          Ready to Sign Contracts in <span className="text-foreground">3 Minutes</span> Instead of 3 Days?
+        {/* Main Heading */}
+        <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-6 leading-[1.1] drop-shadow-lg">
+          Stop Chasing Signatures. <br className="hidden md:block" />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300">
+            Start Closing Deals.
+          </span>
         </h2>
 
         {/* Subheading */}
-        <p className="text-lg max-w-2xl mx-auto mb-8">
-          Stop wasting time with complex e-signature tools. Join freelancers, consultants, and small businesses who chose the simple DocuSign alternative.
+        <p className="text-lg md:text-xl text-slate-200 mb-12 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
+          Join 1,000+ freelancers who switched to Boopsign to get contracts signed 3x faster than DocuSign.
         </p>
 
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-          <StartTrialBtn label="Send Your First Contract" />
+        {/* CTA Button Area */}
+        <div className="flex flex-col items-center gap-6">
+          <div className="scale-125 origin-center">
+            <StartTrialBtn label="Sign Your First Document Free" />
+          </div>
+
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium text-slate-300">
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              7-day free trial
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              No credit card required
+            </span>
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              Cancel anytime
+            </span>
+          </div>
         </div>
 
-        {/* Trust indicators */}
-        <p className="text-sm text-primary-foreground/80 mt-6">
-          7-day free trial • No credit card required • No account needed for clients • Cancel anytime
-        </p>
       </div>
     </section>
   );

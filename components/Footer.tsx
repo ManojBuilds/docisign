@@ -19,7 +19,7 @@ const Footer = () => {
                 <span>Secure & legally binding</span>
               </div>
               <p className="text-xs text-muted-foreground/80 mt-4">
-                &copy; {new Date().getFullYear()} BoopSign. All rights reserved.
+                &copy; {new Date().getFullYear()} Boopsign. All rights reserved.
               </p>
             </div>
           </div>
@@ -358,7 +358,7 @@ const Footer = () => {
         {/* Bottom section */}
         <div className="mt-12 pt-8 border-t text-center">
           <p className="text-sm text-muted-foreground mb-2">
-            Join thousands of professionals saving time and money with BoopSign
+            Join thousands of professionals saving time and money with Boopsign
           </p>
           <div className="flex justify-center space-x-2 sm:space-x-6 text-xs text-muted-foreground">
             <span>ESIGN Act Compliant</span>

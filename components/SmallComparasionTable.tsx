@@ -9,7 +9,7 @@ interface ValueWithHighlight {
 
 interface ComparisonItem {
   feature: string;
-  boopSign: ValueWithHighlight;
+  Boopsign: ValueWithHighlight;
   competitor: ValueWithHighlight;
 }
 
@@ -22,37 +22,37 @@ interface ComparasionTableProps {
 const getComparisonData = (competitorPrice: string | number): ComparisonItem[] => [
   {
     feature: "Monthly Cost (Individual)",
-    boopSign: { value: "$20/month", highlight: true },
+    Boopsign: { value: "$20/month", highlight: true },
     competitor: { value: `$${competitorPrice}/month`, highlight: false },
   },
   {
     feature: "App Download Required",
-    boopSign: { value: false, highlight: true },
+    Boopsign: { value: false, highlight: true },
     competitor: { value: true, highlight: false },
   },
   {
     feature: "Mobile Signing Time",
-    boopSign: { value: "Under 90 seconds", highlight: true },
+    Boopsign: { value: "Under 90 seconds", highlight: true },
     competitor: { value: "7-12 minutes", highlight: false },
   },
   {
     feature: "Mobile-First Design",
-    boopSign: { value: true, highlight: true },
+    Boopsign: { value: true, highlight: true },
     competitor: { value: false, highlight: false },
   },
   {
     feature: "Client account required",
-    boopSign: { value: false, highlight: true },
+    Boopsign: { value: false, highlight: true },
     competitor: { value: true, highlight: false },
   },
   {
     feature: "Document Setup Time",
-    boopSign: { value: "Instantly", highlight: true },
+    Boopsign: { value: "Instantly", highlight: true },
     competitor: { value: "5-8 minutes", highlight: false },
   },
   {
     feature: "Email Delivery Issues",
-    boopSign: { value: "Rare", highlight: true },
+    Boopsign: { value: "Rare", highlight: true },
     competitor: { value: "Common", highlight: false },
   },
 ];
@@ -60,7 +60,7 @@ const getComparisonData = (competitorPrice: string | number): ComparisonItem[] =
 const SmallComparasionTable = ({ competitorName, competitorPrice, className }: ComparasionTableProps) => {
   const comparisonData = getComparisonData(competitorPrice);
 
-  const renderValue = (value: string | boolean, highlight?: boolean, isBoopSign?: boolean) => {
+  const renderValue = (value: string | boolean, highlight?: boolean, isBoopsign?: boolean) => {
     if (typeof value === 'boolean') {
       return value ? (
         <Check className={`w-5 h-5 mx-auto ${highlight ? 'text-primary' : 'text-muted-foreground'}`} />
@@ -70,7 +70,7 @@ const SmallComparasionTable = ({ competitorName, competitorPrice, className }: C
     }
 
     return (
-      <span className={`${highlight ? (isBoopSign ? 'text-primary font-semibold' : 'text-foreground font-semibold') : 'text-muted-foreground'}`}>
+      <span className={`${highlight ? (isBoopsign ? 'text-primary font-semibold' : 'text-foreground font-semibold') : 'text-muted-foreground'}`}>
         {value}
       </span>
     );
@@ -88,7 +88,7 @@ const SmallComparasionTable = ({ competitorName, competitorPrice, className }: C
               <th className="py-4 px-6 text-center">
                 <div className="flex flex-col items-center gap-2">
                   <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full font-semibold">
-                    BoopSign
+                    Boopsign
                   </div>
                 </div>
               </th>
@@ -118,7 +118,7 @@ const SmallComparasionTable = ({ competitorName, competitorPrice, className }: C
                   </div>
                 </td>
                 <td className="py-4 px-6 text-center">
-                  {renderValue(item.boopSign.value, item.boopSign.highlight, true)}
+                  {renderValue(item.Boopsign.value, item.Boopsign.highlight, true)}
                 </td>
                 <td className="py-4 px-6 text-center">
                   {renderValue(item.competitor.value, item.competitor.highlight, false)}

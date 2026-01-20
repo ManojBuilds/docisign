@@ -5,8 +5,8 @@ import { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "BoopSign Alternatives & Comparisons | Better E-Signatures",
-  description: "Compare BoopSign with leading e-signature tools. See why freelancers and small businesses are switching to a faster, more affordable, and mobile-first solution.",
+  title: "Boopsign Alternatives & Comparisons | Better E-Signatures",
+  description: "Compare Boopsign with leading e-signature tools. See why freelancers and small businesses are switching to a faster, more affordable, and mobile-first solution.",
 };
 
 function ComparisonCard({ comparison }: { comparison: Comparison }) {
@@ -57,13 +57,13 @@ export default function AlternativesIndex() {
 
         <div className="container mx-auto px-4 py-24 md:py-12 relative z-10 text-center max-w-5xl">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-bold mb-8 ring-1 ring-blue-200/80">
-            <CheckCircle className="size-4" /> Why Switch to BoopSign?
+            <CheckCircle className="size-4" /> Why Switch to Boopsign?
           </div>
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-8 font-primary leading-[1.1]">
-            BoopSign <span className="italic font-light text-slate-400">vs.</span> <span className="text-blue-600">The Giants</span>
+            Boopsign <span className="italic font-light text-slate-400">vs.</span> <span className="text-blue-600">The Giants</span>
           </h1>
           <p className="text-xl md:text-2xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-medium">
-            Tired of expensive, clunky, and complex e-signature tools? See how BoopSign compares with the leading platforms on the market.
+            Tired of expensive, clunky, and complex e-signature tools? See how Boopsign compares with the leading platforms on the market.
           </p>
         </div>
       </div>

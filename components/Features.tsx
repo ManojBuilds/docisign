@@ -2,62 +2,59 @@ import { Shield, Smartphone, Users, Zap } from "lucide-react";
 
 const Features = () => {
   return (
-    <section className="py-32" id="features">
-      <div className="container mx-auto">
-        <p className="mb-4 text-sm text-muted-foreground lg:text-base">
-          THE FASTEST WAY FOR FREELANCERS & SMALL AGENCIES
-        </p>
-        <h2 className="text-3xl font-semibold lg:text-4xl">
-          Everything You Need. Nothing You Don&apos;t.
-        </h2>
-        <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
-          Built specifically for freelancers, consultants, and small teams. Unlike DocuSign or PandaDoc, we focus on what actually matters: getting contracts signed fast.
-        </p>
-        <div className="mt-14 grid gap-6 lg:mt-20 lg:grid-cols-2 xl:grid-cols-4">
-          <div className="rounded-lg bg-accent p-5">
-            <span className="mb-8 flex size-12 items-center justify-center rounded-full bg-background">
-              <Zap className="size-6" />
-            </span>
-            <h3 className="mb-2 text-xl font-semibold">
-              No Account Required for Clients
-            </h3>
-            <p className="leading-7 text-muted-foreground">
-              Your clients sign directly from email—no login, no app download, no friction. Just click, sign, done.
-            </p>
+    <section className="py-24 lg:py-32 bg-slate-50" id="features">
+      <div className="container mx-auto px-4">
+
+        {/* Section Header */}
+        <div className="max-w-3xl mb-16 md:mb-24">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-medium uppercase tracking-wider mb-6">
+            <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+            Why freelancers choose Boopsign
           </div>
-          <div className="rounded-lg bg-accent p-5">
-            <span className="mb-8 flex size-12 items-center justify-center rounded-full bg-background">
-              <Smartphone className="size-6" />
-            </span>
-            <h3 className="mb-2 text-xl font-semibold">
-              Mobile-Optimized Signing
-            </h3>
-            <p className="leading-7 text-muted-foreground">
-              Works perfectly on any device. Your clients can sign contracts on their phone in seconds—no desktop required.
-            </p>
-          </div>
-          <div className="rounded-lg bg-accent p-5">
-            <span className="mb-8 flex size-12 items-center justify-center rounded-full bg-background">
-              <Users className="size-6" />
-            </span>
-            <h3 className="mb-2 text-xl font-semibold">
-              Legally Binding Audit Trail
-            </h3>
-            <p className="leading-7 text-muted-foreground">
-              Every signature includes timestamped proof, IP address, and email verification for complete legal compliance.
-            </p>
-          </div>
-          <div className="rounded-lg bg-accent p-5">
-            <span className="mb-8 flex size-12 items-center justify-center rounded-full bg-background">
-              <Shield className="size-6" />
-            </span>
-            <h3 className="mb-2 text-xl font-semibold">
-              Bank-Level Security
-            </h3>
-            <p className="leading-7 text-muted-foreground">
-              Enterprise-grade encryption and secure authentication. Your documents are protected at every step.
-            </p>
-          </div>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
+            Features that help you close the deal.
+          </h2>
+          <p className="text-lg md:text-xl text-slate-500 leading-relaxed">
+            Built specificially for freelancers and consultants. Unlike DocuSign or PandaDoc, we stripped away the enterprise bloat to focus on one thing: <strong className="text-slate-900 font-medium">speed to signature.</strong>
+          </p>
+        </div>
+
+        {/* Feature Grid */}
+        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-4">
+          {[
+            {
+              icon: <Zap className="size-6 text-amber-500" />,
+              title: "No Account Required",
+              desc: "Your clients sign directly from email—no login, no app download, no friction. Just click, sign, done."
+            },
+            {
+              icon: <Smartphone className="size-6 text-blue-500" />,
+              title: "Mobile-First Signing",
+              desc: "Works perfectly on any device. Your clients can sign contracts on their phone in seconds."
+            },
+            {
+              icon: <Users className="size-6 text-emerald-500" />,
+              title: "Legally Binding",
+              desc: "Every signature includes timestamped proof, IP address, and email verification for complete compliance."
+            },
+            {
+              icon: <Shield className="size-6 text-purple-500" />,
+              title: "Bank-Level Security",
+              desc: "Enterprise-grade encryption and secure authentication. Your documents are protected at every step."
+            }
+          ].map((feature, i) => (
+            <div key={i} className="group p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:bg-white hover:border-blue-100 hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+              <span className="mb-6 flex size-12 items-center justify-center rounded-2xl bg-white border border-slate-200 shadow-sm group-hover:scale-110 transition-transform duration-300">
+                {feature.icon}
+              </span>
+              <h3 className="mb-3 text-xl font-bold text-slate-900">
+                {feature.title}
+              </h3>
+              <p className="leading-relaxed text-slate-500">
+                {feature.desc}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

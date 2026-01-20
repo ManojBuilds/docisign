@@ -156,7 +156,7 @@ export function BrandingSettings({
                 </Button>
               </div>
               <p className="text-[11px] text-muted-foreground">
-                This name will replace "BoopSign" in emails sent to your clients.
+                This name will replace "Boopsign" in emails sent to your clients.
               </p>
             </div>
 
@@ -231,11 +231,11 @@ export function BrandingSettings({
                   )}
                 </div>
                 <span className="text-sm font-bold truncate">
-                  {brandName || branding?.brandName || "BoopSign"}
+                  {brandName || branding?.brandName || "Boopsign"}
                 </span>
               </div>
               <p className="text-[10px] text-muted-foreground mt-2 italic">
-                "Your signature is requested by {brandName || branding?.brandName || "BoopSign"}"
+                "Your signature is requested by {brandName || branding?.brandName || "Boopsign"}"
               </p>
             </div>
           </div>

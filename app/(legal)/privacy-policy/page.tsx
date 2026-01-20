@@ -3,7 +3,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy Policy - How We Protect Your Data",
   description:
-    "BoopSign privacy policy: Learn how we collect, use, and protect your personal information and documents. GDPR compliant electronic signature platform.",
+    "Boopsign privacy policy: Learn how we collect, use, and protect your personal information and documents. GDPR compliant electronic signature platform.",
   keywords: [
     "privacy policy",
     "data protection",
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://boopsign.com/privacy-policy",
+    canonical: "https://Boopsign.com/privacy-policy",
   },
 };
 
@@ -30,10 +30,10 @@ export default function PrivacyPolicyPage() {
       <section className="mb-8 space-y-4">
         <h2 className="text-xl font-semibold">1. Introduction</h2>
         <p className="text-muted-foreground">
-          Welcome to boopsign. We are committed to protecting your personal
+          Welcome to Boopsign. We are committed to protecting your personal
           information and your right to privacy. If you have any questions or
           concerns about our policy, or our practices with regards to your
-          personal information, please contact us at support@boopsign.com.
+          personal information, please contact us at support@Boopsign.com.
         </p>
       </section>
 

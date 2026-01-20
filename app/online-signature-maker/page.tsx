@@ -9,7 +9,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title:
-    "Free Online Signature Maker | Create Electronic Signatures - BoopSign",
+    "Free Online Signature Maker | Create Electronic Signatures - Boopsign",
   description:
     "Create professional electronic signatures online for free in seconds. No registration required. Works on mobile and desktop. Download as transparent PNG instantly. Try our signature generator now!",
   keywords: [
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     "signature maker tool",
   ],
   alternates: {
-    canonical: "https://boopsign.com/online-signature-maker",
+    canonical: "https://Boopsign.com/online-signature-maker",
   },
   robots: {
     index: true,
@@ -38,7 +38,7 @@ const signatureMakerFaq = [
     id: "faq-1",
     question: "Are signatures created with this free tool legally binding?",
     answer:
-      "Signatures created with our free online signature maker are great for personal documents and basic business uses. For legally binding contracts requiring a full audit trail (IP address, timestamp, etc.), we recommend using the BoopSign platform.",
+      "Signatures created with our free online signature maker are great for personal documents and basic business uses. For legally binding contracts requiring a full audit trail (IP address, timestamp, etc.), we recommend using the Boopsign platform.",
   },
   {
     id: "faq-2",
@@ -73,13 +73,13 @@ export default function OnlineSignatureMakerPage() {
               "@context": "https://schema.org",
               "@type": "WebApplication",
               name: "Free Online Signature Maker",
-              image: "https://boopsign.com/images/og-signature-maker.jpg",
+              image: "https://Boopsign.com/images/og-signature-maker.jpg",
               description: "Create professional electronic signatures online for free.",
-              url: "https://boopsign.com/online-signature-maker",
+              url: "https://Boopsign.com/online-signature-maker",
               applicationCategory: "BusinessApplication",
               brand: {
                 "@type": "Brand",
-                name: "BoopSign"
+                name: "Boopsign"
               },
               offers: {
                 "@type": "Offer",
@@ -128,7 +128,7 @@ export default function OnlineSignatureMakerPage() {
                 </div>
                 <div className="relative z-10">
                   <h3 className="text-2xl font-bold mb-4">Already have a document to sign?</h3>
-                  <p className="text-slate-400 mb-6">Stop dragging and dropping PNGs. Upload your PDF to BoopSign and sign it 100% legally in 60 seconds.</p>
+                  <p className="text-slate-400 mb-6">Stop dragging and dropping PNGs. Upload your PDF to Boopsign and sign it 100% legally in 60 seconds.</p>
                   <Link href="/dashboard" className="inline-flex items-center justify-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-all gap-2">
                     Sign a PDF Now (Free) <Zap className="size-4" />
                   </Link>
@@ -161,7 +161,7 @@ export default function OnlineSignatureMakerPage() {
           <div className="container mx-auto px-4 max-w-5xl">
             <div className="text-center mb-16">
               <h2 className="text-3xl md:text-5xl font-bold mb-6 text-slate-900">Sign Like a Pro</h2>
-              <p className="text-slate-600 text-lg">When you&apos;re ready for real business, upgrade to the full BoopSign experience.</p>
+              <p className="text-slate-600 text-lg">When you&apos;re ready for real business, upgrade to the full Boopsign experience.</p>
             </div>
 
             <div className="grid md:grid-cols-2 gap-8">
@@ -190,10 +190,10 @@ export default function OnlineSignatureMakerPage() {
                 </ul>
               </div>
 
-              {/* BoopSign App */}
+              {/* Boopsign App */}
               <div className="p-10 rounded-[2.5rem] bg-slate-900 text-white relative overflow-hidden shadow-2xl shadow-blue-200/20 group hover:-translate-y-1 transition-all duration-300">
                 <div className="absolute top-0 right-0 bg-blue-600 text-white px-5 py-1.5 text-[10px] font-black uppercase tracking-widest rounded-bl-2xl">SOLO PRO</div>
-                <h3 className="text-2xl font-bold mb-4">BoopSign Full App</h3>
+                <h3 className="text-2xl font-bold mb-4">Boopsign Full App</h3>
                 <p className="text-slate-400 mb-8 text-sm md:text-base leading-relaxed">For freelancers who need legally binding contracts and zero friction.</p>
                 <ul className="space-y-4 mb-10">
                   <li className="flex items-start gap-3 text-blue-50">
@@ -241,7 +241,7 @@ export default function OnlineSignatureMakerPage() {
               <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
                 <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-xl font-bold text-blue-600">3</div>
                 <h3 className="font-bold mb-3 text-lg">Sign</h3>
-                <p className="text-slate-500 leading-relaxed text-sm">Drag your signature onto any contract. Or better yet, upload your PDF to BoopSign.</p>
+                <p className="text-slate-500 leading-relaxed text-sm">Drag your signature onto any contract. Or better yet, upload your PDF to Boopsign.</p>
               </div>
             </div>
           </div>
@@ -260,7 +260,7 @@ export default function OnlineSignatureMakerPage() {
           <div className="container mx-auto max-w-4xl text-center relative z-10">
             <h2 className="text-4xl md:text-6xl font-black mb-8 tracking-tighter">Sign faster. Sign better.</h2>
             <p className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-              BoopSign is the 60-second e-signature platform for freelancers. No client accounts. No friction. $20/month for unlimited everything.
+              Boopsign is the 60-second e-signature platform for freelancers. No client accounts. No friction. $20/month for unlimited everything.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-6">
               <Link href="/dashboard" className="w-full sm:w-auto px-10 py-5 bg-blue-600 hover:bg-blue-700 text-white rounded-2xl font-bold transition-all text-xl shadow-2xl shadow-blue-600/40">

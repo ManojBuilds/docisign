@@ -89,7 +89,7 @@ export function Header({
           <div className="flex items-center gap-4">
             {isSignedIn ? (
               <>
-                <Button variant="ghost" asChild className="hidden sm:inline-flex rounded-xl font-medium">
+                <Button variant="link" asChild className="hidden sm:inline-flex font-medium">
                   <Link href="/dashboard">Dashboard</Link>
                 </Button>
                 <UserMenu />
@@ -139,7 +139,7 @@ export function Header({
                   key={item.label}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2 py-2 px-2 text-sm font-medium hover:bg-accent rounded-md transition-colors"
+                  className="flex items-center gap-2 py-2 px-2 text-sm font-medium hover:bg-accent transition-colors"
                 >
                   <item.icon className="size-4 text-primary" />
                   <span>{item.label}</span>

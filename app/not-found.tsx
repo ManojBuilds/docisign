@@ -38,7 +38,7 @@ export default function NotFound() {
             <h2 className="text-2xl font-semibold text-foreground mb-4">Page Not Found</h2>
             <p className="text-muted-foreground mb-8">
               Oops! The page you're looking for doesn't exist or has been moved.
-              But don't worry, signing documents with BoopSign is still super simple!
+              But don't worry, signing documents with Boopsign is still super simple!
             </p>
           </div>
 
@@ -47,13 +47,13 @@ export default function NotFound() {
               <Button className="w-full">Go Back Home</Button>
             </Link>
             <Link href="/docusign-alternative" className="w-full block">
-              <Button variant="outline" className="w-full">Explore BoopSign</Button>
+              <Button variant="outline" className="w-full">Explore Boopsign</Button>
             </Link>
           </div>
 
           <div className="mt-12 pt-8 border-t border-border">
             <p className="text-sm text-muted-foreground">
-              While you're here, why not learn why 1,200+ professionals chose BoopSign
+              While you're here, why not learn why 1,200+ professionals chose Boopsign
               as their e-signature solution?
             </p>
           </div>

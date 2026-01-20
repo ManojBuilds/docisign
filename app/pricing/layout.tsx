@@ -3,32 +3,32 @@ import Footer from "@/components/Footer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pricing - $20/Month | No Hidden Fees | BoopSign",
+  title: "Pricing - $20/Month | No Hidden Fees | Boopsign",
   description:
     "Simple pricing: $20/month for unlimited documents. 7-day free trial. No per-user fees, no hidden costs. 50% cheaper than DocuSign's $25/month plan.",
   keywords: [
-    "boopsign pricing",
+    "Boopsign pricing",
     "docusign alternative pricing",
     "electronic signature pricing",
     "cheap esignature software",
     "affordable document signing",
   ],
   openGraph: {
-    title: "BoopSign Pricing - $20/Month vs DocuSign's $25+",
+    title: "Boopsign Pricing - $20/Month vs DocuSign's $25+",
     description:
       "Simple, transparent pricing. 50% cheaper than DocuSign with better mobile experience.",
-    url: "https://boopsign.com/pricing",
+    url: "https://Boopsign.com/pricing",
     images: [
       {
-        url: "https://boopsign.com/images/og-pricing.jpg",
+        url: "https://Boopsign.com/images/og-pricing.jpg",
         width: 1200,
         height: 630,
-        alt: "BoopSign vs DocuSign Pricing Comparison",
+        alt: "Boopsign vs DocuSign Pricing Comparison",
       },
     ],
   },
   alternates: {
-    canonical: "https://boopsign.com/pricing",
+    canonical: "https://Boopsign.com/pricing",
   },
 };
 export default function PricingLayout({
@@ -44,16 +44,16 @@ export default function PricingLayout({
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Product",
-            name: "BoopSign Electronic Signature Software",
-            image: "https://boopsign.com/images/og-pricing.jpg",
+            name: "Boopsign Electronic Signature Software",
+            image: "https://Boopsign.com/images/og-pricing.jpg",
             description: "Mobile-first electronic signature platform. Simple, transparent pricing.",
             brand: {
               "@type": "Brand",
-              name: "BoopSign"
+              name: "Boopsign"
             },
             offers: {
               "@type": "Offer",
-              url: "https://boopsign.com/pricing",
+              url: "https://Boopsign.com/pricing",
               price: "20.00",
               priceCurrency: "USD",
               availability: "https://schema.org/InStock",

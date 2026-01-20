@@ -23,11 +23,11 @@ export default function Logo({
 
   return (
     <div className={cn("flex items-center", className)}>
-      <Link href={href} className="flex items-center gap-1.5 sm:gap-2 group">
+      <Link href={href} className="flex items-center group">
         <div className="relative flex items-center shrink-0">
           <Image
             src="/logo.png"
-            alt="BoopSign Logo"
+            alt="Boopsign Logo"
             width={40}
             height={40}
             className="h-8 w-8 md:h-10 md:w-10 transition-transform group-hover:scale-105"
@@ -35,8 +35,8 @@ export default function Logo({
         </div>
 
         {showText && (
-          <span className="text-base md:text-xl font-bold font-heading tracking-tight">
-            BoopSign
+          <span className="text-base md:text-xl font-bold font-heading tracking-tight md:-ml-1">
+            Boopsign
           </span>
         )}
 

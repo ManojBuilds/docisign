@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "BoopSign Contract Template";
+export const alt = "Boopsign Contract Template";
 export const size = {
   width: 1200,
   height: 630,
@@ -31,7 +31,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
             fontWeight: 600,
           }}
         >
-          BoopSign
+          Boopsign
         </div>
       ),
       {
@@ -193,7 +193,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
                 color: "#1E293B",
               }}
             >
-              BoopSign
+              Boopsign
             </span>
           </div>
           <div
@@ -203,7 +203,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
               color: "#94A3B8",
             }}
           >
-            boopsign.com
+            Boopsign.com
           </div>
         </div>
       </div>

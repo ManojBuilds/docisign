@@ -10,7 +10,7 @@ interface NewYearGiftProps {
 
 export default function NewYearGift({
   userName = "there",
-  dashboardUrl = "https://boopsign.com/dashboard",
+  dashboardUrl = "https://Boopsign.com/dashboard",
 }: NewYearGiftProps) {
   return (
     <EmailLayout preview={`A New Year Gift for you, ${userName}! 🎁`}>
@@ -60,7 +60,7 @@ export default function NewYearGift({
         </Text>
         <Text className="m-0 text-[12px] text-muted">
           Founder,{" "}
-          <Link href="https://boopsign.com" className="text-muted no-underline">
+          <Link href="https://Boopsign.com" className="text-muted no-underline">
             Boopsign.com
           </Link>
         </Text>

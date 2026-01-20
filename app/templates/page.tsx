@@ -3,7 +3,7 @@ import { allTemplates } from "content-collections";
 import { BadgeCheck, Shield, Zap } from "lucide-react";
 
 export const metadata = {
-  title: "Free Contract Templates Library | BoopSign",
+  title: "Free Contract Templates Library | Boopsign",
   description: "Browse our collection of free, professionally drafted contract templates for freelancers, agencies, and small businesses. Edit and sign in minutes.",
 };
 
@@ -82,7 +82,7 @@ export default function ContractTemplatesHubPage() {
         <div className="absolute bottom-0 right-1/4 size-[400px] bg-indigo-500/5 rounded-full blur-[100px] translate-x-1/2 translate-y-1/2" />
 
         <div className="container mx-auto px-4 max-w-4xl relative z-10 text-center">
-          <h2 className="text-3xl md:text-4xl font-black text-white mb-6">Why use BoopSign templates?</h2>
+          <h2 className="text-3xl md:text-4xl font-black text-white mb-6">Why use Boopsign templates?</h2>
           <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-16">
             Professional-grade contracts that protect your business and simplify your workflow
           </p>

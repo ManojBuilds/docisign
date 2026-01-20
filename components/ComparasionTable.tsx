@@ -8,7 +8,7 @@ import { useState } from "react";
 interface ComparisonFeature {
   category: string;
   feature: string;
-  boopSign: {
+  Boopsign: {
     value: string | boolean;
     highlight?: boolean;
     tooltip?: string;
@@ -32,75 +32,75 @@ const getComparisonData = (competitorPrice: string | number): ComparisonFeature[
   {
     category: "Pricing",
     feature: "Monthly Cost (Individual)",
-    boopSign: { value: "$20/month", highlight: true },
+    Boopsign: { value: "$20/month", highlight: true },
     competitor: { value: `$${competitorPrice}/month`, highlight: false },
     important: true
   },
   {
     category: "Pricing",
     feature: "Setup Fees",
-    boopSign: { value: "$0", highlight: true },
+    Boopsign: { value: "$0", highlight: true },
     competitor: { value: "$0" }
   },
   {
     category: "Pricing",
     feature: "Free Trial",
-    boopSign: { value: "7 days", highlight: true },
+    Boopsign: { value: "7 days", highlight: true },
     competitor: { value: "30 days" }
   },
   // Mobile Experience
   {
     category: "Mobile Experience",
     feature: "App Download Required",
-    boopSign: { value: false, highlight: true },
+    Boopsign: { value: false, highlight: true },
     competitor: { value: true },
     important: true
   },
   {
     category: "Mobile Experience",
     feature: "Mobile Signing Time",
-    boopSign: { value: "Under 90 seconds", highlight: true },
+    Boopsign: { value: "Under 90 seconds", highlight: true },
     competitor: { value: "7-12 minutes" },
     important: true
   },
   {
     category: "Mobile Experience",
     feature: "Mobile-First Design",
-    boopSign: { value: true, highlight: true },
+    Boopsign: { value: true, highlight: true },
     competitor: { value: false },
     important: true
   },
   {
     category: "Mobile Experience",
     feature: "Touch-Optimized Interface",
-    boopSign: { value: true, highlight: true },
+    Boopsign: { value: true, highlight: true },
     competitor: { value: "Partial" }
   },
   // User Experience
   {
     category: "User Experience",
     feature: "Client account required",
-    boopSign: { value: false, highlight: true },
+    Boopsign: { value: false, highlight: true },
     competitor: { value: true },
     important: true
   },
   {
     category: "User Experience",
     feature: "Document Setup Time",
-    boopSign: { value: "Instantly", highlight: true },
+    Boopsign: { value: "Instantly", highlight: true },
     competitor: { value: "5-8 minutes" },
     important: true
   },
   {
     category: "User Experience",
     feature: "Learning Curve",
-    boopSign: { value: "None", highlight: true },
+    Boopsign: { value: "None", highlight: true },
     competitor: { value: "Moderate" }
   },
   {
     category: "User Experience",
     feature: "Email Delivery Issues",
-    boopSign: { value: "Rare", highlight: true },
+    Boopsign: { value: "Rare", highlight: true },
     competitor: { value: "Common" },
     important: true
   },
@@ -108,38 +108,38 @@ const getComparisonData = (competitorPrice: string | number): ComparisonFeature[
   {
     category: "Features",
     feature: "Document Formats Supported",
-    boopSign: { value: "PDF, DOC, DOCX" },
+    Boopsign: { value: "PDF, DOC, DOCX" },
     competitor: { value: "PDF, DOC, DOCX, PPT, XLS" }
   },
   {
     category: "Features",
     feature: "Templates",
-    boopSign: { value: true },
+    Boopsign: { value: true },
     competitor: { value: true }
   },
   // Security & Compliance
   {
     category: "Security & Compliance",
     feature: "ESIGN Act Compliant",
-    boopSign: { value: true },
+    Boopsign: { value: true },
     competitor: { value: true }
   },
   {
     category: "Security & Compliance",
     feature: "UETA Compliant",
-    boopSign: { value: true },
+    Boopsign: { value: true },
     competitor: { value: true }
   },
   {
     category: "Security & Compliance",
     feature: "SOC 2 Type II",
-    boopSign: { value: true },
+    Boopsign: { value: true },
     competitor: { value: true }
   },
   {
     category: "Security & Compliance",
     feature: "Data Encryption",
-    boopSign: { value: "AES-256" },
+    Boopsign: { value: "AES-256" },
     competitor: { value: "AES-256" }
   }
 ];
@@ -157,7 +157,7 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
   const comparisonData = getComparisonData(competitorPrice);
   const categories = Array.from(new Set(comparisonData.map(item => item.category)));
 
-  const renderValue = (value: string | boolean, highlight?: boolean, isBoopSign?: boolean) => {
+  const renderValue = (value: string | boolean, highlight?: boolean, isBoopsign?: boolean) => {
     if (typeof value === 'boolean') {
       return value ? (
         <Check className={`w-5 h-5 mx-auto ${highlight ? 'text-primary' : 'text-muted-foreground'}`} />
@@ -167,7 +167,7 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
     }
 
     return (
-      <span className={`${highlight ? (isBoopSign ? 'text-primary font-semibold' : 'text-foreground font-semibold') : 'text-muted-foreground'}`}>
+      <span className={`${highlight ? (isBoopsign ? 'text-primary font-semibold' : 'text-foreground font-semibold') : 'text-muted-foreground'}`}>
         {value}
       </span>
     );
@@ -185,10 +185,10 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
-            BoopSign vs {competitorName}
+            Boopsign vs {competitorName}
           </h2>
           <p className="text-xl md:text-2xl mb-4 text-muted-foreground">
-            Why 1000+ businesses switched to BoopSign
+            Why 1000+ businesses switched to Boopsign
           </p>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Built for mobile-first signing, 12x faster setup, 50% cheaper pricing
@@ -230,7 +230,7 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
                   <th className="py-4 px-6 text-center">
                     <div className="flex flex-col items-center gap-2">
                       <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full font-semibold">
-                        BoopSign
+                        Boopsign
                       </div>
                       <span className="text-xs text-primary font-medium">12x Faster</span>
                     </div>
@@ -266,7 +266,7 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
                       </div>
                     </td>
                     <td className="py-4 px-6 text-center">
-                      {renderValue(item.boopSign.value, item.boopSign.highlight, true)}
+                      {renderValue(item.Boopsign.value, item.Boopsign.highlight, true)}
                     </td>
                     <td className="py-4 px-6 text-center">
                       {renderValue(item.competitor.value, item.competitor.highlight, false)}
@@ -307,7 +307,7 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
         <div className="text-center mt-16 py-12 border-t">
           <h3 className="text-2xl font-bold mb-4">Ready to Switch?</h3>
           <p className="text-lg mb-6 text-muted-foreground">
-            Join 1000+ businesses that made the switch to BoopSign
+            Join 1000+ businesses that made the switch to Boopsign
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/sign-in">

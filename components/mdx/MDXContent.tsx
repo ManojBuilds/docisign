@@ -165,12 +165,12 @@ const sharedComponents = {
     <TableRow className={cn("group/row", className)} {...props} />
   ),
   th: ({ className, children, ...props }: React.ComponentProps<typeof TableHead>) => {
-    const isBoopSign = typeof children === "string" && children.toLowerCase().includes("boopsign");
+    const isBoopsign = typeof children === "string" && children.toLowerCase().includes("Boopsign");
     return (
       <TableHead
         className={cn(
           "px-6 py-4 font-black uppercase tracking-widest text-[10px] md:text-xs whitespace-normal",
-          isBoopSign ? "text-blue-600 bg-blue-50/50" : "text-slate-900",
+          isBoopsign ? "text-blue-600 bg-blue-50/50" : "text-slate-900",
           className
         )}
         {...props}

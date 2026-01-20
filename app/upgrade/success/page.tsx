@@ -73,7 +73,7 @@ export default function SuccessPage() {
         </Card>
 
         <p className="text-center text-xs text-muted-foreground">
-          Need help? <Link href="mailto:support@boopsign.com" className="underline hover:text-foreground transition-colors">Contact Support</Link>
+          Need help? <Link href="mailto:support@Boopsign.com" className="underline hover:text-foreground transition-colors">Contact Support</Link>
         </p>
 
       </div>

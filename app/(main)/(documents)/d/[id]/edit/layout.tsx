@@ -7,7 +7,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id: documentId } = await params;
 
   return {
-    title: "Edit Document - Add Signature Fields | BoopSign",
+    title: "Edit Document - Add Signature Fields | Boopsign",
     description:
       "Add signature fields, text inputs, and checkboxes to your document. Prepare for electronic signing with drag-and-drop editor.",
     keywords: [
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       follow: false,
     },
     alternates: {
-      canonical: `https://boopsign.com/d/${documentId}/edit`,
+      canonical: `https://Boopsign.com/d/${documentId}/edit`,
     },
   };
 }

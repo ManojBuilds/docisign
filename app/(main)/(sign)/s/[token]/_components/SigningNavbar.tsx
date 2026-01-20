@@ -62,7 +62,7 @@ export const SigningNavbar = memo(({
                 {signingSession.document.title}
               </h1>
               <p className="text-[10px] text-gray-500 truncate font-medium">
-                from <span className="text-gray-900 font-bold">{signingSession.ownerBranding?.brandName || "BoopSign"}</span>
+                from <span className="text-gray-900 font-bold">{signingSession.ownerBranding?.brandName || "Boopsign"}</span>
               </p>
             </div>
           </div>
@@ -161,7 +161,7 @@ export const SigningNavbar = memo(({
             <div className="h-4 w-[1px] bg-gray-200 mx-1" />
             <div className="flex flex-col">
               <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">
-                {signingSession.ownerBranding?.brandName || "BoopSign"}
+                {signingSession.ownerBranding?.brandName || "Boopsign"}
               </span>
               <h1 className="text-sm font-bold truncate max-w-[200px] text-gray-900 tracking-tight leading-none">
                 {signingSession.document.title}

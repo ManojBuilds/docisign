@@ -2,9 +2,9 @@ import type { Metadata } from 'next';
 import BillingPageClient from './BillingPageClient';
 
 export const metadata: Metadata = {
-  title: 'Manage Your Plan - BoopSign Account Settings',
-  description: 'Manage your BoopSign subscription, update billing information, and view usage statistics. Cancel or upgrade your plan anytime.',
-  keywords: ['boopsign account', 'manage subscription', 'billing settings', 'plan management'],
+  title: 'Manage Your Plan - Boopsign Account Settings',
+  description: 'Manage your Boopsign subscription, update billing information, and view usage statistics. Cancel or upgrade your plan anytime.',
+  keywords: ['Boopsign account', 'manage subscription', 'billing settings', 'plan management'],
   robots: {
     index: false, // Keep account pages private
     follow: false,

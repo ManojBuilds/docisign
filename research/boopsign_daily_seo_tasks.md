@@ -1,4 +1,4 @@
-# BoopSign SEO - Daily Task Calendar
+# Boopsign SEO - Daily Task Calendar
 **90-Day Plan Broken Into Daily Actions**
 
 Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for best results.
@@ -9,11 +9,11 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 
 ### Day 1 (Today) - Meta Optimization
 **Task:** Fix meta titles and descriptions for 5 pages
-- [x] Homepage: Update title to "BoopSign - E-Signature Software Built for Freelancers & Consultants | $20/mo"
+- [x] Homepage: Update title to "Boopsign - E-Signature Software Built for Freelancers & Consultants | $20/mo"
 - [x] Homepage: Update meta description to "The e-signature tool freelancers love. No client accounts required. Get contracts signed in 3 minutes, not 3 days. 52% cheaper than DocuSign. Try free for 7 days."
-- [x] /pricing: Update title to "BoopSign Pricing - $20/mo for Freelancers | No Per-User Fees"
+- [x] /pricing: Update title to "Boopsign Pricing - $20/mo for Freelancers | No Per-User Fees"
 - [x] /pricing: Update meta description
-- [x] /how-it-works: Update title to "How BoopSign Works - 3-Minute Setup for Freelance E-Signatures"
+- [x] /how-it-works: Update title to "How Boopsign Works - 3-Minute Setup for Freelance E-Signatures"
 
 **Time:** 45 minutes
 
@@ -40,9 +40,9 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 - [x] Test with Google Rich Results Test tool
 
 **FAQs to add:**
-1. "Is BoopSign good for freelancers?"
+1. "Is Boopsign good for freelancers?"
 2. "Do my clients need accounts to sign?"
-3. "How much does BoopSign cost for freelancers?"
+3. "How much does Boopsign cost for freelancers?"
 
 **Time:** 60 minutes
 
@@ -77,7 +77,7 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 
 ### Day 6 - Optimize Template Page for SEO
 **Task:** SEO optimization for template page
-- [x] Set title: "Free Freelance Contract Template - Legally Binding & Ready to Sign | BoopSign"
+- [x] Set title: "Free Freelance Contract Template - Legally Binding & Ready to Sign | Boopsign"
 - [x] Write compelling meta description
 - [x] Add internal links (link to /esignature-for-freelancers 2-3 times)
 - [x] Add CTA sections (3 different CTAs throughout page)
@@ -123,10 +123,10 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 
 ### Day 9 - Expand /esignature-for-freelancers Page (Part 3)
 **Task:** Add comparison section
-- [ ] Add H2: "BoopSign vs Other E-Signature Tools for Freelancers"
+- [ ] Add H2: "Boopsign vs Other E-Signature Tools for Freelancers"
 - [ ] Create comparison table comparing to DocuSign, HelloSign, PandaDoc
 - [ ] Compare on: Price, Signer friction, Mobile, Setup time, Best for
-- [ ] Write 300 words explaining why BoopSign wins for freelancers
+- [ ] Write 300 words explaining why Boopsign wins for freelancers
 
 **Time:** 60 minutes
 
@@ -341,7 +341,7 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 **Task:** "Best E-Signature Apps for Freelance Designers in 2026"
 - [ ] Write comprehensive comparison (2,000+ words)
 - [ ] Compare 5-6 tools
-- [ ] Obviously position BoopSign as #1 for designers
+- [ ] Obviously position Boopsign as #1 for designers
 - [ ] Add comparison table
 - [ ] Include designer-specific use cases
 - [ ] Add designer testimonials
@@ -382,7 +382,7 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 - [ ] Set up email collection on template pages
 - [ ] Write 3-email sequence:
   - Email 1: Deliver template + value
-  - Email 2: How to use BoopSign with template
+  - Email 2: How to use Boopsign with template
   - Email 3: Special offer for template downloaders
 - [ ] Set up automation
 
@@ -439,9 +439,9 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 
 ---
 
-### Day 33 - Create Comparison Page: BoopSign vs DocuSign for Freelancers
+### Day 33 - Create Comparison Page: Boopsign vs DocuSign for Freelancers
 **Task:** Targeted comparison content
-- [ ] Create page: /boopsign-vs-docusign-for-freelancers
+- [ ] Create page: /Boopsign-vs-docusign-for-freelancers
 - [ ] Write detailed comparison (2,000+ words)
 - [ ] Create comparison table
 - [ ] Include freelancer-specific pain points
@@ -539,7 +539,7 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 - [ ] Write 2,000+ word guide
 - [ ] Include psychological insights
 - [ ] Add email templates
-- [ ] Link to BoopSign as solution
+- [ ] Link to Boopsign as solution
 - [ ] Optimize and publish
 
 **Time:** 90 minutes

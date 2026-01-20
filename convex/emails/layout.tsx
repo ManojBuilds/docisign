@@ -22,7 +22,7 @@ interface EmailLayoutProps {
   brandName?: string;
 }
 
-const baseUrlDefault = "https://boopsign.com";
+const baseUrlDefault = "https://Boopsign.com";
 
 export function EmailLayout({
   preview,

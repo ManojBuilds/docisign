@@ -21,7 +21,7 @@ export default function DocumentComplete({
   totalSigners = 1,
 }: DocumentCompleteProps) {
   const preview = `It's official: "${documentTitle}" is complete!`;
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://boopsign.com";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://Boopsign.com";
   const proxiedDownloadUrl = (downloadUrl || dashboardUrl) && (downloadUrl || dashboardUrl) !== "#"
     ? `${appUrl}/api/download?url=${encodeURIComponent(downloadUrl || dashboardUrl)}&filename=${encodeURIComponent(documentTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase())}_completed.pdf`
     : (downloadUrl || dashboardUrl);

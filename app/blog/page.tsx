@@ -65,7 +65,7 @@ export default function BlogIndex() {
 
         <div className="container mx-auto px-4 py-20 md:py-28 relative z-10 text-center max-w-4xl">
           <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-slate-900 mb-6 font-primary">
-            BoopSign <span className="text-blue-600">Blog</span>
+            Boopsign <span className="text-blue-600">Blog</span>
           </h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
             Tips, guides, and insights to help freelancers and consultants get paid faster and protect their work.

@@ -39,39 +39,49 @@ const templates = [
 
 export function TemplateShowcase() {
   return (
-    <section className="py-24 bg-white border-y border-slate-100">
+    <section className="py-24 lg:py-32 bg-slate-50/50">
       <div className="container mx-auto px-4 max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
+        <div className="text-center mb-16 md:mb-24">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 text-indigo-700 text-xs font-medium uppercase tracking-wider mb-6">
+            <span className="w-2 h-2 rounded-full bg-indigo-600"></span>
+            Jumpstart your workflow
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
             Don&apos;t start from scratch.
           </h2>
-          <p className="text-xl text-slate-500 max-w-2xl mx-auto">
-            BoopSign comes with a library of lawyer-vetted templates. <br className="hidden md:block" />
+          <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
+            Boopsign comes with a library of vetted templates. <br className="hidden md:block" />
             Select a document, customize it, and send it for signature in minutes.
           </p>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {templates.map((t) => (
-            <Link key={t.title} href={t.href} className="group">
-              <div className="h-full p-6 rounded-2xl border border-slate-200 hover:border-blue-500 hover:shadow-xl transition-all duration-300 bg-white flex flex-col">
-                <div className={`size-12 rounded-xl flex items-center justify-center mb-4 ${t.bg} ${t.color} group-hover:scale-110 transition-transform`}>
-                  <t.icon className="size-6" />
+            <Link key={t.title} href={t.href} className="group h-full">
+              <div className="h-full p-8 rounded-3xl border border-slate-200 hover:border-blue-300 hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-white flex flex-col relative overflow-hidden">
+                {/* Subtle colorful gradient blob background */}
+                <div className={`absolute -right-4 -top-4 size-24 rounded-full opacity-10 blur-2xl ${t.bg.replace('bg-', 'bg-')}`} />
+
+                <div className={`size-14 rounded-2xl flex items-center justify-center mb-6 ${t.bg} ${t.color} group-hover:scale-110 transition-transform duration-300`}>
+                  <t.icon className="size-7" />
                 </div>
-                <h3 className="font-bold text-lg text-slate-900 mb-2">{t.title}</h3>
-                <p className="text-sm text-slate-500 hover:text-slate-600 mb-4 flex-grow leading-relaxed">
+
+                <h3 className="font-bold text-lg text-slate-900 mb-3">{t.title}</h3>
+
+                <p className="text-slate-500 text-sm leading-relaxed mb-6 flex-grow">
                   {t.desc}
                 </p>
-                <div className="flex items-center text-sm font-bold text-blue-600 group-hover:gap-2 transition-all">
-                  Use Template <ArrowRight className="ml-1 size-4" />
+
+                <div className="flex items-center text-sm font-semibold text-blue-600 group-hover:gap-2 transition-all">
+                  Use Template <ArrowRight className="ml-1 size-4 transition-transform group-hover:translate-x-1" />
                 </div>
               </div>
             </Link>
           ))}
         </div>
 
-        <div className="mt-12 text-center">
-          <Button asChild variant="outline" size="lg" className="rounded-full px-8 border-slate-300 text-slate-600 hover:text-blue-600 hover:border-blue-600">
+        <div className="mt-16 text-center">
+          <Button asChild variant="outline" size="lg" className="rounded-full px-8 h-12 text-base font-medium border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-200 hover:bg-white hover:shadow-md transition-all">
             <Link href="/templates">
               View All Free Templates
             </Link>

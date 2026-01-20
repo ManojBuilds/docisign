@@ -23,6 +23,7 @@ import { SignatureFieldSettings } from './signature-field-settings';
 import { ScrollArea } from './ui/scroll-area';
 import { Separator } from './ui/separator';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
+import { Kbd } from './ui/kbd';
 
 
 interface SignersSidebarProps {
@@ -187,9 +188,9 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                     )}
                   >
                     <tool.icon className={cn('w-4 h-4', selectedTool === tool.id ? 'text-white' : 'text-gray-600')} />
-                    <span className={cn('text-[9px] font-bold uppercase', selectedTool === tool.id ? 'text-white/80' : 'text-gray-400')}>
+                    <Kbd className={cn('text-[9px] font-bold uppercase')}>
                       {tool.shortcut}
-                    </span>
+                    </Kbd>
                   </button>
                 </TooltipTrigger>
                 <TooltipContent side="bottom" className="text-[10px] bg-gray-900 border-none px-2 py-1">
