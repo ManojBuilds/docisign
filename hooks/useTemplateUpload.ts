@@ -11,7 +11,7 @@ import { api } from "@/convex/_generated/api";
 import { computeFileHash } from "@/lib/crypto";
 import { replaceVariablesInDocx } from "@/lib/process-template";
 import { PENDING_DOC_KEY } from "@/lib/utils";
-import { allTemplates } from "content-collections";
+import { allContracts as allTemplates } from "content-collections";
 
 interface UseTemplateUploadProps {
   templateId: string;
@@ -37,7 +37,7 @@ export function useTemplateUpload({
   // Check if template has variables defined
   const template = allTemplates.find((t) => t.slug === templateId);
   const hasVariables = !!(template?.variables && (template.variables as any[]).length > 0);
-  const downloadUrl = template?.downloadUrl;
+  const downloadUrl = template?.docUrl;
 
   const docToPdf = useAction(api.conversion.docToPdfConversion);
 

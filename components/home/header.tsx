@@ -37,8 +37,8 @@ const navbarItems = [
     href: "/pricing",
   },
   {
-    label: "FAQ",
-    href: "/#faq",
+    label: "Contract templates",
+    href: "/contracts",
   },
 ];
 

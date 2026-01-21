@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { formatCurrency, formatDate } from "@/lib/format";
-import { allTemplates } from "content-collections";
+import { allContracts as allTemplates } from "content-collections";
 import { Loader2 } from "lucide-react";
 import { useState } from "react";
 

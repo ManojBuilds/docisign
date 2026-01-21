@@ -13,7 +13,7 @@ export const metadata: Metadata = {
     "business agreements free",
   ],
   alternates: {
-    canonical: "https://Boopsign.com/templates",
+    canonical: "https://boopsign.com/contracts",
   },
 };
 

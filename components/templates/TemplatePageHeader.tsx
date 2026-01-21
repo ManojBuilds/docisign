@@ -1,11 +1,9 @@
-"use client"
-import StartTrialBtn from "@/components/StartTrialBtn";
-import { Button } from "@/components/ui/button";
-import { allTemplates } from "content-collections";
-import { ArrowLeft, CheckCircle, ChevronRight, Download, Loader2 } from "lucide-react";
+import { allContracts } from "content-collections";
+import { ArrowLeft, CheckCircle, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
-import { toast } from "sonner";
+
+import { TemplateActionButton } from "./TemplateActionButton";
+import { TemplateDownloadButtons } from "./TemplateDownloadButtons";
 
 interface TemplatePageHeaderProps {
   title: string;
@@ -22,39 +20,8 @@ export function TemplatePageHeader({
   backgroundImage = "/noise.png",
   templateId,
 }: TemplatePageHeaderProps) {
-  const [isDownloading, setIsDownloading] = useState(false);
-  const template = templateId ? allTemplates.find((t) => t.slug === templateId) : null;
-  const downloadUrl = template?.downloadUrl;
-
-  const handleDownload = async () => {
-    if (!downloadUrl) return;
-
-    setIsDownloading(true);
-    try {
-      const response = await fetch(
-        `/api/download?url=${encodeURIComponent(downloadUrl)}&filename=${templateId}.docx`
-      );
-
-      if (!response.ok) throw new Error("Download failed");
-
-      const blob = await response.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `${templateId}.docx`;
-      document.body.appendChild(a);
-      a.click();
-      window.URL.revokeObjectURL(url);
-      document.body.removeChild(a);
-
-      toast.success("Word document download started");
-    } catch (error) {
-      console.error("Download error:", error);
-      toast.error("Failed to download template");
-    } finally {
-      setIsDownloading(false);
-    }
-  };
+  const template = templateId ? allContracts.find((t: any) => t.slug === templateId) : null;
+  const docUrl = template?.docUrl;
 
   return (
     <div className="relative pt-12 pb-12 md:pt-16 md:pb-16 overflow-hidden">
@@ -76,11 +43,11 @@ export function TemplatePageHeader({
         {/* Breadcrumb Navigation */}
         <nav className="flex items-center text-sm text-muted-foreground mb-8">
           <Link
-            href="/templates"
+            href="/contracts"
             className="flex items-center hover:text-blue-600 transition-colors font-medium"
           >
             <ArrowLeft className="w-4 h-4 mr-1" />
-            Template Library
+            Contracts Library
           </Link>
           <ChevronRight className="w-4 h-4 mx-2 text-slate-300" />
           <span className="text-slate-500">{category}</span>
@@ -101,27 +68,21 @@ export function TemplatePageHeader({
             {subtitle}
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
-            <StartTrialBtn />
-            <Button
-              variant="outline"
-              size="lg"
-              onClick={handleDownload}
-              disabled={isDownloading || !templateId}
-              className="h-12 px-8 rounded-full border-slate-300 hover:bg-slate-50 hover:text-slate-900 w-full sm:w-auto"
-            >
-              {isDownloading ? (
-                <>
-                  <Loader2 className="mr-2 w-4 h-4 animate-spin" />
-                  Downloading...
-                </>
-              ) : (
-                <>
-                  <Download className="mr-2 w-4 h-4" />
-                  Download Word
-                </>
-              )}
-            </Button>
+          <div className="flex flex-col items-center gap-6 mb-12">
+            {templateId && (
+              <TemplateActionButton
+                templateId={templateId}
+                templateTitle={title}
+                className="w-full max-w-sm"
+              />
+            )}
+
+            {templateId && (
+              <TemplateDownloadButtons
+                templateId={templateId}
+                docUrl={docUrl}
+              />
+            )}
           </div>
 
           <div className="flex flex-wrap justify-center gap-3 text-sm text-slate-500 font-medium">

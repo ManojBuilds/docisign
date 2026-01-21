@@ -43,10 +43,12 @@ export const docToPdfConversion = action({
       }
 
       const newStorageId = await ctx.storage.store(new Blob([pdfBuffer], { type: 'application/pdf' }));
+      const fileUrl = await ctx.storage.getUrl(newStorageId);
 
       return {
         storageId: newStorageId,
         size: pdfBuffer.byteLength,
+        fileUrl,
       };
 
     } catch (error) {

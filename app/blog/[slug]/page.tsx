@@ -39,17 +39,17 @@ export default async function Post({ params }: Props) {
   return (
     <div className="min-h-screen bg-white">
       {/* Header */}
-      <header className="bg-slate-50 border-b border-slate-100 py-16 md:py-12 relative overflow-hidden">
+      <header className="bg-slate-50 border-b border-slate-100 pt-12 pb-10 md:pt-16 md:pb-20 relative overflow-hidden">
         <div className="absolute top-0 inset-x-0 h-full bg-[url('/bg-noise.png')] opacity-[0.03]" />
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
           <Link
             href="/blog"
-            className="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-blue-600 mb-8 transition-colors"
+            className="inline-flex items-center text-sm font-semibold text-slate-500 hover:text-blue-600 mb-6 md:mb-10 transition-colors group"
           >
-            ← Back to Blog
+            <span className="group-hover:-translate-x-1 transition-transform mr-2">←</span> Back to Blog
           </Link>
 
-          <div className="flex items-center gap-3 text-sm font-semibold tracking-wider text-blue-600 mb-6 uppercase">
+          <div className="flex flex-wrap items-center gap-x-1 md:gap-x-3 gap-y-2 text-xs md:text-sm font-semibold tracking-wider text-blue-600 mb-6 uppercase">
             <span className="bg-blue-50 px-3 py-1 rounded-full">{post.category}</span>
             <span className="text-slate-300">•</span>
             <time dateTime={post.date.toString()}>
@@ -65,11 +65,11 @@ export default async function Post({ params }: Props) {
             )}
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-slate-900 mb-6 leading-[1.1] font-primary">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl font-black tracking-tighter text-slate-900 mb-6 leading-[1.1] font-primary">
             {post.title}
           </h1>
 
-          <p className="text-xl text-slate-600 leading-relaxed max-w-2xl mb-6">
+          <p className="text-lg sm:text-xl text-slate-600 leading-relaxed max-w-2xl mb-8 md:mb-12">
             {post.description}
           </p>
 
@@ -88,7 +88,7 @@ export default async function Post({ params }: Props) {
       </header>
 
       {/* Content */}
-      <main className="container mx-auto px-4 py-16 max-w-4xl">
+      <main className="container mx-auto px-4 py-12 md:py-20 max-w-4xl">
         <article className="prose prose-slate md:prose-lg max-w-none
           prose-headings:font-primary prose-headings:font-black prose-headings:tracking-tight
           prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
@@ -109,10 +109,10 @@ export default async function Post({ params }: Props) {
           <div className="absolute -bottom-20 -left-20 size-60 bg-indigo-500/5 rounded-full blur-3xl" />
 
           <div className="relative z-10">
-            <h3 className="text-3xl font-black text-slate-900 mb-4">
+            <h3 className="text-2xl md:text-3xl font-black text-slate-900 mb-4">
               Enjoyed this article?
             </h3>
-            <p className="text-lg text-slate-600 mb-8 max-w-lg mx-auto">
+            <p className="text-base md:text-lg text-slate-600 mb-8 max-w-lg mx-auto">
               Get more freelance tips and contract templates delivered straight to your inbox.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">

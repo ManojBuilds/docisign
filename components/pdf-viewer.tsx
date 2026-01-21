@@ -14,6 +14,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { usePdfDimensions } from "./PdfDimensionsContext";
+import { cn } from "@/lib/utils";
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 interface PDFViewerProps {
@@ -29,6 +30,7 @@ interface PDFViewerProps {
   onNextSignatureField?: () => void;
   hasMultipleIncompleteFields?: boolean;
   onReady?: () => void;
+  containerClassName?: string;
 }
 if (typeof window === "undefined") {
   // @ts-expect-error fix the error
@@ -48,6 +50,7 @@ export default function PDFViewer({
   onNextSignatureField,
   hasMultipleIncompleteFields,
   onReady,
+  containerClassName,
 }: PDFViewerProps) {
   const [numPages, setNumPages] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -343,10 +346,9 @@ export default function PDFViewer({
         </div>
       )}
 
-      {/* PDF Container */}
       <div
         ref={containerRef}
-        className="flex-1 overflow-auto bg-transparent p-4 md:p-8 scroll-smooth"
+        className={cn("flex-1 overflow-auto bg-transparent p-4 md:p-8 scroll-smooth", containerClassName)}
       >
         <div className="flex flex-col items-center min-h-full space-y-8">
           <Document

@@ -17,11 +17,14 @@ const Footer = () => {
   // Organize only the most necessary and helpful links by user-focused categories
   const footerSections: FooterSection[] = [
     {
-      title: "Getting Started",
+      title: "Resources",
       links: [
-        { label: "Online Signature Maker", href: "/online-signature-maker" },
-        { label: "No Account Required", href: "/no-account-esignature" },
-        { label: "Free Contract Library", href: "/templates" },
+        { label: "Blog", href: "/blog" },
+        { label: "Free Contracts", href: "/contracts" },
+        { label: "What is an eSignature?", href: "/what-is-electronic-signature" },
+        { label: "Are eSignatures legal?", href: "/electronic-signature-legality" },
+        { label: "Online signature maker", href: "/online-signature-maker" },
+        { label: "Electronic Signature", href: "/electronic-signature" },
       ],
     },
     {
@@ -34,7 +37,7 @@ const Footer = () => {
       ],
     },
     {
-      title: "Alternatives",
+      title: "Comparisons",
       links: [
         { label: "DocuSign Alternative", href: "/alternatives/docusign-alternative" },
         { label: "HelloSign Alternative", href: "/alternatives/hellosign-alternative" },

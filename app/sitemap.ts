@@ -2,7 +2,7 @@ import {
   allComparisons,
   allLandingPages,
   allPosts,
-  allTemplates
+  allContracts
 } from "content-collections";
 import { MetadataRoute } from "next";
 
@@ -128,7 +128,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }));
 
   // Dynamic Templates
-  const templateRoutes: MetadataRoute.Sitemap = allTemplates.map((template) => ({
+  const templateRoutes: MetadataRoute.Sitemap = allContracts.map((template) => ({
     url: `${baseUrl}${template.url}`,
     lastModified: new Date(template.date) || defaultLastModified,
     changeFrequency: "weekly",

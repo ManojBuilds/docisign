@@ -1,4 +1,4 @@
-import { allTemplates } from "content-collections";
+import { allContracts as allTemplates } from "content-collections";
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";

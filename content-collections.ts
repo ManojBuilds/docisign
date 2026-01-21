@@ -121,16 +121,17 @@ const posts = defineCollection({
   },
 });
 
-// Templates collection
-const templates = defineCollection({
-  name: "templates",
-  directory: "content/templates",
+// Contracts collection
+const contracts = defineCollection({
+  name: "contracts",
+  directory: "content/contracts",
   include: "*.mdx",
   schema: z.object({
     title: z.string(),
     description: z.string(),
     date: z.coerce.date(),
-    downloadUrl: z.string().optional(),
+    docUrl: z.string().optional(),
+    previewImages: z.array(z.string()).optional(),
     category: z.string().optional(),
     subtitle: z.string().optional(),
     seo: SEO.optional(),
@@ -141,13 +142,14 @@ const templates = defineCollection({
     sidebar: Sidebar.optional(),
     testimonial: Testimonial.optional(),
     variables: z.array(Variable).optional(),
+    popular: z.boolean().optional().default(false),
   }),
   transform: async (document, context) => {
     const mdx = await compileMDX(context, document);
     return {
       ...document,
       slug: document._meta.fileName.replace(/^.*[\\/]/, '').replace(/\.mdx$/, ''),
-      url: `/templates/${document._meta.fileName.replace(/^.*[\\/]/, '').replace(/\.mdx$/, '')}`,
+      url: `/contracts/${document._meta.fileName.replace(/^.*[\\/]/, '').replace(/\.mdx$/, '')}`,
       mdx,
     };
   },
@@ -214,5 +216,5 @@ const comparisons = defineCollection({
 });
 
 export default defineConfig({
-  collections: [posts, templates, landingPages, comparisons],
+  collections: [posts, contracts, landingPages, comparisons],
 });
