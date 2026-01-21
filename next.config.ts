@@ -98,6 +98,16 @@ const nextConfig: NextConfig = {
         destination: "/esignature-for-consultants",
         permanent: true,
       },
+      {
+        source: "/templates",
+        destination: "/contracts",
+        permanent: true
+      },
+      {
+        source: "/online-signature",
+        destination: "/online-signature-maker",
+        permanent: true
+      }
     ];
   },
 };

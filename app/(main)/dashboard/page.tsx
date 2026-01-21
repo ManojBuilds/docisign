@@ -88,7 +88,6 @@ function DocumentsList() {
   const {
     results: documents,
     status,
-    loadMore,
   } = usePaginatedQuery(
     api.dashboard.searchDocuments,
     user
@@ -295,7 +294,7 @@ function DocumentsList() {
         </div>
       </div>
 
-      {status === "CanLoadMore" && (
+      {/* {status === "CanLoadMore" && (
         <div className="flex justify-center mt-8">
           <Button
             onClick={() => loadMore(10)}
@@ -305,7 +304,7 @@ function DocumentsList() {
             Load more
           </Button>
         </div>
-      )}
+      )} */}
 
       {isDesktop ? (
         <AlertDialog

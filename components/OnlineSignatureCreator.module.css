@@ -1,25 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Caveat&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Sacramento&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&family=Pacifico&family=Caveat&family=Permanent+Marker&family=Sacramento&family=Monsieur+La+Doulaise&family=Mrs+Saint+Delafield&family=Great+Vibes&family=Pinyon+Script&family=Allura&family=Parisienne&family=Alex+Brush&display=swap');
 
-.dancing-script {
-  font-family: 'Dancing Script', cursive;
-}
-
-.pacifico {
-  font-family: 'Pacifico', cursive;
-}
-
-.caveat {
-  font-family: 'Caveat', cursive;
-}
-
-.permanent-marker {
-  font-family: 'Permanent Marker', cursive;
-}
-
-.sacramento {
-  font-family: 'Sacramento', cursive;
-}
+.dancing-script { font-family: 'Dancing Script', cursive; }
+.pacifico { font-family: 'Pacifico', cursive; }
+.caveat { font-family: 'Caveat', cursive; }
+.permanent-marker { font-family: 'Permanent Marker', cursive; }
+.sacramento { font-family: 'Sacramento', cursive; }
+.monsieur { font-family: 'Monsieur La Doulaise', cursive; }
+.mrs-saint { font-family: 'Mrs Saint Delafield', cursive; }
+.great-vibes { font-family: 'Great Vibes', cursive; }
+.pinyon { font-family: 'Pinyon Script', cursive; }
+.allura { font-family: 'Allura', cursive; }
+.parisienne { font-family: 'Parisienne', cursive; }
+.alex-brush { font-family: 'Alex Brush', cursive; }

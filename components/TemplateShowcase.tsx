@@ -82,7 +82,7 @@ export function TemplateShowcase() {
 
         <div className="mt-16 text-center">
           <Button asChild variant="outline" size="lg" className="rounded-full px-8 h-12 text-base font-medium border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-200 hover:bg-white hover:shadow-md transition-all">
-            <Link href="/templates">
+            <Link href="/contracts">
               View All Free Templates
             </Link>
           </Button>

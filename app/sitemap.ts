@@ -92,7 +92,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.6,
     },
     {
-      url: `${baseUrl}/templates`,
+      url: `${baseUrl}/contracts`,
       lastModified: defaultLastModified,
       changeFrequency: "weekly",
       priority: 1.0,
