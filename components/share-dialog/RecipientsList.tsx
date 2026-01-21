@@ -33,7 +33,7 @@ export const RecipientsList = ({ signers, signatureFields, readonly = false }: R
               className="flex items-center gap-4 p-3 hover:bg-zinc-50 transition-colors"
             >
               <div className={cn(
-                "w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold bg-gradient-to-br shadow-inner ring-2 ring-white",
+                "w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-semibold bg-gradient-to-br shadow-inner ring-2 ring-white",
                 (index % 5 === 0) ? 'from-blue-500 to-indigo-600' :
                   (index % 5 === 1) ? 'from-violet-500 to-purple-600' :
                     (index % 5 === 2) ? 'from-fuchsia-500 to-pink-600' :
@@ -45,7 +45,7 @@ export const RecipientsList = ({ signers, signatureFields, readonly = false }: R
 
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <p className="font-bold text-sm text-zinc-900 truncate">
+                  <p className="font-semibold text-sm text-zinc-900 truncate">
                     {signer.name && signer.name !== signer.email
                       ? signer.name
                       : `Signer ${index + 1}`}

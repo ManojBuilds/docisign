@@ -88,7 +88,7 @@ export function TemplatePageHeader({
 
         {/* Hero Content */}
         <div className="text-center max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-bold mb-6 border border-blue-100 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-700 text-xs font-semibold mb-6 border border-blue-100 shadow-sm">
             <CheckCircle className="w-3 h-3" />
             LAWYER VETTED & FREE
           </div>

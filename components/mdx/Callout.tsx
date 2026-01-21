@@ -29,7 +29,7 @@ export function Callout({ type = "default", title, children }: CalloutProps) {
     >
       <Icon className="mt-0.5 size-5 shrink-0" />
       <div className="text-sm [&>p]:last:mb-0">
-        {title && <p className="mb-1 font-bold">{title}</p>}
+        {title && <p className="mb-1 font-semibold">{title}</p>}
         <div>{children}</div>
       </div>
     </div>

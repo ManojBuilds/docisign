@@ -18,7 +18,7 @@ export default function SignError({
   return (
     <main className="bg-background flex min-h-screen items-center justify-center p-4">
       <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Something went wrong!</h1>
+        <h1 className="mb-4 text-4xl font-semibold">Something went wrong!</h1>
         <p className="text-muted-foreground mb-8">
           There was an error loading this document. Please try again later.
         </p>

@@ -113,7 +113,7 @@ export const HeroAnimation = () => {
                 >
                     <MousePointer2 className="w-6 h-6 fill-black text-white drop-shadow-xl" />
                     <div className={cn(
-                        "px-3 py-1.5 bg-zinc-900 text-white text-xs rounded-full font-bold opacity-0 transition-all transform translate-y-2",
+                        "px-3 py-1.5 bg-zinc-900 text-white text-xs rounded-full font-semibold opacity-0 transition-all transform translate-y-2",
                         (step === 0 || step === 3 || step === 4) && "opacity-100 translate-y-0"
                     )}>
                         {step === 0 && "Upload PDF"}
@@ -140,7 +140,7 @@ export const HeroAnimation = () => {
                                         <Upload className="w-8 h-8 text-primary" />
                                     </div>
                                     <div className="text-center space-y-1">
-                                        <p className="font-bold text-lg text-foreground">Upload Contract</p>
+                                        <p className="font-semibold text-lg text-foreground">Upload Contract</p>
                                         <p className="text-sm text-muted-foreground font-medium">Drag & drop or click to browse</p>
                                     </div>
                                 </div>
@@ -154,7 +154,7 @@ export const HeroAnimation = () => {
                                         <FileText className="w-8 h-8 text-red-500" />
                                     </div>
                                     <div>
-                                        <p className="font-bold text-foreground">Freelance_Agreement.pdf</p>
+                                        <p className="font-semibold text-foreground">Freelance_Agreement.pdf</p>
                                         <p className="text-xs text-muted-foreground font-medium">1.2 MB • Ready to send</p>
                                     </div>
                                     <Check className="ml-auto w-5 h-5 text-green-500" />
@@ -162,7 +162,7 @@ export const HeroAnimation = () => {
 
                                 <div className="space-y-4 p-6 bg-white/40 dark:bg-black/20 rounded-xl border border-white/20 backdrop-blur-sm">
                                     <div className="space-y-2">
-                                        <Label className="text-xs uppercase tracking-wider text-muted-foreground font-bold">Client Email</Label>
+                                        <Label className="text-xs uppercase tracking-wider text-muted-foreground font-semibold">Client Email</Label>
                                         <div className="relative">
                                             <Input value={email} readOnly className="font-mono bg-white/70 border-0 shadow-inner h-11" placeholder="" />
                                             {email.length > 0 && email.length < 18 && (
@@ -170,7 +170,7 @@ export const HeroAnimation = () => {
                                             )}
                                         </div>
                                     </div>
-                                    <Button className="w-full font-bold h-11 text-md shadow-lg shadow-primary/20" size="lg">
+                                    <Button className="w-full font-semibold h-11 text-md shadow-lg shadow-primary/20" size="lg">
                                         Send Contract <ArrowRight className="ml-2 w-4 h-4" />
                                     </Button>
                                 </div>
@@ -204,22 +204,22 @@ export const HeroAnimation = () => {
                             <div className="bg-gradient-to-r from-purple-500 to-indigo-600 h-2 w-full" />
                             <div className="p-8 space-y-6">
                                 <div className="flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 flex items-center justify-center font-bold text-lg text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+                                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-indigo-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 flex items-center justify-center font-semibold text-lg text-indigo-600 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
                                         M
                                     </div>
                                     <div>
-                                        <p className="font-bold text-lg text-foreground">Manoj (Freelancer)</p>
+                                        <p className="font-semibold text-lg text-foreground">Manoj (Freelancer)</p>
                                         <p className="text-sm text-muted-foreground">via Boopsign</p>
                                     </div>
                                 </div>
                                 <div>
-                                    <h4 className="font-bold text-xl text-foreground">Please sign: Freelance Agreement</h4>
+                                    <h4 className="font-semibold text-xl text-foreground">Please sign: Freelance Agreement</h4>
                                     <div className="mt-4 flex items-center gap-2 px-3 py-2 bg-green-100/50 dark:bg-green-900/20 w-fit rounded-lg border border-green-200 dark:border-green-800/50">
                                         <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse shadow-sm shadow-green-500" />
                                         <span className="text-green-700 dark:text-green-300 text-xs font-extra-bold tracking-wide uppercase">No Account Required</span>
                                     </div>
                                 </div>
-                                <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl shadow-indigo-500/20 transition-all hover:scale-[1.02] h-12 text-md font-bold rounded-xl">
+                                <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white shadow-xl shadow-indigo-500/20 transition-all hover:scale-[1.02] h-12 text-md font-semibold rounded-xl">
                                     Review & Sign
                                 </Button>
                             </div>
@@ -260,9 +260,9 @@ export const HeroAnimation = () => {
 
                                 {/* Signature Field */}
                                 <div className="mt-auto pt-6">
-                                    <div className="text-[10px] uppercase font-bold text-muted-foreground mb-2 tracking-widest flex items-center justify-between">
+                                    <div className="text-[10px] uppercase font-semibold text-muted-foreground mb-2 tracking-widest flex items-center justify-between">
                                         <span>Signature</span>
-                                        {step === 4 && <span className="text-blue-500 animate-pulse font-bold bg-blue-50 px-2 py-0.5 rounded-full">Waiting for you...</span>}
+                                        {step === 4 && <span className="text-blue-500 animate-pulse font-semibold bg-blue-50 px-2 py-0.5 rounded-full">Waiting for you...</span>}
                                     </div>
                                     <div
                                         className={cn(
@@ -277,7 +277,7 @@ export const HeroAnimation = () => {
                                                 <div className="p-2 bg-blue-100 rounded-full">
                                                     <MousePointer2 className="w-5 h-5 text-blue-600" />
                                                 </div>
-                                                <span className="text-xs font-bold text-blue-600 uppercase tracking-wide">Click to Sign</span>
+                                                <span className="text-xs font-semibold text-blue-600 uppercase tracking-wide">Click to Sign</span>
                                             </div>
                                         )}
 

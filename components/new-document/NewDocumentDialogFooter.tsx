@@ -33,7 +33,7 @@ export const NewDocumentDialogFooter: FC<NewDocumentDialogFooterProps> = memo(({
                 onClick={handleUpload}
                 disabled={!file || signers.length === 0 || isUploading}
                 className={cn(
-                    "flex-[2] rounded-lg font-bold shadow-2xl shadow-blue-500/20",
+                    "flex-[2] rounded-lg font-semibold shadow-2xl shadow-blue-500/20",
                     isUploading ? "bg-gray-100 text-gray-400" : "bg-blue-600 hover:bg-blue-700 text-white"
                 )}
             >

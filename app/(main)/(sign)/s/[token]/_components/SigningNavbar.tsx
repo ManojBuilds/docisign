@@ -58,11 +58,11 @@ export const SigningNavbar = memo(({
               )}
             </div>
             <div className="flex flex-col min-w-0">
-              <h1 className="text-[13px] font-bold truncate leading-none tracking-tight text-gray-900 mb-1">
+              <h1 className="text-[13px] font-semibold truncate leading-none tracking-tight text-gray-900 mb-1">
                 {signingSession.document.title}
               </h1>
               <p className="text-[10px] text-gray-500 truncate font-medium">
-                from <span className="text-gray-900 font-bold">{signingSession.ownerBranding?.brandName || "Boopsign"}</span>
+                from <span className="text-gray-900 font-semibold">{signingSession.ownerBranding?.brandName || "Boopsign"}</span>
               </p>
             </div>
           </div>
@@ -89,7 +89,7 @@ export const SigningNavbar = memo(({
                       <span className="text-[10px] font-black text-gray-400 theme-text-muted uppercase tracking-[0.2em]">Agreement Status</span>
                       <div className="flex items-center gap-2.5">
                         <div className="size-2 rounded-full bg-blue-500 animate-pulse shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
-                        <span className="text-base font-bold text-gray-900">Awaiting your signature</span>
+                        <span className="text-base font-semibold text-gray-900">Awaiting your signature</span>
                       </div>
                     </div>
 
@@ -98,25 +98,25 @@ export const SigningNavbar = memo(({
                         {signingSession.ownerBranding?.logoUrl ? (
                           <Image src={signingSession.ownerBranding.logoUrl} alt="Logo" width={48} height={48} className="object-contain p-2" />
                         ) : (
-                          <span className="font-bold text-gray-400">{((owner as any)?.email || 'S').charAt(0).toUpperCase()}</span>
+                          <span className="font-semibold text-gray-400">{((owner as any)?.email || 'S').charAt(0).toUpperCase()}</span>
                         )}
                       </div>
                       <div className="flex flex-col min-w-0">
                         <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Sender</span>
-                        <span className="text-sm font-bold text-gray-900 truncate">{(owner as any)?.email}</span>
+                        <span className="text-sm font-semibold text-gray-900 truncate">{(owner as any)?.email}</span>
                       </div>
                     </div>
 
                     <div className="flex items-center justify-between text-sm py-4 border-y border-gray-50">
                       <span className="text-gray-500 font-medium">Sent on</span>
-                      <span className="text-gray-900 font-bold">{new Date(signingSession.document.createdAt).toLocaleDateString(undefined, { dateStyle: 'medium' })}</span>
+                      <span className="text-gray-900 font-semibold">{new Date(signingSession.document.createdAt).toLocaleDateString(undefined, { dateStyle: 'medium' })}</span>
                     </div>
                   </div>
 
                   <div className="pt-4">
                     <Button
                       variant="outline"
-                      className="w-full text-red-600 border-red-100 bg-red-50/50 hover:bg-red-100 hover:text-red-700 h-14 rounded-2xl font-bold text-sm transition-all"
+                      className="w-full text-red-600 border-red-100 bg-red-50/50 hover:bg-red-100 hover:text-red-700 h-14 rounded-2xl font-semibold text-sm transition-all"
                       onClick={onDecline}
                     >
                       Decline to Sign
@@ -163,7 +163,7 @@ export const SigningNavbar = memo(({
               <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1">
                 {signingSession.ownerBranding?.brandName || "Boopsign"}
               </span>
-              <h1 className="text-sm font-bold truncate max-w-[200px] text-gray-900 tracking-tight leading-none">
+              <h1 className="text-sm font-semibold truncate max-w-[200px] text-gray-900 tracking-tight leading-none">
                 {signingSession.document.title}
               </h1>
             </div>
@@ -171,7 +171,7 @@ export const SigningNavbar = memo(({
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="sm" className="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-gray-900 px-2 md:px-4 cursor-pointer">
+              <Button variant="ghost" size="sm" className="text-xs font-semibold uppercase tracking-widest text-gray-500 hover:text-gray-900 px-2 md:px-4 cursor-pointer">
                 <FileText className="w-4 h-4 md:mr-2" />
                 <span className="hidden md:inline">Details</span>
               </Button>
@@ -188,12 +188,12 @@ export const SigningNavbar = memo(({
                   </h3>
                   <div className="space-y-4 bg-gray-50/50 rounded-2xl p-4 border border-gray-100">
                     <div className="flex justify-between">
-                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Status</span>
+                      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Status</span>
                       <span className="text-xs font-black text-blue-600 uppercase tracking-widest">Awaiting Signature</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Issued On</span>
-                      <span className="text-xs font-bold text-gray-900">{new Date(signingSession.document.createdAt).toLocaleDateString(undefined, { dateStyle: 'long' })}</span>
+                      <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">Issued On</span>
+                      <span className="text-xs font-semibold text-gray-900">{new Date(signingSession.document.createdAt).toLocaleDateString(undefined, { dateStyle: 'long' })}</span>
                     </div>
                   </div>
                 </div>
@@ -214,13 +214,13 @@ export const SigningNavbar = memo(({
                           className="object-contain p-1"
                         />
                       ) : (
-                        <span className="font-bold text-slate-400">
+                        <span className="font-semibold text-slate-400">
                           {((owner as any)?.email || 'S').charAt(0).toUpperCase()}
                         </span>
                       )}
                     </div>
                     <div className="min-w-0">
-                      <p className="text-sm font-bold text-gray-900 truncate">
+                      <p className="text-sm font-semibold text-gray-900 truncate">
                         {signingSession.ownerBranding?.brandName || (owner as any)?.email}
                       </p>
                       <p className="text-[10px] text-gray-500 font-medium">Agreement Owner</p>
@@ -258,7 +258,7 @@ export const SigningNavbar = memo(({
             "bg-blue-600 hover:bg-blue-700 text-white": !hasStarted && signatureFields.length > 0 && completedRequiredFields < requiredFields.length,
             "bg-primary hover:bg-primary/90 text-primary-foreground": hasStarted && completedRequiredFields < requiredFields.length,
             "bg-green-600 hover:bg-green-700 text-white": completedRequiredFields >= requiredFields.length && signatureFields.length > 0 && !isSubmitting,
-            "bg-gray-100 text-gray-400 font-bold": signatureFields.length === 0
+            "bg-gray-100 text-gray-400 font-semibold": signatureFields.length === 0
           })}
         >
           {isSubmitting ? (
@@ -270,7 +270,7 @@ export const SigningNavbar = memo(({
           ) : (
             <div className="flex items-center gap-2">
               <span>Next Field</span>
-              <span className="bg-white/20 px-1.5 py-0.5 rounded text-[8px] font-bold">
+              <span className="bg-white/20 px-1.5 py-0.5 rounded text-[8px] font-semibold">
                 {requiredFields.length - completedRequiredFields} Left
               </span>
             </div>

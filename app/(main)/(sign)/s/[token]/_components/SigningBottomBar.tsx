@@ -99,7 +99,7 @@ export const SigningBottomBar = memo(({
                     <span className="flex items-center justify-center size-6 rounded-full bg-white/20 text-[10px] font-black">
                       {incompleteRequiredFields.length}
                     </span>
-                    <span className="text-xs font-bold opacity-80 uppercase tracking-widest">Fields Left</span>
+                    <span className="text-xs font-semibold opacity-80 uppercase tracking-widest">Fields Left</span>
                   </div>
                   <div className="flex items-center gap-1">
                     <span className="text-sm">Next Field</span>

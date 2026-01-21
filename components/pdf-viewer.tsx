@@ -272,7 +272,7 @@ export default function PDFViewer({
               >
                 <ChevronLeft className="w-4 h-4" />
               </Button>
-              <span className="text-xs font-bold font-mono min-w-[3rem] text-center text-gray-600">
+              <span className="text-xs font-semibold font-mono min-w-[3rem] text-center text-gray-600">
                 {currentPage} / {numPages}
               </span>
               <Button
@@ -301,7 +301,7 @@ export default function PDFViewer({
                 variant="ghost"
                 size="sm"
                 onClick={() => handleScaleChange(1.0)}
-                className="min-w-[3.5rem] h-8 text-xs font-bold"
+                className="min-w-[3.5rem] h-8 text-xs font-semibold"
               >
                 {Math.round(scale * 100)}%
               </Button>

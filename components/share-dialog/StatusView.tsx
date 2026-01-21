@@ -91,7 +91,7 @@ export const StatusView = ({
           <div className="w-16 h-16 bg-white/50 rounded-full flex items-center justify-center mx-auto mb-4 ring-1 ring-black/5 backdrop-blur-sm">
             {statusDisplay.icon}
           </div>
-          <DialogTitle className="text-xl font-bold mb-2 tracking-tight text-center">
+          <DialogTitle className="text-xl font-semibold mb-2 tracking-tight text-center">
             {hasPendingFields ? "New Fields Added" : statusDisplay.title}
           </DialogTitle>
           <p className="text-sm opacity-90 max-w-sm mx-auto font-medium">
@@ -113,7 +113,7 @@ export const StatusView = ({
               <Button
                 variant="link"
                 onClick={onConfigureClick}
-                className="text-blue-600 font-bold hover:text-blue-700 underline"
+                className="text-blue-600 font-semibold hover:text-blue-700 underline"
               >
                 Click here to configure and send new requests
               </Button>
@@ -165,7 +165,7 @@ export const StatusView = ({
           <Button
             variant="outline"
             onClick={onConfigureClick}
-            className="w-full mb-6 py-6 ring-1 ring-blue-200 text-blue-700 bg-blue-50/50 font-bold border-0"
+            className="w-full mb-6 py-6 ring-1 ring-blue-200 text-blue-700 bg-blue-50/50 font-semibold border-0"
           >
             Configure & Send New Requests
           </Button>

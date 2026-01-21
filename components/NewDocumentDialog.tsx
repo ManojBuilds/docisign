@@ -191,7 +191,7 @@ const UploadContent: FC<UploadContentProps> = ({
                   className="flex items-center gap-2 bg-white border border-gray-100 pl-1.5 pr-3 py-1.5 rounded-full shadow-sm"
                 >
                   <div className={cn(
-                    "w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shadow-sm",
+                    "w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold text-white shadow-sm",
                     index % 5 === 0 ? 'bg-indigo-500' :
                       index % 5 === 1 ? 'bg-rose-500' :
                         index % 5 === 2 ? 'bg-emerald-500' :
@@ -220,7 +220,7 @@ const UploadContent: FC<UploadContentProps> = ({
       {isUploading && (
         <div className="space-y-4 pt-2">
           <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between text-[13px] font-bold text-gray-900">
+            <div className="flex items-center justify-between text-[13px] font-semibold text-gray-900">
               <span className="flex items-center gap-2">
                 <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-600" />
                 {statusMessage || 'Processing document...'}
@@ -269,7 +269,7 @@ const UploadFooter: FC<UploadFooterProps> = ({
         onClick={handleUpload}
         disabled={!file || signers.length === 0 || isUploading}
         className={cn(
-          "flex-[2] rounded-lg font-bold shadow-2xl shadow-blue-500/20",
+          "flex-[2] rounded-lg font-semibold shadow-2xl shadow-blue-500/20",
           isUploading ? "bg-gray-100 text-gray-400" : "bg-blue-600 hover:bg-blue-700 text-white"
         )}
       >
@@ -584,7 +584,7 @@ export function NewDocumentDialog({
         </DrawerTrigger>}
         <DrawerContent className="min-h-[70vh] rounded-t-xl">
           <DrawerHeader className="px-0 pt-2">
-            <DrawerTitle className="text-xl font-bold text-gray-900 tracking-tight">Upload Document</DrawerTitle>
+            <DrawerTitle className="text-xl font-semibold text-gray-900 tracking-tight">Upload Document</DrawerTitle>
             <p className="text-[13px] text-gray-500">Prepare your file for secure signing</p>
           </DrawerHeader>
           <div className="flex-1 overflow-y-auto pb-4">{content}</div>
@@ -603,7 +603,7 @@ export function NewDocumentDialog({
       </DialogTrigger>}
       <DialogContent className="sm:max-w-[580px] border-none overflow-hidden">
         <DialogHeader className="mb-2">
-          <DialogTitle className="text-2xl font-bold tracking-tight">Upload Document</DialogTitle>
+          <DialogTitle className="text-2xl font-semibold tracking-tight">Upload Document</DialogTitle>
           <p className="text-sm">Prepare your file for secure electronic signing.</p>
         </DialogHeader>
         <TrialGate>

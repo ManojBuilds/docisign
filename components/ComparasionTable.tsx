@@ -2,6 +2,14 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Check, Clock, CreditCard, Shield, Smartphone, Star, Users, X } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -184,7 +192,7 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
     >
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold mb-6">
+          <h2 className="text-4xl md:text-5xl font-semibold mb-6">
             Boopsign vs {competitorName}
           </h2>
           <p className="text-xl md:text-2xl mb-4 text-muted-foreground">
@@ -221,41 +229,40 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
             </h3>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b bg-muted/30">
-                  <th className="py-4 px-6 text-left font-semibold">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="text-left font-semibold">
                     Features
-                  </th>
-                  <th className="py-4 px-6 text-center">
+                  </TableHead>
+                  <TableHead className="text-center">
                     <div className="flex flex-col items-center gap-2">
                       <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full font-semibold">
                         Boopsign
                       </div>
                       <span className="text-xs text-primary font-medium">12x Faster</span>
                     </div>
-                  </th>
-                  <th className="py-4 px-6 text-center">
+                  </TableHead>
+                  <TableHead className="text-center">
                     <div className="flex flex-col items-center gap-2">
                       <div className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full font-semibold">
                         {competitorName}
                       </div>
                       <span className="text-xs text-muted-foreground">Industry Standard</span>
                     </div>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
                 {filteredData.map((item) => (
-                  <tr
+                  <TableRow
                     key={`${item.category}-${item.feature}`}
                     className={cn(
-                      "border-b transition-colors hover:bg-muted/30",
                       item.important && "bg-accent/20",
                       item.feature === "Client account required" && "bg-primary/5 ring-1 ring-primary/20"
                     )}
                   >
-                    <td className="py-4 px-6">
+                    <TableCell>
                       <div className="flex items-center gap-2">
                         {item.important && (
                           <div className="w-2 h-2 bg-primary rounded-full"></div>
@@ -264,17 +271,17 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
                           {item.feature}
                         </span>
                       </div>
-                    </td>
-                    <td className="py-4 px-6 text-center">
+                    </TableCell>
+                    <TableCell className="text-center">
                       {renderValue(item.Boopsign.value, item.Boopsign.highlight, true)}
-                    </td>
-                    <td className="py-4 px-6 text-center">
+                    </TableCell>
+                    <TableCell className="text-center">
                       {renderValue(item.competitor.value, item.competitor.highlight, false)}
-                    </td>
-                  </tr>
+                    </TableCell>
+                  </TableRow>
                 ))}
-              </tbody>
-            </table>
+              </TableBody>
+            </Table>
           </div>
         </div>
 
@@ -305,7 +312,7 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
 
         {/* Call to Action */}
         <div className="text-center mt-16 py-12 border-t">
-          <h3 className="text-2xl font-bold mb-4">Ready to Switch?</h3>
+          <h3 className="text-2xl font-semibold mb-4">Ready to Switch?</h3>
           <p className="text-lg mb-6 text-muted-foreground">
             Join 1000+ businesses that made the switch to Boopsign
           </p>

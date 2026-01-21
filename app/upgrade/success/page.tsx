@@ -26,7 +26,7 @@ export default function SuccessPage() {
           <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 dark:bg-green-900/30">
             <CheckCircle2 className="h-8 w-8 text-green-600 dark:text-green-500" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+          <h1 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
             Welcome to Pro
           </h1>
           <p className="text-lg text-muted-foreground">

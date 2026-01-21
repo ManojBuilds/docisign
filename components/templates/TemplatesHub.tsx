@@ -40,7 +40,7 @@ export function TemplatesHub({ initialTemplates }: TemplatesHubProps) {
       {/* Hero Section */}
       <section className="bg-white border-b border-slate-200 py-24">
         <div className="container mx-auto px-4 text-center max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-sm font-bold mb-6 border border-blue-100">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 text-blue-600 text-sm font-semibold mb-6 border border-blue-100">
             TEMPLATE LIBRARY
           </div>
           <h1 className="text-4xl md:text-6xl font-black mb-6 tracking-tight text-slate-900">
@@ -69,7 +69,7 @@ export function TemplatesHub({ initialTemplates }: TemplatesHubProps) {
           {filteredTemplates.length > 0 ? (
             filteredTemplates.map((section) => (
               <div key={section.category} className="mb-16 last:mb-0">
-                <h2 className="text-2xl font-bold text-slate-900 mb-8 flex items-center gap-3">
+                <h2 className="text-2xl font-semibold text-slate-900 mb-8 flex items-center gap-3">
                   {section.category}
                 </h2>
 
@@ -83,18 +83,18 @@ export function TemplatesHub({ initialTemplates }: TemplatesHubProps) {
                               <FileText className="size-5" />
                             </div>
                             {template.popular && (
-                              <span className="bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider">
+                              <span className="bg-amber-100 text-amber-700 text-[10px] font-semibold px-2 py-1 rounded uppercase tracking-wider">
                                 Popular
                               </span>
                             )}
                           </div>
-                          <h3 className="font-bold text-slate-900 text-lg mb-2 group-hover:text-blue-600 transition-colors">
+                          <h3 className="font-semibold text-slate-900 text-lg mb-2 group-hover:text-blue-600 transition-colors">
                             {template.title}
                           </h3>
                           <p className="text-sm text-slate-500 mb-6 flex-grow">
                             {template.desc}
                           </p>
-                          <div className="text-blue-600 font-bold text-sm flex items-center group-hover:gap-2 transition-all">
+                          <div className="text-blue-600 font-semibold text-sm flex items-center group-hover:gap-2 transition-all">
                             Get Template <ArrowRight className="ml-1 size-4" />
                           </div>
                         </CardContent>

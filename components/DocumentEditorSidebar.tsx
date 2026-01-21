@@ -1,20 +1,20 @@
 'use client';
 
 import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { useDocumentEditorStore } from '@/stores/document-editor-store';
 import {
-    ALargeSmall,
-    CalendarDays,
-    Info,
-    MousePointer2,
-    PenTool,
-    TextCursor,
+  ALargeSmall,
+  CalendarDays,
+  Info,
+  MousePointer2,
+  PenTool,
+  TextCursor,
 } from 'lucide-react';
 import { Button } from './ui/button';
 
@@ -52,7 +52,7 @@ export function DocumentEditorSidebar() {
                     selectedTool === tool.id ? "text-primary-foreground" : "text-gray-600"
                   )} />
                   <span className={cn(
-                    "text-[9px] font-bold font-mono px-1 rounded-sm border",
+                    "text-[9px] font-semibold font-mono px-1 rounded-sm border",
                     selectedTool === tool.id
                       ? "bg-white/20 border-white/30 text-white"
                       : "bg-gray-50 border-gray-200 text-gray-400"
@@ -90,7 +90,7 @@ export function DocumentEditorSidebar() {
               className="max-w-[200px] bg-gray-900 text-white border-none shadow-2xl p-4 rounded-xl"
             >
               <div className="space-y-1.5">
-                <p className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">Pro Tip</p>
+                <p className="text-[10px] font-semibold text-blue-400 uppercase tracking-wider">Pro Tip</p>
                 <p className="text-[11px] leading-relaxed text-white/80 font-medium">
                   Select a tool and click or drag on the document to place fields exactly where you want them.
                 </p>

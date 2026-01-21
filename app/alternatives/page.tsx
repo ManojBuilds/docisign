@@ -16,7 +16,7 @@ function ComparisonCard({ comparison }: { comparison: Comparison }) {
       className="group flex flex-col h-full bg-white rounded-3xl overflow-hidden border border-slate-200 hover:border-blue-500/50 shadow-sm hover:shadow-xl hover:shadow-blue-600/10 transition-all duration-300"
     >
       <div className="p-8 md:p-10 flex flex-col h-full">
-        <div className="flex items-center justify-between text-xs font-bold tracking-widest text-slate-500 mb-6 uppercase">
+        <div className="flex items-center justify-between text-xs font-semibold tracking-widest text-slate-500 mb-6 uppercase">
           <span className="inline-flex items-center gap-1.5">
             <Zap className="size-3 text-blue-500" /> Comparison
           </span>
@@ -25,7 +25,7 @@ function ComparisonCard({ comparison }: { comparison: Comparison }) {
           </time>
         </div>
 
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors leading-tight font-primary">
+        <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-4 group-hover:text-blue-600 transition-colors leading-tight font-primary">
           {comparison.title}
         </h2>
 
@@ -33,7 +33,7 @@ function ComparisonCard({ comparison }: { comparison: Comparison }) {
           {comparison.description}
         </p>
 
-        <div className="flex items-center text-blue-600 font-bold text-sm mt-auto">
+        <div className="flex items-center text-blue-600 font-semibold text-sm mt-auto">
           <span>Read comparison</span>
           <ArrowRight className="ml-2 w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
         </div>
@@ -56,7 +56,7 @@ export default function AlternativesIndex() {
         <div className="absolute top-0 inset-x-0 h-[800px] bg-gradient-to-b from-blue-50 to-transparent"></div>
 
         <div className="container mx-auto px-4 py-24 md:py-12 relative z-10 text-center max-w-5xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-bold mb-8 ring-1 ring-blue-200/80">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-100 text-blue-700 text-sm font-semibold mb-8 ring-1 ring-blue-200/80">
             <CheckCircle className="size-4" /> Why Switch to Boopsign?
           </div>
           <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-slate-900 mb-8 font-primary leading-[1.1]">

@@ -31,7 +31,7 @@ function PostCard({ post }: { post: Post }) {
           </time>
         </div>
 
-        <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors leading-tight">
+        <h2 className="text-xl md:text-2xl font-semibold text-slate-900 mb-3 group-hover:text-blue-600 transition-colors leading-tight">
           {post.title}
         </h2>
 
@@ -99,7 +99,7 @@ export default function BlogIndex() {
                   </time>
                 </div>
 
-                <h2 className="text-2xl md:text-3xl font-bold text-slate-900 mb-3">
+                <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-3">
                   {posts[0].title}
                 </h2>
 
@@ -122,7 +122,7 @@ export default function BlogIndex() {
       {/* Grid of Posts */}
       <div className="container mx-auto px-4 py-16 md:py-24">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-slate-900 mb-12 text-center">Latest Articles</h2>
+          <h2 className="text-3xl font-semibold text-slate-900 mb-12 text-center">Latest Articles</h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts.slice(1).map((post, idx) => (

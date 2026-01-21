@@ -36,7 +36,7 @@ export function Problem() {
           </div>
 
           <div className="space-y-4 max-w-4xl">
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 leading-[1.1]">
+            <h2 className="text-4xl md:text-6xl font-semibold tracking-tight text-slate-900 leading-[1.1]">
               Stop losing clients to <br className="hidden md:block" />
               <span className="relative inline-block mt-2">
                 <span className="relative z-10 text-blue-600">login screens.</span>
@@ -55,7 +55,7 @@ export function Problem() {
               key={i}
               className="group relative flex flex-col p-8 md:p-10 rounded-[2rem] bg-white border border-transparent hover:border-slate-100 hover:shadow-xl transition-all duration-300"
             >
-              <div className="mb-8 inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-100 text-[10px] font-bold uppercase tracking-widest text-slate-400">
+              <div className="mb-8 inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-100 text-[10px] font-semibold uppercase tracking-widest text-slate-400">
                 {p.tag}
               </div>
 
@@ -63,7 +63,7 @@ export function Problem() {
                 {p.icon}
               </div>
 
-              <h3 className="text-2xl font-bold text-slate-900 mb-4">
+              <h3 className="text-2xl font-semibold text-slate-900 mb-4">
                 {p.title}
               </h3>
 

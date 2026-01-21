@@ -46,7 +46,7 @@ export function TemplateShowcase() {
             <span className="w-2 h-2 rounded-full bg-indigo-600"></span>
             Jumpstart your workflow
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6 tracking-tight">
+          <h2 className="text-4xl md:text-5xl font-semibold text-slate-900 mb-6 tracking-tight">
             Don&apos;t start from scratch.
           </h2>
           <p className="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed">
@@ -66,7 +66,7 @@ export function TemplateShowcase() {
                   <t.icon className="size-7" />
                 </div>
 
-                <h3 className="font-bold text-lg text-slate-900 mb-3">{t.title}</h3>
+                <h3 className="font-semibold text-lg text-slate-900 mb-3">{t.title}</h3>
 
                 <p className="text-slate-500 text-sm leading-relaxed mb-6 flex-grow">
                   {t.desc}

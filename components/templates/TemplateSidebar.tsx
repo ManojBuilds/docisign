@@ -93,7 +93,7 @@ export function TemplateSidebar({
           <div className="mx-auto w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-4 border border-blue-100">
             <FileSignature className="w-6 h-6" />
           </div>
-          <h3 className="text-xl font-bold text-slate-900 tracking-tight leading-snug mb-2">
+          <h3 className="text-xl font-semibold text-slate-900 tracking-tight leading-snug mb-2">
             {title}
           </h3>
           <p className="text-sm font-medium text-slate-500">
@@ -137,7 +137,7 @@ export function TemplateSidebar({
                   <div className="flex flex-col items-center justify-center">
                     <div className="flex items-center mb-0.5">
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      <span className="text-sm font-bold">{statusMessage || "Processing..."}</span>
+                      <span className="text-sm font-semibold">{statusMessage || "Processing..."}</span>
                     </div>
                     <span className="text-[10px] font-medium opacity-80">{uploadProgress}% Complete</span>
                   </div>
@@ -162,7 +162,7 @@ export function TemplateSidebar({
                   </div>
                 )}
                 <div className="flex flex-col items-start">
-                  <span className="text-sm font-bold text-slate-900 leading-tight">
+                  <span className="text-sm font-semibold text-slate-900 leading-tight">
                     {isDownloading ? "Downloading..." : "Microsoft Word"}
                   </span>
                   <span className="text-[11px] font-medium text-slate-400 leading-tight mt-0.5">

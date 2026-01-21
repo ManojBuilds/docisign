@@ -70,7 +70,7 @@ export function WelcomeDialog({
                 <span className="text-blue-500">Required</span>
               </DialogTitle>
               <p className="text-gray-400 text-sm font-medium">
-                Document sent for your review by <span className="text-white font-bold">{brandName || senderEmail}</span>
+                Document sent for your review by <span className="text-white font-semibold">{brandName || senderEmail}</span>
               </p>
             </div>
           </div>
@@ -88,9 +88,9 @@ export function WelcomeDialog({
                 <FileText className="w-5 h-5 text-blue-600" />
               </div>
               <div className="space-y-1 py-1">
-                <p className="text-sm font-bold text-gray-900">Review Terms</p>
+                <p className="text-sm font-semibold text-gray-900">Review Terms</p>
                 <p className="text-[13px] text-gray-500 leading-relaxed">
-                  Please review <span className="font-bold text-gray-900">"{documentTitle}"</span> carefully before signing.
+                  Please review <span className="font-semibold text-gray-900">"{documentTitle}"</span> carefully before signing.
                 </p>
               </div>
             </motion.div>
@@ -105,7 +105,7 @@ export function WelcomeDialog({
                 <ShieldCheck className="w-5 h-5 text-blue-600" />
               </div>
               <div className="space-y-1 py-1">
-                <p className="text-sm font-bold text-gray-900">Digital Consent</p>
+                <p className="text-sm font-semibold text-gray-900">Digital Consent</p>
                 <p className="text-[13px] text-gray-500 leading-relaxed">
                   You agree to conduct this transaction electronically as per the ESIGN Act.
                 </p>
@@ -125,7 +125,7 @@ export function WelcomeDialog({
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
             </Button>
             <div className="flex flex-col items-center gap-2">
-              <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest flex items-center gap-1.5 justify-center">
+              <p className="text-[10px] text-gray-400 font-semibold uppercase tracking-widest flex items-center gap-1.5 justify-center">
                 <Mail className="size-3" />
                 {senderEmail}
               </p>

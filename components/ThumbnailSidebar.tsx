@@ -52,13 +52,13 @@ const ThumbnailPage = React.memo(({
             devicePixelRatio={1} // Thumbnails don't need high DPI
             loading={
               <div className="w-[140px] h-[190px] bg-gray-100 animate-pulse flex items-center justify-center">
-                <span className="text-[10px] font-bold text-gray-300">{pageNumber}</span>
+                <span className="text-[10px] font-semibold text-gray-300">{pageNumber}</span>
               </div>
             }
           />
         ) : (
           <div className="w-[140px] h-[190px] bg-gray-100 flex items-center justify-center">
-            <span className="text-[10px] font-bold text-gray-300">{pageNumber}</span>
+            <span className="text-[10px] font-semibold text-gray-300">{pageNumber}</span>
           </div>
         )}
         <div className={cn(
@@ -67,7 +67,7 @@ const ThumbnailPage = React.memo(({
         )} />
       </div>
       <span className={cn(
-        "text-[10px] font-bold transition-colors",
+        "text-[10px] font-semibold transition-colors",
         isActive ? "text-primary" : "text-gray-400 group-hover:text-gray-600"
       )}>
         Page {pageNumber}
@@ -157,7 +157,7 @@ export const ThumbnailSidebar = React.memo(({
   return (
     <aside className="w-48 bg-gray-50/50 border-r flex flex-col h-full overflow-hidden">
       <div className="p-4 border-b bg-white flex items-center justify-between">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-gray-500">Pages</h3>
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Pages</h3>
         <span className="text-[10px] bg-gray-100 px-1.5 py-0.5 rounded text-gray-600 font-mono">
           {numPages}
         </span>

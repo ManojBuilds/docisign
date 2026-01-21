@@ -36,7 +36,7 @@ export default function AuthLayout({
 
         <div className="relative z-10 w-full p-8">
           <div className="mb-8 flex flex-col items-center gap-4 text-center">
-            <h1 className="text-3xl font-bold tracking-tight md:text-4xl">
+            <h1 className="text-3xl font-semibold tracking-tight md:text-4xl">
               A new era of <FrameHighlight>document</FrameHighlight> signing
             </h1>
             <p className="text-sm text-slate-600">

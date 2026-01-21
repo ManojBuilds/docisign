@@ -136,7 +136,7 @@ export function CompletedScreen({
               <Logo />
             </div>
             <div className="h-4 w-[1px] bg-gray-200 hidden sm:block" />
-            <span className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest leading-none hidden sm:block">Agreement Management</span>
+            <span className="text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest leading-none hidden sm:block">Agreement Management</span>
           </div>
           <div className="flex items-center gap-3 sm:gap-6">
             <span className="text-[9px] sm:text-[10px] font-black text-emerald-600 uppercase tracking-[0.15em] sm:tracking-[0.2em] flex items-center gap-1 sm:gap-1.5 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-100">
@@ -181,12 +181,12 @@ export function CompletedScreen({
               <p className="text-sm sm:text-base lg:text-lg text-gray-600 font-medium leading-relaxed max-w-xl">
                 {isCancelled ? (
                   <>
-                    You have declined <span className="text-gray-900 font-bold">"{signingSession.document?.title}"</span>.
+                    You have declined <span className="text-gray-900 font-semibold">"{signingSession.document?.title}"</span>.
                     The sender has been notified and the document is now void.
                   </>
                 ) : (
                   <>
-                    <span className="text-gray-900 font-bold">"{signingSession.document?.title}"</span> has been successfully signed.
+                    <span className="text-gray-900 font-semibold">"{signingSession.document?.title}"</span> has been successfully signed.
                     A confirmation email is on its way.
                   </>
                 )}
@@ -201,7 +201,7 @@ export function CompletedScreen({
                       <Button
                         onClick={handleDownload}
                         disabled={isDownloading}
-                        className="w-full sm:w-auto px-8 h-14 bg-gray-900 hover:bg-black text-white rounded-2xl font-bold text-sm shadow-xl shadow-gray-200/50 uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 group cursor-pointer"
+                        className="w-full sm:w-auto px-8 h-14 bg-gray-900 hover:bg-black text-white rounded-2xl font-semibold text-sm shadow-xl shadow-gray-200/50 uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 group cursor-pointer"
                       >
                         {isDownloading ? (
                           <>
@@ -223,7 +223,7 @@ export function CompletedScreen({
                           <Loader2 className="w-5 h-5 animate-spin" />
                         </div>
                         <div>
-                          <h4 className="font-bold text-gray-900 text-sm uppercase tracking-wide mb-1">Finalizing Document</h4>
+                          <h4 className="font-semibold text-gray-900 text-sm uppercase tracking-wide mb-1">Finalizing Document</h4>
                           <p className="text-xs text-gray-600 leading-relaxed font-medium">
                             We're waiting for other parties to sign. You'll receive the final PDF via email once everyone has finished.
                           </p>
@@ -239,14 +239,14 @@ export function CompletedScreen({
                   <div className="w-12 h-12 rounded-2xl bg-white text-blue-600 flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform duration-500">
                     <FileText className="w-6 h-6" />
                   </div>
-                  <h3 className="font-bold text-gray-900 mb-1">Audit Trail</h3>
+                  <h3 className="font-semibold text-gray-900 mb-1">Audit Trail</h3>
                   <p className="text-xs text-gray-500 font-medium">Full certified activity log.</p>
                 </div>
                 <div className="p-6 bg-gray-50 rounded-[2rem] border border-gray-100/50 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group cursor-default">
                   <div className="w-12 h-12 rounded-2xl bg-white text-emerald-600 flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform duration-500">
                     <ShieldCheck className="w-6 h-6" />
                   </div>
-                  <h3 className="font-bold text-gray-900 mb-1">Encrypted</h3>
+                  <h3 className="font-semibold text-gray-900 mb-1">Encrypted</h3>
                   <p className="text-xs text-gray-500 font-medium">Bank-grade security.</p>
                 </div>
               </div>
@@ -274,7 +274,7 @@ export function CompletedScreen({
                         <FileText className="w-6 h-6 text-gray-400" />
                       </div>
                       <div className="min-w-0">
-                        <p className="font-bold text-gray-900 truncate text-sm mb-0.5">{signingSession.document?.title}</p>
+                        <p className="font-semibold text-gray-900 truncate text-sm mb-0.5">{signingSession.document?.title}</p>
                         <p className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">ID: {signingSession.document?._id.slice(-8)}</p>
                       </div>
                     </div>
@@ -300,7 +300,7 @@ export function CompletedScreen({
                             {participant.initial}
                           </div>
                           <div className="min-w-0 flex-1">
-                            <p className="text-xs font-bold text-gray-900 truncate">{participant.email}</p>
+                            <p className="text-xs font-semibold text-gray-900 truncate">{participant.email}</p>
                             <p className="text-[10px] text-gray-500 truncate">
                               {participant.status === "signed" ? "Signed electronically" : "Pending signature"}
                             </p>
@@ -319,11 +319,11 @@ export function CompletedScreen({
                 <div className="pt-6 border-t border-gray-100 flex items-center justify-between relative">
                   <div className="flex flex-col">
                     <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Date</span>
-                    <span className="text-xs font-bold text-gray-900">{new Date().toLocaleDateString(undefined, { dateStyle: 'medium' })}</span>
+                    <span className="text-xs font-semibold text-gray-900">{new Date().toLocaleDateString(undefined, { dateStyle: 'medium' })}</span>
                   </div>
                   <div className="flex flex-col items-end">
                     <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Security</span>
-                    <span className="flex items-center gap-1.5 text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">
+                    <span className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 bg-emerald-50 px-2 py-1 rounded-md">
                       <ShieldCheck className="w-3 h-3" />
                       Encrypted
                     </span>
@@ -338,7 +338,7 @@ export function CompletedScreen({
                   <Logo />
                 </div>
                 <div className="relative z-10">
-                  <h3 className="font-bold text-xl mb-2 leading-tight">Boopsign for Business</h3>
+                  <h3 className="font-semibold text-xl mb-2 leading-tight">Boopsign for Business</h3>
                   <p className="text-gray-400 text-xs mb-6 font-medium leading-relaxed max-w-[280px]">
                     Secure, verified digital signatures for your documents. Get started for free today.
                   </p>

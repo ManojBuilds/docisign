@@ -44,7 +44,7 @@ export default function SigningRequest({
 
       {customMessage && (
         <Section className="my-[24px] rounded border border-solid border-border bg-[#f9f9f9] p-[20px]">
-          <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-muted">
+          <Text className="m-0 text-[12px] font-semibold uppercase tracking-wider text-muted">
             A personal note from {senderName}
           </Text>
           <Text className="mt-[8px] italic text-[14px] text-black leading-[24px]">

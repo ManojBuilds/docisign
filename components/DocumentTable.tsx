@@ -30,6 +30,14 @@ import {
   FileText,
   Trash2,
 } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -96,7 +104,7 @@ export const DocumentTable = ({
                 <TooltipTrigger asChild>
                   <div
                     className={cn(
-                      "w-7 h-7 rounded-full flex items-center justify-center text-white text-[10px] font-bold ring-2 ring-white cursor-default transition-transform hover:scale-110 hover:z-10 bg-gradient-to-br shadow-sm",
+                      "w-7 h-7 rounded-full flex items-center justify-center text-white text-[10px] font-semibold ring-2 ring-white cursor-default transition-transform hover:scale-110 hover:z-10 bg-gradient-to-br shadow-sm",
                       index > 0 && "-ml-2.5",
                       (index % 5 === 0) ? 'from-blue-500 to-indigo-600' :
                         (index % 5 === 1) ? 'from-violet-500 to-purple-600' :
@@ -114,7 +122,7 @@ export const DocumentTable = ({
               </Tooltip>
             ))}
             {remaining > 0 && (
-              <div className="w-7 h-7 rounded-full flex items-center justify-center bg-gray-100 text-gray-600 text-[10px] font-bold ring-2 ring-white -ml-2.5 shadow-sm">
+              <div className="w-7 h-7 rounded-full flex items-center justify-center bg-gray-100 text-gray-600 text-[10px] font-semibold ring-2 ring-white -ml-2.5 shadow-sm">
                 +{remaining}
               </div>
             )}
@@ -316,7 +324,7 @@ export const DocumentTable = ({
             </Link>
             <div className="flex items-center gap-2">
               <span className={cn(
-                "px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border shrink-0",
+                "px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wider border shrink-0",
                 getStatusStyles()
               )}>
                 {getStatusText()}
@@ -355,14 +363,14 @@ export const DocumentTable = ({
       {/* Desktop Table View */}
       {isDesktop ? (
         <div className="overflow-x-auto">
-          <table className="w-full">
-            <thead>
+          <Table>
+            <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id} className="border-b border-muted">
+                <TableRow key={headerGroup.id}>
                   {headerGroup.headers.map((header) => (
-                    <th
+                    <TableHead
                       key={header.id}
-                      className="px-4 py-4 text-left text-[11px] font-bold text-muted-foreground uppercase tracking-widest"
+                      className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest"
                     >
                       {header.isPlaceholder
                         ? null
@@ -370,28 +378,28 @@ export const DocumentTable = ({
                           header.column.columnDef.header,
                           header.getContext()
                         )}
-                    </th>
+                    </TableHead>
                   ))}
-                </tr>
+                </TableRow>
               ))}
-            </thead>
-            <tbody className="divide-y divide-muted">
+            </TableHeader>
+            <TableBody>
               {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row) => (
-                  <tr key={row.id} className="hover:bg-muted/30 transition-colors">
+                  <TableRow key={row.id}>
                     {row.getVisibleCells().map((cell) => (
-                      <td key={cell.id} className="px-4 py-4 whitespace-nowrap">
+                      <TableCell key={cell.id}>
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
                         )}
-                      </td>
+                      </TableCell>
                     ))}
-                  </tr>
+                  </TableRow>
                 ))
               ) : (
-                <tr>
-                  <td
+                <TableRow>
+                  <TableCell
                     colSpan={columns.length}
                     className="px-6 py-32 text-center text-muted-foreground"
                   >
@@ -402,11 +410,11 @@ export const DocumentTable = ({
                     <p>
                       No documents match your search criteria
                     </p>
-                  </td>
-                </tr>
+                  </TableCell>
+                </TableRow>
               )}
-            </tbody>
-          </table>
+            </TableBody>
+          </Table>
         </div>
       ) : (
         /* Mobile Card View */
@@ -471,7 +479,7 @@ export const DocumentTable = ({
             <ChevronLeft className="h-4 w-4" />
           </Button>
 
-          <div className="hidden sm:flex items-center px-3 text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
+          <div className="hidden sm:flex items-center px-3 text-[11px] font-semibold uppercase tracking-widest text-muted-foreground">
             {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
           </div>
 

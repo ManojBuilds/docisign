@@ -395,7 +395,7 @@ function DraggableSignatureField({
                   onKeyUp={(e) => {
                     e.stopPropagation();
                   }}
-                  className="h-5 px-1.5 text-[10px] font-bold border-none focus:outline-none focus:ring-0 bg-white/10 rounded border border-white/5 hover:bg-white/15 transition-colors placeholder:text-white/30 text-white w-[80px]"
+                  className="h-5 px-1.5 text-[10px] font-semibold border-none focus:outline-none focus:ring-0 bg-white/10 rounded border border-white/5 hover:bg-white/15 transition-colors placeholder:text-white/30 text-white w-[80px]"
                   onMouseDown={(e) => {
                     e.stopPropagation();
                     setIsEditingLabel(true);

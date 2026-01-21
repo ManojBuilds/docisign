@@ -22,7 +22,7 @@ export const TrialBanner = () => {
       <div className="px-2 py-1 text-center bg-red-50 border-l-4 border-red-400">
         <p className="text-sm text-red-800">
           Your trial has expired.{" "}
-          <Link href="/pricing" className="font-bold hover:underline">
+          <Link href="/pricing" className="font-semibold hover:underline">
             Upgrade to create more signatures
           </Link>
         </p>
@@ -46,7 +46,7 @@ export const TrialBanner = () => {
       <div className={`px-2 py-1 text-center ${bgColor} border-l-4`}>
         <p className={`text-sm ${textColor}`}>
           {remainingTime}.{" "}
-          <Link href="/pricing" className="font-bold hover:underline">
+          <Link href="/pricing" className="font-semibold hover:underline">
             Upgrade to create more signatures
           </Link>
         </p>

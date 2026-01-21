@@ -219,7 +219,7 @@ export function BrandingSettings({
             </div>
 
             <div className="rounded-xl bg-primary/5 p-4 border border-primary/10">
-              <h4 className="text-xs font-bold text-primary mb-1 uppercase tracking-wider">
+              <h4 className="text-xs font-semibold text-primary mb-1 uppercase tracking-wider">
                 Preview
               </h4>
               <div className="flex items-center gap-2 mt-3">
@@ -230,7 +230,7 @@ export function BrandingSettings({
                     <div className="size-3 bg-primary rounded-full" />
                   )}
                 </div>
-                <span className="text-sm font-bold truncate">
+                <span className="text-sm font-semibold truncate">
                   {brandName || branding?.brandName || "Boopsign"}
                 </span>
               </div>

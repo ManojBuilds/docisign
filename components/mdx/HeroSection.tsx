@@ -27,9 +27,9 @@ export default function HeroSection({ badge, title, subtitle, highlights, testim
             Professional Workflow for 2026
           </div>
         )}
-        <h1 
-          className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 tracking-tight text-slate-900" 
-          dangerouslySetInnerHTML={{ __html: title }} 
+        <h1
+          className="text-4xl md:text-5xl lg:text-7xl font-semibold mb-6 tracking-tight text-slate-900"
+          dangerouslySetInnerHTML={{ __html: title }}
         />
         <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-10 leading-relaxed">
           {subtitle}

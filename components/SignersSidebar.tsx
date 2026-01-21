@@ -123,7 +123,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
               <div className="p-1 rounded-lg group-hover:bg-primary/10 transition-colors">
                 <ChevronLeft className="w-4 h-4" />
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider">Back to tools</span>
+              <span className="text-[10px] font-semibold uppercase tracking-wider">Back to tools</span>
             </button>
             <button
               onClick={() => {
@@ -141,7 +141,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
               <Settings className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="text-xs font-bold text-gray-900 leading-tight">Field Settings</h3>
+              <h3 className="text-xs font-semibold text-gray-900 leading-tight">Field Settings</h3>
               <p className="text-[10px] text-gray-500 font-medium">Configure properties and assignment</p>
             </div>
           </div>
@@ -168,7 +168,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
       {/* Tools Section */}
       <div className="p-4 bg-gray-50/50 border-b">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-[10px] font-bold uppercase tracking-wider text-gray-500 px-1">Toolbar</h3>
+          <h3 className="text-[10px] font-semibold uppercase tracking-wider text-gray-500 px-1">Toolbar</h3>
           <div className="flex gap-1">
             <span className="text-[10px] text-gray-400 font-medium bg-white px-1.5 py-0.5 rounded border border-gray-100 italic">Press shortcut keys</span>
           </div>
@@ -188,7 +188,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                     )}
                   >
                     <tool.icon className={cn('w-4 h-4', selectedTool === tool.id ? 'text-white' : 'text-gray-600')} />
-                    <Kbd className={cn('text-[9px] font-bold uppercase')}>
+                    <Kbd className={cn('text-[9px] font-semibold uppercase')}>
                       {tool.shortcut}
                     </Kbd>
                   </button>
@@ -207,7 +207,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
           {/* Fields List Section */}
           <section>
             <div className="flex items-center justify-between mb-3 px-1">
-              <h3 className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Fields ({activeFields.length})</h3>
+              <h3 className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Fields ({activeFields.length})</h3>
             </div>
             {activeFields.length === 0 ? (
               <div className="bg-gray-50 rounded-xl p-6 text-center border-2 border-dashed border-gray-100">
@@ -236,7 +236,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                         {getFieldIcon(field.fieldType)}
                       </div>
                       <div className="min-w-0">
-                        <div className="font-bold text-[11px] truncate text-gray-900 capitalize leading-none mb-0.5">
+                        <div className="font-semibold text-[11px] truncate text-gray-900 capitalize leading-none mb-0.5">
                           {field.label || `${field.fieldType} Field`}
                         </div>
                         <div className="text-[9px] text-gray-500 font-medium flex items-center gap-1">
@@ -265,7 +265,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
           {/* Signers Reference Section */}
           <section>
             <div className="flex items-center justify-between mb-3 px-1">
-              <h3 className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Recipients ({documentSigners.length})</h3>
+              <h3 className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Recipients ({documentSigners.length})</h3>
             </div>
             {documentSigners.length === 0 ? (
               <p className="text-[10px] text-gray-400 italic px-1 font-medium">No recipients assigned yet</p>
@@ -274,13 +274,13 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                 {documentSigners.map((signer, index) => (
                   <div key={signer.email} className="flex items-center gap-2.5 px-1 group">
                     <div className={cn(
-                      'w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-bold text-white shrink-0 bg-gradient-to-tr uppercase',
+                      'w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-semibold text-white shrink-0 bg-gradient-to-tr uppercase',
                       gradients[index % gradients.length]
                     )}>
                       {signer.name?.charAt(0) || signer.email.charAt(0)}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-[11px] font-bold text-gray-900 truncate tracking-tight">{signer.name || signer.email}</p>
+                      <p className="text-[11px] font-semibold text-gray-900 truncate tracking-tight">{signer.name || signer.email}</p>
                       {signer.name && signer.name !== signer.email && (
                         <p className="text-[9px] text-gray-500 font-medium truncate mt-[-1px]">{signer.email}</p>
                       )}

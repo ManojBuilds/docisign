@@ -1,6 +1,14 @@
 "use client"
 import { cn } from "@/lib/utils";
 import { Check, X } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface ValueWithHighlight {
   value: string | boolean;
@@ -79,54 +87,53 @@ const SmallComparasionTable = ({ competitorName, competitorPrice, className }: C
   return (
     <div className={cn("border rounded-lg my-8", className)}>
       <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b bg-muted/30">
-              <th className="py-4 px-6 text-left font-semibold">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="text-left font-semibold">
                 Key Difference
-              </th>
-              <th className="py-4 px-6 text-center">
+              </TableHead>
+              <TableHead className="text-center">
                 <div className="flex flex-col items-center gap-2">
                   <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full font-semibold">
                     Boopsign
                   </div>
                 </div>
-              </th>
-              <th className="py-4 px-6 text-center">
+              </TableHead>
+              <TableHead className="text-center">
                 <div className="flex flex-col items-center gap-2">
                   <div className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full font-semibold">
                     {competitorName}
                   </div>
                 </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
             {comparisonData.map((item) => (
-              <tr
+              <TableRow
                 key={item.feature}
                 className={cn(
-                  "border-b transition-colors hover:bg-muted/30",
                   item.feature === "Client account required" && "bg-primary/5 ring-1 ring-primary/20"
                 )}
               >
-                <td className="py-4 px-6">
+                <TableCell>
                   <div className="flex items-center gap-2">
                     <span className={'font-semibold'}>
                       {item.feature}
                     </span>
                   </div>
-                </td>
-                <td className="py-4 px-6 text-center">
+                </TableCell>
+                <TableCell className="text-center">
                   {renderValue(item.Boopsign.value, item.Boopsign.highlight, true)}
-                </td>
-                <td className="py-4 px-6 text-center">
+                </TableCell>
+                <TableCell className="text-center">
                   {renderValue(item.competitor.value, item.competitor.highlight, false)}
-                </td>
-              </tr>
+                </TableCell>
+              </TableRow>
             ))}
-          </tbody>
-        </table>
+          </TableBody>
+        </Table>
       </div>
     </div>
   );

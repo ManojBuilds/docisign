@@ -20,7 +20,7 @@ export default function TrialReminder1Day({
     <EmailLayout preview={preview}>
       <Section className="my-[24px]">
         <div className="bg-black rounded-lg py-2 px-4 text-center">
-          <Text className="m-0 text-[12px] font-bold text-white uppercase tracking-wider">
+          <Text className="m-0 text-[12px] font-semibold text-white uppercase tracking-wider">
             Trial Expires Tomorrow
           </Text>
         </div>
@@ -40,7 +40,7 @@ export default function TrialReminder1Day({
       </Text>
 
       <Section className="my-[24px] rounded border border-solid border-red-100 bg-red-50 p-[20px]">
-        <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-red-600 mb-4 opacity-70">
+        <Text className="m-0 text-[12px] font-semibold uppercase tracking-wider text-red-600 mb-4 opacity-70">
           After your trial ends:
         </Text>
         <div className="flex flex-col gap-2">

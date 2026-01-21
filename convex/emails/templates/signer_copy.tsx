@@ -40,13 +40,13 @@ export default function SignerCopy({
       </Text>
 
       <Section className="my-[24px] rounded border border-solid border-border bg-[#f9f9f9] p-[20px]">
-        <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-muted mb-6 opacity-70 text-center">
+        <Text className="m-0 text-[12px] font-semibold uppercase tracking-wider text-muted mb-6 opacity-70 text-center">
           Signing Summary
         </Text>
 
         <div className="mt-4">
           <div className="mb-4">
-            <Text className="m-0 text-[11px] font-bold uppercase tracking-wider text-muted mb-1">
+            <Text className="m-0 text-[11px] font-semibold uppercase tracking-wider text-muted mb-1">
               Document
             </Text>
             <Text className="m-0 text-[14px] text-black font-medium">
@@ -55,7 +55,7 @@ export default function SignerCopy({
           </div>
 
           <div className="mb-4">
-            <Text className="m-0 text-[11px] font-bold uppercase tracking-wider text-muted mb-1">
+            <Text className="m-0 text-[11px] font-semibold uppercase tracking-wider text-muted mb-1">
               Signed on
             </Text>
             <Text className="m-0 text-[14px] text-black font-medium">
@@ -71,7 +71,7 @@ export default function SignerCopy({
           </div>
 
           <div>
-            <Text className="m-0 text-[11px] font-bold uppercase tracking-wider text-muted mb-1">
+            <Text className="m-0 text-[11px] font-semibold uppercase tracking-wider text-muted mb-1">
               Requested by
             </Text>
             <Text className="m-0 text-[14px] text-black font-medium">

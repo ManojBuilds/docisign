@@ -50,7 +50,7 @@ const HowItWorks = ({
                 {/* Header */}
                 <div className="text-center mb-16 md:mb-24">
                     <div className="mx-auto flex max-w-4xl flex-col gap-4">
-                        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900">
+                        <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-slate-900">
                             Send Contracts in <span className="text-blue-600 underline decoration-blue-500/20">Seconds</span>, Not Minutes
                         </h2>
                         <p className="text-slate-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
@@ -65,7 +65,7 @@ const HowItWorks = ({
                         {steps.map((step, index) => (
                             <div key={index} className="group relative flex flex-col p-8 bg-white border border-slate-200 rounded-3xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                                 {/* Step Number Badge */}
-                                <div className="absolute top-4 right-4 text-xs font-bold text-slate-300 group-hover:text-blue-200 transition-colors">
+                                <div className="absolute top-4 right-4 text-xs font-semibold text-slate-300 group-hover:text-blue-200 transition-colors">
                                     STEP {step.number}
                                 </div>
 
@@ -75,7 +75,7 @@ const HowItWorks = ({
                                 </div>
 
                                 {/* Content */}
-                                <h3 className="mb-3 text-xl font-bold text-slate-900">
+                                <h3 className="mb-3 text-xl font-semibold text-slate-900">
                                     {step.title}
                                 </h3>
                                 <p className="text-slate-500 leading-relaxed text-sm md:text-base">

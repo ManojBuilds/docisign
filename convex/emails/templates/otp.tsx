@@ -33,7 +33,7 @@ export default function Otp({
       </Text>
 
       <Section className="my-[32px] rounded border border-solid border-border bg-[#f9f9f9] p-[32px] text-center">
-        <Text className="m-0 font-mono text-[36px] font-bold tracking-[0.2em] text-black">
+        <Text className="m-0 font-mono text-[36px] font-semibold tracking-[0.2em] text-black">
           {otp}
         </Text>
       </Section>

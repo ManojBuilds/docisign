@@ -40,7 +40,7 @@ export default function Welcome({
       </Section>
 
       <Section className="my-[24px] rounded border border-solid border-border bg-[#f9f9f9] p-[20px]">
-        <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-muted mb-4 opacity-70">
+        <Text className="m-0 text-[12px] font-semibold uppercase tracking-wider text-muted mb-4 opacity-70">
           Getting Started is Easy:
         </Text>
         <div className="flex flex-col gap-4">

@@ -167,13 +167,13 @@ function SigningDialog({
           <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-100">
             <Check className="w-10 h-10 text-green-600" />
           </div>
-          <h3 className="text-2xl font-bold mb-2 text-gray-900">Successfully Signed!</h3>
+          <h3 className="text-2xl font-semibold mb-2 text-gray-900">Successfully Signed!</h3>
           <p className="text-gray-500 mb-8 max-w-[280px] mx-auto text-sm">
             Your {field.fieldType} has been added to the document securely.
           </p>
           <div className="flex flex-col items-center gap-2">
             <Loader2 className="w-4 h-4 text-primary animate-spin" />
-            <span className="text-[10px] font-bold uppercase tracking-widest text-gray-400">
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">
               Returning to document
             </span>
           </div>
@@ -188,19 +188,19 @@ function SigningDialog({
             <TabsList className="grid w-full grid-cols-3 p-1 bg-gray-100/30 backdrop-blur-md h-10 rounded-lg mb-4">
               <TabsTrigger
                 value="draw"
-                className="rounded-md data-[state=active]:bg-white data-[state=active]:text-primary transition-all duration-300 font-bold text-[10px] uppercase tracking-wider"
+                className="rounded-md data-[state=active]:bg-white data-[state=active]:text-primary transition-all duration-300 font-semibold text-[10px] uppercase tracking-wider"
               >
                 Draw
               </TabsTrigger>
               <TabsTrigger
                 value="type"
-                className="rounded-md data-[state=active]:bg-white data-[state=active]:text-primary transition-all duration-300 font-bold text-[10px] uppercase tracking-wider"
+                className="rounded-md data-[state=active]:bg-white data-[state=active]:text-primary transition-all duration-300 font-semibold text-[10px] uppercase tracking-wider"
               >
                 Type
               </TabsTrigger>
               <TabsTrigger
                 value="upload"
-                className="rounded-md data-[state=active]:bg-white data-[state=active]:text-primary transition-all duration-300 font-bold text-[10px] uppercase tracking-wider"
+                className="rounded-md data-[state=active]:bg-white data-[state=active]:text-primary transition-all duration-300 font-semibold text-[10px] uppercase tracking-wider"
               >
                 Upload
               </TabsTrigger>
@@ -220,7 +220,7 @@ function SigningDialog({
                   />
                   <div className="absolute top-4 left-4 flex items-center gap-2 opacity-20 pointer-events-none">
                     <PenTool className="w-3.5 h-3.5" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em]">Signature area</span>
+                    <span className="text-[10px] font-semibold uppercase tracking-[0.2em]">Signature area</span>
                   </div>
                 </div>
               </div>
@@ -229,7 +229,7 @@ function SigningDialog({
                   variant="ghost"
                   size="sm"
                   onClick={clearCanvas}
-                  className="text-gray-400 hover:text-red-500 hover:bg-red-50 text-[10px] font-bold uppercase tracking-widest h-8 cursor-pointer"
+                  className="text-gray-400 hover:text-red-500 hover:bg-red-50 text-[10px] font-semibold uppercase tracking-widest h-8 cursor-pointer"
                 >
                   Clear Canvas
                 </Button>
@@ -238,7 +238,7 @@ function SigningDialog({
                     "w-2 h-2 rounded-full transition-all duration-300",
                     hasSigned ? "bg-green-500" : "bg-gray-200"
                   )} />
-                  <span className="text-[10px] text-gray-500 font-bold uppercase tracking-wider">
+                  <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">
                     {hasSigned
                       ? "Captured"
                       : "Awaiting signature"}
@@ -287,7 +287,7 @@ function SigningDialog({
                       />
                     </div>
                     <div>
-                      <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border text-[9px] font-bold uppercase tracking-wider text-gray-400 group-hover:text-primary transition-colors">
+                      <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border text-[9px] font-semibold uppercase tracking-wider text-gray-400 group-hover:text-primary transition-colors">
                         <Upload className="w-2.5 h-2.5" />
                         Replace
                       </div>
@@ -299,7 +299,7 @@ function SigningDialog({
                       <Upload className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors" />
                     </div>
                     <div className="space-y-0.5">
-                      <p className="text-xs font-bold text-gray-900">Upload signature</p>
+                      <p className="text-xs font-semibold text-gray-900">Upload signature</p>
                       <p className="text-[10px] text-gray-400">Drag & drop or click</p>
                     </div>
                   </div>
@@ -321,7 +321,7 @@ function SigningDialog({
                 <div className="space-y-1 flex-1">
                   <Label
                     htmlFor="agreement-checkbox"
-                    className="block text-[11px] font-bold uppercase tracking-wider text-gray-900 cursor-pointer"
+                    className="block text-[11px] font-semibold uppercase tracking-wider text-gray-900 cursor-pointer"
                   >
                     Legal Binding Agreement
                   </Label>
@@ -339,14 +339,14 @@ function SigningDialog({
             <Button
               variant="ghost"
               onClick={() => onOpenChange(false)}
-              className="px-8 font-bold uppercase tracking-[0.15em] text-[9px] h-11 text-gray-400 hover:text-gray-900 hover:bg-transparent cursor-pointer"
+              className="px-8 font-semibold uppercase tracking-[0.15em] text-[9px] h-11 text-gray-400 hover:text-gray-900 hover:bg-transparent cursor-pointer"
             >
               Cancel
             </Button>
             <Button
               onClick={() => handleSignatureComplete(activeTab)}
               disabled={isCompleting || !isSignatureProvided || !agreementChecked}
-              className="w-full sm:w-auto px-10 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-bold uppercase tracking-[0.15em] text-[9px] transition-all duration-300 disabled:opacity-40 cursor-pointer"
+              className="w-full sm:w-auto px-10 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-semibold uppercase tracking-[0.15em] text-[9px] transition-all duration-300 disabled:opacity-40 cursor-pointer"
             >
               {isCompleting ? (
                 <div className="flex items-center gap-1.5">
@@ -366,7 +366,7 @@ function SigningDialog({
       return (
         <div className={`space-y-6 ${isMobile ? "px-4 pb-4" : ""}`}>
           <div className="space-y-3">
-            <Label htmlFor="text-field" className="text-xs font-bold uppercase tracking-wider text-gray-400">
+            <Label htmlFor="text-field" className="text-xs font-semibold uppercase tracking-wider text-gray-400">
               {field.label || "Enter text content"}
               {field.isRequired && <span className="text-red-500 ml-1">*</span>}
             </Label>
@@ -383,14 +383,14 @@ function SigningDialog({
             <Button
               variant="ghost"
               onClick={() => onOpenChange(false)}
-              className="px-8 font-bold uppercase tracking-widest text-[10px] h-11 cursor-pointer"
+              className="px-8 font-semibold uppercase tracking-widest text-[10px] h-11 cursor-pointer"
             >
               Cancel
             </Button>
             <Button
               onClick={() => handleSignatureComplete("text")}
               disabled={isCompleting || !isSignatureProvided}
-              className="px-8 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-bold uppercase tracking-widest text-[10px] cursor-pointer"
+              className="px-8 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-semibold uppercase tracking-widest text-[10px] cursor-pointer"
             >
               {isCompleting ? (
                 <>
@@ -410,7 +410,7 @@ function SigningDialog({
       return (
         <div className={`space-y-6 ${isMobile ? "px-4 pb-4" : ""}`}>
           <div className="space-y-3">
-            <Label htmlFor="date-field" className="text-xs font-bold uppercase tracking-wider text-gray-400">
+            <Label htmlFor="date-field" className="text-xs font-semibold uppercase tracking-wider text-gray-400">
               {field.label || "Select a date"}
               {field.isRequired && <span className="text-red-500 ml-1">*</span>}
             </Label>
@@ -460,14 +460,14 @@ function SigningDialog({
             <Button
               variant="ghost"
               onClick={() => onOpenChange(false)}
-              className="px-8 font-bold uppercase tracking-widest text-[10px] h-11 cursor-pointer"
+              className="px-8 font-semibold uppercase tracking-widest text-[10px] h-11 cursor-pointer"
             >
               Cancel
             </Button>
             <Button
               onClick={() => handleSignatureComplete("date")}
               disabled={isCompleting || !signatureData}
-              className="px-8 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-bold uppercase tracking-widest text-[10px] cursor-pointer"
+              className="px-8 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-semibold uppercase tracking-widest text-[10px] cursor-pointer"
             >
               {isCompleting ? (
                 <>
@@ -521,7 +521,7 @@ function SigningDialog({
           <div className="mx-auto w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center border border-gray-100">
             {getFieldIcon(field.fieldType)}
           </div>
-          <DialogTitle className="text-2xl font-bold tracking-tight text-gray-900">
+          <DialogTitle className="text-2xl font-semibold tracking-tight text-gray-900">
             {field.fieldType === "text" ? (field.label || "Fill details") : `Create your ${field.fieldType}`}
           </DialogTitle>
           <DialogDescription className="text-gray-400 font-medium text-[13px]">
@@ -740,7 +740,7 @@ export default function SigningField({
         {field.label && (
           <div className="absolute -top-6 left-0 flex items-center gap-1.5 px-2 py-0.5 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-t-md border-b-0 animate-in fade-in slide-in-from-bottom-1 box-content h-4 z-10 transition-colors group-hover/adobe:border-gray-300">
             <div className={cn("w-1.5 h-1.5 rounded-full", getSignerColor(field.signerEmail).split(' ')[0].replace('border-', 'bg-'))} />
-            <span className="text-[10px] font-bold text-gray-600 truncate max-w-[150px]">
+            <span className="text-[10px] font-semibold text-gray-600 truncate max-w-[150px]">
               {field.label}
             </span>
           </div>

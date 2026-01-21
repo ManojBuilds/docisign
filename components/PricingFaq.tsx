@@ -49,7 +49,7 @@ const PricingFaq = ({
     <section className="py-24 bg-secondary/20" id="faq">
       <div className="container max-w-4xl mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold tracking-tight mb-4">
+          <h2 className="text-3xl font-semibold tracking-tight mb-4">
             {heading}
           </h2>
           <p className="text-muted-foreground">

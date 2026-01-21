@@ -24,12 +24,12 @@ export const SignersList: FC<SignersListProps> = memo(({ isUploading }) => {
                     className="flex items-center gap-2 bg-white border border-gray-100 pl-1.5 pr-3 py-1.5 rounded-full shadow-sm"
                 >
                     <div className={cn(
-                        "w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-bold text-white shadow-sm",
+                        "w-7 h-7 rounded-full flex items-center justify-center text-[10px] font-semibold text-white shadow-sm",
                         index % 5 === 0 ? 'bg-indigo-500' :
-                        index % 5 === 1 ? 'bg-rose-500' :
-                        index % 5 === 2 ? 'bg-emerald-500' :
-                        index % 5 === 3 ? 'bg-amber-500' :
-                            'bg-sky-500'
+                            index % 5 === 1 ? 'bg-rose-500' :
+                                index % 5 === 2 ? 'bg-emerald-500' :
+                                    index % 5 === 3 ? 'bg-amber-500' :
+                                        'bg-sky-500'
                     )}>
                         {signer.email.charAt(0).toUpperCase()}
                     </div>

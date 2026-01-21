@@ -17,7 +17,7 @@ const Hero = () => {
 
 
         {/* Headline - SEO: "E-Signatures" + "Freelancers" */}
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-slate-900 mb-8 max-w-5xl leading-tight">
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-slate-900 mb-8 max-w-5xl leading-tight">
           Super simple <span className="relative whitespace-nowrap">
             e-signatures
             <svg className="absolute -bottom-2 left-0 w-full h-3 text-blue-200 opacity-50 -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">

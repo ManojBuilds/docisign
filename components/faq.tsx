@@ -112,7 +112,7 @@ const Faq = ({
             <span className="w-1.5 h-1.5 rounded-full bg-slate-400"></span>
             Common Questions
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-6">
             Frequently asked questions
           </h2>
           <p className="text-lg text-slate-500 max-w-2xl mx-auto">
@@ -124,7 +124,7 @@ const Faq = ({
           <Accordion type="single" collapsible className="space-y-4">
             {items.map((item, index) => (
               <AccordionItem key={index} value={`item-${index}`} className="border-b-0 bg-white rounded-2xl border border-slate-200/60 px-6 data-[state=open]:order-first data-[state=open]:ring-2 data-[state=open]:ring-blue-100 transition-all duration-300">
-                <AccordionTrigger className="font-bold text-slate-900 hover:text-blue-600 hover:no-underline py-6">
+                <AccordionTrigger className="font-semibold text-slate-900 hover:text-blue-600 hover:no-underline py-6">
                   {item.question}
                 </AccordionTrigger>
                 <AccordionContent className="text-slate-500 text-base leading-relaxed pb-6">

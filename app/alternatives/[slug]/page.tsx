@@ -96,7 +96,7 @@ export default async function ComparisonPage({ params }: Props) {
         <div className="container mx-auto px-4 max-w-6xl relative z-10 text-center">
           <Link
             href="/alternatives"
-            className="inline-flex items-center gap-2 text-sm font-bold text-slate-400 hover:text-blue-600 mb-16 transition-all group px-4 py-2 rounded-full hover:bg-white ring-1 ring-transparent hover:ring-slate-200"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-blue-600 mb-16 transition-all group px-4 py-2 rounded-full hover:bg-white ring-1 ring-transparent hover:ring-slate-200"
           >
             <ArrowRight className="size-4 rotate-180 transition-transform group-hover:-translate-x-1" /> Back to Alternatives
           </Link>
@@ -115,7 +115,7 @@ export default async function ComparisonPage({ params }: Props) {
           </h1>
 
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl mx-auto mb-12 font-medium">
-            Tired of {comparison.competitorName}&apos;s complexity? Switch to the mobile-first alternative that&apos;s <span className="text-white font-bold px-3 py-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg shadow-md">built for freelancers</span>.
+            Tired of {comparison.competitorName}&apos;s complexity? Switch to the mobile-first alternative that&apos;s <span className="text-white font-semibold px-3 py-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg shadow-md">built for freelancers</span>.
           </p>
 
           <div className="grid md:grid-cols-2 items-center gap-8 md:gap-0 mb-16 max-w-4xl mx-auto relative">
@@ -125,27 +125,27 @@ export default async function ComparisonPage({ params }: Props) {
 
             <div className="bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-slate-200 shadow-lg relative md:rotate-[-3deg] md:hover:rotate-[-1deg] transition-transform duration-300">
               <div className="absolute top-0 right-0 p-4">
-                <Badge variant="outline" className="text-slate-400 font-bold border-slate-200 uppercase tracking-widest text-[10px] bg-white">The Giant</Badge>
+                <Badge variant="outline" className="text-slate-400 font-semibold border-slate-200 uppercase tracking-widest text-[10px] bg-white">The Giant</Badge>
               </div>
-              <h3 className="text-xl font-bold text-slate-500 mb-4">{comparison.competitorName}</h3>
-              <div className="text-4xl font-black text-slate-400 line-through mb-2">${comparison.priceComparison?.them || '45'}<span className="text-sm font-bold text-slate-400 ml-1">/mo</span></div>
+              <h3 className="text-xl font-semibold text-slate-500 mb-4">{comparison.competitorName}</h3>
+              <div className="text-4xl font-black text-slate-400 line-through mb-2">${comparison.priceComparison?.them || '45'}<span className="text-sm font-semibold text-slate-400 ml-1">/mo</span></div>
               <p className="text-sm text-slate-500 font-medium">Limited documents & complex dashboard</p>
             </div>
 
             <div className="bg-blue-600 p-8 rounded-3xl shadow-2xl shadow-blue-600/30 relative md:scale-110 z-20 md:rotate-[3deg] md:hover:rotate-[1deg] transition-transform duration-300">
               <div className="absolute top-0 right-0 p-4">
-                <Badge variant="secondary" className="bg-blue-500/50 text-white font-bold border-transparent uppercase tracking-widest text-[10px]">The Winner</Badge>
+                <Badge variant="secondary" className="bg-blue-500/50 text-white font-semibold border-transparent uppercase tracking-widest text-[10px]">The Winner</Badge>
               </div>
               <div className="absolute -bottom-10 -right-10 size-40 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-700" />
-              <h3 className="text-xl font-bold text-blue-100 mb-4 tracking-tight">Boopsign</h3>
-              <div className="text-4xl font-black text-white mb-2">${comparison.priceComparison?.us || '15'}<span className="text-sm font-bold text-blue-200 ml-1">/mo</span></div>
+              <h3 className="text-xl font-semibold text-blue-100 mb-4 tracking-tight">Boopsign</h3>
+              <div className="text-4xl font-black text-white mb-2">${comparison.priceComparison?.us || '15'}<span className="text-sm font-semibold text-blue-200 ml-1">/mo</span></div>
               <p className="text-sm text-blue-100 font-medium">Unlimited signatures & zero friction</p>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
             <StartTrialBtn />
-            <div className="flex items-center gap-3 text-sm text-slate-500 font-bold">
+            <div className="flex items-center gap-3 text-sm text-slate-500 font-semibold">
               <div className="flex -space-x-3">
                 {[1, 2, 3, 4].map((i) => (
                   <div key={i} className="size-9 rounded-full border-2 border-white bg-slate-200 ring-2 ring-slate-50 shadow-sm overflow-hidden relative">
@@ -166,7 +166,7 @@ export default async function ComparisonPage({ params }: Props) {
                   { text: "Sign in Seconds", icon: <Clock className="size-4 text-orange-500" /> },
                   { text: "No Login Needed", icon: <Zap className="size-4 text-purple-500" /> }
                 ].map((item, i) => (
-                  <div key={i} className="flex items-center justify-center gap-3 text-sm font-bold text-slate-700 bg-white/50 px-4 py-2 rounded-xl ring-1 ring-slate-200/60">
+                  <div key={i} className="flex items-center justify-center gap-3 text-sm font-semibold text-slate-700 bg-white/50 px-4 py-2 rounded-xl ring-1 ring-slate-200/60">
                     {item.icon}
                     {item.text}
                   </div>
@@ -219,7 +219,7 @@ export default async function ComparisonPage({ params }: Props) {
               </h3>
               <ul className="space-y-6">
                 {comparison.pros?.map((pro, i) => (
-                  <li key={i} className="flex items-start gap-4 text-slate-800 font-bold">
+                  <li key={i} className="flex items-start gap-4 text-slate-800 font-semibold">
                     <div className="size-6 rounded-full bg-blue-600 flex items-center justify-center shrink-0 shadow-lg shadow-blue-600/20">
                       <CheckCircle className="size-3.5 text-white" />
                     </div>
@@ -249,7 +249,7 @@ export default async function ComparisonPage({ params }: Props) {
             <div className="bg-slate-900 p-8 rounded-[2.5rem] text-white overflow-hidden relative group">
               <div className="absolute top-0 right-0 -mr-10 -mt-10 size-40 bg-blue-600 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity" />
               <div className="relative z-10">
-                <h4 className="text-blue-400 font-bold text-xs uppercase tracking-[0.2em] mb-4">Limited Offer</h4>
+                <h4 className="text-blue-400 font-semibold text-xs uppercase tracking-[0.2em] mb-4">Limited Offer</h4>
                 <p className="text-2xl font-black mb-6 leading-tight">Start your <br /> 7-day free trial</p>
                 <div className="space-y-4 mb-8">
                   {[
@@ -279,7 +279,7 @@ export default async function ComparisonPage({ params }: Props) {
                   "Verified Email Auth",
                   "Tamper-proof Seals"
                 ].map(t => (
-                  <div key={t} className="flex items-center gap-3 text-xs font-bold text-slate-700 bg-slate-50 px-3 py-2 rounded-lg">
+                  <div key={t} className="flex items-center gap-3 text-xs font-semibold text-slate-700 bg-slate-50 px-3 py-2 rounded-lg">
                     <div className="size-1.5 rounded-full bg-blue-600" /> {t}
                   </div>
                 ))}

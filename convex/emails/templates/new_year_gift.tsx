@@ -29,10 +29,10 @@ export default function NewYearGift({
       </Text>
 
       <Section className="my-[24px] rounded border border-solid border-border bg-black p-[32px] text-center">
-        <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-white mb-2 opacity-70">
+        <Text className="m-0 text-[12px] font-semibold uppercase tracking-wider text-white mb-2 opacity-70">
           Your New Year Gift
         </Text>
-        <Heading className="m-0 text-[28px] font-bold text-white mb-4">
+        <Heading className="m-0 text-[28px] font-semibold text-white mb-4">
           1 Month Free Access
         </Heading>
         <Text className="m-0 text-[14px] text-white opacity-80 mb-6">
@@ -55,7 +55,7 @@ export default function NewYearGift({
       </Text>
 
       <Section className="mt-[32px]">
-        <Text className="m-0 text-[14px] font-bold text-black">
+        <Text className="m-0 text-[14px] font-semibold text-black">
           Manoj Kumar
         </Text>
         <Text className="m-0 text-[12px] text-muted">

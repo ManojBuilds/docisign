@@ -203,7 +203,7 @@ const VideoDemo = () => {
           <div className="w-8 h-8 md:w-12 md:h-12 bg-amber-400 rounded-full flex items-center justify-center text-white group-hover:bg-amber-500 transition-colors shadow-inner flex-shrink-0">
             <Play className="fill-current ml-0.5 md:ml-1 w-4 h-4 md:w-6 md:h-6" />
           </div>
-          <span className="font-bold text-[10px] md:text-sm tracking-[0.05em] md:tracking-[0.1em] uppercase text-slate-800 truncate">
+          <span className="font-semibold text-[10px] md:text-sm tracking-[0.05em] md:tracking-[0.1em] uppercase text-slate-800 truncate">
             Watch Boopsign in action — 90 seconds
           </span>
         </div>

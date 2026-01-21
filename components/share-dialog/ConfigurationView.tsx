@@ -87,7 +87,7 @@ export const ConfigurationView = ({
       <div className="flex flex-col h-full">
         <DialogHeader className="p-6 border-b border-zinc-100 bg-zinc-50/50 sticky top-0 z-10 backdrop-blur-sm">
           <div className="flex items-center justify-between">
-            <DialogTitle className="text-xl font-bold text-zinc-900 tracking-tight flex items-center gap-2">
+            <DialogTitle className="text-xl font-semibold text-zinc-900 tracking-tight flex items-center gap-2">
               <Send className="w-5 h-5 text-blue-600" />
               Send for Signature
             </DialogTitle>

@@ -20,7 +20,7 @@ export function AuditTrail({ signatureFields, expandedSigners, setExpandedSigner
     <div className="pt-4 border-t border-dashed">
       <div className="flex items-center gap-2 mb-4">
         <Shield className="w-4 h-4 text-blue-600" />
-        <h3 className="font-bold text-gray-900 text-[10px] uppercase tracking-wider">{title}</h3>
+        <h3 className="font-semibold text-gray-900 text-[10px] uppercase tracking-wider">{title}</h3>
       </div>
       <div className="space-y-2">
         {Array.from(
@@ -48,7 +48,7 @@ export function AuditTrail({ signatureFields, expandedSigners, setExpandedSigner
                 type="button"
               >
                 <div className="min-w-0 flex-1">
-                  <p className="font-bold text-xs text-gray-900 truncate">{field.signerName || `Signer ${index + 1}`}</p>
+                  <p className="font-semibold text-xs text-gray-900 truncate">{field.signerName || `Signer ${index + 1}`}</p>
                   <p className="text-[9px] text-gray-500 truncate">{field.signerEmail}</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -61,7 +61,7 @@ export function AuditTrail({ signatureFields, expandedSigners, setExpandedSigner
                   <div className="grid grid-cols-2 gap-2 text-[10px] text-gray-600 bg-white/50 rounded p-2">
                     <div>
                       <span className="text-gray-400 block text-[8px] uppercase tracking-wider">Date</span>
-                      <span className="font-bold text-gray-900">{new Date(field.auditTrail.signedAt).toLocaleDateString()}</span>
+                      <span className="font-semibold text-gray-900">{new Date(field.auditTrail.signedAt).toLocaleDateString()}</span>
                     </div>
                     <div>
                       <span className="text-gray-400 block text-[8px] uppercase tracking-wider">IP</span>

@@ -16,7 +16,7 @@ export function SubmittingOverlay() {
         </div>
 
         <div className="text-center space-y-4 px-6">
-          <h2 className="text-2xl font-bold text-gray-900 tracking-tight">Finalizing Agreement</h2>
+          <h2 className="text-2xl font-semibold text-gray-900 tracking-tight">Finalizing Agreement</h2>
           <div className="space-y-2">
             <p className="text-sm text-gray-500 font-medium leading-relaxed">
               We're securing your signatures and generating the final certified document.

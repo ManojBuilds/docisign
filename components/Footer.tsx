@@ -1,367 +1,105 @@
 import { ShieldCheckIcon } from "lucide-react";
 import Link from "next/link";
 import Logo from "./Logo";
+import { JSX } from "react";
+
+// Define footer sections interface for scalability
+interface FooterSection {
+  title: string;
+  links: {
+    label: string;
+    href: string;
+    icon?: JSX.Element;
+  }[];
+}
 
 const Footer = () => {
+  // Organize only the most necessary and helpful links by user-focused categories
+  const footerSections: FooterSection[] = [
+    {
+      title: "Getting Started",
+      links: [
+        { label: "Online Signature Maker", href: "/online-signature-maker" },
+        { label: "No Account Required", href: "/no-account-esignature" },
+        { label: "Free Contract Library", href: "/templates" },
+      ],
+    },
+    {
+      title: "Solutions",
+      links: [
+        { label: "For Freelancers", href: "/esignature-for-freelancers" },
+        { label: "For Consultants", href: "/esignature-for-consultants" },
+        { label: "HR Documents", href: "/hr-document-signing" },
+        { label: "Real Estate", href: "/real-estate-document-signing" },
+      ],
+    },
+    {
+      title: "Alternatives",
+      links: [
+        { label: "DocuSign Alternative", href: "/alternatives/docusign-alternative" },
+        { label: "HelloSign Alternative", href: "/alternatives/hellosign-alternative" },
+        { label: "Adobe Sign Alternative", href: "/alternatives/adobe-sign-alternative" },
+        { label: "PandaDoc Alternative", href: "/alternatives/pandadoc-alternative" },
+      ],
+    },
+  ];
+
   return (
-    <footer className="border-t py-12 w-full bg-gradient-to-b from-background to-gray-50">
+    <footer className="border-t py-10 w-full bg-background">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          {/* Logo and Info */}
-          <div className="md:col-span-1">
-            <div className="flex flex-col space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Logo and Info Column */}
+          <div className="lg:col-span-1">
+            <div className="flex flex-col h-full">
               <Logo showStatus={true} />
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground mt-3">
                 The simplest e-signature solution for modern businesses.
               </p>
-              <div className="flex items-center text-sm text-muted-foreground">
-                <ShieldCheckIcon size={18} className="text-primary" />
+
+              <div className="flex items-center mt-4 text-sm text-muted-foreground">
+                <ShieldCheckIcon size={18} className="text-primary mr-2" />
                 <span>Secure & legally binding</span>
               </div>
-              <p className="text-xs text-muted-foreground/80 mt-4">
-                &copy; {new Date().getFullYear()} Boopsign. All rights reserved.
-              </p>
+
+              <div className="mt-6 pt-6 border-t border-border">
+                <p className="text-xs text-muted-foreground">
+                  &copy; {new Date().getFullYear()} Boopsign. All rights reserved.
+                </p>
+              </div>
             </div>
           </div>
 
-          {/* Product Features */}
-          <div className="md:col-span-1">
-            <h3 className="font-bold text-lg mb-4 text-foreground">Powerful Features</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/online-signature-maker"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>Create signatures instantly</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/proposal-signing-software"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>Proposal signing software</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/templates/freelance-contract-template"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>Contract templates</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/mobile-electronic-signature"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>Mobile-first design</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/no-account-esignature"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>No account required</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/remote-team-document-signing"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>Remote team solutions</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/hr-document-signing"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>HR contract management</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/client-onboarding-documents"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>Client onboarding contracts</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/real-estate-document-signing"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>Real estate solutions</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/healthcare-document-signing"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>Healthcare solutions</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/fintech-document-signing"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>Fintech & Finance</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/education-document-signing"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>Education & Schools</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/esignature-for-freelancers"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>For Freelancers</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/esignature-for-consultants"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-green-500">✓</span>
-                    <span>For Consultants</span>
-                  </div>
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Popular Alternatives */}
-          <div className="md:col-span-1">
-            <h3 className="font-bold text-lg mb-4 text-foreground">Ditch the Expensive</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/alternatives/docusign-alternative"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-blue-500">&gt;</span>
-                    <span>DocuSign alternative</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/alternatives/hellosign-alternative"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-blue-500">&gt;</span>
-                    <span>HelloSign alternative</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/alternatives/pandadoc-alternative"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-blue-500">&gt;</span>
-                    <span>PandaDoc alternative</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/alternatives/adobe-sign-alternative"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-blue-500">&gt;</span>
-                    <span>Adobe Sign alternative</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/alternatives/dropbox-sign-alternative"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-blue-500">&gt;</span>
-                    <span>Dropbox Sign alternative</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/alternatives/signnow-alternative"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-blue-500">&gt;</span>
-                    <span>Signnow alternative</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/alternatives/signrequest-alternative"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-blue-500">&gt;</span>
-                    <span>Signrequest alternative</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/alternatives/zoho-sign-alternative"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-blue-500">&gt;</span>
-                    <span>Zoho Sign alternative</span>
-                  </div>
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Resources & Templates */}
-          <div className="md:col-span-1">
-            <h3 className="font-bold text-lg mb-4 text-foreground">Resources & Templates</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/templates"
-                  className="text-sm text-foreground font-semibold hover:text-blue-600 hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-blue-500">★</span>
-                    <span>Free Contract Library</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/templates/social-media-management-contract"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-orange-500">→</span>
-                    <span>Social Media Contract</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/templates/wedding-photography-contract"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-orange-500">→</span>
-                    <span>Wedding Photo Contract</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/templates/house-cleaning-service-agreement"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-orange-500">→</span>
-                    <span>Cleaning Service Agreement</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/blog/3-minute-freelance-workflow"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-slate-400">•</span>
-                    <span>3-Minute Workflow</span>
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/blog/esignature-cost-comparison"
-                  className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors block"
-                >
-                  <div className="flex items-start">
-                    <span className="mr-2 text-slate-400">•</span>
-                    <span>Cost Analysis</span>
-                  </div>
-                </Link>
-              </li>
-            </ul>
-          </div>
+          {/* Dynamic Footer Sections */}
+          {footerSections.map((section, index) => (
+            <div key={index} className="space-y-4">
+              <h3 className="font-semibold text-foreground">{section.title}</h3>
+              <ul className="space-y-2">
+                {section.links.map((link, linkIndex) => (
+                  <li key={linkIndex}>
+                    <Link
+                      href={link.href}
+                      className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
 
         </div>
 
         {/* Bottom section */}
-        <div className="mt-12 pt-8 border-t text-center">
-          <p className="text-sm text-muted-foreground mb-2">
+        <div className="mt-12 pt-8 border-t border-border text-center">
+          <p className="text-sm text-muted-foreground mb-3">
             Join thousands of professionals saving time and money with Boopsign
           </p>
-          <div className="flex justify-center space-x-2 sm:space-x-6 text-xs text-muted-foreground">
-            <span>ESIGN Act Compliant</span>
+          <div className="flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
+            <span className="flex items-center">
+              <ShieldCheckIcon size={12} className="mr-1 text-primary" />
+              ESIGN Act Compliant
+            </span>
             <span>•</span>
             <span>UETA Certified</span>
             <span>•</span>

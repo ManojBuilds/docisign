@@ -114,7 +114,7 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
               {selectedTool === 'initial' && <TextCursor className="w-3.5 h-3.5 text-purple-400" />}
               {selectedTool === 'date' && <CalendarDays className="w-3.5 h-3.5 text-emerald-400" />}
               {selectedTool === 'text' && <ALargeSmall className="w-3.5 h-3.5 text-orange-400" />}
-              <span className="text-[11px] font-bold uppercase tracking-wider">
+              <span className="text-[11px] font-semibold uppercase tracking-wider">
                 {selectedTool} Mode
               </span>
             </div>
@@ -146,7 +146,7 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
           }}
         >
           <div className={cn(
-            "absolute top-0 left-0 text-white text-[9px] font-bold px-1.5 py-0.5 uppercase tracking-tighter rounded-none",
+            "absolute top-0 left-0 text-white text-[9px] font-semibold px-1.5 py-0.5 uppercase tracking-tighter rounded-none",
             selectedTool === 'signature' && "bg-blue-500",
             selectedTool === 'initial' && "bg-emerald-500",
             selectedTool === 'date' && "bg-amber-500",

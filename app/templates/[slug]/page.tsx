@@ -159,7 +159,7 @@ export default async function TemplatePage({ params }: Props) {
                           }`}>
                           <Icon name={feature.icon || "FileText"} className="size-6" />
                         </div>
-                        <h3 className="font-bold text-lg mb-2">{feature.title}</h3>
+                        <h3 className="font-semibold text-lg mb-2">{feature.title}</h3>
                         <p className="text-sm text-slate-500">{feature.description}</p>
                       </CardContent>
                     </Card>
@@ -202,7 +202,7 @@ export default async function TemplatePage({ params }: Props) {
                   <div className="flex items-center gap-3">
                     <div className="size-8 bg-slate-200 rounded-full" />
                     <div>
-                      <p className="text-xs font-bold text-slate-900">{template.testimonial.author}</p>
+                      <p className="text-xs font-semibold text-slate-900">{template.testimonial.author}</p>
                       <p className="text-[10px] text-slate-500">{template.testimonial.role}</p>
                     </div>
                   </div>

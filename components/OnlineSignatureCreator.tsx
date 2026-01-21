@@ -125,12 +125,12 @@ export default function OnlineSignatureCreator() {
         <div className="mt-8 p-6 bg-gradient-to-br from-blue-600 to-indigo-700 rounded-xl text-white animate-in fade-in zoom-in duration-300">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-center md:text-left">
-              <h4 className="font-bold text-lg leading-tight mb-1">Signature Downloaded! 🎉</h4>
+              <h4 className="font-semibold text-lg leading-tight mb-1">Signature Downloaded! 🎉</h4>
               <p className="text-blue-100 text-sm">Now use it to sign any PDF document in under 3 minutes.</p>
             </div>
             <Link
               href="/signup"
-              className="w-full md:w-auto bg-white text-blue-600 px-6 py-3 rounded-lg font-bold text-center hover:bg-blue-50 transition-colors shadow-lg"
+              className="w-full md:w-auto bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold text-center hover:bg-blue-50 transition-colors shadow-lg"
             >
               Sign My PDF Now
             </Link>
@@ -150,7 +150,7 @@ export default function OnlineSignatureCreator() {
           <Button
             onClick={downloadSignature}
             size="lg"
-            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-6 px-10 rounded-xl shadow-lg shadow-blue-200 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] order-1 sm:order-2"
+            className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white font-semibold py-6 px-10 rounded-xl shadow-lg shadow-blue-200 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] order-1 sm:order-2"
           >
             <Download className="w-4 h-4 mr-2" />
             Download Signature PNG

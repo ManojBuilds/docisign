@@ -42,13 +42,13 @@ export default function DocumentComplete({
       </Text>
 
       <Section className="my-[24px] rounded border border-solid border-border bg-[#f9f9f9] p-[20px]">
-        <Text className="m-0 text-[12px] font-bold uppercase tracking-wider text-muted text-center mb-6">
+        <Text className="m-0 text-[12px] font-semibold uppercase tracking-wider text-muted text-center mb-6">
           Document Details
         </Text>
 
         <div className="mt-4">
           <div className="mb-4">
-            <Text className="m-0 text-[11px] font-bold uppercase tracking-wider text-muted mb-1">
+            <Text className="m-0 text-[11px] font-semibold uppercase tracking-wider text-muted mb-1">
               Status
             </Text>
             <Text className="m-0 text-[14px] text-black font-medium">
@@ -57,7 +57,7 @@ export default function DocumentComplete({
           </div>
 
           <div className="mb-4">
-            <Text className="m-0 text-[11px] font-bold uppercase tracking-wider text-muted mb-1">
+            <Text className="m-0 text-[11px] font-semibold uppercase tracking-wider text-muted mb-1">
               Completed on
             </Text>
             <Text className="m-0 text-[14px] text-black font-medium">
@@ -73,7 +73,7 @@ export default function DocumentComplete({
           </div>
 
           <div>
-            <Text className="m-0 text-[11px] font-bold uppercase tracking-wider text-muted mb-1">
+            <Text className="m-0 text-[11px] font-semibold uppercase tracking-wider text-muted mb-1">
               Document
             </Text>
             <Text className="m-0 text-[14px] text-black font-medium">

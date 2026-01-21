@@ -10,7 +10,7 @@ export function SuccessView() {
         <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm ring-4 ring-green-50">
           <CheckCircle2 className="w-10 h-10 text-green-600" />
         </div>
-        <DialogTitle className="text-2xl font-bold text-green-900 mb-2 tracking-tight text-center">Sent Successfully!</DialogTitle>
+        <DialogTitle className="text-2xl font-semibold text-green-900 mb-2 tracking-tight text-center">Sent Successfully!</DialogTitle>
         <p className="text-green-700 font-medium">Emails have been dispatched to all recipients.</p>
       </div>
 

@@ -35,7 +35,7 @@ export default function Logo({
         </div>
 
         {showText && (
-          <span className="text-base md:text-xl font-bold font-heading tracking-tight md:-ml-1">
+          <span className="text-lg md:text-2xl font-semibold font-heading tracking-tight md:-ml-1">
             Boopsign
           </span>
         )}
@@ -47,11 +47,11 @@ export default function Logo({
                 PRO
               </Badge>
             ) : isTrialActive ? (
-              <Badge variant="outline" className="border-orange-200 text-orange-600 bg-orange-50 py-0 px-2 text-[9px] md:text-[10px] font-bold uppercase tracking-wider h-5 rounded-full">
+              <Badge variant="outline" className="border-orange-200 text-orange-600 bg-orange-50 py-0 px-2 text-[9px] md:text-[10px] font-semibold uppercase tracking-wider h-5 rounded-full">
                 Trial
               </Badge>
             ) : (
-              <Badge variant="outline" className="text-muted-foreground py-0 px-2 text-[9px] md:text-[10px] font-bold uppercase tracking-wider h-5 rounded-full">
+              <Badge variant="outline" className="text-muted-foreground py-0 px-2 text-[9px] md:text-[10px] font-semibold uppercase tracking-wider h-5 rounded-full">
                 Free
               </Badge>
             )}

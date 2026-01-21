@@ -21,8 +21,8 @@ export function ErrorScreen() {
         <div className="flex items-center gap-3 sm:gap-4">
           <Logo />
           <div className="h-4 w-[1px] bg-gray-200 hidden sm:block" />
-          <span className="text-[10px] sm:text-xs font-bold text-gray-400 uppercase tracking-widest leading-none hidden sm:block">Access Denied</span>
-          <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none sm:hidden">Access</span>
+          <span className="text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest leading-none hidden sm:block">Access Denied</span>
+          <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest leading-none sm:hidden">Access</span>
         </div>
         <div className="flex items-center gap-3 sm:gap-6">
           <span className="text-[9px] sm:text-[10px] font-black text-red-600 uppercase tracking-[0.15em] sm:tracking-[0.2em] flex items-center gap-1 sm:gap-1.5">
@@ -47,7 +47,7 @@ export function ErrorScreen() {
         </p>
 
         <div className="p-5 sm:p-6 bg-gray-50 border border-gray-100 rounded-2xl w-full max-w-sm">
-          <h3 className="text-xs font-bold text-gray-900 uppercase tracking-widest mb-2">What should I do?</h3>
+          <h3 className="text-xs font-semibold text-gray-900 uppercase tracking-widest mb-2">What should I do?</h3>
           <p className="text-sm text-gray-500">
             Please check your email for a newer link or contact the sender directly to request a fresh signing invitation.
           </p>

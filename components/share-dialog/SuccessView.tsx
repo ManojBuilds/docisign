@@ -12,7 +12,7 @@ export const SuccessView = ({ isDesktop = true }: CommonViewProps) => {
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 ring-1 ring-green-200/50 ring-offset-4 ring-offset-green-50">
             <CheckCircle2 className="w-10 h-10 text-green-600" />
           </div>
-          <DialogTitle className="text-2xl font-bold text-green-900 mb-2 tracking-tight text-center">Sent Successfully!</DialogTitle>
+          <DialogTitle className="text-2xl font-semibold text-green-900 mb-2 tracking-tight text-center">Sent Successfully!</DialogTitle>
           <p className="text-green-700 font-medium">Emails have been dispatched to all recipients.</p>
         </div>
 
@@ -46,7 +46,7 @@ export const SuccessView = ({ isDesktop = true }: CommonViewProps) => {
         <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 ring-1 ring-green-200/50 ring-offset-4 ring-offset-green-50">
           <CheckCircle2 className="w-8 h-8 text-green-600" />
         </div>
-        <DrawerTitle className="text-xl font-bold text-green-900">Sent Successfully!</DrawerTitle>
+        <DrawerTitle className="text-xl font-semibold text-green-900">Sent Successfully!</DrawerTitle>
       </DrawerHeader>
       <div className="p-6 space-y-4">
         <p className="text-center text-zinc-600">Emails have been dispatched securely.</p>

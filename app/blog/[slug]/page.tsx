@@ -89,7 +89,7 @@ export default async function Post({ params }: Props) {
 
       {/* Content */}
       <main className="container mx-auto px-4 py-16 max-w-4xl">
-        <article className="prose prose-slate  max-w-none
+        <article className="prose prose-slate md:prose-lg max-w-none
           prose-headings:font-primary prose-headings:font-black prose-headings:tracking-tight
           prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
           prose-strong:text-slate-900 prose-blockquote:border-l-blue-500 prose-blockquote:not-italic
@@ -118,13 +118,13 @@ export default async function Post({ params }: Props) {
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
                 href="/signup"
-                className="px-8 py-4 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
+                className="px-8 py-4 bg-blue-600 text-white font-semibold rounded-2xl hover:bg-blue-700 transition-colors shadow-lg shadow-blue-600/20"
               >
                 Get Started for Free
               </Link>
               <Link
                 href="/blog"
-                className="px-8 py-4 bg-white text-slate-900 font-bold rounded-2xl border border-slate-200 hover:bg-slate-50 transition-colors"
+                className="px-8 py-4 bg-white text-slate-900 font-semibold rounded-2xl border border-slate-200 hover:bg-slate-50 transition-colors"
               >
                 Browse More Articles
               </Link>

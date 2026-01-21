@@ -159,7 +159,7 @@ function DocumentsList() {
     <>
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 md:mb-8 gap-4 px-1 sm:px-0">
         <div>
-          <h1 className="text-lg md:text-3xl font-bold tracking-tight text-foreground">My Contracts</h1>
+          <h1 className="text-lg md:text-3xl font-semibold tracking-tight text-foreground">My Contracts</h1>
           <p className="text-muted-foreground text-xs md:text-sm mt-1">Manage and track your signature requests</p>
         </div>
         <div className="hidden sm:block">
@@ -181,7 +181,7 @@ function DocumentsList() {
                 placeholder="Search by contract name..."
                 value={searchTerm}
                 onChange={handleSearchChange}
-                className="pl-10 h-11 bg-background border-muted/60 focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all rounded-xl text-sm pr-10"
+                className="px-10"
               />
               {searchTerm !== debouncedSearchTerm && (
                 <div className="absolute right-3.5 top-1/2 transform -translate-y-1/2">
@@ -204,13 +204,13 @@ function DocumentsList() {
               value={filterStatus}
               onValueChange={(value: DocumentStatus) => setFilterStatus(value)}
             >
-              <SelectTrigger className="flex-1 lg:flex-none lg:w-[180px] h-11 bg-background border-muted/60 focus:ring-2 focus:ring-primary/20 rounded-xl text-sm gap-2">
+              <SelectTrigger className="flex-1 lg:flex-none lg:w-[180px] gap-2">
                 <div className="flex items-center gap-2">
                   <Filter className="h-4 w-4 text-muted-foreground" />
                   <SelectValue placeholder="Status" />
                 </div>
               </SelectTrigger>
-              <SelectContent className="rounded-xl border-muted/60 shadow-xl">
+              <SelectContent className="rounded-xl shadow-xl">
                 <SelectItem value="all">All Contracts</SelectItem>
                 <SelectItem value="draft">Drafts</SelectItem>
                 <SelectItem value="sent">Waiting for Signature</SelectItem>
@@ -261,7 +261,7 @@ function DocumentsList() {
                   </div>
                 </div>
 
-                <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mb-3">
+                <h3 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground mb-3">
                   {searchTerm || filterStatus !== "all" ? "No matches found" : "Your dashboard is quiet"}
                 </h3>
                 <p className="text-muted-foreground max-w-[280px] mx-auto mb-8 text-sm sm:text-base leading-relaxed">

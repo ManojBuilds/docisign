@@ -11,7 +11,7 @@ const Features = () => {
             <span className="w-2 h-2 rounded-full bg-blue-600"></span>
             Why freelancers choose Boopsign
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-6">
             Features that help you close the deal.
           </h2>
           <p className="text-lg md:text-xl text-slate-500 leading-relaxed">
@@ -47,7 +47,7 @@ const Features = () => {
               <span className="mb-6 flex size-12 items-center justify-center rounded-2xl bg-white border border-slate-200 shadow-sm group-hover:scale-110 transition-transform duration-300">
                 {feature.icon}
               </span>
-              <h3 className="mb-3 text-xl font-bold text-slate-900">
+              <h3 className="mb-3 text-xl font-semibold text-slate-900">
                 {feature.title}
               </h3>
               <p className="leading-relaxed text-slate-500">

@@ -44,7 +44,7 @@ export function UserMenu() {
           <Button variant="ghost" className="relative h-9 w-9 rounded-full ring-offset-background transition-all hover:ring-2 hover:ring-primary/20 p-0 overflow-hidden">
             <Avatar className="h-9 w-9 border border-muted-foreground/10">
               <AvatarImage src={user.imageUrl} alt={user.fullName || "User"} />
-              <AvatarFallback className="bg-primary/5 text-primary text-xs font-bold">
+              <AvatarFallback className="bg-primary/5 text-primary text-xs font-semibold">
                 {userInitials.toUpperCase()}
               </AvatarFallback>
             </Avatar>
@@ -53,7 +53,7 @@ export function UserMenu() {
         <DropdownMenuContent className="w-64 mt-2 p-2 rounded-2xl border-muted/60 shadow-xl" align="end" forceMount>
           <DropdownMenuLabel className="font-normal p-2">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-bold leading-none">{user.fullName}</p>
+              <p className="text-sm font-semibold leading-none">{user.fullName}</p>
               <p className="text-xs leading-none text-muted-foreground truncate">
                 {userEmail}
               </p>
@@ -62,7 +62,7 @@ export function UserMenu() {
           <DropdownMenuSeparator className="my-2 bg-muted/60" />
 
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70 px-2 py-1.5 flex items-center gap-2">
+            <DropdownMenuLabel className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 px-2 py-1.5 flex items-center gap-2">
               <Zap className="h-3 w-3" /> Workspace
             </DropdownMenuLabel>
             <DropdownMenuItem asChild className="rounded-xl cursor-pointer py-2.5">
@@ -87,7 +87,7 @@ export function UserMenu() {
           <DropdownMenuSeparator className="my-2 bg-muted/60" />
 
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/70 px-2 py-1.5 flex items-center gap-2">
+            <DropdownMenuLabel className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 px-2 py-1.5 flex items-center gap-2">
               <User className="h-3 w-3" /> Account
             </DropdownMenuLabel>
             {isPaidUser ? (
@@ -101,7 +101,7 @@ export function UserMenu() {
               <DropdownMenuItem asChild className="rounded-xl cursor-pointer py-2.5 text-primary focus:text-primary focus:bg-primary/5">
                 <Link href="/pricing">
                   <Gem className="mr-3 h-4 w-4" />
-                  <span className="font-bold">Upgrade to PRO</span>
+                  <span className="font-semibold">Upgrade to PRO</span>
                 </Link>
               </DropdownMenuItem>
             )}

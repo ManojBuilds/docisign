@@ -85,7 +85,7 @@ export function StatusView({
         <div className="w-16 h-16 bg-white/50 rounded-full flex items-center justify-center mx-auto mb-4 shadow-sm backdrop-blur-sm">
           {statusDisplay.icon}
         </div>
-        <DialogTitle className="text-xl font-bold mb-2 tracking-tight text-center">
+        <DialogTitle className="text-xl font-semibold mb-2 tracking-tight text-center">
           {hasPendingFields ? "New Fields Added" : statusDisplay.title}
         </DialogTitle>
         <p className="text-sm opacity-90 max-w-sm mx-auto font-medium">
@@ -102,7 +102,7 @@ export function StatusView({
             <Button
               variant="link"
               onClick={onForceConfig}
-              className="text-blue-600 font-bold hover:text-blue-700 underline"
+              className="text-blue-600 font-semibold hover:text-blue-700 underline"
             >
               Click here to configure and send new requests
             </Button>
@@ -114,7 +114,7 @@ export function StatusView({
           <div className="p-6 space-y-4">
             <div className="flex items-center gap-2 mb-4 px-2">
               <FileCheck className="w-5 h-5 text-blue-600" />
-              <h3 className="font-bold text-gray-900 text-sm uppercase tracking-wider">Audit Trail</h3>
+              <h3 className="font-semibold text-gray-900 text-sm uppercase tracking-wider">Audit Trail</h3>
             </div>
 
             <div className="relative pl-4 border-l-2 border-blue-50 space-y-4">
@@ -152,7 +152,7 @@ export function StatusView({
                     >
                       <div className="p-4 flex justify-between items-center group-hover:bg-gray-50/30 transition-colors">
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-bold text-gray-900 text-sm truncate">
+                          <h4 className="font-semibold text-gray-900 text-sm truncate">
                             {field.signerName && field.signerName !== field.signerEmail
                               ? field.signerName
                               : `Signer ${index + 1}`}
@@ -175,11 +175,11 @@ export function StatusView({
                           <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-xs text-gray-600 bg-gray-50/50 rounded-lg p-3 ring-1 ring-gray-100/50">
                             <div>
                               <span className="text-gray-400 block text-[10px] uppercase tracking-wider mb-1">Time Signed</span>
-                              <span className="font-bold text-gray-900">{new Date(field.auditTrail.signedAt).toLocaleTimeString()}</span>
+                              <span className="font-semibold text-gray-900">{new Date(field.auditTrail.signedAt).toLocaleTimeString()}</span>
                             </div>
                             <div>
                               <span className="text-gray-400 block text-[10px] uppercase tracking-wider mb-1">Date Signed</span>
-                              <span className="font-bold text-gray-900">{new Date(field.auditTrail.signedAt).toLocaleDateString()}</span>
+                              <span className="font-semibold text-gray-900">{new Date(field.auditTrail.signedAt).toLocaleDateString()}</span>
                             </div>
                             <div className="col-span-2">
                               <span className="text-gray-400 block text-[10px] uppercase tracking-wider mb-1">Security Footprint</span>

@@ -33,7 +33,7 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
       <div className="pt-4 border-t border-dashed border-zinc-200">
         <div className="flex items-center gap-2 mb-4">
           <Shield className="w-4 h-4 text-blue-600" />
-          <h3 className="font-bold text-zinc-900 text-[10px] uppercase tracking-wider">Previous Audit Trail</h3>
+          <h3 className="font-semibold text-zinc-900 text-[10px] uppercase tracking-wider">Previous Audit Trail</h3>
         </div>
         <div className="space-y-2">
           {auditItems.map((field, index) => {
@@ -50,7 +50,7 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
                   className="w-full text-left p-3 flex justify-between items-center hover:bg-white/50 transition-colors"
                 >
                   <div className="min-w-0 flex-1">
-                    <p className="font-bold text-xs text-zinc-900 truncate">{field.signerName || `Signer ${index + 1}`}</p>
+                    <p className="font-semibold text-xs text-zinc-900 truncate">{field.signerName || `Signer ${index + 1}`}</p>
                     <p className="text-[9px] text-zinc-500 truncate">{field.signerEmail}</p>
                   </div>
                   <Badge variant="outline" className="bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-100 border-0 text-[9px]">Signed</Badge>
@@ -60,7 +60,7 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
                     <div className="grid grid-cols-2 gap-2 text-[10px] text-zinc-600 bg-white/50 rounded p-2">
                       <div>
                         <span className="text-zinc-400 block text-[8px] uppercase tracking-wider">Date</span>
-                        <span className="font-bold text-zinc-900">{new Date(field.auditTrail.signedAt).toLocaleDateString()}</span>
+                        <span className="font-semibold text-zinc-900">{new Date(field.auditTrail.signedAt).toLocaleDateString()}</span>
                       </div>
                       <div>
                         <span className="text-zinc-400 block text-[8px] uppercase tracking-wider">IP</span>
@@ -82,7 +82,7 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
     <div className="p-6 space-y-4">
       <div className="flex items-center gap-2 mb-4 px-2">
         <FileCheck className="w-5 h-5 text-blue-600" />
-        <h3 className="font-bold text-zinc-900 text-sm uppercase tracking-wider">Audit Trail</h3>
+        <h3 className="font-semibold text-zinc-900 text-sm uppercase tracking-wider">Audit Trail</h3>
       </div>
 
       <div className="relative pl-4 border-l-2 border-blue-50 space-y-4">
@@ -109,7 +109,7 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
               >
                 <div className="p-4 flex justify-between items-center group-hover:bg-zinc-50/30 transition-colors">
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-bold text-zinc-900 text-sm truncate">
+                    <h4 className="font-semibold text-zinc-900 text-sm truncate">
                       {field.signerName && field.signerName !== field.signerEmail
                         ? field.signerName
                         : `Signer ${index + 1}`}
@@ -132,11 +132,11 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
                     <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-xs text-zinc-600 bg-zinc-50/50 rounded-lg p-3 ring-1 ring-zinc-100/50">
                       <div>
                         <span className="text-zinc-400 block text-[10px] uppercase tracking-wider mb-1">Time Signed</span>
-                        <span className="font-bold text-zinc-900">{new Date(field.auditTrail.signedAt).toLocaleTimeString()}</span>
+                        <span className="font-semibold text-zinc-900">{new Date(field.auditTrail.signedAt).toLocaleTimeString()}</span>
                       </div>
                       <div>
                         <span className="text-zinc-400 block text-[10px] uppercase tracking-wider mb-1">Date Signed</span>
-                        <span className="font-bold text-zinc-900">{new Date(field.auditTrail.signedAt).toLocaleDateString()}</span>
+                        <span className="font-semibold text-zinc-900">{new Date(field.auditTrail.signedAt).toLocaleDateString()}</span>
                       </div>
                       <div className="col-span-2">
                         <span className="text-zinc-400 block text-[10px] uppercase tracking-wider mb-1">Security Footprint</span>

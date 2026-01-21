@@ -49,7 +49,7 @@ export default function BillingPageClient() {
         <div className="container mx-auto py-12 px-4 max-w-5xl font-sans">
             <div className="mb-8 flex items-end justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold tracking-tight text-foreground">Subscription</h1>
+                    <h1 className="text-2xl font-semibold tracking-tight text-foreground">Subscription</h1>
                     <p className="text-muted-foreground mt-1 text-sm">
                         Manage your billing and plan details
                     </p>
@@ -66,7 +66,7 @@ export default function BillingPageClient() {
                                 <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">Current Plan</span>
                                 <PlanBadge />
                             </div>
-                            <h2 className="text-3xl font-bold tracking-tight text-foreground">
+                            <h2 className="text-3xl font-semibold tracking-tight text-foreground">
                                 {trialStatus.isPaidUser ? "Boopsign Pro" : "Free Trial"}
                             </h2>
                             <p className="text-muted-foreground text-sm">

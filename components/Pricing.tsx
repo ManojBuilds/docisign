@@ -33,7 +33,7 @@ const Pricing = () => {
 
       {/* Header Section */}
       <div className="container mx-auto px-4 py-24 text-center">
-        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 mb-6">
+        <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-6">
           Fair Pricing. Unlimited Signatures.
         </h2>
         <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-16 leading-relaxed">
@@ -82,13 +82,13 @@ const Pricing = () => {
                   Checking status...
                 </Button>
               ) : isPaidUser ? (
-                <Button asChild className="w-full h-14 text-lg font-bold shadow-lg shadow-blue-500/20 rounded-xl hover:translate-y-[-2px] transition-all" size="lg">
+                <Button asChild className="w-full h-14 text-lg font-semibold shadow-lg shadow-blue-500/20 rounded-xl hover:translate-y-[-2px] transition-all" size="lg">
                   <Link href="/account/billing">
                     Manage Subscription
                   </Link>
                 </Button>
               ) : (
-                <CheckoutButton className="w-full h-14 text-lg font-bold shadow-xl shadow-blue-600/20 transition-all hover:-translate-y-1 hover:shadow-blue-600/30 rounded-xl bg-blue-600 hover:bg-blue-700 text-white">
+                <CheckoutButton className="w-full h-14 text-lg font-semibold shadow-xl shadow-blue-600/20 transition-all hover:-translate-y-1 hover:shadow-blue-600/30 rounded-xl bg-blue-600 hover:bg-blue-700 text-white">
                   {isTrialActive ? "Upgrade to Pro" : "Start 7-Day Free Trial"}
                 </CheckoutButton>
               )}
@@ -105,11 +105,11 @@ const Pricing = () => {
 
       {/* Comparison Section */}
       <div className="container mx-auto px-4 py-24 text-center">
-        <h2 className="text-2xl font-bold mb-4 text-slate-900">Stop overpaying for features you don&apos;t use.</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-slate-900">Stop overpaying for features you don&apos;t use.</h2>
         <p className="text-lg text-slate-500 mb-8 max-w-2xl mx-auto">
           We strip away the enterprise bloat like hierarchical permissions and complex API integrations. We just do e-signatures, beautifully.
         </p>
-        <Link href="/docusign-vs-Boopsign" className="inline-flex items-center gap-2 font-bold text-blue-600 hover:text-blue-700 transition-colors group text-sm uppercase tracking-wide">
+        <Link href="/docusign-vs-boopsign" className="inline-flex items-center gap-2 font-semibold text-blue-600 hover:text-blue-700 transition-colors group text-sm uppercase tracking-wide">
           See comparison table <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
         </Link>
       </div>
@@ -121,7 +121,7 @@ const Pricing = () => {
             <div className="h-16 w-16 rounded-2xl bg-amber-50 flex items-center justify-center mb-6 text-amber-500 group-hover:scale-110 transition-transform duration-300">
               <Zap className="h-8 w-8" />
             </div>
-            <h3 className="text-lg font-bold mb-3 text-slate-900">Lightning Fast</h3>
+            <h3 className="text-lg font-semibold mb-3 text-slate-900">Lightning Fast</h3>
             <p className="text-slate-500 leading-relaxed px-4 text-sm">
               Send contracts for signature in seconds. Sign instantly on any device without apps.
             </p>
@@ -130,7 +130,7 @@ const Pricing = () => {
             <div className="h-16 w-16 rounded-2xl bg-blue-50 flex items-center justify-center mb-6 text-blue-500 group-hover:scale-110 transition-transform duration-300">
               <Shield className="h-8 w-8" />
             </div>
-            <h3 className="text-lg font-bold mb-3 text-slate-900">Bank-Level Security</h3>
+            <h3 className="text-lg font-semibold mb-3 text-slate-900">Bank-Level Security</h3>
             <p className="text-slate-500 leading-relaxed px-4 text-sm">
               Protected with 256-bit encryption. comprehensive audit trails for every transaction.
             </p>
@@ -139,7 +139,7 @@ const Pricing = () => {
             <div className="h-16 w-16 rounded-2xl bg-green-50 flex items-center justify-center mb-6 text-green-500 group-hover:scale-110 transition-transform duration-300">
               <Info className="h-8 w-8" />
             </div>
-            <h3 className="text-lg font-bold mb-3 text-slate-900">Legally Binding</h3>
+            <h3 className="text-lg font-semibold mb-3 text-slate-900">Legally Binding</h3>
             <p className="text-slate-500 leading-relaxed px-4 text-sm">
               ESIGN and UETA compliant signatures. As legally binding as pen and paper.
             </p>

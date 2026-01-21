@@ -21,7 +21,7 @@ export const UploadStatus: FC<UploadStatusProps> = memo(({
     return (
         <div className="space-y-4 pt-2">
             <div className="flex flex-col gap-2">
-                <div className="flex items-center justify-between text-[13px] font-bold text-gray-900">
+                <div className="flex items-center justify-between text-[13px] font-semibold text-gray-900">
                     <span className="flex items-center gap-2">
                         <Loader2 className="w-3.5 h-3.5 animate-spin text-blue-600" />
                         {statusMessage || 'Processing document...'}
