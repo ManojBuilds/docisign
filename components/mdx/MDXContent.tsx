@@ -53,7 +53,14 @@ import {
   User,
   Users,
   XCircle,
-  Zap
+  Zap,
+  ShieldAlert,
+  Palette,
+  Trophy,
+  Quote,
+  Signature,
+  Send,
+  PenTool
 } from "lucide-react";
 import Link from "next/link";
 import ComparasionTable from "../ComparasionTable";
@@ -63,6 +70,13 @@ import { Callout } from "./Callout";
 import CustomImage from "./Image";
 
 const sharedComponents = {
+  ShieldAlert,
+  Palette,
+  Trophy,
+  Quote,
+  Signature,
+  PenTool,
+  Send,
   SmallComparasionTable,
   HowItWorks,
   ComparasionTable,
@@ -148,7 +162,7 @@ const sharedComponents = {
   TableCell,
   TableCaption,
   table: ({ className, ...props }: React.ComponentProps<typeof Table>) => (
-    <div className="my-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm ring-1 ring-slate-900/5">
+    <div className="my-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm ring-1 ring-slate-900/5 not-prose">
       <Table className={cn("m-0", className)} {...props} />
     </div>
   ),

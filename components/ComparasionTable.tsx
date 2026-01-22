@@ -186,7 +186,7 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
   return (
     <section
       className={cn(
-        "py-16 md:py-24 px-4",
+        "py-16 md:py-24 px-4 not-prose",
         className,
       )}
     >

@@ -1,5 +1,6 @@
 import { defineCollection, defineConfig } from "@content-collections/core";
 import { compileMDX } from "@content-collections/mdx";
+import remarkGfm from "remark-gfm";
 import { z } from "zod";
 
 // Define nested types first
@@ -111,7 +112,9 @@ const posts = defineCollection({
     status: z.enum(['published', 'draft']).optional().default('published'),
   }),
   transform: async (document, context) => {
-    const mdx = await compileMDX(context, document);
+    const mdx = await compileMDX(context, document, {
+      remarkPlugins: [remarkGfm],
+    });
     return {
       ...document,
       slug: document._meta.fileName.replace(/^.*[\\/]/, '').replace(/\.mdx$/, ''),
@@ -145,7 +148,9 @@ const contracts = defineCollection({
     popular: z.boolean().optional().default(false),
   }),
   transform: async (document, context) => {
-    const mdx = await compileMDX(context, document);
+    const mdx = await compileMDX(context, document, {
+      remarkPlugins: [remarkGfm],
+    });
     return {
       ...document,
       slug: document._meta.fileName.replace(/^.*[\\/]/, '').replace(/\.mdx$/, ''),
@@ -174,7 +179,9 @@ const landingPages = defineCollection({
     seo: SEO.optional(),
   }),
   transform: async (document, context) => {
-    const mdx = await compileMDX(context, document);
+    const mdx = await compileMDX(context, document, {
+      remarkPlugins: [remarkGfm],
+    });
     return {
       ...document,
       slug: document._meta.fileName.replace(/^.*[\\/]/, '').replace(/\.mdx$/, ''),
@@ -205,7 +212,9 @@ const comparisons = defineCollection({
     faq: z.any().optional(),
   }),
   transform: async (document, context) => {
-    const mdx = await compileMDX(context, document);
+    const mdx = await compileMDX(context, document, {
+      remarkPlugins: [remarkGfm],
+    });
     return {
       ...document,
       slug: document._meta.fileName.replace(/^.*[\\/]/, '').replace(/\.mdx$/, ''),

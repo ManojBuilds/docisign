@@ -14,6 +14,7 @@ import {
   User,
   ArrowRight
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo } from "react";
 
@@ -132,11 +133,29 @@ export function CompletedScreen({
         {/* Minimal Header */}
         <header className="w-full h-16 bg-white/80 backdrop-blur-md border-b flex items-center px-4 justify-between relative z-10 sticky top-0">
           <div className="flex items-center gap-3 sm:gap-4">
-            <div className="scale-90 sm:scale-100 origin-left">
-              <Logo />
+            <div className="flex items-center justify-center bg-gray-50 rounded-xl border border-gray-200/50 shadow-sm scale-90 sm:scale-100">
+              {signingSession.ownerBranding?.logoUrl ? (
+                <div className="size-12 relative">
+                  <Image
+                    src={signingSession.ownerBranding.logoUrl}
+                    alt={signingSession.ownerBranding.brandName || "Logo"}
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              ) : (
+                <div className="scale-75 origin-center">
+                  <Logo showText={false} />
+                </div>
+              )}
             </div>
             <div className="h-4 w-[1px] bg-gray-200 hidden sm:block" />
-            <span className="text-[10px] sm:text-xs font-semibold text-gray-400 uppercase tracking-widest leading-none hidden sm:block">Agreement Management</span>
+            <div className="flex flex-col hidden sm:flex">
+              <span className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">
+                {signingSession.ownerBranding?.brandName || "Boopsign"}
+              </span>
+              <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest leading-none">Agreement Management</span>
+            </div>
           </div>
           <div className="flex items-center gap-3 sm:gap-6">
             <span className="text-[9px] sm:text-[10px] font-black text-emerald-600 uppercase tracking-[0.15em] sm:tracking-[0.2em] flex items-center gap-1 sm:gap-1.5 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-100">
@@ -240,14 +259,18 @@ export function CompletedScreen({
                     <FileText className="w-6 h-6" />
                   </div>
                   <h3 className="font-semibold text-gray-900 mb-1">Audit Trail</h3>
-                  <p className="text-xs text-gray-500 font-medium">Full certified activity log.</p>
+                  <p className="text-xs text-gray-500 font-medium leading-relaxed">
+                    A tamper-proof record of every action taken, including timestamps, IP addresses, and verification events for complete legal accountability.
+                  </p>
                 </div>
                 <div className="p-6 bg-gray-50 rounded-[2rem] border border-gray-100/50 hover:bg-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group cursor-default">
                   <div className="w-12 h-12 rounded-2xl bg-white text-emerald-600 flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform duration-500">
                     <ShieldCheck className="w-6 h-6" />
                   </div>
-                  <h3 className="font-semibold text-gray-900 mb-1">Encrypted</h3>
-                  <p className="text-xs text-gray-500 font-medium">Bank-grade security.</p>
+                  <h3 className="font-semibold text-gray-900 mb-1">Secure & Sealed</h3>
+                  <p className="text-xs text-gray-500 font-medium leading-relaxed">
+                    Protected by AES-256 bank-level encryption and TLS 1.3, ensuring your sensitive data remains private and legally binding.
+                  </p>
                 </div>
               </div>
             </div>
@@ -352,6 +375,37 @@ export function CompletedScreen({
             </div>
           </div>
         </main>
+
+        {/* Footer Promotion */}
+        <footer className="w-full py-16 border-t border-gray-100 bg-gray-50/50 relative z-10 mt-auto">
+          <div className="container mx-auto px-4 flex flex-col items-center text-center">
+            <div className="flex items-center gap-3 mb-6 opacity-30 hover:opacity-100 transition-opacity duration-700">
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-gray-500">Powered by</span>
+              <Logo showText={true} className="grayscale hover:grayscale-0 transition-all duration-500" />
+            </div>
+            <p className="text-xs text-gray-400 font-medium max-w-md leading-relaxed mb-8">
+              Boopsign is the simplest way to get documents signed.
+              No accounts for signers. Bank-level security. Mobile-first design.
+            </p>
+            <div className="flex items-center gap-8">
+              <div className="flex flex-col items-center gap-1">
+                <ShieldCheck className="w-4 h-4 text-gray-300" />
+                <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Legally Binding</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <FileText className="w-4 h-4 text-gray-300" />
+                <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Audit Trail</span>
+              </div>
+              <div className="flex flex-col items-center gap-1">
+                <div className="w-4 h-4 rounded-full border border-gray-200 flex items-center justify-center text-[8px] font-bold text-gray-300">256</div>
+                <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Encrypted</span>
+              </div>
+            </div>
+            <p className="mt-12 text-[10px] text-gray-300 font-medium">
+              &copy; {new Date().getFullYear()} Boopsign. All rights reserved.
+            </p>
+          </div>
+        </footer>
       </div>
     </>
   );

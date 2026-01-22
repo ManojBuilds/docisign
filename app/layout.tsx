@@ -96,6 +96,14 @@ export default function RootLayout({
           name="google-site-verification"
           content="It-5F-rGTphiGn4oyRrSntPBqgQWbUohNCFKsdQ922M"
         />
+        <link href="https://api.fontshare.com/v2/css?f[]=clash-grotesk@300,400,500,600&display=swap" rel="stylesheet"></link>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Allison&family=Allura&family=Bilbo+Swash+Caps&family=Caveat:wght@400..700&family=Comforter+Brush&family=Dancing+Script:wght@400..700&family=Dr+Sugiyama&family=Fuggles&family=Great+Vibes&family=Kaushan+Script&family=Liu+Jian+Mao+Cao&family=Lobster&family=Montez&family=Mrs+Saint+Delafield&family=Over+the+Rainbow&family=Pacifico&family=Pinyon+Script&family=Qwigley&family=Reenie+Beanie&family=Sacramento&family=Satisfy&family=Style+Script&family=Zeyada&display=swap"
+          rel="stylesheet"
+        />
+        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vetixy/circular-std@1.0.0/dist/index.min.css" />
         <link rel="canonical" href="https://boopsign.com" />
         <script

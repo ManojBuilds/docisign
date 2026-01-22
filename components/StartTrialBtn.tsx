@@ -10,11 +10,11 @@ interface StartTrialBtnProps extends VariantProps<typeof buttonVariants> {
 
 const StartTrialBtn = ({ variant, label = "Start Your 7-Day Free Trial", className }: StartTrialBtnProps) => {
   return (
-    <div className={cn("relative", className)}>
+    <div className={"relative"}>
       <Link href={"/sign-in"}>
         <Button
           size="lg"
-          className="px-8 py-6 rounded-full"
+          className={cn("px-8 py-6 rounded-full", className)}
           variant={variant}
         >
           {label}

@@ -4,18 +4,55 @@ import { usePdfDimensions } from "@/components/PdfDimensionsContext";
 import { Id } from "@/convex/_generated/dataModel";
 import { useMobile } from "@/hooks/useMobile";
 import { useDocumentEditorStore } from "@/stores/document-editor-store";
+import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
 // Components
-import { CompletedDocumentBanner } from "./_components/CompletedDocumentBanner";
-import { EditorNavbar } from "./_components/EditorNavbar";
-import { MainContentArea } from "./_components/MainContentArea";
-import { MobileBottomBar } from "./_components/MobileBottomBar";
-import { MobileNavbar } from "./_components/MobileNavbar";
-import { MobileRestrictionScreen } from "./_components/MobileRestrictionScreen";
-import { ShareDialogWrapper } from "./_components/ShareDialogWrapper";
-import { SignersSidebarWrapper } from "./_components/SignersSidebarWrapper";
+const CompletedDocumentBanner = dynamic(
+  () =>
+    import("./_components/CompletedDocumentBanner").then(
+      (mod) => mod.CompletedDocumentBanner
+    ),
+  { ssr: false }
+);
+const EditorNavbar = dynamic(
+  () => import("./_components/EditorNavbar").then((mod) => mod.EditorNavbar),
+  { ssr: false }
+);
+const MainContentArea = dynamic(
+  () => import("./_components/MainContentArea").then((mod) => mod.MainContentArea),
+  { ssr: false }
+);
+const MobileBottomBar = dynamic(
+  () => import("./_components/MobileBottomBar").then((mod) => mod.MobileBottomBar),
+  { ssr: false }
+);
+const MobileNavbar = dynamic(
+  () => import("./_components/MobileNavbar").then((mod) => mod.MobileNavbar),
+  { ssr: false }
+);
+const MobileRestrictionScreen = dynamic(
+  () =>
+    import("./_components/MobileRestrictionScreen").then(
+      (mod) => mod.MobileRestrictionScreen
+    ),
+  { ssr: false }
+);
+const ShareDialogWrapper = dynamic(
+  () =>
+    import("./_components/ShareDialogWrapper").then(
+      (mod) => mod.ShareDialogWrapper
+    ),
+  { ssr: false }
+);
+const SignersSidebarWrapper = dynamic(
+  () =>
+    import("./_components/SignersSidebarWrapper").then(
+      (mod) => mod.SignersSidebarWrapper
+    ),
+  { ssr: false }
+);
 
 // Hooks
 import { useAutoPlaceFields } from "./_hooks/useAutoPlaceFields";

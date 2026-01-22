@@ -45,12 +45,12 @@ export function WelcomeDialog({
           <div className="relative z-10 flex flex-col gap-6">
             <div className="flex items-center justify-between">
               {brandLogoUrl ? (
-                <div className="size-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center p-2.5 shrink-0 border border-white/10 shadow-xl overflow-hidden group">
+                <div className="size-14 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center sshrink-0 border border-white/10 shadow-xl overflow-hidden group">
                   <Image
                     src={brandLogoUrl}
                     alt="Logo"
                     fill
-                    className="object-cover p-2 group-hover:scale-110 transition-transform duration-500"
+                    className="object-cover"
                     unoptimized
                   />
                 </div>

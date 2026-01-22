@@ -8,119 +8,99 @@ readingTime: "7 min read"
 status: "published"
 ---
 
-<div className="text-center py-16 md:py-20 px-4 not-prose">
-  <div className="container mx-auto max-w-6xl">
-    <div className="mb-6">
-      <Badge variant="outline" className="bg-indigo-100 text-indigo-800 border-indigo-200">
-        Security & Compliance
-      </Badge>
-    </div>
-    <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-6 text-slate-900">
-      Your Documents, <span className="text-indigo-600">Protected by Design</span>
-    </h1>
-    <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8">
-      We protect documents from upload to signature and beyond — encryption, access controls,
-      auditable trails, and compliance-ready policies.
-    </p>
+Security isn't just a checkbox for us—it's the foundation of everything we build. When you handle sensitive contracts, legal agreements, or personal documents, you need to know that your data is protected by industry-leading standards.
 
-    <div className="flex flex-wrap justify-center gap-4 mb-8 text-sm md:text-base">
-      <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
-        TLS & AES-256
-      </Badge>
-      <Badge variant="outline" className="bg-blue-100 text-blue-800 border-blue-200">
-        Audit Trails
-      </Badge>
-      <Badge variant="outline" className="bg-yellow-100 text-yellow-800 border-yellow-200">
-        GDPR-ready
-      </Badge>
-    </div>
+In this guide, we'll walk you through the multi-layered security approach Boopsign takes to ensure your documents remain private, secure, and legally binding.
 
-    <StartTrialBtn />
-  </div>
-</div>
+## Encryption: Protecting Data at Every Stage
 
-## Encryption & Data Protection
+We use industry-standard encryption and modern key management to keep documents private and tamper-evident. Protection happens in three main stages:
 
-We use industry-standard encryption and modern key management to keep documents private and tamper-evident.
+### 1. Data in Transit
+All network traffic between your device and our servers is protected using **TLS 1.3 (Transport Layer Security)**. This ensures that any data sent—whether you're uploading a contract or signing a document—is encrypted and shielded from interception.
 
-<div className="grid md:grid-cols-3 gap-6 my-12 not-prose">
-  <Card className="bg-slate-50 border-slate-200">
-    <CardHeader>
-      <CardTitle className="flex gap-2 items-center text-indigo-600">
-        <Lock className="size-5" /> In Transit
-      </CardTitle>
-    </CardHeader>
-    <CardContent>
-      <p className="text-sm text-slate-700">All network traffic is protected with TLS 1.3. Uploads use pre-signed URLs.</p>
-    </CardContent>
-  </Card>
+### 2. Data at Rest
+Once your documents are stored on our servers, they are encrypted using **AES-256 (Advanced Encryption Standard)**. We use Hardware Security Modules (HSMs) to manage encryption keys, ensuring that even if physical storage were compromised, your data remains unreadable.
 
-  <Card className="bg-slate-50 border-slate-200">
-    <CardHeader>
-      <CardTitle className="flex gap-2 items-center text-indigo-600">
-        <ShieldCheck className="size-5" /> At Rest
-      </CardTitle>
-    </CardHeader>
-    <CardContent>
-      <p className="text-sm text-slate-700">Documents are stored using AES-256 encryption. Keys are managed by HSMs.</p>
-    </CardContent>
-  </Card>
+### 3. Tamper-Evident Audit Trails
+Every document signed through Boopsign includes a cryptographic hash. This means that if even a single pixel or character is changed after the document is finalized, the audit trail will immediately flag the document as invalid.
 
-  <Card className="bg-slate-50 border-slate-200">
-    <CardHeader>
-      <CardTitle className="flex gap-2 items-center text-indigo-600">
-        <FileLock className="size-5" /> Tamper-evident
-      </CardTitle>
-    </CardHeader>
-    <CardContent>
-      <p className="text-sm text-slate-700">Any post-sign modification invalidates the document audit chain.</p>
-    </CardContent>
-  </Card>
-</div>
+## Compliance & Legal Validity
 
-## Compliance & Legal
-
-We design our processes to be compatible with major regulatory frameworks.
+We design our processes to be compatible with major global regulatory frameworks, ensuring your electronic signatures hold up in court.
 
 <div className="grid md:grid-cols-2 gap-8 my-16 not-prose">
-  <Card className="bg-white">
+  <Card className="bg-white border-slate-200">
     <CardHeader>
-      <CardTitle>Data Privacy</CardTitle>
+      <CardTitle className="flex items-center gap-2">
+        <ShieldCheck className="text-blue-600" />
+        Data Privacy
+      </CardTitle>
     </CardHeader>
     <CardContent className="space-y-3">
-      <p className="text-sm text-slate-700 flex gap-2">
-        <CheckCircle className="size-4 text-green-500 mt-0.5 shrink-0" />
-        <span>GDPR-ready: Supporting export, delete, and rectification.</span>
-      </p>
-      <p className="text-sm text-slate-700 flex gap-2">
-        <CheckCircle className="size-4 text-green-500 mt-0.5 shrink-0" />
-        <span>Privacy-by-design: Minimal data collection principles.</span>
-      </p>
+      <div className="flex gap-2">
+        <CheckCircle className="size-4 text-green-500 mt-1 shrink-0" />
+        <p className="text-sm text-slate-700">**GDPR Compliance:** We fully support data portability, the right to be forgotten, and strict data residency rules.</p>
+      </div>
+      <div className="flex gap-2">
+        <CheckCircle className="size-4 text-green-500 mt-1 shrink-0" />
+        <p className="text-sm text-slate-700">**Privacy by Design:** We collect only the minimum data required to facilitate a legal signature.</p>
+      </div>
     </CardContent>
   </Card>
 
-  <Card className="bg-white">
+  <Card className="bg-white border-slate-200">
     <CardHeader>
-      <CardTitle>Standards</CardTitle>
+      <CardTitle className="flex items-center gap-2">
+        <Lock className="text-blue-600" />
+        Legal Standards
+      </CardTitle>
     </CardHeader>
     <CardContent className="space-y-3">
-      <p className="text-sm text-slate-700 flex gap-2">
-        <CheckCircle className="size-4 text-green-500 mt-0.5 shrink-0" />
-        <span>SOC 2 / ISO 27001-compliant cloud infrastructure.</span>
-      </p>
-      <p className="text-sm text-slate-700 flex gap-2">
-        <CheckCircle className="size-4 text-green-500 mt-0.5 shrink-0" />
-        <span>US ESIGN Act and EU eIDAS compliant workflows.</span>
-      </p>
+      <div className="flex gap-2">
+        <CheckCircle className="size-4 text-green-500 mt-1 shrink-0" />
+        <p className="text-sm text-slate-700">**ESIGN & UETA:** Fully compliant with US federal and state laws for electronic signatures.</p>
+      </div>
+      <div className="flex gap-2">
+        <CheckCircle className="size-4 text-green-500 mt-1 shrink-0" />
+        <p className="text-sm text-slate-700">**eIDAS:** Compliant with EU regulations for electronic identification and trust services.</p>
+      </div>
     </CardContent>
   </Card>
 </div>
 
-<div className="my-16 p-8 bg-slate-900 rounded-[3rem] text-white text-center relative overflow-hidden not-prose shadow-2xl">
-  <DownloadCloud className="mx-auto size-12 text-indigo-400 mb-6" />
-  <h3 className="text-2xl font-semibold mb-3">Security isn't a feature — it's our foundation.</h3>
-  <p className="text-slate-400 mb-8 max-w-2xl mx-auto text-lg">Start a secure workflow for document signing and management with Boopsign.</p>
-  <StartTrialBtn />
-</div>
+## Infrastructure Security
 
-<Cta />
+Our platform is hosted on Tier-1 cloud providers (AWS/Google Cloud) that maintain strict physical and environmental security controls.
+
+- **ISO 27001 & SOC 2:** Our infrastructure providers undergo regular third-party audits to maintain these gold-standard security certifications.
+- **Regular Penetration Testing:** We conduct routine vulnerability scans and third-party security audits to identify and fix potential threats before they can be exploited.
+- **Redundant Storage:** Your documents are backed up across multiple geographic zones to ensure 99.99% availability and data integrity.
+
+## User Access Controls
+
+Security is also about making sure only the right people have access to your documents.
+
+1. **Two-Factor Authentication (2FA):** Protect your account with an extra layer of security.
+2. **Access Logs:** See exactly who viewed, downloaded, or signed a document and when.
+3. **Role-Based Permissions:** For teams, you can control exactly who has permission to create, send, or view specific templates.
+
+## Conclusion
+
+At Boopsign, we believe that security should never be a sacrifice for speed. Our platform is built to provide the fastest signing experience while maintaining the highest levels of protection for your most important documents.
+
+<Callout variant="info">
+  **Ready to secure your business?** Start sending documents with Boopsign's enterprise-grade security today.
+</Callout>
+
+<div className="my-16 p-12 bg-slate-900 rounded-[3rem] text-white text-center relative overflow-hidden not-prose shadow-2xl">
+  <div className="absolute top-0 inset-x-0 h-full bg-[url('/bg-noise.png')] opacity-[0.05] pointer-events-none" />
+  <ShieldCheck className="mx-auto size-16 text-blue-400 mb-6" />
+  <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Trust is Our Priority</h2>
+  <p className="text-slate-400 mb-10 max-w-2xl mx-auto text-lg md:text-xl">
+    Join thousands of freelancers and businesses who trust Boopsign for their most sensitive agreements.
+  </p>
+  <div className="flex flex-col sm:flex-row justify-center gap-4">
+    <StartTrialBtn className="bg-blue-600 hover:bg-blue-700 text-white border-0 h-12 px-8 text-lg" />
+  </div>
+</div>

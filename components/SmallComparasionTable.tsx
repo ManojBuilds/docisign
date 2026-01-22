@@ -85,7 +85,7 @@ const SmallComparasionTable = ({ competitorName, competitorPrice, className }: C
   };
 
   return (
-    <div className={cn("border rounded-lg my-8", className)}>
+    <div className={cn("border rounded-lg my-8 not-prose", className)}>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>

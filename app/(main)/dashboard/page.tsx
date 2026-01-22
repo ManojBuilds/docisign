@@ -1,7 +1,5 @@
 "use client";
 
-import { DocumentTable } from "@/components/DocumentTable";
-import { NewDocumentDialog } from "@/components/NewDocumentDialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -45,8 +43,33 @@ import {
   Plus,
   Search
 } from "lucide-react";
+import dynamic from "next/dynamic";
 import { Suspense, useCallback, useState } from "react";
 import { toast } from "sonner";
+
+const DocumentTable = dynamic(
+  () => import("@/components/DocumentTable").then((mod) => mod.DocumentTable),
+  {
+    loading: () => (
+      <div className="space-y-3">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="flex items-center gap-4 p-3 rounded-lg bg-muted/5">
+            <Skeleton className="h-4 flex-1 rounded" />
+          </div>
+        ))}
+      </div>
+    ),
+    ssr: false,
+  }
+);
+
+const NewDocumentDialog = dynamic(
+  () =>
+    import("@/components/NewDocumentDialog").then(
+      (mod) => mod.NewDocumentDialog
+    ),
+  { ssr: false }
+);
 
 // Types for better TypeScript support
 type DocumentStatus =

@@ -1,14 +1,13 @@
 import { ClientHeaderWrapper } from "@/components/ClientHeaderWrapper";
 import Footer from "@/components/Footer";
-import OnlineSignatureCreator from "@/components/OnlineSignatureCreator";
-import Cta from "@/components/cta";
-import Faq from "@/components/faq";
-import TestimonialsSection from "@/components/testimonials";
 import { Check, Shield, Zap, Star, Users, Sparkles } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
+import OnlineSignatureCreator from "@/components/OnlineSignatureCreator";
+import Cta from "@/components/cta";
+import Faq from "@/components/faq";
+import TestimonialsSection from "@/components/testimonials";
 export const metadata: Metadata = {
   title: "Free Online Signature Maker & Generator (Type or Draw)",
   description:
@@ -109,7 +108,8 @@ export default function OnlineSignatureMakerPage() {
                 Sign with <span className="text-blue-600">Personality.</span>
               </h1>
               <p className="text-xl text-slate-600 leading-relaxed">
-                Create a stunning, transparent esignature in seconds. Choose from dozens of professional styles or draw your own unique mark.
+                Create a stunning, transparent esignature in seconds. Choose from
+                dozens of professional styles or draw your own unique mark.
               </p>
             </div>
 
@@ -121,29 +121,36 @@ export default function OnlineSignatureMakerPage() {
         <section className="py-32 bg-white">
           <div className="container mx-auto px-4 max-w-6xl">
             <div className="text-center mb-20">
-              <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">What does your signature <br /><span className="text-blue-600">say about you?</span></h2>
+              <h2 className="text-3xl md:text-5xl font-bold text-slate-900 mb-6">
+                What does your signature <br />
+                <span className="text-blue-600">say about you?</span>
+              </h2>
               <p className="text-slate-500 max-w-2xl mx-auto text-lg leading-relaxed">
-                Graphologists believe your signature is a statement of your personality. Express yourself with the right style.
+                Graphologists believe your signature is a statement of your
+                personality. Express yourself with the right style.
               </p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {personalityTraits.map((t, i) => (
-                <div key={i} className="group p-8 flex flex-col items-center">
-                  <div className="w-full h-32 flex items-center justify-center mb-6 bg-white p-4 relative">
-                    {t.image ? (
-                      <Image
-                        src={t.image}
-                        alt={t.trait}
-                        fill
-                        className="object-contain p-4"
-                      />
-                    ) : (
-                      <div className="text-blue-200 text-xs">Personality Insight {i + 1}</div>
-                    )}
+                <div
+                  key={i}
+                  className="group p-8 flex flex-col items-center bg-white rounded-3xl border border-slate-100 hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+                >
+                  <div className="w-full h-40 flex items-center justify-center mb-6 bg-slate-50/50 rounded-2xl relative overflow-hidden group-hover:bg-blue-50/30 transition-colors p-6">
+                    <Image
+                      src={t.image}
+                      alt={t.trait}
+                      fill
+                      className="object-contain p-2"
+                    />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">{t.trait}</h3>
-                  <p className="text-slate-500 text-sm">{t.meaning}</p>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">
+                    {t.trait}
+                  </h3>
+                  <p className="text-slate-500 text-sm text-center">
+                    {t.meaning}
+                  </p>
                 </div>
               ))}
             </div>

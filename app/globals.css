@@ -64,7 +64,7 @@
 
   /* Font Families */
   --font-body: "CircularStd", sans-serif;
-  --font-heading: "CircularStd", sans-serif;
+  --font-heading: 'Clash Grotesk', "CircularStd", sans-serif;
 }
 
 
@@ -156,7 +156,6 @@
   h5,
   h6 {
     font-family: var(--font-heading);
-    color: var(--foreground);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tighter);
     font-weight: 500;
