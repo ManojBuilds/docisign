@@ -12,6 +12,7 @@ import { computeFileHash } from "@/lib/crypto";
 import { replaceVariablesInDocx } from "@/lib/process-template";
 import { PENDING_DOC_KEY } from "@/lib/utils";
 import { allContracts as allTemplates } from "content-collections";
+import posthog from "posthog-js";
 
 interface UseTemplateUploadProps {
   templateId: string;
@@ -152,6 +153,10 @@ export function useTemplateUpload({
 
 
   const handleQuickStart = useCallback(() => {
+    posthog.capture("customize_and_sign_contract_with_boopsign", {
+      contract: templateId,
+      title: templateTitle
+    })
     // If template has variables, show dialog
     if (hasVariables) {
       setShowVariableDialog(true);

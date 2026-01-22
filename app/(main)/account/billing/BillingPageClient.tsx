@@ -71,7 +71,7 @@ export default function BillingPageClient() {
                             </h2>
                             <p className="text-muted-foreground text-sm">
                                 {trialStatus.isPaidUser
-                                    ? "$20.00 / month • Renews automatically"
+                                    ? "15.00 / month • Renews automatically"
                                     : "Experience the full power of Boopsign"
                                 }
                             </p>

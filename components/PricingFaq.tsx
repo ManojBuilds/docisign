@@ -29,7 +29,7 @@ const PricingFaq = ({
       id: "q2",
       question: "Are there any hidden fees?",
       answer:
-        "No hidden fees whatsoever. No per-document charges, no user fees, and no setup costs. Just $20/month for unlimited document signing.",
+        "No hidden fees whatsoever. No per-document charges, no user fees, and no setup costs. Just $15/month for unlimited document signing.",
     },
     {
       id: "q3",

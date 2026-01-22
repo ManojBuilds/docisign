@@ -36,7 +36,7 @@ export const TrialGate = ({ children, fallback }: TrialGateProps) => {
       </p>
       <Button onClick={() => (window.location.href = "/pricing")}>
         <CreditCard className="h-4 w-4 mr-2" />
-        Upgrade to Pro - $20/month
+        Upgrade to Pro - $15/month
       </Button>
     </div>
   );

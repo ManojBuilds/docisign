@@ -19,6 +19,7 @@ const Pricing = () => {
 
   const features = [
     "Unlimited contract signing",
+    "Custom Branding (Your Logo)",
     "Audit trail & history",
     "Mobile-friendly signing",
     "Real-time status notifications",
@@ -51,7 +52,7 @@ const Pricing = () => {
                 Boopsign PRO
               </Badge>
               <div className="flex items-baseline justify-center gap-1 mb-4">
-                <span className="text-6xl font-black tracking-tighter text-slate-900">$20</span>
+                <span className="text-6xl font-black tracking-tighter text-slate-900">$15</span>
                 <span className="text-xl text-slate-500 font-medium tracking-tight">/month</span>
               </div>
               <CardDescription className="text-lg text-slate-700 font-semibold mb-2">
@@ -63,6 +64,9 @@ const Pricing = () => {
             </CardHeader>
 
             <CardContent className="py-8 px-8 sm:px-10 bg-slate-50/50 border-t border-slate-100 border-b">
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6 text-center">
+                What&apos;s included in Pro
+              </p>
               <div className="space-y-4">
                 {features.map((feature, index) => (
                   <div key={index} className="flex items-center gap-3 text-left group">

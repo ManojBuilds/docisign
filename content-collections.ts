@@ -38,7 +38,7 @@ const Variable = z.object({
 
 const WhatsInside = z.object({
   title: z.string(),
-  description: z.string(),
+  description: z.string().optional(),
   features: z.array(Feature).optional(),
 });
 
@@ -194,7 +194,7 @@ const comparisons = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     competitorName: z.string().optional(),
-    priceComparison: z.any().optional(), // { us: 20, them: 40 }
+    priceComparison: z.any().optional(), // { us: 15, them: 40 }
     pros: z.array(z.string()).optional(),
     cons: z.array(z.string()).optional(),
     keywords: z.array(z.string()).optional(),

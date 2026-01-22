@@ -9,9 +9,9 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 
 ### Day 1 (Today) - Meta Optimization
 **Task:** Fix meta titles and descriptions for 5 pages
-- [x] Homepage: Update title to "Boopsign - E-Signature Software Built for Freelancers & Consultants | $20/mo"
+- [x] Homepage: Update title to "Boopsign - E-Signature Software Built for Freelancers & Consultants | $15/mo"
 - [x] Homepage: Update meta description to "The e-signature tool freelancers love. No client accounts required. Get contracts signed in 3 minutes, not 3 days. 52% cheaper than DocuSign. Try free for 7 days."
-- [x] /pricing: Update title to "Boopsign Pricing - $20/mo for Freelancers | No Per-User Fees"
+- [x] /pricing: Update title to "Boopsign Pricing - $15/mo for Freelancers | No Per-User Fees"
 - [x] /pricing: Update meta description
 - [x] /how-it-works: Update title to "How Boopsign Works - 3-Minute Setup for Freelance E-Signatures"
 
@@ -148,7 +148,7 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 ### Day 11 - Schema Markup (Part 2)
 **Task:** Add Product schema to freelancer page
 - [ ] Add SoftwareApplication schema
-- [ ] Include pricing info ($20/mo)
+- [ ] Include pricing info ($15/mo)
 - [ ] Add aggregate rating (4.9/5)
 - [ ] Test with Google Rich Results Test
 - [ ] Request re-indexing of page
@@ -846,7 +846,7 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 - Day 61-90: Growth becomes visible
 - Day 90+: Exponential growth kicks in
 
-**The freelancers who will pay you $20/month are out there searching right now. Your job is to help Google connect them to you.**
+**The freelancers who will pay you $15/month are out there searching right now. Your job is to help Google connect them to you.**
 
 Every template page = 50-200 visitors/month potential
 Every blog post = 100-500 visitors/month potential

@@ -19,7 +19,7 @@ export function Problem() {
     },
     {
       title: "No Hidden Fees",
-      description: "Simple $20/month flat rate for unlimited documents. No per-envelope charges or enterprise upsells.",
+      description: "Simple $15/month flat rate for unlimited documents. No per-envelope charges or enterprise upsells.",
       icon: <DollarSign className="size-6 text-emerald-500" />,
       tag: "Pricing",
       color: "emerald"

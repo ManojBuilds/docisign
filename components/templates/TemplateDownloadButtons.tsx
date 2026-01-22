@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { useAction } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import posthog from "posthog-js";
 
 interface TemplateDownloadButtonsProps {
     templateId: string;
@@ -49,6 +50,10 @@ export function TemplateDownloadButtons({
             window.URL.revokeObjectURL(downloadLink);
             document.body.removeChild(a);
 
+            posthog.capture("download_contract_as_docx", {
+                contract: templateId,
+            })
+
             toast.success("Word document download started");
         } catch (error) {
             console.error("Download error:", error);
@@ -84,6 +89,10 @@ export function TemplateDownloadButtons({
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
+
+            posthog.capture("download_contract_as_pdf", {
+                contract: templateId,
+            })
 
             toast.success("PDF conversion and download started");
         } catch (error) {

@@ -14,7 +14,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://Boopsign.com"),
   title: {
-    default: "Boopsign - E-Signature Software Built for Freelancers & Consultants | $20/mo",
+    default: "Boopsign - E-Signature Software Built for Freelancers & Consultants | $15/mo",
     template: "%s | Boopsign",
   },
   description:
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "No-Account E-Signatures for Freelancers | Boopsign",
     description:
-      "The simplest DocuSign alternative. Get contracts signed in under 3 minutes. No account needed for signers. $20/month.",
+      "The simplest DocuSign alternative. Get contracts signed in under 3 minutes. No account needed for signers. $15/month.",
     images: ["https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5"],
     creator: "@Boopsign",
   },
@@ -109,7 +109,7 @@ export default function RootLayout({
               operatingSystem: "Web, iOS, Android",
               offers: {
                 "@type": "Offer",
-                price: "20",
+                price: "15",
                 priceCurrency: "USD",
                 priceValidUntil: "2026-12-31",
               },

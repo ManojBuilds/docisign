@@ -5,7 +5,7 @@ import { Loader } from "../../loader";
 export const metadata: Metadata = {
   title: "Sign Up for Boopsign - 7-Day Free Trial | Electronic Signatures",
   description:
-    "Create your Boopsign account and start signing documents 3x faster than DocuSign. 7-day free trial, $20/month, no hidden fees. Mobile-first design.",
+    "Create your Boopsign account and start signing documents 3x faster than DocuSign. 7-day free trial, $15/month, no hidden fees. Mobile-first design.",
   keywords: [
     "Boopsign signup",
     "electronic signature free trial",

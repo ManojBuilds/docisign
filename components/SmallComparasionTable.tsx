@@ -30,7 +30,7 @@ interface ComparasionTableProps {
 const getComparisonData = (competitorPrice: string | number): ComparisonItem[] => [
   {
     feature: "Monthly Cost (Individual)",
-    Boopsign: { value: "$20/month", highlight: true },
+    Boopsign: { value: "$15/month", highlight: true },
     competitor: { value: `$${competitorPrice}/month`, highlight: false },
   },
   {
