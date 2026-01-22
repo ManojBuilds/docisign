@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     title: "Sign Up for Boopsign - 7-Day Free Trial",
     description:
       "Join 2,847+ businesses who switched from DocuSign. Start your free trial today.",
-    url: "https://Boopsign.com/sign-up",
+    url: "https://boopsign.com/sign-up",
     images: [
       {
         url: "/images/og-signup.jpg",
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     images: ["/images/twitter-signup.jpg"],
   },
   alternates: {
-    canonical: "https://Boopsign.com/sign-up",
+    canonical: "https://boopsign.com/sign-up",
   },
   robots: {
     index: true, // Index signup page for organic traffic
@@ -53,7 +53,7 @@ export default function Page() {
             "@type": "WebPage",
             name: "Sign Up for Boopsign",
             description: "Create account for electronic signature software",
-            url: "https://Boopsign.com/sign-up",
+            url: "https://boopsign.com/sign-up",
             mainEntity: {
               "@type": "SoftwareApplication",
               name: "Boopsign",

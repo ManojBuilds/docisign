@@ -12,7 +12,7 @@ import { Suspense } from "react";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://Boopsign.com"),
+  metadataBase: new URL("https://boopsign.com"),
   title: {
     default: "Boopsign - E-Signature Software Built for Freelancers & Consultants | $15/mo",
     template: "%s | Boopsign",
@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://Boopsign.com",
+    url: "https://boopsign.com",
     siteName: "Boopsign",
     title: "Boopsign — Get Contracts Signed Without Client Accounts",
     description:
@@ -97,7 +97,7 @@ export default function RootLayout({
           content="It-5F-rGTphiGn4oyRrSntPBqgQWbUohNCFKsdQ922M"
         />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vetixy/circular-std@1.0.0/dist/index.min.css" />
-        <link rel="canonical" href="https://Boopsign.com" />
+        <link rel="canonical" href="https://boopsign.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -120,7 +120,7 @@ export default function RootLayout({
               },
               description:
                 "E-signature for freelancers and consultants. The simplest DocuSign alternative built for speed. No account required for signers. Sign contracts, NDAs, and proposals in under 3 minutes.",
-              url: "https://Boopsign.com",
+              url: "https://boopsign.com",
               featureList: [
                 "No account required for signers",
                 "Mobile-optimized e-signatures",

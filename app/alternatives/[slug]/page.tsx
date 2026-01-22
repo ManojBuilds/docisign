@@ -71,7 +71,7 @@ export default async function ComparisonPage({ params }: Props) {
             name: `${comparison.title}`,
             image: comparison.openGraph?.images?.[0]?.url || "/images/default-og-image.jpg",
             description: comparison.description,
-            url: comparison.canonical || `https://Boopsign.com/alternatives/${slug}`,
+            url: comparison.canonical || `https://boopsign.com/alternatives/${slug}`,
             applicationCategory: "BusinessApplication",
             operatingSystem: "Web, iOS, Android",
             brand: { "@type": "Brand", name: "Boopsign" },

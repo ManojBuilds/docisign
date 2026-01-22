@@ -37,10 +37,10 @@ export async function generateMetadata({
     openGraph: {
       title: "Sign Your Contract - Boopsign",
       description: "The fastest way for freelancers and small agencies to get contracts signed — no client accounts, no friction.",
-      url: `https://Boopsign.com/s/${token}`,
+      url: `https://boopsign.com/s/${token}`,
       images: [
         {
-          url: "https://Boopsign.com/images/og-signing.jpg",
+          url: "https://boopsign.com/images/og-signing.jpg",
           width: 1200,
           height: 630,
           alt: "Boopsign Contract Signing",

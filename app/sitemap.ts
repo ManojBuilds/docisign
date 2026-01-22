@@ -7,7 +7,7 @@ import {
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://www.Boopsign.com";
+  const baseUrl = "https://www.boopsign.com";
   // Use current date for lastModified if not specified in content
   const defaultLastModified = new Date();
 

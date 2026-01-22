@@ -30,7 +30,7 @@ export const sendWelcomeEmail = action({
   handler: async (ctx, args) => {
     try {
       const res = await resend.sendEmail(ctx, {
-        from: "Boopsign <alerts@mailer.Boopsign.com>",
+        from: "Boopsign <alerts@mailer.boopsign.com>",
         subject: "Welcome to Boopsign!",
         to: args.email,
         html: await render(
@@ -55,7 +55,7 @@ export const sendNewYearGiftEmail = action({
   handler: async (ctx, args) => {
     try {
       const res = await resend.sendEmail(ctx, {
-        from: "Boopsign <alerts@mailer.Boopsign.com>",
+        from: "Boopsign <alerts@mailer.boopsign.com>",
         to: args.email,
         subject: "A New Year gift from Boopsign!",
         html: await render(
@@ -87,7 +87,7 @@ export const sendSigningRequestEmail = action({
     try {
       console.log("args", args);
       const res = await resend.sendEmail(ctx, {
-        from: `${args.brandName || "Boopsign"} <alerts@mailer.Boopsign.com>`,
+        from: `${args.brandName || "Boopsign"} <alerts@mailer.boopsign.com>`,
         to: args.to,
         subject: `${args.brandName || args.senderName} has sent you a document to sign: ${args.documentTitle}`,
         html: await render(SigningRequest(args)),
@@ -112,7 +112,7 @@ export const sendSigningConfirmationEmail = action({
   handler: async (ctx, args) => {
     try {
       const res = await resend.sendEmail(ctx, {
-        from: "Boopsign <alerts@mailer.Boopsign.com>",
+        from: "Boopsign <alerts@mailer.boopsign.com>",
         to: args.to,
         subject: `${args.signerName} signed your document: ${args.documentTitle}`,
         html: await render(SigningConfirmation(args)),
@@ -137,7 +137,7 @@ export const sendDocumentCompleteEmail = action({
   handler: async (ctx, args) => {
     try {
       const res = await resend.sendEmail(ctx, {
-        from: "Boopsign <alerts@mailer.Boopsign.com>",
+        from: "Boopsign <alerts@mailer.boopsign.com>",
         to: args.to,
         subject: `Your document "${args.documentTitle}" is fully executed and ready!`,
         html: await render(DocumentComplete(args)),
@@ -161,7 +161,7 @@ export const sendSignerCopyEmail = action({
   handler: async (ctx, args) => {
     try {
       const res = await resend.sendEmail(ctx, {
-        from: "Boopsign <alerts@mailer.Boopsign.com>",
+        from: "Boopsign <alerts@mailer.boopsign.com>",
         to: args.to,
         subject: `Your signed copy of "${args.documentTitle}" is ready for download`,
         html: await render(SignerCopy(args)),
@@ -182,7 +182,7 @@ export const sendTrialReminder3DaysEmail = action({
   handler: async (ctx, args) => {
     try {
       const res = await resend.sendEmail(ctx, {
-        from: "Boopsign <alerts@mailer.Boopsign.com>",
+        from: "Boopsign <alerts@mailer.boopsign.com>",
         to: args.email,
         subject: "3 days left in your Boopsign trial",
         html: await render(
@@ -208,7 +208,7 @@ export const sendTrialReminder1DayEmail = action({
   handler: async (ctx, args) => {
     try {
       const res = await resend.sendEmail(ctx, {
-        from: "Boopsign <alerts@mailer.Boopsign.com>",
+        from: "Boopsign <alerts@mailer.boopsign.com>",
         to: args.email,
         subject: "Your Boopsign trial expires tomorrow",
         html: await render(
@@ -238,7 +238,7 @@ export const sendOtpEmail = action({
 
     try {
       const res = await resend.sendEmail(ctx, {
-        from: "Boopsign <alerts@mailer.Boopsign.com>",
+        from: "Boopsign <alerts@mailer.boopsign.com>",
         to: args.email,
         subject,
         html: await render(

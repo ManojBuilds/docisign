@@ -17,10 +17,10 @@ export const metadata: Metadata = {
     title: "Boopsign Pricing - $15/Month vs DocuSign's $25+",
     description:
       "Simple, transparent pricing. 50% cheaper than DocuSign with better mobile experience.",
-    url: "https://Boopsign.com/pricing",
+    url: "https://boopsign.com/pricing",
     images: [
       {
-        url: "https://Boopsign.com/images/og-pricing.jpg",
+        url: "https://boopsign.com/images/og-pricing.jpg",
         width: 1200,
         height: 630,
         alt: "Boopsign vs DocuSign Pricing Comparison",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://Boopsign.com/pricing",
+    canonical: "https://boopsign.com/pricing",
   },
 };
 export default function PricingLayout({
@@ -45,7 +45,7 @@ export default function PricingLayout({
             "@context": "https://schema.org",
             "@type": "Product",
             name: "Boopsign Electronic Signature Software",
-            image: "https://Boopsign.com/images/og-pricing.jpg",
+            image: "https://boopsign.com/images/og-pricing.jpg",
             description: "Mobile-first electronic signature platform. Simple, transparent pricing.",
             brand: {
               "@type": "Brand",
@@ -53,7 +53,7 @@ export default function PricingLayout({
             },
             offers: {
               "@type": "Offer",
-              url: "https://Boopsign.com/pricing",
+              url: "https://boopsign.com/pricing",
               price: "20.00",
               priceCurrency: "USD",
               availability: "https://schema.org/InStock",

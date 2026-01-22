@@ -17,7 +17,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://Boopsign.com/sign-in",
+    canonical: "https://boopsign.com/sign-in",
   },
   // No OpenGraph needed for login page
 };
@@ -33,7 +33,7 @@ export default function Page() {
             "@type": "WebPage",
             name: "Sign In for Boopsign",
             description: "Sign In to account for electronic signature software",
-            url: "https://Boopsign.com/sign-in",
+            url: "https://boopsign.com/sign-in",
             mainEntity: {
               "@type": "SoftwareApplication",
               name: "Boopsign",

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "Boopsign Pricing - $15/mo for Freelancers | No Per-User Fees",
   description: "Simple, transparent pricing for freelancers. $15/month for unlimited documents. No per-user fees, no hidden costs. Compare vs DocuSign and save 50%.",
   alternates: {
-    canonical: "https://Boopsign.com/pricing",
+    canonical: "https://boopsign.com/pricing",
   },
 };
 

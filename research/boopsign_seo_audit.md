@@ -1,6 +1,6 @@
 # Boopsign Complete SEO Audit & Freelancer-Focused Growth Strategy
 **Date:** January 15, 2026
-**Domain:** Boopsign.com
+**Domain:** boopsign.com
 **Focus:** Positioning for freelancers & organic SEO growth
 
 ---
@@ -58,7 +58,7 @@ Your average position of 64.8 suggests:
 
 ## Page-by-Page Analysis & Fixes
 
-### Page 1: Homepage (www.Boopsign.com)
+### Page 1: Homepage (www.boopsign.com)
 
 **Current Issues:**
 - ❌ Generic positioning ("simplest e-signature solution")

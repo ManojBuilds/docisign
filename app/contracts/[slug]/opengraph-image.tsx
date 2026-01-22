@@ -203,7 +203,7 @@ export default async function Image({ params }: { params: Promise<{ slug: string
               color: "#94A3B8",
             }}
           >
-            Boopsign.com
+            boopsign.com
           </div>
         </div>
       </div>

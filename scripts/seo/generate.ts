@@ -80,20 +80,20 @@ seo:
     - "${industry.role.toLowerCase()} agreement template"
     - "freelance ${industry.name.toLowerCase()} legal"
     - "esignature for ${industry.category.toLowerCase()}"
-  canonical: "https://Boopsign.com/contracts/${slug}"
+  canonical: "https://boopsign.com/contracts/${slug}"
 schema:
   "@context": "https://schema.org"
   "@type": "Product"
   name: "${title}"
-  image: "https://Boopsign.com/images/og-contract-generic.jpg"
+  image: "https://boopsign.com/images/og-contract-generic.jpg"
   description: "${description}"
-  url: "https://Boopsign.com/contracts/${slug}"
+  url: "https://boopsign.com/contracts/${slug}"
   brand:
     "@type": "Brand"
     name: "Boopsign"
   offers:
     "@type": "Offer"
-    url: "https://Boopsign.com/contracts/${slug}"
+    url: "https://boopsign.com/contracts/${slug}"
     price: "0"
     priceCurrency: "USD"
     availability: "https://schema.org/InStock"
@@ -274,7 +274,7 @@ keywords:
   - "esignature for freelancers"
   - "cheaper than ${competitor.name}"
   - "${competitor.name} pricing"
-canonical: "https://Boopsign.com/alternatives/${slug}"
+canonical: "https://boopsign.com/alternatives/${slug}"
 faq: true
 ---
 
@@ -380,7 +380,7 @@ seo:
     - "is esignature legal in ${state.name}"
     - "${state.law}"
     - "digital signature laws ${state.name}"
-  canonical: "https://Boopsign.com/${slug}"
+  canonical: "https://boopsign.com/${slug}"
 faqs:
   - id: "faq-1"
     question: "Is an electronic signature legal in ${state.name}?"
@@ -495,7 +495,7 @@ seo:
     - "electronic signature software for ${page.name.toLowerCase()}"
     - "digital signature for ${page.slug}"
     - "${page.name.toLowerCase()} contract signing"
-  canonical: "https://Boopsign.com/${slug}"
+  canonical: "https://boopsign.com/${slug}"
 faqs:
   - id: "faq-1"
     question: "Is Boopsign compliant for ${page.name} documents?"

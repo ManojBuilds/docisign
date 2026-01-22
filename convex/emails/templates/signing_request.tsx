@@ -17,7 +17,7 @@ export default function SigningRequest({
   signerName = "mkumar.react@gmail.com",
   senderName = "Manoj Kumar",
   documentTitle = "Boopsign_Sample_Freelance_Contract",
-  signingUrl = "https://Boopsign.com/s/sometokenjibrisgarbage",
+  signingUrl = "https://boopsign.com/s/sometokenjibrisgarbage",
   customMessage = "Please sign ",
   brandLogoUrl = "https://majestic-fox-274.convex.cloud/api/storage/d1e44629-e1d2-4298-bb4d-d5e89b0b59e0",
   brandName = "Acme Design Studios",

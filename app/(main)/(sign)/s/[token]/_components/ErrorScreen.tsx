@@ -57,7 +57,7 @@ export function ErrorScreen() {
       {/* Minimal Footer */}
       <footer className="w-full py-6 sm:py-8 text-center relative z-10">
         <p className="text-[9px] sm:text-[10px] font-black text-gray-400 uppercase tracking-[0.15em] sm:tracking-[0.2em]">
-          Secured & Verified by Boopsign.com
+          Secured & Verified by boopsign.com
         </p>
       </footer>
     </div>

@@ -18,7 +18,7 @@ export default function robots(): MetadataRoute.Robots {
         '/callback'
       ],
     },
-    sitemap: 'https://www.Boopsign.com/sitemap.xml',
+    sitemap: 'https://www.boopsign.com/sitemap.xml',
   }
 }
 
