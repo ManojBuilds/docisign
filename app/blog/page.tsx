@@ -3,6 +3,15 @@ import { compareDesc } from "date-fns";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 function PostCard({ post }: { post: Post }) {
   return (
@@ -47,12 +56,29 @@ function PostCard({ post }: { post: Post }) {
   );
 }
 
-export default function BlogIndex() {
-  const posts = allPosts
+export default async function BlogIndex({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string }>;
+}) {
+  const { page } = await searchParams;
+  const currentPage = Number(page) || 1;
+  const POSTS_PER_PAGE = 9;
+
+  const allPublishedPosts = allPosts
     .filter((post) => post.status === "published")
     .sort((a, b) =>
       compareDesc(new Date(a.date), new Date(b.date))
     );
+
+  const featuredPost = allPublishedPosts[0];
+  const otherPosts = allPublishedPosts.slice(1);
+
+  const totalPages = Math.ceil(otherPosts.length / POSTS_PER_PAGE);
+  const paginatedPosts = otherPosts.slice(
+    (currentPage - 1) * POSTS_PER_PAGE,
+    currentPage * POSTS_PER_PAGE
+  );
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -73,17 +99,17 @@ export default function BlogIndex() {
         </div>
       </div>
 
-      {/* Featured Post */}
-      {posts.length > 0 && (
+      {/* Featured Post - Only show on first page */}
+      {currentPage === 1 && featuredPost && (
         <div className="container mx-auto px-4 -mt-12 relative z-20">
           <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden max-w-4xl mx-auto">
             <div className="md:flex">
               <div className="md:w-2/5">
-                {posts[0].image && (
+                {featuredPost.image && (
                   <div className="relative w-full h-64 md:h-full">
                     <Image
-                      src={posts[0].image}
-                      alt={posts[0].title}
+                      src={featuredPost.image}
+                      alt={featuredPost.title}
                       fill
                       className="object-cover"
                     />
@@ -92,23 +118,23 @@ export default function BlogIndex() {
               </div>
               <div className="p-8 md:w-3/5">
                 <div className="flex items-center gap-3 text-xs font-semibold tracking-wider text-slate-500 mb-4 uppercase">
-                  <span className="text-blue-600 bg-blue-50 px-3 py-1 rounded-full">{posts[0].category}</span>
+                  <span className="text-blue-600 bg-blue-50 px-3 py-1 rounded-full">{featuredPost.category}</span>
                   <span>•</span>
                   <time className="text-slate-400">
-                    {new Date(posts[0].date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
+                    {new Date(featuredPost.date).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
                   </time>
                 </div>
 
                 <h2 className="text-2xl md:text-3xl font-semibold text-slate-900 mb-3">
-                  {posts[0].title}
+                  {featuredPost.title}
                 </h2>
 
                 <p className="text-slate-600 mb-6 leading-relaxed">
-                  {posts[0].description}
+                  {featuredPost.description}
                 </p>
 
                 <Link
-                  href={posts[0].url}
+                  href={featuredPost.url}
                   className="inline-flex items-center text-blue-600 font-semibold"
                 >
                   Read Full Article <ArrowRight className="ml-2 w-4 h-4" />
@@ -122,13 +148,74 @@ export default function BlogIndex() {
       {/* Grid of Posts */}
       <div className="container mx-auto px-4 py-16 md:py-24">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-semibold text-slate-900 mb-12 text-center">Latest Articles</h2>
+          <h2 className="text-3xl font-semibold text-slate-900 mb-12 text-center">
+            {currentPage === 1 ? "Latest Articles" : `Articles - Page ${currentPage}`}
+          </h2>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {posts.slice(1).map((post, idx) => (
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            {paginatedPosts.map((post, idx) => (
               <PostCard key={idx} post={post} />
             ))}
           </div>
+
+          {totalPages > 1 && (
+            <div className="flex justify-center mt-12">
+              <Pagination>
+                <PaginationContent>
+                  <PaginationItem>
+                    <PaginationPrevious
+                      href={currentPage > 1 ? `?page=${currentPage - 1}` : "#"}
+                      scroll={false}
+                      aria-disabled={currentPage <= 1}
+                      className={currentPage <= 1 ? "pointer-events-none opacity-50" : ""}
+                    />
+                  </PaginationItem>
+
+                  {[...Array(totalPages)].map((_, i) => {
+                    const pageNum = i + 1;
+                    // Show current page, first, last, and pages around current
+                    if (
+                      pageNum === 1 ||
+                      pageNum === totalPages ||
+                      (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+                    ) {
+                      return (
+                        <PaginationItem key={pageNum}>
+                          <PaginationLink
+                            href={`?page=${pageNum}`}
+                            scroll={false}
+                            isActive={currentPage === pageNum}
+                          >
+                            {pageNum}
+                          </PaginationLink>
+                        </PaginationItem>
+                      );
+                    }
+                    if (
+                      pageNum === currentPage - 2 ||
+                      pageNum === currentPage + 2
+                    ) {
+                      return (
+                        <PaginationItem key={pageNum}>
+                          <PaginationEllipsis />
+                        </PaginationItem>
+                      );
+                    }
+                    return null;
+                  })}
+
+                  <PaginationItem>
+                    <PaginationNext
+                      href={currentPage < totalPages ? `?page=${currentPage + 1}` : "#"}
+                      scroll={false}
+                      aria-disabled={currentPage >= totalPages}
+                      className={currentPage >= totalPages ? "pointer-events-none opacity-50" : ""}
+                    />
+                  </PaginationItem>
+                </PaginationContent>
+              </Pagination>
+            </div>
+          )}
         </div>
       </div>
     </div>

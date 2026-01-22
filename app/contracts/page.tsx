@@ -41,12 +41,17 @@ const getDynamicTemplates = (): HubCategory[] => {
 };
 
 
-export default function ContractTemplatesHubPage() {
+export default async function ContractTemplatesHubPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const templates = getDynamicTemplates();
+  const params = await searchParams;
 
   return (
     <main className="min-h-screen bg-white">
-      <TemplatesHub initialTemplates={templates} />
+      <TemplatesHub initialTemplates={templates} searchParams={params} />
 
       {/* Trusted By Section */}
       <section className="py-12 bg-white border-b border-slate-100">
