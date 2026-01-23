@@ -1,64 +1,62 @@
-import { NoiseEffect } from "@/components/effects/noise-effect";
 import StartTrialBtn from "./StartTrialBtn";
+import { Highlighter } from "./ui/highlighter";
 
 
 const Cta = () => {
   return (
-    <section
-      className="py-24 md:py-32 relative overflow-hidden bg-slate-900"
-      style={{
-        backgroundImage: 'url("/bg.webp")',
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div className="absolute inset-0 bg-black/40" />
-      <NoiseEffect />
+    <section className="py-24 md:py-32 relative overflow-hidden bg-white">
+      <div className="container max-w-6xl mx-auto px-4">
+        <div className="relative bg-primary/5 border border-primary/10 rounded-3xl p-12 md:p-20 text-center overflow-hidden">
+          {/* Subtle background decoration */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -mr-32 -mt-32" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl -ml-32 -mb-32" />
 
-      <div className="container max-w-4xl mx-auto px-4 text-center relative z-10">
+          <div className="relative z-10 max-w-4xl mx-auto">
+            {/* Trust Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-primary/10 shadow-sm mb-10">
+              <span className="text-slate-600 text-sm font-medium pl-2">
+                Join <span className="text-primary font-bold">1,000+ freelancers</span>
+              </span>
+            </div>
 
-        {/* Trust Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-800/50 border border-slate-700 backdrop-blur-sm mb-10">
-          <span className="text-slate-200 text-sm font-medium pl-2">
-            Join <span className="text-white font-bold">1,000+ freelancers</span>
-          </span>
-        </div>
+            {/* Main Heading */}
+            <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 mb-6 leading-[1.1]">
+              Stop Chasing Signatures. <br className="hidden md:block" />
+              <Highlighter action="underline" color="#3b82f6" strokeWidth={2} iterations={1} isView>
+                <span className="text-primary">
+                  Start Closing Deals.
+                </span>
+              </Highlighter>
+            </h2>
 
-        {/* Main Heading */}
-        <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-white mb-6 leading-[1.1] drop-shadow-lg">
-          Stop Chasing Signatures. <br className="hidden md:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-indigo-300">
-            Start Closing Deals.
-          </span>
-        </h2>
+            {/* Subheading */}
+            <p className="text-lg md:text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+              Join 1,000+ freelancers who switched to Boopsign to get contracts signed 3x faster than DocuSign.
+            </p>
 
-        {/* Subheading */}
-        <p className="text-lg md:text-xl text-slate-200 mb-12 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
-          Join 1,000+ freelancers who switched to Boopsign to get contracts signed 3x faster than DocuSign.
-        </p>
+            {/* CTA Button Area */}
+            <div className="flex flex-col items-center gap-6">
+              <div className="scale-125 origin-center">
+                <StartTrialBtn label="Sign Your First Document Free" />
+              </div>
 
-        {/* CTA Button Area */}
-        <div className="flex flex-col items-center gap-6">
-          <div className="scale-125 origin-center">
-            <StartTrialBtn label="Sign Your First Document Free" />
+              <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium text-slate-500">
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  7-day free trial
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  No credit card required
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  Cancel anytime
+                </span>
+              </div>
+            </div>
           </div>
-
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium text-slate-300">
-            <span className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              7-day free trial
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              No credit card required
-            </span>
-            <span className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              Cancel anytime
-            </span>
-          </div>
         </div>
-
       </div>
     </section>
   );

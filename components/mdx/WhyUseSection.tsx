@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Icon } from "./Icon";
+import { Highlighter } from "../ui/highlighter";
 
 interface CardItem {
   title: string;
@@ -16,13 +17,15 @@ interface WhyUseSectionProps {
 
 export default function WhyUseSection({ title, description, cardItems }: WhyUseSectionProps) {
   return (
-    <section className="bg-slate-50 border-y border-slate-100 py-20 px-4">
+    <section className="bg-white py-24 md:py-32 px-4">
       <div className="container mx-auto max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-semibold mb-4 text-slate-900">
-            {title}
+        <div className="text-center mb-20">
+          <h2 className="text-3xl md:text-5xl font-bold mb-6 text-slate-900 tracking-tight">
+            <Highlighter action="underline" color="#3b82f6" strokeWidth={2} iterations={1} isView>
+              {title}
+            </Highlighter>
           </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+          <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
             {description}
           </p>
         </div>
@@ -30,21 +33,23 @@ export default function WhyUseSection({ title, description, cardItems }: WhyUseS
         {cardItems && cardItems.length > 0 && (
           <div className="grid md:grid-cols-3 gap-8">
             {cardItems.map((item, idx) => (
-              <Card key={idx} className="border-none shadow-md hover:shadow-lg transition-shadow">
-                <CardHeader>
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center mb-4 ${item.color === 'red' ? 'bg-red-100 text-red-600' :
-                      item.color === 'green' ? 'bg-green-100 text-green-600' :
-                        item.color === 'purple' ? 'bg-purple-100 text-purple-600' :
-                          'bg-blue-100 text-blue-600'
-                    }`}>
-                    <Icon name={item.icon || "FileText"} className="w-6 h-6" />
-                  </div>
-                  <CardTitle>{item.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="text-gray-600">
+              <div
+                key={idx}
+                className="group p-10 rounded-[2rem] bg-slate-50 border border-transparent hover:border-primary/20 hover:bg-white hover:shadow-2xl hover:shadow-primary/5 transition-all duration-300"
+              >
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-8 shadow-sm transition-transform group-hover:scale-110 duration-300 ${item.color === 'red' ? 'bg-red-50 text-red-600' :
+                  item.color === 'green' ? 'bg-emerald-50 text-emerald-600' :
+                    item.color === 'purple' ? 'bg-purple-50 text-purple-600' :
+                      item.color === 'orange' ? 'bg-orange-50 text-orange-600' :
+                        'bg-primary/10 text-primary'
+                  }`}>
+                  <Icon name={item.icon || "FileText"} className="w-7 h-7" />
+                </div>
+                <h3 className="text-2xl font-semibold text-slate-900 mb-4">{item.title}</h3>
+                <p className="text-slate-600 text-lg leading-relaxed">
                   {item.description}
-                </CardContent>
-              </Card>
+                </p>
+              </div>
             ))}
           </div>
         )}

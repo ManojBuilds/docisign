@@ -1,5 +1,7 @@
 import { DragAndClickUpload } from "./DragAndClickUpload";
 import Image from "next/image";
+import { WordRotate } from "./ui/word-rotate";
+import { Highlighter } from "./ui/highlighter";
 
 const Hero = () => {
   return (
@@ -18,21 +20,16 @@ const Hero = () => {
 
         {/* Headline - SEO: "E-Signatures" + "Freelancers" */}
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-slate-900 mb-8 max-w-5xl leading-tight">
-          Super simple <span className="relative whitespace-nowrap">
+          Super simple{" "}
+          <Highlighter action="highlight" color="#dbeafe" iterations={1}>
             e-signatures
-            <svg className="absolute -bottom-2 left-0 w-full h-3 text-blue-200 opacity-50 -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">
-              <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="8" fill="none" />
-            </svg>
-          </span>
+          </Highlighter>
           <br />
           <span className="text-slate-900">for </span>
-          <span className="text-blue-600 relative inline-block">
-            Freelancers
-            {/* Subtle underline SVG */}
-            <svg className="absolute w-[110%] h-3 -bottom-2 -left-[5%] text-blue-100 -z-10" viewBox="0 0 100 10" preserveAspectRatio="none">
-              <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="8" fill="none" />
-            </svg>
-          </span>
+          <WordRotate
+            className="text-blue-600"
+            words={["Freelancers", "Consultants", "Agencies", "Creatives", "Founders"]}
+          />
         </h1>
 
         <p className="mt-2 text-xl sm:text-2xl text-slate-500 max-w-2xl leading-relaxed font-normal">

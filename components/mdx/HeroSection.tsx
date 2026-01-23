@@ -1,6 +1,8 @@
 import { Badge } from "@/components/ui/badge";
 import StartTrialBtn from "@/components/StartTrialBtn";
 import { Briefcase, ShieldCheck, UserCheck, Clock } from "lucide-react";
+import { WordRotate } from "../ui/word-rotate";
+import { Highlighter } from "../ui/highlighter";
 
 interface HeroProps {
   badge?: string;
@@ -19,19 +21,30 @@ const IconMap: Record<number, any> = {
 
 export default function HeroSection({ badge, title, subtitle, highlights, testimonial }: HeroProps) {
   return (
-    <section className="text-center px-4">
+    <section className="text-center px-4 py-12 md:py-20">
       <div className="container mx-auto max-w-6xl">
         {badge && (
-          <div className="inline-flex items-center justify-center p-2 mb-6 bg-slate-100 rounded-full text-slate-600 text-sm font-medium animate-fade-in">
-            <Badge variant="secondary" className="mr-2 bg-slate-900 text-white">{badge}</Badge>
-            Professional Workflow for 2026
+          <div className="inline-flex items-center justify-center p-1.5 mb-8 bg-primary/5 rounded-full text-primary text-sm font-medium animate-fade-in border border-primary/10">
+            <Badge variant="secondary" className="mr-2 bg-primary text-white hover:bg-primary/90 border-none shadow-sm">{badge}</Badge>
+            <WordRotate
+              words={["Professional Workflow", "eSignatures Fast", "Legally Binding", "Built for 2026"]}
+              className="text-primary font-semibold"
+              duration={3000}
+            />
           </div>
         )}
-        <h1
-          className="text-4xl md:text-5xl lg:text-7xl font-semibold mb-6 tracking-tight text-slate-900"
-          dangerouslySetInnerHTML={{ __html: title }}
-        />
-        <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto mb-10 leading-relaxed">
+
+        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 tracking-tight text-slate-900 leading-[1.1]">
+          {title.includes("<span") ? (
+            <div dangerouslySetInnerHTML={{ __html: title }} />
+          ) : (
+            <Highlighter action="highlight" color="#dbeafe" iterations={1}>
+              {title}
+            </Highlighter>
+          )}
+        </h1>
+
+        <p className="text-lg md:text-2xl text-slate-600 max-w-3xl mx-auto mb-12 leading-relaxed font-normal">
           {subtitle}
         </p>
 

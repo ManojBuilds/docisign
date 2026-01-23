@@ -1,5 +1,6 @@
 
 import { DollarSign, Smartphone, Zap } from "lucide-react";
+import { Highlighter } from "./ui/highlighter";
 
 export function Problem() {
   const problems = [
@@ -38,10 +39,9 @@ export function Problem() {
           <div className="space-y-4 max-w-4xl">
             <h2 className="text-4xl md:text-6xl font-semibold tracking-tight text-slate-900 leading-[1.1]">
               Stop losing clients to <br className="hidden md:block" />
-              <span className="relative inline-block mt-2">
-                <span className="relative z-10 text-blue-600">login screens.</span>
-                <span className="absolute bottom-2 left-0 w-full h-3 bg-blue-100/50 z-0 -rotate-1"></span>
-              </span>
+              <Highlighter action="underline" color="#3b82f6" strokeWidth={3} isView>
+                <span className="text-blue-600">login screens.</span>
+              </Highlighter>
             </h2>
             <p className="text-slate-500 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed pt-2">
               Complex software creates friction. Friction kills deals. Boopsign removes the barriers so you can <strong>get signed and paid faster.</strong>
