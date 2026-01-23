@@ -74,20 +74,15 @@ export function useFieldOperations(
         if (lastAssignedSignerIndex.current === -1) {
           // First time: assign to the first signer
           lastAssignedSignerIndex.current = 0;
-          assignedSignerEmail = allSignersArray[0];
-
-          // Find the full signer object to get the name
-          const fullSigner = [...signers, ...recipientSigners].find(s => s.email === assignedSignerEmail);
-          assignedSignerName = fullSigner?.name || "";
-        } else {
-          // Cycle through signers
-          lastAssignedSignerIndex.current = (lastAssignedSignerIndex.current + 1) % allSignersArray.length;
-          assignedSignerEmail = allSignersArray[lastAssignedSignerIndex.current];
-
-          // Find the full signer object to get the name
-          const fullSigner = [...signers, ...recipientSigners].find(s => s.email === assignedSignerEmail);
-          assignedSignerName = fullSigner?.name || assignedSignerEmail;
         }
+
+        // Always use the current index (don't auto-cycle)
+        // This means new fields will be assigned to the same signer as the last one
+        assignedSignerEmail = allSignersArray[lastAssignedSignerIndex.current];
+
+        // Find the full signer object to get the name
+        const fullSigner = [...signers, ...recipientSigners].find(s => s.email === assignedSignerEmail);
+        assignedSignerName = fullSigner?.name || assignedSignerEmail;
       }
 
       const newField: SignatureFieldData = {
@@ -119,9 +114,33 @@ export function useFieldOperations(
 
   const handleUpdateFieldInStore = useCallback(
     (updatedField: SignatureFieldData) => {
+      // Check if the signer assignment was manually changed
+      const currentFields = useDocumentEditorStore.getState().signatureFields;
+      const existingField = currentFields.find(f => f.id === updatedField.id);
+
+      if (existingField && existingField.signerEmail !== updatedField.signerEmail) {
+        // Signer was manually changed - update the lastAssignedSignerIndex
+        // to continue cycling from this signer
+        const allSignersSet = new Set<string>();
+
+        // Collect all signers
+        signers.forEach(signer => allSignersSet.add(signer.email));
+        recipientSigners.forEach(signer => allSignersSet.add(signer.email));
+        currentFields.forEach(field => {
+          if (field.signerEmail) allSignersSet.add(field.signerEmail);
+        });
+
+        const allSignersArray = Array.from(allSignersSet);
+        const newSignerIndex = allSignersArray.indexOf(updatedField.signerEmail);
+
+        if (newSignerIndex !== -1) {
+          lastAssignedSignerIndex.current = newSignerIndex;
+        }
+      }
+
       updateSignatureFieldInStore(updatedField);
     },
-    [updateSignatureFieldInStore]
+    [updateSignatureFieldInStore, signers, recipientSigners]
   );
 
   const handleSaveField = useCallback(
