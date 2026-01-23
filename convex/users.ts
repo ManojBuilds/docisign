@@ -105,6 +105,7 @@ export const getTrialStatus = query({
       trialEnded: now >= user.trialEndDate,
       subscriptionStatus: user.subscriptionStatus,
       plan: user.plan,
+      billingInterval: user.billingInterval,
     };
   },
 });
@@ -119,6 +120,7 @@ export const updateSubscriptionStatus = mutation({
       v.literal("expired"),
       v.literal("past_due")
     ),
+    billingInterval: v.optional(v.union(v.literal("monthly"), v.literal("annually"))),
     dodoCustomerId: v.optional(v.string()),
     dodoSubscriptionId: v.optional(v.string()),
   },
@@ -135,6 +137,7 @@ export const updateSubscriptionStatus = mutation({
     await ctx.db.patch(user._id, {
       subscriptionStatus: args.subscriptionStatus,
       plan: args.subscriptionStatus === "active" ? "pro" : user.plan,
+      billingInterval: args.billingInterval || user.billingInterval,
       dodoCustomerId: args.dodoCustomerId,
       dodoSubscriptionId: args.dodoSubscriptionId,
       updatedAt: Date.now(),
@@ -152,6 +155,7 @@ export const updateSubscriptionStatusInternal = internalMutation({
       v.literal("expired"),
       v.literal("past_due")
     ),
+    billingInterval: v.optional(v.union(v.literal("monthly"), v.literal("annually"))),
     dodoCustomerId: v.optional(v.string()),
     dodoSubscriptionId: v.optional(v.string()),
   },
@@ -168,6 +172,7 @@ export const updateSubscriptionStatusInternal = internalMutation({
     await ctx.db.patch(user._id, {
       subscriptionStatus: args.subscriptionStatus,
       plan: args.subscriptionStatus === "active" ? "pro" : user.plan,
+      billingInterval: args.billingInterval || user.billingInterval,
       dodoCustomerId: args.dodoCustomerId,
       dodoSubscriptionId: args.dodoSubscriptionId,
       updatedAt: Date.now(),

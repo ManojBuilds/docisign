@@ -23,7 +23,8 @@ export function ShareDialog({
   open,
   onOpenChange,
   hasUnassignedFields,
-}: ShareDialogProps) {
+  skipSignerSync = false,
+}: ShareDialogProps & { skipSignerSync?: boolean }) {
   // Fetch document details including signers
   const document = useQuery(api.documents.getDocument, { documentId });
   const signatureFields = useQuery(api.signatureFields.getDocumentSignatureFields, { documentId });
@@ -49,6 +50,8 @@ export function ShareDialog({
   }, [showConfetti]);
 
   useEffect(() => {
+    if (skipSignerSync) return;
+
     if (document && document.signatureFields) {
       // Extract unique signers from the document's signature fields
       // Only include signers that are actually assigned to signature fields
@@ -68,7 +71,7 @@ export function ShareDialog({
       const documentSigners = Array.from(uniqueSigners.values());
       setSigners(documentSigners);
     }
-  }, [document, setSigners]);
+  }, [document, setSigners, skipSignerSync]);
 
 
   const handleSend = async () => {

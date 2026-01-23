@@ -12,8 +12,12 @@ import posthog from "posthog-js";
 
 export default function SuccessPage() {
   useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const interval = searchParams.get('interval') || 'monthly';
+
     posthog.capture('subscription_started', {
       plan: 'pro',
+      interval: interval
     });
   }, []);
 

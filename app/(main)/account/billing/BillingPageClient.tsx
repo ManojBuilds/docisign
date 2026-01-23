@@ -67,11 +67,15 @@ export default function BillingPageClient() {
                                 <PlanBadge />
                             </div>
                             <h2 className="text-3xl font-semibold tracking-tight text-foreground">
-                                {trialStatus.isPaidUser ? "Boopsign Pro" : "Free Trial"}
+                                {trialStatus.isPaidUser
+                                    ? `Boopsign Pro ${trialStatus.billingInterval === "annually" ? "(Annual)" : "(Monthly)"}`
+                                    : "Free Trial"}
                             </h2>
                             <p className="text-muted-foreground text-sm">
                                 {trialStatus.isPaidUser
-                                    ? "15.00 / month • Renews automatically"
+                                    ? trialStatus.billingInterval === "annually"
+                                        ? "12.00 / month (Billed annually) • Renews automatically"
+                                        : "15.00 / month • Renews automatically"
                                     : "Experience the full power of Boopsign"
                                 }
                             </p>

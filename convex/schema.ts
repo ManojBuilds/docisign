@@ -24,6 +24,7 @@ export default defineSchema({
       v.literal("expired"),
       v.literal("past_due"),
     ),
+    billingInterval: v.optional(v.union(v.literal("monthly"), v.literal("annually"))),
 
     // Onboarding fields
     onboardingCompleted: v.optional(v.boolean()),

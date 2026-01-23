@@ -16,133 +16,134 @@ import { toast } from "sonner";
 const ShareDialog = lazy(() => import("@/components/ShareDialog").then(m => ({ default: m.ShareDialog })));
 
 interface EditorNavbarProps {
-  documentId: Id<"documents">;
-  onSave: () => Promise<void>;
-  isSaving: boolean;
-  hasUnsavedChanges: boolean;
-  onSendForSigning: (signers: any[], customMessage?: string) => Promise<void>;
-  onSignerAdd: (signer: any) => void;
-  hasUnassignedFields: boolean;
+    documentId: Id<"documents">;
+    onSave: () => Promise<void>;
+    isSaving: boolean;
+    hasUnsavedChanges: boolean;
+    onSendForSigning: (signers: any[], customMessage?: string) => Promise<void>;
+    onSignerAdd: (signer: any) => void;
+    hasUnassignedFields: boolean;
 }
 
 export const EditorNavbar = memo(({
-  documentId,
-  onSave,
-  isSaving,
-  hasUnsavedChanges,
-  onSendForSigning,
-  onSignerAdd,
-  hasUnassignedFields
+    documentId,
+    onSave,
+    isSaving,
+    hasUnsavedChanges,
+    onSendForSigning,
+    onSignerAdd,
+    hasUnassignedFields
 }: EditorNavbarProps) => {
-  const document = useQuery(api.documents.getDocument, { documentId });
-  const updateDocumentTitle = useMutation(api.documents.updateDocumentTitle);
+    const document = useQuery(api.documents.getDocument, { documentId });
+    const updateDocumentTitle = useMutation(api.documents.updateDocumentTitle);
 
-  const [isEditingTitle, setIsEditingTitle] = useState(false);
-  const [editedTitle, setEditedTitle] = useState(document?.title || "");
+    const [isEditingTitle, setIsEditingTitle] = useState(false);
+    const [editedTitle, setEditedTitle] = useState(document?.title || "");
 
-  useEffect(() => {
-    if (document?.title && !isEditingTitle) {
-      setEditedTitle(document.title);
-    }
-  }, [document?.title, isEditingTitle]);
+    useEffect(() => {
+        if (document?.title && !isEditingTitle) {
+            setEditedTitle(document.title);
+        }
+    }, [document?.title, isEditingTitle]);
 
-  const handleTitleUpdate = async () => {
-    if (editedTitle.trim() === "") {
-      toast.error("Document title cannot be empty");
-      setEditedTitle(document?.title || "");
-      setIsEditingTitle(false);
-      return;
-    }
+    const handleTitleUpdate = async () => {
+        if (editedTitle.trim() === "") {
+            toast.error("Document title cannot be empty");
+            setEditedTitle(document?.title || "");
+            setIsEditingTitle(false);
+            return;
+        }
 
-    if (editedTitle !== document?.title) {
-      try {
-        await updateDocumentTitle({
-          documentId,
-          title: editedTitle,
-        });
-        toast.success("Document title updated successfully");
-      } catch (_error) {
-        console.error(_error)
-        toast.error("Failed to update document title");
-        setEditedTitle(document?.title || "");
-      }
-    }
-    setIsEditingTitle(false);
-  };
+        if (editedTitle !== document?.title) {
+            try {
+                await updateDocumentTitle({
+                    documentId,
+                    title: editedTitle,
+                });
+                toast.success("Document title updated successfully");
+            } catch (_error) {
+                console.error(_error)
+                toast.error("Failed to update document title");
+                setEditedTitle(document?.title || "");
+            }
+        }
+        setIsEditingTitle(false);
+    };
 
-  return (
-    <div className="hidden md:flex justify-between items-center px-4 py-2.5 border-b bg-white">
-      <div className="flex items-center space-x-4">
-        <Link href={'/dashboard'} className={cn(buttonVariants({ variant: "secondary" }), "gap-2")}>
-          <ArrowLeft className="w-4 h-4" />
-          Back
-        </Link>
-        <div className="flex items-center w-32 md:w-64 group">
-          {isEditingTitle ? (
-            <input
-              type="text"
-              value={editedTitle}
-              onChange={(e) => setEditedTitle(e.target.value)}
-              onBlur={handleTitleUpdate}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleTitleUpdate();
-                else if (e.key === 'Escape') {
-                  setEditedTitle(document?.title || "");
-                  setIsEditingTitle(false);
-                }
-              }}
-              className="font-semibold text-lg w-full bg-transparent focus:outline-none border-b-2 border-primary px-2 py-1 leading-tight"
-              autoFocus
-            />
-          ) : (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div
-                    className="flex items-center gap-2 w-full cursor-pointer hover:bg-gray-100 rounded px-2 py-1 border-b-2 border-transparent leading-tight transition-colors group/title"
-                    onClick={() => setIsEditingTitle(true)}
-                  >
-                    <span className="font-semibold text-lg truncate flex-1 block">
-                      {document?.title || "Loading..."}
-                    </span>
-                    <Pencil className="w-3.5 h-3.5 text-gray-400 opacity-0 group-hover/title:opacity-100 transition-opacity" />
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent side="bottom" align="start" sideOffset={8} className="bg-gray-900 text-white font-medium px-3 py-1.5 text-[11px] border-none shadow-2xl rounded-lg">
-                  Click to edit title
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
+    return (
+        <div className="hidden md:flex justify-between items-center px-4 py-2.5 border-b bg-white">
+            <div className="flex items-center space-x-4">
+                <Link href={'/dashboard'} className={cn(buttonVariants({ variant: "secondary" }), "gap-2")}>
+                    <ArrowLeft className="w-4 h-4" />
+                    Back
+                </Link>
+                <div className="flex items-center w-32 md:w-64 group">
+                    {isEditingTitle ? (
+                        <input
+                            type="text"
+                            value={editedTitle}
+                            onChange={(e) => setEditedTitle(e.target.value)}
+                            onBlur={handleTitleUpdate}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter') handleTitleUpdate();
+                                else if (e.key === 'Escape') {
+                                    setEditedTitle(document?.title || "");
+                                    setIsEditingTitle(false);
+                                }
+                            }}
+                            className="font-semibold text-lg w-full bg-transparent focus:outline-none border-b-2 border-primary px-2 py-1 leading-tight"
+                            autoFocus
+                        />
+                    ) : (
+                        <TooltipProvider>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <div
+                                        className="flex items-center gap-2 w-full cursor-pointer hover:bg-gray-100 rounded px-2 py-1 border-b-2 border-transparent leading-tight transition-colors group/title"
+                                        onClick={() => setIsEditingTitle(true)}
+                                    >
+                                        <span className="font-semibold text-lg truncate flex-1 block">
+                                            {document?.title || "Loading..."}
+                                        </span>
+                                        <Pencil className="w-3.5 h-3.5 text-gray-400 opacity-0 group-hover/title:opacity-100 transition-opacity" />
+                                    </div>
+                                </TooltipTrigger>
+                                <TooltipContent side="bottom" align="start" sideOffset={8} className="bg-gray-900 text-white font-medium px-3 py-1.5 text-[11px] border-none shadow-2xl rounded-lg">
+                                    Click to edit title
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
+                    )}
+                </div>
+            </div>
+
+            <div className="flex items-center gap-3">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={onSave}
+                    disabled={isSaving || !hasUnsavedChanges}
+                    className="gap-2 shadow-sm h-10 px-4"
+                >
+                    {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
+                    {isSaving ? "Saving..." : "Save Changes"}
+                </Button>
+                <Suspense fallback={<Skeleton className="h-10 w-32 rounded-lg" />}>
+                    <ShareDialog
+                        documentId={documentId}
+                        onSend={onSendForSigning}
+                        hasUnassignedFields={hasUnassignedFields}
+                        onSignerAdd={onSignerAdd}
+                        skipSignerSync={true}
+                    />
+                </Suspense>
+                <div className="w-1 h-6 border-l border-gray-200 mx-1" />
+                <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center border shadow-sm">
+                    <UserMenu />
+                </div>
+            </div>
         </div>
-      </div>
-
-      <div className="flex items-center gap-3">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={onSave}
-          disabled={isSaving || !hasUnsavedChanges}
-          className="gap-2 shadow-sm h-10 px-4"
-        >
-          {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-          {isSaving ? "Saving..." : "Save Changes"}
-        </Button>
-        <Suspense fallback={<Skeleton className="h-10 w-32 rounded-lg" />}>
-          <ShareDialog
-            documentId={documentId}
-            onSend={onSendForSigning}
-            hasUnassignedFields={hasUnassignedFields}
-            onSignerAdd={onSignerAdd}
-          />
-        </Suspense>
-        <div className="w-1 h-6 border-l border-gray-200 mx-1" />
-        <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center border shadow-sm">
-          <UserMenu />
-        </div>
-      </div>
-    </div>
-  );
+    );
 });
 
 EditorNavbar.displayName = "EditorNavbar";

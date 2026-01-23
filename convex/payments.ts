@@ -8,7 +8,8 @@ import { checkout, customerPortal } from "./dodo";
  */
 export const createCheckout = action({
   args: {
-    productId: v.string(), // The DodoPayments product ID for the $20/month plan
+    productId: v.string(), // The DodoPayments product ID
+    interval: v.optional(v.union(v.literal("monthly"), v.literal("annually"))),
     returnUrl: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
@@ -34,6 +35,7 @@ export const createCheckout = action({
         },
         metadata: {
           clerkId: identity.subject,
+          interval: args.interval || "monthly",
         },
       },
     });

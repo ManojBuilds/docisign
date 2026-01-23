@@ -12,9 +12,13 @@ import { toast } from "sonner";
 const CheckoutButton = ({
   className,
   children,
+  productId: propProductId,
+  interval,
 }: {
   className?: string;
   children?: ReactNode;
+  productId?: string;
+  interval?: "monthly" | "annually";
 }) => {
   const { user } = useUser();
   const router = useRouter();
@@ -29,8 +33,8 @@ const CheckoutButton = ({
     setIsLoading(true);
 
     try {
-      // Get the product ID from environment variable
-      const productId = process.env.NEXT_PUBLIC_DODO_PRICE_ID_PRO;
+      // Use the passed productId or fallback to the environment variable
+      const productId = propProductId || process.env.NEXT_PUBLIC_DODO_PRICE_ID_PRO;
 
       if (!productId) {
         toast.error("Product configuration missing. Please contact support.");
@@ -40,7 +44,8 @@ const CheckoutButton = ({
 
       const result = await createCheckout({
         productId,
-        returnUrl: `${window.location.origin}/upgrade/success`,
+        interval: interval || "monthly",
+        returnUrl: `${window.location.origin}/upgrade/success?interval=${interval || "monthly"}`,
       });
 
       if (result?.checkout_url) {

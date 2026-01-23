@@ -12,10 +12,12 @@ import {
 import { useTrialStatus } from "@/hooks/useTrialStatus";
 import { ArrowRight, Check, Info, Loader2, Shield, Zap } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 import CheckoutButton from "./checkout-btn";
 
 const Pricing = () => {
   const { isPaidUser, isLoading, isTrialActive } = useTrialStatus();
+  const [billingInterval, setBillingInterval] = useState<"monthly" | "annually">("monthly");
 
   const features = [
     "Unlimited contract signing",
@@ -27,6 +29,16 @@ const Pricing = () => {
     "Priority email support",
   ];
 
+  const prices = {
+    monthly: 15,
+    annually: 12, // $144 / 12
+  };
+
+  const productIds = {
+    monthly: process.env.NEXT_PUBLIC_DODO_PRICE_ID_PRO,
+    annually: process.env.NEXT_PUBLIC_DODO_PRICE_ID_PRO_ANNUAL,
+  };
+
   return (
     <div className="bg-white relative overflow-hidden font-sans border-t border-slate-100" id="pricing">
       {/* Background Decor - clean and subtle */}
@@ -37,10 +49,34 @@ const Pricing = () => {
         <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-6">
           Fair Pricing. Unlimited Signatures.
         </h2>
-        <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-16 leading-relaxed">
+        <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-12 leading-relaxed">
           Everything you need to sign documents securely. <br />
           <span className="text-slate-900 font-medium">One plan. One price. No hidden fees.</span>
         </p>
+
+        {/* Interval Toggle */}
+        <div className="flex items-center justify-center gap-4 mb-12">
+          <span className={`text-sm font-medium ${billingInterval === "monthly" ? "text-slate-900" : "text-slate-500"}`}>
+            Monthly
+          </span>
+          <button
+            onClick={() => setBillingInterval(billingInterval === "monthly" ? "annually" : "monthly")}
+            className="relative w-14 h-7 bg-slate-200 rounded-full p-1 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          >
+            <div
+              className={`w-5 h-5 bg-white rounded-full shadow-sm transform transition-transform duration-200 ${billingInterval === "annually" ? "translate-x-7" : "translate-x-0"
+                }`}
+            />
+          </button>
+          <div className="flex items-center gap-2">
+            <span className={`text-sm font-medium ${billingInterval === "annually" ? "text-slate-900" : "text-slate-500"}`}>
+              Annually
+            </span>
+            <Badge variant="secondary" className="bg-green-50 text-green-700 border-green-100 text-[10px] py-0 px-2 font-bold uppercase tracking-wider">
+              Save 20%
+            </Badge>
+          </div>
+        </div>
 
         {/* Pricing Card */}
         <div className="max-w-md mx-auto relative z-10">
@@ -52,11 +88,11 @@ const Pricing = () => {
                 Boopsign PRO
               </Badge>
               <div className="flex items-baseline justify-center gap-1 mb-4">
-                <span className="text-6xl font-black tracking-tighter text-slate-900">$15</span>
+                <span className="text-6xl font-black tracking-tighter text-slate-900">${prices[billingInterval]}</span>
                 <span className="text-xl text-slate-500 font-medium tracking-tight">/month</span>
               </div>
               <CardDescription className="text-lg text-slate-700 font-semibold mb-2">
-                Unlimited documents • No per-signer fees
+                {billingInterval === "annually" ? "$144 billed annually" : "Unlimited documents • No per-signer fees"}
               </CardDescription>
               <CardDescription className="text-sm text-slate-400 font-medium">
                 7-day free trial. Cancel anytime.
@@ -92,7 +128,11 @@ const Pricing = () => {
                   </Link>
                 </Button>
               ) : (
-                <CheckoutButton className="w-full h-14 text-lg font-semibold shadow-xl shadow-blue-600/20 transition-all hover:-translate-y-1 hover:shadow-blue-600/30 rounded-xl bg-blue-600 hover:bg-blue-700 text-white">
+                <CheckoutButton
+                  productId={productIds[billingInterval]}
+                  interval={billingInterval}
+                  className="w-full h-14 text-lg font-semibold shadow-xl shadow-blue-600/20 transition-all hover:-translate-y-1 hover:shadow-blue-600/30 rounded-xl bg-blue-600 hover:bg-blue-700 text-white"
+                >
                   {isTrialActive ? "Upgrade to Pro" : "Start 7-Day Free Trial"}
                 </CheckoutButton>
               )}
@@ -106,6 +146,7 @@ const Pricing = () => {
           </Card>
         </div>
       </div>
+
 
       {/* Comparison Section */}
       <div className="container mx-auto px-4 py-24 text-center">

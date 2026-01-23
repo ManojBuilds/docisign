@@ -62,6 +62,7 @@ http.route({
       const { data, type } = payload;
 
       const clerkId = data.metadata?.clerkId;
+      const interval = data.metadata?.interval as "monthly" | "annually" | undefined;
       const subscriptionId = data.subscription_id;
       const customerId = data.customer.customer_id;
       const email = data.customer.email;
@@ -109,6 +110,7 @@ http.route({
       await ctx.runMutation(internal.users.updateSubscriptionStatusInternal, {
         clerkId,
         subscriptionStatus: status,
+        billingInterval: interval,
         dodoSubscriptionId: subscriptionId,
         dodoCustomerId: customerId,
       });

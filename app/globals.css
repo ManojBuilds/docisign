@@ -7,6 +7,8 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  font-size: 106.25%;
+  /* Increases base font size from 16px to 17px */
   --background: oklch(0.9940 0 0);
   --foreground: oklch(0 0 0);
   --card: oklch(0.9940 0 0);

@@ -27,21 +27,21 @@ const personalities: Personality[] = [
     name: "Sharp & Creative",
     description: "Unreadable letters (Qwigley)",
     fontFamily: '"Qwigley", cursive',
-    style: { fontFamily: '"Qwigley", cursive', fontSize: "3.5rem" }
+    style: { fontFamily: '"Qwigley", cursive', fontSize: "clamp(1.5rem, 10vw, 3.5rem)" }
   },
   {
     id: "readable",
     name: "Clean & Elegant",
     description: "Easy to read (Pinyon Script)",
     fontFamily: '"Pinyon Script", cursive',
-    style: { fontFamily: '"Pinyon Script", cursive', fontSize: "2.5rem" }
+    style: { fontFamily: '"Pinyon Script", cursive', fontSize: "clamp(1.5rem, 8vw, 2.5rem)" }
   },
   {
     id: "underline",
     name: "Proud & Energetic",
     description: "With underline (Sacramento)",
     fontFamily: '"Sacramento", cursive',
-    style: { fontFamily: '"Sacramento", cursive', fontSize: "2.5rem", textDecoration: "underline", textDecorationThickness: "2px", textUnderlineOffset: "6px" },
+    style: { fontFamily: '"Sacramento", cursive', fontSize: "clamp(1.5rem, 8vw, 2.5rem)", textDecoration: "underline", textDecorationThickness: "2px", textUnderlineOffset: "6px" },
     canvasUnderline: true
   },
   {
@@ -49,7 +49,7 @@ const personalities: Personality[] = [
     name: "Ambitious",
     description: "Upward angle (Caveat)",
     fontFamily: '"Caveat", cursive',
-    style: { fontFamily: '"Caveat", cursive', fontSize: "2.5rem", transform: "rotate(-10deg)" },
+    style: { fontFamily: '"Caveat", cursive', fontSize: "clamp(1.5rem, 8vw, 2.5rem)", transform: "rotate(-10deg)" },
     canvasRotate: -10
   },
   {
@@ -57,7 +57,7 @@ const personalities: Personality[] = [
     name: "Friendly",
     description: "Slanted (Dancing Script)",
     fontFamily: '"Dancing Script", cursive',
-    style: { fontFamily: '"Dancing Script", cursive', fontSize: "2.5rem", transform: "skewX(-10deg)" },
+    style: { fontFamily: '"Dancing Script", cursive', fontSize: "clamp(1.5rem, 8vw, 2.5rem)", transform: "skewX(-10deg)" },
     canvasSkew: -10
   },
   {
@@ -65,98 +65,98 @@ const personalities: Personality[] = [
     name: "Bold & Confident",
     description: "Nickname style (Kaushan Script)",
     fontFamily: '"Kaushan Script", cursive',
-    style: { fontFamily: '"Kaushan Script", cursive', fontSize: "2.5rem" }
+    style: { fontFamily: '"Kaushan Script", cursive', fontSize: "clamp(1.5rem, 8vw, 2.5rem)" }
   },
   {
     id: "digital",
     name: "Digital Signature",
     description: "DocuSign Style (Zeyada)",
     fontFamily: '"Zeyada", cursive',
-    style: { fontFamily: '"Zeyada", cursive', fontSize: "3rem" }
+    style: { fontFamily: '"Zeyada", cursive', fontSize: "clamp(1.5rem, 10vw, 3rem)" }
   },
   {
     id: "formal",
     name: "Formal",
     description: "Classic (Great Vibes)",
     fontFamily: '"Great Vibes", cursive',
-    style: { fontFamily: '"Great Vibes", cursive', fontSize: "2.5rem" }
+    style: { fontFamily: '"Great Vibes", cursive', fontSize: "clamp(1.5rem, 8vw, 2.5rem)" }
   },
   {
     id: "refined",
     name: "Refined",
     description: "Elegant (Allison)",
     fontFamily: '"Allison", cursive',
-    style: { fontFamily: '"Allison", cursive', fontSize: "3.5rem" }
+    style: { fontFamily: '"Allison", cursive', fontSize: "clamp(1.5rem, 12vw, 3.5rem)" }
   },
   {
     id: "flamboyant",
     name: "Flamboyant",
     description: "Fancy Caps (Bilbo Swash Caps)",
     fontFamily: '"Bilbo Swash Caps", cursive',
-    style: { fontFamily: '"Bilbo Swash Caps", cursive', fontSize: "3rem" }
+    style: { fontFamily: '"Bilbo Swash Caps", cursive', fontSize: "clamp(1.5rem, 10vw, 3rem)" }
   },
   {
     id: "brushwork",
     name: "Brushwork",
     description: "Artistic (Comforter Brush)",
     fontFamily: '"Comforter Brush", cursive',
-    style: { fontFamily: '"Comforter Brush", cursive', fontSize: "2.8rem" }
+    style: { fontFamily: '"Comforter Brush", cursive', fontSize: "clamp(1.5rem, 9vw, 2.8rem)" }
   },
   {
     id: "eccentric",
     name: "Eccentric",
     description: "Unique (Dr Sugiyama)",
     fontFamily: '"Dr Sugiyama", cursive',
-    style: { fontFamily: '"Dr Sugiyama", cursive', fontSize: "3rem" }
+    style: { fontFamily: '"Dr Sugiyama", cursive', fontSize: "clamp(1.5rem, 10vw, 3rem)" }
   },
   {
     id: "whimsical",
     name: "Whimsical",
     description: "Playful (Fuggles)",
     fontFamily: '"Fuggles", cursive',
-    style: { fontFamily: '"Fuggles", cursive', fontSize: "3rem" }
+    style: { fontFamily: '"Fuggles", cursive', fontSize: "clamp(1.5rem, 10vw, 3rem)" }
   },
   {
     id: "calligraphic",
     name: "Calligraphic",
     description: "Expressive (Liu Jian Mao Cao)",
     fontFamily: '"Liu Jian Mao Cao", cursive',
-    style: { fontFamily: '"Liu Jian Mao Cao", cursive', fontSize: "3rem" }
+    style: { fontFamily: '"Liu Jian Mao Cao", cursive', fontSize: "clamp(1.5rem, 10vw, 3rem)" }
   },
   {
     id: "classic-bold",
     name: "Classic Bold",
     description: "Strong (Montez)",
     fontFamily: '"Montez", cursive',
-    style: { fontFamily: '"Montez", cursive', fontSize: "2.8rem" }
+    style: { fontFamily: '"Montez", cursive', fontSize: "clamp(1.5rem, 9vw, 2.8rem)" }
   },
   {
     id: "aristocratic",
     name: "Aristocratic",
     description: "High Society (Mrs Saint Delafield)",
     fontFamily: '"Mrs Saint Delafield", cursive',
-    style: { fontFamily: '"Mrs Saint Delafield", cursive', fontSize: "3rem" }
+    style: { fontFamily: '"Mrs Saint Delafield", cursive', fontSize: "clamp(1.5rem, 10vw, 3rem)" }
   },
   {
     id: "dreamy",
     name: "Dreamy",
     description: "Casual (Over the Rainbow)",
     fontFamily: '"Over the Rainbow", cursive',
-    style: { fontFamily: '"Over the Rainbow", cursive', fontSize: "2.5rem" }
+    style: { fontFamily: '"Over the Rainbow", cursive', fontSize: "clamp(1.5rem, 8vw, 2.5rem)" }
   },
   {
     id: "notebook",
     name: "Notebook",
     description: "Ballpoint (Reenie Beanie)",
     fontFamily: '"Reenie Beanie", cursive',
-    style: { fontFamily: '"Reenie Beanie", cursive', fontSize: "2.8rem" }
+    style: { fontFamily: '"Reenie Beanie", cursive', fontSize: "clamp(1.5rem, 9vw, 2.8rem)" }
   },
   {
     id: "modern-script",
     name: "Modern Script",
     description: "Stylish (Style Script)",
     fontFamily: '"Style Script", cursive',
-    style: { fontFamily: '"Style Script", cursive', fontSize: "3rem" }
+    style: { fontFamily: '"Style Script", cursive', fontSize: "clamp(1.5rem, 10vw, 3rem)" }
   }
 ];
 
@@ -201,8 +201,8 @@ export default function OnlineSignatureCreator() {
     const metrics = ctx.measureText(finalVal);
 
     // Increase padding for rotation/skew
-    canvas.width = metrics.width + 250;
-    canvas.height = 300;
+    canvas.width = metrics.width + 50;
+    canvas.height = 120;
 
     // Fill transparent background
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -329,7 +329,7 @@ export default function OnlineSignatureCreator() {
                     className="group relative bg-white border border-slate-100 rounded-2xl p-4 hover:shadow-lg hover:border-blue-100 transition-all duration-300 flex flex-col md:flex-row items-center gap-6"
                   >
                     <div className="flex-1 w-full bg-slate-50/50 rounded-xl h-32 md:h-40 flex items-center justify-center overflow-hidden relative px-8">
-                      <div className="w-full overflow-x-auto no-scrollbar flex items-center justify-center">
+                      <div className="w-full overflow-hidden flex items-center justify-center">
                         <span
                           className="text-4xl md:text-6xl text-slate-800 whitespace-nowrap px-4 pb-2"
                           style={p.style}
