@@ -43,11 +43,11 @@ export default function Welcome({
         <Text className="m-0 text-[12px] font-semibold uppercase tracking-wider text-muted mb-4 opacity-70">
           Getting Started is Easy:
         </Text>
-        <div className="flex flex-col gap-4">
-          <Text className="m-0 text-[14px] text-black">
+        <div>
+          <Text className="m-0 mb-4 text-[14px] text-black">
             <strong>1. Upload:</strong> Drag and drop any document.
           </Text>
-          <Text className="m-0 text-[14px] text-black">
+          <Text className="m-0 mb-4 text-[14px] text-black">
             <strong>2. Place Fields:</strong> Add signature and text fields for
             your signers.
           </Text>

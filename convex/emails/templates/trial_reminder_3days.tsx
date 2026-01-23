@@ -38,11 +38,11 @@ export default function TrialReminder3Days({
         <Text className="m-0 text-[12px] font-semibold uppercase tracking-wider text-muted mb-4 opacity-70">
           By upgrading, you'll keep:
         </Text>
-        <div className="flex flex-col gap-2">
-          <Text className="m-0 text-[13px] text-black">
+        <div>
+          <Text className="m-0 mb-2 text-[13px] text-black">
             ✓ Seamlessly send unlimited signature requests
           </Text>
-          <Text className="m-0 text-[13px] text-black">
+          <Text className="m-0 mb-2 text-[13px] text-black">
             ✓ Access all documents created during your trial
           </Text>
           <Text className="m-0 text-[13px] text-black">

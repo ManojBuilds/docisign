@@ -43,11 +43,11 @@ export default function TrialReminder1Day({
         <Text className="m-0 text-[12px] font-semibold uppercase tracking-wider text-red-600 mb-4 opacity-70">
           After your trial ends:
         </Text>
-        <div className="flex flex-col gap-2">
-          <Text className="m-0 text-[13px] text-red-800">
+        <div>
+          <Text className="m-0 mb-2 text-[13px] text-red-800">
             • You won't be able to send new signature requests.
           </Text>
-          <Text className="m-0 text-[13px] text-red-800">
+          <Text className="m-0 mb-2 text-[13px] text-red-800">
             • Access to your saved documents will be paused.
           </Text>
           <Text className="m-0 text-[13px] text-red-800">
