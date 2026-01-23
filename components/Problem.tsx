@@ -33,18 +33,18 @@ export function Problem() {
         <div className="flex flex-col items-center justify-center space-y-6 text-center mb-20 md:mb-32">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-100 text-red-600 text-xs font-medium uppercase tracking-wider mb-2">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
-            The Problem with DocuSign
+            Stop the "Chasing Signatures" dance
           </div>
 
           <div className="space-y-4 max-w-4xl">
             <h2 className="text-4xl md:text-6xl font-semibold tracking-tight text-slate-900 leading-[1.1]">
-              Stop losing clients to <br className="hidden md:block" />
-              <Highlighter action="underline" color="#3b82f6" strokeWidth={3} isView>
-                <span className="text-blue-600">login screens.</span>
+              Legacy software is killing <br className="hidden md:block" />
+              your <Highlighter action="underline" color="#3b82f6" strokeWidth={3} isView>
+                <span className="text-blue-600">billable hours.</span>
               </Highlighter>
             </h2>
             <p className="text-slate-500 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed pt-2">
-              Complex software creates friction. Friction kills deals. Boopsign removes the barriers so you can <strong>get signed and paid faster.</strong>
+              Forcing clients to create accounts and reset passwords is a deal-killer. Boopsign removes the gatekeepers so you can <strong>get back to work.</strong>
             </p>
           </div>
         </div>

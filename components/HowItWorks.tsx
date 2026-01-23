@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { Check, Send, Upload } from "lucide-react";
+import { Check } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 
 interface HowItWorksProps {
     heading?: string;
@@ -12,92 +13,105 @@ interface HowItWorksProps {
     };
     steps?: {
         number: string;
-        icon: React.ReactNode;
         title: string;
         description: string;
+        image: string;
+        color: string;
     }[];
 }
 
 const HowItWorks = ({
     button = {
-        text: "Try Boopsign Free for 7 Days",
+        text: "Try Boopsign Free",
         url: "/dashboard",
     },
     steps = [
         {
             number: "01",
-            icon: <Upload className="size-6 text-blue-600" />,
-            title: "Upload document",
-            description: "Drop your PDF or Word file manually. We handle the formatting and conversion automatically."
+            title: "Upload & Place Fields",
+            description: "Drop your PDF and drag signature fields exactly where you need them. It's faster than printing and scanning.",
+            image: "/screenshots/step1.png",
+            color: "bg-blue-600"
         },
         {
             number: "02",
-            icon: <Send className="size-6 text-orange-600" />,
-            title: "Add signature fields",
-            description: "Click anywhere to place signature, initials, or date fields. Assigned to your signers with one click."
+            title: "Clients Sign Anywhere",
+            description: "Your clients get a secure link and sign beautifully on any device. No app downloads or accounts needed.",
+            image: "/screenshots/sign-mobile.png",
+            color: "bg-orange-600"
         },
         {
             number: "03",
-            icon: <Check className="size-6 text-green-600" />,
-            title: "Send & get signed",
-            description: "Clients sign instantly from their inbox. You get notified the second the deal is closed. Zero friction."
+            title: "Deal Closed Instantly",
+            description: "Receive a notification the second it's signed. Everyone gets a legally binding copy automatically.",
+            image: "/screenshots/dashboard.png",
+            color: "bg-green-600"
         }
     ]
 }: HowItWorksProps) => {
     return (
-        <section id="how-it-works" className="py-24 md:py-32 bg-slate-50/50">
+        <section id="how-it-works" className="py-24 md:py-32 bg-white">
             <div className="container mx-auto px-4">
                 {/* Header */}
                 <div className="text-center mb-16 md:mb-24">
                     <div className="mx-auto flex max-w-4xl flex-col gap-4">
                         <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-slate-900">
-                            Send Contracts in <span className="text-blue-600 underline decoration-blue-500/20">Seconds</span>, Not Minutes
+                            The Simplest Way to <span className="text-blue-600">Close Deals</span>
                         </h2>
                         <p className="text-slate-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-                            Stop wasting hours on paperwork. Boopsign is designed for speed, so you can spend more time on billable work.
+                            Stop chasing signatures. Boopsign handles the heavy lifting so you can focus on your work.
                         </p>
                     </div>
                 </div>
 
-                {/* Steps with Glassmorphism */}
-                <div className="mx-auto max-w-6xl">
-                    <div className="grid gap-8 md:grid-cols-3">
+                {/* Steps Grid */}
+                <div className="mx-auto max-w-7xl">
+                    <div className="grid gap-12 lg:grid-cols-3">
                         {steps.map((step, index) => (
-                            <div key={index} className="group relative flex flex-col p-8 bg-white border border-slate-200 rounded-3xl hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-                                {/* Step Number Badge */}
-                                <div className="absolute top-4 right-4 text-xs font-semibold text-slate-300 group-hover:text-blue-200 transition-colors">
-                                    STEP {step.number}
-                                </div>
-
-                                {/* Icon Bagde */}
-                                <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-50 border border-slate-100 group-hover:bg-blue-50 group-hover:border-blue-100 transition-colors">
-                                    {step.icon}
+                            <div key={index} className="flex flex-col group">
+                                {/* Image Container with "Float" effect */}
+                                <div className="mb-8 relative aspect-video rounded-3xl overflow-hidden bg-slate-100 border border-slate-200 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] group-hover:-translate-y-2">
+                                    <Image
+                                        src={step.image}
+                                        alt={step.title}
+                                        fill
+                                        className={"object-cover"}
+                                    />
+                                    {/* Step Number Overlay */}
+                                    <div className={`absolute top-4 left-4 ${step.color} text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg`}>
+                                        STEP {step.number}
+                                    </div>
                                 </div>
 
                                 {/* Content */}
-                                <h3 className="mb-3 text-xl font-semibold text-slate-900">
-                                    {step.title}
-                                </h3>
-                                <p className="text-slate-500 leading-relaxed text-sm md:text-base">
-                                    {step.description}
-                                </p>
+                                <div className="px-2">
+                                    <h3 className="mb-3 text-2xl font-bold text-slate-900">
+                                        {step.title}
+                                    </h3>
+                                    <p className="text-slate-500 leading-relaxed text-base">
+                                        {step.description}
+                                    </p>
+                                </div>
                             </div>
                         ))}
                     </div>
                 </div>
 
                 {/* Secondary Bottom CTA */}
-                <div className="text-center mt-16 md:mt-24">
-                    <div className="inline-flex flex-col items-center p-8 bg-white rounded-3xl border border-blue-100 max-w-2xl mx-auto">
-                        <p className="text-lg text-slate-700 mb-6 font-medium">
-                            The fastest workflow for freelance contracts. Period.
+                <div className="text-center mt-20 md:mt-32">
+                    <div className="inline-flex flex-col items-center p-10 bg-slate-50 rounded-[3rem] border border-slate-200 max-w-3xl mx-auto">
+                        <h4 className="text-2xl font-bold text-slate-900 mb-4">Ready to save hours of paperwork?</h4>
+                        <p className="text-lg text-slate-600 mb-8 max-w-lg">
+                            Join thousands of freelancers who use Boopsign to get paid faster.
                         </p>
-                        <Button asChild size="lg" className="h-12 px-8 text-base">
+                        <Button asChild size="lg" className="h-14 px-10 text-lg rounded-full font-semibold px-8 bg-blue-600 hover:bg-blue-700">
                             <Link href={button.url}>{button.text}</Link>
                         </Button>
-                        <p className="text-xs text-slate-400 mt-4 font-medium flex items-center gap-2">
-                            <Check className="size-3 text-green-500" /> No credit card required • <Check className="size-3 text-green-500" /> Cancel anytime
-                        </p>
+                        <div className="mt-6 flex items-center gap-6 text-xs flex-wrap md:text-sm text-slate-400 font-medium">
+                            <span className="flex items-center gap-1.5"><Check className="size-4 text-green-500" /> Free Trial</span>
+                            <span className="flex items-center gap-1.5"><Check className="size-4 text-green-500" /> No CC Needed</span>
+                            <span className="flex items-center gap-1.5"><Check className="size-4 text-green-500" /> Legal Compliance</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,3 +120,4 @@ const HowItWorks = ({
 };
 
 export default HowItWorks;
+

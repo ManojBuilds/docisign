@@ -1,5 +1,4 @@
 import { Icon } from "./Icon";
-import { Highlighter } from "../ui/highlighter";
 
 interface CardItem {
   title: string;
@@ -20,9 +19,7 @@ export default function WhyUseSection({ title, description, cardItems }: WhyUseS
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-20">
           <h2 className="text-3xl md:text-5xl font-bold mb-6 text-slate-900 tracking-tight">
-            <Highlighter action="underline" color="#3b82f6" strokeWidth={2} iterations={1} isView>
-              {title}
-            </Highlighter>
+            {title}
           </h2>
           <p className="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
             {description}

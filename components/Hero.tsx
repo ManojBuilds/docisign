@@ -22,7 +22,7 @@ const Hero = () => {
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-slate-900 mb-8 max-w-5xl leading-tight">
           Super simple{" "}
           <Highlighter action="highlight" color="#dbeafe" iterations={1}>
-            e-signatures
+            signatures
           </Highlighter>
           <br />
           <span className="text-slate-900">for </span>
@@ -33,13 +33,13 @@ const Hero = () => {
         </h1>
 
         <p className="mt-2 text-xl sm:text-2xl text-slate-500 max-w-2xl leading-relaxed font-normal">
-          Create, send, and track <strong>legally binding</strong> contracts in seconds. <span className="text-slate-900 font-medium">No account required for signers.</span>
+          The fastest way to get your contracts signed. <span className="text-slate-900 font-medium">No accounts, no downloads, no "I forgot my password" emails.</span> Just professional signatures in seconds.
         </p>
 
         {/* Primary Action Area - Functional yet Beautiful */}
-        <div className="w-full max-w-3xl mt-12 relative z-10">
+        <div className="w-full max-w-4xl mt-12 relative z-10">
           {/* The Main Card */}
-          <div className="relative bg-white rounded-3xl p-3 shadow-[0_30px_100px_-20px_rgba(59,130,246,0.15)] ring-1 ring-slate-200 transition-all duration-500 hover:shadow-[0_40px_120px_-20px_rgba(59,130,246,0.2)]">
+          <div className="relative bg-white rounded-3xl p-3 shadow-[0_30px_100px_-20px_rgba(59,130,246,0.15)] ring-1 ring-slate-200 transition-all duration-500 hover:shadow-[0_40px_120px_-20px_rgba(59,130,246,0.2)] z-20">
             <div className="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 hover:bg-blue-50/30 hover:border-blue-300 transition-all duration-300">
               <DragAndClickUpload />
             </div>
