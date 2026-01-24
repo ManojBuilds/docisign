@@ -11,7 +11,7 @@ import { api } from "@/convex/_generated/api";
 import { computeFileHash } from "@/lib/crypto";
 import { replaceVariablesInDocx } from "@/lib/process-template";
 import { PENDING_DOC_KEY } from "@/lib/utils";
-import { allContracts as allTemplates } from "content-collections";
+import { BASE_TEMPLATES } from "@/lib/seo/base-templates";
 import posthog from "posthog-js";
 
 interface UseTemplateUploadProps {
@@ -35,9 +35,9 @@ export function useTemplateUpload({
     api.templates.createDocumentFromTemplate
   );
 
-  // Check if template has variables defined
-  const template = allTemplates.find((t) => t.slug === templateId);
-  const hasVariables = !!(template?.variables && (template.variables as any[]).length > 0);
+  // Find template from BASE_TEMPLATES
+  const template = BASE_TEMPLATES.find((t) => t.slug === templateId);
+  const hasVariables = false; // New system doesn't use MDX variables
   const downloadUrl = template?.docUrl;
 
   const docToPdf = useAction(api.conversion.docToPdfConversion);

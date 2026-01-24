@@ -1,9 +1,10 @@
 import {
   allComparisons,
   allLandingPages,
-  allPosts,
-  allContracts
+  allPosts
 } from "content-collections";
+import { FREELANCE_ROLES } from "@/lib/seo/freelancer-roles";
+import { BASE_TEMPLATES } from "@/lib/seo/base-templates";
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -127,16 +128,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     }));
 
-  // Dynamic Templates
-  const templateRoutes: MetadataRoute.Sitemap = allContracts.map((template) => ({
-    url: `${baseUrl}${template.url}`,
-    lastModified: new Date(template.date) || defaultLastModified,
-    changeFrequency: "weekly",
-    priority: 0.9,
-  }));
-
   // Dynamic Landing Pages
-  // Note: Landing pages are often at root level or specific paths defined in the file
   const landingPageRoutes: MetadataRoute.Sitemap = allLandingPages.map((page) => ({
     url: `${baseUrl}${page.url}`,
     lastModified: new Date(page.date) || defaultLastModified,
@@ -152,11 +144,44 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.9,
   }));
 
+  // 1. Base Template Pages (e.g. /contracts/consulting-agreement)
+  const templateRoutes: MetadataRoute.Sitemap = BASE_TEMPLATES.map((template) => ({
+    url: `${baseUrl}/contracts/${template.slug}`,
+    lastModified: defaultLastModified,
+    changeFrequency: "weekly",
+    priority: 0.9,
+  }));
+
+  // 2. Freelance Role Hubs (e.g. /contracts/freelance/designer)
+  const roleHubRoutes: MetadataRoute.Sitemap = FREELANCE_ROLES.map((role) => ({
+    url: `${baseUrl}/contracts/freelance/${role.slug}`,
+    lastModified: defaultLastModified,
+    changeFrequency: "weekly",
+    priority: 0.85,
+  }));
+
+  // 3. Matrix Combination Pages (e.g. /contracts/consulting-agreement/for-designer)
+  const matrixRoutes: MetadataRoute.Sitemap = [];
+  BASE_TEMPLATES.forEach((template) => {
+    FREELANCE_ROLES.forEach((role) => {
+      // Only include if it makes sense contextually, or include all for max SEO surface area.
+      // For now, including all compatible combinations is a safe bet for coverage.
+      matrixRoutes.push({
+        url: `${baseUrl}/contracts/${template.slug}/for-${role.slug}`,
+        lastModified: defaultLastModified,
+        changeFrequency: "monthly",
+        priority: 0.7,
+      });
+    });
+  });
+
   return [
     ...staticRoutes,
     ...blogRoutes,
-    ...templateRoutes,
     ...landingPageRoutes,
     ...comparisonRoutes,
+    ...templateRoutes,
+    ...roleHubRoutes,
+    ...matrixRoutes,
   ];
 }

@@ -1,8 +1,8 @@
-import { allContracts } from "content-collections";
+import { BASE_TEMPLATES } from "@/lib/seo/base-templates";
 import { ArrowLeft, CheckCircle, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
-import { TemplateActionButton } from "./TemplateActionButton";
+// import { TemplateActionButton } from "./TemplateActionButton";
 import { TemplateDownloadButtons } from "./TemplateDownloadButtons";
 
 interface TemplatePageHeaderProps {
@@ -20,7 +20,7 @@ export function TemplatePageHeader({
   backgroundImage = "/noise.png",
   templateId,
 }: TemplatePageHeaderProps) {
-  const template = templateId ? allContracts.find((t: any) => t.slug === templateId) : null;
+  const template = templateId ? BASE_TEMPLATES.find((t) => t.slug === templateId) : null;
   const docUrl = template?.docUrl;
 
   return (
@@ -69,13 +69,14 @@ export function TemplatePageHeader({
           </p>
 
           <div className="flex flex-col items-center gap-6 mb-12">
-            {templateId && (
+            {/* Temporarily hidden - will be re-enabled when backend is ready */}
+            {/* {templateId && (
               <TemplateActionButton
                 templateId={templateId}
                 templateTitle={title}
                 className="w-full max-w-sm"
               />
-            )}
+            )} */}
 
             {templateId && (
               <TemplateDownloadButtons

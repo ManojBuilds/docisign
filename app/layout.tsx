@@ -106,6 +106,12 @@ export default function RootLayout({
         <link rel="preconnect" href="https://cdn.jsdelivr.net" />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@vetixy/circular-std@1.0.0/dist/index.min.css" />
         <link rel="canonical" href="https://boopsign.com" />
+        <meta name="theme-color" content="#2563eb" />
+        <meta name="application-name" content="Boopsign" />
+        <meta name="msapplication-TileColor" content="#2563eb" />
+        <meta property="og:site_name" content="Boopsign" />
+        <meta property="og:locale" content="en_US" />
+        <meta name="twitter:site" content="@Boopsign" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -113,14 +119,26 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
               name: "Boopsign",
+              image: "https://boopsign.com/icon-192x192.png",
               applicationCategory: "BusinessApplication",
               operatingSystem: "Web, iOS, Android",
-              offers: {
+              offers: [{
                 "@type": "Offer",
-                price: "15",
+                price: "15.00",
                 priceCurrency: "USD",
                 priceValidUntil: "2026-12-31",
-              },
+                availability: "https://schema.org/InStock",
+                url: "https://boopsign.com/pricing",
+                name: "Monthly Plan"
+              }, {
+                "@type": "Offer",
+                price: "12.00",
+                priceCurrency: "USD",
+                priceValidUntil: "2026-12-31",
+                availability: "https://schema.org/InStock",
+                url: "https://boopsign.com/pricing",
+                name: "Annual Plan (billed yearly)"
+              }],
               aggregateRating: {
                 "@type": "AggregateRating",
                 ratingValue: "5",
@@ -140,6 +158,14 @@ export default function RootLayout({
               audience: {
                 "@type": "Audience",
                 audienceType: "Freelancers, Consultants, Small Businesses"
+              },
+              publisher: {
+                "@type": "Organization",
+                name: "Boopsign",
+                logo: {
+                  "@type": "ImageObject",
+                  url: "https://boopsign.com/logo.png"
+                }
               }
             }),
           }}

@@ -1,57 +1,71 @@
-import { TemplatesHub } from "@/components/templates/TemplatesHub";
-import { allContracts } from "content-collections";
-import { BadgeCheck, Check, Shield, SignatureIcon, Zap } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { BASE_TEMPLATES } from "@/lib/seo/base-templates";
+import { FREELANCE_ROLES } from "@/lib/seo/freelancer-roles";
 import Link from "next/link";
+import { Metadata } from "next";
+import { TemplateMatrixHub } from "@/components/templates/TemplateMatrixHub";
+import { BadgeCheck, Check, Shield, Zap } from "lucide-react";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Free Contract Templates Library | Boopsign",
-  description: "Browse our collection of free, professionally drafted contract templates for freelancers, agencies, and small businesses. Edit and sign in minutes.",
+  description: "Browse 300+ free contract templates tailored for every freelance niche. From NDAs for writers to Retainers for developers. Download or sign online.",
+  alternates: {
+    canonical: "https://boopsign.com/contracts",
+  },
 };
 
-// Type for the internal template structure
-interface HubTemplateItem {
-  title: string;
-  desc: string;
-  href: string;
-  popular: boolean;
-}
-
-interface HubCategory {
-  category: string;
-  items: HubTemplateItem[];
-}
-
-// Convert templatesData Record into grouped categories for the hub
-const getDynamicTemplates = (): HubCategory[] => {
-  const allItems: HubTemplateItem[] = [];
-
-  allContracts.forEach((t: any) => {
-    allItems.push({
-      title: t.title,
-      desc: t.subtitle || t.description,
-      href: `/contracts/${t.slug}`,
-      popular: !!t.popular,
-    });
-  });
-
-  return [{
-    category: "All Contract Templates",
-    items: allItems.sort((a, b) => (a.popular === b.popular ? 0 : a.popular ? -1 : 1))
-  }];
-};
-
-
-export default async function ContractTemplatesHubPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const templates = getDynamicTemplates();
-  const params = await searchParams;
-
+export default function ContractTemplatesPage() {
   return (
     <main className="min-h-screen bg-white">
-      <TemplatesHub initialTemplates={templates} searchParams={params} />
+      {/* Hero Section */}
+      <section className="bg-slate-50 border-b border-slate-100 py-20 relative overflow-hidden">
+        <div className="container mx-auto px-4 max-w-5xl relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-12">
+            <Badge variant="outline" className="mb-6 bg-white border-blue-200 text-blue-700 px-4 py-1.5 rounded-full uppercase tracking-wider font-bold">
+              The Contract Library
+            </Badge>
+            <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight">
+              Contract Templates for <span className="text-blue-600">Every Niche</span>
+            </h1>
+            <p className="text-xl text-slate-600 leading-relaxed mb-8">
+              Don't use generic legal forms. We've built 300+ tailored agreements for specific freelance roles.
+              Find the perfect contract for your industry below.
+            </p>
+          </div>
+
+          {/* Stats Bar */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
+            <div className="text-center p-4">
+              <div className="text-2xl font-black text-slate-900">{BASE_TEMPLATES.length}</div>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">Doc Types</div>
+            </div>
+            <div className="text-center p-4 border-l border-slate-100">
+              <div className="text-2xl font-black text-slate-900">{FREELANCE_ROLES.length}</div>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">Niches</div>
+            </div>
+            <div className="text-center p-4 border-l border-slate-100">
+              <div className="text-2xl font-black text-slate-900">300+</div>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">Combinations</div>
+            </div>
+            <div className="text-center p-4 border-l border-slate-100">
+              <div className="text-2xl font-black text-slate-900">Free</div>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">Forever</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Decorative background elements */}
+        <div className="absolute top-0 right-0 size-96 bg-blue-100 rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 size-96 bg-amber-100 rounded-full blur-3xl opacity-50 translate-y-1/2 -translate-x-1/2" />
+      </section>
+
+      {/* Directory Section - NOW DYNAMIC */}
+      <section className="py-12 bg-slate-50/50">
+        <div className="container mx-auto px-4 max-w-7xl">
+          <TemplateMatrixHub />
+        </div>
+      </section>
 
       {/* Trusted By Section */}
       <section className="py-12 bg-white border-b border-slate-100">
@@ -130,6 +144,7 @@ export default async function ContractTemplatesHubPage({
           </div>
         </div>
       </section>
+
       {/* How It Works Section */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4 max-w-6xl">
@@ -189,51 +204,6 @@ export default async function ContractTemplatesHubPage({
         </div>
       </section>
 
-      {/* Featured Template Spotlight */}
-      <section className="py-24 bg-blue-50">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="flex flex-col md:flex-row items-center gap-12 bg-white rounded-[3rem] p-8 md:p-16 border border-blue-100 overflow-hidden relative">
-            <div className="absolute top-0 right-0 size-64 bg-blue-50 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-            <div className="flex-1 space-y-6 relative z-10">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-600 text-xs font-bold uppercase tracking-wider">
-                Featured Contract
-              </div>
-              <h2 className="text-3xl md:text-5xl font-black text-slate-900">Social Media Management Contract</h2>
-              <p className="text-lg text-slate-600 leading-relaxed">
-                Our most popular template for agencies and freelancers. Includes platform independence clauses, content approval workflows, and IP protection.
-              </p>
-              <div className="flex flex-wrap gap-4 pt-4">
-                <Link href="/contracts/social-media-management-contract" className="px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white rounded-xl font-bold transition-all shadow-lg shadow-blue-200">
-                  Get This Template
-                </Link>
-              </div>
-            </div>
-            <div className="flex-1 relative z-10">
-              <div className="aspect-[4/5] bg-slate-50 rounded-2xl border border-slate-200 p-8 transform rotate-2 hover:rotate-0 transition-transform duration-500">
-                <div className="space-y-4">
-                  <div className="h-4 w-3/4 bg-slate-200 rounded animate-pulse" />
-                  <div className="h-4 w-full bg-slate-100 rounded animate-pulse" />
-                  <div className="h-4 w-5/6 bg-slate-100 rounded animate-pulse" />
-                  <div className="space-y-2 pt-8">
-                    <div className="h-10 w-full border-b border-slate-200 flex items-end pb-2">
-                      <span className="text-[10px] text-slate-400 font-bold uppercase">Signer Name</span>
-                    </div>
-                    <div className="h-10 w-full border-b border-slate-200 flex items-end pb-2">
-                      <span className="text-[10px] text-slate-400 font-bold uppercase">Date</span>
-                    </div>
-                  </div>
-                  <div className="pt-12">
-                    <div className="aspect-video border-2 border-dashed border-blue-200 rounded-lg flex items-center justify-center text-blue-300">
-                      <SignatureIcon className="size-8" />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* FAQ Hub Section */}
       <section className="py-24 bg-slate-50 border-t border-slate-100">
         <div className="container mx-auto px-4 max-w-3xl">
@@ -266,23 +236,16 @@ export default async function ContractTemplatesHubPage({
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <div className="p-8 md:p-16 bg-sky-50 rounded-[2.5rem] text-center relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-            <div className="relative z-10">
-              <h2 className="text-3xl md:text-5xl font-black mb-6 text-slate-900">Stop wasting time on paperwork</h2>
-              <p className="text-xl text-slate-600 mb-10 max-w-2xl mx-auto">
-                Join 10,000+ professionals who use Boopsign to secure their business agreements in record time.
-              </p>
-              <div className="flex flex-wrap justify-center gap-4">
-                <Link href="/dashboard" className="px-8 py-4 bg-white text-blue-600 rounded-xl font-bold text-lg hover:bg-slate-50 transition-colors shadow-xl border border-blue-100">
-                  Create Your Free Account
-                </Link>
-              </div>
-            </div>
-          </div>
+      {/* Final SEO CTA */}
+      <section className="bg-slate-900 py-24 text-white">
+        <div className="container mx-auto px-4 text-center max-w-4xl">
+          <h2 className="text-3xl md:text-5xl font-black mb-6">Don't see your niche?</h2>
+          <p className="text-xl opacity-80 mb-10 max-w-2xl mx-auto">
+            Our legal team is constantly adding new roles. In the meantime, you can use our universal freelance contract which covers 95% of use cases.
+          </p>
+          <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 text-white rounded-xl h-14 px-8 text-lg font-bold shadow-lg shadow-blue-900/50">
+            <Link href="/contracts/independent-contractor-agreement">Get Universal Template</Link>
+          </Button>
         </div>
       </section>
     </main>

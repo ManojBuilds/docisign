@@ -49,6 +49,12 @@ export default async function LandingPageLayout({ params }: Props) {
 
   return (
     <div className="flex flex-col gap-16 md:gap-24 py-8 md:py-16">
+      {page.schema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(page.schema) }}
+        />
+      )}
       {/* Render structured content sections */}
       {page.hero && (
         <HeroSection

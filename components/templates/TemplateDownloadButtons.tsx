@@ -12,6 +12,7 @@ import posthog from "posthog-js";
 interface TemplateDownloadButtonsProps {
     templateId: string;
     docUrl?: string;
+    pdfUrl?: string;
     className?: string;
     buttonClassName?: string;
     stack?: boolean;
@@ -20,6 +21,7 @@ interface TemplateDownloadButtonsProps {
 export function TemplateDownloadButtons({
     templateId,
     docUrl,
+    pdfUrl,
     className,
     buttonClassName,
     stack = false,
@@ -64,37 +66,51 @@ export function TemplateDownloadButtons({
     };
 
     const handleDownloadPdf = async () => {
-        if (!docUrl) return;
+        if (!docUrl && !pdfUrl) return;
         setIsDownloadingPdf(true);
 
         try {
-            // Fetch the Word document first
-            const docResponse = await fetch(docUrl);
-            if (!docResponse.ok) throw new Error("Failed to fetch Word document");
+            if (pdfUrl) {
+                // Direct PDF download
+                const response = await fetch(pdfUrl);
+                if (!response.ok) throw new Error("Failed to fetch PDF");
+                const blob = await response.blob();
+                const downloadLink = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = downloadLink;
+                a.download = `${templateId}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else if (docUrl) {
+                // Fetch the Word document first
+                const docResponse = await fetch(docUrl);
+                if (!docResponse.ok) throw new Error("Failed to fetch Word document");
 
-            const arrayBuffer = await docResponse.arrayBuffer();
+                const arrayBuffer = await docResponse.arrayBuffer();
 
-            // Convert to PDF using Convex Action
-            const result = await docToPdf({
-                fileData: arrayBuffer
-            });
+                // Convert to PDF using Convex Action
+                const result = await docToPdf({
+                    fileData: arrayBuffer
+                });
 
-            if (!result || !result.fileUrl) throw new Error("Conversion failed");
-            const res = await fetch(result.fileUrl);
-            const blob = await res.blob();
-            const downloadLink = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = downloadLink;
-            a.download = `${templateId}.pdf`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+                if (!result || !result.fileUrl) throw new Error("Conversion failed");
+                const res = await fetch(result.fileUrl);
+                const blob = await res.blob();
+                const downloadLink = window.URL.createObjectURL(blob);
+                const a = document.createElement("a");
+                a.href = downloadLink;
+                a.download = `${templateId}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
 
-            posthog.capture("download_contract_as_pdf", {
-                contract: templateId,
-            })
+                posthog.capture("download_contract_as_pdf", {
+                    contract: templateId,
+                })
 
-            toast.success("PDF conversion and download started");
+                toast.success("PDF conversion and download started");
+            }
         } catch (error) {
             console.error("PDF conversion error:", error);
             toast.error("Failed to convert and download PDF");
@@ -107,40 +123,41 @@ export function TemplateDownloadButtons({
         <div className={cn("flex flex-col gap-4", className)}>
             <div className={cn("flex items-center gap-3", stack ? "flex-col w-full" : "flex-row justify-center")}>
                 {docUrl && (
-                    <>
-                        <Button
-                            variant="outline"
-                            size="lg"
-                            onClick={handleDownloadDoc}
-                            disabled={isDownloadingDoc}
-                            className={cn(stack && "w-full h-11", "text-sm border-slate-200 hover:bg-slate-50", buttonClassName)}
-                        >
-                            {isDownloadingDoc ? (
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                            ) : (
-                                <>
-                                    <Download className="mr-2 w-4 h-4" />
-                                    Download Word
-                                </>
-                            )}
-                        </Button>
-                        <Button
-                            variant="outline"
-                            size="lg"
-                            onClick={handleDownloadPdf}
-                            disabled={isDownloadingPdf}
-                            className={cn(stack && "w-full h-11", "text-sm border-slate-200 hover:bg-slate-50", buttonClassName)}
-                        >
-                            {isDownloadingPdf ? (
-                                <Loader2 className="w-4 h-4 animate-spin" />
-                            ) : (
-                                <>
-                                    <Download className="mr-2 w-4 h-4" />
-                                    Download PDF
-                                </>
-                            )}
-                        </Button>
-                    </>
+                    <Button
+                        variant="outline"
+                        size="lg"
+                        onClick={handleDownloadDoc}
+                        disabled={isDownloadingDoc}
+                        className={cn(stack && "w-full h-11", "text-sm border-slate-200 hover:bg-slate-50", buttonClassName)}
+                    >
+                        {isDownloadingDoc ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                            <>
+                                <Download className="mr-2 w-4 h-4" />
+                                Download Word
+                            </>
+                        )}
+                    </Button>
+                )}
+
+                {(docUrl || pdfUrl) && (
+                    <Button
+                        variant="outline"
+                        size="lg"
+                        onClick={handleDownloadPdf}
+                        disabled={isDownloadingPdf}
+                        className={cn(stack && "w-full h-11", "text-sm border-slate-200 hover:bg-slate-50", buttonClassName)}
+                    >
+                        {isDownloadingPdf ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                            <>
+                                <Download className="mr-2 w-4 h-4" />
+                                Download PDF
+                            </>
+                        )}
+                    </Button>
                 )}
             </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { VariableDialog } from "@/components/templates/VariableDialog";
+// import { VariableDialog } from "@/components/templates/VariableDialog";
 import { Button } from "@/components/ui/button";
 import { useTemplateUpload } from "@/hooks/useTemplateUpload";
 import { cn } from "@/lib/utils";
@@ -23,9 +23,9 @@ export function TemplateActionButton({
         isUploading,
         uploadProgress,
         handleQuickStart,
-        showVariableDialog,
-        setShowVariableDialog,
-        handleVariableSubmit,
+        // showVariableDialog,
+        // setShowVariableDialog,
+        // handleVariableSubmit,
         statusMessage,
     } = useTemplateUpload({
         templateId,
@@ -57,14 +57,14 @@ export function TemplateActionButton({
                 </Button>
             </div>
 
-            <VariableDialog
+            {/* <VariableDialog
                 open={showVariableDialog}
                 onOpenChange={setShowVariableDialog}
                 templateId={templateId}
                 onSubmit={handleVariableSubmit}
                 isProcessing={isUploading}
                 statusMessage={statusMessage}
-            />
+            /> */}
         </>
     );
 }

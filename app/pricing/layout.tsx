@@ -45,20 +45,37 @@ export default function PricingLayout({
             "@context": "https://schema.org",
             "@type": "Product",
             name: "Boopsign Electronic Signature Software",
-            image: "https://boopsign.com/images/og-pricing.jpg",
-            description: "Mobile-first electronic signature platform. Simple, transparent pricing.",
+            image: "https://boopsign.com/icon-192x192.png", // Using app icon as product image
+            description: "Mobile-first electronic signature platform",
             brand: {
               "@type": "Brand",
               name: "Boopsign"
             },
-            offers: {
+            offers: [{
               "@type": "Offer",
               url: "https://boopsign.com/pricing",
-              price: "20.00",
+              price: "15.00",
               priceCurrency: "USD",
               availability: "https://schema.org/InStock",
               priceValidUntil: "2026-12-31",
-            },
+              seller: {
+                "@type": "Organization",
+                name: "Boopsign"
+              },
+              name: "Monthly Plan"
+            }, {
+              "@type": "Offer",
+              url: "https://boopsign.com/pricing",
+              price: "12.00",
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+              priceValidUntil: "2026-12-31",
+              seller: {
+                "@type": "Organization",
+                name: "Boopsign"
+              },
+              name: "Annual Plan (billed yearly)"
+            }],
             aggregateRating: {
               "@type": "AggregateRating",
               ratingValue: "4.9",

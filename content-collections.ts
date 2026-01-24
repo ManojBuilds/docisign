@@ -134,6 +134,7 @@ const contracts = defineCollection({
     description: z.string(),
     date: z.coerce.date(),
     docUrl: z.string().optional(),
+    pdfUrl: z.string().optional(),
     previewImages: z.array(z.string()).optional(),
     category: z.string().optional(),
     subtitle: z.string().optional(),
@@ -177,6 +178,7 @@ const landingPages = defineCollection({
     comparisonTable: ComparisonTable.optional(),
     faqs: z.array(FAQ).optional(),
     seo: SEO.optional(),
+    schema: z.any().optional(),
   }),
   transform: async (document, context) => {
     const mdx = await compileMDX(context, document, {

@@ -10,12 +10,12 @@ const OUTPUT_DIR_POSTS = path.join(process.cwd(), 'content/blog');
 
 // Quality Standards
 const MINIMUM_REQUIREMENTS = {
-  wordCount: 600,
-  headings: 5,
-  internalLinks: 3,
+  wordCount: 800,
+  headings: 6,
+  internalLinks: 4,
   externalLinks: 1,
   images: 2,
-  faq: 4
+  faq: 5
 };
 
 // Ensure output directories exist
@@ -39,13 +39,7 @@ function validatePage(content: string, filename: string): boolean {
   const headings = (content.match(/^#{2,4} /gm) || []).length;
   const internalLinks = (content.match(/\[.*?\]\(\/.*?\)/g) || []).length;
   const externalLinks = (content.match(/\[.*?\]\(https?:\/\/.*?\)/g) || []).length; // simple check
-  // const images = (content.match(/!\[.*?\]\(.*?\)/g) || content.match(/image:/g) || []).length; // simplistic check including frontmatter
   const faqCount = (content.match(/question: "|### /g) || []).length; // rough estimate for FAQs
-
-  // console.log(`\nValidating ${filename}:`);
-  // console.log(`- Words: ${wordCount} / ${MINIMUM_REQUIREMENTS.wordCount}`);
-  // console.log(`- Headings: ${headings} / ${MINIMUM_REQUIREMENTS.headings}`);
-  // console.log(`- Int. Links: ${internalLinks} / ${MINIMUM_REQUIREMENTS.internalLinks}`);
 
   if (wordCount < MINIMUM_REQUIREMENTS.wordCount) {
     console.warn(`⚠️  Quality Warning (${filename}): Low word count (${wordCount})`);
@@ -244,7 +238,47 @@ You can add multiple signers to this document. Just click "Add Signer" in the pr
 - **Be specific with dates**: "Due in 2 weeks" is vague. "Due on October 15th" is clear.
 - **Reference your previous conversations**: Use the "Notes" section to reference any email threads or proposals.
 
-Ready to protect your business? [Get started with this template now](/contracts/${slug}).
+## Why a Professional Contract is Essential for ${industry.role}s
+
+In the **${industry.category}** industry, reputations are built on trust. However, trust should always be backed by a clear legal agreement. Many **${industry.role}** professionals rely on verbal agreements, but these often lead to the "he said, she said" style disputes that consume time and money.
+
+By using this professional **${docType.desc.toLowerCase()}**, you are:
+1.  **Establishing Professionalism**: Showing your client that you take your business—and their project—seriously.
+2.  **Setting Boundaries**: Clearly stating when you are available and what is outside the project's scope.
+3.  **Ensuring Compliance**: Our templates are updated for 2026 standards, ensuring your agreements are modern and enforceable.
+
+### Avoiding Common Disputes in ${industry.statValue}
+
+The most common dispute in **${industry.statValue}** projects is **${industry.painPoint}**. This usually happens because the initial scope was vague. When you use the Boopsign editor to customize this template, be as specific as possible. Instead of saying "deliver the project," say "deliver ${industry.deliverableExample}."
+
+### Legal Standards for E-Signatures in 2026
+
+Modern businesses no longer rely on physical scanners. Electronic signatures are the global standard. This contract is designed to work seamlessly with the Boopsign platform, which provides:
+- **Tampering Protection**: A digital seal that breaks if the document is altered.
+- **Detailed Audit Logs**: Capturing the intent of all parties involved.
+- **Immediate Access**: Both you and your client get a copy of the final ${docType.desc.toLowerCase()} as soon as it is signed.
+
+Don't let **${industry.painPoint}** derail your success. Join the thousands of **${industry.role}** professionals who use Boopsign to protect their work and get paid faster.
+
+## 5 Common Contract Pitfalls for ${industry.role}s
+
+Even with a great template, you need to be aware of common mistakes that can weaken your legal standing:
+
+1.  **Vague Payment Milestones**: Never just say "50% upfront." Link it to a specific action, like "50% upfront before starting research on ${industry.deliverableExample}."
+2.  **Forgetting Expense Reimbursement**: If you need to buy specific tools or software for a client, ensure the contract states they will reimburse you.
+3.  **Ambiguous Revision Windows**: Don't just limit revisions; set a time limit. For example, "Client has 48 hours to provide feedback on the ${industry.deliverableExample}."
+4.  **Ignoring the Governing Law**: Always specify which state's laws apply. This is usually your home state or the client's.
+5.  **Failure to Sign BEFORE Starting**: This is the #1 mistake. Never start work on a **${industry.statValue}** project without a signed agreement in your Boopsign dashboard.
+
+## Scaling Your ${industry.role} Business with Boopsign
+
+As you grow from a solo **${industry.role}** to an agency or a larger consultancy, your paperwork needs will double. High-volume businesses can't afford to manualize every deal.
+
+*   **Template Library**: Save your customized version of this **${docType.desc.toLowerCase()}** as a standard template in Boopsign.
+*   **Bulk Sending**: Need 10 clients to sign a new ${docType.desc.toLowerCase()}? Use our bulk features.
+*   **Real-time Insights**: See which clients are hesitant by tracking document "view time."
+
+[**Get Started with Boopsign Today**](/)
 `;
 };
 
@@ -642,6 +676,124 @@ If you are ready to handle your documents the modern way, give **Boopsign** a tr
 `;
 };
 
+const commonDocs = [
+  { name: "Non-Disclosure Agreement (NDA)", slug: "nda" },
+  { name: "Freelance Contract", slug: "freelance-contract" },
+  { name: "Rental Agreement", slug: "rental-agreement" },
+  { name: "LLC Operating Agreement", slug: "llc-operating-agreement" },
+  { name: "Service Agreement", slug: "service-agreement" }
+];
+
+const generateStateContractMDX = (state: typeof states[0], doc: typeof commonDocs[0]) => {
+  const title = `${state.name} ${doc.name} Template`;
+  const slug = `${state.slug}-${doc.slug}-template`;
+  const description = `Free ${state.name} ${doc.name.toLowerCase()} template. Fully compliant with ${state.law}. Download, edit, and e-sign legally in ${state.name}.`;
+
+  return `---
+title: "${title} | Free Download & E-Sign"
+description: "${description}"
+date: "${today}"
+docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguPzgVkmiFW6gqf8SA9UosI1PZnQc5tLJGb7dh"
+category: "State Contracts"
+seo:
+  title: "${title} | Boopsign"
+  description: "${description}"
+  keywords:
+    - "${state.name.toLowerCase()} ${doc.slug}"
+    - "${state.slug} ${doc.slug} template"
+    - "free ${doc.name.toLowerCase()} ${state.name.toLowerCase()}"
+    - "esignature ${state.name.toLowerCase()}"
+  canonical: "https://boopsign.com/contracts/${slug}"
+faqs:
+  - id: "faq-1"
+    question: "Is this ${doc.name} legally binding in ${state.name}?"
+    answer: "Yes. This template is designed to comply with ${state.law} and federal ESIGN regulations. When signed via Boopsign, it carries full legal weight in ${state.name}."
+  - id: "faq-2"
+    question: "Can I customize the terms for ${state.name} requirements?"
+    answer: "Absolutely. Our editor allows you to add state-specific clauses, local jurisdiction requirements, or any custom terms your business needs."
+  - id: "faq-3"
+    question: "Do I need a notary for a ${doc.name} in ${state.name}?"
+    answer: "For most business ${doc.name.toLowerCase()}s in ${state.name}, a digital signature with a proper audit trail (like Boopsign provides) is sufficient and a notary is not required."
+  - id: "faq-4"
+    question: "What makes a signature valid in ${state.name}?"
+    answer: "Under ${state.law}, a valid e-signature requires intent to sign, consent to do business electronically, an associated record, and retention by all parties."
+  - id: "faq-5"
+    question: "How do I send this to my client in ${state.name}?"
+    answer: "Upload the document, add your client's email, and place the signature fields. They will receive a secure link to sign on any device."
+---
+
+Need a professional **${doc.name}** in the state of **${state.name}**? You've come to the right place. 
+
+## Understanding ${doc.name} Laws in ${state.name}
+
+In **${state.name}**, ${doc.name.toLowerCase()}s are governed by both state statutes and the federal ESIGN Act. The primary state law ensuring your digital contracts are valid is the **${state.law}**.
+
+This means that a contract or signature cannot be denied legal effect simply because it is in electronic form. Whether you are in a major city or a rural area of ${state.name}, your digital agreements are as binding as paper.
+
+## Key Elements of this ${state.name} ${doc.name}
+
+Our template includes the necessary language to protect all parties involved in a **${state.name}** business transaction:
+
+1.  **Compliance with ${state.name} Law**: Drafted to align with the **${state.law}**.
+2.  **Clear Definitions**: Specifies the rights and obligations of each party clearly to avoid disputes in ${state.name} courts.
+3.  **Audit Trail Ready**: Designed to work with Boopsign's forensic-level audit logs (IP addresses, timestamps, and browser IDs).
+4.  **Mobile-Optimized**: Your ${state.name} clients can sign on the go, from their smartphone or tablet.
+
+## Why use an E-Signature for your ${state.name} Agreements?
+
+Traditional paper contracts are slow, expensive, and difficult to track. By using **Boopsign** for your **${state.name} ${doc.name.toLowerCase()}**, you benefit from:
+
+*   **Speed**: Most documents are signed in under an hour.
+*   **Security**: Bank-grade encryption keeps your ${state.name} business data safe.
+*   **Convenience**: No printing, scanning, or mailing required.
+*   **Proof**: A camper-evident seal is applied to every document once signed.
+
+## How to Get Started
+
+1.  **Download the Template**: Click the button above to get your custom **${state.name} ${doc.name}**.
+2.  **Customize**: Fill in your specific business details and the ${state.name} jurisdiction if necessary.
+3.  **Upload to Boopsign**: Create a free account and upload your PDF.
+4.  **Send & Sign**: Send it to your client. They sign instantly, and everyone gets a copy.
+
+## Deep Dive: Section-by-Section Breakdown
+
+When using this **${state.name} ${doc.name}**, it is important to understand what each section achieves under **${state.law}**.
+
+### 1. Parties and Jurisdiction
+This section defines exactly who is entering the agreement. In **${state.name}**, it is crucial to state that the agreement is governed by the laws of **${state.name}**. This ensures that if a dispute ever reaches a courtroom in cities like ${state.name}'s major hubs, the local statutes will apply.
+
+### 2. Scope of ${doc.name}
+This is where you define the "deliverables." Whether it's a ${doc.slug.replace(/-/g, ' ')} or a general service, being specific here prevents "scope creep." In **${state.name}**, courts look for the "meeting of the minds," and a detailed scope is the best evidence of that.
+
+### 3. Consideration (Payment)
+A contract is only valid if there is an exchange of value. This section outlines the payment terms. Using Boopsign, you can reference specific payment milestones that trigger when a document reaches the "partially signed" or "fully signed" status.
+
+### 4. Termination Clauses
+How does the deal end? This template includes standard ${state.name} termination language, allowing either party to exit the agreement under specific conditions (e.g., 30 days' notice) without legal penalty.
+
+## Avoid These 3 Common Mistakes in ${state.name} Contracts
+
+Running a business in **${state.name}** comes with its own set of legal hurdles. Here is how to avoid the most common pitfalls:
+
+### 1. Using Outdated "Wet Ink" Requirements
+Many businesses in **${state.name}** still think they need a physical signature for a ${doc.name.toLowerCase()} to be valid. This is a myth. Under the **${state.law}**, digital is the standard. Insisting on paper only slows your business down and increases overhead.
+
+### 2. Failing to Provide a Copy to All Parties
+In **${state.name}**, a contract is often unenforceable if one party wasn't given a final, signed version. Boopsign solves this by automatically emailing a "Sealed PDF" to every signer as soon as the last person hits "Finish."
+
+### 3. Vague Amendment Terms
+If you need to change your **${doc.name}** later, doing it over a phone call is dangerous. ${state.name} law prefers written amendments. Use Boopsign to send a quick "Addendum" or a revised version of the ${doc.name} to keep your paper trail clean.
+
+## The Future of Business in ${state.name}
+
+As **${state.name}** continues to grow as a hub for innovation and commerce, the shift to digital documentation is accelerating. From startup boardrooms to local service providers, ${doc.name.toLowerCase()}s are moving to the cloud. 
+
+By choosing Boopsign, you aren't just getting an e-signature tool; you're getting a partner in your **${state.name}** business growth. Our platform is built for speed, making sure that "sending the contract" is the easiest part of your day.
+
+[**Sign Your ${state.name} Template Today**](/)
+`;
+};
+
 const run = async () => {
   console.log('🚀 Starting SEO page generation with Quality Validation...');
   let count = 0;
@@ -729,8 +881,26 @@ const run = async () => {
     }
   }
 
+  // 6. Generate State-Specific Contracts (Combos)
+  console.log('\nGenerating State-Specific Contracts...');
+  for (const state of states) {
+    for (const doc of commonDocs) {
+      const filename = `${state.slug}-${doc.slug}-template.mdx`;
+      const content = generateStateContractMDX(state, doc);
+
+      if (validatePage(content, filename)) {
+        const filepath = path.join(OUTPUT_DIR_CONTRACTS, filename);
+        fs.writeFileSync(filepath, filepath.endsWith('.mdx') ? content : '');
+        fs.writeFileSync(filepath, content);
+        console.log(`✅ State Contract Combo: ${filename}`);
+        count++;
+      } else {
+        failCount++;
+      }
+    }
+  }
+
   console.log(`\n✨ Generation Complete: ${count} Success, ${failCount} Failed.`);
 };
 
 run().catch(console.error);
-

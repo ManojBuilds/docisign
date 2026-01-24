@@ -1,12 +1,10 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { allContracts } from "content-collections";
+import { BASE_TEMPLATES } from "@/lib/seo/base-templates";
 import { Check, FileSignature, Shield } from "lucide-react";
-import Link from "next/link";
-import { TemplateActionButton } from "./TemplateActionButton";
+// import { TemplateActionButton } from "./TemplateActionButton";
 import { TemplateDownloadButtons } from "./TemplateDownloadButtons";
 
 interface TemplateSidebarProps {
@@ -19,21 +17,26 @@ interface TemplateSidebarProps {
   className?: string;
   templateId?: string; // Optional: ID of template to load
   templateTitle?: string; // Optional: Default title for the document created from template
+  docUrl?: string; // Optional: Direct URL for DOC download/preview
+  pdfUrl?: string; // Optional: Direct URL for PDF download
 }
 
 export function TemplateSidebar({
   title,
   subtitle,
-  buttonText,
-  buttonLink = "/dashboard",
+  // buttonText,
+  // buttonLink = "/dashboard",
   features,
   stats,
   className,
   templateId,
-  templateTitle,
+  // templateTitle,
+  docUrl: propsDocUrl,
+  pdfUrl: propsPdfUrl,
 }: TemplateSidebarProps) {
-  const template = templateId ? allContracts.find((t: any) => t.slug === templateId) : null;
-  const docUrl = template?.docUrl;
+  const template = templateId ? BASE_TEMPLATES.find((t) => t.slug === templateId) : null;
+  const docUrl = propsDocUrl || template?.docUrl;
+  const pdfUrl = propsPdfUrl || template?.pdfUrl;
 
   return (
     <div className={cn("sticky top-24", className)}>
@@ -78,7 +81,8 @@ export function TemplateSidebar({
           )}
 
           <div className="space-y-3">
-            {templateId ? (
+            {/* Temporarily hidden - will be re-enabled when backend is ready */}
+            {/* {templateId ? (
               <TemplateActionButton
                 templateId={templateId}
                 templateTitle={templateTitle || title}
@@ -90,12 +94,13 @@ export function TemplateSidebar({
                   {buttonText || "Get Started"}
                 </Link>
               </Button>
-            )}
+            )} */}
 
             {templateId && (
               <TemplateDownloadButtons
                 templateId={templateId}
                 docUrl={docUrl}
+                pdfUrl={pdfUrl}
                 stack={true}
                 buttonClassName="bg-white text-slate-900 border-slate-200 hover:bg-slate-50 hover:text-slate-900"
               />

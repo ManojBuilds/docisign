@@ -121,6 +121,138 @@ export const industries: Industry[] = [
         deliverableExample: "iOS app source code and TestFlight build",
         ipClause: "Client owns the code upon final payment",
         statValue: "Development"
+    },
+    {
+        slug: "house-cleaning",
+        name: "House Cleaning Service",
+        role: "House Cleaner",
+        category: "Home Services",
+        painPoint: "clients adding extra rooms on the day of service",
+        solution: "lock in the room count and square footage in the contract",
+        deliverableExample: "standard cleaning of 3 bedrooms and 2 bathrooms",
+        ipClause: "Cleaner retains rights to use photos for marketing purposes",
+        statValue: "Home Services"
+    },
+    {
+        slug: "babysitter",
+        name: "Babysitter",
+        role: "Babysitter",
+        category: "Care Services",
+        painPoint: "parents returning home much later than agreed",
+        solution: "include a specific late pickup fee per 15 minutes",
+        deliverableExample: "evening childcare and bedtime routine",
+        ipClause: "Confidentiality regarding family privacy and home security",
+        statValue: "Childcare"
+    },
+    {
+        slug: "snow-removal",
+        name: "Snow Removal",
+        role: "Snow Removal Contractor",
+        category: "Maintenance",
+        painPoint: "confusion over when plowing actually triggers",
+        solution: "define a specific snowfall depth (e.g. 2 inches) for service",
+        deliverableExample: "driveway plowing and walkway salting",
+        ipClause: "Contractor not liable for pre-existing pavement cracks",
+        statValue: "Maintenance"
+    },
+    {
+        slug: "lawn-care",
+        name: "Lawn Care Service",
+        role: "Lawn Care Specialist",
+        category: "Maintenance",
+        painPoint: "clients expecting flower bed weeding for free",
+        solution: "specify that service only includes mowing and edging",
+        deliverableExample: "weekly lawn mowing and clippings removal",
+        ipClause: "Specialist not liable for damage to unmarked irrigation",
+        statValue: "Landscaping"
+    },
+    {
+        slug: "pet-sitter",
+        name: "Pet Sitter",
+        role: "Pet Sitter",
+        category: "Pet Care",
+        painPoint: "unreported medical issues or aggression",
+        solution: "require full disclosure of health and behavior",
+        deliverableExample: "overnight pet care and feeding schedule",
+        ipClause: "Sitter authorized to seek emergency veterinary care",
+        statValue: "Pet Care"
+    },
+    {
+        slug: "graphic-designer",
+        name: "Graphic Designer",
+        role: "Graphic Designer",
+        category: "Creative",
+        painPoint: "clients requesting original source files without a fee",
+        solution: "define that source files (AI/PSD) require an extra buyout",
+        deliverableExample: "logo design package and brand guidelines",
+        ipClause: "Designer retains copyright until final payment is received",
+        statValue: "Design"
+    },
+    {
+        slug: "social-media-manager",
+        name: "Social Media Manager",
+        role: "Social Media Manager",
+        category: "Marketing",
+        painPoint: "expecting 24/7 comment moderation",
+        solution: "set specific community management hours",
+        deliverableExample: "daily posts and monthly engagement report",
+        ipClause: "Client owns the content; Manager can use for portfolio",
+        statValue: "Marketing"
+    },
+    {
+        slug: "virtual-assistant",
+        name: "Virtual Assistant",
+        role: "Virtual Assistant",
+        category: "Business",
+        painPoint: "urgent tasks sent outside of working hours",
+        solution: "establish a 24-hour turnaround time for new requests",
+        deliverableExample: "email management and calendar scheduling",
+        ipClause: "Strict confidentiality and non-disclosure of business data",
+        statValue: "Business"
+    },
+    {
+        slug: "handyman",
+        name: "Handyman",
+        role: "Handyman",
+        category: "Home Services",
+        painPoint: "finding hidden issues once a wall is opened",
+        solution: "add a clause for 'unforeseen conditions' and extra labor",
+        deliverableExample: "drywall repair and fixture installation",
+        ipClause: "Customer provides access and permits if required",
+        statValue: "Home Services"
+    },
+    {
+        slug: "tutor",
+        name: "Private Tutor",
+        role: "Tutor",
+        category: "Education",
+        painPoint: "students failing to show up for scheduled sessions",
+        solution: "enforce a strict 24-hour cancellation window",
+        deliverableExample: "weekly SAT prep and homework assistance",
+        ipClause: "Tutor retains rights to custom educational materials",
+        statValue: "Education"
+    },
+    {
+        slug: "dj",
+        name: "Performance DJ",
+        role: "DJ",
+        category: "Events",
+        painPoint: "venues with inadequate power or equipment space",
+        solution: "specify minimum technical and power requirements",
+        deliverableExample: "4-hour live set and basic lighting rig",
+        ipClause: "DJ retains rights to record sets for promotional use",
+        statValue: "Events"
+    },
+    {
+        slug: "co-founder",
+        name: "Startup Co-Founder",
+        role: "Co-Founder",
+        category: "Startup",
+        painPoint: "one founder leaving early with full equity",
+        solution: "implement a 4-year vesting schedule with a 1-year cliff",
+        deliverableExample: "equity distribution and role definitions",
+        ipClause: "All IP created is owned by the company entity",
+        statValue: "Startup"
     }
 ];
 
