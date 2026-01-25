@@ -52,7 +52,7 @@ export default function AlternativesIndex() {
     <div className="min-h-screen bg-slate-50/50">
       {/* Hero Section */}
       <div className="bg-white border-b border-slate-100 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03]"></div>
+        <div className="absolute inset-0 bg-[url('/optimized-images/noise.webp')] opacity-[0.03]"></div>
         <div className="absolute top-0 inset-x-0 h-[800px] bg-gradient-to-b from-blue-50 to-transparent"></div>
 
         <div className="container mx-auto px-4 py-24 md:py-12 relative z-10 text-center max-w-5xl">

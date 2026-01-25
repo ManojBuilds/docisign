@@ -1,8 +1,53 @@
 "use client";
 
 import { Play } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 const VideoDemo = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const placeholder = container.querySelector('.video-placeholder') as HTMLElement;
+    const videoContainer = container.querySelector('.video-container') as HTMLElement;
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // Swap placeholder with actual video
+          if (placeholder && videoContainer) {
+            placeholder.style.display = 'none';
+            videoContainer.style.display = 'block';
+
+            // Disconnect observer after loading to prevent further checks
+            if (observerRef.current) {
+              observerRef.current.disconnect();
+            }
+          }
+        }
+      });
+    };
+
+    // Create intersection observer with margin to preload when near viewport
+    observerRef.current = new IntersectionObserver(observerCallback, {
+      rootMargin: '100px', // Start loading when 100px before entering viewport
+      threshold: 0.1 // Trigger when 10% of element is visible
+    });
+
+    // Observe the video container
+    observerRef.current.observe(container);
+
+    // Cleanup function
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, []);
+
   return (
     <section className="w-full py-16 md:py-24 px-4 flex flex-col items-center bg-white relative overflow-hidden">
       {/* Decorative Signature Icon (Top Left) - Hidden on medium and small screens to prevent overlap */}
@@ -187,16 +232,35 @@ const VideoDemo = () => {
       </div>
 
       {/* Video Container Area */}
-      <div className="relative max-w-5xl w-full p-2 sm:p-4 md:p-8 rounded-2xl md:rounded-[2rem] bg-amber-50/50 border border-amber-100/50">
-        <div className="relative w-full aspect-video rounded-xl md:rounded-2xl overflow-hidden shadow-2xl bg-white border border-slate-200">
-          {/* Mux Embed */}
-          <iframe
-            src="https://player.mux.com/r00gX1OF5Esw3iCPhFiYEK1LFE0200a8U1hxHggV7K8X600"
-            title="Boopsign demo video - How to use Docisign"
-            style={{ width: "100%", border: "none", aspectRatio: "16/9" }}
-            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
-            allowFullScreen
-          ></iframe>
+      <div
+        className="relative max-w-5xl w-full p-2 sm:p-4 md:p-8 rounded-2xl md:rounded-[2rem] bg-amber-50/50 border border-amber-100/50"
+        style={{ contain: 'layout style paint' }} // CSS containment to limit reflow scope
+      >
+        <div
+          ref={containerRef}
+          className="relative w-full aspect-video rounded-xl md:rounded-2xl overflow-hidden shadow-2xl bg-white border border-slate-200"
+        >
+          {/* Placeholder for video - will be replaced when in viewport */}
+          <div className="video-placeholder w-full h-full flex items-center justify-center bg-gray-100">
+            <div className="text-center p-4">
+              <div className="inline-block p-4 bg-amber-100 rounded-full mb-2">
+                <Play className="w-8 h-8 text-amber-600 mx-auto" />
+              </div>
+              <p className="text-slate-500 text-sm">Video loading...</p>
+            </div>
+          </div>
+
+          {/* Actual video iframe that will be loaded lazily */}
+          <div className="video-container" style={{ display: 'none' }}>
+            <iframe
+              src="https://player.mux.com/r00gX1OF5Esw3iCPhFiYEK1LFE0200a8U1hxHggV7K8X600"
+              title="Boopsign demo video - How to use Docisign"
+              style={{ width: "100%", height: "100%", border: "none", aspectRatio: "16/9" }}
+              allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
+              allowFullScreen
+              loading="lazy"
+            ></iframe>
+          </div>
         </div>
 
         {/* Watch Demo Pill - matching the image's "WATCH A DEMO" button style */}

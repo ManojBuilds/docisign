@@ -37,7 +37,7 @@ const Hero = () => {
         </p>
 
         {/* Primary Action Area - Functional yet Beautiful */}
-        <div className="w-full max-w-4xl mt-12 relative z-10">
+        <div className="w-full max-w-2xl mt-12 relative z-10">
           {/* The Main Card */}
           <div className="relative bg-white rounded-3xl p-3 shadow-[0_30px_100px_-20px_rgba(59,130,246,0.15)] ring-1 ring-slate-200 transition-all duration-500 hover:shadow-[0_40px_120px_-20px_rgba(59,130,246,0.2)] z-20">
             <div className="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 hover:bg-blue-50/30 hover:border-blue-300 transition-all duration-300">

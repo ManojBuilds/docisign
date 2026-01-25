@@ -16,7 +16,7 @@ export default function Home() {
       <ClientHeaderWrapper />
       <div
         style={{
-          backgroundImage: "url('/noise.png')",
+          backgroundImage: "url('/optimized-images/noise.webp')",
         }}
         className="pointer-events-none [z-index:-1] absolute inset-0 bg-[size:180px] bg-repeat opacity-[0.835]"
       ></div>

@@ -186,11 +186,10 @@ export default async function MatrixContractPage({ params }: Props) {
 
                                 {/* Document Preview - Pure PDF */}
                                 {(template.pdfUrl || template.docUrl) && (
-                                    <div className="space-y-6 pt-12 border-t border-slate-100">
+                                    <div className="md:space-y-6 md:pt-12">
                                         <h2 className="text-3xl font-black text-slate-900 tracking-tight">Contract Preview</h2>
-                                        <div className="rounded-3xl border border-slate-200 overflow-hidden shadow-2xl bg-white ring-8 ring-slate-50">
-                                            <WordViewer fileUrl={template.pdfUrl || template.docUrl || ""} />
-                                        </div>
+                                        <WordViewer fileUrl={template.pdfUrl || template.docUrl || ""} />
+
                                     </div>
                                 )}
 

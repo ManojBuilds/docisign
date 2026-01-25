@@ -87,7 +87,7 @@ export default async function ComparisonPage({ params }: Props) {
 
       {/* Hero Section */}
       <header className="bg-gradient-to-b from-blue-50/50 via-white to-white border-b border-slate-100 py-24 md:py-12 relative overflow-hidden">
-        <div className="absolute top-0 inset-x-0 h-full bg-[url('/bg-noise.png')] opacity-[0.03]" />
+        <div className="absolute top-0 inset-x-0 h-full bg-[url('/optimized-images/noise.webp')] opacity-[0.03]" />
 
         {/* Background Decorations */}
         <div className="absolute -top-1/4 left-0 size-[600px] bg-blue-100/40 rounded-full blur-[150px]" />

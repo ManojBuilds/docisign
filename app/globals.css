@@ -6,8 +6,6 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  font-size: 106.25%;
-  /* Increases base font size from 16px to 17px */
   --background: oklch(0.9940 0 0);
   --foreground: oklch(0 0 0);
   --card: oklch(0.9940 0 0);
@@ -325,4 +323,14 @@
 
 .signature-field-overlay>* {
   pointer-events: auto;
+}
+
+/* Background image with WebP fallback */
+.bg-noise-webp {
+  background-image: url('/noise.png');
+  /* Fallback for browsers that don't support WebP */
+}
+
+.bg-noise-webp.webp-supported {
+  background-image: url('/optimized-images/noise.webp');
 }

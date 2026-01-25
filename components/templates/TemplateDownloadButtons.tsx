@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 import { Confetti, type ConfettiRef } from "@/components/ui/confetti";
 import { ALL_TEMPLATES } from "@/lib/seo/all-templates";
-import { TemplateActionButton } from "./TemplateActionButton";
+import Link from "next/link";
 
 interface TemplateDownloadButtonsProps {
     templateId: string;
@@ -126,8 +126,8 @@ export function TemplateDownloadButtons({
 
     return (
         <>
-            <div className={cn("flex flex-col gap-5", className)}>
-                <div className={cn("flex items-center gap-3", stack ? "flex-col w-full" : "flex-row justify-center")}>
+            <div className={cn("flex flex-col gap-5 p-2", className)}>
+                <div className={cn("flex items-center flex-col gap-3", stack ? "flex-col w-full" : "md:flex-row justify-center")}>
                     {docUrl && (
                         <Button
                             variant="outline"
@@ -263,12 +263,11 @@ export function TemplateDownloadButtons({
                                 </div>
 
                                 <div className="pt-2">
-                                    <TemplateActionButton
-                                        templateId={templateId}
-                                        templateTitle={template?.name || "My Contract"}
-                                        buttonText="Try Boopsign for Free"
-                                        className="w-full"
-                                    />
+                                    <Link href={
+                                        "/pricing"
+                                    }>
+                                        <Button size={'lg'} className="w-full">Try Boopsign for Free</Button>
+                                    </Link>
                                     <p className="text-center text-[10px] text-slate-400 mt-4">
                                         Trusted by 10,000+ professionals for secure document workflows.
                                     </p>
