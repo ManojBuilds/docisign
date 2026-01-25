@@ -30,6 +30,7 @@ export default function Logo({
             alt="Boopsign Logo"
             width={40}
             height={40}
+            priority
             className="h-8 w-8 md:h-10 md:w-10 transition-transform group-hover:scale-105"
           />
         </div>

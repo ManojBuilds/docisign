@@ -111,6 +111,7 @@ export default async function BlogIndex({
                       src={featuredPost.image}
                       alt={featuredPost.title}
                       fill
+                      priority
                       className="object-cover"
                     />
                   </div>

@@ -1,13 +1,14 @@
 import { ClientHeaderWrapper } from "@/components/ClientHeaderWrapper";
-import Cta from "@/components/cta";
-import Features from "@/components/Features";
+const Features = dynamic(() => import("@/components/Features"));
+const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
+const Pricing = dynamic(() => import("@/components/Pricing"));
+const TestimonialsSection = dynamic(() => import("@/components/testimonials"));
+const VideoDemo = dynamic(() => import("@/components/VideoDemo"));
+const Cta = dynamic(() => import("@/components/cta"));
+const Problem = dynamic(() => import("@/components/Problem").then(m => m.Problem));
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
-import HowItWorks from "@/components/HowItWorks";
-import Pricing from "@/components/Pricing";
-import { Problem } from "@/components/Problem";
-import TestimonialsSection from "@/components/testimonials";
-import VideoDemo from "@/components/VideoDemo";
+import dynamic from "next/dynamic";
 
 export default function Home() {
   return (

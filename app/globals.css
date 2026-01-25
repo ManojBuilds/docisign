@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Style+Script&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
@@ -65,8 +64,8 @@
   --leading-relaxed: 1.625;
 
   /* Font Families */
-  --font-body: "CircularStd", sans-serif;
-  --font-heading: 'Clash Grotesk', "CircularStd", sans-serif;
+  --font-body: var(--font-inter), sans-serif;
+  --font-heading: var(--font-inter), sans-serif;
 }
 
 

@@ -1,8 +1,8 @@
-import CompetitorComparisonTable from "@/components/ComparasionTable";
-import Pricing from "@/components/Pricing";
-import PricingFaq from "@/components/PricingFaq";
-import TestimonialsSection from "@/components/testimonials";
-
+const Pricing = dynamic(() => import("@/components/Pricing"));
+const PricingFaq = dynamic(() => import("@/components/PricingFaq"));
+const TestimonialsSection = dynamic(() => import("@/components/testimonials"));
+const CompetitorComparisonTable = dynamic(() => import("@/components/ComparasionTable"));
+import dynamic from "next/dynamic";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
