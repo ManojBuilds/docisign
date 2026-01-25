@@ -28,8 +28,8 @@ export const BASE_TEMPLATES: BaseTemplate[] = [
             "Maintenance responsibilities",
             "Pet and guest policies"
         ],
-        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguHWlZJK9EJNUBXDqbifMz2VCdc7u8YS9Zvn56",
-        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguRfuUXM2w50fPqjJsYVv8Q9nzZRtHkXOiBLDN",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgupmLmUR7wbAQC3TH6iZ98sKJ1Uvou4eYBdxWL",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguAKCd9OUIaF7cPRXTBKUOjd2u8DtqMsNepfz5",
         category: "Real Estate"
     },
     {
@@ -46,7 +46,7 @@ export const BASE_TEMPLATES: BaseTemplate[] = [
             "Insurance requirements"
         ],
         docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguauQwZMW5bk4q23iuyfFhwQdGBN7vjse1zp69",
-        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgumPPsF6HSvrNMswQ9bfq3IPtLJ5jlyUFK6Cua",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguZNc2y7RVvHlYKWSoR1pLmNeIfbk7gDAQCrZx",
         category: "Real Estate"
     },
 
@@ -99,7 +99,7 @@ export const BASE_TEMPLATES: BaseTemplate[] = [
             "Acceptance criteria for deliverables"
         ],
         docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu8LXZPHaq4236GeguUDtzXlnZKa0ixhVCfjIo",
-        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguUOoFvagHm5AQSpR20Ye4oJwViXD3rgNqOaZb",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu5fRSkuHE1vmLZ9tcWbUpQFkC6oT2IPYBjgnH",
         category: "General"
     },
     {
@@ -133,7 +133,7 @@ export const BASE_TEMPLATES: BaseTemplate[] = [
             "Monthly reporting requirements"
         ],
         docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguXafyL3Z9PguU0r6OAGptdzw4HilYm8jhRZS5",
-        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgukpBNsOa08GcmsdtOMDlEio2PAeFbrZLVxKXH",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguvGMTpdprDWmTOdj06ypF5EAP8KuJIs4Cnzwq",
         category: "General"
     },
     {
@@ -150,7 +150,7 @@ export const BASE_TEMPLATES: BaseTemplate[] = [
             "Project-specific assumptions"
         ],
         docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu5fTlG8HE1vmLZ9tcWbUpQFkC6oT2IPYBjgnH",
-        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguM16YcJQp79kG1dVY4xFTZQWHXLt02In8uflJ",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguDKtHssIGAFNQBLgSiqxKzmeHrIZPabW0J9ut",
         category: "General"
     },
     {
@@ -166,7 +166,7 @@ export const BASE_TEMPLATES: BaseTemplate[] = [
             "Impact on project deadline",
             "Reference to original contract"
         ],
-        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu8vqVrHaq4236GeguUDtzXlnZKa0ixhVCfjIo",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguoHSXQbsTwQeJsGEYyzS1HPlbUOxiN4DKFrjp",
         pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgupWOt5VwbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO",
         category: "General"
     },
@@ -184,7 +184,7 @@ export const BASE_TEMPLATES: BaseTemplate[] = [
             "Term and termination of partnership"
         ],
         docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguwSlVaFm795SyVLzTiZ7WAIG6Ns4geYqh8buv",
-        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgukwBHoH08GcmsdtOMDlEio2PAeFbrZLVxKXHw",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguMj2L5BQp79kG1dVY4xFTZQWHXLt02In8uflJ",
         category: "General"
     },
     {
@@ -201,7 +201,7 @@ export const BASE_TEMPLATES: BaseTemplate[] = [
             "Continuation of confidentiality"
         ],
         docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu9ebj2euJvZkayxmqfCrJ21LNhKOpibWeQnwX",
-        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguLlzWj2KvFEY8sMSG7grAfCXqpaJzIQVwtZPB",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguL54CL3vFEY8sMSG7grAfCXqpaJzIQVwtZPBe",
         category: "General"
     },
     {
@@ -218,7 +218,7 @@ export const BASE_TEMPLATES: BaseTemplate[] = [
             "Ownership of intermediate assets"
         ],
         docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu8hdBkPaq4236GeguUDtzXlnZKa0ixhVCfjIo",
-        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu2h6uO3VDN5UqvTz1wVPfEBZkOhiYC0asrtXn",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgumP31AHxSvrNMswQ9bfq3IPtLJ5jlyUFK6Cua",
         category: "General"
     },
 ];
