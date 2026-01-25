@@ -17,30 +17,10 @@ const FAQ = z.object({
   answer: z.string(),
 });
 
-const Feature = z.object({
-  title: z.string(),
-  description: z.string(),
-  icon: z.string().optional(),
-});
 
 const Stat = z.object({
   label: z.string(),
   value: z.string(),
-});
-
-const Variable = z.object({
-  key: z.string(),
-  label: z.string(),
-  required: z.boolean().optional().default(false),
-  type: z.string(), // e.g., 'text', 'date', 'number', 'textarea'
-  placeholder: z.string().optional(),
-  defaultValue: z.string().optional(),
-});
-
-const WhatsInside = z.object({
-  title: z.string(),
-  description: z.string().optional(),
-  features: z.array(Feature).optional(),
 });
 
 const WhyUse = z.object({
@@ -50,18 +30,6 @@ const WhyUse = z.object({
   theme: z.string().optional(),
 });
 
-const Sidebar = z.object({
-  title: z.string(),
-  subtitle: z.string().optional(),
-  stats: z.array(Stat).optional(),
-});
-
-const Testimonial = z.object({
-  quote: z.string(),
-  author: z.string(),
-  role: z.string().optional(),
-  stars: z.number().optional(),
-});
 
 const Hero = z.object({
   badge: z.string().optional(),
@@ -124,42 +92,6 @@ const posts = defineCollection({
   },
 });
 
-// Contracts collection
-const contracts = defineCollection({
-  name: "contracts",
-  directory: "content/contracts",
-  include: "*.mdx",
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    date: z.coerce.date(),
-    docUrl: z.string().optional(),
-    pdfUrl: z.string().optional(),
-    previewImages: z.array(z.string()).optional(),
-    category: z.string().optional(),
-    subtitle: z.string().optional(),
-    seo: SEO.optional(),
-    schema: z.any().optional(), // JSON schema
-    faqs: z.array(FAQ).optional(),
-    whatsInside: WhatsInside.optional(),
-    whyUse: WhyUse.optional(),
-    sidebar: Sidebar.optional(),
-    testimonial: Testimonial.optional(),
-    variables: z.array(Variable).optional(),
-    popular: z.boolean().optional().default(false),
-  }),
-  transform: async (document, context) => {
-    const mdx = await compileMDX(context, document, {
-      remarkPlugins: [remarkGfm],
-    });
-    return {
-      ...document,
-      slug: document._meta.fileName.replace(/^.*[\\/]/, '').replace(/\.mdx$/, ''),
-      url: `/contracts/${document._meta.fileName.replace(/^.*[\\/]/, '').replace(/\.mdx$/, '')}`,
-      mdx,
-    };
-  },
-});
 
 // Landing Pages collection
 const landingPages = defineCollection({
@@ -227,5 +159,5 @@ const comparisons = defineCollection({
 });
 
 export default defineConfig({
-  collections: [posts, contracts, landingPages, comparisons],
+  collections: [posts, landingPages, comparisons],
 });

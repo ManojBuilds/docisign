@@ -22,6 +22,7 @@ export function TemplatePageHeader({
 }: TemplatePageHeaderProps) {
   const template = templateId ? ALL_TEMPLATES.find((t) => t.slug === templateId) : null;
   const docUrl = template?.docUrl;
+  const pdfUrl = template?.pdfUrl;
 
   return (
     <div className="relative pt-12 pb-12 md:pt-16 md:pb-16 overflow-hidden">
@@ -82,6 +83,7 @@ export function TemplatePageHeader({
               <TemplateDownloadButtons
                 templateId={templateId}
                 docUrl={docUrl}
+                pdfUrl={pdfUrl}
               />
             )}
           </div>

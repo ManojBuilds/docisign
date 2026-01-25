@@ -2,7 +2,6 @@ import { TemplatePageHeader } from "@/components/templates/TemplatePageHeader";
 import { TemplateSidebar } from "@/components/templates/TemplateSidebar";
 import { Card, CardContent } from "@/components/ui/card";
 import { PdfDimensionsProvider } from "@/components/PdfDimensionsContext";
-import { Badge } from "@/components/ui/badge";
 import { WordViewer } from "@/components/word-viewer";
 import {
     Check, Shield, Briefcase
@@ -185,17 +184,12 @@ export default async function MatrixContractPage({ params }: Props) {
                                     </p>
                                 </div>
 
-                                {/* Document Preview Section - Moved Up */}
-                                {(template.docUrl) && (
-                                    <div className="space-y-4" id="preview">
-                                        <div className="flex items-center justify-between">
-                                            <h3 className="font-bold text-slate-900 text-xl">Document Preview</h3>
-                                            <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-100">
-                                                Editable Word / PDF
-                                            </Badge>
-                                        </div>
-                                        <div className="rounded-2xl border border-slate-200 overflow-hidden shadow-sm">
-                                            <WordViewer fileUrl={template.docUrl} />
+                                {/* Document Preview - Pure PDF */}
+                                {(template.pdfUrl || template.docUrl) && (
+                                    <div className="space-y-6 pt-12 border-t border-slate-100">
+                                        <h2 className="text-3xl font-black text-slate-900 tracking-tight">Contract Preview</h2>
+                                        <div className="rounded-3xl border border-slate-200 overflow-hidden shadow-2xl bg-white ring-8 ring-slate-50">
+                                            <WordViewer fileUrl={template.pdfUrl || template.docUrl || ""} />
                                         </div>
                                     </div>
                                 )}
