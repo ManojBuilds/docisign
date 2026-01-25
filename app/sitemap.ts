@@ -4,7 +4,7 @@ import {
   allPosts
 } from "content-collections";
 import { FREELANCE_ROLES } from "@/lib/seo/freelancer-roles";
-import { BASE_TEMPLATES } from "@/lib/seo/base-templates";
+import { ALL_TEMPLATES } from "@/lib/seo/all-templates";
 import { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -145,7 +145,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   }));
 
   // 1. Base Template Pages (e.g. /contracts/consulting-agreement)
-  const templateRoutes: MetadataRoute.Sitemap = BASE_TEMPLATES.map((template) => ({
+  const templateRoutes: MetadataRoute.Sitemap = ALL_TEMPLATES.map((template) => ({
     url: `${baseUrl}/contracts/${template.slug}`,
     lastModified: defaultLastModified,
     changeFrequency: "weekly",
@@ -162,16 +162,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // 3. Matrix Combination Pages (e.g. /contracts/consulting-agreement/for-designer)
   const matrixRoutes: MetadataRoute.Sitemap = [];
-  BASE_TEMPLATES.forEach((template) => {
+  ALL_TEMPLATES.forEach((template) => {
     FREELANCE_ROLES.forEach((role) => {
-      // Only include if it makes sense contextually, or include all for max SEO surface area.
-      // For now, including all compatible combinations is a safe bet for coverage.
-      matrixRoutes.push({
-        url: `${baseUrl}/contracts/${template.slug}/for-${role.slug}`,
-        lastModified: defaultLastModified,
-        changeFrequency: "monthly",
-        priority: 0.7,
-      });
+      // Only include compatible combinations
+      const isCompatible =
+        template.category === "General" ||
+        (role.tags && role.tags.includes(template.category)) ||
+        (template.relatedRoles && template.relatedRoles.includes(role.slug));
+
+      if (isCompatible) {
+        matrixRoutes.push({
+          url: `${baseUrl}/contracts/${template.slug}/for-${role.slug}`,
+          lastModified: defaultLastModified,
+          changeFrequency: "monthly",
+          priority: 0.7,
+        });
+      }
     });
   });
 

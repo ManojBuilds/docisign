@@ -2,10 +2,10 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import { BASE_TEMPLATES } from "@/lib/seo/base-templates";
 import { Check, FileSignature, Shield } from "lucide-react";
 // import { TemplateActionButton } from "./TemplateActionButton";
 import { TemplateDownloadButtons } from "./TemplateDownloadButtons";
+import { ALL_TEMPLATES } from "@/lib/seo/all-templates";
 
 interface TemplateSidebarProps {
   title: string;
@@ -34,7 +34,7 @@ export function TemplateSidebar({
   docUrl: propsDocUrl,
   pdfUrl: propsPdfUrl,
 }: TemplateSidebarProps) {
-  const template = templateId ? BASE_TEMPLATES.find((t) => t.slug === templateId) : null;
+  const template = templateId ? ALL_TEMPLATES.find((t) => t.slug === templateId) : null;
   const docUrl = propsDocUrl || template?.docUrl;
   const pdfUrl = propsPdfUrl || template?.pdfUrl;
 

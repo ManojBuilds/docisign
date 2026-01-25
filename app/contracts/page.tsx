@@ -1,6 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { BASE_TEMPLATES } from "@/lib/seo/base-templates";
+import { ALL_TEMPLATES } from "@/lib/seo/all-templates";
 import { FREELANCE_ROLES } from "@/lib/seo/freelancer-roles";
 import Link from "next/link";
 import { Metadata } from "next";
@@ -37,7 +37,7 @@ export default function ContractTemplatesPage() {
           {/* Stats Bar */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto bg-white p-4 rounded-2xl shadow-sm border border-slate-200">
             <div className="text-center p-4">
-              <div className="text-2xl font-black text-slate-900">{BASE_TEMPLATES.length}</div>
+              <div className="text-2xl font-black text-slate-900">{ALL_TEMPLATES.length}</div>
               <div className="text-xs font-bold text-slate-500 uppercase tracking-widest">Doc Types</div>
             </div>
             <div className="text-center p-4 border-l border-slate-100">

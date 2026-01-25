@@ -11,8 +11,8 @@ import { api } from "@/convex/_generated/api";
 import { computeFileHash } from "@/lib/crypto";
 import { replaceVariablesInDocx } from "@/lib/process-template";
 import { PENDING_DOC_KEY } from "@/lib/utils";
-import { BASE_TEMPLATES } from "@/lib/seo/base-templates";
 import posthog from "posthog-js";
+import { ALL_TEMPLATES } from "@/lib/seo/all-templates";
 
 interface UseTemplateUploadProps {
   templateId: string;
@@ -36,7 +36,7 @@ export function useTemplateUpload({
   );
 
   // Find template from BASE_TEMPLATES
-  const template = BASE_TEMPLATES.find((t) => t.slug === templateId);
+  const template = ALL_TEMPLATES.find((t) => t.slug === templateId);
   const hasVariables = false; // New system doesn't use MDX variables
   const downloadUrl = template?.docUrl;
 

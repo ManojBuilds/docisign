@@ -11,7 +11,7 @@ import { notFound } from "next/navigation";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { FREELANCE_ROLES } from "@/lib/seo/freelancer-roles";
-import { BASE_TEMPLATES } from "@/lib/seo/base-templates";
+import { ALL_TEMPLATES } from "@/lib/seo/all-templates";
 import { ArrowRight } from "lucide-react";
 
 // Dynamic Icon Component
@@ -79,9 +79,10 @@ export default async function ProgrammaticFreelancerContractPage({ params }: Pro
     const role = roleData.role;
     const industry = roleData.industry;
 
-    const compatibleTemplates = BASE_TEMPLATES.filter(template =>
+    const compatibleTemplates = ALL_TEMPLATES.filter(template =>
         template.category === "General" ||
-        (roleData.tags && roleData.tags.includes(template.category))
+        (roleData.tags && roleData.tags.includes(template.category)) ||
+        (template.relatedRoles && template.relatedRoles.includes(roleData.slug))
     );
 
     return (

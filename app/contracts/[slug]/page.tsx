@@ -1,6 +1,6 @@
 import { TemplatePageHeader } from "@/components/templates/TemplatePageHeader";
 import { Button } from "@/components/ui/button";
-import { BASE_TEMPLATES } from "@/lib/seo/base-templates";
+import { ALL_TEMPLATES } from "@/lib/seo/all-templates";
 import { FREELANCE_ROLES } from "@/lib/seo/freelancer-roles";
 import { ArrowRight, Check, FileText, Sparkles } from "lucide-react";
 import { Metadata } from "next";
@@ -57,7 +57,7 @@ const legacyRedirects: Record<string, string> = {
     "social-media-management-contract": "/contracts/independent-contractor-agreement/for-facebook-ads-manager", // Best fit
     "strategic-partnership-agreement": "/contracts/referral-agreement",
     "supply-agreement": "/contracts/independent-contractor-agreement",
-    
+
     // Real Estate
     "sublease-agreement-california": "/contracts/residential-lease-agreement",
     "sublease-agreement-florida": "/contracts/residential-lease-agreement",
@@ -73,14 +73,14 @@ const legacyRedirects: Record<string, string> = {
 };
 
 export async function generateStaticParams() {
-    return BASE_TEMPLATES.map((t) => ({
+    return ALL_TEMPLATES.map((t) => ({
         slug: t.slug,
     }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug } = await params;
-    const template = BASE_TEMPLATES.find((t) => t.slug === slug);
+    const template = ALL_TEMPLATES.find((t) => t.slug === slug);
 
     if (!template) return {};
 
@@ -101,22 +101,23 @@ export default async function BaseTemplatePage({ params }: Props) {
         redirect(legacyRedirects[slug]);
     }
 
-    const template = BASE_TEMPLATES.find((t) => t.slug === slug);
+    const template = ALL_TEMPLATES.find((t) => t.slug === slug);
 
     if (!template) {
         notFound();
     }
 
     // Find roles that might use this template
-    // Logic: If role has tags that match template category, OR template is General
-    const relatedRoles = FREELANCE_ROLES.filter(role => 
-        template.category === "General" || 
-        (role.tags && role.tags.includes(template.category))
+    // Logic: If role has tags that match template category, OR template is General, OR role is in relatedRoles
+    const relatedRoles = FREELANCE_ROLES.filter(role =>
+        template.category === "General" ||
+        (role.tags && role.tags.includes(template.category)) ||
+        (template.relatedRoles && template.relatedRoles.includes(role.slug))
     ).slice(0, 9); // Limit to 9 for grid
 
     return (
         <main className="min-h-screen bg-slate-50/50">
-             <script
+            <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
                     __html: JSON.stringify({
@@ -146,7 +147,7 @@ export default async function BaseTemplatePage({ params }: Props) {
 
             <div className="container mx-auto px-4 max-w-6xl py-12">
                 <div className="grid lg:grid-cols-3 gap-12">
-                    
+
                     {/* Left Column: Template Details */}
                     <div className="lg:col-span-2 space-y-12">
                         {/* Key Features */}
@@ -164,8 +165,8 @@ export default async function BaseTemplatePage({ params }: Props) {
                             </div>
                         </section>
 
-                         {/* Legal Context */}
-                         <section>
+                        {/* Legal Context */}
+                        <section>
                             <h2 className="text-2xl font-black text-slate-900 mb-4">Legal Context</h2>
                             <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
                                 {template.legalContext}
@@ -174,8 +175,8 @@ export default async function BaseTemplatePage({ params }: Props) {
 
                         {/* CTA Block */}
                         <section className="bg-slate-900 rounded-[2rem] p-10 text-center relative overflow-hidden">
-                             <div className="absolute top-0 right-0 size-64 bg-blue-500 rounded-full blur-[80px] opacity-20 -translate-y-1/2 translate-x-1/2" />
-                             <div className="relative z-10">
+                            <div className="absolute top-0 right-0 size-64 bg-blue-500 rounded-full blur-[80px] opacity-20 -translate-y-1/2 translate-x-1/2" />
+                            <div className="relative z-10">
                                 <h3 className="text-2xl font-bold text-white mb-4">Ready to use this template?</h3>
                                 <p className="text-slate-300 mb-8 max-w-lg mx-auto">
                                     Edit directly in your browser, send for e-signature, and track status instantly.
@@ -183,7 +184,7 @@ export default async function BaseTemplatePage({ params }: Props) {
                                 <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white border-none h-14 px-8 text-lg font-bold rounded-xl w-full sm:w-auto">
                                     Use Standard Template
                                 </Button>
-                             </div>
+                            </div>
                         </section>
                     </div>
 
@@ -203,7 +204,7 @@ export default async function BaseTemplatePage({ params }: Props) {
 
                             <div className="space-y-3">
                                 {relatedRoles.map(role => (
-                                    <Link 
+                                    <Link
                                         key={role.slug}
                                         href={`/contracts/${template.slug}/for-${role.slug}`}
                                         className="flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-slate-200 transition-all group"
@@ -221,10 +222,10 @@ export default async function BaseTemplatePage({ params }: Props) {
                                     </Link>
                                 ))}
                             </div>
-                            
+
                             <div className="mt-6 pt-6 border-t border-slate-100 text-center">
-                                <Link 
-                                    href="/contracts" 
+                                <Link
+                                    href="/contracts"
                                     className="text-sm font-semibold text-blue-600 hover:text-blue-700 hover:underline"
                                 >
                                     Browse all 300+ versions

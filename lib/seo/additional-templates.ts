@@ -28,8 +28,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Service level expectations",
             "Liability limitations"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu03RKM81wEbNSXo7vmLOKdr3JFGs9VcQCxBMp",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguAlkcngUIaF7cPRXTBKUOjd2u8DtqMsNepfz5",
         category: "General",
         priority: "high",
         relatedRoles: ["virtual-assistant", "business-coach", "online-business-manager"]
@@ -47,8 +47,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Intellectual property of materials",
             "Session cancellation policy"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu8YFPINaq4236GeguUDtzXlnZKa0ixhVCfjIo",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgulRsy0IG4dacCWs1RjHb6S98kJhAGXDwE7npi",
         category: "General",
         priority: "high",
         relatedRoles: ["business-coach", "online-business-manager", "cybersecurity-consultant", "seo-specialist"]
@@ -66,8 +66,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Usage rights and licensing",
             "Raw footage/file policy"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu7o57sgmRrFINaeCfB5GjP8unq4dYEZlUvmWK",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguHUOlNj9EJNUBXDqbifMz2VCdc7u8YS9Zvn56",
         category: "Specialized",
         priority: "high",
         relatedRoles: ["wedding-videographer", "motion-graphics-artist"]
@@ -85,8 +85,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "File format deliverables",
             "Portfolio usage rights"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguRbnRKGD2w50fPqjJsYVv8Q9nzZRtHkXOiBLD",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pguwl6VF6795SyVLzTiZ7WAIG6Ns4geYqh8buv3",
         category: "General",
         priority: "high",
         relatedRoles: ["ui-ux-designer", "brand-identity-designer", "illustrator", "interior-designer"]
@@ -104,8 +104,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Browser compatibility standards",
             "Post-launch support period"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguS37OczNZ0JQVfwoRLU2NgHxFSv8KIcjdC5i4",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu2NOFfWVDN5UqvTz1wVPfEBZkOhiYC0asrtXn",
         category: "General",
         priority: "high",
         relatedRoles: ["shopify-developer", "no-code-developer", "game-developer"]
@@ -123,8 +123,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Engagement metrics vs. guarantees",
             "Crisis management protocol"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguaAFJo5KMW5bk4q23iuyfFhwQdGBN7vjse1zp",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupbue35wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO",
         category: "General",
         priority: "high",
         relatedRoles: ["content-strategist", "copywriter", "influencer-marketing-manager"]
@@ -142,8 +142,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Performance disclaimer",
             "Reporting frequency and metrics"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgue2VxadyT0Y5OhXHSq4nKkylZpuMiDfG871NE",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguCIUxqFOkoRmVatwQ0Zd3XrIyTESAYFGB5Nx2",
         category: "General",
         priority: "high",
         relatedRoles: ["seo-specialist", "facebook-ads-manager", "google-ads-specialist", "email-marketer"]
@@ -163,8 +163,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Force majeure clause",
             "Cancellation and refund policy"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguUKaOXTgHm5AQSpR20Ye4oJwViXD3rgNqOaZb",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu7z3A60mRrFINaeCfB5GjP8unq4dYEZlUvmWK",
         category: "Specialized",
         priority: "medium",
         relatedRoles: ["event-planner", "wedding-videographer"]
@@ -182,8 +182,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Results disclaimer",
             "Confidentiality terms"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguxWi3YFz24etUsO3ZN7hLWQYKjHkDySfFd0cg",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu0QnWIC1wEbNSXo7vmLOKdr3JFGs9VcQCxBMp",
         category: "Specialized",
         priority: "medium",
         relatedRoles: ["personal-trainer", "tutor", "business-coach"]
@@ -201,8 +201,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Urgency surcharges",
             "Legal/medical disclaimer"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguWfduM4sxHZs9OA4zmVEduhgJ1CitxwnUDkyQ",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguGtCHY8B8hg9coKwrlYqZkist4X56WxHdjmn3",
         category: "Specialized",
         priority: "medium",
         relatedRoles: ["translator", "technical-writer"]
@@ -220,8 +220,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Tool and software access",
             "Password management protocol"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguARps9LUIaF7cPRXTBKUOjd2u8DtqMsNepfz5",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pguivum793FOlvAZtqXJVK4uhrIHREwgYbkLead",
         category: "General",
         priority: "medium",
         relatedRoles: ["virtual-assistant", "online-business-manager", "bookkeeper"]
@@ -239,8 +239,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Usage rights duration",
             "Performance metrics"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgunFuD12qPKoD3HWzv2hlrfdwZFGRcps6UX9EY",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgulACrltG4dacCWs1RjHb6S98kJhAGXDwE7npi",
         category: "Specialized",
         priority: "medium",
         relatedRoles: ["influencer-marketing-manager", "content-strategist"]
@@ -258,8 +258,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Turnaround time",
             "Revision policy"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgup3PL5WwbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguakjlqfMW5bk4q23iuyfFhwQdGBN7vjse1zp6",
         category: "Specialized",
         priority: "medium",
         relatedRoles: ["podcast-editor", "voiceover-artist", "motion-graphics-artist"]
@@ -277,8 +277,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Marketing responsibilities",
             "Dual agency disclosure"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguvJe2uQrDWmTOdj06ypF5EAP8KuJIs4CnzwqY",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguXr6rKjZ9PguU0r6OAGptdzw4HilYm8jhRZS5",
         category: "Real Estate",
         priority: "medium",
         relatedRoles: ["real-estate-agent", "property-manager", "landlord"]
@@ -298,8 +298,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Key and access liability",
             "Inclement weather policy"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguvGsNB2HrDWmTOdj06ypF5EAP8KuJIs4Cnzwq",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguFR4mdMcXE9M8XghHQ6L24kGwv1jnatAJIFqx",
         category: "Specialized",
         priority: "low",
         relatedRoles: ["dog-walker"]
@@ -317,8 +317,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Allergy disclosure",
             "Emergency protocols"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguGxMcNE9B8hg9coKwrlYqZkist4X56WxHdjmn",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguA5bC1hqUIaF7cPRXTBKUOjd2u8DtqMsNepfz",
         category: "Specialized",
         priority: "low",
         relatedRoles: ["caregiver", "makeup-artist", "personal-trainer"]
@@ -336,8 +336,8 @@ export const ADDITIONAL_TEMPLATES: AdditionalTemplate[] = [
             "Grade disclaimer",
             "Material usage rights"
         ],
-        docUrl: "",
-        pdfUrl: "",
+        docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguQ0G0STARmeyI2tg7VQAdOujGNfZna3woC9hz",
+        pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguAHMtJzUIaF7cPRXTBKUOjd2u8DtqMsNepfz5",
         category: "Specialized",
         priority: "low",
         relatedRoles: ["tutor", "resume-writer"]

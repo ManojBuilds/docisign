@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { BASE_TEMPLATES } from "@/lib/seo/base-templates";
+import { ALL_TEMPLATES } from "@/lib/seo/all-templates";
 import { FREELANCE_ROLES } from "@/lib/seo/freelancer-roles";
 
 type Props = {
@@ -20,14 +20,16 @@ type Props = {
 export async function generateStaticParams() {
     const params: { slug: string; roleSlug: string }[] = [];
 
-    for (const template of BASE_TEMPLATES) {
+    for (const template of ALL_TEMPLATES) {
         for (const role of FREELANCE_ROLES) {
             // Logic: 
             // 1. "General" templates work for everyone (e.g. NDA).
             // 2. Specific templates (e.g. Real Estate Lease) only work for roles with that tag.
+            // 3. Templates with relatedRoles work for those specific roles.
             const isCompatible =
                 template.category === "General" ||
-                (role.tags && role.tags.includes(template.category));
+                (role.tags && role.tags.includes(template.category)) ||
+                (template.relatedRoles && template.relatedRoles.includes(role.slug));
 
             if (isCompatible) {
                 params.push({
@@ -45,7 +47,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const { slug, roleSlug } = await params;
 
     // Parse inputs
-    const template = BASE_TEMPLATES.find((t) => t.slug === slug);
+    const template = ALL_TEMPLATES.find((t) => t.slug === slug);
     const cleanRoleSlug = roleSlug.replace(/^for-/, "");
     const role = FREELANCE_ROLES.find((r) => r.slug === cleanRoleSlug);
 
@@ -88,7 +90,7 @@ export default async function MatrixContractPage({ params }: Props) {
     const { slug, roleSlug } = await params;
 
     // Validate Route
-    const template = BASE_TEMPLATES.find((t) => t.slug === slug);
+    const template = ALL_TEMPLATES.find((t) => t.slug === slug);
     const cleanRoleSlug = roleSlug.replace(/^for-/, "");
     const role = FREELANCE_ROLES.find((r) => r.slug === cleanRoleSlug);
 
@@ -100,7 +102,8 @@ export default async function MatrixContractPage({ params }: Props) {
     // Double check compatibility for runtime (in case of ISR/manual navigation)
     const isCompatible =
         template.category === "General" ||
-        (role.tags && role.tags.includes(template.category));
+        (role.tags && role.tags.includes(template.category)) ||
+        (template.relatedRoles && template.relatedRoles.includes(role.slug));
 
     if (!isCompatible) {
         notFound();

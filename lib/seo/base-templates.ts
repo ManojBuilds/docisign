@@ -1,3 +1,5 @@
+
+
 export type BaseTemplate = {
     id: string;
     slug: string;
@@ -218,5 +220,5 @@ export const BASE_TEMPLATES: BaseTemplate[] = [
         docUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu8hdBkPaq4236GeguUDtzXlnZKa0ixhVCfjIo",
         pdfUrl: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu2h6uO3VDN5UqvTz1wVPfEBZkOhiYC0asrtXn",
         category: "General"
-    }
+    },
 ];

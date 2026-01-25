@@ -1,9 +1,9 @@
-import { BASE_TEMPLATES } from "@/lib/seo/base-templates";
 import { ArrowLeft, CheckCircle, ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 // import { TemplateActionButton } from "./TemplateActionButton";
 import { TemplateDownloadButtons } from "./TemplateDownloadButtons";
+import { ALL_TEMPLATES } from "@/lib/seo/all-templates";
 
 interface TemplatePageHeaderProps {
   title: string;
@@ -20,7 +20,7 @@ export function TemplatePageHeader({
   backgroundImage = "/noise.png",
   templateId,
 }: TemplatePageHeaderProps) {
-  const template = templateId ? BASE_TEMPLATES.find((t) => t.slug === templateId) : null;
+  const template = templateId ? ALL_TEMPLATES.find((t) => t.slug === templateId) : null;
   const docUrl = template?.docUrl;
 
   return (
