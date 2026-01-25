@@ -31,21 +31,21 @@ const HowItWorks = ({
             title: "Upload & Place Fields",
             description: "Drop your PDF and drag signature fields exactly where you need them. It's faster than printing and scanning.",
             image: "/screenshots/step1.png",
-            color: "bg-blue-600"
+            color: "bg-blue-700"
         },
         {
             number: "02",
             title: "Clients Sign Anywhere",
             description: "Your clients get a secure link and sign beautifully on any device. No app downloads or accounts needed.",
             image: "/screenshots/sign-mobile.png",
-            color: "bg-orange-600"
+            color: "bg-orange-700"
         },
         {
             number: "03",
             title: "Deal Closed Instantly",
             description: "Receive a notification the second it's signed. Everyone gets a legally binding copy automatically.",
             image: "/screenshots/dashboard.png",
-            color: "bg-green-600"
+            color: "bg-green-700"
         }
     ]
 }: HowItWorksProps) => {
@@ -78,7 +78,7 @@ const HowItWorks = ({
                                         className={"object-cover"}
                                     />
                                     {/* Step Number Overlay */}
-                                    <div className={`absolute top-4 left-4 ${step.color} text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg`}>
+                                    <div className={`absolute top-4 left-4 ${step.color.replace('600', '700')} text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg`}>
                                         STEP {step.number}
                                     </div>
                                 </div>
@@ -88,7 +88,7 @@ const HowItWorks = ({
                                     <h3 className="mb-3 text-2xl font-bold text-slate-900">
                                         {step.title}
                                     </h3>
-                                    <p className="text-slate-500 leading-relaxed text-base">
+                                    <p className="text-slate-600 leading-relaxed text-base">
                                         {step.description}
                                     </p>
                                 </div>
@@ -101,13 +101,13 @@ const HowItWorks = ({
                 <div className="text-center mt-20 md:mt-32">
                     <div className="inline-flex flex-col items-center p-10 bg-slate-50 rounded-[3rem] border border-slate-200 max-w-3xl mx-auto">
                         <h4 className="text-2xl font-bold text-slate-900 mb-4">Ready to save hours of paperwork?</h4>
-                        <p className="text-lg text-slate-600 mb-8 max-w-lg">
+                        <p className="text-lg text-slate-700 mb-8 max-w-lg">
                             Join thousands of freelancers who use Boopsign to get paid faster.
                         </p>
                         <Button asChild size="lg" className="h-14 px-10 text-lg rounded-full font-semibold px-8 bg-blue-600 hover:bg-blue-700">
                             <Link href={button.url}>{button.text}</Link>
                         </Button>
-                        <div className="mt-6 flex items-center gap-6 text-xs flex-wrap md:text-sm text-slate-400 font-medium">
+                        <div className="mt-6 flex items-center gap-6 text-xs flex-wrap md:text-sm text-slate-600 font-medium">
                             <span className="flex items-center gap-1.5"><Check className="size-4 text-green-500" /> Free Trial</span>
                             <span className="flex items-center gap-1.5"><Check className="size-4 text-green-500" /> No CC Needed</span>
                             <span className="flex items-center gap-1.5"><Check className="size-4 text-green-500" /> Legal Compliance</span>

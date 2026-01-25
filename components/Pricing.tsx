@@ -60,6 +60,7 @@ const Pricing = () => {
             Monthly
           </span>
           <button
+            aria-label="Toggle between monthly and annually"
             onClick={() => setBillingInterval(billingInterval === "monthly" ? "annually" : "monthly")}
             className="relative w-14 h-7 bg-slate-200 rounded-full p-1 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
           >
@@ -72,7 +73,7 @@ const Pricing = () => {
             <span className={`text-sm font-medium ${billingInterval === "annually" ? "text-slate-900" : "text-slate-500"}`}>
               Annually
             </span>
-            <Badge variant="secondary" className="bg-green-50 text-green-700 border-green-100 text-[10px] py-0 px-2 font-bold uppercase tracking-wider">
+            <Badge variant="secondary" className="bg-green-100 text-green-800 border-green-200 text-[10px] py-0 px-2 font-bold uppercase tracking-wider">
               Save 20%
             </Badge>
           </div>
@@ -84,7 +85,7 @@ const Pricing = () => {
             <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-indigo-600" />
 
             <CardHeader className="pt-10 pb-6 text-center">
-              <Badge variant="secondary" className="w-fit mx-auto mb-8 text-sm font-semibold px-4 py-1 bg-blue-50 text-blue-700 tracking-wide hover:bg-blue-100 transition-colors">
+              <Badge variant="secondary" className="w-fit mx-auto mb-8 text-sm font-semibold px-4 py-1 bg-blue-100 text-blue-800 tracking-wide hover:bg-blue-200 transition-colors">
                 Boopsign PRO
               </Badge>
               <div className="flex items-baseline justify-center gap-1 mb-4">
@@ -94,13 +95,13 @@ const Pricing = () => {
               <CardDescription className="text-lg text-slate-700 font-semibold mb-2">
                 {billingInterval === "annually" ? "$144 billed annually" : "Unlimited documents • No per-signer fees"}
               </CardDescription>
-              <CardDescription className="text-sm text-slate-400 font-medium">
+              <CardDescription className="text-sm text-slate-600 font-medium">
                 7-day free trial. Cancel anytime.
               </CardDescription>
             </CardHeader>
 
             <CardContent className="py-8 px-8 sm:px-10 bg-slate-50/50 border-t border-slate-100 border-b">
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6 text-center">
+              <p className="text-xs font-bold text-slate-700 uppercase tracking-widest mb-6 text-center">
                 What&apos;s included in Pro
               </p>
               <div className="space-y-4">
@@ -138,7 +139,7 @@ const Pricing = () => {
               )}
 
               {!isPaidUser && (
-                <p className="text-xs text-center text-slate-400 font-medium">
+                <p className="text-xs text-center text-slate-600 font-medium">
                   No credit card required for trial.
                 </p>
               )}
@@ -163,29 +164,29 @@ const Pricing = () => {
       <div className="container mx-auto px-4 py-20 border-t border-slate-100">
         <div className="grid md:grid-cols-3 gap-12 max-w-6xl mx-auto">
           <div className="flex flex-col items-center text-center group">
-            <div className="h-16 w-16 rounded-2xl bg-amber-50 flex items-center justify-center mb-6 text-amber-500 group-hover:scale-110 transition-transform duration-300">
+            <div className="h-16 w-16 rounded-2xl bg-amber-100 flex items-center justify-center mb-6 text-amber-600 group-hover:scale-110 transition-transform duration-300">
               <Zap className="h-8 w-8" />
             </div>
             <h3 className="text-lg font-semibold mb-3 text-slate-900">Lightning Fast</h3>
-            <p className="text-slate-500 leading-relaxed px-4 text-sm">
+            <p className="text-slate-600 leading-relaxed px-4 text-sm">
               Send contracts for signature in seconds. Sign instantly on any device without apps.
             </p>
           </div>
           <div className="flex flex-col items-center text-center group">
-            <div className="h-16 w-16 rounded-2xl bg-blue-50 flex items-center justify-center mb-6 text-blue-500 group-hover:scale-110 transition-transform duration-300">
+            <div className="h-16 w-16 rounded-2xl bg-blue-100 flex items-center justify-center mb-6 text-blue-600 group-hover:scale-110 transition-transform duration-300">
               <Shield className="h-8 w-8" />
             </div>
             <h3 className="text-lg font-semibold mb-3 text-slate-900">Bank-Level Security</h3>
-            <p className="text-slate-500 leading-relaxed px-4 text-sm">
+            <p className="text-slate-600 leading-relaxed px-4 text-sm">
               Protected with 256-bit encryption. comprehensive audit trails for every transaction.
             </p>
           </div>
           <div className="flex flex-col items-center text-center group">
-            <div className="h-16 w-16 rounded-2xl bg-green-50 flex items-center justify-center mb-6 text-green-500 group-hover:scale-110 transition-transform duration-300">
+            <div className="h-16 w-16 rounded-2xl bg-green-100 flex items-center justify-center mb-6 text-green-600 group-hover:scale-110 transition-transform duration-300">
               <Info className="h-8 w-8" />
             </div>
             <h3 className="text-lg font-semibold mb-3 text-slate-900">Legally Binding</h3>
-            <p className="text-slate-500 leading-relaxed px-4 text-sm">
+            <p className="text-slate-600 leading-relaxed px-4 text-sm">
               ESIGN and UETA compliant signatures. As legally binding as pen and paper.
             </p>
           </div>

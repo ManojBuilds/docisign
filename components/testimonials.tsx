@@ -23,7 +23,7 @@ export default function TestimonialsSection() {
     <section className="w-full py-24 bg-white border-t border-slate-100">
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-50 text-amber-600 text-[10px] font-semibold uppercase tracking-widest mb-4 border border-amber-100">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-[10px] font-semibold uppercase tracking-widest mb-4 border border-amber-200">
             Trusted by Early Adopters
           </div>
           <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-6">

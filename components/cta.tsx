@@ -40,7 +40,7 @@ const Cta = () => {
                 <StartTrialBtn label="Sign Your First Document Free" />
               </div>
 
-              <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium text-slate-500">
+              <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium text-slate-600">
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                   7-day free trial

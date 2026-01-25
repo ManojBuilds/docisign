@@ -48,8 +48,16 @@ export function DragAndClickUpload() {
             ? "border-primary bg-primary/10 ring-4 ring-primary/20 scale-[1.02]"
             : "border-primary hover:bg-gray-100/60"
         )}
+        role="button"
+        tabIndex={0}
       >
-        <input {...getInputProps()} />
+        <label htmlFor="file-upload-input" className="sr-only" id="file-upload-label">
+          Upload PDF or Word document
+        </label>
+        <input
+          {...getInputProps()}
+          id="file-upload-input"
+        />
 
         {/* Drag overlay */}
         {isDragActive && (

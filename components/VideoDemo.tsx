@@ -192,6 +192,7 @@ const VideoDemo = () => {
           {/* Mux Embed */}
           <iframe
             src="https://player.mux.com/r00gX1OF5Esw3iCPhFiYEK1LFE0200a8U1hxHggV7K8X600"
+            title="Boopsign demo video - How to use Docisign"
             style={{ width: "100%", border: "none", aspectRatio: "16/9" }}
             allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
             allowFullScreen

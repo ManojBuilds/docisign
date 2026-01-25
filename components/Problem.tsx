@@ -31,7 +31,7 @@ export function Problem() {
     <section className="relative w-full py-24 md:py-32 bg-slate-50 overflow-hidden" id="features">
       <div className="container relative z-10 px-4 md:px-6 mx-auto">
         <div className="flex flex-col items-center justify-center space-y-6 text-center mb-20 md:mb-32">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 border border-red-100 text-red-600 text-xs font-medium uppercase tracking-wider mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-100 border border-red-200 text-red-700 text-xs font-medium uppercase tracking-wider mb-2">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
             Stop the "Chasing Signatures" dance
           </div>
@@ -55,7 +55,7 @@ export function Problem() {
               key={i}
               className="group relative flex flex-col p-8 md:p-10 rounded-[2rem] bg-white border border-transparent hover:border-slate-100 hover:shadow-xl transition-all duration-300"
             >
-              <div className="mb-8 inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-100 text-[10px] font-semibold uppercase tracking-widest text-slate-400">
+              <div className="mb-8 inline-flex self-start items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-[10px] font-semibold uppercase tracking-widest text-slate-700">
                 {p.tag}
               </div>
 
