@@ -1,8 +1,7 @@
 "use client";
 
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { SignatureFieldData } from "@/components/signature-field";
 import { UserMenu } from "@/components/UserMenu";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -12,6 +11,8 @@ import { ArrowLeft, Loader2, Pencil, Save } from "lucide-react";
 import Link from "next/link";
 import { Suspense, lazy, memo, useEffect, useState } from "react";
 import { toast } from "sonner";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const ShareDialog = lazy(() => import("@/components/ShareDialog").then(m => ({ default: m.ShareDialog })));
 
@@ -23,6 +24,8 @@ interface EditorNavbarProps {
     onSendForSigning: (signers: any[], customMessage?: string) => Promise<void>;
     onSignerAdd: (signer: any) => void;
     hasUnassignedFields: boolean;
+    signatureFields?: SignatureFieldData[];
+    signers?: any[];
 }
 
 export const EditorNavbar = memo(({
@@ -32,7 +35,9 @@ export const EditorNavbar = memo(({
     hasUnsavedChanges,
     onSendForSigning,
     onSignerAdd,
-    hasUnassignedFields
+    hasUnassignedFields,
+    signatureFields,
+    signers,
 }: EditorNavbarProps) => {
     const document = useQuery(api.documents.getDocument, { documentId });
     const updateDocumentTitle = useMutation(api.documents.updateDocumentTitle);
@@ -135,6 +140,8 @@ export const EditorNavbar = memo(({
                         hasUnassignedFields={hasUnassignedFields}
                         onSignerAdd={onSignerAdd}
                         skipSignerSync={true}
+                        signatureFields={signatureFields}
+                        signers={signers}
                     />
                 </Suspense>
                 <div className="w-1 h-6 border-l border-gray-200 mx-1" />

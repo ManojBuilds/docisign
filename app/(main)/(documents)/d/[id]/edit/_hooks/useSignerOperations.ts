@@ -1,7 +1,7 @@
 import { SignatureFieldData } from "@/components/signature-field";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { useSignersStore } from "@/stores/signersStore";
+import { useDocumentEditorStore } from "@/stores/document-editor-store";
 import { useMutation } from "convex/react";
 import { useCallback, useMemo } from "react";
 import { toast } from "sonner";
@@ -21,13 +21,12 @@ export function useSignerOperations(
     handleSaveField: (field: SignatureFieldData) => Promise<void>,
     handleSaveAllFields: () => Promise<void>
 ) {
-    const addSigner = useMutation(api.signers.addSigner);
     const sendForSigning = useMutation(api.signers.sendDocumentForSigning);
 
     const handleSignerAdd = useCallback(
         (signer: Signer) => {
-            // Add to signers store so it persists in the session and UI
-            useSignersStore.getState().addSigner(signer);
+            // Add to manual signers in document editor store
+            useDocumentEditorStore.getState().addManualSigner(signer);
 
             const unassignedFields = signatureFields.filter(
                 (field) => !field.signerEmail
@@ -56,23 +55,18 @@ export function useSignerOperations(
 
     const handleSendForSigning = useCallback(
         async (signers: Signer[], customMessage?: string) => {
-            // Ensure all fields are saved before sending
+            // Ensure all fields are saved to the database before sending.
+            // This also ensures all assigned signers have their fields persisted.
             await handleSaveAllFields();
 
-            for (const signer of signers) {
-                await addSigner({
-                    documentId,
-                    email: signer.email,
-                    name: signer.name,
-                });
-            }
-
+            // Notify the server to update document status and send emails.
+            // Signers are derived on the server from the persisted signature fields.
             await sendForSigning({
                 documentId,
                 customMessage: customMessage || undefined,
             });
         },
-        [addSigner, documentId, sendForSigning, handleSaveAllFields]
+        [documentId, sendForSigning, handleSaveAllFields]
     );
 
     const hasUnassignedFields = useMemo(

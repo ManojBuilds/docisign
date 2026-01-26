@@ -1,12 +1,8 @@
 'use client';
 
-import { api } from '@/convex/_generated/api';
 import { Id } from '@/convex/_generated/dataModel';
 import { cn } from '@/lib/utils';
 import { useDocumentEditorStore } from '@/stores/document-editor-store';
-import { useSignersStore } from '@/stores/signersStore';
-import { useUser } from '@clerk/nextjs';
-import { useQuery } from 'convex/react';
 import {
   ALargeSmall, CalendarDays,
   ChevronLeft,
@@ -48,30 +44,24 @@ export function SignersSidebar({ }: SignersSidebarProps) {
     selectedTool,
     setSelectedTool,
     setCurrentPage,
+    manualSigners,
   } = useDocumentEditorStore();
 
-  const { user } = useUser();
-  const allSigners = useQuery(api.signers.getUserSigners, user ? { ownerId: user.id } : 'skip');
 
-  const { signers: storeSigners } = useSignersStore();
-
-  const documentSigners = useMemo(() => {
-    const signersMap = new Map<string, string>();
-
-    // First, add all signers from the store
-    storeSigners.forEach(s => {
-      signersMap.set(s.email, s.name || s.email);
-    });
-
-    // Then, potentially add signers from fields (though they should already be in storeSigners)
-    signatureFields.forEach(field => {
-      if (field.signerEmail && !signersMap.has(field.signerEmail)) {
-        signersMap.set(field.signerEmail, field.signerName || field.signerEmail);
+  // Use the active signers from the store (merges manual + field)
+  const activeSigners = useMemo(() => {
+    const uniqueSigners = new Map();
+    manualSigners.forEach(s => uniqueSigners.set(s.email, s));
+    signatureFields.forEach(f => {
+      if (f.signerEmail && !uniqueSigners.has(f.signerEmail)) {
+        uniqueSigners.set(f.signerEmail, {
+          email: f.signerEmail,
+          name: f.signerName || "",
+        });
       }
     });
-
-    return Array.from(signersMap.entries()).map(([email, name]) => ({ email, name }));
-  }, [storeSigners, signatureFields]);
+    return Array.from(uniqueSigners.values()).sort((a, b) => a.email.localeCompare(b.email));
+  }, [manualSigners, signatureFields]);
 
   const activeFields = useMemo(() => {
     return signatureFields
@@ -155,7 +145,14 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                 const updatedField = { ...selectedField, ...updates };
                 updateSignatureFieldInStore(updatedField);
               }}
-              signers={allSigners ?? []}
+              // For autocomplete recommendations, we can use `activeSigners` or `allSigners` (contacts).
+              // Using activeSigners ensures we can easily pick existing recipients.
+              // We cast activeSigners to satisfy the prop type (missing documentId/documentTitle is fine as they are optional/unused here)
+              signers={activeSigners.map(s => ({
+                ...s,
+                documentId: selectedField.id as any, // Dummy
+                documentTitle: ""
+              }))}
             />
           </div>
         </ScrollArea>
@@ -265,13 +262,13 @@ export function SignersSidebar({ }: SignersSidebarProps) {
           {/* Signers Reference Section */}
           <section>
             <div className="flex items-center justify-between mb-3 px-1">
-              <h3 className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Recipients ({documentSigners.length})</h3>
+              <h3 className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Recipients ({activeSigners.length})</h3>
             </div>
-            {documentSigners.length === 0 ? (
+            {activeSigners.length === 0 ? (
               <p className="text-[10px] text-gray-400 italic px-1 font-medium">No recipients assigned yet</p>
             ) : (
               <div className="space-y-2">
-                {documentSigners.map((signer, index) => (
+                {activeSigners.map((signer, index) => (
                   <div key={signer.email} className="flex items-center gap-2.5 px-1 group">
                     <div className={cn(
                       'w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-semibold text-white shrink-0 bg-gradient-to-tr uppercase',

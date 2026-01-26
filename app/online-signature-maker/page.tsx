@@ -95,6 +95,10 @@ export default function OnlineSignatureMakerPage() {
     <div className="min-h-screen flex flex-col bg-white">
       <ClientHeaderWrapper />
       <main className="flex-grow">
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Allison&family=Bilbo+Swash+Caps&family=Caveat&family=Comforter+Brush&family=Dancing+Script&family=Dr+Sugiyama&family=Fuggles&family=Great+Vibes&family=Kaushan+Script&family=Liu+Jian+Mao+Cao&family=Montez&family=Mrs+Saint+Delafield&family=Over+the+Rainbow&family=Pinyon+Script&family=Qwigley&family=Reenie+Beanie&family=Sacramento&family=Style+Script&family=Zeyada&display=swap" rel="stylesheet" />
+
         <section className="relative pt-20 pb-32 overflow-hidden bg-slate-50/40">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[800px] bg-[radial-gradient(100%_100%_at_50%_0%,rgba(59,130,246,0.05)_0%,rgba(255,255,255,0)_100%)] pointer-events-none" />
 

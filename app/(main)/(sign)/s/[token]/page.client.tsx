@@ -24,13 +24,13 @@ import {
   useSigningSession
 } from "./_hooks";
 
-export default function SigningPage() {
+export default function SigningPage({ initialSigningSession }: { initialSigningSession?: any }) {
   const params = useParams();
   const accessToken = params.token as string;
   const { pageDimensions, scale, setScale } = usePdfDimensions();
 
   // Custom Hooks
-  const { signingSession, owner, allDocumentFields, isLoading, hasError } = useSigningSession(accessToken);
+  const { signingSession, owner, allDocumentFields, isLoading, hasError } = useSigningSession(accessToken, initialSigningSession);
   const {
     signatureFields,
     setSignatureFields,
@@ -195,12 +195,14 @@ export default function SigningPage() {
         senderEmail={owner?.email || "the sender"}
         brandName={signingSession.ownerBranding?.brandName}
         brandLogoUrl={signingSession.ownerBranding?.logoUrl ?? undefined}
+        customMessage={signingSession.document?.customMessage}
       />
 
       <DeclineDialog
         open={showDeclineDialog}
         onOpenChange={setShowDeclineDialog}
         onConfirm={handleDecline}
+        customMessage={signingSession.document?.customMessage}
       />
     </>
   );

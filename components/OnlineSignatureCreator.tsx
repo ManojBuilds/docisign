@@ -1,9 +1,10 @@
 "use client";
 
-import { Download, Trash2, Check, Sparkles } from "lucide-react";
+import { Download, Trash2, Check, Sparkles, CheckCircle2, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useRef, useState, useDeferredValue } from "react";
 import SignatureCanvas from "react-signature-canvas";
+import { Confetti, type ConfettiRef } from "./ui/confetti";
 import { Button } from "./ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from "./ui/dialog";
@@ -164,7 +165,9 @@ export default function OnlineSignatureCreator() {
   const sigCanvas = useRef<SignatureCanvas>(null);
   const [activeTab, setActiveTab] = useState("draw");
   const [typedSignature, setTypedSignature] = useState("");
+  const deferredSignature = useDeferredValue(typedSignature);
   const [showUpsell, setShowUpsell] = useState(false);
+  const confettiRef = useRef<ConfettiRef>(null);
 
   const clearSignature = () => {
     sigCanvas.current?.clear();
@@ -178,7 +181,11 @@ export default function OnlineSignatureCreator() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    setShowUpsell(true);
+
+    setTimeout(() => {
+      setShowUpsell(true);
+      confettiRef.current?.fire({});
+    }, 500);
   };
 
   const downloadFullCanvas = () => {
@@ -187,13 +194,13 @@ export default function OnlineSignatureCreator() {
   };
 
   const downloadPersonality = (personality: Personality) => {
-    if (!typedSignature.trim()) return;
+    if (!deferredSignature.trim()) return;
 
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const text = personality.transform ? personality.transform(typedSignature) : typedSignature;
+    const text = personality.transform ? personality.transform(deferredSignature) : deferredSignature;
     const finalVal = personality.canvasCaps ? text.toUpperCase() : text;
 
     // Set font to measure
@@ -334,7 +341,7 @@ export default function OnlineSignatureCreator() {
                           className="text-4xl md:text-6xl text-slate-800 whitespace-nowrap px-4 pb-2"
                           style={p.style}
                         >
-                          {p.transform ? p.transform(typedSignature || "Sample") : (typedSignature || "Sample")}
+                          {p.transform ? p.transform(deferredSignature || "Sample") : (deferredSignature || "Sample")}
                         </span>
                       </div>
                     </div>
@@ -347,16 +354,17 @@ export default function OnlineSignatureCreator() {
 
                       <Button
                         variant="outline"
-                        disabled={!typedSignature}
+                        disabled={!deferredSignature}
                         onClick={() => downloadPersonality(p)}
                         className="w-full rounded-xl border-slate-200 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all font-semibold h-11 shadow-sm"
                       >
                         <Download className="size-4 mr-2" />
                         Download Style
                       </Button>
+
                     </div>
 
-                    {typedSignature && (
+                    {deferredSignature && (
                       <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
                         <div className="size-6 rounded-full bg-green-500 flex items-center justify-center shadow-sm">
                           <Check className="size-3 text-white" />
@@ -371,26 +379,78 @@ export default function OnlineSignatureCreator() {
         </Tabs>
 
         <Dialog open={showUpsell} onOpenChange={setShowUpsell}>
-          <DialogContent className="sm:max-w-md rounded-[2rem] p-0 overflow-hidden border-0">
-            <div className="bg-sky-50 px-8 py-10 text-center">
-              <div className="mx-auto size-14 bg-white rounded-full flex items-center justify-center shadow-sm mb-6">
-                <Sparkles className="size-6 text-blue-500" />
+          <DialogContent className="sm:max-w-[500px] p-0 overflow-hidden border-none shadow-2xl">
+            <Confetti
+              ref={confettiRef}
+              className="absolute inset-0 z-0 pointer-events-none"
+              manualstart
+            />
+
+            <div className="relative z-10">
+              <div className="bg-slate-900 p-10 text-white text-center relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+                <div className="absolute bottom-0 left-0 w-24 h-24 bg-purple-500/10 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2"></div>
+
+                <div className="relative z-10">
+                  <div className="mx-auto w-16 aspect-square bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 border border-white/20 shadow-xl">
+                    <CheckCircle2 className="w-8 h-8 text-blue-400" />
+                  </div>
+                  <DialogTitle className="text-3xl font-black mb-2 text-white tracking-tight">Signature Ready!</DialogTitle>
+                  <DialogDescription className="text-white/60 text-[15px] font-medium max-w-[280px] mx-auto leading-relaxed">
+                    Your professional signature is ready for use. Now, sign your actual documents legally.
+                  </DialogDescription>
+                </div>
               </div>
-              <DialogTitle className="text-2xl font-bold text-slate-900 mb-2">Signature Ready! 🎉</DialogTitle>
-              <DialogDescription className="text-slate-600 text-base">
-                Your signature has been downloaded. Now, sign your actual documents legally with Boopsign.
-              </DialogDescription>
-            </div>
-            <div className="p-8 bg-white border-t border-slate-100 flex flex-col gap-3">
-              <Link
-                href="/dashboard"
-                className="w-full inline-flex items-center justify-center px-4 py-4 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-800 transition-all shadow-lg hover:shadow-xl"
-              >
-                Upload & Sign PDF Free
-              </Link>
-              <Button variant="ghost" className="w-full rounded-xl text-slate-500 hover:text-slate-900" onClick={() => setShowUpsell(false)}>
-                Maybe later
-              </Button>
+
+              <div className="p-8 bg-white">
+                <div className="space-y-6">
+                  <div>
+                    <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.2em] mb-8">
+                      Why users choose Boopsign
+                    </h4>
+                    <div className="space-y-8">
+                      <div className="flex gap-5 items-start">
+                        <div className="w-10 aspect-square bg-blue-50 rounded-full flex items-center justify-center flex-shrink-0 border border-blue-100/50">
+                          <Sparkles className="w-5 h-5 text-blue-600" />
+                        </div>
+                        <div className="pt-1 text-left">
+                          <p className="font-black text-slate-900 text-[15px] mb-1 leading-none tracking-tight">Professional e-Signatures</p>
+                          <p className="text-[13px] text-slate-500 leading-relaxed font-medium">Stop sending Word docs. Send a professional, mobile-ready signing link.</p>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-5 items-start">
+                        <div className="w-10 aspect-square bg-green-50 rounded-full flex items-center justify-center flex-shrink-0 border border-green-100/50">
+                          <CheckCircle2 className="w-5 h-5 text-green-600" />
+                        </div>
+                        <div className="pt-1 text-left">
+                          <p className="font-black text-slate-900 text-[15px] mb-1 leading-none tracking-tight">3x Faster Closures</p>
+                          <p className="text-[13px] text-slate-500 leading-relaxed font-medium">Clients sign in 60 seconds from any phone without creating an account.</p>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-5 items-start">
+                        <div className="w-10 aspect-square bg-purple-50 rounded-full flex items-center justify-center flex-shrink-0 border border-purple-100/50">
+                          <ArrowRight className="w-5 h-5 text-purple-600" />
+                        </div>
+                        <div className="pt-1 text-left">
+                          <p className="font-black text-slate-900 text-[15px] mb-1 leading-none tracking-tight">Automated Audit Trails</p>
+                          <p className="text-[13px] text-slate-500 leading-relaxed font-medium">Get a legally binding certificate of completion with every signed document.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-2">
+                    <Link href="/dashboard">
+                      <Button size={'lg'} className="w-full">Upload & Sign PDF Free</Button>
+                    </Link>
+                    <p className="text-center text-[10px] text-slate-400 mt-4">
+                      Trusted by 10,000+ professionals for secure document workflows.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           </DialogContent>
         </Dialog>

@@ -1,7 +1,7 @@
 import { SignatureFieldData } from "@/components/signature-field";
 import { useDocumentEditorStore } from "@/stores/document-editor-store";
 import { useSignersStore } from "@/stores/signersStore";
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 
 interface Signer {
   email: string;
@@ -23,7 +23,8 @@ export function useFieldOperations(
   const recipientSigners = useSignersStore((s) => s.signers);
 
   // Track the last assigned signer to enable cycling through signers
-  const lastAssignedSignerIndex = useRef(-1);
+  const lastAssignedSignerEmail = useDocumentEditorStore((s) => s.lastAssignedSignerEmail);
+  const setLastAssignedSignerEmail = useDocumentEditorStore((s) => s.setLastAssignedSignerEmail);
 
   const handleAddSignatureField = useCallback(
     (
@@ -70,15 +71,16 @@ export function useFieldOperations(
       let assignedSignerName = "";
 
       if (allSignersArray.length > 0) {
-        // If we have signers, use smart assignment logic
-        if (lastAssignedSignerIndex.current === -1) {
-          // First time: assign to the first signer
-          lastAssignedSignerIndex.current = 0;
+        // Decide which signer to use
+        // 1. Try to use the last assigned signer if they are still in the list
+        if (lastAssignedSignerEmail && allSignersSet.has(lastAssignedSignerEmail)) {
+          assignedSignerEmail = lastAssignedSignerEmail;
+        } else {
+          // 2. Default to the first signer
+          assignedSignerEmail = allSignersArray[0];
+          // Set this as the last assigned for next time
+          setLastAssignedSignerEmail(assignedSignerEmail);
         }
-
-        // Always use the current index (don't auto-cycle)
-        // This means new fields will be assigned to the same signer as the last one
-        assignedSignerEmail = allSignersArray[lastAssignedSignerIndex.current];
 
         // Find the full signer object to get the name
         const fullSigner = [...signers, ...recipientSigners].find(s => s.email === assignedSignerEmail);
@@ -109,38 +111,17 @@ export function useFieldOperations(
       setSelectedFieldId,
       signers,
       recipientSigners,
+      lastAssignedSignerEmail,
+      setLastAssignedSignerEmail
     ]
   );
 
   const handleUpdateFieldInStore = useCallback(
     (updatedField: SignatureFieldData) => {
-      // Check if the signer assignment was manually changed
-      const currentFields = useDocumentEditorStore.getState().signatureFields;
-      const existingField = currentFields.find(f => f.id === updatedField.id);
-
-      if (existingField && existingField.signerEmail !== updatedField.signerEmail) {
-        // Signer was manually changed - update the lastAssignedSignerIndex
-        // to continue cycling from this signer
-        const allSignersSet = new Set<string>();
-
-        // Collect all signers
-        signers.forEach(signer => allSignersSet.add(signer.email));
-        recipientSigners.forEach(signer => allSignersSet.add(signer.email));
-        currentFields.forEach(field => {
-          if (field.signerEmail) allSignersSet.add(field.signerEmail);
-        });
-
-        const allSignersArray = Array.from(allSignersSet);
-        const newSignerIndex = allSignersArray.indexOf(updatedField.signerEmail);
-
-        if (newSignerIndex !== -1) {
-          lastAssignedSignerIndex.current = newSignerIndex;
-        }
-      }
-
+      // The store's updateSignatureFieldInStore now handles updating lastAssignedSignerEmail automatically
       updateSignatureFieldInStore(updatedField);
     },
-    [updateSignatureFieldInStore, signers, recipientSigners]
+    [updateSignatureFieldInStore]
   );
 
   const handleSaveField = useCallback(
@@ -160,8 +141,8 @@ export function useFieldOperations(
 
   // Function to reset the assignment cycle (useful when all fields are cleared)
   const resetAssignmentCycle = useCallback(() => {
-    lastAssignedSignerIndex.current = -1;
-  }, []);
+    setLastAssignedSignerEmail(null);
+  }, [setLastAssignedSignerEmail]);
 
   return {
     handleAddSignatureField,

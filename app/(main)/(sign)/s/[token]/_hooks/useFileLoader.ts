@@ -12,7 +12,7 @@ interface UseFileLoaderProps {
  * Hook to handle file loading, viewing status, and downloads
  */
 export function useFileLoader({ accessToken, signingSession }: UseFileLoaderProps) {
-  const [fileUrl, setFileUrl] = useState<string>("");
+  const [fileUrl, setFileUrl] = useState<string>(signingSession?.fileUrl || "");
   const [hasMarkedViewed, setHasMarkedViewed] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -20,10 +20,10 @@ export function useFileLoader({ accessToken, signingSession }: UseFileLoaderProp
   const markAsViewed = useMutation(api.signers.markDocumentAsViewed);
 
   useEffect(() => {
-    if (signingSession?.fileUrl) {
+    if (signingSession?.fileUrl && signingSession.fileUrl !== fileUrl) {
       setFileUrl(signingSession.fileUrl);
     }
-  }, [signingSession?.fileUrl]);
+  }, [signingSession?.fileUrl, fileUrl]);
 
   const markViewed = useCallback(async () => {
     if (signingSession && !hasMarkedViewed && signingSession.document) {

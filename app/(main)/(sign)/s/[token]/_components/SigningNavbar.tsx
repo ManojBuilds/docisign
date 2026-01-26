@@ -4,7 +4,7 @@ import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { FileText, Info, Loader2, User } from "lucide-react";
+import { FileText, Info, Loader2, Mail, User } from "lucide-react";
 import Image from "next/image";
 import { memo } from "react";
 
@@ -111,6 +111,18 @@ export const SigningNavbar = memo(({
                       <span className="text-gray-500 font-medium">Sent on</span>
                       <span className="text-gray-900 font-semibold">{new Date(signingSession.document.createdAt).toLocaleDateString(undefined, { dateStyle: 'medium' })}</span>
                     </div>
+
+                    {signingSession.document.customMessage && (
+                      <div className="p-6 bg-blue-50/50 rounded-2xl border border-blue-100/50 space-y-3">
+                        <div className="flex items-center gap-2">
+                          <Mail className="size-3 text-blue-600" />
+                          <span className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Message from Sender</span>
+                        </div>
+                        <p className="text-sm text-gray-700 leading-relaxed italic font-medium">
+                          "{signingSession.document.customMessage}"
+                        </p>
+                      </div>
+                    )}
                   </div>
 
                   <div className="pt-4">
@@ -140,10 +152,10 @@ export const SigningNavbar = memo(({
             }}
           />
         </div>
-      </header>
+      </header >
 
       {/* Desktop Header */}
-      <header className="hidden md:flex h-16 items-center justify-between px-6 bg-white border-b z-30 shrink-0">
+      < header className="hidden md:flex h-16 items-center justify-between px-6 bg-white border-b z-30 shrink-0" >
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-3">
             {signingSession.ownerBranding?.logoUrl ? (
@@ -228,6 +240,20 @@ export const SigningNavbar = memo(({
                   </div>
                 </div>
 
+                {signingSession.document.customMessage && (
+                  <div className="space-y-4">
+                    <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2">
+                      <Mail className="w-3 h-3" />
+                      Message from Sender
+                    </h3>
+                    <div className="p-5 bg-blue-50/50 rounded-2xl border border-blue-100/50">
+                      <p className="text-sm text-gray-700 leading-relaxed italic font-medium">
+                        "{signingSession.document.customMessage}"
+                      </p>
+                    </div>
+                  </div>
+                )}
+
                 <div className="pt-4">
                   <Button
                     variant="outline"
@@ -277,7 +303,7 @@ export const SigningNavbar = memo(({
           )}
         </Button>
 
-      </header>
+      </header >
     </>
   );
 });

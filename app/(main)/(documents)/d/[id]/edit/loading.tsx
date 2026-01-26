@@ -1,38 +1,65 @@
-import { Lock } from "lucide-react";
 import Logo from "@/components/Logo";
 
 export default function DocumentEditorLoading() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.3]"
-        style={{
-          backgroundImage: `
-            radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
-            repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.01) 10px, rgba(0,0,0,0.01) 11px)
-          `
-        }}
-      />
-
-      <div className="relative z-10 flex flex-col items-center animate-in fade-in zoom-in-95 duration-500">
-        <div className="mb-8 scale-110">
-          <Logo />
+    <div className="h-screen flex flex-col overflow-hidden bg-white">
+      {/* Navbar Skeleton */}
+      <div className="h-[65px] w-full border-b bg-white flex items-center justify-between px-4 animate-pulse">
+        <div className="flex items-center gap-4">
+          <div className="h-9 w-24 bg-gray-100 rounded-lg" />
+          <div className="h-6 w-48 bg-gray-100 rounded-md" />
         </div>
+        <div className="flex items-center gap-3">
+          <div className="h-9 w-32 bg-gray-100 rounded-lg" />
+          <div className="h-9 w-32 bg-gray-100 rounded-lg" />
+          <div className="h-8 w-8 bg-gray-100 rounded-full" />
+        </div>
+      </div>
 
-        <div className="flex flex-col items-center space-y-4">
-          <div className="h-1.5 w-48 bg-gray-100 rounded-full overflow-hidden">
-            <div className="h-full bg-primary animate-indeterminate-progress rounded-full" />
+      <div className="flex-1 flex min-h-0">
+        {/* Thumbnail Sidebar Skeleton */}
+        <div className="w-48 border-r bg-white h-full flex flex-col animate-pulse hidden md:block">
+          <div className="p-4 border-b h-[53px] flex items-center justify-between">
+            <div className="h-3 w-12 bg-gray-100 rounded" />
+            <div className="h-4 w-6 bg-gray-100 rounded" />
           </div>
-          <p className="text-sm font-medium text-gray-400 uppercase tracking-widest animate-pulse">
-            Initializing Editor...
-          </p>
+          <div className="p-4 space-y-6">
+            {[1, 2, 3].map((i) => (
+              <div key={i} className="space-y-2">
+                <div className="aspect-[3/4] w-full bg-gray-50 rounded-sm border border-gray-100" />
+                <div className="h-2 w-10 bg-gray-50 rounded mx-auto" />
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-12 flex items-center gap-2 px-4 py-2 bg-gray-50 rounded-full border border-gray-100/50">
-          <Lock className="w-3 h-3 text-gray-400" />
-          <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider">
-            Secure Workspace
-          </span>
+        {/* Main Content Skeleton */}
+        <div className="flex-1 flex items-center justify-center p-8 bg-gray-50/50">
+          <div className="w-full max-w-[600px] aspect-[1/1.41] bg-white rounded-md border border-gray-100 flex flex-col items-center justify-center animate-pulse">
+            <div className="flex flex-col items-center animate-in fade-in zoom-in-95 duration-500">
+              <div className="mb-6 scale-90 opacity-70">
+                <Logo />
+              </div>
+              <div className="h-1 w-32 bg-gray-50 rounded-full overflow-hidden">
+                <div className="h-full bg-primary/40 animate-indeterminate-progress rounded-full" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Signers Sidebar Skeleton */}
+        <div className="w-[300px] border-l bg-white h-full flex flex-col animate-pulse hidden lg:block">
+          <div className="p-6 space-y-6">
+            <div className="flex flex-col gap-2">
+              <div className="h-4 w-20 bg-gray-100 rounded" />
+              <div className="h-20 w-full bg-gray-50 rounded-2xl border border-gray-100" />
+            </div>
+            <div className="space-y-4 pt-4">
+              <div className="h-10 w-full bg-gray-50 rounded-xl border border-gray-100" />
+              <div className="h-10 w-full bg-gray-50 rounded-xl border border-gray-100" />
+              <div className="h-10 w-full bg-gray-50 rounded-xl border border-gray-100" />
+            </div>
+          </div>
         </div>
       </div>
     </div>

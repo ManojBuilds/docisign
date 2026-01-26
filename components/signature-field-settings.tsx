@@ -11,6 +11,7 @@ import {
 import { Switch } from "@/components/ui/switch";
 import { Id } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
 import { SignatureFieldData } from "./signature-field";
 
 interface SignatureFieldSettingsProps {
@@ -30,6 +31,13 @@ export function SignatureFieldSettings({
   onFieldUpdate,
   signers = []
 }: SignatureFieldSettingsProps) {
+  // Local state for email input to prevent creating signers for every keystroke
+  const [localEmail, setLocalEmail] = useState(field.signerEmail || "");
+
+  useEffect(() => {
+    setLocalEmail(field.signerEmail || "");
+  }, [field.signerEmail]);
+
   // Get the index of the current signer in the signers array
   const currentSignerIndex = signers.findIndex(s => s.email === field.signerEmail);
 
@@ -101,18 +109,25 @@ export function SignatureFieldSettings({
             id="signer"
             type="email"
             placeholder="signer@example.com"
-            value={field.signerEmail || ""}
-            onChange={(e) => {
-              const email = e.target.value;
-              const signer = signers?.find(s => s.email === email);
-              onFieldUpdate({
-                signerEmail: email,
-                signerName: signer?.name || ""
-              });
+            value={localEmail}
+            onChange={(e) => setLocalEmail(e.target.value)}
+            onBlur={() => {
+              if (localEmail !== field.signerEmail) {
+                const signer = signers?.find(s => s.email === localEmail);
+                onFieldUpdate({
+                  signerEmail: localEmail,
+                  signerName: signer?.name || ""
+                });
+              }
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.currentTarget.blur();
+              }
             }}
             className="h-8 text-xs"
           />
-          {signers.length > 0 && !signers.find(s => s.email === field.signerEmail) && field.signerEmail && (
+          {localEmail && signers.length > 0 && !signers.find(s => s.email === localEmail) && (
             <p className="text-[10px] text-blue-600 font-medium">New signer will be added automatically</p>
           )}
         </div>

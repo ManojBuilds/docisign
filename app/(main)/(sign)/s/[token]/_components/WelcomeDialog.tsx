@@ -18,6 +18,7 @@ interface WelcomeDialogProps {
   senderEmail: string;
   brandName?: string;
   brandLogoUrl?: string;
+  customMessage?: string;
 }
 
 export function WelcomeDialog({
@@ -28,6 +29,7 @@ export function WelcomeDialog({
   senderEmail,
   brandName,
   brandLogoUrl,
+  customMessage,
 }: WelcomeDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -73,6 +75,25 @@ export function WelcomeDialog({
                 Document sent for your review by <span className="text-white font-semibold">{brandName || senderEmail}</span>
               </p>
             </div>
+
+            {customMessage && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="bg-white/5 border border-white/10 rounded-2xl p-4 mt-2"
+              >
+                <div className="flex gap-3">
+                  <Mail className="size-4 text-blue-400 shrink-0 mt-0.5" />
+                  <div className="space-y-1">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-blue-400/80">Personal Message</p>
+                    <p className="text-sm text-gray-300 leading-relaxed italic">
+                      "{customMessage}"
+                    </p>
+                  </div>
+                </div>
+              </motion.div>
+            )}
           </div>
         </div >
 

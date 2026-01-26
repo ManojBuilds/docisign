@@ -54,6 +54,26 @@ export async function generateMetadata({
   };
 }
 
-export default function SignDocumentPage() {
-  return <SigningPage />;
+export default async function SignDocumentPage({
+  params,
+}: {
+  params: Promise<{ token: string }>;
+}) {
+  const { token } = await params;
+
+  // Preload the signing session data server-side so the page loads instantly
+  // This avoids the client-side waterfall
+  const initialSigningSession = await convexClient.query(
+    api.signers.getSigningSession,
+    { accessToken: token }
+  );
+
+  return (
+    <>
+      {initialSigningSession?.fileUrl && (
+        <link rel="preload" href={initialSigningSession.fileUrl} as="fetch" crossOrigin="anonymous" />
+      )}
+      <SigningPage initialSigningSession={initialSigningSession} />
+    </>
+  );
 }

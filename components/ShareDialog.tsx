@@ -6,16 +6,15 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { api } from "@/convex/_generated/api";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useSignersStore } from "@/stores/signersStore";
 import { useQuery } from "convex/react";
 import { Send } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import posthog from "posthog-js";
 import { ConfigurationView } from "./share-dialog/ConfigurationView";
 import { StatusView } from "./share-dialog/StatusView";
 import { SuccessView } from "./share-dialog/SuccessView";
-import { ShareDialogProps } from "./share-dialog/types";
+import { ShareDialogProps, Signer } from "@/components/share-dialog/types";
 
 export function ShareDialog({
   documentId,
@@ -23,18 +22,22 @@ export function ShareDialog({
   open,
   onOpenChange,
   hasUnassignedFields,
-  skipSignerSync = false,
+  signatureFields: propSignatureFields,
+  signers: propSigners,
 }: ShareDialogProps & { skipSignerSync?: boolean }) {
-  // Fetch document details including signers
+  // Fetch document details
   const document = useQuery(api.documents.getDocument, { documentId });
-  const signatureFields = useQuery(api.signatureFields.getDocumentSignatureFields, { documentId });
-  const { signers, setSigners } = useSignersStore();
+  const dbSignatureFields = useQuery(api.signatureFields.getDocumentSignatureFields, { documentId });
+
+  // Source of truth priority: Props (Editor Store) > DB (Saved state)
+  const signatureFields = (propSignatureFields || dbSignatureFields) as any[];
+
   const [customMessage, setCustomMessage] = useState("");
   const [forceShowConfig, setForceShowConfig] = useState(false);
   const [isSending, setIsSending] = useState(false);
   const [showConfetti, setShowConfetti] = useState(false);
 
-  const hasPendingFields = signatureFields?.some(field => field.status === 'pending');
+  const hasPendingFields = signatureFields?.some(field => field.status === 'pending' || !field.status);
   const hasCompletedFields = signatureFields?.some(field => field.isCompleted);
   const isDesktop = useMediaQuery("(min-width: 640px)");
   const [internalOpen, setInternalOpen] = useState(false);
@@ -49,50 +52,46 @@ export function ShareDialog({
     }
   }, [showConfetti]);
 
-  useEffect(() => {
-    if (skipSignerSync) return;
+  // Merge signers for the dialog. 
+  const mergedSigners = useMemo<Signer[]>(() => {
+    if (propSigners && propSigners.length > 0) {
+      return propSigners;
+    }
 
-    if (document && document.signatureFields) {
-      // Extract unique signers from the document's signature fields
-      // Only include signers that are actually assigned to signature fields
-      const uniqueSigners = new Map();
+    const uniqueSignersMap = new Map<string, Signer>();
 
-      document.signatureFields.forEach(field => {
-        if (field.signerEmail) {
-          if (!uniqueSigners.has(field.signerEmail)) {
-            uniqueSigners.set(field.signerEmail, {
-              email: field.signerEmail,
-              name: field.signerName || undefined,
-            });
-          }
+    if (signatureFields) {
+      signatureFields.forEach(field => {
+        if (field.signerEmail && !uniqueSignersMap.has(field.signerEmail)) {
+          uniqueSignersMap.set(field.signerEmail, {
+            email: field.signerEmail,
+            name: field.signerName || undefined,
+          });
         }
       });
-
-      const documentSigners = Array.from(uniqueSigners.values());
-      setSigners(documentSigners);
     }
-  }, [document, setSigners, skipSignerSync]);
+
+    return Array.from(uniqueSignersMap.values());
+  }, [signatureFields, propSigners]);
 
 
   const handleSend = async () => {
-    if (signers.length === 0) {
-      toast.error("Please add at least one signer.");
+    if (mergedSigners.length === 0) {
+      toast.error("Please add at least one signer by assigning them to a field.");
       return;
     }
 
     setIsSending(true);
     try {
-      await onSend(signers, customMessage);
+      await onSend(mergedSigners, customMessage);
 
       posthog.capture('document_sent', {
         document_id: documentId,
-        signer_count: signers.length,
+        signer_count: mergedSigners.length,
         has_custom_message: !!customMessage,
       });
 
-      // Trigger confetti effect
       setShowConfetti(true);
-
     } catch (error) {
       console.error(error);
       toast.error("Failed to send document.");
@@ -155,7 +154,7 @@ export function ShareDialog({
                 hasPendingFields={hasPendingFields}
                 hasCompletedFields={hasCompletedFields}
                 signatureFields={signatureFields}
-                signers={signers}
+                signers={mergedSigners}
                 forceShowConfig={forceShowConfig}
                 setForceShowConfig={setForceShowConfig}
                 onClose={handleClose}
@@ -168,7 +167,7 @@ export function ShareDialog({
                 customMessage={customMessage}
                 setCustomMessage={setCustomMessage}
                 signatureFields={signatureFields}
-                signers={signers}
+                signers={mergedSigners}
                 isSending={isSending}
                 onSend={handleSend}
                 onClose={handleClose}
@@ -218,7 +217,7 @@ export function ShareDialog({
               hasPendingFields={hasPendingFields}
               hasCompletedFields={hasCompletedFields}
               signatureFields={signatureFields}
-              signers={signers}
+              signers={mergedSigners}
               forceShowConfig={forceShowConfig}
               setForceShowConfig={setForceShowConfig}
               onClose={handleClose}
@@ -231,7 +230,7 @@ export function ShareDialog({
               customMessage={customMessage}
               setCustomMessage={setCustomMessage}
               signatureFields={signatureFields}
-              signers={signers}
+              signers={mergedSigners}
               isSending={isSending}
               onSend={handleSend}
               onClose={handleClose}

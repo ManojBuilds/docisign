@@ -6,6 +6,7 @@ import { BackgroundPattern } from "./BackgroundPattern";
 import { PdfLoadingState } from "./PdfLoadingState";
 import { PdfViewerContainer } from "./PdfViewerContainer";
 import { ZoomControls } from "./ZoomControls";
+import { ModeIndicator } from "./ModeIndicator";
 
 interface MainContentAreaProps {
   fileUrl: string;
@@ -62,6 +63,7 @@ export const MainContentArea = memo(
                   onPageClick={onPageClick}
                 />
                 <div className="flex-1 relative h-full">
+                  <ModeIndicator />
                   <PdfViewerContainer
                     fileUrl={fileUrl}
                     currentPage={currentPage}

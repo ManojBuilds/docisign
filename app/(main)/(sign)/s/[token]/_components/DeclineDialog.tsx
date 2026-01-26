@@ -13,16 +13,24 @@ interface DeclineDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onConfirm: () => Promise<void>;
+  customMessage?: string;
 }
 
-export function DeclineDialog({ open, onOpenChange, onConfirm }: DeclineDialogProps) {
+export function DeclineDialog({ open, onOpenChange, onConfirm, customMessage }: DeclineDialogProps) {
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Confirm Document Decline</AlertDialogTitle>
-          <AlertDialogDescription>
-            Are you sure you want to decline signing this document? This will void the agreement for all parties.
+          <AlertDialogDescription className="space-y-4">
+            <p>
+              Are you sure you want to decline signing this document? This will void the agreement for all parties.
+            </p>
+            {customMessage && (
+              <div className="p-4 bg-gray-50 rounded-xl border border-gray-100 italic text-xs text-gray-500">
+                "{customMessage}"
+              </div>
+            )}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

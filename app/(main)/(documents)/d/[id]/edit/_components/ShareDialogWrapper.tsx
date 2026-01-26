@@ -1,3 +1,4 @@
+import { SignatureFieldData } from "@/components/signature-field";
 import { Id } from "@/convex/_generated/dataModel";
 import { lazy, memo, Suspense } from "react";
 
@@ -17,6 +18,8 @@ interface ShareDialogWrapperProps {
     onOpenChange: (open: boolean) => void;
     hasUnassignedFields: boolean;
     onSignerAdd: (signer: Signer) => void;
+    signatureFields?: SignatureFieldData[];
+    signers?: Signer[];
 }
 
 /**
@@ -30,6 +33,8 @@ export const ShareDialogWrapper = memo(
         onOpenChange,
         hasUnassignedFields,
         onSignerAdd,
+        signatureFields,
+        signers,
     }: ShareDialogWrapperProps) => {
         if (!isOpen) return null;
 
@@ -43,6 +48,8 @@ export const ShareDialogWrapper = memo(
                     hasUnassignedFields={hasUnassignedFields}
                     onSignerAdd={onSignerAdd}
                     skipSignerSync={true}
+                    signatureFields={signatureFields}
+                    signers={signers}
                 />
             </Suspense>
         );

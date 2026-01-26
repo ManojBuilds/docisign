@@ -7,7 +7,7 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata, Viewport } from "next";
 
-import { Style_Script, DM_Sans } from "next/font/google";
+import { Style_Script } from "next/font/google";
 import NextTopLoader from 'nextjs-toploader';
 import { Suspense } from "react";
 import "./globals.css";
@@ -19,11 +19,7 @@ const styleScript = Style_Script({
   display: "swap",
 });
 
-const inter = DM_Sans({
-  subsets: ["latin"],
-  variable: "--font-inter",
-  display: "swap",
-});
+
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://boopsign.com"),
@@ -112,6 +108,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+        <link href="https://api.fontshare.com/v2/css?f[]=spline-sans@300,400,500,600,700&f[]=beVietnam-pro@300,400,500,600,700&display=swap" rel="stylesheet" />
         <link rel="preconnect" href="https://unpkg.com" />
         <link rel="canonical" href="https://boopsign.com" />
         <meta name="theme-color" content="#2563eb" />
@@ -179,7 +176,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${inter.className} ${styleScript.variable} antialiased relative`}>
+      <body className={`${styleScript.variable} antialiased relative`}>
         <NextTopLoader
           color="#2563eb"
           height={3}

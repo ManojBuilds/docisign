@@ -62,8 +62,8 @@
   --leading-relaxed: 1.625;
 
   /* Font Families */
-  --font-body: var(--font-inter), sans-serif;
-  --font-heading: var(--font-inter), sans-serif;
+  --font-body: 'Be Vietnam Pro', sans-serif;
+  --font-heading: 'Be Vietnam Pro', sans-serif;
 }
 
 

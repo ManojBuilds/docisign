@@ -193,7 +193,7 @@ function DocumentsList() {
           </NewDocumentDialog>
         </div>
       </div>
-      <div className="overflow-hidden">
+      <div className="overflow-hidden md:border md:rounded-sm">
         {/* Actions Toolbar - Header of the list Area */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 md:p-4 bg-muted/5 border-b border-muted/50">
           <div className="flex items-center gap-2 flex-1 w-full">
@@ -254,7 +254,7 @@ function DocumentsList() {
         </div>
 
         {/* Document List Content */}
-        <div className="mt-4 md:mt-0">
+        <div className="mt-4 md:mt-0 md:p-4">
           {status === "LoadingFirstPage" ? (
             <DocumentTable
               data={[]}

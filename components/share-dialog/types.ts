@@ -1,3 +1,4 @@
+import { SignatureFieldData } from "@/components/signature-field";
 import { Id } from "@/convex/_generated/dataModel";
 
 export interface Signer {
@@ -13,6 +14,8 @@ export interface ShareDialogProps {
   onOpenChange?: (open: boolean) => void;
   hasUnassignedFields?: boolean;
   onSignerAdd?: (signer: Signer) => void;
+  signatureFields?: SignatureFieldData[];
+  signers?: Signer[];
 }
 
 export interface CommonViewProps {

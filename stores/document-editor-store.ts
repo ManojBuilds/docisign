@@ -23,8 +23,10 @@ interface DocumentEditorState {
   currentPage: number;
   setCurrentPage: (page: number) => void;
 
-  signers: Signer[];
-  setSigners: (signers: Signer[]) => void;
+  manualSigners: Signer[];
+  setManualSigners: (signers: Signer[]) => void;
+  addManualSigner: (signer: Signer) => void;
+  removeManualSigner: (email: string) => void;
 
   selectedTool: SignatureFieldData["fieldType"] | "selection";
   setSelectedTool: (tool: SignatureFieldData["fieldType"] | "selection") => void;
@@ -33,6 +35,9 @@ interface DocumentEditorState {
   setIsLoaded: (isLoaded: boolean) => void;
   lastSavedFieldsJson: string;
   setLastSavedFieldsJson: (json: string) => void;
+
+  lastAssignedSignerEmail: string | null;
+  setLastAssignedSignerEmail: (email: string | null) => void;
 }
 
 export const useDocumentEditorStore = create<DocumentEditorState>()(
@@ -46,10 +51,11 @@ export const useDocumentEditorStore = create<DocumentEditorState>()(
           signatureFields: [],
           selectedFieldId: "",
           currentPage: 1,
-          signers: [],
+          manualSigners: [],
           selectedTool: "selection",
           isLoaded: false,
           lastSavedFieldsJson: "[]",
+          lastAssignedSignerEmail: null,
         });
       }
     },
@@ -81,11 +87,21 @@ export const useDocumentEditorStore = create<DocumentEditorState>()(
         return { signatureFields: [...state.signatureFields, field] };
       }),
     updateSignatureFieldInStore: (field) =>
-      set((state) => ({
-        signatureFields: state.signatureFields.map((f) =>
-          f.id === field.id ? field : f,
-        ),
-      })),
+      set((state) => {
+        // Check if signer changed to update the lastAssignedSignerEmail
+        const existingField = state.signatureFields.find(f => f.id === field.id);
+        let changes: Partial<DocumentEditorState> = {
+          signatureFields: state.signatureFields.map((f) =>
+            f.id === field.id ? field : f,
+          ),
+        };
+
+        if (existingField && field.signerEmail && existingField.signerEmail !== field.signerEmail) {
+          changes.lastAssignedSignerEmail = field.signerEmail;
+        }
+
+        return changes;
+      }),
     deleteSignatureFieldInStore: (id) =>
       set((state) => ({
         signatureFields: state.signatureFields.filter((f) => f.id !== id),
@@ -97,8 +113,15 @@ export const useDocumentEditorStore = create<DocumentEditorState>()(
     currentPage: 1,
     setCurrentPage: (page) => set({ currentPage: page }),
 
-    signers: [],
-    setSigners: (signers) => set({ signers }),
+    manualSigners: [],
+    setManualSigners: (manualSigners) => set({ manualSigners }),
+    addManualSigner: (signer) => set((state) => {
+      if (state.manualSigners.some(s => s.email === signer.email)) return state;
+      return { manualSigners: [...state.manualSigners, signer] };
+    }),
+    removeManualSigner: (email) => set((state) => ({
+      manualSigners: state.manualSigners.filter(s => s.email !== email)
+    })),
 
     selectedTool: "selection",
     setSelectedTool: (tool) => set({ selectedTool: tool }),
@@ -107,5 +130,8 @@ export const useDocumentEditorStore = create<DocumentEditorState>()(
     setIsLoaded: (isLoaded) => set({ isLoaded }),
     lastSavedFieldsJson: "[]",
     setLastSavedFieldsJson: (lastSavedFieldsJson) => set({ lastSavedFieldsJson }),
+
+    lastAssignedSignerEmail: null,
+    setLastAssignedSignerEmail: (email) => set({ lastAssignedSignerEmail: email }),
   })
 );
