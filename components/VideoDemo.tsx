@@ -246,7 +246,7 @@ const VideoDemo = () => {
               <div className="inline-block p-4 bg-amber-100 rounded-full mb-2">
                 <Play className="w-8 h-8 text-amber-600 mx-auto" />
               </div>
-              <p className="text-slate-500 text-sm">Video loading...</p>
+              <p className="text-slate-700 text-sm">Video loading...</p>
             </div>
           </div>
 
