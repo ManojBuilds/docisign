@@ -49,10 +49,15 @@ const Pricing = () => {
         <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-6">
           Fair Pricing. Unlimited Signatures.
         </h2>
-        <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-12 leading-relaxed">
+        <p className="text-xl text-slate-500 max-w-2xl mx-auto mb-4 leading-relaxed">
           Everything you need to sign documents securely. <br />
           <span className="text-slate-900 font-medium">One plan. One price. No hidden fees.</span>
         </p>
+        <div className="mb-12">
+          <Link href="/esignature-for-freelancers" className="text-sm font-semibold text-blue-600 hover:text-blue-700 hover:underline">
+            Looking for freelancer-specific features? Check out our freelancer portal →
+          </Link>
+        </div>
 
         {/* Interval Toggle */}
         <div className="flex items-center justify-center gap-4 mb-12">

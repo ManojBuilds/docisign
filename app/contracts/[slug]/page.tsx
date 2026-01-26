@@ -168,9 +168,14 @@ export default async function BaseTemplatePage({ params }: Props) {
                         {/* Legal Context */}
                         <section>
                             <h2 className="text-2xl font-black text-slate-900 mb-4">Legal Context</h2>
-                            <p className="text-lg text-slate-600 leading-relaxed max-w-2xl">
+                            <p className="text-lg text-slate-600 leading-relaxed max-w-2xl mb-6">
                                 {template.legalContext}
                             </p>
+                            <Link href="/esignature-for-freelancers" className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors py-2 px-4 bg-blue-50 rounded-lg">
+                                <Sparkles className="size-4" />
+                                <span>Why this contract works perfectly for freelancers</span>
+                                <ArrowRight className="size-3.5" />
+                            </Link>
                         </section>
 
                         {/* CTA Block */}

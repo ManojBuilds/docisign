@@ -1,5 +1,6 @@
 import { DragAndClickUpload } from "./DragAndClickUpload";
 import Image from "next/image";
+import Link from "next/link";
 import { WordRotate } from "./ui/word-rotate";
 import { Highlighter } from "./ui/highlighter";
 
@@ -19,7 +20,7 @@ const Hero = () => {
 
 
         {/* Headline - SEO: "E-Signatures" + "Freelancers" */}
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-slate-900 mb-8 max-w-5xl leading-tight">
+        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-slate-900 mb-8 max-w-5xl leading-tight text-center">
           Super simple{" "}
           <Highlighter action="highlight" color="#dbeafe" iterations={1}>
             signatures
@@ -33,8 +34,13 @@ const Hero = () => {
         </h1>
 
         <p className="mt-2 text-xl sm:text-2xl text-slate-500 max-w-2xl leading-relaxed font-normal">
-          The fastest way to get your contracts signed. <span className="text-slate-900 font-medium">No accounts, no downloads, no "I forgot my password" emails.</span> Just professional signatures in seconds.
+          The fastest way to get your <Link href="/freelance-contract-template" className="text-blue-600 hover:underline">contracts</Link> signed. <span className="text-slate-900 font-medium">No accounts, no downloads, no "I forgot my password" emails.</span> Just professional signatures in seconds.
         </p>
+        <div className="mt-4 flex gap-4">
+          <Link href="/esignature-for-freelancers" className="text-sm font-semibold text-slate-400 hover:text-blue-600 transition-colors underline decoration-slate-200 underline-offset-4">
+            Built specially for freelancers
+          </Link>
+        </div>
 
         {/* Primary Action Area - Functional yet Beautiful */}
         <div className="w-full max-w-2xl mt-12 relative z-10">

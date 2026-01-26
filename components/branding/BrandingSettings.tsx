@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
 import { useMutation, useQuery } from "convex/react";
 import { Image as ImageIcon, Loader2, Palette, Upload } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 
@@ -169,9 +170,10 @@ export function BrandingSettings({
                 >
                   {branding?.logoUrl ? (
                     <>
-                      <img
+                      <Image
                         src={branding.logoUrl}
                         alt="Brand Logo"
+                        fill
                         className="object-contain p-2"
                       />
                       <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
@@ -225,7 +227,7 @@ export function BrandingSettings({
               <div className="flex items-center gap-2 mt-3">
                 <div className="size-6 bg-white rounded flex items-center justify-center border border-muted shadow-sm overflow-hidden">
                   {branding?.logoUrl ? (
-                    <img src={branding.logoUrl} alt="logo" className="size-4 object-contain" />
+                    <Image src={branding.logoUrl} alt="logo" width={16} height={16} className="object-contain" />
                   ) : (
                     <div className="size-3 bg-primary rounded-full" />
                   )}

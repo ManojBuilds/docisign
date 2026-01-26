@@ -117,6 +117,11 @@ export default async function ComparisonPage({ params }: Props) {
           <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl mx-auto mb-12 font-medium">
             Tired of {comparison.competitorName}&apos;s complexity? Switch to the mobile-first alternative that&apos;s <span className="text-white font-semibold px-3 py-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg shadow-md">built for freelancers</span>.
           </p>
+          <div className="mb-12">
+            <Link href="/esignature-for-freelancers" className="text-sm font-semibold text-blue-600 hover:text-blue-700 hover:underline">
+              Are you a freelancer? See why 2,000+ others switched →
+            </Link>
+          </div>
 
           <div className="grid md:grid-cols-2 items-center gap-8 md:gap-0 mb-16 max-w-4xl mx-auto relative">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 hidden md:flex items-center justify-center">
