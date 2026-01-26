@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { FREELANCE_ROLES } from "@/lib/seo/freelancer-roles";
 import { Briefcase, ChevronRight, Search, Zap, X } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
     Pagination,
     PaginationContent, PaginationItem,
@@ -60,7 +60,7 @@ export function TemplateMatrixHub() {
     }, [filteredRoles, currentPage]);
 
     // Reset page when filter changes
-    useMemo(() => {
+    useEffect(() => {
         setCurrentPage(1);
     }, [searchTerm, selectedIndustry]);
 

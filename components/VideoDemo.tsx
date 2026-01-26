@@ -234,7 +234,7 @@ const VideoDemo = () => {
       {/* Video Container Area */}
       <div
         className="relative max-w-5xl w-full p-2 sm:p-4 md:p-8 rounded-2xl md:rounded-[2rem] bg-amber-50/50 border border-amber-100/50"
-        style={{ contain: 'layout style paint' }} // CSS containment to limit reflow scope
+        style={{ contain: 'layout style' }} // CSS containment to limit reflow scope
       >
         <div
           ref={containerRef}

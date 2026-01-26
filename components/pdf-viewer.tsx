@@ -15,7 +15,7 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { usePdfDimensions } from "./PdfDimensionsContext";
 import { cn } from "@/lib/utils";
-pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
 
 interface PDFViewerProps {
   fileUrl: string;
@@ -114,8 +114,8 @@ export default function PDFViewer({
       },
       {
         root: containerRef.current,
-        threshold: [0, 0.2, 0.5, 0.8, 1],
-        rootMargin: "200px 0px" // Preload pages 200px before they come into view
+        threshold: [0, 0.1],
+        rootMargin: "300px 0px" // Preload pages further before they come into view
       }
     );
 

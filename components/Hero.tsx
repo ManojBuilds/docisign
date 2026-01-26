@@ -27,7 +27,7 @@ const Hero = () => {
           <br />
           <span className="text-slate-900">for </span>
           <WordRotate
-            className="text-blue-600"
+            className="text-blue-600 min-w-[11ch] text-left"
             words={["Freelancers", "Consultants", "Agencies", "Creatives", "Founders"]}
           />
         </h1>

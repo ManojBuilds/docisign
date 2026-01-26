@@ -54,7 +54,7 @@ const Footer = () => {
           {/* Logo and Info Column */}
           <div className="lg:col-span-1">
             <div className="flex flex-col h-full">
-              <Logo showStatus={true} />
+              <Logo showStatus={false} />
               <p className="text-sm text-muted-foreground mt-3">
                 The simplest e-signature solution for modern businesses.
               </p>
@@ -81,6 +81,7 @@ const Footer = () => {
                   <li key={linkIndex}>
                     <Link
                       href={link.href}
+                      prefetch={false}
                       className="text-sm text-muted-foreground hover:text-foreground hover:underline transition-colors"
                     >
                       {link.label}

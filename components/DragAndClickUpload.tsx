@@ -1,11 +1,15 @@
 "use client";
 
-import { NewDocumentDialog } from "@/components/NewDocumentDialog";
 import { cn } from "@/lib/utils";
 import { Upload } from "lucide-react";
+import dynamic from "next/dynamic";
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { toast } from "sonner";
+
+const NewDocumentDialog = dynamic(() => import("@/components/NewDocumentDialog").then(m => m.NewDocumentDialog), {
+  ssr: false,
+});
 
 export function DragAndClickUpload() {
   const [file, setFile] = useState<File | null>(null);

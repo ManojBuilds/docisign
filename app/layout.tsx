@@ -1,21 +1,20 @@
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { PostHogClientProvider } from "@/components/providers/posthog-provider";
-import { PdfDimensionsProvider } from "@/components/PdfDimensionsContext";
 import { PendingDocumentProcessor } from "@/components/PendingDocumentProcessor";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata, Viewport } from "next";
-
-import { Style_Script } from "next/font/google";
+import { Be_Vietnam_Pro } from "next/font/google";
 import NextTopLoader from 'nextjs-toploader';
 import { Suspense } from "react";
 import "./globals.css";
 
-const styleScript = Style_Script({
-  weight: "400",
+
+const beVietnamPro = Be_Vietnam_Pro({
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
-  variable: "--font-style-script",
+  variable: "--font-be-vietnam-pro",
   display: "swap",
 });
 
@@ -107,9 +106,9 @@ export default function RootLayout({
         />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-        <link href="https://api.fontshare.com/v2/css?f[]=spline-sans@300,400,500,600,700&f[]=beVietnam-pro@300,400,500,600,700&display=swap" rel="stylesheet" />
-        <link rel="preconnect" href="https://unpkg.com" />
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+        <link rel="preconnect" href="https://majestic-fox-274.convex.cloud" />
+        <link rel="preload" href="/optimized-images/noise.webp" as="image" />
         <link rel="canonical" href="https://boopsign.com" />
         <meta name="theme-color" content="#2563eb" />
         <meta name="application-name" content="Boopsign" />
@@ -176,7 +175,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className={`${styleScript.variable} antialiased relative`}>
+      <body className={`${beVietnamPro.className} antialiased relative`}>
         <NextTopLoader
           color="#2563eb"
           height={3}
@@ -190,7 +189,7 @@ export default function RootLayout({
           <ConvexClientProvider>
             <PostHogClientProvider>
               <PendingDocumentProcessor />
-              <PdfDimensionsProvider>{children}</PdfDimensionsProvider>
+              {children}
             </PostHogClientProvider>
           </ConvexClientProvider>
         </Suspense>

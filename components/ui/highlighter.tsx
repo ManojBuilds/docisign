@@ -70,15 +70,21 @@ export function Highlighter({
     annotationRef.current = annotation
     annotationRef.current.show()
 
+    let timeoutId: NodeJS.Timeout;
     const resizeObserver = new ResizeObserver(() => {
-      annotation.hide()
-      annotation.show()
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        if (annotationRef.current) {
+          annotationRef.current.hide();
+          annotationRef.current.show();
+        }
+      }, 150);
     })
 
     resizeObserver.observe(element)
-    resizeObserver.observe(document.body)
 
     return () => {
+      clearTimeout(timeoutId);
       if (element) {
         annotate(element, { type: action }).remove()
         resizeObserver.disconnect()
