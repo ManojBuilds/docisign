@@ -123,7 +123,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "SoftwareApplication",
               name: "Boopsign",
-              image: "https://boopsign.com/icon-192x192.png",
+              image: "https://boopsign.com/android-chrome-192x192.png",
               applicationCategory: "BusinessApplication",
               operatingSystem: "Web, iOS, Android",
               offers: [{
