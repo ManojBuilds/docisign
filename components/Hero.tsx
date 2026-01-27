@@ -1,7 +1,6 @@
 import { DragAndClickUpload } from "./DragAndClickUpload";
 import Image from "next/image";
 import Link from "next/link";
-import { WordRotate } from "./ui/word-rotate";
 import { Highlighter } from "./ui/highlighter";
 
 const Hero = () => {
