@@ -23,10 +23,6 @@ export default function Home() {
         className="pointer-events-none [z-index:-1] absolute inset-0 bg-[size:180px] bg-repeat opacity-[0.835]"
       ></div>
 
-      <link rel="preload" href="/optimized-images/noise.webp" as="image" />
-      <link rel="preload" href="/logo.png" as="image" />
-      <link rel="preload" href="/optimized-images/sign-mobile.webp" as="image" />
-
       <main className="w-full flex-1">
         <Hero />
         <VideoDemo />

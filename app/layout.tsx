@@ -104,11 +104,14 @@ export default function RootLayout({
           name="google-site-verification"
           content="It-5F-rGTphiGn4oyRrSntPBqgQWbUohNCFKsdQ922M"
         />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
-        <link rel="preconnect" href="https://majestic-fox-274.convex.cloud" />
+        <link rel="dns-prefetch" href="https://majestic-fox-274.convex.cloud" />
+        <link rel="dns-prefetch" href="https://app.posthog.com" />
+        <link rel="dns-prefetch" href="https://2d9wfb370a.ufs.sh" />
+        <link rel="preconnect" href="https://majestic-fox-274.convex.cloud" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://app.posthog.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://2d9wfb370a.ufs.sh" crossOrigin="anonymous" />
         <link rel="preload" href="/optimized-images/noise.webp" as="image" />
+        <link rel="preload" href="/logo.png" as="image" />
         <link rel="canonical" href="https://boopsign.com" />
         <meta name="theme-color" content="#2563eb" />
         <meta name="application-name" content="Boopsign" />
