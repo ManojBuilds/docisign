@@ -52,6 +52,7 @@
     "date-fns": "^4.1.0",
     "debounce": "^3.0.0",
     "docxtemplater": "^3.67.6",
+    "dodopayments": "^2.17.1",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.540.0",
     "mammoth": "^1.10.0",
