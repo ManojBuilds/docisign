@@ -69,7 +69,7 @@ const Hero = () => {
 
         {/* Social Proof Strip - Clean */}
         <div className="mt-16 pt-10 border-t border-slate-100 w-full max-w-5xl flex flex-col items-center gap-8">
-          <p className="text-sm font-semibold text-slate-400 uppercase tracking-widest text-center">Trusted by freelancers from</p>
+          <p className="text-sm font-semibold text-slate-400 uppercase tracking-widest text-center">Trusted by 1,200+ freelancers from</p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             <Image
               src="/logos/upwork.svg"

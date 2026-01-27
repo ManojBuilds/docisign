@@ -6,6 +6,7 @@ const TestimonialsSection = dynamic(() => import("@/components/testimonials"));
 const VideoDemo = dynamic(() => import("@/components/VideoDemo"));
 const Cta = dynamic(() => import("@/components/cta"));
 const Problem = dynamic(() => import("@/components/Problem").then(m => m.Problem));
+const FreelancerUseCases = dynamic(() => import("@/components/FreelancerUseCases"));
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import dynamic from "next/dynamic";
@@ -32,6 +33,7 @@ export default function Home() {
         <Problem />
         <HowItWorks />
         <Features />
+        <FreelancerUseCases />
         <TestimonialsSection />
         <Pricing />
         <Cta />

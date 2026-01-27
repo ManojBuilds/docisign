@@ -15,7 +15,7 @@ const Cta = () => {
             {/* Trust Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-primary/10 shadow-sm mb-10">
               <span className="text-slate-600 text-sm font-medium pl-2">
-                Join <span className="text-primary font-bold">1,000+ freelancers</span>
+                Trusted by <span className="text-primary font-bold">1,200+ freelancers</span>
               </span>
             </div>
 
@@ -31,7 +31,7 @@ const Cta = () => {
 
             {/* Subheading */}
             <p className="text-lg md:text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-              Join 1,000+ freelancers who switched to Boopsign to get contracts signed 3x faster than DocuSign.
+              Join 1,200+ freelancers who switched to Boopsign to get contracts signed 3x faster than DocuSign.
             </p>
 
             {/* CTA Button Area */}
