@@ -9,6 +9,7 @@ const Problem = dynamic(() => import("@/components/Problem").then(m => m.Problem
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import dynamic from "next/dynamic";
+const RelatedPages = dynamic(() => import("@/components/RelatedPages").then(m => m.RelatedPages));
 
 export default function Home() {
   return (
@@ -34,6 +35,28 @@ export default function Home() {
         <TestimonialsSection />
         <Pricing />
         <Cta />
+        <RelatedPages
+          pages={[
+            {
+              title: "E-Signature for Freelancers",
+              description: "The zero-friction way to get contracts signed.",
+              href: "/esignature-for-freelancers",
+              icon: "users"
+            },
+            {
+              title: "Free Freelance Contract",
+              description: "Download our legally-binding freelance contract template.",
+              href: "/contracts",
+              icon: "document"
+            },
+            {
+              title: "Boopsign vs DocuSign",
+              description: "See why 2,000+ freelancers made the switch.",
+              href: "/alternatives/docusign-alternative",
+              icon: "page"
+            }
+          ]}
+        />
       </main>
       <Footer />
     </div>

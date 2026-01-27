@@ -8,6 +8,7 @@ import OnlineSignatureCreator from "@/components/OnlineSignatureCreator";
 import Cta from "@/components/cta";
 import Faq from "@/components/faq";
 import TestimonialsSection from "@/components/testimonials";
+import { RelatedPages } from "@/components/RelatedPages";
 export const metadata: Metadata = {
   title: "Free Online Signature Maker & Generator (Type or Draw)",
   description:
@@ -290,6 +291,28 @@ export default function OnlineSignatureMakerPage() {
         />
 
         <Cta />
+        <RelatedPages
+          pages={[
+            {
+              title: "E-Signature for Freelancers",
+              description: "Beyond just a maker—get a full-featured e-signature platform.",
+              href: "/esignature-for-freelancers",
+              icon: "users"
+            },
+            {
+              title: "Legally Binding Contracts",
+              description: "Ensure your documents are legally enforceable with Boopsign.",
+              href: "/electronic-signature-legality",
+              icon: "page"
+            },
+            {
+              title: "Free Contract Templates",
+              description: "Don't just sign, use our high-quality templates for your next deal.",
+              href: "/contracts",
+              icon: "document"
+            }
+          ]}
+        />
       </main>
       <Footer />
     </div>

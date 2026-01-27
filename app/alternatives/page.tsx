@@ -3,6 +3,7 @@ import { compareDesc, format } from "date-fns";
 import { ArrowRight, CheckCircle, Zap } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
+import { RelatedPages } from "@/components/RelatedPages";
 
 export const metadata: Metadata = {
   title: "Boopsign Alternatives & Comparisons | Better E-Signatures",
@@ -67,6 +68,29 @@ export default function AlternativesIndex() {
           </p>
         </div>
       </div>
+
+      <RelatedPages
+        pages={[
+          {
+            title: "For Freelancers",
+            description: "See why Boopsign is the top choice for solopreneurs.",
+            href: "/esignature-for-freelancers",
+            icon: "users"
+          },
+          {
+            title: "Fair Pricing",
+            description: "Unlimited e-signatures for a flat monthly fee of $15.",
+            href: "/pricing",
+            icon: "page"
+          },
+          {
+            title: "Contract Library",
+            description: "Browse 300+ free contract templates for your industry.",
+            href: "/contracts",
+            icon: "document"
+          }
+        ]}
+      />
 
       {/* Grid of Comparisons */}
       <div className="py-20 md:py-28">

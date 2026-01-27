@@ -1,3 +1,4 @@
+import { RelatedPages } from "@/components/RelatedPages";
 import { TemplatePageHeader } from "@/components/templates/TemplatePageHeader";
 import { Button } from "@/components/ui/button";
 import { ALL_TEMPLATES } from "@/lib/seo/all-templates";
@@ -241,6 +242,29 @@ export default async function BaseTemplatePage({ params }: Props) {
 
                 </div>
             </div>
+
+            <RelatedPages
+                pages={[
+                    {
+                        title: "E-Signature for Freelancers",
+                        description: "The zero-friction way to get contracts signed in minutes.",
+                        href: "/esignature-for-freelancers",
+                        icon: "users"
+                    },
+                    {
+                        title: "Boopsign Pricing",
+                        description: "Unlimited contracts for $15/month. No catch.",
+                        href: "/pricing",
+                        icon: "page"
+                    },
+                    {
+                        title: "How It Works",
+                        description: "See how easy it is to get your documents signed.",
+                        href: "/how-it-works",
+                        icon: "page"
+                    }
+                ]}
+            />
         </main>
     );
 }

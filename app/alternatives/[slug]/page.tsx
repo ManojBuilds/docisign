@@ -7,6 +7,7 @@ import { allComparisons } from "content-collections";
 import { ArrowRight, CheckCircle, Clock, DollarSign, Zap } from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
+import { RelatedPages } from "@/components/RelatedPages";
 import { notFound } from "next/navigation";
 
 interface Props {
@@ -297,6 +298,29 @@ export default async function ComparisonPage({ params }: Props) {
       <div className="pb-20">
         <Cta />
       </div>
+
+      <RelatedPages
+        pages={[
+          {
+            title: "Pricing for Freelancers",
+            description: "Everything you need for $15/month. Unlimited documents.",
+            href: "/pricing",
+            icon: "page"
+          },
+          {
+            title: "Freelance Contract Templates",
+            description: "Download our free templates to use with Boopsign.",
+            href: "/contracts",
+            icon: "document"
+          },
+          {
+            title: "E-Signature Guide",
+            description: "Learn why Boopsign is the better choice for solo pros.",
+            href: "/esignature-for-freelancers",
+            icon: "users"
+          }
+        ]}
+      />
     </div>
   );
 }

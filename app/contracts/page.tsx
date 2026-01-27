@@ -5,6 +5,7 @@ import { FREELANCE_ROLES } from "@/lib/seo/freelancer-roles";
 import Link from "next/link";
 import { Metadata } from "next";
 import { TemplateMatrixHub } from "@/components/templates/TemplateMatrixHub";
+import { RelatedPages } from "@/components/RelatedPages";
 import { BadgeCheck, Check, Shield, Zap } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -236,6 +237,7 @@ export default function ContractTemplatesPage() {
         </div>
       </section>
 
+
       {/* Final SEO CTA */}
       <section className="bg-slate-900 py-24 text-white">
         <div className="container mx-auto px-4 text-center max-w-4xl">
@@ -248,6 +250,29 @@ export default function ContractTemplatesPage() {
           </Button>
         </div>
       </section>
+
+      <RelatedPages
+        pages={[
+          {
+            title: "E-Signature for Freelancers",
+            description: "Learn how to get your contracts signed 3x faster.",
+            href: "/esignature-for-freelancers",
+            icon: "users"
+          },
+          {
+            title: "How Boopsign Works",
+            description: "A step-by-step guide to sending your first document.",
+            href: "/how-it-works",
+            icon: "page"
+          },
+          {
+            title: "Pricing Plans",
+            description: "Simple, transparent pricing for freelancers and agencies.",
+            href: "/pricing",
+            icon: "page"
+          }
+        ]}
+      />
     </main>
   );
 }

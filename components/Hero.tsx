@@ -22,15 +22,16 @@ const Hero = () => {
         {/* Headline - SEO: "E-Signatures" + "Freelancers" */}
         <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-slate-900 mb-8 max-w-5xl leading-tight text-center">
           Super simple{" "}
-          <Highlighter action="highlight" color="#dbeafe" iterations={1}>
-            signatures
-          </Highlighter>
+          signatures
           <br />
           <span className="text-slate-900">for </span>
-          <WordRotate
+          <Highlighter action="highlight" color="#dbeafe" iterations={1}>
+            Freelancers
+          </Highlighter>
+          {/* <WordRotate
             className="text-blue-600 min-w-[11ch] text-left"
             words={["Freelancers", "Consultants", "Agencies", "Creatives", "Founders"]}
-          />
+          /> */}
         </h1>
 
         <p className="mt-2 text-xl sm:text-2xl text-slate-500 max-w-2xl leading-relaxed font-normal">

@@ -65,6 +65,7 @@ import {
 import Link from "next/link";
 import ComparasionTable from "../ComparasionTable";
 import HowItWorks from "../HowItWorks";
+import { RelatedPages } from "../RelatedPages";
 import SmallComparasionTable from "../SmallComparasionTable";
 import { Callout } from "./Callout";
 import CustomImage from "./Image";
@@ -80,6 +81,7 @@ const sharedComponents = {
   SmallComparasionTable,
   HowItWorks,
   ComparasionTable,
+  RelatedPages: RelatedPages,
   Callout,
   Link,
   Image: CustomImage,

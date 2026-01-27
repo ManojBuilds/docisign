@@ -13,6 +13,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { RelatedPages } from "@/components/RelatedPages";
+
 export default function PricingPage() {
 
   return (
@@ -21,6 +23,28 @@ export default function PricingPage() {
       <TestimonialsSection />
       <CompetitorComparisonTable competitorName="Top Competitor" competitorPrice={30} />
       <PricingFaq />
+      <RelatedPages
+        pages={[
+          {
+            title: "For Freelancers",
+            description: "Discover why 2,000+ freelancers choose Boopsign for their contracts.",
+            href: "/esignature-for-freelancers",
+            icon: "users"
+          },
+          {
+            title: "DocuSign Alternative",
+            description: "See how we compare to DocuSign in features and pricing.",
+            href: "/alternatives/docusign-alternative",
+            icon: "page"
+          },
+          {
+            title: "Free Contract Templates",
+            description: "Access our library of 300+ free contract templates for every niche.",
+            href: "/contracts",
+            icon: "document"
+          }
+        ]}
+      />
     </div>
   );
 }

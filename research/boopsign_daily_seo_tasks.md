@@ -175,12 +175,12 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 
 ### Day 13 - Internal Linking Audit & Implementation
 **Task:** Add 15 internal links across site
-- [ ] From homepage → link to /esignature-for-freelancers
-- [ ] From homepage → link to /freelance-contract-template
-- [ ] From /pricing → link to freelancer page
-- [ ] From template pages → link to freelancer page
-- [ ] From all comparison pages → link to freelancer page
-- [ ] Add "Related Pages" section to 5 key pages
+- [x] From homepage → link to /esignature-for-freelancers
+- [x] From homepage → link to /freelance-contract-template
+- [x] From /pricing → link to freelancer page
+- [x] From template pages → link to freelancer page
+- [x] From all comparison pages → link to freelancer page
+- [x] Add "Related Pages" section to 5 key pages
 
 **Time:** 60 minutes
 
