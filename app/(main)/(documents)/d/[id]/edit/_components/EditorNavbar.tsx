@@ -96,7 +96,7 @@ export const EditorNavbar = memo(({
                                     setIsEditingTitle(false);
                                 }
                             }}
-                            className="font-semibold text-lg w-full bg-transparent focus:outline-none border-b-2 border-primary px-2 py-1 leading-tight"
+                            className="font-semibold text-sm w-full bg-transparent focus:outline-none border-b-2 border-primary px-2 py-1 leading-tight"
                             autoFocus
                         />
                     ) : (
@@ -107,7 +107,7 @@ export const EditorNavbar = memo(({
                                         className="flex items-center gap-2 w-full cursor-pointer hover:bg-gray-100 rounded px-2 py-1 border-b-2 border-transparent leading-tight transition-colors group/title"
                                         onClick={() => setIsEditingTitle(true)}
                                     >
-                                        <span className="font-semibold text-lg truncate flex-1 block">
+                                        <span className="font-semibold text-sm truncate flex-1 block">
                                             {document?.title || "Loading..."}
                                         </span>
                                         <Pencil className="w-3.5 h-3.5 text-gray-400 opacity-0 group-hover/title:opacity-100 transition-opacity" />

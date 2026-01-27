@@ -226,7 +226,8 @@ export default function DocumentEditor() {
             signatureFields,
             updateSignatureFieldInStore,
             handleSaveField,
-            handleSaveAllFields
+            handleSaveAllFields,
+            setIsLoaded
         );
 
     // Set the current document ID in the store

@@ -19,7 +19,8 @@ export function useSignerOperations(
     signatureFields: SignatureFieldData[],
     updateSignatureFieldInStore: (field: SignatureFieldData) => void,
     handleSaveField: (field: SignatureFieldData) => Promise<void>,
-    handleSaveAllFields: () => Promise<void>
+    handleSaveAllFields: () => Promise<void>,
+    setIsLoaded: (isLoaded: boolean) => void
 ) {
     const sendForSigning = useMutation(api.signers.sendDocumentForSigning);
 
@@ -65,8 +66,11 @@ export function useSignerOperations(
                 documentId,
                 customMessage: customMessage || undefined,
             });
+
+            // Force a re-fetch of signature fields from the database to get updated statuses
+            setIsLoaded(false);
         },
-        [documentId, sendForSigning, handleSaveAllFields]
+        [documentId, sendForSigning, handleSaveAllFields, setIsLoaded]
     );
 
     const hasUnassignedFields = useMemo(

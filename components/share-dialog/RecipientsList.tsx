@@ -76,6 +76,14 @@ export const RecipientsList = ({ signers, signatureFields, readonly = false }: R
                       </span>
                     );
                   }
+                  if (status === "sent") {
+                    return (
+                      <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-indigo-50 text-indigo-700 ring-1 ring-inset ring-indigo-200">
+                        <Clock className="w-3 h-3 mr-1" />
+                        Waiting
+                      </span>
+                    );
+                  }
                   return (
                     <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-50 text-yellow-700 ring-1 ring-inset ring-yellow-200">
                       <Clock className="w-3 h-3 mr-1" />

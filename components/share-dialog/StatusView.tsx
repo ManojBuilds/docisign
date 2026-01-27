@@ -84,6 +84,11 @@ export const StatusView = ({
 
   if (!statusDisplay) return null;
 
+  // Only show "New Fields Added" if we have pending fields AND some fields are already sent/completed.
+  const isHybridState = hasPendingFields && (hasCompletedFields || signatureFields?.some(f =>
+    f.status === 'sent' || f.status === 'viewed' || f.status === 'signed'
+  ));
+
   if (isDesktop) {
     return (
       <div className="flex flex-col h-full">
@@ -92,10 +97,10 @@ export const StatusView = ({
             {statusDisplay.icon}
           </div>
           <DialogTitle className="text-xl font-semibold mb-2 tracking-tight text-center">
-            {hasPendingFields ? "New Fields Added" : statusDisplay.title}
+            {isHybridState ? "New Fields Added" : statusDisplay.title}
           </DialogTitle>
           <p className="text-sm opacity-90 max-w-sm mx-auto font-medium">
-            {hasPendingFields
+            {isHybridState
               ? "You have added new fields to this document. Save and send the request to notify signers."
               : statusDisplay.message}
           </p>
@@ -151,12 +156,12 @@ export const StatusView = ({
       <DrawerHeader className="border-b border-zinc-100">
         <DrawerTitle className="flex items-center gap-2">
           {statusDisplay.icon}
-          {hasPendingFields ? "New Fields Added" : statusDisplay.title}
+          {isHybridState ? "New Fields Added" : statusDisplay.title}
         </DrawerTitle>
       </DrawerHeader>
       <div className="p-4 overflow-y-auto">
         <p className="text-zinc-600 mb-6 font-medium text-sm">
-          {hasPendingFields
+          {isHybridState
             ? "You have added new fields to this document. Save and send the request to notify signers."
             : statusDisplay.message}
         </p>

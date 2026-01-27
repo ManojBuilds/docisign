@@ -8,5 +8,9 @@ export const getSignerStatus = (email: string, signatureFields?: Doc<"signatureF
   const someCompleted = signerFields.some(f => f.isCompleted);
   if (allCompleted) return "signed";
   if (someCompleted) return "partially_signed";
+
+  const allSent = signerFields.every(f => f.status === 'sent' || f.status === 'viewed');
+  if (allSent) return "sent";
+
   return "pending";
 };
