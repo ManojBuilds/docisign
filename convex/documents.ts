@@ -114,22 +114,45 @@ export const deleteDocument = mutation({
       throw new Error("Document not found");
     }
 
-    // Delete associated signature fields (which contain signer info)
+    console.log(`[deleteDocument] Starting deletion for ${args.documentId}`);
+
+    // Check if other documents share the same storage file
+    const otherDocsWithSameFile = await ctx.db
+      .query("documents")
+      .withIndex("by_file_storage_id", (q) => q.eq("fileStorageId", document.fileStorageId))
+      .collect();
+
+    const isLastReferenceToStorage = otherDocsWithSameFile.length === 1;
+    console.log(`[deleteDocument] File storage ID: ${document.fileStorageId}. References count: ${otherDocsWithSameFile.length}. Is last ref: ${isLastReferenceToStorage}`);
+
+    // Delete associated signature fields
     const fields = await ctx.db
       .query("signatureFields")
       .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
       .collect();
 
+    console.log(`[deleteDocument] Deleting ${fields.length} signature fields`);
     for (const field of fields) {
       await ctx.db.delete(field._id);
     }
 
-
-    // Delete the file from storage
-    await ctx.storage.delete(document.fileStorageId);
+    // Delete the file from storage ONLY if no other document refers to it
+    if (isLastReferenceToStorage) {
+      console.log(`[deleteDocument] Deleting file from storage: ${document.fileStorageId}`);
+      try {
+        await ctx.storage.delete(document.fileStorageId);
+      } catch (error) {
+        console.error(`[deleteDocument] Error deleting storage key ${document.fileStorageId}:`, error);
+        // We continue even if storage delete fails to clean up DB record
+      }
+    } else {
+      console.log(`[deleteDocument] Skipping storage deletion, file still in use by ${otherDocsWithSameFile.length - 1} other document(s)`);
+    }
 
     // Finally delete the document
+    console.log(`[deleteDocument] Deleting document record: ${args.documentId}`);
     await ctx.db.delete(args.documentId);
+    console.log(`[deleteDocument] Finished deletion for ${args.documentId}`);
   },
 });
 

@@ -44,14 +44,27 @@ export function SignersSidebar({ }: SignersSidebarProps) {
     selectedTool,
     setSelectedTool,
     setCurrentPage,
-    manualSigners,
   } = useDocumentEditorStore();
 
 
-  // Use the active signers from the store (merges manual + field)
-  const activeSigners = useMemo(() => {
+  // Use all active signers (merges manual + field) for the sidebar display
+  // const activeSigners = useMemo(() => {
+  //   const uniqueSigners = new Map();
+  //   manualSigners.forEach(s => uniqueSigners.set(s.email, s));
+  //   signatureFields.forEach(f => {
+  //     if (f.signerEmail && !uniqueSigners.has(f.signerEmail)) {
+  //       uniqueSigners.set(f.signerEmail, {
+  //         email: f.signerEmail,
+  //         name: f.signerName || "",
+  //       });
+  //     }
+  //   });
+  //   return Array.from(uniqueSigners.values()).sort((a, b) => a.email.localeCompare(b.email));
+  // }, [manualSigners, signatureFields]);
+
+  // Only signers who are assigned to signature fields (for sending purposes)
+  const signersAssignedToFields = useMemo(() => {
     const uniqueSigners = new Map();
-    manualSigners.forEach(s => uniqueSigners.set(s.email, s));
     signatureFields.forEach(f => {
       if (f.signerEmail && !uniqueSigners.has(f.signerEmail)) {
         uniqueSigners.set(f.signerEmail, {
@@ -61,7 +74,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
       }
     });
     return Array.from(uniqueSigners.values()).sort((a, b) => a.email.localeCompare(b.email));
-  }, [manualSigners, signatureFields]);
+  }, [signatureFields]);
 
   const activeFields = useMemo(() => {
     return signatureFields
@@ -145,10 +158,10 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                 const updatedField = { ...selectedField, ...updates };
                 updateSignatureFieldInStore(updatedField);
               }}
-              // For autocomplete recommendations, we can use `activeSigners` or `allSigners` (contacts).
-              // Using activeSigners ensures we can easily pick existing recipients.
-              // We cast activeSigners to satisfy the prop type (missing documentId/documentTitle is fine as they are optional/unused here)
-              signers={activeSigners.map(s => ({
+              // For autocomplete recommendations, we can use `signersAssignedToFields` to only show signers assigned to fields.
+              // Using signersAssignedToFields ensures we can easily pick existing recipients who have fields assigned.
+              // We cast signersAssignedToFields to satisfy the prop type (missing documentId/documentTitle is fine as they are optional/unused here)
+              signers={signersAssignedToFields.map(s => ({
                 ...s,
                 documentId: selectedField.id as any, // Dummy
                 documentTitle: ""
@@ -262,13 +275,13 @@ export function SignersSidebar({ }: SignersSidebarProps) {
           {/* Signers Reference Section */}
           <section>
             <div className="flex items-center justify-between mb-3 px-1">
-              <h3 className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Recipients ({activeSigners.length})</h3>
+              <h3 className="text-[10px] font-semibold uppercase tracking-wider text-gray-400">Recipients ({signersAssignedToFields.length})</h3>
             </div>
-            {activeSigners.length === 0 ? (
+            {signersAssignedToFields.length === 0 ? (
               <p className="text-[10px] text-gray-400 italic px-1 font-medium">No recipients assigned yet</p>
             ) : (
               <div className="space-y-2">
-                {activeSigners.map((signer, index) => (
+                {signersAssignedToFields.map((signer, index) => (
                   <div key={signer.email} className="flex items-center gap-2.5 px-1 group">
                     <div className={cn(
                       'w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-semibold text-white shrink-0 bg-gradient-to-tr uppercase',

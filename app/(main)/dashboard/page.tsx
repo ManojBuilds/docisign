@@ -92,7 +92,7 @@ function DocumentsList() {
     debounce((value: string) => {
       setDebouncedSearchTerm(value);
     }, 500),
-    []
+    [setDebouncedSearchTerm]
   );
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {

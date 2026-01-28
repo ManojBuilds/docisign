@@ -9,6 +9,10 @@ export const getDashboardStats = query({
     const documents = await ctx.db
       .query("documents")
       .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
+      .filter((q) => q.and(
+        q.neq(q.field("isTemplate"), true),
+        q.neq(q.field("isArchived"), true)
+      ))
       .collect();
 
     const stats = {
@@ -51,11 +55,19 @@ export const searchDocuments = query({
         .query("documents")
         .withSearchIndex("by_title", (q) =>
           q.search("title", searchTerm).eq("ownerId", ownerId)
-        );
+        )
+        .filter((q) => q.and(
+          q.neq(q.field("isTemplate"), true),
+          q.neq(q.field("isArchived"), true)
+        ));
     } else {
       baseQuery = ctx.db
         .query("documents")
         .withIndex("by_owner", (q) => q.eq("ownerId", ownerId))
+        .filter((q) => q.and(
+          q.neq(q.field("isTemplate"), true),
+          q.neq(q.field("isArchived"), true)
+        ))
         .order('desc');
     }
 
@@ -74,7 +86,7 @@ export const searchDocuments = query({
             .withIndex("by_document", (q) => q.eq("documentId", doc._id))
             .collect();
 
-          const uniqueSigners = [...new Set(signatureFields.map((f) => f.signerEmail))];
+          const uniqueSigners = [...new Set(signatureFields.map((f) => f.signerEmail).filter(Boolean) as string[])];
 
           return {
             ...doc,

@@ -357,7 +357,7 @@ export function NewDocumentDialog({
         setTitle(selectedFile.name.replace(/\.[^/.]+$/, ''))
       }
     }
-  }, [title])
+  }, [title, setTitle])
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,

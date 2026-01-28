@@ -120,14 +120,14 @@ export function StatusView({
             <div className="relative pl-4 border-l-2 border-blue-50 space-y-4">
               {Array.from(
                 signatureFields
-                  .filter(field => field.isCompleted && field.auditTrail)
+                  .filter((field): field is Doc<"signatureFields"> & { signerEmail: string } => !!(field.isCompleted && field.auditTrail && field.signerEmail))
                   .reduce((acc, field) => {
                     const existing = acc.get(field.signerEmail);
                     if (!existing || (field.auditTrail?.signedAt || 0) > (existing.auditTrail?.signedAt || 0)) {
                       acc.set(field.signerEmail, field);
                     }
                     return acc;
-                  }, new Map<string, Doc<"signatureFields">>())
+                  }, new Map<string, Doc<"signatureFields"> & { signerEmail: string }>())
                   .values()
               ).map((field, index) => {
                 const isExpanded = expandedSigners.has(field.signerEmail);

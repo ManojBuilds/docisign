@@ -409,12 +409,12 @@ export const sendSigningEmail = internalAction({
       }
 
       await ctx.runAction(api.emails.sendSigningRequestEmail, {
-        signerName: signer.name || signer.email,
+        signerName: signer.name || "",
         senderName: owner.firstName || owner.email,
         documentTitle: document.title,
         signingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/s/${signer.accessToken}`,
         customMessage: args.customMessage,
-        to: signer.email,
+        to: signer.email!,
         brandName: owner.brandName,
         brandLogoUrl: brandLogoUrl || undefined,
       });
@@ -510,7 +510,7 @@ export const sendSignedEmailToOwner = internalAction({
       try {
         await ctx.runAction(api.emails.sendSigningConfirmationEmail, {
           ownerName: owner.firstName || owner.email,
-          signerName: signer.name || signer.email,
+          signerName: signer.name || "",
           documentTitle: document.title,
           dashboardUrl: `${appUrl}/dashboard`,
           signedAt: new Date(signer.signedAt || Date.now()).toLocaleString(),

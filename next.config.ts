@@ -99,11 +99,6 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: "/templates",
-        destination: "/contracts",
-        permanent: true
-      },
-      {
         source: "/online-signature",
         destination: "/online-signature-maker",
         permanent: true

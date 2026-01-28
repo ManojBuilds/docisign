@@ -12,7 +12,7 @@ interface AuditTrailProps {
 }
 
 export function AuditTrail({ signatureFields, expandedSigners, setExpandedSigners, title = "Previous Audit Trail" }: AuditTrailProps) {
-  const completedFields = signatureFields.filter(field => field.isCompleted && field.auditTrail);
+  const completedFields = signatureFields.filter((field): field is Doc<"signatureFields"> & { signerEmail: string } => !!(field.isCompleted && field.auditTrail && field.signerEmail));
 
   if (completedFields.length === 0) return null;
 
@@ -31,7 +31,7 @@ export function AuditTrail({ signatureFields, expandedSigners, setExpandedSigner
                 acc.set(field.signerEmail, field);
               }
               return acc;
-            }, new Map<string, Doc<"signatureFields">>())
+            }, new Map<string, Doc<"signatureFields"> & { signerEmail: string }>())
             .values()
         ).map((field, index) => {
           const isExpanded = expandedSigners.has(field.signerEmail);

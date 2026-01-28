@@ -14,16 +14,17 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
 
   const auditItems = Array.from(
     signatureFields
-      .filter(field => field.isCompleted && field.auditTrail)
+      .filter((field): field is Doc<"signatureFields"> & { signerEmail: string } => !!(field.isCompleted && field.auditTrail && field.signerEmail))
       .reduce((acc, field) => {
         const existing = acc.get(field.signerEmail);
         if (!existing || (field.auditTrail?.signedAt || 0) > (existing.auditTrail?.signedAt || 0)) {
           acc.set(field.signerEmail, field);
         }
         return acc;
-      }, new Map<string, Doc<"signatureFields">>())
+      }, new Map<string, Doc<"signatureFields"> & { signerEmail: string }>())
       .values()
   );
+  console.log(auditItems[0])
 
   if (auditItems.length === 0) return null;
 
@@ -89,7 +90,7 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
         {auditItems.map((field, index) => {
           const isExpanded = expandedSigners.has(field.signerEmail);
           return (
-            <div key={field._id} className="relative group/audit">
+            <div key={field.signerEmail} className="relative group/audit">
               <div className={cn(
                 "absolute -left-[21px] top-6 w-3 h-3 rounded-full ring-4 ring-white transition-colors duration-300",
                 isExpanded ? "bg-blue-500" : "bg-zinc-300"
