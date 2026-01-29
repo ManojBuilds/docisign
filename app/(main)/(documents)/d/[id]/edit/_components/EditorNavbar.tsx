@@ -130,9 +130,7 @@ export const EditorNavbar = memo(({
                         TEMPLATE EDITOR
                     </div>
                 ) : document?.templateId ? ( // Hide Save as Template button if document was created from a template
-                    <div className="text-xs text-muted-foreground italic">
-                        From template
-                    </div>
+                    null
                 ) : (
                     <SaveAsTemplateDialog documentId={documentId} signatureFields={signatureFields} onSave={onSave} />
                 )}

@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { useMutation } from "convex/react";
+import { useAction } from "convex/react";
 import { LayoutTemplate, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -31,7 +31,7 @@ export function SaveAsTemplateDialog({ documentId, signatureFields = [], onSave 
     const [open, setOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
-    const createTemplate = useMutation(api.templates.createTemplateFromDocument);
+    const createTemplate = useAction(api.templates.createTemplateFromDocument);
 
     // Extract unique emails that need role mapping
     const signers = useMemo(() => Array.from(new Set(

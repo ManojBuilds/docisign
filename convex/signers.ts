@@ -466,14 +466,14 @@ export const sendSignedEmailToOwner = internalAction({
       });
 
       const uncompletedFields = signatureFields.filter(
-        (field) => !field.isCompleted
+        (field: any) => !field.isCompleted
       );
 
       // Count unique signers who still have uncompleted fields assigned to them
       const remainingSignerEmails = new Set(
         uncompletedFields
-          .map(field => field.signerEmail)
-          .filter(email => email)
+          .map((field: any) => field.signerEmail)
+          .filter((email: any) => email)
       );
 
       const remainingSigners = remainingSignerEmails.size;

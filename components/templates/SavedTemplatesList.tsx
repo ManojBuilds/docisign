@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
+import { ConvexError } from "convex/values";
 import { Calendar, FileText, LayoutTemplate, MoreVertical, Plus, Trash } from "lucide-react";
 import Link from "next/link";
 import { UseTemplateDialog } from "./UseTemplateDialog";
@@ -101,7 +102,12 @@ function TemplateCard({ template }: { template: Doc<"documents"> }) {
             toast.success("Template deleted");
         } catch (error) {
             console.error("Error deleting template:", error);
-            toast.error("Failed to delete template");
+            const errorMessage = error instanceof ConvexError
+                ? error.data
+                : error instanceof Error
+                    ? error.message.replace("Uncaught Error: ", "").replace("ConvexError: ", "")
+                    : "Failed to delete template";
+            toast.error(errorMessage);
         } finally {
             setShowDeleteDialog(false);
         }

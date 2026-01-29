@@ -14,7 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
-import { useMutation } from "convex/react";
+import { useAction } from "convex/react";
 import { Loader2, UserPlus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -29,7 +29,7 @@ export function UseTemplateDialog({ template, trigger }: UseTemplateDialogProps)
     const [open, setOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
-    const instantiateTemplate = useMutation(api.templates.instantiateTemplate);
+    const instantiateTemplate = useAction(api.templates.instantiateTemplate);
     const [documentTitle, setDocumentTitle] = useState(`${template.title} - Copied`);
 
     // Default roles if none specified

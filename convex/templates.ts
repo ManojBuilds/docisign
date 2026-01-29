@@ -1,6 +1,7 @@
-import { v } from "convex/values";
-import { mutation, query } from "./_generated/server";
+import { ConvexError, v } from "convex/values";
+import { action, internalMutation, mutation, query } from "./_generated/server";
 import { Doc, Id } from "./_generated/dataModel";
+import { api, internal } from "./_generated/api";
 
 /**
  * Get all available templates
@@ -27,7 +28,7 @@ export const getTemplateDetails = query({
   handler: async (ctx, args) => {
     const template = await ctx.db.get(args.templateId);
     if (!template || !template.isTemplate) {
-      throw new Error("Template not found");
+      throw new ConvexError("Template not found");
     }
 
     const fields = await ctx.db
@@ -43,12 +44,13 @@ export const getTemplateDetails = query({
 });
 
 /**
- * Save a copy of an existing document as a reusable template
+ * Internal mutation to create a template and archived original document
  */
-export const createTemplateFromDocument = mutation({
+export const createTemplateInternal = internalMutation({
   args: {
     documentId: v.id("documents"),
-    title: v.string(), // New title for the template
+    title: v.string(),
+    fileStorageId: v.id("_storage"),
     roleMappings: v.array(
       v.object({
         email: v.string(),
@@ -57,46 +59,23 @@ export const createTemplateFromDocument = mutation({
     ),
   },
   handler: async (ctx, args) => {
-    console.log(`[createTemplateFromDocument] Starting template creation from document: ${args.documentId}`);
-
     const originalDoc = await ctx.db.get(args.documentId);
     if (!originalDoc) {
-      console.error(`[createTemplateFromDocument] Document not found: ${args.documentId}`);
-      throw new Error("Document not found");
+      throw new ConvexError("Document not found");
     }
 
-    console.log(`[createTemplateFromDocument] Found original document: "${originalDoc.title}". Storage ID: ${originalDoc.fileStorageId}`);
-
-    // Validate that all emails in the original document have corresponding role mappings
     const fields = await ctx.db
       .query("signatureFields")
       .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
       .collect();
 
-    console.log(`[createTemplateFromDocument] Found ${fields.length} signature fields in original document`);
-
-    const originalSignerEmails = fields
-      .map(field => field.signerEmail)
-      .filter(email => email !== undefined && email !== null) as string[];
-
-    const mappedEmails = args.roleMappings.map(m => m.email);
-    const unmappedEmails = originalSignerEmails.filter(
-      email => email && !mappedEmails.includes(email)
-    );
-
-    if (unmappedEmails.length > 0) {
-      console.error(`[createTemplateFromDocument] Missing role mappings for emails: ${unmappedEmails.join(', ')}`);
-      throw new Error(`Missing role mappings for emails: ${unmappedEmails.join(', ')}`);
-    }
-
     const roles = Array.from(new Set(args.roleMappings.map((m) => m.role)));
-    console.log(`[createTemplateFromDocument] Creating template with roles: ${roles.join(', ')}`);
 
     // 1. Create a NEW document record for the template
     const templateId = await ctx.db.insert("documents", {
       title: args.title,
       originalFileName: originalDoc.originalFileName,
-      fileStorageId: originalDoc.fileStorageId,
+      fileStorageId: args.fileStorageId, // Now using the copied file
       fileType: originalDoc.fileType,
       fileSizeBytes: originalDoc.fileSizeBytes,
       ownerId: originalDoc.ownerId,
@@ -109,12 +88,8 @@ export const createTemplateFromDocument = mutation({
       templateRoles: roles,
     });
 
-    console.log(`[createTemplateFromDocument] Created template document record: ${templateId}`);
-
     // 2. Clone fields to the new template
-    let clonedFieldsCount = 0;
     for (const field of fields) {
-      // Determine the role for this field based on the original signer's email
       let rolePlaceholder = undefined;
       if (field.signerEmail) {
         const mapping = args.roleMappings.find(
@@ -135,7 +110,7 @@ export const createTemplateFromDocument = mutation({
         height: field.height,
         isRequired: field.isRequired,
         label: field.label,
-        signerEmail: undefined, // Templates don't have specific emails
+        signerEmail: undefined,
         signerName: undefined,
         rolePlaceholder: rolePlaceholder,
         signerOrder: field.signerOrder,
@@ -145,19 +120,64 @@ export const createTemplateFromDocument = mutation({
         createdAt: Date.now(),
         reminderCount: 0,
       });
-      clonedFieldsCount++;
     }
 
-    console.log(`[createTemplateFromDocument] Cloned ${clonedFieldsCount} fields to template`);
-
-    // 3. Mark the original document as archived so it doesn't clutter the dashboard
-    console.log(`[createTemplateFromDocument] Archiving original source document: ${args.documentId}`);
+    // 3. Mark the original document as archived
     await ctx.db.patch(args.documentId, {
       isArchived: true,
       updatedAt: Date.now(),
     });
 
-    console.log(`[createTemplateFromDocument] Successfully completed template creation: ${templateId}`);
+    return templateId;
+  },
+});
+
+/**
+ * Save a copy of an existing document as a reusable template
+ */
+export const createTemplateFromDocument = action({
+  args: {
+    documentId: v.id("documents"),
+    title: v.string(),
+    roleMappings: v.array(
+      v.object({
+        email: v.string(),
+        role: v.string(),
+      })
+    ),
+  },
+  handler: async (ctx, args) => {
+    console.log(`[createTemplateFromDocument] Action starting for document: ${args.documentId}`);
+
+    // 1. Get original document (internal query or runQuery)
+    const originalDoc = await ctx.runQuery(api.documents.getDocument, {
+      documentId: args.documentId
+    });
+
+    if (!originalDoc || !("fileStorageId" in originalDoc)) {
+      throw new ConvexError("Document file not found");
+    }
+
+    // 2. Copy the file in storage
+    const originalFile = await ctx.storage.get(originalDoc.fileStorageId as Id<"_storage">);
+    if (!originalFile) {
+      throw new ConvexError("Source file not found in storage");
+    }
+
+    const newFileStorageId = await ctx.storage.store(originalFile);
+    if (!newFileStorageId) {
+      throw new ConvexError("Failed to store copied file");
+    }
+    console.log(`[createTemplateFromDocument] Copied file to: ${newFileStorageId}`);
+
+    // 3. Create template via internal mutation
+    const templateId: Id<"documents"> = await ctx.runMutation(internal.templates.createTemplateInternal, {
+      documentId: args.documentId,
+      title: args.title,
+      fileStorageId: newFileStorageId,
+      roleMappings: args.roleMappings,
+    });
+
     return templateId;
   },
 });
@@ -175,7 +195,7 @@ export const deleteTemplate = mutation({
     const template = await ctx.db.get(args.templateId);
     if (!template || !template.isTemplate) {
       console.error(`[deleteTemplate] Template not found or invalid: ${args.templateId}`);
-      throw new Error("Template not found or is not a template");
+      throw new ConvexError("Template not found or is not a template");
     }
 
     // Check if the template is being used by other documents
@@ -186,7 +206,7 @@ export const deleteTemplate = mutation({
 
     if (documentsUsingThisTemplate.length > 0) {
       console.error(`[deleteTemplate] Cannot delete template ${args.templateId} - used by ${documentsUsingThisTemplate.length} documents`);
-      throw new Error("Cannot delete template because it is being used by other documents");
+      throw new ConvexError("Cannot delete template because it is being used by other documents");
     }
 
     // Check if other documents share the same storage file (instances, etc.)
@@ -233,11 +253,15 @@ export const deleteTemplate = mutation({
 /**
  * Instantiate a document from a template using role mappings
  */
-export const instantiateTemplate = mutation({
+/**
+ * Internal mutation to create a document instance and clone fields
+ */
+export const createInstanceFromTemplateInternal = internalMutation({
   args: {
     templateId: v.id("documents"),
-    title: v.optional(v.string()),
+    title: v.string(),
     ownerId: v.string(),
+    fileStorageId: v.id("_storage"),
     signerMappings: v.array(
       v.object({
         role: v.string(),
@@ -247,34 +271,16 @@ export const instantiateTemplate = mutation({
     ),
   },
   handler: async (ctx, args) => {
-    console.log(`[instantiateTemplate] Starting instantiation from template: ${args.templateId}`);
-    console.log(`[instantiateTemplate] Signer mappings received:`, JSON.stringify(args.signerMappings));
-
     const template = await ctx.db.get(args.templateId);
     if (!template || !template.isTemplate) {
-      console.error(`[instantiateTemplate] Template not found or invalid: ${args.templateId}`);
-      throw new Error("Template not found or is not a template");
+      throw new ConvexError("Template not found or is not a template");
     }
 
-    console.log(`[instantiateTemplate] Found template: "${template.title}". File storage ID: ${template.fileStorageId}`);
-
-    // Validate that all required roles have mappings
-    if (template.templateRoles) {
-      const unmappedRoles = template.templateRoles.filter(
-        role => !args.signerMappings.some(mapping => mapping.role === role)
-      );
-
-      if (unmappedRoles.length > 0) {
-        console.error(`[instantiateTemplate] Missing signer mappings for roles: ${unmappedRoles.join(', ')}`);
-        throw new Error(`Missing signer mappings for roles: ${unmappedRoles.join(', ')}`);
-      }
-    }
-
-    // 1. Create the new document instance with the same file reference
+    // 1. Create the new document record
     const documentId = await ctx.db.insert("documents", {
-      title: args.title || template.title,
+      title: args.title,
       originalFileName: template.originalFileName,
-      fileStorageId: template.fileStorageId, // Reuse the same file
+      fileStorageId: args.fileStorageId,
       fileType: template.fileType,
       fileSizeBytes: template.fileSizeBytes,
       ownerId: args.ownerId,
@@ -287,22 +293,16 @@ export const instantiateTemplate = mutation({
       isTemplate: false,
     });
 
-    console.log(`[instantiateTemplate] Created new document record: ${documentId} for user ${args.ownerId}`);
-
-    // 2. Clone the signature fields and map them to the real signers
+    // 2. Clone the signature fields
     const templateFields = await ctx.db
       .query("signatureFields")
       .withIndex("by_document", (q) => q.eq("documentId", args.templateId))
       .collect();
 
-    console.log(`[instantiateTemplate] Cloning ${templateFields.length} signature fields from template`);
-
-    let clonedFieldsCount = 0;
     for (const field of templateFields) {
       let signerEmail = "";
       let signerName = "";
 
-      // Map the field based on rolePlaceholder if it exists
       if (field.rolePlaceholder) {
         const mapping = args.signerMappings.find(
           (m) => m.role === field.rolePlaceholder
@@ -311,14 +311,10 @@ export const instantiateTemplate = mutation({
         if (mapping) {
           signerEmail = mapping.email;
           signerName = mapping.name;
-          console.log(`[instantiateTemplate] Mapped role "${field.rolePlaceholder}" to ${signerEmail}`);
         } else {
-          // If no mapping found for a role-based field, throw an error
-          console.error(`[instantiateTemplate] No signer mapping found for role: "${field.rolePlaceholder}"`);
-          throw new Error(`No signer mapping found for role: "${field.rolePlaceholder}"`);
+          throw new ConvexError(`No signer mapping found for role: "${field.rolePlaceholder}"`);
         }
       } else {
-        // For fields without role placeholders, use the original values if they exist
         signerEmail = field.signerEmail || "";
         signerName = field.signerName || "";
       }
@@ -339,15 +335,64 @@ export const instantiateTemplate = mutation({
         signerOrder: field.signerOrder,
         status: "pending",
         isCompleted: false,
-        accessToken: crypto.randomUUID(),
+        accessToken: (globalThis as any).crypto.randomUUID(),
         createdAt: Date.now(),
         reminderCount: 0,
       });
-      clonedFieldsCount++;
     }
 
-    console.log(`[instantiateTemplate] Successfully cloned ${clonedFieldsCount} fields to ${documentId}`);
-    console.log(`[instantiateTemplate] Finished instantiation successfully`);
+    return documentId;
+  },
+});
+
+/**
+ * Instantiate a document from a template using role mappings
+ */
+export const instantiateTemplate = action({
+  args: {
+    templateId: v.id("documents"),
+    title: v.optional(v.string()),
+    ownerId: v.string(),
+    signerMappings: v.array(
+      v.object({
+        role: v.string(),
+        email: v.string(),
+        name: v.string(),
+      })
+    ),
+  },
+  handler: async (ctx, args) => {
+    console.log(`[instantiateTemplate] Action starting for template: ${args.templateId}`);
+
+    // 1. Get template details (via query)
+    const result = await ctx.runQuery(api.templates.getTemplateDetails, {
+      templateId: args.templateId
+    });
+
+    if (!result || !result.template) {
+      throw new ConvexError("Template details not found");
+    }
+
+    const { template } = result;
+
+    // 2. Copy the template file in storage
+    const templateFile = await ctx.storage.get(template.fileStorageId);
+    if (!templateFile) {
+      throw new ConvexError("Template file not found in storage");
+    }
+
+    const newFileStorageId = await ctx.storage.store(templateFile);
+    console.log(`[instantiateTemplate] Copied template file to: ${newFileStorageId}`);
+
+    // 3. Create the instance via internal mutation
+    const documentId: Id<"documents"> = await ctx.runMutation(internal.templates.createInstanceFromTemplateInternal, {
+      templateId: args.templateId,
+      title: args.title || template.title,
+      ownerId: args.ownerId,
+      fileStorageId: newFileStorageId,
+      signerMappings: args.signerMappings,
+    });
+
     return documentId;
   },
 });

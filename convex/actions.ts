@@ -14,7 +14,7 @@ export const generateSignedPdf = internalAction({
     if (!signatureFields) throw new Error("Signature fields not found");
 
     console.log(`Found ${signatureFields.length} signature fields for document ${args.documentId}`);
-    const completedFields = signatureFields.filter(field => field.isCompleted && field.signatureData);
+    const completedFields = signatureFields.filter((field: any) => field.isCompleted && field.signatureData);
     console.log(`Found ${completedFields.length} completed signature fields to embed`);
 
     const pdfFile = await ctx.storage.get(document.fileStorageId);
