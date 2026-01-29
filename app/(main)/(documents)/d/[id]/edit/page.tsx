@@ -117,7 +117,7 @@ import { useDocumentData } from "./_hooks/useDocumentData";
 import { useFieldOperations } from "./_hooks/useFieldOperations";
 import { useKeyboardShortcuts } from "./_hooks/useKeyboardShortcuts";
 import { useSaveFields } from "./_hooks/useSaveFields";
-import { useSignatureFieldsSync } from "./_hooks/useSignatureFieldsSync";
+import { SignatureField, useSignatureFieldsSync } from "./_hooks/useSignatureFieldsSync";
 import { useSignerOperations } from "./_hooks/useSignerOperations";
 import { useSignersSync } from "./_hooks/useSignersSync";
 import { useAutoSelectField } from "./_hooks/useAutoSelectField";
@@ -181,10 +181,24 @@ export default function DocumentEditor() {
         return Array.from(uniqueSigners.values()).sort((a, b) => a.email.localeCompare(b.email));
     }, [manualSigners, signatureFields]);
 
+    // Only signers who are assigned to signature fields (for sending purposes)
+    const signersAssignedToFields = useMemo(() => {
+        const uniqueSigners = new Map();
+        signatureFields.forEach(f => {
+            if (f.signerEmail && !uniqueSigners.has(f.signerEmail)) {
+                uniqueSigners.set(f.signerEmail, {
+                    email: f.signerEmail,
+                    name: f.signerName || "",
+                });
+            }
+        });
+        return Array.from(uniqueSigners.values()).sort((a, b) => a.email.localeCompare(b.email));
+    }, [signatureFields]);
+
     useKeyboardShortcuts(setSelectedTool, setSelectedFieldId);
 
     useSignatureFieldsSync(
-        document?.signatureFields,
+        document?.signatureFields as SignatureField[],
         pageDimensions,
         setSignatureFields
     );
@@ -263,7 +277,7 @@ export default function DocumentEditor() {
                 onSignerAdd={handleSignerAdd}
                 hasUnassignedFields={hasUnassignedFields}
                 signatureFields={signatureFields}
-                signers={activeSigners}
+                signers={signersAssignedToFields}
             />
 
             <MobileNavbar
@@ -306,7 +320,7 @@ export default function DocumentEditor() {
                 hasUnassignedFields={hasUnassignedFields}
                 onSignerAdd={handleSignerAdd}
                 signatureFields={signatureFields}
-                signers={activeSigners}
+                signers={signersAssignedToFields}
             />
 
             <MobileBottomBar

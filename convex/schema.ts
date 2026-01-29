@@ -74,10 +74,15 @@ export default defineSchema({
     customMessage: v.optional(v.string()),
     documentHash: v.optional(v.string()), // For integrity verification
     templateId: v.optional(v.string()), // Track which template this was created from
+    isTemplate: v.optional(v.boolean()), // Whether this document is a reusable template
+    isArchived: v.optional(v.boolean()), // Hidden from dashboard
+    templateRoles: v.optional(v.array(v.string())), // e.g., ["Client", "Contractor"]
   })
     .index("by_owner", ["ownerId"])
     .index("by_status", ["status"])
     .index("by_created_at", ["createdAt"])
+    .index("by_template", ["templateId"]) // Index for template usage
+    .index("by_file_storage_id", ["fileStorageId"])
     .searchIndex("by_title", {
       searchField: "title",
       filterFields: ["ownerId", "status"],
@@ -98,8 +103,9 @@ export default defineSchema({
     height: v.number(),
     isRequired: v.boolean(),
     label: v.optional(v.string()),
-    signerEmail: v.string(),
-    signerName: v.string(),
+    signerEmail: v.optional(v.string()), // Optional for templates
+    signerName: v.optional(v.string()), // Optional for templates
+    rolePlaceholder: v.optional(v.string()), // e.g., "Client"
     signerOrder: v.optional(v.number()),
     status: v.union(
       v.literal("pending"),

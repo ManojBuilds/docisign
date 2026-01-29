@@ -150,7 +150,7 @@ export const completeSignatureField = mutation({
       };
     }
 
-    const signerEmail = field.signerEmail.trim().toLowerCase();
+    const signerEmail = field.signerEmail?.trim().toLowerCase();
     await ctx.db.patch(args.fieldId, updates);
 
     // Check if all fields for this signer are completed
@@ -170,7 +170,7 @@ export const completeSignatureField = mutation({
     if (remainingIncomplete.length === 0) {
       await ctx.runMutation(api.signers.finalizeDocument, {
         documentId: field.documentId,
-        signerEmail: signerEmail,
+        signerEmail: signerEmail!,
       });
     }
   },
@@ -196,7 +196,7 @@ export const batchCompleteSignatureFields = mutation({
     if (!firstField) throw new Error("Signature field not found");
 
     const documentId = firstField.documentId;
-    const signerEmail = firstField.signerEmail.trim().toLowerCase();
+    const signerEmail = firstField.signerEmail?.trim().toLowerCase();
 
     for (const fieldUpdate of args.fields) {
       const updates: any = {
@@ -232,7 +232,7 @@ export const batchCompleteSignatureFields = mutation({
     if (remainingIncomplete.length === 0) {
       await ctx.runMutation(api.signers.finalizeDocument, {
         documentId,
-        signerEmail,
+        signerEmail: signerEmail!,
       });
     }
   },

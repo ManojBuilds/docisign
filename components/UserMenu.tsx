@@ -17,20 +17,25 @@ import {
   CreditCard,
   Gem,
   LayoutDashboard,
+  LayoutTemplate,
   LogOut,
   Palette,
+  FileText,
   User,
   Zap
 } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { BrandingSettings } from "./branding/BrandingSettings";
+import { cn } from "@/lib/utils";
 
 export function UserMenu() {
   const { user } = useUser();
   const { signOut } = useClerk();
   const { isPaidUser } = useTrialStatus();
   const [brandingOpen, setBrandingOpen] = useState(false);
+  const pathname = usePathname();
 
   if (!user) return null;
 
@@ -65,7 +70,23 @@ export function UserMenu() {
             <DropdownMenuLabel className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 px-2 py-1.5 flex items-center gap-2">
               <Zap className="h-3 w-3" /> Workspace
             </DropdownMenuLabel>
-            <DropdownMenuItem asChild className="rounded-xl cursor-pointer py-2.5">
+
+            {/* Mobile Navigation Links */}
+            <DropdownMenuItem asChild className={cn("rounded-xl cursor-pointer py-2.5 md:hidden", pathname === "/dashboard" && "bg-primary/5 text-primary")}>
+              <Link href="/dashboard">
+                <FileText className={cn("mr-3 h-4 w-4", pathname === "/dashboard" ? "text-primary" : "text-muted-foreground")} />
+                <span className="font-medium">My Contracts</span>
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem asChild className={cn("rounded-xl cursor-pointer py-2.5 md:hidden", pathname.startsWith("/templates") && "bg-primary/5 text-primary")}>
+              <Link href="/templates">
+                <LayoutTemplate className={cn("mr-3 h-4 w-4", pathname.startsWith("/templates") ? "text-primary" : "text-muted-foreground")} />
+                <span className="font-medium">Templates</span>
+              </Link>
+            </DropdownMenuItem>
+
+            <DropdownMenuItem asChild className="rounded-xl cursor-pointer py-2.5 hidden md:flex">
               <Link href="/dashboard">
                 <LayoutDashboard className="mr-3 h-4 w-4 text-muted-foreground" />
                 <span className="font-medium">Dashboard</span>

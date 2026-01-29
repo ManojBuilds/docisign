@@ -41,6 +41,13 @@ export interface SignatureFieldData {
   signerName?: string;
   status?: "pending" | "sent" | "viewed" | "signed" | "declined";
   isCompleted?: boolean;
+  rolePlaceholder?: string; // Add this
+  auditTrail?: {
+    ip: string;
+    timestamp: string;
+    userAgent: string;
+    signedAt: number;
+  };
 }
 
 interface SignatureFieldProps {
@@ -70,7 +77,12 @@ const getFieldIcon = (fieldType: string) => {
 };
 
 // Color palette for signers - allows up to 5 different signers to have distinct colors
-const getSignerColor = (fieldType: string, signerEmail: string) => {
+const getSignerColor = (fieldType: string, signerEmail: string, rolePlaceholder?: string) => {
+  if (rolePlaceholder && !signerEmail) {
+    // Color for unassigned role placeholders (e.g., orange/amber)
+    return "border-amber-500 bg-amber-100/50 text-amber-700";
+  }
+
   if (!signerEmail) {
     // Unassigned fields use the default field type colors
     const defaultColors = {
@@ -81,6 +93,7 @@ const getSignerColor = (fieldType: string, signerEmail: string) => {
     };
     return defaultColors[fieldType as keyof typeof defaultColors] || defaultColors.signature;
   }
+  // ...
 
   // Generate consistent color based on email hash
   const colors = [
@@ -300,7 +313,7 @@ function DraggableSignatureField({
       <div
         className={cn(
           "w-full h-full border flex items-center justify-center relative group hover:bg-opacity-30 transition-all backdrop-blur-[1px] rounded-none",
-          getSignerColor(localField.fieldType, localField.signerEmail)
+          getSignerColor(localField.fieldType, localField.signerEmail, localField.rolePlaceholder)
         )}
         style={{
           backgroundColor: 'rgba(255, 255, 255, 0.3)',
@@ -571,7 +584,7 @@ function SignatureField(props: SignatureFieldProps) {
 
     return (
       <div
-        className={`absolute border-2 border-dashed border-opacity-50 flex items-center justify-center text-xs ${getSignerColor(field.fieldType, field.signerEmail)}`}
+        className={`absolute border-2 border-dashed border-opacity-50 flex items-center justify-center text-xs ${getSignerColor(field.fieldType, field.signerEmail, field.rolePlaceholder)}`}
         style={{
           left: pixelX,
           top: pixelY,
@@ -581,7 +594,9 @@ function SignatureField(props: SignatureFieldProps) {
         }}
       >
         {getFieldIcon(field.fieldType)}
-        <span className="ml-1 text-gray-700 truncate">{field.fieldType}</span>
+        <span className="ml-1 text-gray-700 truncate">
+          {field.rolePlaceholder ? `[${field.rolePlaceholder}]` : field.fieldType}
+        </span>
       </div>
     );
   }
