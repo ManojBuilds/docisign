@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
 import { useAction } from "convex/react";
@@ -128,51 +129,53 @@ export function UseTemplateDialog({ template, trigger }: UseTemplateDialogProps)
                             </span>
                         </div>
 
-                        <div className="space-y-3 max-h-[40vh] overflow-y-auto pr-1">
-                            {roles.map((role) => (
-                                <div key={role} className="p-3.5 bg-muted/30 hover:bg-muted/50 transition-colors rounded-xl border border-border/50 space-y-3">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-                                            <UserPlus className="h-3.5 w-3.5" />
+                        <ScrollArea className="max-h-[40vh] pr-1">
+                            <div className="space-y-3">
+                                {roles.map((role) => (
+                                    <div key={role} className="p-3.5 bg-muted/30 hover:bg-muted/50 transition-colors rounded-xl border border-border/50 space-y-3">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                                                <UserPlus className="h-3.5 w-3.5" />
+                                            </div>
+                                            <span className="font-medium text-sm text-foreground">{role}</span>
                                         </div>
-                                        <span className="font-medium text-sm text-foreground">{role}</span>
+                                        <div className="grid sm:grid-cols-2 gap-3">
+                                            <div className="space-y-1.5">
+                                                <Label htmlFor={`email-${role}`} className="text-[11px] text-muted-foreground uppercase tracking-wider font-semibold">
+                                                    Email
+                                                </Label>
+                                                <Input
+                                                    id={`email-${role}`}
+                                                    type="email"
+                                                    required
+                                                    placeholder="client@company.com"
+                                                    value={signerMappings[role]?.email || ""}
+                                                    onChange={(e) =>
+                                                        handleInputChange(role, "email", e.target.value)
+                                                    }
+                                                    className="h-9 bg-background/50"
+                                                />
+                                            </div>
+                                            <div className="space-y-1.5">
+                                                <Label htmlFor={`name-${role}`} className="text-[11px] text-muted-foreground uppercase tracking-wider font-semibold">
+                                                    Full Name
+                                                </Label>
+                                                <Input
+                                                    id={`name-${role}`}
+                                                    required
+                                                    placeholder="John Doe"
+                                                    value={signerMappings[role]?.name || ""}
+                                                    onChange={(e) =>
+                                                        handleInputChange(role, "name", e.target.value)
+                                                    }
+                                                    className="h-9 bg-background/50"
+                                                />
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="grid sm:grid-cols-2 gap-3">
-                                        <div className="space-y-1.5">
-                                            <Label htmlFor={`email-${role}`} className="text-[11px] text-muted-foreground uppercase tracking-wider font-semibold">
-                                                Email
-                                            </Label>
-                                            <Input
-                                                id={`email-${role}`}
-                                                type="email"
-                                                required
-                                                placeholder="client@company.com"
-                                                value={signerMappings[role]?.email || ""}
-                                                onChange={(e) =>
-                                                    handleInputChange(role, "email", e.target.value)
-                                                }
-                                                className="h-9 bg-background/50"
-                                            />
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <Label htmlFor={`name-${role}`} className="text-[11px] text-muted-foreground uppercase tracking-wider font-semibold">
-                                                Full Name
-                                            </Label>
-                                            <Input
-                                                id={`name-${role}`}
-                                                required
-                                                placeholder="John Doe"
-                                                value={signerMappings[role]?.name || ""}
-                                                onChange={(e) =>
-                                                    handleInputChange(role, "name", e.target.value)
-                                                }
-                                                className="h-9 bg-background/50"
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
+                        </ScrollArea>
                     </div>
 
                     <DialogFooter>

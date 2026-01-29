@@ -1,5 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Doc } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import { CheckCircle2, Clock, FileCheck, Mail, UserPlus } from "lucide-react";
@@ -25,7 +26,7 @@ export const RecipientsList = ({ signers, signatureFields, readonly = false }: R
         </Badge>
       </div>
 
-      <div className="bg-white rounded-xl ring-1 ring-zinc-900/5 ring-offset-2 ring-offset-zinc-50 divide-y divide-zinc-100 max-h-[200px] overflow-y-auto overflow-hidden">
+      <ScrollArea className="bg-white rounded-xl ring-1 ring-zinc-900/5 ring-offset-2 ring-offset-zinc-50 divide-y divide-zinc-100 max-h-[200px]">
         {signers.length > 0 ? (
           signers.map((signer, index) => (
             <div
@@ -103,7 +104,7 @@ export const RecipientsList = ({ signers, signatureFields, readonly = false }: R
             {!readonly && <p className="text-xs text-zinc-500 mt-1">Add signers from the sidebar to continue.</p>}
           </div>
         )}
-      </div>
+      </ScrollArea>
     </div>
   );
 };

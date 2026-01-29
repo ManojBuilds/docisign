@@ -38,6 +38,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -362,7 +363,7 @@ export const DocumentTable = ({
     <div className="overflow-hidden bg-background">
       {/* Desktop Table View */}
       {isDesktop ? (
-        <div className="overflow-x-auto">
+        <ScrollArea>
           <Table>
             <TableHeader>
               {table.getHeaderGroups().map((headerGroup) => (
@@ -415,7 +416,7 @@ export const DocumentTable = ({
               )}
             </TableBody>
           </Table>
-        </div>
+        </ScrollArea>
       ) : (
         /* Mobile Card View */
         <div className="flex flex-col divide-y divide-muted/50 border-t border-muted/50">
@@ -430,7 +431,8 @@ export const DocumentTable = ({
             </div>
           )}
         </div>
-      )}
+      )
+      }
 
       {/* Pagination */}
       <div className="flex items-center justify-between border-t border-muted bg-background px-4 py-4 sm:py-3">
@@ -503,6 +505,6 @@ export const DocumentTable = ({
           </Button>
         </div>
       </div>
-    </div>
+    </div >
   );
 };

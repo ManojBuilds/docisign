@@ -1,6 +1,7 @@
 "use client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMobile } from "@/hooks/useMobile";
 import {
   AlertCircle,
@@ -346,98 +347,100 @@ export default function PDFViewer({
         </div>
       )}
 
-      <div
-        ref={containerRef}
-        className={cn("flex-1 overflow-auto bg-transparent p-4 md:p-8 scroll-smooth", containerClassName)}
-      >
-        <div className="flex flex-col items-center min-h-full space-y-8">
-          <Document
-            file={fileUrl}
-            onLoadSuccess={onDocumentLoadSuccess}
-            onLoadError={onDocumentLoadError}
-            loading={null}
-            error={
-              <div className="flex flex-col items-center justify-center p-12 bg-white rounded-xl shadow-sm border border-red-100">
-                <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
-                <p className="text-gray-900 font-semibold mb-1">Failed to load document</p>
-                <p className="text-gray-500 text-sm">Please try refreshing the page or check the file.</p>
-              </div>
-            }
-            options={documentOptions}
-          >
-            {Array.from(new Array(numPages), (_, index) => {
-              const pNum = index + 1;
-              const isVisible = visiblePages.has(pNum);
-              const isNearCurrent = Math.abs(pNum - currentPage) <= 2;
+      <ScrollArea className={cn("flex-1 bg-transparent p-4 md:p-8", containerClassName)}>
+        <div
+          ref={containerRef}
+          className="flex-1 overflow-auto bg-transparent scroll-smooth"
+        >
+          <div className="flex flex-col items-center min-h-full space-y-8">
+            <Document
+              file={fileUrl}
+              onLoadSuccess={onDocumentLoadSuccess}
+              onLoadError={onDocumentLoadError}
+              loading={null}
+              error={
+                <div className="flex flex-col items-center justify-center p-12 bg-white rounded-xl shadow-sm border border-red-100">
+                  <AlertCircle className="w-12 h-12 text-red-500 mb-4" />
+                  <p className="text-gray-900 font-semibold mb-1">Failed to load document</p>
+                  <p className="text-gray-500 text-sm">Please try refreshing the page or check the file.</p>
+                </div>
+              }
+              options={documentOptions}
+            >
+              {Array.from(new Array(numPages), (_, index) => {
+                const pNum = index + 1;
+                const isVisible = visiblePages.has(pNum);
+                const isNearCurrent = Math.abs(pNum - currentPage) <= 2;
 
-              // Only render pages that are visible or near current page
-              const shouldRender = isVisible || isNearCurrent || pNum === 1;
+                // Only render pages that are visible or near current page
+                const shouldRender = isVisible || isNearCurrent || pNum === 1;
 
-              return (
-                <div
-                  key={`page_container_${pNum}`}
-                  ref={(el) => { pageRefs.current[pNum] = el; }}
-                  data-page-number={pNum}
-                  className="relative shadow-xl border border-gray-200/50 bg-white"
-                  style={{
-                    width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 595) * scale,
-                    height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 842) * scale,
-                  }}
-                >
-                  {shouldRender ? (
-                    <>
-                      <Page
-                        pageNumber={pNum}
-                        scale={scale}
-                        devicePixelRatio={Math.min(2, window.devicePixelRatio || 1)}
-                        onRenderSuccess={(page) => onPageRenderSuccess(page, pNum)}
-                        loading={
+                return (
+                  <div
+                    key={`page_container_${pNum}`}
+                    ref={(el) => { pageRefs.current[pNum] = el; }}
+                    data-page-number={pNum}
+                    className="relative shadow-xl border border-gray-200/50 bg-white"
+                    style={{
+                      width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 595) * scale,
+                      height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 842) * scale,
+                    }}
+                  >
+                    {shouldRender ? (
+                      <>
+                        <Page
+                          pageNumber={pNum}
+                          scale={scale}
+                          devicePixelRatio={Math.min(2, window.devicePixelRatio || 1)}
+                          onRenderSuccess={(page) => onPageRenderSuccess(page, pNum)}
+                          loading={
+                            <div
+                              className="flex items-center justify-center bg-gray-50"
+                              style={{
+                                width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 595) * scale,
+                                height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 842) * scale,
+                              }}
+                            >
+                              <div className="text-gray-400 text-sm">Loading page {pNum}...</div>
+                            </div>
+                          }
+                          renderTextLayer={false}
+                          renderAnnotationLayer={false}
+                        />
+
+                        {/* Overlay for this specific page */}
+                        {!isLoading && (
                           <div
-                            className="flex items-center justify-center bg-gray-50"
+                            className="absolute inset-0 z-10"
                             style={{
-                              width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 595) * scale,
-                              height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 842) * scale,
+                              width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 0) * scale,
+                              height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 0) * scale,
                             }}
                           >
-                            <div className="text-gray-400 text-sm">Loading page {pNum}...</div>
+                            {/* We'll pass information about the page to children if it's a function */}
+                            {typeof children === 'function' ? (children as any)(pNum) : children}
                           </div>
-                        }
-                        renderTextLayer={false}
-                        renderAnnotationLayer={false}
-                      />
-
-                      {/* Overlay for this specific page */}
-                      {!isLoading && (
-                        <div
-                          className="absolute inset-0 z-10"
-                          style={{
-                            width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 0) * scale,
-                            height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 0) * scale,
-                          }}
-                        >
-                          {/* We'll pass information about the page to children if it's a function */}
-                          {typeof children === 'function' ? (children as any)(pNum) : children}
-                        </div>
-                      )}
-                    </>
-                  ) : (
-                    // Placeholder for non-visible pages
-                    <div
-                      className="flex items-center justify-center bg-gray-100"
-                      style={{
-                        width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 595) * scale,
-                        height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 842) * scale,
-                      }}
-                    >
-                      <div className="text-gray-400 text-sm">Page {pNum}</div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </Document>
+                        )}
+                      </>
+                    ) : (
+                      // Placeholder for non-visible pages
+                      <div
+                        className="flex items-center justify-center bg-gray-100"
+                        style={{
+                          width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 595) * scale,
+                          height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 842) * scale,
+                        }}
+                      >
+                        <div className="text-gray-400 text-sm">Page {pNum}</div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </Document>
+          </div>
         </div>
-      </div>
+      </ScrollArea>
     </div>
   );
 }

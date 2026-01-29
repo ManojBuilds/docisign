@@ -21,6 +21,7 @@ import {
 } from '@/components/ui/drawer'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import { api } from '@/convex/_generated/api'
 import { useMobile } from '@/hooks/useMobile'
 import { computeFileHash } from '@/lib/crypto'
@@ -587,7 +588,7 @@ export function NewDocumentDialog({
             <DrawerTitle className="text-xl font-semibold text-gray-900 tracking-tight">Upload Document</DrawerTitle>
             <p className="text-[13px] text-gray-500">Prepare your file for secure signing</p>
           </DrawerHeader>
-          <div className="flex-1 overflow-y-auto pb-4">{content}</div>
+          <ScrollArea className="flex-1 pb-4">{content}</ScrollArea>
           <DrawerFooter className="px-0 border-t border-gray-50 bg-white sticky bottom-0">
             {footer(DrawerClose)}
           </DrawerFooter>

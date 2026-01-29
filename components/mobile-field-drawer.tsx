@@ -7,6 +7,7 @@ import {
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { SignatureFieldSettings } from "./signature-field-settings";
 import { Id } from "@/convex/_generated/dataModel";
 
@@ -44,9 +45,9 @@ export function MobileFieldDrawer({
         <DrawerHeader>
           <DrawerTitle>Field Settings</DrawerTitle>
         </DrawerHeader>
-        <div className="p-4 overflow-y-auto space-y-4">
+        <ScrollArea className="p-4 space-y-4">
           <SignatureFieldSettings field={field} onFieldUpdate={onFieldUpdate} signers={signers} />
-        </div>
+        </ScrollArea>
         <DrawerFooter>
           <Button
             size="sm"

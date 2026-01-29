@@ -2,6 +2,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { DrawerClose, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Doc } from "@/convex/_generated/dataModel";
@@ -100,7 +101,7 @@ export const ConfigurationView = ({
           <p className="text-sm text-zinc-500 font-medium">Configure recipients and send securely.</p>
         </DialogHeader>
 
-        <div className="flex-1 overflow-y-auto px-6 py-8">
+        <ScrollArea className="flex-1 px-6 py-8">
           <SharedConfigContent
             hasUnassignedFields={hasUnassignedFields}
             signers={signers}
@@ -108,7 +109,7 @@ export const ConfigurationView = ({
             customMessage={customMessage}
             setCustomMessage={setCustomMessage}
           />
-        </div>
+        </ScrollArea>
 
         <DialogFooter className="p-6 border-t border-zinc-100 bg-zinc-50 flex gap-3 sticky bottom-0 z-10">
           <DialogClose asChild>
@@ -144,7 +145,7 @@ export const ConfigurationView = ({
       <DrawerHeader className="border-b border-zinc-100">
         <DrawerTitle>Send for Signature</DrawerTitle>
       </DrawerHeader>
-      <div className="p-4 overflow-y-auto">
+      <ScrollArea className="p-4">
         <SharedConfigContent
           hasUnassignedFields={hasUnassignedFields}
           signers={signers}
@@ -152,7 +153,7 @@ export const ConfigurationView = ({
           customMessage={customMessage}
           setCustomMessage={setCustomMessage}
         />
-      </div>
+      </ScrollArea>
       <DrawerFooter className="border-t border-zinc-100">
         <Button
           onClick={onSend}

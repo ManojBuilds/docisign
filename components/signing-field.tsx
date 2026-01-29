@@ -19,6 +19,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMobile } from "@/hooks/useMobile";
 import { cn } from "@/lib/utils";
@@ -503,9 +504,9 @@ function SigningDialog({
               </SheetDescription>
             )}
           </SheetHeader>
-          <div className="overflow-y-auto p-6">
+          <ScrollArea className="p-6">
             {renderContent()}
-          </div>
+          </ScrollArea>
         </SheetContent>
       </Sheet>
     );

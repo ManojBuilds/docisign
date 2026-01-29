@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { DialogClose, DialogTitle } from "@/components/ui/dialog";
 import { DrawerClose, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Doc } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
 import { AlertCircle, CheckCircle2, Clock, Loader2, Send, X } from "lucide-react";
@@ -106,7 +107,7 @@ export const StatusView = ({
           </p>
         </div>
 
-        <div className="flex-1 overflow-y-auto max-h-[60vh]">
+        <ScrollArea className="flex-1 max-h-[60vh]">
           {/* Recipients List in Status View */}
           <div className="px-6 py-4 border-b border-zinc-100 bg-zinc-50/30">
             <RecipientsList signers={signers} signatureFields={signatureFields} readonly />
@@ -129,7 +130,7 @@ export const StatusView = ({
           {hasCompletedFields && signatureFields && (
             <AuditTrail signatureFields={signatureFields} />
           )}
-        </div>
+        </ScrollArea>
 
         <div className="p-6 border-t border-zinc-100 bg-zinc-50 flex gap-3">
           <DialogClose asChild>
@@ -159,7 +160,7 @@ export const StatusView = ({
           {isHybridState ? "New Fields Added" : statusDisplay.title}
         </DrawerTitle>
       </DrawerHeader>
-      <div className="p-4 overflow-y-auto">
+      <ScrollArea className="p-4">
         <p className="text-zinc-600 mb-6 font-medium text-sm">
           {isHybridState
             ? "You have added new fields to this document. Save and send the request to notify signers."
@@ -180,7 +181,7 @@ export const StatusView = ({
         {hasCompletedFields && signatureFields && (
           <AuditTrail signatureFields={signatureFields} />
         )}
-      </div>
+      </ScrollArea>
       <DrawerFooter>
         <DrawerClose asChild>
           <Button variant="outline">Close</Button>

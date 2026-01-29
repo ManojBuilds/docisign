@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useAction } from "convex/react";
@@ -120,7 +121,7 @@ export function SaveAsTemplateDialog({ documentId, signatureFields = [], onSave 
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit} className="flex flex-col max-h-[85vh]">
-                    <div className="flex-1 overflow-y-auto px-6 py-2 sm:px-8 space-y-8">
+                    <ScrollArea className="flex-1 px-6 py-2 sm:px-8 space-y-8">
                         {/* Template Title Section */}
                         <div className="space-y-3.5">
                             <Label htmlFor="template-title" className="text-[13px] font-bold text-slate-700 uppercase tracking-wide">
@@ -195,7 +196,7 @@ export function SaveAsTemplateDialog({ documentId, signatureFields = [], onSave 
                                 )}
                             </div>
                         </div>
-                    </div>
+                    </ScrollArea>
 
                     <DialogFooter className="p-6 sm:p-8 bg-slate-50/50 border-t border-slate-100 flex flex-col sm:flex-row gap-3">
                         <Button

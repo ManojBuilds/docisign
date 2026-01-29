@@ -47,6 +47,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "../ui/drawer";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const formSchema = z.object({
   type: z.enum(["bug", "feature", "help"]).refine((val) => val !== undefined, {
@@ -362,7 +363,7 @@ export function SupportModal({ trigger }: SupportModalProps) {
               know!
             </DrawerDescription>
           </DrawerHeader>
-          <div className="flex-1 overflow-y-auto px-4">{content()}</div>
+          <ScrollArea className="flex-1 px-4">{content()}</ScrollArea>
           <div className="p-4 border-t">
             <Button
               type="submit"
@@ -401,7 +402,7 @@ export function SupportModal({ trigger }: SupportModalProps) {
           <HelpCircle className="h-4 w-4" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-h-[90vh] flex flex-col flex-1 overflow-y-auto">
+      <DialogContent className="max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>Submit a Request</DialogTitle>
           <DialogDescription>
@@ -409,7 +410,9 @@ export function SupportModal({ trigger }: SupportModalProps) {
             know!
           </DialogDescription>
         </DialogHeader>
-        <div className="">{content()}</div>
+        <ScrollArea className="flex-1">
+          <div className="">{content()}</div>
+        </ScrollArea>
         <DialogFooter>
           <Button
             type="submit"

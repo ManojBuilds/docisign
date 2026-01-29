@@ -2,6 +2,7 @@
 
 import Logo from "@/components/Logo";
 import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
 import { FileText, Info, Loader2, Mail, User } from "lucide-react";
@@ -83,7 +84,7 @@ export const SigningNavbar = memo(({
                 <SheetHeader className="p-8 pt-10 border-b border-gray-50">
                   <SheetTitle className="text-left text-2xl font-black text-gray-900 tracking-tight uppercase">Document Details</SheetTitle>
                 </SheetHeader>
-                <div className="p-8 space-y-8 overflow-y-auto max-h-[calc(80vh-120px)] pb-12">
+                <ScrollArea className="p-8 space-y-8 max-h-[calc(80vh-120px)] pb-12">
                   <div className="space-y-6">
                     <div className="space-y-2">
                       <span className="text-[10px] font-black text-gray-400 theme-text-muted uppercase tracking-[0.2em]">Agreement Status</span>
@@ -137,7 +138,7 @@ export const SigningNavbar = memo(({
                       Declining will immediately void this agreement.
                     </p>
                   </div>
-                </div>
+                </ScrollArea>
               </SheetContent>
             </Sheet>
           </div>
@@ -192,7 +193,7 @@ export const SigningNavbar = memo(({
               <SheetHeader className="p-6 border-b border-gray-100">
                 <SheetTitle className="text-sm font-black uppercase tracking-[0.2em] text-gray-900">Contract Details</SheetTitle>
               </SheetHeader>
-              <div className="flex-1 overflow-y-auto p-6 space-y-8">
+              <ScrollArea className="flex-1 p-6 space-y-8">
                 <div className="space-y-4">
                   <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2">
                     <Info className="w-3 h-3" />
@@ -266,7 +267,7 @@ export const SigningNavbar = memo(({
                     Declining will void this agreement for all parties. The sender will be notified of your decision.
                   </p>
                 </div>
-              </div>
+              </ScrollArea>
             </SheetContent>
           </Sheet>
         </div>

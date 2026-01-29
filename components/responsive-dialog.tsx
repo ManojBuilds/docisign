@@ -7,6 +7,7 @@ import { cva } from "class-variance-authority";
 import { X } from "lucide-react";
 import { Drawer as DrawerPrimitive, Content as VaulDrawerContent } from "vaul";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 
@@ -314,7 +315,13 @@ const ResponsiveDialogContent = React.forwardRef<
               )}
             />
           )}
-          {children}
+          {!shouldUseDialog ? (
+            <ScrollArea className="flex-1">
+              {children}
+            </ScrollArea>
+          ) : (
+            children
+          )}
           {shouldShowCloseButton && (
             <ResponsiveDialogClose
               className={cn(

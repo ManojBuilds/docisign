@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { api } from "@/convex/_generated/api";
 import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
@@ -141,7 +142,7 @@ export function BrandingSettings({
             be used on the signing page and in emails.
           </DialogDescription>
         </DialogHeader>
-        <div className="flex-1 overflow-y-auto px-6 py-4">
+        <ScrollArea className="flex-1 px-6 py-4">
           <div className="grid gap-8 pb-4">
             <div className="grid gap-2">
               <Label htmlFor="brandName">Business Name</Label>
@@ -241,7 +242,7 @@ export function BrandingSettings({
               </p>
             </div>
           </div>
-        </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
