@@ -9,6 +9,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { RelatedPages } from "@/components/RelatedPages";
 import { notFound } from "next/navigation";
+import { PageBackground } from "@/components/PageBackground";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -80,6 +81,7 @@ export default async function ComparisonPage({ params }: Props) {
               "@type": "Offer",
               price: comparison.priceComparison?.us?.toString() || "15.00",
               priceCurrency: "USD",
+              priceValidUntil: "2026-12-31",
               availability: "https://schema.org/InStock",
             },
           }),
@@ -88,7 +90,7 @@ export default async function ComparisonPage({ params }: Props) {
 
       {/* Hero Section */}
       <header className="bg-gradient-to-b from-blue-50/50 via-white to-white border-b border-slate-100 py-24 md:py-12 relative overflow-hidden">
-        <div className="absolute top-0 inset-x-0 h-full bg-[url('https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO')] opacity-[0.03]" />
+        <PageBackground opacity="opacity-[0.03]" />
 
         {/* Background Decorations */}
         <div className="absolute -top-1/4 left-0 size-[600px] bg-blue-100/40 rounded-full blur-[150px]" />

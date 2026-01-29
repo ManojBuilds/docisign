@@ -134,6 +134,7 @@ export default async function BaseTemplatePage({ params }: Props) {
                             "@type": "Offer",
                             "price": "0",
                             "priceCurrency": "USD",
+                            "priceValidUntil": "2026-12-31",
                             "availability": "https://schema.org/InStock"
                         }
                     }),

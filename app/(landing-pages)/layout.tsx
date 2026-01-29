@@ -1,6 +1,7 @@
 import { ClientHeaderWrapper } from "@/components/ClientHeaderWrapper";
 import Footer from "@/components/Footer";
 import TestimonialsSection from "@/components/testimonials";
+import { PageBackground } from "@/components/PageBackground";
 import React from "react";
 
 export default function SeoLayout({ children }: { children: React.ReactNode }) {
@@ -10,12 +11,7 @@ export default function SeoLayout({ children }: { children: React.ReactNode }) {
       {children}
       <TestimonialsSection />
       <Footer />
-      <div
-        style={{
-          backgroundImage: "url('https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO')",
-        }}
-        className="pointer-events-none [z-index:-1] absolute inset-0 bg-[size:180px] bg-repeat opacity-[0.035]"
-      ></div>
+      <PageBackground opacity="opacity-[0.035]" />
     </>
   );
 }

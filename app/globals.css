@@ -315,22 +315,3 @@
   color: #666 !important;
   text-align: center !important;
 }
-
-/* Signature field overlay improvements */
-.signature-field-overlay {
-  pointer-events: none;
-}
-
-.signature-field-overlay>* {
-  pointer-events: auto;
-}
-
-/* Background image with WebP fallback */
-.bg-noise-webp {
-  background-image: url('/https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO');
-  /* Fallback for browsers that don't support WebP */
-}
-
-.bg-noise-webp.webp-supported {
-  background-image: url('https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO');
-}

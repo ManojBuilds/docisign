@@ -4,6 +4,7 @@ import { ArrowRight, CheckCircle, Zap } from "lucide-react";
 import { Metadata } from "next";
 import Link from "next/link";
 import { RelatedPages } from "@/components/RelatedPages";
+import { PageBackground } from "@/components/PageBackground";
 
 export const metadata: Metadata = {
   title: "Boopsign Alternatives & Comparisons | Better E-Signatures",
@@ -53,7 +54,7 @@ export default function AlternativesIndex() {
     <div className="min-h-screen bg-slate-50/50">
       {/* Hero Section */}
       <div className="bg-white border-b border-slate-100 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[url('https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO')] opacity-[0.03]"></div>
+        <PageBackground opacity="opacity-[0.03]" />
         <div className="absolute top-0 inset-x-0 h-[800px] bg-gradient-to-b from-blue-50 to-transparent"></div>
 
         <div className="container mx-auto px-4 py-24 md:py-12 relative z-10 text-center max-w-5xl">

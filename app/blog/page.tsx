@@ -1,6 +1,7 @@
 import { allPosts, type Post } from "content-collections";
 import { compareDesc } from "date-fns";
 import { ArrowRight } from "lucide-react";
+import { PageBackground } from "@/components/PageBackground";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -26,6 +27,7 @@ function PostCard({ post }: { post: Post }) {
           alt={`Blog post thumbnail: ${post.title}`}
           width={1200}
           height={630}
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
         />
       </div>
@@ -83,7 +85,7 @@ export default async function BlogIndex({
     <div className="min-h-screen bg-slate-50">
       {/* Hero Section */}
       <div className="bg-white border-b border-slate-100 relative overflow-hidden">
-        <div className="absolute top-0 inset-x-0 h-full bg-[url('https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO')] opacity-[0.03]" />
+        <PageBackground opacity="opacity-[0.03]" />
         <div className="absolute top-0 left-1/4 size-[500px] bg-blue-100/30 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 right-1/4 size-[500px] bg-indigo-100/20 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,transparent_0%,rgba(255,255,255,0.8)_100%)]" />

@@ -1,4 +1,9 @@
 import { ClientHeaderWrapper } from "@/components/ClientHeaderWrapper";
+import { PageBackground } from "@/components/PageBackground";
+import dynamic from "next/dynamic";
+import Footer from "@/components/Footer";
+import Hero from "@/components/Hero";
+
 const Features = dynamic(() => import("@/components/Features"));
 const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
 const Pricing = dynamic(() => import("@/components/Pricing"));
@@ -7,23 +12,14 @@ const VideoDemo = dynamic(() => import("@/components/VideoDemo"));
 const Cta = dynamic(() => import("@/components/cta"));
 const Problem = dynamic(() => import("@/components/Problem").then(m => m.Problem));
 const FreelancerUseCases = dynamic(() => import("@/components/FreelancerUseCases"));
-import Footer from "@/components/Footer";
-import Hero from "@/components/Hero";
-import dynamic from "next/dynamic";
 const RelatedPages = dynamic(() => import("@/components/RelatedPages").then(m => m.RelatedPages));
-
 const SupportSection = dynamic(() => import("@/components/Support"));
 
 export default function Home() {
   return (
     <div className="bg-background text-foreground flex min-h-[100dvh] flex-col items-center justify-items-center">
       <ClientHeaderWrapper />
-      <div
-        style={{
-          backgroundImage: "url('https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO')",
-        }}
-        className="pointer-events-none [z-index:-1] absolute inset-0 bg-[size:180px] bg-repeat opacity-[0.835]"
-      ></div>
+      <PageBackground opacity="opacity-[0.835]" />
 
       <main className="w-full flex-1">
         <Hero />

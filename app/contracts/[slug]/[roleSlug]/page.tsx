@@ -125,6 +125,7 @@ export default async function MatrixContractPage({ params }: Props) {
                                 "@type": "Offer",
                                 "price": "0.00",
                                 "priceCurrency": "USD",
+                                "priceValidUntil": "2026-12-31",
                                 "availability": "https://schema.org/InStock"
                             },
                             "aggregateRating": {

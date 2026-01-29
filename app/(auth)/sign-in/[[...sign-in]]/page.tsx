@@ -41,6 +41,7 @@ export default function Page() {
                 "@type": "Offer",
                 price: "0",
                 priceCurrency: "USD",
+                priceValidUntil: "2026-12-31",
                 description: "7-day free trial",
               },
             },
