@@ -246,9 +246,9 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 
 ### Day 18 - Write Blog Post #2 (Part 1)
 **Task:** Start "7 Documents Every Freelancer Needs"
-- [ ] Create outline
-- [ ] Write introduction
-- [ ] Write about documents 1-3:
+- [x] Create outline
+- [x] Write introduction
+- [x] Write about documents 1-3:
   - Freelance contract
   - NDA
   - Statement of Work
@@ -259,14 +259,14 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 
 ### Day 19 - Write Blog Post #2 (Part 2)
 **Task:** Finish "7 Documents Every Freelancer Needs"
-- [ ] Write about documents 4-7:
+- [x] Write about documents 4-7:
   - Invoice template
   - Proposal template
   - Change order form
   - Copyright transfer
-- [ ] Write conclusion
-- [ ] Link to your template pages (internal SEO!)
-- [ ] Optimize and publish
+- [x] Write conclusion
+- [x] Link to your template pages (internal SEO!)
+- [x] Optimize and publish
 
 **Time:** 75 minutes
 

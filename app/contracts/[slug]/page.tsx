@@ -153,7 +153,7 @@ export default async function BaseTemplatePage({ params }: Props) {
                     <div className="lg:col-span-2 space-y-12">
                         {/* Key Features */}
                         <section className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm">
-                            <h2 className="text-2xl font-black text-slate-900 mb-6">What's inside?</h2>
+                            <h2 className="text-2xl font-black text-slate-900 mb-6">What's Included in This Template</h2>
                             <div className="grid sm:grid-cols-2 gap-4">
                                 {template.keyFeatures.map((feature, i) => (
                                     <div key={i} className="flex items-start gap-3">
@@ -166,17 +166,178 @@ export default async function BaseTemplatePage({ params }: Props) {
                             </div>
                         </section>
 
-                        {/* Legal Context */}
-                        <section>
-                            <h2 className="text-2xl font-black text-slate-900 mb-4">Legal Context</h2>
-                            <p className="text-lg text-slate-600 leading-relaxed max-w-2xl mb-6">
+                        {/* Why You Need This */}
+                        <section className="prose prose-slate max-w-none">
+                            <h2 className="text-2xl font-black text-slate-900 mb-4">Why You Need This {template.name}</h2>
+                            <p className="text-lg text-slate-600 leading-relaxed mb-6">
                                 {template.legalContext}
                             </p>
-                            <Link href="/esignature-for-freelancers" className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 hover:text-blue-700 transition-colors py-2 px-4 bg-blue-50 rounded-lg">
-                                <Sparkles className="size-4" />
-                                <span>Why this contract works perfectly for freelancers</span>
-                                <ArrowRight className="size-3.5" />
-                            </Link>
+                            <p className="text-slate-600 leading-relaxed mb-6">
+                                Whether you're a freelancer, consultant, or small business owner, having a professionally drafted {template.name.toLowerCase()} protects both you and your clients. This template ensures clear expectations, legal compliance, and professional credibility from day one.
+                            </p>
+                            <div className="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-xl my-8">
+                                <p className="text-sm font-bold text-blue-900 mb-2">💡 Pro Tip</p>
+                                <p className="text-sm text-blue-800 mb-0">
+                                    Don't start work without a signed agreement. This simple step prevents 90% of payment disputes and scope creep issues that freelancers face.
+                                </p>
+                            </div>
+                        </section>
+
+                        {/* How to Use This Template */}
+                        <section className="bg-gradient-to-br from-slate-50 to-white rounded-3xl p-8 border border-slate-200">
+                            <h2 className="text-2xl font-black text-slate-900 mb-6">How to Use This Template</h2>
+                            <div className="space-y-6">
+                                <div className="flex gap-4">
+                                    <div className="flex-shrink-0 size-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">1</div>
+                                    <div>
+                                        <h3 className="font-bold text-slate-900 mb-2">Download and Customize</h3>
+                                        <p className="text-slate-600">Click the download button to get your template. Fill in your business details, client information, and project specifics. The template includes helpful guidance for each section.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <div className="flex-shrink-0 size-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">2</div>
+                                    <div>
+                                        <h3 className="font-bold text-slate-900 mb-2">Review and Adjust</h3>
+                                        <p className="text-slate-600">Read through every clause carefully. Adjust payment terms, deliverables, and timelines to match your specific project. Remove any sections that don't apply to your situation.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <div className="flex-shrink-0 size-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">3</div>
+                                    <div>
+                                        <h3 className="font-bold text-slate-900 mb-2">Send for E-Signature</h3>
+                                        <p className="text-slate-600">Upload to Boopsign and send to your client for electronic signature. They can sign from any device in under 30 seconds—no account required. You'll get instant notification when it's signed.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-4">
+                                    <div className="flex-shrink-0 size-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold">4</div>
+                                    <div>
+                                        <h3 className="font-bold text-slate-900 mb-2">Store Securely</h3>
+                                        <p className="text-slate-600">Keep the signed contract in a secure location. Boopsign automatically stores all signed documents with full audit trails and cryptographic seals for legal compliance.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Common Use Cases */}
+                        <section>
+                            <h2 className="text-2xl font-black text-slate-900 mb-6">Common Use Cases</h2>
+                            <div className="grid sm:grid-cols-2 gap-4">
+                                <div className="bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-lg transition-shadow">
+                                    <div className="size-12 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center mb-4">
+                                        <FileText className="size-6" />
+                                    </div>
+                                    <h3 className="font-bold text-slate-900 mb-2">New Client Onboarding</h3>
+                                    <p className="text-sm text-slate-600">Establish clear terms before starting work with a new client to prevent misunderstandings and payment issues.</p>
+                                </div>
+                                <div className="bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-lg transition-shadow">
+                                    <div className="size-12 rounded-xl bg-green-100 text-green-600 flex items-center justify-center mb-4">
+                                        <FileText className="size-6" />
+                                    </div>
+                                    <h3 className="font-bold text-slate-900 mb-2">Project-Based Work</h3>
+                                    <p className="text-sm text-slate-600">Define scope, deliverables, and payment terms for one-time projects with clear start and end dates.</p>
+                                </div>
+                                <div className="bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-lg transition-shadow">
+                                    <div className="size-12 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center mb-4">
+                                        <FileText className="size-6" />
+                                    </div>
+                                    <h3 className="font-bold text-slate-900 mb-2">Ongoing Retainers</h3>
+                                    <p className="text-sm text-slate-600">Set up recurring work arrangements with monthly fees, hour allotments, and renewal terms.</p>
+                                </div>
+                                <div className="bg-white border border-slate-200 rounded-2xl p-6 hover:shadow-lg transition-shadow">
+                                    <div className="size-12 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center mb-4">
+                                        <FileText className="size-6" />
+                                    </div>
+                                    <h3 className="font-bold text-slate-900 mb-2">Subcontractor Agreements</h3>
+                                    <p className="text-sm text-slate-600">Hire other freelancers to help with larger projects while protecting your client relationships.</p>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* Common Mistakes to Avoid */}
+                        <section className="bg-red-50 border-l-4 border-red-500 rounded-r-3xl p-8">
+                            <h2 className="text-2xl font-black text-red-900 mb-6">Common Mistakes to Avoid</h2>
+                            <div className="space-y-4">
+                                <div className="flex gap-3">
+                                    <span className="text-red-600 font-bold text-xl">×</span>
+                                    <div>
+                                        <p className="font-bold text-red-900">Starting work before the contract is signed</p>
+                                        <p className="text-sm text-red-800">Always get signatures before beginning any work. Verbal agreements aren't enforceable.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-3">
+                                    <span className="text-red-600 font-bold text-xl">×</span>
+                                    <div>
+                                        <p className="font-bold text-red-900">Using vague language for deliverables</p>
+                                        <p className="text-sm text-red-800">Be specific about what you'll deliver. "A website" isn't clear enough—specify pages, features, and formats.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-3">
+                                    <span className="text-red-600 font-bold text-xl">×</span>
+                                    <div>
+                                        <p className="font-bold text-red-900">Forgetting to include payment terms</p>
+                                        <p className="text-sm text-red-800">Clearly state when payment is due, accepted methods, and late payment penalties.</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-3">
+                                    <span className="text-red-600 font-bold text-xl">×</span>
+                                    <div>
+                                        <p className="font-bold text-red-900">Not addressing intellectual property ownership</p>
+                                        <p className="text-sm text-red-800">Specify when and how IP transfers to the client—usually upon full payment.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        {/* FAQ Section */}
+                        <section>
+                            <h2 className="text-2xl font-black text-slate-900 mb-6">Frequently Asked Questions</h2>
+                            <div className="space-y-4">
+                                <details className="bg-white border border-slate-200 rounded-2xl p-6 group">
+                                    <summary className="font-bold text-slate-900 cursor-pointer list-none flex items-center justify-between">
+                                        <span>Is this template legally binding?</span>
+                                        <ArrowRight className="size-5 text-slate-400 group-open:rotate-90 transition-transform" />
+                                    </summary>
+                                    <p className="text-slate-600 mt-4 leading-relaxed">
+                                        Yes, when properly executed with signatures from both parties, this contract is legally binding. Electronic signatures via Boopsign are compliant with ESIGN and UETA laws, making them just as valid as handwritten signatures.
+                                    </p>
+                                </details>
+                                <details className="bg-white border border-slate-200 rounded-2xl p-6 group">
+                                    <summary className="font-bold text-slate-900 cursor-pointer list-none flex items-center justify-between">
+                                        <span>Can I customize this template for my specific needs?</span>
+                                        <ArrowRight className="size-5 text-slate-400 group-open:rotate-90 transition-transform" />
+                                    </summary>
+                                    <p className="text-slate-600 mt-4 leading-relaxed">
+                                        Absolutely! This template is designed to be customized. You can add, remove, or modify clauses to fit your specific situation. For complex projects, consider consulting with a lawyer to ensure all your bases are covered.
+                                    </p>
+                                </details>
+                                <details className="bg-white border border-slate-200 rounded-2xl p-6 group">
+                                    <summary className="font-bold text-slate-900 cursor-pointer list-none flex items-center justify-between">
+                                        <span>Do I need a lawyer to review this contract?</span>
+                                        <ArrowRight className="size-5 text-slate-400 group-open:rotate-90 transition-transform" />
+                                    </summary>
+                                    <p className="text-slate-600 mt-4 leading-relaxed">
+                                        For most standard projects, this template provides adequate protection. However, for high-value contracts, complex IP arrangements, or if you're unsure about any terms, it's wise to have a lawyer review it. Think of it as insurance for your business.
+                                    </p>
+                                </details>
+                                <details className="bg-white border border-slate-200 rounded-2xl p-6 group">
+                                    <summary className="font-bold text-slate-900 cursor-pointer list-none flex items-center justify-between">
+                                        <span>How do I get my client to sign this quickly?</span>
+                                        <ArrowRight className="size-5 text-slate-400 group-open:rotate-90 transition-transform" />
+                                    </summary>
+                                    <p className="text-slate-600 mt-4 leading-relaxed">
+                                        Use Boopsign to send the contract via email. Your client can sign from their phone in under 30 seconds without creating an account. You'll get instant notification when it's signed, and both parties receive a copy automatically.
+                                    </p>
+                                </details>
+                                <details className="bg-white border border-slate-200 rounded-2xl p-6 group">
+                                    <summary className="font-bold text-slate-900 cursor-pointer list-none flex items-center justify-between">
+                                        <span>What if my client wants to make changes to the contract?</span>
+                                        <ArrowRight className="size-5 text-slate-400 group-open:rotate-90 transition-transform" />
+                                    </summary>
+                                    <p className="text-slate-600 mt-4 leading-relaxed">
+                                        That's completely normal! Review their requested changes carefully. If they're reasonable, update the document and send a new version for signature. Never sign a contract you're not comfortable with—negotiation is part of the process.
+                                    </p>
+                                </details>
+                            </div>
                         </section>
 
                         {/* CTA Block */}
@@ -185,10 +346,10 @@ export default async function BaseTemplatePage({ params }: Props) {
                             <div className="relative z-10">
                                 <h3 className="text-2xl font-bold text-white mb-4">Ready to use this template?</h3>
                                 <p className="text-slate-300 mb-8 max-w-lg mx-auto">
-                                    Edit directly in your browser, send for e-signature, and track status instantly.
+                                    Download, customize, and send for e-signature in minutes. Get your contracts signed 3x faster with Boopsign.
                                 </p>
                                 <Button size="lg" className="bg-blue-600 hover:bg-blue-500 text-white border-none h-14 px-8 text-lg font-bold rounded-xl w-full sm:w-auto">
-                                    Use Standard Template
+                                    Use This Template Now
                                 </Button>
                             </div>
                         </section>
@@ -202,9 +363,9 @@ export default async function BaseTemplatePage({ params }: Props) {
                                     <Sparkles className="size-3" />
                                     Recommended
                                 </div>
-                                <h3 className="text-xl font-black text-slate-900 mb-2">Tailored Versions</h3>
+                                <h3 className="text-xl font-black text-slate-900 mb-2">Industry-Specific Versions</h3>
                                 <p className="text-sm text-slate-500">
-                                    We have specialized versions of this contract for specific industries.
+                                    Get a version tailored to your specific industry with pre-filled clauses and terminology.
                                 </p>
                             </div>
 
@@ -234,7 +395,7 @@ export default async function BaseTemplatePage({ params }: Props) {
                                     href="/contracts"
                                     className="text-sm font-semibold text-blue-600 hover:text-blue-700 hover:underline"
                                 >
-                                    Browse all 300+ versions
+                                    Browse all 300+ versions →
                                 </Link>
                             </div>
                         </div>

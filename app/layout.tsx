@@ -2,16 +2,14 @@ import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { PostHogClientProvider } from "@/components/providers/posthog-provider";
 import { PendingDocumentProcessor } from "@/components/PendingDocumentProcessor";
 import { Toaster } from "@/components/ui/sonner";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata, Viewport } from "next";
-import { Be_Vietnam_Pro } from "next/font/google";
+import { DM_Sans } from "next/font/google";
 import NextTopLoader from 'nextjs-toploader';
 import { Suspense } from "react";
 import "./globals.css";
 
 
-const beVietnamPro = Be_Vietnam_Pro({
+const beVietnamPro = DM_Sans({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-be-vietnam-pro",
@@ -197,8 +195,6 @@ export default function RootLayout({
           </ConvexClientProvider>
         </Suspense>
         <Toaster position="top-center" />
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );
