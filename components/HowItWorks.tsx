@@ -30,21 +30,21 @@ const HowItWorks = ({
             number: "01",
             title: "Upload & Place Fields",
             description: "Drop your PDF and drag signature fields exactly where you need them. It's faster than printing and scanning.",
-            image: "/optimized-images/step1.webp",
+            image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguI17ocWek6Tt8dN4Y3JApShGWkZ0n9cfeF1v5",
             color: "bg-blue-700"
         },
         {
             number: "02",
             title: "Clients Sign Anywhere",
             description: "Your clients get a secure link and sign beautifully on any device. No app downloads or accounts needed.",
-            image: "/optimized-images/sign-mobile.webp",
+            image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgunDI62txqPKoD3HWzv2hlrfdwZFGRcps6UX9E",
             color: "bg-orange-700"
         },
         {
             number: "03",
             title: "Deal Closed Instantly",
             description: "Receive a notification the second it's signed. Everyone gets a legally binding copy automatically.",
-            image: "/optimized-images/dashboard.webp",
+            image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu0T2iQ51wEbNSXo7vmLOKdr3JFGs9VcQCxBMp",
             color: "bg-green-700"
         }
     ]

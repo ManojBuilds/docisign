@@ -19,17 +19,16 @@ function PostCard({ post }: { post: Post }) {
       href={post.url}
       className="group flex flex-col h-full bg-white border border-slate-200 rounded-3xl overflow-hidden hover:ring-2 hover:ring-blue-600/30 hover:border-blue-600/30 transition-all duration-300 shadow-sm hover:shadow-md"
     >
-      {post.image && (
-        <div className="relative aspect-video w-full overflow-hidden">
-          <Image
-            src={post.image}
-            alt={post.title}
-            width={1200}
-            height={630}
-            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
-          />
-        </div>
-      )}
+
+      <div className="relative aspect-video w-full overflow-hidden">
+        <Image
+          src={post?.image || "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguEsv0xcFawP3uHc7MitbWUIhfspkxBXVz20QE"}
+          alt={post.title}
+          width={1200}
+          height={630}
+          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+        />
+      </div>
 
       <div className={`p-6 md:p-8 flex flex-col h-full ${post.image ? 'pt-6' : 'pt-8'}`}>
         <div className="flex items-center gap-3 text-xs font-semibold tracking-wider text-slate-500 mb-4 uppercase">
@@ -84,7 +83,7 @@ export default async function BlogIndex({
     <div className="min-h-screen bg-slate-50">
       {/* Hero Section */}
       <div className="bg-white border-b border-slate-100 relative overflow-hidden">
-        <div className="absolute top-0 inset-x-0 h-full bg-[url('/optimized-images/noise.webp')] opacity-[0.03]" />
+        <div className="absolute top-0 inset-x-0 h-full bg-[url('https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO')] opacity-[0.03]" />
         <div className="absolute top-0 left-1/4 size-[500px] bg-blue-100/30 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 right-1/4 size-[500px] bg-indigo-100/20 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2" />
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-[radial-gradient(circle_at_center,transparent_0%,rgba(255,255,255,0.8)_100%)]" />

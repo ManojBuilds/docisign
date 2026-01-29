@@ -74,21 +74,21 @@ const signatureMakerFaq = [
 ];
 
 const famousSignatures = [
-  { name: "Steve Jobs", avatar: "/signatures/steve-jobs.png", title: "Apple", desc: "Small letters, indicate focus and precision.", initials: "SJ", image: "/signatures/steve-jobs-signature.png" },
-  { name: "Oprah Winfrey", avatar: "/signatures/oprah-winfrey.png", title: "Harpo Productions", desc: "Large, bold letters show confidence.", initials: "OW", image: "/signatures/oprah-winfrey-signature.png" },
-  { name: "Richard Branson", avatar: "/signatures/richard-branson.png", title: "Virgin Group", desc: "The upward angle shows optimism.", initials: "RB", image: "/signatures/richard-branson-signature.png" },
-  { name: "Jeff Bezos", avatar: "/signatures/jeff-bezos.png", title: "Amazon", desc: "Simple and legible, focused on results.", initials: "JB", image: "/signatures/jeff-bezoss-signature.png" },
-  { name: "Mary Barra", avatar: "/signatures/mary-barra.png", title: "General Motors", desc: "Clear and professional structure.", initials: "MB", image: "/signatures/mary-barra-signature.png" },
-  { name: "Bill Gates", avatar: "/signatures/bill-gates.png", title: "Microsoft", desc: "Balanced and analytical lettering.", initials: "BG", image: "/signatures/bill-gates-signature.png" },
+  { name: "Steve Jobs", avatar: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu8QMt5Eqaq4236GeguUDtzXlnZKa0ixhVCfjI", title: "Apple", desc: "Small letters, indicate focus and precision.", initials: "SJ", image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgubIhUGcYpiuVWJNbYakZKvysf0TlQOLdtcSGF" },
+  { name: "Oprah Winfrey", avatar: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu5DrQiQHE1vmLZ9tcWbUpQFkC6oT2IPYBjgnH", title: "Harpo Productions", desc: "Large, bold letters show confidence.", initials: "OW", image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pguyej18UE94EgWiCPzX5Uv1m7ZsYpcIhHerMuV" },
+  { name: "Richard Branson", avatar: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu1jHTO0p7vpoiyMBnFZQ6WGfIterYJjdqHlkU", title: "Virgin Group", desc: "The upward angle shows optimism.", initials: "RB", image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguU3v0c9gHm5AQSpR20Ye4oJwViXD3rgNqOaZb" },
+  { name: "Jeff Bezos", avatar: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu53504GHE1vmLZ9tcWbUpQFkC6oT2IPYBjgnH", title: "Amazon", desc: "Simple and legible, focused on results.", initials: "JB", image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguJFa5Tc6R2PM1quQzNcvtpXGB7hnmfHaWbsCS" },
+  { name: "Mary Barra", avatar: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgurBGk2P7lwEWOy7ao8fqxXtSYGL5knu9zMNF1", title: "General Motors", desc: "Clear and professional structure.", initials: "MB", image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pguln4JcvG4dacCWs1RjHb6S98kJhAGXDwE7npi" },
+  { name: "Bill Gates", avatar: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgumLbWYMSvrNMswQ9bfq3IPtLJ5jlyUFK6Cua4", title: "Microsoft", desc: "Balanced and analytical lettering.", initials: "BG", image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguCiABUNOkoRmVatwQ0Zd3XrIyTESAYFGB5Nx2" },
 ];
 
 const personalityTraits = [
-  { trait: "Unreadable letters", meaning: "Sharp, creative agility", image: "/signatures/unreadable-letters.svg" },
-  { trait: "Easy to read", meaning: "Transparent personality", image: "/signatures/easy-to-read.svg" },
-  { trait: "With underline", meaning: "Proud and energetic", image: "/signatures/with-underline.svg" },
-  { trait: "Upward angle", meaning: "Ambitious and optimistic", image: "/signatures/upward-angle.svg" },
-  { trait: "Slanted", meaning: "Outgoing and friendly", image: "/signatures/slanted.svg" },
-  { trait: "Just a nickname", meaning: "Self-confident", image: "/signatures/just-a-nickname.svg" },
+  { trait: "Unreadable letters", meaning: "Sharp, creative agility", image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguvXQgH3rDWmTOdj06ypF5EAP8KuJIs4CnzwqY" },
+  { trait: "Easy to read", meaning: "Transparent personality", image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguWcwnFOxHZs9OA4zmVEduhgJ1CitxwnUDkyQY" },
+  { trait: "With underline", meaning: "Proud and energetic", image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgubTIS5kxYpiuVWJNbYakZKvysf0TlQOLdtcSG" },
+  { trait: "Upward angle", meaning: "Ambitious and optimistic", image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguwTAbBM795SyVLzTiZ7WAIG6Ns4geYqh8buv3" },
+  { trait: "Slanted", meaning: "Outgoing and friendly", image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu5J2OtgqHE1vmLZ9tcWbUpQFkC6oT2IPYBjgn" },
+  { trait: "Just a nickname", meaning: "Self-confident", image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguZJXfV0RVvHlYKWSoR1pLmNeIfbk7gDAQCrZx" },
 ];
 
 export default function OnlineSignatureMakerPage() {

@@ -53,7 +53,7 @@ export function EmailLayout({
           <Container className="mx-auto my-[40px] max-w-[465px] rounded border border-solid border-border p-[20px]">
             <Section className="mt-[32px]">
               <Img
-                src={brandLogoUrl || `${baseUrl}/logo.png`}
+                src={brandLogoUrl || `https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguaOEZELMW5bk4q23iuyfFhwQdGBN7vjse1zp6`}
                 width="60"
                 height="60"
                 alt={brandName || "Boopsign"}

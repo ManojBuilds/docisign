@@ -52,7 +52,7 @@ const Features = () => {
           <div className="relative flex justify-center lg:justify-end">
             <div className="relative w-[340px] md:w-[400px] aspect-[9/16] rounded-[3rem] overflow-hidden shadow-2xl border border-slate-200 group transition-all duration-500 hover:shadow-blue-200/50 hover:-translate-y-2 group-hover:rotate-2">
               <Image
-                src="/optimized-images/sign-mobile.webp"
+                src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgunDI62txqPKoD3HWzv2hlrfdwZFGRcps6UX9E"
                 alt="Mobile Signing UI"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"

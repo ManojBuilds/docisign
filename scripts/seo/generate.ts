@@ -600,7 +600,7 @@ date: "${today}"
 category: "${q.category}"
 readingTime: "5 min read"
 status: "published"
-image: "/images/blog/default.png"
+
 seo:
   title: "${q.question} | Boopsign Learning Center"
   description: "${q.answer.substring(0, 150)}..."

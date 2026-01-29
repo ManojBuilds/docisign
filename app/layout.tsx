@@ -108,8 +108,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://majestic-fox-274.convex.cloud" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://app.posthog.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://2d9wfb370a.ufs.sh" crossOrigin="anonymous" />
-        <link rel="preload" href="/optimized-images/noise.webp" as="image" />
-        <link rel="preload" href="/logo.png" as="image" />
+        <link rel="preload" href="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO" as="image" />
         <link rel="canonical" href="https://boopsign.com" />
         <meta name="theme-color" content="#2563eb" />
         <meta name="application-name" content="Boopsign" />
@@ -169,7 +168,7 @@ export default function RootLayout({
                 name: "Boopsign",
                 logo: {
                   "@type": "ImageObject",
-                  url: "https://boopsign.com/logo.png"
+                  url: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguaOEZELMW5bk4q23iuyfFhwQdGBN7vjse1zp6"
                 }
               }
             }),

@@ -26,7 +26,7 @@ export default function Logo({
       <Link href={href} className="flex items-center group">
         <div className="relative flex items-center shrink-0">
           <Image
-            src="/logo.png"
+            src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguaOEZELMW5bk4q23iuyfFhwQdGBN7vjse1zp6"
             alt="Boopsign Logo"
             width={40}
             height={40}

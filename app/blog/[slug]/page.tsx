@@ -44,7 +44,7 @@ export default async function Post({ params }: Props) {
     <div className="min-h-screen bg-white">
       {/* Header */}
       <header className="bg-slate-50 border-b border-slate-100 pt-12 pb-10 md:pt-16 md:pb-20 relative overflow-hidden">
-        <div className="absolute top-0 inset-x-0 h-full bg-[url('/bg-noise.png')] opacity-[0.03]" />
+        <div className="absolute top-0 inset-x-0 h-full bg-[url('/bg-https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO')] opacity-[0.03]" />
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
           <Link
             href="/blog"
@@ -77,17 +77,16 @@ export default async function Post({ params }: Props) {
             {post.description}
           </p>
 
-          {post.image && (
-            <div className="relative aspect-video w-full overflow-hidden rounded-lg ring-1 ring-slate-200/5">
-              <Image
-                src={post.image}
-                alt={post.title}
-                fill
-                className="object-cover"
-                priority
-              />
-            </div>
-          )}
+
+          <div className="relative aspect-video w-full overflow-hidden rounded-lg ring-1 ring-slate-200/5">
+            <Image
+              src={post.image || "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguEsv0xcFawP3uHc7MitbWUIhfspkxBXVz20QE"}
+              alt={post.title}
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
         </div>
       </header>
 

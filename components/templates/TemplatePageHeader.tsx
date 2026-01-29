@@ -17,7 +17,7 @@ export function TemplatePageHeader({
   title,
   subtitle,
   category = "Contracts",
-  backgroundImage = "/optimized-images/noise.webp",
+  backgroundImage = "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO",
   templateId,
 }: TemplatePageHeaderProps) {
   const template = templateId ? ALL_TEMPLATES.find((t) => t.slug === templateId) : null;
