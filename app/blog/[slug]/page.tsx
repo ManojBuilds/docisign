@@ -81,7 +81,7 @@ export default async function Post({ params }: Props) {
           <div className="relative aspect-video w-full overflow-hidden rounded-lg ring-1 ring-slate-200/5">
             <Image
               src={post.image || "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguEsv0xcFawP3uHc7MitbWUIhfspkxBXVz20QE"}
-              alt={post.title}
+              alt={`Featured image for: ${post.title}`}
               fill
               className="object-cover"
               priority

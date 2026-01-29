@@ -16,11 +16,11 @@ const legacyRedirects: Record<string, string> = {
     // Writers & Content
     "copywriter-agreement-template": "/contracts/independent-contractor-agreement/for-copywriter",
     "copywriter-contract-template": "/contracts/independent-contractor-agreement/for-copywriter",
-    "freelance-writer-contract-template": "/contracts/independent-contractor-agreement/for-ghostwriter",
+    "freelance-writer-contract-template": "/freelance-writer-contract-template",
     "digital-marketing-proposal": "/contracts/project-proposal/for-content-strategist",
 
     // Design & Creative
-    "freelance-designer-contract-template": "/contracts/independent-contractor-agreement/for-ui-ux-designer",
+    "freelance-designer-contract-template": "/freelance-designer-contract-template",
     "freelance-photographer-contract-template": "/contracts/independent-contractor-agreement/for-wedding-videographer", // Close alternative
     "wedding-photography-contract": "/contracts/independent-contractor-agreement/for-wedding-videographer",
     "video-editor-agreement-template": "/contracts/independent-contractor-agreement/for-motion-graphics-artist",
@@ -31,7 +31,7 @@ const legacyRedirects: Record<string, string> = {
     "makeup-artist-contract-template": "/contracts/independent-contractor-agreement/for-makeup-artist",
 
     // Dev & Tech
-    "freelance-developer-contract-template": "/contracts/independent-contractor-agreement/for-shopify-developer",
+    "freelance-developer-contract-template": "/freelance-developer-agreement-template",
     "mobile-app-developer-agreement-template": "/contracts/independent-contractor-agreement/for-no-code-developer",
     "mobile-app-developer-contract-template": "/contracts/independent-contractor-agreement/for-no-code-developer",
 
@@ -52,7 +52,7 @@ const legacyRedirects: Record<string, string> = {
     "freelance-contract-template": "/contracts/independent-contractor-agreement",
     "freelance-consultant-contract-template": "/contracts/independent-contractor-agreement",
     "freelance-nda-template": "/contracts/non-disclosure-agreement",
-    "freelance-proposal-template": "/contracts/project-proposal",
+    "freelance-proposal-template": "/freelance-proposal-template",
     "statement-of-work-template": "/contracts/statement-of-work",
     "resignation-letter-template": "/contracts/termination-notice",
     "social-media-management-contract": "/contracts/independent-contractor-agreement/for-facebook-ads-manager", // Best fit

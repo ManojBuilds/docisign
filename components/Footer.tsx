@@ -25,6 +25,7 @@ const Footer = () => {
         { label: "Are eSignatures legal?", href: "/electronic-signature-legality" },
         { label: "Online signature maker", href: "/online-signature-maker" },
         { label: "Electronic Signature", href: "/electronic-signature" },
+        { label: "No Account Required", href: "/no-account-esignature" },
       ],
     },
     {

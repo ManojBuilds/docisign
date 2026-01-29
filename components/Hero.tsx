@@ -73,21 +73,21 @@ const Hero = () => {
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             <Image
               src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguAx9LOQUIaF7cPRXTBKUOjd2u8DtqMsNepfz5"
-              alt="Upwork"
+              alt="Upwork logo - Trusted by freelancers"
               width={100}
               height={30}
               className="h-8 w-auto object-contain"
             />
             <Image
               src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguNdvEMIPiU6w4skOW0rpmyaEQlFAHXZvKVdg3"
-              alt="Fiverr"
+              alt="Fiverr logo - Popular with creative professionals"
               width={100}
               height={30}
               className="h-8 w-auto object-contain"
             />
             <Image
               src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguPMHsW6iFW6gqf8SA9UosI1PZnQc5tLJGb7dh"
-              alt="Freelancer"
+              alt="Freelancer.com logo - Used by global talent"
               width={120}
               height={30}
               className="h-8 w-auto object-contain"

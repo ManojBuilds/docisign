@@ -23,7 +23,7 @@ function PostCard({ post }: { post: Post }) {
       <div className="relative aspect-video w-full overflow-hidden">
         <Image
           src={post?.image || "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguEsv0xcFawP3uHc7MitbWUIhfspkxBXVz20QE"}
-          alt={post.title}
+          alt={`Blog post thumbnail: ${post.title}`}
           width={1200}
           height={630}
           className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
@@ -108,7 +108,7 @@ export default async function BlogIndex({
                   <div className="relative w-full h-64 md:h-full">
                     <Image
                       src={featuredPost.image}
-                      alt={featuredPost.title}
+                      alt={`Featured blog post: ${featuredPost.title}`}
                       fill
                       priority
                       className="object-cover"

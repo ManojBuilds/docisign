@@ -12,6 +12,8 @@ import Hero from "@/components/Hero";
 import dynamic from "next/dynamic";
 const RelatedPages = dynamic(() => import("@/components/RelatedPages").then(m => m.RelatedPages));
 
+const SupportSection = dynamic(() => import("@/components/Support"));
+
 export default function Home() {
   return (
     <div className="bg-background text-foreground flex min-h-[100dvh] flex-col items-center justify-items-center">
@@ -31,6 +33,7 @@ export default function Home() {
         <Features />
         <FreelancerUseCases />
         <TestimonialsSection />
+        <SupportSection />
         <Pricing />
         <Cta />
         <RelatedPages

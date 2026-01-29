@@ -145,7 +145,7 @@ export default function OnlineSignatureMakerPage() {
                   <div className="w-full h-40 flex items-center justify-center mb-6 bg-slate-50/50 rounded-2xl relative overflow-hidden group-hover:bg-blue-50/30 transition-colors p-6">
                     <Image
                       src={t.image}
-                      alt={t.trait}
+                      alt={`Example of ${t.trait} signature style - ${t.meaning}`}
                       fill
                       className="object-contain p-2"
                     />

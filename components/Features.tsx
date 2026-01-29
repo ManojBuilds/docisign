@@ -1,5 +1,6 @@
-import { Shield, Smartphone, Users, Zap } from "lucide-react";
+import { Shield, Smartphone, Users, Zap, ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const Features = () => {
   return (
@@ -53,7 +54,7 @@ const Features = () => {
             <div className="relative w-[340px] md:w-[400px] aspect-[9/16] rounded-[3rem] overflow-hidden shadow-2xl border border-slate-200 group transition-all duration-500 hover:shadow-blue-200/50 hover:-translate-y-2 group-hover:rotate-2">
               <Image
                 src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgunDI62txqPKoD3HWzv2hlrfdwZFGRcps6UX9E"
-                alt="Mobile Signing UI"
+                alt="Boopsign Mobile Interface - Easy e-signatures for clients on any smartphone"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-110"
               />
@@ -68,7 +69,12 @@ const Features = () => {
           {[
             {
               icon: <Zap className="size-6 text-amber-500" />,
-              title: "No Account Required",
+              title: (
+                <Link href="/no-account-esignature" className="hover:text-blue-600 transition-colors flex items-center gap-1">
+                  No Account Required
+                  <ArrowRight className="size-3" />
+                </Link>
+              ),
               desc: "Your clients sign directly from email—no login, no app download. Just click, sign, done."
             },
             {
