@@ -12,6 +12,9 @@ type Props = {
     params: Promise<{ slug: string }>;
 };
 
+export const dynamicParams = false;
+export const dynamic = "force-static";
+
 const legacyRedirects: Record<string, string> = {
     // Writers & Content
     "copywriter-agreement-template": "/contracts/independent-contractor-agreement/for-copywriter",

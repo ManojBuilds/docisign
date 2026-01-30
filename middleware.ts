@@ -16,8 +16,16 @@ export default clerkMiddleware(async (auth, req) => {
 
 export const config = {
   matcher: [
-    // Skip Next.js internals and all static files, unless found in search params
-    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)|sitemap.xml).*)",
+    // Protect dashboard and documents
+    "/dashboard(.*)",
+    "/d/(.*)",
+    // Auth routes
+    "/sign-in(.*)",
+    "/sign-up(.*)",
+    "/callback(.*)",
+    "/success(.*)",
+    // Account and billing
+    "/account(.*)",
     // Always run for API routes
     "/(api|trpc)(.*)",
   ],

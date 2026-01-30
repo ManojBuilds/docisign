@@ -1,17 +1,20 @@
 import { MDXContent } from "@/components/mdx/MDXContent";
 import { allLandingPages } from "content-collections";
 import { Metadata } from "next";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import { notFound } from "next/navigation";
+
+export const dynamicParams = false;
+export const dynamic = "force-static";
 
 // Import our new MDX components
 import HeroSection from "@/components/mdx/HeroSection";
 
-const Cta = dynamic(() => import("@/components/cta"));
-const WhyUseSection = dynamic(() => import("@/components/mdx/WhyUseSection"));
-const UseCaseSection = dynamic(() => import("@/components/mdx/UseCaseSection"));
-const ComparisonTable = dynamic(() => import("@/components/mdx/ComparisonTable"));
-const FAQSection = dynamic(() => import("@/components/mdx/FAQSection"));
+const Cta = dynamicImport(() => import("@/components/cta"));
+const WhyUseSection = dynamicImport(() => import("@/components/mdx/WhyUseSection"));
+const UseCaseSection = dynamicImport(() => import("@/components/mdx/UseCaseSection"));
+const ComparisonTable = dynamicImport(() => import("@/components/mdx/ComparisonTable"));
+const FAQSection = dynamicImport(() => import("@/components/mdx/FAQSection"));
 
 type Props = {
   params: Promise<{ slug: string }>;

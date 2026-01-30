@@ -15,6 +15,9 @@ type Props = {
     params: Promise<{ slug: string; roleSlug: string }>;
 };
 
+export const dynamicParams = false;
+export const dynamic = "force-static";
+
 // Generate valid URLs for the matrix: Filtered by Category Logic
 export async function generateStaticParams() {
     const params: { slug: string; roleSlug: string }[] = [];

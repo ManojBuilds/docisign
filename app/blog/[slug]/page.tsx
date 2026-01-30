@@ -4,12 +4,15 @@ import { PageBackground } from "@/components/PageBackground";
 import { allPosts } from "content-collections";
 import { Clock } from "lucide-react";
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
+import dynamicImport from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-const BlogNewsletterCta = dynamic(() => import("@/components/blog/BlogNewsletterCta"));
+export const dynamicParams = false;
+export const dynamic = "force-static";
+
+const BlogNewsletterCta = dynamicImport(() => import("@/components/blog/BlogNewsletterCta"));
 
 interface Props {
   params: Promise<{ slug: string }>;

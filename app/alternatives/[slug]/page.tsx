@@ -11,6 +11,9 @@ import { RelatedPages } from "@/components/RelatedPages";
 import { notFound } from "next/navigation";
 import { PageBackground } from "@/components/PageBackground";
 
+export const dynamicParams = false;
+export const dynamic = "force-static";
+
 interface Props {
   params: Promise<{ slug: string }>;
 }
