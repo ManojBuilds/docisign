@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="flex items-center justify-center">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -54,6 +54,7 @@ export default function Page() {
       <ClerkLoaded>
         <SignIn />
       </ClerkLoaded>
-    </div>
+    </>
   );
 }
+
