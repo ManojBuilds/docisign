@@ -74,8 +74,8 @@ export default function BillingPageClient() {
                             <p className="text-muted-foreground text-sm">
                                 {trialStatus.isPaidUser
                                     ? trialStatus.billingInterval === "annually"
-                                        ? "12.00 / month (Billed annually) • Renews automatically"
-                                        : "15.00 / month • Renews automatically"
+                                        ? "$12.00 / month (Billed annually) • Renews automatically"
+                                        : "$15.00 / month • Renews automatically"
                                     : "Experience the full power of Boopsign"
                                 }
                             </p>
