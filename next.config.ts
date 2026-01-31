@@ -25,6 +25,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "2d9wfb370a.ufs.sh",
+      },
+      {
+        protocol: "https",
+        hostname: "i.pravatar.cc"
       }
     ],
   },
