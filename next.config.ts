@@ -108,6 +108,11 @@ const nextConfig: NextConfig = {
         source: "/online-signature",
         destination: "/online-signature-maker",
         permanent: true
+      },
+      {
+        source: "/freelance-contract-template",
+        destination: "/contracts/independent-contractor-agreement",
+        permanent: true
       }
     ];
   },

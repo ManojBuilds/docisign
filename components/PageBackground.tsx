@@ -6,7 +6,7 @@ interface PageBackgroundProps {
 
 export const PageBackground = ({ opacity = "opacity-[0.035]" }: PageBackgroundProps) => {
     const imageUrl = "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO";
-    const optimizedUrl = `/_next/image?url=${encodeURIComponent(imageUrl)}&w=640&q=75`;
+    const optimizedUrl = `/_next/image?url=${encodeURIComponent(imageUrl)}&w=384&q=50`;
 
     return (
         <div

@@ -105,7 +105,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://majestic-fox-274.convex.cloud" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://app.posthog.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://2d9wfb370a.ufs.sh" crossOrigin="anonymous" />
-        <link rel="preload" href={`/_next/image?url=${encodeURIComponent("https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO")}&w=640&q=75`} as="image" />
+        <link rel="preload" href={`/_next/image?url=${encodeURIComponent("https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO")}&w=384&q=50`} as="image" />
         <link rel="canonical" href="https://boopsign.com" />
         <meta name="theme-color" content="#2563eb" />
         <meta name="application-name" content="Boopsign" />
