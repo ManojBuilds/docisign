@@ -350,7 +350,7 @@ export default function PDFViewer({
       <ScrollArea className={cn("flex-1 bg-transparent p-4 md:p-8", containerClassName)}>
         <div
           ref={containerRef}
-          className="flex-1 overflow-auto bg-transparent scroll-smooth"
+          className="flex-1 bg-transparent scroll-smooth"
         >
           <div className="flex flex-col items-center min-h-full space-y-8">
             <Document
