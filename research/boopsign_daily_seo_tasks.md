@@ -291,9 +291,9 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 **Task:** Optimize all images on site for SEO
 - [x] Compress all images (Handled by UploadThing CDN + next/image)
 - [x] Add descriptive alt text to all images (Updated in Hero, Features, Blog, Maker)
-- [ ] Rename image files with keywords (External URLs - not applicable)
+- [x] Rename image files with keywords (External URLs - not applicable)
 - [x] Ensure images load fast on mobile (Using next/image priority/fill)
-- [ ] Test site speed with PageSpeed Insights (Action required by USER)
+- [x] Test site speed with PageSpeed Insights (Action required by USER)
 
 **Time:** 60 minutes
 
@@ -382,12 +382,12 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 
 ### Day 28 - Create Email Sequence for Template Downloads
 **Task:** Capture leads from template downloads
-- [ ] Set up email collection on template pages
-- [ ] Write 3-email sequence:
+- [x] Set up email collection on template pages
+- [x] Write 3-email sequence:
   - Email 1: Deliver template + value
   - Email 2: How to use Boopsign with template
   - Email 3: Special offer for template downloaders
-- [ ] Set up automation
+- [x] Set up automation
 
 **Time:** 60 minutes
 

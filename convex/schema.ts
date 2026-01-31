@@ -151,4 +151,17 @@ export default defineSchema({
     .index("by_email_and_purpose", ["email", "purpose"])
     .index("by_created_at", ["createdAt"])
     .index("by_email_purpose_and_verified", ["email", "purpose", "verified"]),
+
+  leads: defineTable({
+    email: v.string(),
+    source: v.string(), // e.g., "freelance-contract-template"
+    name: v.optional(v.string()),
+    status: v.union(v.literal("active"), v.literal("unsubscribed")),
+    sequenceStep: v.number(), // 0 (start), 1 (sent email 1), 2 (sent email 2), 3 (sent email 3)
+    lastEmailSentAt: v.optional(v.number()),
+    createdAt: v.number(),
+  })
+    .index("by_email", ["email"])
+    .index("by_source", ["source"])
+    .index("by_status", ["status"]),
 });

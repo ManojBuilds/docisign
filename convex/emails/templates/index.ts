@@ -15,4 +15,5 @@ export { default as SigningRequest } from "./signing_request";
 export { default as TrialReminder1Day } from "./trial_reminder_1day";
 export { default as TrialReminder3Days } from "./trial_reminder_3days";
 export { default as Welcome } from "./welcome";
+export * from "./template_download_sequence";
 

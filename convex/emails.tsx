@@ -14,12 +14,18 @@ import {
   TrialReminder1Day,
   TrialReminder3Days,
   Welcome,
+  TemplateDownloadEmail1,
+  TemplateDownloadEmail2,
+  TemplateDownloadEmail3,
 } from "./emails/templates";
+import { internal } from "./_generated/api";
+import { ALL_TEMPLATES } from "./seo/all_templates";
 
 const domain = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+const COUPON_CODE = process.env.SPECIAL_COUPON_CODE ?? "TEMPLATE20";
 
 export const resend: Resend = new Resend(components.resend, {
-  testMode: domain.includes("localhost"),
+  testMode: false,
 });
 
 export const sendWelcomeEmail = action({
@@ -40,9 +46,9 @@ export const sendWelcomeEmail = action({
           }),
         ),
       });
-      console.log("Welcome email sent successfully!", res);
+      console.log(`Welcome email sent to ${args.email}`, res);
     } catch (error) {
-      console.error("Failed to send welcome email:", error);
+      console.error("Welcome email failed:", error);
     }
   },
 });
@@ -65,9 +71,9 @@ export const sendNewYearGiftEmail = action({
           }),
         ),
       });
-      console.log("New Year gift email sent successfully!", res);
+      console.log(`New Year gift email sent to ${args.email}`, res);
     } catch (error) {
-      console.error("Failed to send New Year gift email:", error);
+      console.error("New Year gift email failed:", error);
     }
   },
 });
@@ -85,16 +91,15 @@ export const sendSigningRequestEmail = action({
   },
   handler: async (ctx, args) => {
     try {
-      console.log("args", args);
       const res = await resend.sendEmail(ctx, {
         from: `${args.brandName || "Boopsign"} <alerts@mailer.boopsign.com>`,
         to: args.to,
         subject: `${args.brandName || args.senderName} has sent you a document to sign: ${args.documentTitle}`,
         html: await render(SigningRequest(args)),
       });
-      console.log("Signing request email sent successfully!", res);
+      console.log(`Signing request sent to ${args.to}`, res);
     } catch (error) {
-      console.error("Failed to send signing request email:", error);
+      console.error("Signing request email failed:", error);
     }
   },
 });
@@ -117,9 +122,9 @@ export const sendSigningConfirmationEmail = action({
         subject: `${args.signerName} signed your document: ${args.documentTitle}`,
         html: await render(SigningConfirmation(args)),
       });
-      console.log("Signing confirmation email sent successfully!", res);
+      console.log(`Signing confirmation sent to ${args.to}`, res);
     } catch (error) {
-      console.error("Failed to send signing confirmation email:", error);
+      console.error("Signing confirmation email failed:", error);
     }
   },
 });
@@ -142,9 +147,9 @@ export const sendDocumentCompleteEmail = action({
         subject: `Your document "${args.documentTitle}" is fully executed and ready!`,
         html: await render(DocumentComplete(args)),
       });
-      console.log("Document complete email sent successfully!", res);
+      console.log(`Document complete email sent to ${args.to}`, res);
     } catch (error) {
-      console.error("Failed to send document complete email:", error);
+      console.error("Document complete email failed:", error);
     }
   },
 });
@@ -166,9 +171,9 @@ export const sendSignerCopyEmail = action({
         subject: `Your signed copy of "${args.documentTitle}" is ready for download`,
         html: await render(SignerCopy(args)),
       });
-      console.log("Signer copy email sent successfully!", res);
+      console.log(`Signer copy sent to ${args.to}`, res);
     } catch (error) {
-      console.error("Failed to send signer copy email:", error);
+      console.error("Signer copy email failed:", error);
     }
   },
 });
@@ -192,9 +197,9 @@ export const sendTrialReminder3DaysEmail = action({
           }),
         ),
       });
-      console.log("Trial reminder (3 days) email sent successfully!", res);
+      console.log(`Trial reminder (3 days) sent to ${args.email}`, res);
     } catch (error) {
-      console.error("Failed to send trial reminder (3 days) email:", error);
+      console.error("Trial reminder (3 days) email failed:", error);
     }
   },
 });
@@ -218,9 +223,9 @@ export const sendTrialReminder1DayEmail = action({
           }),
         ),
       });
-      console.log("Trial reminder (1 day) email sent successfully!", res);
+      console.log(`Trial reminder (1 day) sent to ${args.email}`, res);
     } catch (error) {
-      console.error("Failed to send trial reminder (1 day) email:", error);
+      console.error("Trial reminder (1 day) email failed:", error);
     }
   },
 });
@@ -248,10 +253,103 @@ export const sendOtpEmail = action({
           }),
         ),
       });
-      console.log("OTP email sent successfully!", res);
+      console.log(`OTP (${args.purpose}) sent to ${args.email}`, res);
     } catch (error) {
-      console.error("Failed to send OTP email:", error);
+      console.error("OTP email failed:", error);
       throw new Error("Failed to send verification email");
+    }
+  },
+});
+
+export const sendSequenceEmail = action({
+  args: {
+    email: v.string(),
+    step: v.number(),
+    source: v.string(),
+    name: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    try {
+      const template = ALL_TEMPLATES.find(t => t.slug === args.source);
+
+      // Use actual name if template found, otherwise format slug
+      const templateName = template?.name || args.source
+        .split("-")
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ");
+
+      let subject = "";
+      let html = "";
+      const dashboardUrl = `${domain}/dashboard`;
+
+      if (args.step === 1) {
+        subject = `Your ${templateName} Download`;
+        const docUrl = template?.docUrl;
+        const pdfUrl = template?.pdfUrl;
+
+        // Use /api/download endpoint for both formats
+        const docDownloadUrl = docUrl
+          ? `${domain}/api/download?url=${encodeURIComponent(docUrl)}&filename=${args.source}.docx`
+          : undefined;
+
+        const pdfDownloadUrl = pdfUrl
+          ? `${domain}/api/download?url=${encodeURIComponent(pdfUrl)}&filename=${args.source}.pdf`
+          : undefined;
+
+        // Combined download URL (fallback)
+        const downloadUrl = docDownloadUrl || pdfDownloadUrl || `${domain}/contracts/${args.source}`;
+
+        html = await render(
+          TemplateDownloadEmail1({
+            userName: args.name,
+            templateName,
+            downloadUrl,
+            docDownloadUrl,
+            pdfDownloadUrl,
+            dashboardUrl,
+          })
+        );
+      } else if (args.step === 2) {
+        subject = `The fastest way to get your ${templateName} signed ✍️`;
+        html = await render(
+          TemplateDownloadEmail2({
+            userName: args.name,
+            templateName,
+            dashboardUrl,
+          })
+        );
+      } else if (args.step === 3) {
+        subject = "🎁 Exclusive offer: 20% off Boopsign Pro";
+        html = await render(
+          TemplateDownloadEmail3({
+            userName: args.name,
+            dashboardUrl: `${domain}/pricing`,
+            couponCode: COUPON_CODE
+          })
+        );
+      } else {
+        console.warn(`Invalid sequence step ${args.step} for email ${args.email}`);
+        return;
+      }
+
+      const res = await resend.sendEmail(ctx, {
+        from: "Boopsign <alerts@mailer.boopsign.com>",
+        to: args.email,
+        subject,
+        html,
+      });
+      console.log(`Step ${args.step} sent: ${args.email} [${templateName}]`, res);
+
+      // Advance sequence logic
+      await ctx.runMutation(internal.leads.advanceSequence, {
+        email: args.email,
+        completedStep: args.step,
+        source: args.source,
+        name: args.name,
+      });
+
+    } catch (error) {
+      console.error(`Sequence Error [Step ${args.step}] for ${args.email}:`, error);
     }
   },
 });

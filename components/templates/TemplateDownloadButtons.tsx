@@ -1,24 +1,25 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Download, Loader2, FileText, FileCode, Sparkles, CheckCircle2, ArrowRight } from "lucide-react";
+import { FileText, FileCode, Sparkles, CheckCircle2, ArrowRight } from "lucide-react";
 import { useState, useRef } from "react";
-import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import posthog from "posthog-js";
 import {
     Dialog,
     DialogContent,
-    DialogDescription, DialogTitle
+    DialogDescription,
+    DialogTitle
 } from "@/components/ui/dialog";
 import { Confetti, type ConfettiRef } from "@/components/ui/confetti";
 import { ALL_TEMPLATES } from "@/lib/seo/all-templates";
 import Link from "next/link";
+import { TemplateDownloadDialog } from "./TemplateDownloadDialog";
 
 interface TemplateDownloadButtonsProps {
     templateId: string;
     docUrl?: string;
-    pdfUrl?: string; // Kept for backward compatibility but docUrl is preferred
+    pdfUrl?: string;
     className?: string;
     buttonClassName?: string;
     stack?: boolean;
@@ -32,8 +33,6 @@ export function TemplateDownloadButtons({
     buttonClassName,
     stack = false,
 }: TemplateDownloadButtonsProps) {
-    const [isDownloadingDoc, setIsDownloadingDoc] = useState(false);
-    const [isDownloadingPdf, setIsDownloadingPdf] = useState(false);
     const [showSuccessDialog, setShowSuccessDialog] = useState(false);
     const confettiRef = useRef<ConfettiRef>(null);
 
@@ -51,77 +50,17 @@ export function TemplateDownloadButtons({
     };
 
     const handleDownloadDoc = async () => {
-        if (!docUrl) {
-            toast.error("Word document link is missing");
-            return;
-        }
-        setIsDownloadingDoc(true);
-
-        try {
-            const response = await fetch(
-                `/api/download?url=${encodeURIComponent(docUrl)}&filename=${templateId}.docx`
-            );
-
-            if (!response.ok) throw new Error("Download failed");
-
-            const blob = await response.blob();
-            const downloadLink = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = downloadLink;
-            a.download = `${templateId}.docx`;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(downloadLink);
-            document.body.removeChild(a);
-
-            posthog.capture("download_contract_as_docx", {
-                contract: templateId,
-            });
-
-            toast.success("Word document download started");
-            triggerSuccess();
-        } catch (error) {
-            console.error("Download error:", error);
-            toast.error("Failed to download Word document");
-        } finally {
-            setIsDownloadingDoc(false);
-        }
+        posthog.capture("requested_template_docx", {
+            contract: templateId,
+        });
+        triggerSuccess();
     };
 
     const handleDownloadPdf = async () => {
-        if (!pdfUrl) {
-            toast.error("PDF download link is missing");
-            return;
-        }
-
-        setIsDownloadingPdf(true);
-
-        try {
-            // Direct PDF download
-            const response = await fetch(pdfUrl);
-            if (!response.ok) throw new Error("Failed to fetch PDF");
-            const blob = await response.blob();
-            const downloadLink = window.URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = downloadLink;
-            a.download = `${templateId}.pdf`;
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(downloadLink);
-            document.body.removeChild(a);
-
-            posthog.capture("download_contract_as_pdf", {
-                contract: templateId,
-            });
-
-            toast.success("PDF download started");
-            triggerSuccess();
-        } catch (error) {
-            console.error("PDF download error:", error);
-            toast.error("Failed to download PDF");
-        } finally {
-            setIsDownloadingPdf(false);
-        }
+        posthog.capture("requested_template_pdf", {
+            contract: templateId,
+        });
+        triggerSuccess();
     };
 
     return (
@@ -129,56 +68,55 @@ export function TemplateDownloadButtons({
             <div className={cn("flex flex-col gap-5 p-2", className)}>
                 <div className={cn("flex items-center flex-col gap-3", stack ? "flex-col w-full" : "md:flex-row justify-center")}>
                     {docUrl && (
-                        <Button
-                            variant="outline"
-                            size="lg"
-                            onClick={handleDownloadDoc}
-                            disabled={isDownloadingDoc}
-                            className={cn(
-                                stack && "w-full h-14",
-                                "border border-slate-200 bg-white hover:border-blue-300 hover:bg-blue-50/30",
-                                "text-slate-900 font-black text-[14px] shadow-sm transition-all duration-200 active:scale-[0.98]",
-                                buttonClassName
-                            )}
+                        <TemplateDownloadDialog
+                            templateName={template?.name || "Contract Template"}
+                            templateSlug={templateId}
+                            onSuccess={handleDownloadDoc}
                         >
-                            {isDownloadingDoc ? (
-                                <Loader2 className="w-4 h-4 animate-spin text-blue-600" />
-                            ) : (
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                className={cn(
+                                    stack && "w-full h-14",
+                                    "border border-slate-200 bg-white hover:border-blue-300 hover:bg-blue-50/30",
+                                    "text-slate-900 font-black text-[14px] shadow-sm transition-all duration-200 active:scale-[0.98]",
+                                    buttonClassName
+                                )}
+                            >
                                 <div className="flex items-center gap-2 justify-center w-full">
                                     <FileText className="mr-2.5 w-4 h-4 text-blue-500" />
-                                    <span>Download Word</span>
-                                    <Download className="ml-auto w-3.5 h-3.5 text-slate-400" />
+                                    <span>Get Word Template</span>
+                                    <ArrowRight className="ml-auto w-3.5 h-3.5 text-slate-400" />
                                 </div>
-                            )}
-                        </Button>
+
+                            </Button>
+                        </TemplateDownloadDialog>
                     )}
 
-                    {(pdfUrl) && (
-                        <Button
-                            variant="outline"
-                            size="lg"
-                            onClick={handleDownloadPdf}
-                            disabled={isDownloadingPdf}
-                            className={cn(
-                                stack && "w-full h-14",
-                                "border border-slate-200 bg-white hover:border-red-300 hover:bg-red-50/30",
-                                "text-slate-900 font-black text-[14px] shadow-sm transition-all duration-200 active:scale-[0.98]",
-                                buttonClassName
-                            )}
+                    {pdfUrl && (
+                        <TemplateDownloadDialog
+                            templateName={template?.name || "Contract Template"}
+                            templateSlug={templateId}
+                            onSuccess={handleDownloadPdf}
                         >
-                            {isDownloadingPdf ? (
-                                <div className="flex items-center gap-2">
-                                    <Loader2 className="w-4 h-4 animate-spin text-red-600" />
-                                    <span className="text-xs font-medium text-red-600">Downloading...</span>
-                                </div>
-                            ) : (
+                            <Button
+                                variant="outline"
+                                size="lg"
+                                className={cn(
+                                    stack && "w-full h-14",
+                                    "border border-slate-200 bg-white hover:border-red-300 hover:bg-red-50/30",
+                                    "text-slate-900 font-black text-[14px] shadow-sm transition-all duration-200 active:scale-[0.98]",
+                                    buttonClassName
+                                )}
+                            >
                                 <div className="flex items-center gap-2 justify-center w-full">
                                     <FileCode className="mr-2.5 w-4 h-4 text-red-500" />
-                                    <span>Download PDF</span>
-                                    <Download className="ml-auto w-3.5 h-3.5 text-slate-400" />
+                                    <span>Get PDF Template</span>
+                                    <ArrowRight className="ml-auto w-3.5 h-3.5 text-slate-400" />
                                 </div>
-                            )}
-                        </Button>
+
+                            </Button>
+                        </TemplateDownloadDialog>
                     )}
                 </div>
 
@@ -216,9 +154,9 @@ export function TemplateDownloadButtons({
                                 <div className="mx-auto w-16 aspect-square bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 border border-white/20 shadow-xl">
                                     <CheckCircle2 className="w-8 h-8 text-blue-400" />
                                 </div>
-                                <DialogTitle className="text-3xl font-black mb-2 text-white tracking-tight">Download Started!</DialogTitle>
-                                <DialogDescription className="text-white/60 text-[15px] font-medium max-w-[280px] mx-auto leading-relaxed">
-                                    Your professional {template?.name || "document"} is ready for use.
+                                <DialogTitle className="text-3xl font-black mb-2 text-white tracking-tight">Check Your Inbox! </DialogTitle>
+                                <DialogDescription className="text-white/70 text-[15px] font-medium max-w-[340px] mx-auto leading-relaxed">
+                                    We've just sent your <strong>{template?.name || "document"}</strong> and a <span className="text-blue-400 font-bold">special surprise gift</span> to your email address.
                                 </DialogDescription>
                             </div>
                         </div>
@@ -226,8 +164,10 @@ export function TemplateDownloadButtons({
                         <div className="p-8 bg-white">
                             <div className="space-y-6">
                                 <div>
-                                    <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.2em] mb-8">
-                                        Why users choose Boopsign
+                                    <h4 className="text-[11px] font-black text-slate-900 uppercase tracking-[0.2em] mb-8 flex items-center gap-2">
+                                        <div className="h-px bg-slate-100 flex-1" />
+                                        Next Steps with Boopsign
+                                        <div className="h-px bg-slate-100 flex-1" />
                                     </h4>
                                     <div className="space-y-8">
                                         <div className="flex gap-5 items-start">
@@ -235,8 +175,8 @@ export function TemplateDownloadButtons({
                                                 <Sparkles className="w-5 h-5 text-blue-600" />
                                             </div>
                                             <div className="pt-1">
-                                                <p className="font-black text-slate-900 text-[15px] mb-1 leading-none tracking-tight">Professional e-Signatures</p>
-                                                <p className="text-[13px] text-slate-500 leading-relaxed font-medium">Stop sending Word docs. Send a professional, mobile-ready signing link.</p>
+                                                <p className="font-black text-slate-900 text-[15px] mb-1 leading-none tracking-tight">Stop sending static files</p>
+                                                <p className="text-[13px] text-slate-500 leading-relaxed font-medium">Instead of a Word doc, send a professional signing link directly to your client's phone.</p>
                                             </div>
                                         </div>
 
@@ -245,8 +185,8 @@ export function TemplateDownloadButtons({
                                                 <CheckCircle2 className="w-5 h-5 text-green-600" />
                                             </div>
                                             <div className="pt-1">
-                                                <p className="font-black text-slate-900 text-[15px] mb-1 leading-none tracking-tight">3x Faster Closures</p>
-                                                <p className="text-[13px] text-slate-500 leading-relaxed font-medium">Clients sign in 60 seconds from any phone without creating an account.</p>
+                                                <p className="font-black text-slate-900 text-[15px] mb-1 leading-none tracking-tight">Sign in 60 seconds</p>
+                                                <p className="text-[13px] text-slate-500 leading-relaxed font-medium">No account required for signers. They just click, sign, and finish in seconds.</p>
                                             </div>
                                         </div>
 
@@ -255,21 +195,22 @@ export function TemplateDownloadButtons({
                                                 <ArrowRight className="w-5 h-5 text-purple-600" />
                                             </div>
                                             <div className="pt-1">
-                                                <p className="font-black text-slate-900 text-[15px] mb-1 leading-none tracking-tight">Automated Audit Trails</p>
-                                                <p className="text-[13px] text-slate-500 leading-relaxed font-medium">Get a legally binding certificate of completion with every signed document.</p>
+                                                <p className="font-black text-slate-900 text-[15px] mb-1 leading-none tracking-tight">Legally Binding</p>
+                                                <p className="text-[13px] text-slate-500 leading-relaxed font-medium">Get a tamper-proof audit trail and legal certificate for every document signed.</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div className="pt-2">
-                                    <Link href={
-                                        "/pricing"
-                                    }>
-                                        <Button size={'lg'} className="w-full">Try Boopsign for Free</Button>
+                                    <Link href="/dashboard" className="block w-full">
+                                        <Button size={'lg'} className="w-full h-12 text-[15px] font-bold bg-blue-600 hover:bg-blue-500 text-white shadow-xl shadow-blue-200">
+                                            Start Sending Documents Free
+                                            <ArrowRight className="ml-2 w-4 h-4" />
+                                        </Button>
                                     </Link>
                                     <p className="text-center text-[10px] text-slate-400 mt-4">
-                                        Trusted by 10,000+ professionals for secure document workflows.
+                                        P.S. Check your email for an <strong>exclusive 20% discount</strong> on Boopsign Pro.
                                     </p>
                                 </div>
                             </div>
