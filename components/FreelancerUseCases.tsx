@@ -9,19 +9,19 @@ const useCases = [
         title: "Freelance Designers",
         description: "Send design contracts, NDAs, and project proposals. Get client approval on mockups with legally binding signatures.",
         icon: Palette,
-        link: "/contracts/freelance/designer",
+        link: "/contracts/freelance/ui-ux-designer",
     },
     {
         title: "Freelance Developers",
         description: "Protect your code with clear IP agreements. Send SOWs, maintenance contracts, and project scopes that clients actually sign.",
         icon: Code,
-        link: "/contracts/freelance/developer",
+        link: "/contracts/freelance/no-code-developer",
     },
     {
         title: "Freelance Writers",
         description: "Lock in rates with content agreements. Send contracts for blog posts, copywriting, and ghostwriting projects.",
         icon: PenTool,
-        link: "/contracts/freelance/writer",
+        link: "/contracts/freelance/ghostwriter",
     },
     {
         title: "Freelance Consultants",

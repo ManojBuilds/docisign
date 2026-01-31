@@ -1,4 +1,4 @@
-import { Headphones, Clock, MessageSquare, ShieldCheck } from "lucide-react";
+import { Headphones, Clock, ShieldCheck } from "lucide-react";
 
 const SupportSection = () => {
     return (
@@ -47,7 +47,7 @@ const SupportSection = () => {
                     ))}
                 </div>
 
-                <div className="mt-20 p-10 bg-slate-900 rounded-[3rem] text-center text-white relative overflow-hidden">
+                {/* <div className="mt-20 p-10 bg-slate-900 rounded-[3rem] text-center text-white relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.15),transparent)] pointer-events-none" />
                     <div className="relative z-10">
                         <h3 className="text-2xl font-bold mb-4 flex items-center justify-center gap-3">
@@ -61,7 +61,7 @@ const SupportSection = () => {
                             Contact Support Team
                         </a>
                     </div>
-                </div>
+                </div> */}
             </div>
         </section>
     );

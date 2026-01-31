@@ -25,7 +25,7 @@ const domain = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 const COUPON_CODE = process.env.SPECIAL_COUPON_CODE ?? "TEMPLATE20";
 
 export const resend: Resend = new Resend(components.resend, {
-  testMode: false,
+  testMode: domain.includes("localhost"),
 });
 
 export const sendWelcomeEmail = action({
