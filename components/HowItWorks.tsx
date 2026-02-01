@@ -73,7 +73,7 @@ const HowItWorks = ({
                                 <div className="mb-8 relative aspect-video rounded-3xl overflow-hidden bg-slate-100 border border-slate-200 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] group-hover:-translate-y-2">
                                     <Image
                                         src={step.image}
-                                        alt={`Boopsign Step ${step.number}: ${step.title}`}
+                                        alt={`${step.title} - ${step.description}`}
                                         fill
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         className={"object-cover"}
