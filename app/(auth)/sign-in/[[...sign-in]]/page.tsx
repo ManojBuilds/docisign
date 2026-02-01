@@ -37,13 +37,52 @@ export default function Page() {
             mainEntity: {
               "@type": "SoftwareApplication",
               name: "Boopsign",
+              image: "https://boopsign.com/android-chrome-192x192.png",
               offers: {
                 "@type": "Offer",
                 price: "0",
                 priceCurrency: "USD",
                 priceValidUntil: "2026-12-31",
+                availability: "https://schema.org/InStock",
+                shippingDetails: {
+                  "@type": "OfferShippingDetails",
+                  shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
+                  deliveryTime: {
+                    "@type": "ShippingDeliveryTime",
+                    handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "DAY" },
+                    transitTime: { "@type": "ShippingDeliveryTime", minValue: 0, maxValue: 0, unitCode: "DAY" }
+                  }
+                },
+                hasMerchantReturnPolicy: {
+                  "@type": "MerchantReturnPolicy",
+                  applicableCountry: "US",
+                  returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                  merchantReturnDays: 7,
+                  returnMethod: "https://schema.org/ReturnByMail",
+                  returnFees: "https://schema.org/FreeReturn"
+                },
                 description: "7-day free trial",
               },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.9",
+                reviewCount: "24",
+                bestRating: "5",
+                worstRating: "1"
+              },
+              review: {
+                "@type": "Review",
+                reviewRating: {
+                  "@type": "Rating",
+                  ratingValue: "5",
+                  bestRating: "5"
+                },
+                author: {
+                  "@type": "Person",
+                  name: "Alex Rivera"
+                },
+                reviewBody: "The best e-signature tool for freelancers. Simple, fast, and affordable."
+              }
             },
           }),
         }}

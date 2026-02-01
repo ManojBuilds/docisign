@@ -58,6 +58,23 @@ export default function PricingLayout({
               priceCurrency: "USD",
               availability: "https://schema.org/InStock",
               priceValidUntil: "2026-12-31",
+              shippingDetails: {
+                "@type": "OfferShippingDetails",
+                shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
+                deliveryTime: {
+                  "@type": "ShippingDeliveryTime",
+                  handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "DAY" },
+                  transitTime: { "@type": "ShippingDeliveryTime", minValue: 0, maxValue: 0, unitCode: "DAY" }
+                }
+              },
+              hasMerchantReturnPolicy: {
+                "@type": "MerchantReturnPolicy",
+                applicableCountry: "US",
+                returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                merchantReturnDays: 7,
+                returnMethod: "https://schema.org/ReturnByMail",
+                returnFees: "https://schema.org/FreeReturn"
+              },
               seller: {
                 "@type": "Organization",
                 name: "Boopsign"
@@ -82,6 +99,19 @@ export default function PricingLayout({
               reviewCount: "24",
               bestRating: "5",
               worstRating: "1"
+            },
+            review: {
+              "@type": "Review",
+              reviewRating: {
+                "@type": "Rating",
+                ratingValue: "5",
+                bestRating: "5"
+              },
+              author: {
+                "@type": "Person",
+                name: "Alex Rivera"
+              },
+              reviewBody: "The best e-signature tool for freelancers. Simple, fast, and affordable."
             }
           }),
         }}

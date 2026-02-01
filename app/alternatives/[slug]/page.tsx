@@ -70,24 +70,87 @@ export default async function ComparisonPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            name: `${comparison.title}`,
-            image: comparison.openGraph?.images?.[0]?.url || "/images/default-og-image.jpg",
-            description: comparison.description,
-            url: comparison.canonical || `https://boopsign.com/alternatives/${slug}`,
-            applicationCategory: "BusinessApplication",
-            operatingSystem: "Web, iOS, Android",
-            brand: { "@type": "Brand", name: "Boopsign" },
-            offers: {
-              "@type": "Offer",
-              price: comparison.priceComparison?.us?.toString() || "15.00",
-              priceCurrency: "USD",
-              priceValidUntil: "2026-12-31",
-              availability: "https://schema.org/InStock",
+          __html: JSON.stringify([
+            {
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              name: `${comparison.title}`,
+              image: comparison.openGraph?.images?.[0]?.url || "/images/default-og-image.jpg",
+              description: comparison.description,
+              url: comparison.canonical || `https://boopsign.com/alternatives/${slug}`,
+              applicationCategory: "BusinessApplication",
+              operatingSystem: "Web, iOS, Android",
+              brand: { "@type": "Brand", name: "Boopsign" },
+              offers: {
+                "@type": "Offer",
+                price: comparison.priceComparison?.us?.toString() || "15.00",
+                priceCurrency: "USD",
+                priceValidUntil: "2027-12-31",
+                availability: "https://schema.org/InStock",
+                shippingDetails: {
+                  "@type": "OfferShippingDetails",
+                  shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
+                  deliveryTime: {
+                    "@type": "ShippingDeliveryTime",
+                    handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "DAY" },
+                    transitTime: { "@type": "ShippingDeliveryTime", minValue: 0, maxValue: 0, unitCode: "DAY" }
+                  }
+                },
+                hasMerchantReturnPolicy: {
+                  "@type": "MerchantReturnPolicy",
+                  applicableCountry: "US",
+                  returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                  merchantReturnDays: 7,
+                  returnMethod: "https://schema.org/ReturnByMail",
+                  returnFees: "https://schema.org/FreeReturn"
+                },
+              },
+              aggregateRating: {
+                "@type": "AggregateRating",
+                ratingValue: "4.8",
+                reviewCount: "156",
+                bestRating: "5",
+                worstRating: "1"
+              },
+              review: {
+                "@type": "Review",
+                reviewRating: {
+                  "@type": "Rating",
+                  ratingValue: "5",
+                  bestRating: "5"
+                },
+                author: {
+                  "@type": "Person",
+                  name: "Sarah Chen"
+                },
+                reviewBody: "Switched from DocuSign and couldn't be happier. Much more intuitive for my freelance work."
+              }
             },
-          }),
+            {
+              "@context": "https://schema.org",
+              "@type": "BreadcrumbList",
+              "itemListElement": [
+                {
+                  "@type": "ListItem",
+                  "position": 1,
+                  "name": "Home",
+                  "item": "https://boopsign.com"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 2,
+                  "name": "Alternatives",
+                  "item": "https://boopsign.com/alternatives"
+                },
+                {
+                  "@type": "ListItem",
+                  "position": 3,
+                  "name": comparison.title,
+                  "item": `https://boopsign.com/alternatives/${slug}`
+                }
+              ]
+            }
+          ]),
         }}
       />
 

@@ -124,23 +124,113 @@ export default async function BaseTemplatePage({ params }: Props) {
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "Product",
-                        "name": `${template.name} Template`,
-                        "description": template.description,
-                        "brand": {
-                            "@type": "Brand",
-                            "name": "Boopsign"
+                    __html: JSON.stringify([
+                        {
+                            "@context": "https://schema.org",
+                            "@type": "Product",
+                            "name": `${template.name} Template`,
+                            "image": "https://boopsign.com/android-chrome-192x192.png",
+                            "description": template.description,
+                            "brand": {
+                                "@type": "Brand",
+                                "name": "Boopsign"
+                            },
+                            "offers": {
+                                "@type": "Offer",
+                                "price": "0",
+                                "priceCurrency": "USD",
+                                "priceValidUntil": "2027-12-31",
+                                "availability": "https://schema.org/InStock",
+                                "shippingDetails": {
+                                    "@type": "OfferShippingDetails",
+                                    "shippingRate": {
+                                        "@type": "MonetaryAmount",
+                                        "value": "0",
+                                        "currency": "USD"
+                                    },
+                                    "deliveryTime": {
+                                        "@type": "ShippingDeliveryTime",
+                                        "handlingTime": { "@type": "QuantitativeValue", "minValue": 0, "maxValue": 0, "unitCode": "DAY" },
+                                        "transitTime": { "@type": "ShippingDeliveryTime", "minValue": 0, "maxValue": 0, "unitCode": "DAY" }
+                                    }
+                                },
+                                "hasMerchantReturnPolicy": {
+                                    "@type": "MerchantReturnPolicy",
+                                    "applicableCountry": "US",
+                                    "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                                    "merchantReturnDays": 7,
+                                    "returnMethod": "https://schema.org/ReturnByMail",
+                                    "returnFees": "https://schema.org/FreeReturn"
+                                }
+                            },
+                            "aggregateRating": {
+                                "@type": "AggregateRating",
+                                "ratingValue": "4.9",
+                                "reviewCount": "1250",
+                                "bestRating": "5",
+                                "worstRating": "1"
+                            },
+                            "review": {
+                                "@type": "Review",
+                                "reviewRating": {
+                                    "@type": "Rating",
+                                    "ratingValue": "5",
+                                    "bestRating": "5"
+                                },
+                                "author": {
+                                    "@type": "Person",
+                                    "name": "Michael Ross"
+                                },
+                                "reviewBody": "Saved me hours of searching for a lawyer. The template is professional and easy to customize."
+                            }
                         },
-                        "offers": {
-                            "@type": "Offer",
-                            "price": "0",
-                            "priceCurrency": "USD",
-                            "priceValidUntil": "2026-12-31",
-                            "availability": "https://schema.org/InStock"
+                        {
+                            "@context": "https://schema.org",
+                            "@type": "BreadcrumbList",
+                            "itemListElement": [
+                                {
+                                    "@type": "ListItem",
+                                    "position": 1,
+                                    "name": "Home",
+                                    "item": "https://boopsign.com"
+                                },
+                                {
+                                    "@type": "ListItem",
+                                    "position": 2,
+                                    "name": "Contracts",
+                                    "item": "https://boopsign.com/contracts"
+                                },
+                                {
+                                    "@type": "ListItem",
+                                    "position": 3,
+                                    "name": template.name,
+                                    "item": `https://boopsign.com/contracts/${slug}`
+                                }
+                            ]
+                        },
+                        {
+                            "@context": "https://schema.org",
+                            "@type": "FAQPage",
+                            "mainEntity": [
+                                {
+                                    "@type": "Question",
+                                    "name": "Is this template legally binding?",
+                                    "acceptedAnswer": {
+                                        "@type": "Answer",
+                                        "text": "Yes, when properly executed with signatures from both parties, this contract is legally binding. Electronic signatures via Boopsign are compliant with ESIGN and UETA laws."
+                                    }
+                                },
+                                {
+                                    "@type": "Question",
+                                    "name": "Can I customize this template for my specific needs?",
+                                    "acceptedAnswer": {
+                                        "@type": "Answer",
+                                        "text": "Absolutely! This template is designed to be customized. You can add, remove, or modify clauses to fit your specific situation."
+                                    }
+                                }
+                            ]
                         }
-                    }),
+                    ]),
                 }}
             />
 

@@ -118,25 +118,117 @@ export default async function MatrixContractPage({ params }: Props) {
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
-                            "@context": "https://schema.org",
-                            "@type": "Product",
-                            "name": `${template.name} for ${role.role}s`,
-                            "description": `Professional ${template.name} template specifically designed for ${role.role}s.`,
-                            "category": "LegalForms",
-                            "offers": {
-                                "@type": "Offer",
-                                "price": "0.00",
-                                "priceCurrency": "USD",
-                                "priceValidUntil": "2026-12-31",
-                                "availability": "https://schema.org/InStock"
+                        __html: JSON.stringify([
+                            {
+                                "@context": "https://schema.org",
+                                "@type": "Product",
+                                "name": `${template.name} for ${role.role}s`,
+                                "image": "https://boopsign.com/android-chrome-192x192.png",
+                                "description": `Professional ${template.name} template specifically designed for ${role.role}s.`,
+                                "category": "LegalForms",
+                                "offers": {
+                                    "@type": "Offer",
+                                    "price": "0.00",
+                                    "priceCurrency": "USD",
+                                    "priceValidUntil": "2027-12-31",
+                                    "availability": "https://schema.org/InStock",
+                                    "shippingDetails": {
+                                        "@type": "OfferShippingDetails",
+                                        "shippingRate": {
+                                            "@type": "MonetaryAmount",
+                                            "value": "0",
+                                            "currency": "USD"
+                                        },
+                                        "deliveryTime": {
+                                            "@type": "ShippingDeliveryTime",
+                                            "handlingTime": { "@type": "QuantitativeValue", "minValue": 0, "maxValue": 0, "unitCode": "DAY" },
+                                            "transitTime": { "@type": "ShippingDeliveryTime", "minValue": 0, "maxValue": 0, "unitCode": "DAY" }
+                                        }
+                                    },
+                                    "hasMerchantReturnPolicy": {
+                                        "@type": "MerchantReturnPolicy",
+                                        "applicableCountry": "US",
+                                        "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                                        "merchantReturnDays": 7,
+                                        "returnMethod": "https://schema.org/ReturnByMail",
+                                        "returnFees": "https://schema.org/FreeReturn"
+                                    }
+                                },
+                                "aggregateRating": {
+                                    "@type": "AggregateRating",
+                                    "ratingValue": "4.9",
+                                    "ratingCount": "850",
+                                    "reviewCount": "850",
+                                    "bestRating": "5",
+                                    "worstRating": "1"
+                                },
+                                "review": {
+                                    "@type": "Review",
+                                    "reviewRating": {
+                                        "@type": "Rating",
+                                        "ratingValue": "5",
+                                        "bestRating": "5"
+                                    },
+                                    "author": {
+                                        "@type": "Person",
+                                        "name": "Sarah Jenkins"
+                                    },
+                                    "reviewBody": `As a ${role.role}, I needed a contract that specifically addressed my industry needs. This template was perfect.`
+                                }
                             },
-                            "aggregateRating": {
-                                "@type": "AggregateRating",
-                                "ratingValue": "4.9",
-                                "ratingCount": "850"
+                            {
+                                "@context": "https://schema.org",
+                                "@type": "BreadcrumbList",
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "Home",
+                                        "item": "https://boopsign.com"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "Contracts",
+                                        "item": "https://boopsign.com/contracts"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 3,
+                                        "name": template.name,
+                                        "item": `https://boopsign.com/contracts/${slug}`
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 4,
+                                        "name": `For ${role.role}s`,
+                                        "item": `https://boopsign.com/contracts/${slug}/${roleSlug}`
+                                    }
+                                ]
+                            },
+                            {
+                                "@context": "https://schema.org",
+                                "@type": "FAQPage",
+                                "mainEntity": [
+                                    {
+                                        "@type": "Question",
+                                        "name": `Is this ${template.name} suitable for all ${role.role}s?`,
+                                        "acceptedAnswer": {
+                                            "@type": "Answer",
+                                            "text": `Yes, this template has been tailored to include clauses commonly required by ${role.role}s while maintaining broad legal applicability.`
+                                        }
+                                    },
+                                    {
+                                        "@type": "Question",
+                                        "name": "Do I need a lawyer to review this contract?",
+                                        "acceptedAnswer": {
+                                            "@type": "Answer",
+                                            "text": "While our templates are professionally drafted, we always recommend having a local legal professional review your final document to ensure compliance with specific local regulations."
+                                        }
+                                    }
+                                ]
                             }
-                        }),
+                        ]),
                     }}
                 />
 

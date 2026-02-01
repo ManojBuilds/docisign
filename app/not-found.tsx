@@ -46,8 +46,8 @@ export default function NotFound() {
             <Link href="/" className="w-full block">
               <Button className="w-full">Go Back Home</Button>
             </Link>
-            <Link href="/docusign-alternative" className="w-full block">
-              <Button variant="outline" className="w-full">Explore Boopsign</Button>
+            <Link href="/contracts" className="w-full block">
+              <Button variant="outline" className="w-full">Explore free contract templates</Button>
             </Link>
           </div>
 

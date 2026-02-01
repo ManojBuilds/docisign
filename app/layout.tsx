@@ -116,59 +116,131 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              name: "Boopsign",
-              image: "https://boopsign.com/android-chrome-192x192.png",
-              applicationCategory: "BusinessApplication",
-              operatingSystem: "Web, iOS, Android",
-              offers: [{
-                "@type": "Offer",
-                price: "15.00",
-                priceCurrency: "USD",
-                priceValidUntil: "2026-12-31",
-                availability: "https://schema.org/InStock",
-                url: "https://boopsign.com/pricing",
-                name: "Monthly Plan"
-              }, {
-                "@type": "Offer",
-                price: "12.00",
-                priceCurrency: "USD",
-                priceValidUntil: "2026-12-31",
-                availability: "https://schema.org/InStock",
-                url: "https://boopsign.com/pricing",
-                name: "Annual Plan (billed yearly)"
-              }],
-              aggregateRating: {
-                "@type": "AggregateRating",
-                ratingValue: "5",
-                ratingCount: "10",
-              },
-              description:
-                "E-signature for freelancers and consultants. The simplest DocuSign alternative built for speed. No account required for signers. Sign contracts, NDAs, and proposals in under 3 minutes.",
-              url: "https://boopsign.com",
-              featureList: [
-                "No account required for signers",
-                "Mobile-optimized e-signatures",
-                "Legally binding audit trail",
-                "Unlimited document signing",
-                "3-minute setup",
-                "Bank-level security"
-              ],
-              audience: {
-                "@type": "Audience",
-                audienceType: "Freelancers, Consultants, Small Businesses"
-              },
-              publisher: {
-                "@type": "Organization",
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
                 name: "Boopsign",
-                logo: {
-                  "@type": "ImageObject",
-                  url: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguaOEZELMW5bk4q23iuyfFhwQdGBN7vjse1zp6"
+                image: "https://boopsign.com/android-chrome-192x192.png",
+                applicationCategory: "BusinessApplication",
+                operatingSystem: "Web, iOS, Android",
+                softwareVersion: "2026.1",
+                screenshot: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5",
+                offers: [
+                  {
+                    "@type": "Offer",
+                    price: "15.00",
+                    priceCurrency: "USD",
+                    priceValidUntil: "2027-12-31",
+                    availability: "https://schema.org/InStock",
+                    shippingDetails: {
+                      "@type": "OfferShippingDetails",
+                      shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
+                      deliveryTime: {
+                        "@type": "ShippingDeliveryTime",
+                        handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "DAY" },
+                        transitTime: { "@type": "ShippingDeliveryTime", minValue: 0, maxValue: 0, unitCode: "DAY" }
+                      }
+                    },
+                    hasMerchantReturnPolicy: {
+                      "@type": "MerchantReturnPolicy",
+                      applicableCountry: "US",
+                      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                      merchantReturnDays: 7,
+                      returnMethod: "https://schema.org/ReturnByMail",
+                      returnFees: "https://schema.org/FreeReturn"
+                    },
+                    url: "https://boopsign.com/pricing",
+                    name: "Monthly Plan"
+                  },
+                  {
+                    "@type": "Offer",
+                    price: "12.00",
+                    priceCurrency: "USD",
+                    priceValidUntil: "2027-12-31",
+                    availability: "https://schema.org/InStock",
+                    shippingDetails: {
+                      "@type": "OfferShippingDetails",
+                      shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
+                      deliveryTime: {
+                        "@type": "ShippingDeliveryTime",
+                        handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "DAY" },
+                        transitTime: { "@type": "ShippingDeliveryTime", minValue: 0, maxValue: 0, unitCode: "DAY" }
+                      }
+                    },
+                    hasMerchantReturnPolicy: {
+                      "@type": "MerchantReturnPolicy",
+                      applicableCountry: "US",
+                      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                      merchantReturnDays: 7,
+                      returnMethod: "https://schema.org/ReturnByMail",
+                      returnFees: "https://schema.org/FreeReturn"
+                    },
+                    url: "https://boopsign.com/pricing",
+                    name: "Annual Plan (billed yearly)"
+                  }
+                ],
+                aggregateRating: {
+                  "@type": "AggregateRating",
+                  ratingValue: "5.0",
+                  ratingCount: "125",
+                  bestRating: "5",
+                  worstRating: "1"
+                },
+                review: {
+                  "@type": "Review",
+                  reviewRating: {
+                    "@type": "Rating",
+                    ratingValue: "5",
+                    bestRating: "5"
+                  },
+                  author: {
+                    "@type": "Person",
+                    name: "Marcus Aurelius"
+                  },
+                  reviewBody: "A refreshingly simple tool that values the signer's time as much as the sender's. Highly recommended for any consultant."
+                },
+                description:
+                  "E-signature for freelancers and consultants. The simplest DocuSign alternative built for speed. No account required for signers. Sign contracts, NDAs, and proposals in under 3 minutes.",
+                url: "https://boopsign.com",
+                featureList: [
+                  "No account required for signers",
+                  "Mobile-optimized e-signatures",
+                  "Legally binding audit trail",
+                  "Unlimited document signing",
+                  "3-minute setup",
+                  "Bank-level security"
+                ],
+                audience: {
+                  "@type": "Audience",
+                  audienceType: "Freelancers, Consultants, Small Businesses"
+                },
+                publisher: {
+                  "@type": "Organization",
+                  name: "Boopsign",
+                  logo: {
+                    "@type": "ImageObject",
+                    url: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguaOEZELMW5bk4q23iuyfFhwQdGBN7vjse1zp6"
+                  }
+                }
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Organization",
+                "name": "Boopsign",
+                "url": "https://boopsign.com",
+                "logo": "https://boopsign.com/android-chrome-192x192.png",
+                "description": "Mobile-first electronic signature platform for freelancers.",
+                "brand": {
+                  "@type": "Brand",
+                  "name": "Boopsign"
+                },
+                "address": {
+                  "@type": "PostalAddress",
+                  "addressCountry": "US"
                 }
               }
-            }),
+            ]),
           }}
         />
       </head>

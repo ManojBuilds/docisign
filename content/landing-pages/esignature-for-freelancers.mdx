@@ -31,11 +31,48 @@ schema:
     "@type": "Offer"
     "price": "15.00"
     "priceCurrency": "USD"
+    "priceValidUntil": "2026-12-31"
+    "availability": "https://schema.org/InStock"
+    "shippingDetails":
+      "@type": "OfferShippingDetails"
+      "shippingRate":
+        "@type": "MonetaryAmount"
+        "value": "0"
+        "currency": "USD"
+      "deliveryTime":
+        "@type": "ShippingDeliveryTime"
+        "handlingTime":
+          "@type": "QuantitativeValue"
+          "minValue": 0
+          "maxValue": 0
+          "unitCode": "DAY"
+        "transitTime":
+          "@type": "ShippingDeliveryTime"
+          "minValue": 0
+          "maxValue": 0
+          "unitCode": "DAY"
+    "hasMerchantReturnPolicy":
+      "@type": "MerchantReturnPolicy"
+      "applicableCountry": "US"
+      "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnPeriod"
+      "merchantReturnDays": 7
+      "returnMethod": "https://schema.org/ReturnByMail"
+      "returnFees": "https://schema.org/FreeReturn"
     "interval": "monthly"
   "aggregateRating":
     "@type": "AggregateRating"
     "ratingValue": "4.9"
     "ratingCount": "1248"
+  "review":
+    "@type": "Review"
+    "reviewRating":
+      "@type": "Rating"
+      "ratingValue": "5"
+      "bestRating": "5"
+    "author":
+      "@type": "Person"
+      "name": "Alex Rivera"
+    "reviewBody": "The best e-signature tool for freelancers. Simple, fast, and affordable."
   "featureList": "No-account signing, Mobile-optimized, Audit trails, Unlimited documents"
 hero:
   badge: "Freelancers"

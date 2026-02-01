@@ -91,21 +91,47 @@ export default async function ProgrammaticFreelancerContractPage({ params }: Pro
                 <script
                     type="application/ld+json"
                     dangerouslySetInnerHTML={{
-                        __html: JSON.stringify({
-                            "@context": "https://schema.org",
-                            "@type": "CollectionPage",
-                            "name": `Legal Templates for ${role}`,
-                            "description": `Comprehensive collection of legal contracts for ${role}s.`,
-                            "mainEntity": {
-                                "@type": "ItemList",
-                                "itemListElement": compatibleTemplates.map((t, i) => ({
-                                    "@type": "ListItem",
-                                    "position": i + 1,
-                                    "url": `https://boopsign.com/contracts/${t.slug}/for-${slug}`,
-                                    "name": `${t.name} for ${role}`
-                                }))
+                        __html: JSON.stringify([
+                            {
+                                "@context": "https://schema.org",
+                                "@type": "CollectionPage",
+                                "name": `Legal Templates for ${role}`,
+                                "description": `Comprehensive collection of legal contracts for ${role}s.`,
+                                "mainEntity": {
+                                    "@type": "ItemList",
+                                    "itemListElement": compatibleTemplates.map((t, i) => ({
+                                        "@type": "ListItem",
+                                        "position": i + 1,
+                                        "url": `https://boopsign.com/contracts/${t.slug}/for-${slug}`,
+                                        "name": `${t.name} for ${role}`
+                                    }))
+                                }
+                            },
+                            {
+                                "@context": "https://schema.org",
+                                "@type": "BreadcrumbList",
+                                "itemListElement": [
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 1,
+                                        "name": "Home",
+                                        "item": "https://boopsign.com"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 2,
+                                        "name": "Contracts",
+                                        "item": "https://boopsign.com/contracts"
+                                    },
+                                    {
+                                        "@type": "ListItem",
+                                        "position": 3,
+                                        "name": `Freelance ${role}s`,
+                                        "item": `https://boopsign.com/contracts/freelance/${slug}`
+                                    }
+                                ]
                             }
-                        }),
+                        ]),
                     }}
                 />
 
