@@ -69,8 +69,10 @@ import { RelatedPages } from "../RelatedPages";
 import SmallComparasionTable from "../SmallComparasionTable";
 import { Callout } from "./Callout";
 import CustomImage from "./Image";
+import SavingsCalculator from "./SavingsCalculator";
 
 const sharedComponents = {
+  SavingsCalculator,
   ShieldAlert,
   Palette,
   Trophy,

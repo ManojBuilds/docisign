@@ -78,6 +78,7 @@ const posts = defineCollection({
     category: z.string().optional().default('Article'),
     readingTime: z.string().optional(),
     status: z.enum(['published', 'draft']).optional().default('published'),
+    content: z.string(),
   }),
   transform: async (document, context) => {
     const mdx = await compileMDX(context, document, {
@@ -111,6 +112,7 @@ const landingPages = defineCollection({
     faqs: z.array(FAQ).optional(),
     seo: SEO.optional(),
     schema: z.any().optional(),
+    content: z.string(),
   }),
   transform: async (document, context) => {
     const mdx = await compileMDX(context, document, {
@@ -144,6 +146,7 @@ const comparisons = defineCollection({
     twitter: z.any().optional(),
     robots: z.any().optional(),
     faq: z.any().optional(),
+    content: z.string(),
   }),
   transform: async (document, context) => {
     const mdx = await compileMDX(context, document, {
