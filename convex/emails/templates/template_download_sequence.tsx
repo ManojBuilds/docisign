@@ -16,9 +16,8 @@ interface TemplateEmailProps {
 export function TemplateDownloadEmail1({
     userName = "there",
     templateName = "Contract Template",
-    downloadUrl = "#",
-    docDownloadUrl,
-    pdfDownloadUrl,
+    docDownloadUrl="#",
+    pdfDownloadUrl="#",
     dashboardUrl = "https://boopsign.com/dashboard",
 }: TemplateEmailProps) {
     return (
@@ -38,7 +37,7 @@ export function TemplateDownloadEmail1({
             <Section className="mt-[32px] mb-[32px] text-center">
                 {docDownloadUrl && (
                     <Button
-                        className="rounded bg-brand px-6 py-3 text-center text-[12px] font-semibold text-white no-underline mr-3"
+                        className="rounded bg-brand px-6 py-3 text-center text-[12px] font-semibold text-white no-underline"
                         href={docDownloadUrl}
                     >
                         Download Word (.docx)
@@ -46,18 +45,10 @@ export function TemplateDownloadEmail1({
                 )}
                 {pdfDownloadUrl && (
                     <Button
-                        className="rounded bg-brand px-6 py-3 text-center text-[12px] font-semibold text-white no-underline"
+                        className="rounded mt-3 bg-brand px-6 py-3 text-center text-[12px] font-semibold text-white no-underline"
                         href={pdfDownloadUrl}
                     >
                         Download PDF (.pdf)
-                    </Button>
-                )}
-                {!docDownloadUrl && !pdfDownloadUrl && (
-                    <Button
-                        className="rounded bg-brand px-10 py-3 text-center text-[12px] font-semibold text-white no-underline"
-                        href={downloadUrl}
-                    >
-                        Download Your Template
                     </Button>
                 )}
             </Section>
@@ -180,7 +171,6 @@ export function TemplateDownloadEmail3({
                 <ul className="m-0 pl-4 text-[14px] text-black">
                     <li className="mb-1"><strong>Unlimited documents</strong> – send as many as you need</li>
                     <li className="mb-1"><strong>Custom branding</strong> – add your logo and colors</li>
-                    <li className="mb-1"><strong>Team collaboration</strong> – work with your team seamlessly</li>
                     <li className="mb-1"><strong>Advanced templates</strong> – save time with reusable templates</li>
                     <li className="mb-1"><strong>Priority support</strong> – get help when you need it</li>
                 </ul>

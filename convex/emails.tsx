@@ -296,14 +296,11 @@ export const sendSequenceEmail = action({
           ? `${domain}/api/download?url=${encodeURIComponent(pdfUrl)}&filename=${args.source}.pdf`
           : undefined;
 
-        // Combined download URL (fallback)
-        const downloadUrl = docDownloadUrl || pdfDownloadUrl || `${domain}/contracts/${args.source}`;
 
         html = await render(
           TemplateDownloadEmail1({
             userName: args.name,
             templateName,
-            downloadUrl,
             docDownloadUrl,
             pdfDownloadUrl,
             dashboardUrl,
