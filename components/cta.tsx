@@ -31,13 +31,13 @@ const Cta = () => {
 
             {/* Subheading */}
             <p className="text-lg md:text-xl text-slate-600 mb-12 max-w-2xl mx-auto leading-relaxed">
-              Join 1,200+ freelancers who switched to Boopsign to get contracts signed 3x faster than DocuSign.
+              Join 1,200+ freelancers who switched to Boopsign to get contracts signed 3x faster. No credit card to start — cancel anytime.
             </p>
 
             {/* CTA Button Area */}
             <div className="flex flex-col items-center gap-6">
               <div className="scale-125 origin-center">
-                <StartTrialBtn label="Sign Your First Document Free" />
+                <StartTrialBtn label="Start Free — No Credit Card" />
               </div>
 
               <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm font-medium text-slate-600">
@@ -52,6 +52,10 @@ const Cta = () => {
                 <span className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                   Cancel anytime
+                </span>
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  Legally binding e-signatures
                 </span>
               </div>
             </div>

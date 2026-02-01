@@ -34,7 +34,7 @@ const navbarItems = [
   },
   {
     label: "Pricing",
-    href: "/pricing",
+    href: "/#pricing",
   },
   {
     label: "Contract templates",

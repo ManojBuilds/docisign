@@ -27,10 +27,10 @@ export default function Home() {
         <Problem />
         <HowItWorks />
         <Features />
+        <Pricing />
         <FreelancerUseCases />
         <TestimonialsSection />
         <SupportSection />
-        <Pricing />
         <Cta />
         <RelatedPages
           pages={[

@@ -84,6 +84,11 @@ const Pricing = () => {
           </div>
         </div>
 
+        {/* Trust line above card */}
+        <p className="text-center text-slate-600 font-medium mb-8 max-w-md mx-auto">
+          Join 1,200+ freelancers on Pro — get contracts signed in minutes, not days.
+        </p>
+
         {/* Pricing Card */}
         <div className="max-w-md mx-auto relative z-10">
           <Card className="border-0 ring-1 ring-slate-200 bg-white relative overflow-hidden transition-all duration-300 hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] rounded-[2rem]">

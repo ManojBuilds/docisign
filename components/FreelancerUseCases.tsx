@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { Highlighter } from "./ui/highlighter";
 import { Palette, Code, PenTool, Briefcase, ArrowRight } from "lucide-react";
 
 const useCases = [
@@ -39,11 +38,9 @@ export default function FreelancerUseCases() {
                     <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-[10px] font-semibold uppercase tracking-widest mb-4 border border-blue-200">
                         Built for Freelancers
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-6">
+                    <h2 className="text-3xl md:text-5xl font-semibold tracking-tight text-slate-900">
                         Perfect for{" "}
-                        <Highlighter action="highlight" color="#dbeafe" iterations={1}>
-                            Every Freelancer
-                        </Highlighter>
+                        <span className="text-blue-600">Every Freelancer</span>
                     </h2>
                     <p className="text-lg text-slate-600 leading-relaxed">
                         Whether you're a designer, developer, writer, or consultant—Boopsign makes getting contracts signed effortless.

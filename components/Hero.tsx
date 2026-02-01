@@ -2,6 +2,7 @@ import { DragAndClickUpload } from "./DragAndClickUpload";
 import Image from "next/image";
 import Link from "next/link";
 import { Highlighter } from "./ui/highlighter";
+import StartTrialBtn from "./StartTrialBtn";
 
 const Hero = () => {
   return (
@@ -36,14 +37,21 @@ const Hero = () => {
         <p className="mt-2 text-xl sm:text-2xl text-slate-500 max-w-2xl leading-relaxed font-normal">
           The fastest way to get your <Link href="/contracts/independent-contractor-agreement" className="text-blue-600 hover:underline">contracts</Link> signed. <span className="text-slate-900 font-medium">No accounts, no downloads, no "I forgot my password" emails.</span> Just professional signatures in seconds.
         </p>
-        <div className="mt-4 flex gap-4">
+        <div className="mt-8 flex justify-center">
+          <StartTrialBtn
+            label="Start 7-Day Free Trial — No Credit Card"
+            className="shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 transition-all"
+          />
+        </div>
+        <div className="mt-2 flex gap-4">
           <Link href="/esignature-for-freelancers" className="text-sm font-semibold text-slate-400 hover:text-blue-600 transition-colors underline decoration-slate-200 underline-offset-4">
             Built specially for freelancers
           </Link>
         </div>
 
         {/* Primary Action Area - Functional yet Beautiful */}
-        <div className="w-full max-w-2xl mt-12 relative z-10">
+        <div className="w-full max-w-2xl mt-10 relative z-10">
+          <p className="text-center text-sm font-medium text-slate-500 mb-4">Drop a PDF below to try signing now — no signup required</p>
           {/* The Main Card */}
           <div className="relative bg-white rounded-3xl p-3 shadow-[0_30px_100px_-20px_rgba(59,130,246,0.15)] ring-1 ring-slate-200 transition-all duration-500 hover:shadow-[0_40px_120px_-20px_rgba(59,130,246,0.2)] z-20">
             <div className="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 hover:bg-blue-50/30 hover:border-blue-300 transition-all duration-300">
@@ -69,7 +77,7 @@ const Hero = () => {
 
         {/* Social Proof Strip - Clean */}
         <div className="mt-16 pt-10 border-t border-slate-100 w-full max-w-5xl flex flex-col items-center gap-8">
-          <p className="text-sm font-semibold text-slate-400 uppercase tracking-widest text-center">Trusted by 1,200+ freelancers from</p>
+          <p className="text-sm font-semibold text-slate-400 uppercase tracking-widest text-center">Trusted by 1,200+ freelancers — 3x higher completion rate than DocuSign</p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             <Image
               src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguAx9LOQUIaF7cPRXTBKUOjd2u8DtqMsNepfz5"
