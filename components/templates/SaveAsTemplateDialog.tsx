@@ -165,7 +165,7 @@ export function SaveAsTemplateDialog({
                         signers.map((email) => (
                             <div key={email} className="p-5 bg-slate-50/50 rounded-2xl border border-slate-200/60 space-y-4 hover:border-primary/20 hover:bg-white transition-all duration-200 group">
                                 <div className="flex items-center gap-3">
-                                    <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold shadow-sm group-hover:bg-blue-600 group-hover:text-white transition-all">
+                                    <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-all">
                                         @
                                     </div>
                                     <div className="min-w-0 flex-1">
