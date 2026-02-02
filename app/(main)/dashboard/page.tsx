@@ -44,7 +44,7 @@ import {
   Search
 } from "lucide-react";
 import dynamic from "next/dynamic";
-import { Suspense, useCallback, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 const DocumentTable = dynamic(
@@ -88,18 +88,23 @@ function DocumentsList() {
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
 
-  const handleDebouncedSearch = useCallback(
-    debounce((value: string) => {
-      setDebouncedSearchTerm(value);
-    }, 500),
-    [setDebouncedSearchTerm]
+  // Create debounced function once so debouncing actually works (useCallback recreated it every render)
+  const handleDebouncedSearch = useMemo(
+    () => debounce((value: string) => setDebouncedSearchTerm(value), 500),
+    []
   );
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    return () => {
+      handleDebouncedSearch.clear?.();
+    };
+  }, [handleDebouncedSearch]);
+
+  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setSearchTerm(value);
     handleDebouncedSearch(value);
-  };
+  }, [handleDebouncedSearch]);
 
   const [filterStatus, setFilterStatus] = useState<DocumentStatus>("all");
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
@@ -238,6 +243,8 @@ function DocumentsList() {
                 <SelectItem value="sent">Waiting for Signature</SelectItem>
                 <SelectItem value="in_progress">Signing in Progress</SelectItem>
                 <SelectItem value="completed">Signed & Completed</SelectItem>
+                <SelectItem value="expired">Expired</SelectItem>
+                <SelectItem value="cancelled">Cancelled</SelectItem>
                 <SelectItem value="declined">Declined</SelectItem>
               </SelectContent>
             </Select>
@@ -303,6 +310,7 @@ function DocumentsList() {
                       variant="outline"
                       onClick={() => {
                         setSearchTerm("");
+                        setDebouncedSearchTerm("");
                         setFilterStatus("all");
                       }}
                       className="w-full sm:w-auto rounded-xl h-11 px-6 font-medium bg-background"

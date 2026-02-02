@@ -86,7 +86,6 @@ export const ThumbnailSidebar = React.memo(({
 }: ThumbnailSidebarProps) => {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const thumbnailRefs = useRef<Record<number, HTMLDivElement | null>>({});
-  // Initialize with first 5 pages visible for immediate rendering
   const [visiblePages, setVisiblePages] = useState<Set<number>>(() =>
     new Set([1, 2, 3, 4, 5])
   );
@@ -100,7 +99,6 @@ export const ThumbnailSidebar = React.memo(({
     []
   );
 
-  // Intersection observer to track visible thumbnails
   useEffect(() => {
     if (numPages === 0) return;
 
@@ -112,11 +110,9 @@ export const ThumbnailSidebar = React.memo(({
             const pageNum = parseInt(entry.target.getAttribute('data-thumbnail-page') || '0');
             if (entry.isIntersecting) {
               newVisible.add(pageNum);
-              // Preload adjacent pages
               if (pageNum > 1) newVisible.add(pageNum - 1);
               if (pageNum < numPages) newVisible.add(pageNum + 1);
             } else {
-              // Keep current page and adjacent pages always loaded
               if (Math.abs(pageNum - currentPage) > 2) {
                 newVisible.delete(pageNum);
               }
@@ -127,7 +123,7 @@ export const ThumbnailSidebar = React.memo(({
       },
       {
         root: scrollAreaRef.current,
-        rootMargin: '200px 0px', // Load thumbnails 200px before they come into view
+        rootMargin: '200px 0px',
         threshold: 0,
       }
     );
@@ -139,7 +135,6 @@ export const ThumbnailSidebar = React.memo(({
     return () => observer.disconnect();
   }, [numPages, currentPage]);
 
-  // Auto-scroll to current page
   useEffect(() => {
     const currentThumbnail = thumbnailRefs.current[currentPage];
     if (currentThumbnail) {
@@ -155,19 +150,23 @@ export const ThumbnailSidebar = React.memo(({
   }, [onPageClick]);
 
   return (
-    <aside className="w-48 bg-gray-50/50 border-r flex flex-col h-full overflow-hidden">
-      <div className="p-4 border-b bg-white flex items-center justify-between">
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500">Pages</h3>
-        <span className="text-[10px] bg-gray-100 px-1.5 py-0.5 rounded text-gray-600 font-mono">
+    <aside className="w-52 bg-white border-r border-gray-200/60 flex flex-col h-full overflow-hidden shadow-[inset_-1px_0_0_0_rgba(0,0,0,0.02)] relative z-10">
+      <div className="px-6 py-5 border-b bg-gray-50/40 backdrop-blur-sm flex items-center justify-between sticky top-0 z-20">
+        <div className="flex flex-col">
+          <h3 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-gray-400">Pages</h3>
+          <p className="text-[9px] text-gray-300 font-bold uppercase mt-0.5 opacity-60">Navigation</p>
+        </div>
+        <span className="text-[10px] font-extrabold text-gray-900 bg-gray-100 border border-gray-200/50 px-2.5 py-0.5 rounded-full shadow-sm">
           {numPages}
         </span>
       </div>
       <ScrollArea className="flex-1" ref={scrollAreaRef}>
-        <div className="p-4 space-y-4">
+        <div className="p-6 space-y-6 pb-12 w-full flex flex-col items-center">
           <Document
             file={fileUrl}
             options={documentOptions}
             loading={null}
+            className="w-full flex flex-col items-center gap-6"
           >
             {Array.from(new Array(numPages), (_, index) => {
               const pNum = index + 1;
@@ -176,6 +175,7 @@ export const ThumbnailSidebar = React.memo(({
                   key={`thumb_${pNum}`}
                   ref={(el) => { thumbnailRefs.current[pNum] = el; }}
                   data-thumbnail-page={pNum}
+                  className="relative group w-full flex justify-center perspective-[1000px]"
                 >
                   <ThumbnailPage
                     pageNumber={pNum}
@@ -183,6 +183,15 @@ export const ThumbnailSidebar = React.memo(({
                     isVisible={visiblePages.has(pNum)}
                     onClick={() => handlePageClick(pNum)}
                   />
+                  {currentPage === pNum && (
+                    <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-1.5 h-12 bg-primary rounded-r-full shadow-[2px_0_12px_rgba(var(--primary),0.3)] animate-in slide-in-from-left-2 duration-300" />
+                  )}
+                  <span className={cn(
+                    "absolute -right-2 top-2 text-[18px] font-black text-gray-100 select-none z-0 pointer-events-none transition-all duration-300",
+                    currentPage === pNum ? "text-primary/10 scale-125 translate-x-1" : "opacity-0"
+                  )}>
+                    {pNum.toString().padStart(2, '0')}
+                  </span>
                 </div>
               );
             })}

@@ -34,7 +34,7 @@ export const addSigner = mutation({
 
     // Generate unique access token
     const accessToken = crypto.randomUUID();
-    const siginingId = await ctx.db.insert("signatureFields", {
+    const signingId = await ctx.db.insert("signatureFields", {
       documentId: args.documentId,
       fieldType: "signature", // Default field type
       page: 1, // Default page
@@ -55,7 +55,7 @@ export const addSigner = mutation({
     });
 
 
-    return siginingId;
+    return signingId;
   },
 });
 
@@ -312,6 +312,10 @@ export const sendDocumentForSigning = mutation({
     if (!identity.email) {
       throw new Error("Authenticated user is missing an email.");
     }
+    const document = await ctx.db.get(args.documentId);
+    if (!document) throw new Error("Document not found");
+    if (document.ownerId !== identity.subject) throw new Error("Not the document owner");
+
     // Update document status
     await ctx.db.patch(args.documentId, {
       status: "sent",
@@ -374,8 +378,8 @@ export const sendSigningEmail = internalAction({
         id: args.signerId,
       });
 
-      if (!signer) {
-        console.error("Signer not found");
+      if (!signer?.email) {
+        console.error("Signer not found or missing email");
         return;
       }
 
@@ -414,7 +418,7 @@ export const sendSigningEmail = internalAction({
         documentTitle: document.title,
         signingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/s/${signer.accessToken}`,
         customMessage: args.customMessage,
-        to: signer.email!,
+        to: signer.email,
         brandName: owner.brandName,
         brandLogoUrl: brandLogoUrl || undefined,
       });

@@ -16,6 +16,7 @@ export interface ShareDialogProps {
   onSignerAdd?: (signer: Signer) => void;
   signatureFields?: SignatureFieldData[];
   signers?: Signer[];
+  children?: React.ReactNode;
 }
 
 export interface CommonViewProps {

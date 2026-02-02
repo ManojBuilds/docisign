@@ -72,10 +72,17 @@ const MobileNavbar = dynamic(
     () => import("./_components/MobileNavbar").then((mod) => mod.MobileNavbar),
     { ssr: false }
 );
-const MobileRestrictionScreen = dynamic(
+const MobileAddFieldSheet = dynamic(
     () =>
-        import("./_components/MobileRestrictionScreen").then(
-            (mod) => mod.MobileRestrictionScreen
+        import("./_components/MobileAddFieldSheet").then(
+            (mod) => mod.MobileAddFieldSheet
+        ),
+    { ssr: false }
+);
+const MobileFieldsDrawer = dynamic(
+    () =>
+        import("./_components/MobileFieldsDrawer").then(
+            (mod) => mod.MobileFieldsDrawer
         ),
     { ssr: false }
 );
@@ -261,10 +268,8 @@ export default function DocumentEditor() {
         return <CompletedDocumentBanner isCompleted={isCompleted} />;
     }, [isCompleted]);
 
-    // Mobile restriction
-    if (isMobile) {
-        return <MobileRestrictionScreen />;
-    }
+    const [isFieldsDrawerOpen, setIsFieldsDrawerOpen] = useState(false);
+    const [isAddFieldSheetOpen, setIsAddFieldSheetOpen] = useState(false);
 
     return (
         <div className="h-screen flex flex-col overflow-hidden">
@@ -283,14 +288,19 @@ export default function DocumentEditor() {
             <MobileNavbar
                 documentId={documentId}
                 setIsShareDialogOpen={setIsShareDialogOpen}
-                onAddField={(type) => handleAddSignatureField(type)}
+                onOpenAddFieldSheet={() => setIsAddFieldSheetOpen(true)}
+                onOpenFieldsDrawer={() => setIsFieldsDrawerOpen(true)}
+                onSave={handleSaveAllFields}
+                isSaving={isSaving}
+                hasUnsavedChanges={hasUnsavedChanges}
+                signatureFields={signatureFields}
             />
 
             {memoizedBanner}
 
-            {/* Main Content Area with 3 Columns */}
-            <div className="flex-1 flex min-h-0 bg-transparent">
-                {/* PDF Viewer Container - Center */}
+            {/* Main Content Area: full width on mobile, PDF + sidebar on desktop */}
+            <div className="flex-1 flex min-h-0 bg-transparent md:pb-0">
+                {/* PDF Viewer Container - full width on mobile, flex-1 on desktop */}
                 <MainContentArea
                     fileUrl={fileUrl}
                     numPages={numPages}
@@ -307,9 +317,28 @@ export default function DocumentEditor() {
                     onSaveField={handleSaveField}
                 />
 
-                {/* Right Sidebar - Signers */}
-                <SignersSidebarWrapper documentId={documentId} />
+                {/* Right Sidebar - Signers (desktop only; mobile uses Fields drawer) */}
+                <div className="hidden md:block shrink-0 w-[300px]">
+                    <SignersSidebarWrapper documentId={documentId} />
+                </div>
             </div>
+
+            {/* Mobile: Add field sheet (Adobe Sign style) */}
+            {isMobile && (
+                <MobileAddFieldSheet
+                    open={isAddFieldSheetOpen}
+                    onOpenChange={setIsAddFieldSheetOpen}
+                    onSelectType={(type) => setSelectedTool(type)}
+                />
+            )}
+            {/* Mobile: Fields & signers drawer */}
+            {isMobile && (
+                <MobileFieldsDrawer
+                    documentId={documentId}
+                    open={isFieldsDrawerOpen}
+                    onOpenChange={setIsFieldsDrawerOpen}
+                />
+            )}
 
             {/* Mobile Share Dialog */}
             <ShareDialogWrapper
@@ -329,7 +358,7 @@ export default function DocumentEditor() {
                 setCurrentPage={setCurrentPage}
                 scale={scale}
                 setScale={setScale}
-                onAddTextField={() => handleAddSignatureField("text")}
+                onOpenAddFieldSheet={() => setIsAddFieldSheetOpen(true)}
             />
         </div>
     );

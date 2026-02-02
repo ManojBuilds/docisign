@@ -9,17 +9,14 @@ import {
   closestCenter,
   DndContext,
   DragEndEvent,
-  KeyboardSensor,
-  PointerSensor,
-  useDraggable,
+  KeyboardSensor, PointerSensor, useDraggable,
   useSensor,
-  useSensors,
+  useSensors
 } from "@dnd-kit/core";
 import {
   ALargeSmall,
   CalendarDays,
-  TextCursor,
-  X
+  TextCursor
 } from "lucide-react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -66,11 +63,11 @@ const getFieldIcon = (fieldType: string) => {
     case "signature":
       return <SignatureIcon />;
     case "initial":
-      return <TextCursor size={16} strokeWidth={1.5} />;
+      return <TextCursor className="w-full h-full" strokeWidth={1.5} />;
     case "date":
-      return <CalendarDays size={16} strokeWidth={1.5} />;
+      return <CalendarDays className="w-full h-full" strokeWidth={1.5} />;
     case "text":
-      return <ALargeSmall size={16} strokeWidth={1.5} />;
+      return <ALargeSmall className="w-full h-full" strokeWidth={1.5} />;
     default:
       return <SignatureIcon />;
   }
@@ -79,42 +76,40 @@ const getFieldIcon = (fieldType: string) => {
 // Color palette for signers - allows up to 5 different signers to have distinct colors
 const getSignerColor = (fieldType: string, signerEmail: string, rolePlaceholder?: string) => {
   if (rolePlaceholder && !signerEmail) {
-    // Color for unassigned role placeholders (e.g., orange/amber)
-    return "border-amber-500 bg-amber-100/50 text-amber-700";
+    return {
+      border: "border-amber-400",
+      bg: "bg-amber-50/80",
+      text: "text-amber-700",
+      accent: "bg-amber-400",
+      icon: "text-amber-500"
+    };
   }
 
   if (!signerEmail) {
-    // Unassigned fields use the default field type colors
-    const defaultColors = {
-      signature: "border-blue-500 bg-blue-200 text-blue-500",
-      initial: "border-green-500 bg-green-200 text-blue-500",
-      date: "border-yellow-500 bg-yellow-200 text-blue-500",
-      text: "border-purple-500 bg-purple-200 text-blue-500",
+    const defaultThemes = {
+      signature: { border: "border-blue-400", bg: "bg-blue-50/80", text: "text-blue-700", accent: "bg-blue-400", icon: "text-blue-500" },
+      initial: { border: "border-emerald-400", bg: "bg-emerald-50/80", text: "text-emerald-700", accent: "bg-emerald-400", icon: "text-emerald-500" },
+      date: { border: "border-orange-400", bg: "bg-orange-50/80", text: "text-orange-700", accent: "bg-orange-400", icon: "text-orange-500" },
+      text: { border: "border-purple-400", bg: "bg-purple-50/80", text: "text-purple-700", accent: "bg-purple-400", icon: "text-purple-500" },
     };
-    return defaultColors[fieldType as keyof typeof defaultColors] || defaultColors.signature;
+    return defaultThemes[fieldType as keyof typeof defaultThemes] || defaultThemes.signature;
   }
-  // ...
 
-  // Generate consistent color based on email hash
-  const colors = [
-    "border-pink-500 bg-pink-200 text-pink-900",
-    "border-purple-500 bg-purple-200 text-purple-900",
-    "border-indigo-500 bg-indigo-200 text-indigo-900",
-    "border-green-500 bg-green-200 text-green-900",
-    "border-yellow-500 bg-yellow-200 text-yellow-900",
-    "border-red-500 bg-red-200 text-pink-900",
-    "border-blue-500 bg-blue-200 text-blue-900",
-    "border-teal-500 bg-teal-200 text-teal-900",
+  const themes = [
+    { border: "border-rose-400", bg: "bg-rose-50/80", text: "text-rose-700", accent: "bg-rose-400", icon: "text-rose-500" },
+    { border: "border-indigo-400", bg: "bg-indigo-50/80", text: "text-indigo-700", accent: "bg-indigo-400", icon: "text-indigo-500" },
+    { border: "border-teal-400", bg: "bg-teal-50/80", text: "text-teal-700", accent: "bg-teal-400", icon: "text-teal-500" },
+    { border: "border-amber-400", bg: "bg-amber-50/80", text: "text-amber-700", accent: "bg-amber-400", icon: "text-amber-500" },
+    { border: "border-cyan-400", bg: "bg-cyan-50/80", text: "text-cyan-700", accent: "bg-cyan-400", icon: "text-cyan-500" },
+    { border: "border-violet-400", bg: "bg-violet-50/80", text: "text-violet-700", accent: "bg-violet-400", icon: "text-violet-500" },
   ];
 
-  // Calculate a hash from the email to get consistent color for each signer
   let hash = 0;
   for (let i = 0; i < signerEmail.length; i++) {
     hash = signerEmail.charCodeAt(i) + ((hash << 5) - hash);
   }
-
-  const index = Math.abs(hash) % colors.length;
-  return colors[index];
+  const index = Math.abs(hash) % themes.length;
+  return themes[index];
 };
 
 function DraggableSignatureField({
@@ -135,7 +130,6 @@ function DraggableSignatureField({
   const [localField, setLocalField] = useState<SignatureFieldData>(field);
   const isDesktop = useMediaQuery("(min-width: 768px)");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [isEditingLabel, setIsEditingLabel] = useState(false);
 
   const localFieldRef = useRef<SignatureFieldData>(field);
   const isResizingRef = useRef(false);
@@ -148,11 +142,12 @@ function DraggableSignatureField({
 
 
   const { selectedTool } = useDocumentEditorStore();
+  const theme = getSignerColor(localField.fieldType, localField.signerEmail, localField.rolePlaceholder);
 
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
       id: field.id,
-      disabled: !isEditMode || isResizingRef.current || (!isDesktop && isDrawerOpen) || selectedTool !== "selection" || field.isCompleted,
+      disabled: !isEditMode || isResizingRef.current || selectedTool !== "selection" || field.isCompleted,
     });
 
 
@@ -204,7 +199,7 @@ function DraggableSignatureField({
     handleFieldUpdate({
       normalizedWidth: Math.min(newWidth, 1 - localField.normalizedX),
       normalizedHeight: Math.min(newHeight, 1 - localField.normalizedY),
-    });
+    }, false); // don't sync to store yet
   };
 
   const onResizePointerUp = () => {
@@ -214,6 +209,8 @@ function DraggableSignatureField({
     window.removeEventListener("pointermove", onResizePointerMove);
     window.removeEventListener("pointerup", onResizePointerUp);
 
+    // Sync to store only on up to avoid lag
+    onUpdate(localFieldRef.current);
     if (onSave) {
       debouncedSave(localFieldRef.current);
     }
@@ -236,11 +233,35 @@ function DraggableSignatureField({
     [onSave],
   );
 
+  useEffect(() => {
+    if (!isSelected || !isEditMode) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (
+        e.target instanceof HTMLInputElement ||
+        e.target instanceof HTMLTextAreaElement
+      ) {
+        return;
+      }
+
+      if (e.key === "Backspace" || e.key === "Delete") {
+        e.preventDefault();
+        onDelete(field.id);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isSelected, isEditMode, onDelete, field.id]);
+
   const handleFieldUpdate = useCallback(
-    (updates: Partial<SignatureFieldData>) => {
+    (updates: Partial<SignatureFieldData>, syncToStore = true) => {
       const updatedField = { ...localFieldRef.current, ...updates };
       setLocalField(updatedField);
-      onUpdate(updatedField);
+      localFieldRef.current = updatedField;
+      if (syncToStore) {
+        onUpdate(updatedField);
+      }
     },
     [onUpdate],
   );
@@ -290,194 +311,196 @@ function DraggableSignatureField({
       ref={setNodeRef}
       {...attributes}
       className={cn(
-        "absolute select-none",
-        isDesktop && selectedTool === "selection" ? "cursor-grab" : "",
-        isSelected ? "ring ring-blue-300 ring-opacity-50" : "",
-        selectedTool !== "selection" ? "pointer-events-none" : "pointer-events-auto"
+        "absolute select-none transition-shadow",
+        selectedTool === "selection" ? "cursor-grab active:cursor-grabbing" : "",
+        isSelected ? "z-50" : "z-10",
+        selectedTool !== "selection" ? "pointer-events-none" : "pointer-events-auto",
+        !isResizingRef.current && isSelected && "touch-none"
       )}
       style={{
         left: pixelX * pdfViewerScale,
         top: pixelY * pdfViewerScale,
-        width: (isDesktop ? pixelWidth : 40) * pdfViewerScale,
-        height: (isDesktop ? pixelHeight : 40) * pdfViewerScale,
+        width: pixelWidth * pdfViewerScale,
+        height: pixelHeight * pdfViewerScale,
         ...style,
       }}
     >
-      {isEditMode && !localField.isCompleted && (
-        <div
-          onPointerDown={onResizePointerDown}
-          className={`absolute bottom-[-3px] right-[-3px] w-3 h-3 bg-white border-2 border-gray-400 cursor-se-resize rounded-none z-20 ${pixelWidth < 30 || pixelHeight < 30 ? 'w-2 h-2' : 'w-3 h-3'}`}
-          style={{ pointerEvents: 'auto' }}
-        />
+      {isEditMode && isSelected && !localField.isCompleted && (
+        <>
+          {/* Adobe Sign Blue Frame */}
+          <div className="absolute inset-[-3px] border-2 border-primary ring-4 ring-primary/10 rounded-sm pointer-events-none shadow-2xl animate-in fade-in zoom-in-95 duration-200" />
+
+          {/* Resize Handles - Elegant and focused */}
+          <div
+            onPointerDown={onResizePointerDown}
+            className="absolute -bottom-3 -right-3 w-6 h-6 bg-white border-2 border-primary rounded-full shadow-xl cursor-se-resize z-[100] flex items-center justify-center pointer-events-auto touch-none active:scale-125 transition-transform"
+          >
+            <div className="w-2 h-2 bg-primary rounded-full shadow-sm" />
+          </div>
+
+          {/* Deletion Tip - Purely Informational (Desktop Only) */}
+          {isDesktop && (
+            <div
+              className="absolute -bottom-14 left-1/2 -translate-x-1/2 flex items-center gap-3 bg-gray-950/95 text-white px-5 py-2.5 rounded-2xl backdrop-blur-xl animate-in fade-in slide-in-from-top-2 duration-300 shadow-[0_20px_50px_rgba(0,0,0,0.3)] border border-white/10 z-[120] transition-all cursor-default pointer-events-none whitespace-nowrap"
+            >
+              <div className="flex items-center gap-2 text-xs">
+                <span className="font-medium text-gray-400">Use</span>
+                <kbd className="bg-white/10 px-2 py-0.5 rounded-md border border-white/10 font-sans text-[10px] font-bold text-white shadow-sm ring-1 ring-white/5 uppercase tracking-tighter">Backspace</kbd>
+                <span className="font-medium text-gray-400">to remove</span>
+              </div>
+            </div>
+          )}
+        </>
       )}
       <div
         className={cn(
-          "w-full h-full border flex items-center justify-center relative group hover:bg-opacity-30 transition-all backdrop-blur-[1px] rounded-none",
-          getSignerColor(localField.fieldType, localField.signerEmail, localField.rolePlaceholder)
+          "w-full h-full border flex flex-col relative group transition-all backdrop-blur-[1px] rounded-none overflow-hidden",
+          theme.border,
+          theme.bg
         )}
-        style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.3)',
-        }}
       >
-        {isDesktop ? (
-          <div
-            className="flex flex-col w-full h-full"
-            {...listeners}
-            onClick={(e) => {
-              e.stopPropagation();
+        {/* Adobe Sign Styled Accent Bar */}
+        <div className={cn("absolute left-0 top-0 bottom-0 w-1 transition-colors", isSelected ? "bg-primary" : theme.accent)} />
+
+        {/* Field Type Badge (Adobe style) */}
+        <div className={cn("absolute top-0 left-1 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wider transition-colors", isSelected ? "text-primary" : theme.text)}>
+          {localField.fieldType}
+        </div>
+
+        <div
+          className="flex flex-col w-full h-full relative"
+          {...listeners}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (isSelected) {
+              if (!isDesktop) setIsDrawerOpen(true);
+            } else {
               onSelect(field.id);
-            }}
-          >
-            {/* Top controls bar */}
-            {isSelected && !localField.isCompleted && (
-              <div
-                className="field-control-bar absolute w-fit -top-8 left-0 flex items-center space-x-1.5 z-30 pointer-events-auto bg-gray-900 text-white rounded-lg p-1.5 shadow-xl animate-in fade-in zoom-in-95 duration-200 cursor-default"
-                onMouseDown={(e) => e.stopPropagation()}
-                onClick={(e) => e.stopPropagation()}
-              >
-                {/* Field type selector */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-6 w-6 p-1 m-0 hover:bg-white/10 text-white rounded-md"
-                      onMouseDown={(e) => {
-                        e.stopPropagation();
-                      }}
-                    >
-                      {getFieldIcon(localField.fieldType)}
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent onMouseDown={(e) => e.stopPropagation()} align="start" className="w-32">
-                    <DropdownMenuItem
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleFieldUpdate({ fieldType: "signature" });
-                      }}
-                      className="flex items-center gap-2 text-xs py-2"
-                    >
-                      <SignatureIcon className="w-3.5 h-3.5" />
-                      Signature
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleFieldUpdate({ fieldType: "initial" });
-                      }}
-                      className="flex items-center gap-2 text-xs py-2"
-                    >
-                      <TextCursor size={14} />
-                      Initial
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleFieldUpdate({ fieldType: "date" });
-                      }}
-                      className="flex items-center gap-2 text-xs py-2"
-                    >
-                      <CalendarDays size={14} />
-                      Date
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleFieldUpdate({ fieldType: "text" });
-                      }}
-                      className="flex items-center gap-2 text-xs py-2"
-                    >
-                      <ALargeSmall size={14} />
-                      Text
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-
-                <div className="w-[1px] h-3 bg-white/20 mx-0.5" />
-
-                {/* Editable label */}
-                <input
-                  type="text"
-                  value={localField.label || ""}
-                  onChange={(e) => {
-                    handleFieldUpdate({ label: e.target.value });
-                  }}
-                  onKeyDown={(e) => {
-                    e.stopPropagation();
-                  }}
-                  onKeyUp={(e) => {
-                    e.stopPropagation();
-                  }}
-                  className="h-5 px-1.5 text-[10px] font-semibold border-none focus:outline-none focus:ring-0 bg-white/10 rounded border border-white/5 hover:bg-white/15 transition-colors placeholder:text-white/30 text-white w-[80px]"
-                  onMouseDown={(e) => {
-                    e.stopPropagation();
-                    setIsEditingLabel(true);
-                  }}
-                  onBlur={() => setIsEditingLabel(false)}
-                  placeholder="Field label"
-                />
-
-                <div className="w-[1px] h-3 bg-white/20 mx-0.5" />
-
-                {/* Delete button - only show when not editing label */}
-                {!isEditingLabel && (
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="h-6 w-6 p-1 text-xs m-0 hover:bg-red-500/20 text-red-400 hover:text-red-300 rounded-md"
-                    onMouseDown={(e) => {
-                      e.stopPropagation();
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      onDelete(field.id);
-                    }}
-                  >
-                    <X size={14} />
-                  </Button>
-                )}
-              </div>
-            )}
-
-            {/* Main field content - icon and label */}
-            <div className="flex items-center justify-center w-full h-full relative">
-              {getFieldIcon(localField.fieldType)}
-              {localField.isCompleted && (
-                <div className="absolute inset-0 bg-green-500/10 flex items-center justify-center">
-                  <div className="bg-green-500 text-white rounded-full p-0.5 shadow-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                    </svg>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        ) : (
-          <>
+            }
+          }}
+        >
+          {/* Main content - centered icon and label */}
+          <div className="flex-1 flex items-center justify-center min-h-0 min-w-0 p-1">
             <div
-              className="w-full h-full flex items-center justify-center cursor-pointer"
-              onClick={(e) => {
-                e.stopPropagation();
-                onSelect(field.id);
-                setIsDrawerOpen(true);
+              className={cn("shrink-0 transition-colors", isSelected ? "text-primary" : theme.icon)}
+              style={{
+                width: `${Math.max(12, pixelHeight * pdfViewerScale * 0.45)}px`,
+                height: `${Math.max(12, pixelHeight * pdfViewerScale * 0.45)}px`
               }}
             >
               {getFieldIcon(localField.fieldType)}
             </div>
-            <MobileFieldDrawer
-              field={localField}
-              isOpen={isDrawerOpen}
-              onOpenChange={setIsDrawerOpen}
-              onFieldUpdate={handleFieldUpdate}
-              onSave={() => debouncedSave(localField)}
-              onDelete={onDelete}
-              onSelect={onSelect}
-              isSaving={isSaving}
-              // TODO: DO IT LATER
-              signers={[]}
-            />
-          </>
+          </div>
+
+          {/* Bottom Status / Signer Info */}
+          <div
+            className="px-2 bg-black/5 flex items-center justify-between overflow-hidden shrink-0"
+            style={{ height: `${Math.max(8, pixelHeight * pdfViewerScale * 0.18)}px` }}
+          >
+            <span
+              className="font-medium text-gray-400 uppercase tracking-tighter truncate max-w-[85%] select-none"
+              style={{ fontSize: `${Math.max(6, pixelHeight * pdfViewerScale * 0.12)}px` }}
+            >
+              {localField.signerName || localField.signerEmail || localField.rolePlaceholder || "Unassigned"}
+            </span>
+            {localField.isRequired && (
+              <span className="text-red-500 font-bold" style={{ fontSize: `${Math.max(8, pixelHeight * pdfViewerScale * 0.15)}px` }}>*</span>
+            )}
+          </div>
+
+          {/* Desktop Control Bar */}
+          {isDesktop && isSelected && !localField.isCompleted && (
+            <div
+              className="field-control-bar absolute w-fit -top-9 left-0 flex items-center space-x-1.5 z-30 pointer-events-auto bg-gray-900 text-white rounded-lg p-1.5 shadow-xl animate-in fade-in zoom-in-95 duration-200 cursor-default"
+              onMouseDown={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Field type selector */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    size="icon"
+                    variant="ghost"
+                    className="h-6 w-6 p-1 m-0 hover:bg-white/10 text-white rounded-md"
+                    onMouseDown={(e) => e.stopPropagation()}
+                  >
+                    {getFieldIcon(localField.fieldType)}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent onMouseDown={(e) => e.stopPropagation()} align="start" className="w-32">
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFieldUpdate({ fieldType: "signature" });
+                    }}
+                    className="flex items-center gap-2 text-xs py-2"
+                  >
+                    <SignatureIcon className="w-3.5 h-3.5" />
+                    Signature
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFieldUpdate({ fieldType: "initial" });
+                    }}
+                    className="flex items-center gap-2 text-xs py-2"
+                  >
+                    <TextCursor size={14} />
+                    Initial
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFieldUpdate({ fieldType: "date" });
+                    }}
+                    className="flex items-center gap-2 text-xs py-2"
+                  >
+                    <CalendarDays size={14} />
+                    Date
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFieldUpdate({ fieldType: "text" });
+                    }}
+                    className="flex items-center gap-2 text-xs py-2"
+                  >
+                    <ALargeSmall size={14} />
+                    Text
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              <div className="w-[1px] h-3 bg-white/20 mx-0.5" />
+
+              {/* Editable label */}
+              <input
+                type="text"
+                value={localField.label || ""}
+                onChange={(e) => handleFieldUpdate({ label: e.target.value })}
+                onKeyDown={(e) => e.stopPropagation()}
+                onKeyUp={(e) => e.stopPropagation()}
+                className="h-5 px-1.5 text-[10px] font-semibold border-none focus:outline-none focus:ring-0 bg-white/10 rounded border border-white/5 hover:bg-white/15 transition-colors placeholder:text-white/30 text-white w-[80px]"
+                placeholder="Field label"
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Mobile Settings Drawer */}
+        {!isDesktop && (
+          <MobileFieldDrawer
+            field={localField}
+            isOpen={isDrawerOpen}
+            onOpenChange={setIsDrawerOpen}
+            onFieldUpdate={handleFieldUpdate}
+            onSave={() => debouncedSave(localField)}
+            onDelete={onDelete}
+            onSelect={onSelect}
+            isSaving={isSaving}
+            // TODO: Pass actual signers here if needed
+            signers={[]}
+          />
         )}
       </div>
     </div>
@@ -491,9 +514,8 @@ function SignatureField(props: SignatureFieldProps) {
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
-      // For mouse users
       activationConstraint: {
-        distance: 8,
+        distance: 5, // Lower distance for more immediate drag feel
       },
     }),
     useSensor(KeyboardSensor),

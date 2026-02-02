@@ -56,13 +56,16 @@ export const MainContentArea = memo(
           ) : (
             <PdfDocumentProvider fileUrl={fileUrl}>
               <div className="flex-1 h-full w-full flex">
-                <ThumbnailSidebar
-                  fileUrl={fileUrl}
-                  numPages={numPages}
-                  currentPage={currentPage}
-                  onPageClick={onPageClick}
-                />
-                <div className="flex-1 relative h-full">
+                {/* Thumbnails: desktop only; mobile uses bottom bar page nav */}
+                <div className="hidden md:flex shrink-0">
+                  <ThumbnailSidebar
+                    fileUrl={fileUrl}
+                    numPages={numPages}
+                    currentPage={currentPage}
+                    onPageClick={onPageClick}
+                  />
+                </div>
+                <div className="flex-1 relative h-full min-w-0">
                   <ModeIndicator />
                   <PdfViewerContainer
                     fileUrl={fileUrl}
@@ -77,7 +80,10 @@ export const MainContentArea = memo(
                     onSelectField={onSelectField}
                     onSaveField={onSaveField}
                   />
-                  <ZoomControls scale={scale} setScale={onScaleChange} />
+                  {/* Zoom: desktop only; mobile uses bottom bar zoom */}
+                  <div className="hidden md:block">
+                    <ZoomControls scale={scale} setScale={onScaleChange} />
+                  </div>
                 </div>
               </div>
             </PdfDocumentProvider>

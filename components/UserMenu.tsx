@@ -30,7 +30,11 @@ import { useState } from "react";
 import { BrandingSettings } from "./branding/BrandingSettings";
 import { cn } from "@/lib/utils";
 
-export function UserMenu() {
+export interface UserMenuProps {
+  className?: string;
+}
+
+export function UserMenu({ className }: UserMenuProps) {
   const { user } = useUser();
   const { signOut } = useClerk();
   const { isPaidUser } = useTrialStatus();
@@ -46,7 +50,7 @@ export function UserMenu() {
     <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" className="relative h-9 w-9 rounded-full ring-offset-background transition-all hover:ring-2 hover:ring-primary/20 p-0 overflow-hidden">
+          <Button variant="ghost" className={cn("relative h-9 w-9 rounded-full ring-offset-background transition-all hover:ring-2 hover:ring-primary/20 p-0 overflow-hidden", className)}>
             <Avatar className="h-9 w-9 border border-muted-foreground/10">
               <AvatarImage src={user.imageUrl} alt={user.fullName || "User"} />
               <AvatarFallback className="bg-primary/5 text-primary text-xs font-semibold">

@@ -94,7 +94,13 @@ export const updateSignatureField = mutation({
   },
   handler: async (ctx, args) => {
     const { fieldId, ...rest } = args;
-    await ctx.db.patch(fieldId, rest);
+    // Only patch defined values to avoid clearing fields with undefined
+    const updates = Object.fromEntries(
+      Object.entries(rest).filter(([, v]) => v !== undefined)
+    ) as Partial<typeof rest>;
+    if (Object.keys(updates).length > 0) {
+      await ctx.db.patch(fieldId, updates);
+    }
   },
 });
 
@@ -166,11 +172,11 @@ export const completeSignatureField = mutation({
 
     const remainingIncomplete = signerFields.filter(f => f.isRequired && !f.isCompleted && f._id !== args.fieldId);
 
-    // If no remaining required fields, trigger finalization logic
-    if (remainingIncomplete.length === 0) {
+    // If no remaining required fields and we have a signer email, trigger finalization logic
+    if (remainingIncomplete.length === 0 && signerEmail) {
       await ctx.runMutation(api.signers.finalizeDocument, {
         documentId: field.documentId,
-        signerEmail: signerEmail!,
+        signerEmail,
       });
     }
   },
@@ -229,10 +235,10 @@ export const batchCompleteSignatureFields = mutation({
 
     const remainingIncomplete = signerFields.filter(f => f.isRequired && !f.isCompleted);
 
-    if (remainingIncomplete.length === 0) {
+    if (remainingIncomplete.length === 0 && signerEmail) {
       await ctx.runMutation(api.signers.finalizeDocument, {
         documentId,
-        signerEmail: signerEmail!,
+        signerEmail,
       });
     }
   },
@@ -328,8 +334,6 @@ export const saveSignatureFields = mutation({
         status: "draft",
         updatedAt: Date.now(),
       });
-
-    } else {
     }
 
     return { success: true };

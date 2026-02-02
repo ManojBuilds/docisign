@@ -24,7 +24,8 @@ export function ShareDialog({
   hasUnassignedFields,
   signatureFields: propSignatureFields,
   signers: propSigners,
-}: ShareDialogProps & { skipSignerSync?: boolean }) {
+  children,
+}: ShareDialogProps & { skipSignerSync?: boolean; children?: React.ReactNode }) {
   // Fetch document details
   const document = useQuery(api.documents.getDocument, { documentId });
   const dbSignatureFields = useQuery(api.signatureFields.getDocumentSignatureFields, { documentId });
@@ -133,10 +134,12 @@ export function ShareDialog({
         )}
         <Dialog open={isActualOpen} onOpenChange={handleOpenChange}>
           <DialogTrigger asChild>
-            <Button className="w-full sm:w-auto font-semibold shadow-sm cursor-pointer">
-              <Send className="w-4 h-4 mr-2" />
-              Request Signature
-            </Button>
+            {children || (
+              <Button className="w-full sm:w-auto font-semibold shadow-sm cursor-pointer">
+                <Send className="w-4 h-4 mr-2" />
+                Request Signature
+              </Button>
+            )}
           </DialogTrigger>
           <DialogContent className="sm:max-w-xl p-0 gap-0 overflow-hidden bg-white border-0 shadow-2xl rounded-2xl ring-1 ring-zinc-900/5">
             {showConfetti ? (
@@ -196,10 +199,12 @@ export function ShareDialog({
       )}
       <Drawer open={isActualOpen} onOpenChange={handleOpenChange}>
         <DrawerTrigger asChild>
-          <Button className="w-full sm:w-auto font-semibold shadow-sm">
-            <Send className="w-4 h-4 mr-2" />
-            Request Signature
-          </Button>
+          {children || (
+            <Button className="w-full sm:w-auto font-semibold shadow-sm">
+              <Send className="w-4 h-4 mr-2" />
+              Send for signature
+            </Button>
+          )}
         </DrawerTrigger>
         <DrawerContent className="max-h-[90vh]">
           {showConfetti ? (

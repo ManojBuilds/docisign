@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { ChevronLeftIcon, ChevronRightIcon, Plus, ZoomInIcon, ZoomOutIcon } from "lucide-react";
+import { Plus, ZoomInIcon, ZoomOutIcon } from "lucide-react";
 import { memo } from "react";
 
 interface MobileBottomBarProps {
@@ -10,72 +10,55 @@ interface MobileBottomBarProps {
   setCurrentPage: (page: number) => void;
   scale: number;
   setScale: (scale: number | ((s: number) => number)) => void;
-  onAddTextField: () => void;
+  onOpenAddFieldSheet: () => void;
 }
 
+/**
+ * Adobe Sign–style bottom bar: zoom + Add FAB. Minimal and rounded.
+ * Apple Liquid Glass effect applied.
+ */
 export const MobileBottomBar = memo(({
-  currentPage,
-  numPages,
-  setCurrentPage,
   scale,
   setScale,
-  onAddTextField
+  onOpenAddFieldSheet,
 }: MobileBottomBarProps) => {
   return (
-    <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t shadow-lg">
-      <div className="flex items-center justify-between p-3">
-        {/* Page Navigation */}
-        <div className="flex items-center space-x-3">
-          <Button
-            variant="secondary"
-            size="icon"
-            onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
-            disabled={currentPage <= 1}
-          >
-            <ChevronLeftIcon />
-          </Button>
-          <div className="text-xs font-medium min-w-[2rem] text-center">
-            {currentPage}/{numPages}
-          </div>
-          <Button
-            variant="secondary"
-            size="icon"
-            onClick={() => setCurrentPage(Math.min(numPages, currentPage + 1))}
-            disabled={currentPage >= numPages}
-            className="px-3"
-          >
-            <ChevronRightIcon />
-          </Button>
-        </div>
+    <div className="md:hidden fixed bottom-6 left-0 right-0 z-40 flex justify-center px-4 pointer-events-none">
+      <div className="pointer-events-auto flex items-center p-2 bg-white/60 backdrop-blur-2xl backdrop-saturate-150 border border-white/50 shadow-[0_20px_40px_rgba(0,0,0,0.12)] rounded-full gap-3 transition-all duration-300">
 
         {/* Zoom Controls */}
-        <div className="flex items-center">
+        <div className="flex items-center gap-1 pl-1">
           <Button
-            variant="secondary"
+            variant="ghost"
             size="icon"
-            onClick={() => setScale(Math.max(0.25, (scale as number) - 0.25))}
+            className="h-9 w-9 rounded-full text-gray-500 hover:text-gray-900 hover:bg-black/5 transition-all active:scale-95"
+            onClick={() => setScale((s) => Math.max(0.25, s - 0.25))}
           >
-            <ZoomOutIcon />
+            <ZoomOutIcon className="h-4 w-4" />
           </Button>
-          <div className="text-xs font-medium min-w-[3rem] text-center">
+
+          <span className="text-xs font-bold text-gray-900 w-10 text-center tabular-nums leading-none select-none">
             {Math.round(scale * 100)}%
-          </div>
+          </span>
+
           <Button
-            variant="secondary"
+            variant="ghost"
             size="icon"
-            onClick={() => setScale(Math.min(5, (scale as number) + 0.25))}
+            className="h-9 w-9 rounded-full text-gray-500 hover:text-gray-900 hover:bg-black/5 transition-all active:scale-95"
+            onClick={() => setScale((s) => Math.min(2, s + 0.25))}
           >
-            <ZoomInIcon />
+            <ZoomInIcon className="h-4 w-4" />
           </Button>
         </div>
 
-        {/* Add Fields Button */}
+        <div className="h-5 w-[1px] bg-gray-400/30" />
+
+        {/* Add Field Button */}
         <Button
-          onClick={onAddTextField}
-          className="px-3 fixed bottom-16 right-4 w-12 h-12 rounded-full aspect-square"
-          size="lg"
+          onClick={onOpenAddFieldSheet}
+          className="h-11 w-11 rounded-full shadow-lg shadow-black/10 bg-[#007AFF] text-white hover:bg-[#0071EB] active:scale-90 transition-all duration-200 flex items-center justify-center p-0"
         >
-          <Plus className="w-8 h-8" />
+          <Plus className="h-6 w-6" />
         </Button>
       </div>
     </div>

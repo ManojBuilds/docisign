@@ -64,12 +64,19 @@ http.route({
       const clerkId = data.metadata?.clerkId;
       const interval = data.metadata?.interval as "monthly" | "annually" | undefined;
       const subscriptionId = data.subscription_id;
-      const customerId = data.customer.customer_id;
-      const email = data.customer.email;
-      console.log(data, type)
+      const customerId = data.customer?.customer_id;
+      const email = data.customer?.email;
+      console.log(data, type);
       if (!clerkId) {
         console.error("⚠️ No clerkId in webhook metadata");
         return new Response(JSON.stringify({ error: "Missing clerkId" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      if (!subscriptionId) {
+        console.error("⚠️ No subscription_id in webhook data");
+        return new Response(JSON.stringify({ error: "Missing subscription_id" }), {
           status: 400,
           headers: { "Content-Type": "application/json" },
         });

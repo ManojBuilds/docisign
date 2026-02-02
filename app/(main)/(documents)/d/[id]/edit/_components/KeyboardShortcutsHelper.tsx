@@ -90,22 +90,22 @@ export const KeyboardShortcutsHelper = memo(() => {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="space-y-6 py-4">
+          <div className="space-y-6 py-2">
             {shortcuts.map((section) => (
               <div key={section.category}>
-                <h3 className="text-sm font-semibold mb-3 text-gray-900">
+                <h3 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-gray-400 mb-3 ml-1">
                   {section.category}
                 </h3>
                 <div className="space-y-2">
                   {section.items.map((shortcut) => (
                     <div
                       key={shortcut.key}
-                      className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 transition-colors"
+                      className="flex items-center justify-between py-2 px-3 rounded-xl bg-gray-50/50 border border-transparent hover:border-gray-200 hover:bg-gray-100/50 transition-all select-none"
                     >
-                      <span className="text-sm text-gray-600">
+                      <span className="text-xs font-medium text-gray-700">
                         {shortcut.description}
                       </span>
-                      <Kbd>{shortcut.key}</Kbd>
+                      <Kbd className="bg-white shadow-[0_2px_0_rgba(0,0,0,0.05)] border-gray-200 text-gray-900 min-w-[24px] justify-center">{shortcut.key}</Kbd>
                     </div>
                   ))}
                 </div>

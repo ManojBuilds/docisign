@@ -12,7 +12,7 @@ export const generateOTP = mutation({
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
     // OTP expires in 5 minutes
-    const expiresAt = Date.now() + 24 * 60 * 60 * 1000;
+    const expiresAt = Date.now() + 5 * 60 * 1000;
 
     // Remove any existing unverified OTPs for this email and purpose
     const existingOtps = await ctx.db
@@ -126,11 +126,10 @@ export const cleanExpiredOtps = mutation({
   handler: async (ctx) => {
     const now = Date.now();
 
-    // Find all expired OTPs
+    // Find all expired OTPs using index to avoid full table scan
     const expiredOtps = await ctx.db
       .query("otps")
-      .withIndex("by_created_at")
-      .filter((q) => q.lt(q.field("expiresAt"), now))
+      .withIndex("by_expires_at", (q) => q.lt("expiresAt", now))
       .collect();
 
     // Delete expired OTPs

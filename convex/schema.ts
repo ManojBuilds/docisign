@@ -150,6 +150,7 @@ export default defineSchema({
     .index("by_email", ["email"])
     .index("by_email_and_purpose", ["email", "purpose"])
     .index("by_created_at", ["createdAt"])
+    .index("by_expires_at", ["expiresAt"])
     .index("by_email_purpose_and_verified", ["email", "purpose", "verified"]),
 
   leads: defineTable({

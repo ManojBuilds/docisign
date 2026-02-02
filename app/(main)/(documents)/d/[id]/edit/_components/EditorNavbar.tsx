@@ -1,19 +1,18 @@
 "use client";
 
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { SignatureFieldData } from "@/components/signature-field";
 import { UserMenu } from "@/components/UserMenu";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import { cn } from "@/lib/utils";
 import { useMutation, useQuery } from "convex/react";
 import { ArrowLeft, LayoutTemplate, Loader2, Pencil, Save } from "lucide-react";
 import Link from "next/link";
 import { Suspense, lazy, memo, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SaveAsTemplateDialog } from "@/components/templates/SaveAsTemplateDialog";
+import { cn } from "@/lib/utils";
 
 const ShareDialog = lazy(() => import("@/components/ShareDialog").then(m => ({ default: m.ShareDialog })));
 
@@ -77,13 +76,19 @@ export const EditorNavbar = memo(({
     };
 
     return (
-        <div className="hidden md:flex justify-between items-center px-4 py-2.5 border-b bg-white">
-            <div className="flex items-center space-x-4">
-                <Link href={document?.isTemplate ? '/templates' : '/dashboard'} className={cn(buttonVariants({ variant: "secondary" }), "gap-2")}>
-                    <ArrowLeft className="w-4 h-4" />
-                    Back
+        <div className="hidden md:flex h-16 items-center justify-between px-6 border-b bg-white/70 backdrop-blur-xl sticky top-0 z-50 transition-all duration-300">
+            <div className="flex items-center gap-6">
+                <Link
+                    href={document?.isTemplate ? '/templates' : '/dashboard'}
+                    className="flex h-10 w-10 items-center justify-center rounded-xl hover:bg-white hover:shadow-md transition-all text-gray-400 hover:text-gray-900 border border-gray-100/50"
+                    title="Back to dashboard"
+                >
+                    <ArrowLeft className="w-5 h-5" />
                 </Link>
-                <div className="flex items-center w-32 md:w-64 group">
+
+                <div className="h-4 w-[1px] bg-gray-200" />
+
+                <div className="flex flex-col max-w-xs lg:max-w-md">
                     {isEditingTitle ? (
                         <input
                             type="text"
@@ -97,57 +102,65 @@ export const EditorNavbar = memo(({
                                     setIsEditingTitle(false);
                                 }
                             }}
-                            className="font-semibold text-sm w-full bg-transparent focus:outline-none border-b-2 border-primary px-2 py-1 leading-tight"
+                            className="font-bold text-sm bg-transparent border-b-2 border-primary outline-none px-0 py-0.5 leading-tight animate-in fade-in zoom-in-95 duration-200"
                             autoFocus
                         />
                     ) : (
-                        <TooltipProvider>
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <div
-                                        className="flex items-center gap-2 w-full cursor-pointer hover:bg-gray-100 rounded px-2 py-1 border-b-2 border-transparent leading-tight transition-colors group/title"
-                                        onClick={() => setIsEditingTitle(true)}
-                                    >
-                                        <span className="font-semibold text-sm truncate flex-1 block">
-                                            {document?.title || "Loading..."}
-                                        </span>
-                                        <Pencil className="w-3.5 h-3.5 text-gray-400 opacity-0 group-hover/title:opacity-100 transition-opacity" />
-                                    </div>
-                                </TooltipTrigger>
-                                <TooltipContent side="bottom" align="start" sideOffset={8} className="bg-gray-900 text-white font-medium px-3 py-1.5 text-[11px] border-none shadow-2xl rounded-lg">
-                                    Click to edit title
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
+                        <div
+                            className="flex items-center gap-2 cursor-pointer group/title select-none max-w-full"
+                            onClick={() => setIsEditingTitle(true)}
+                        >
+                            <h1 className="font-bold text-gray-900 text-sm py-0.5 border-b-2 border-transparent group-hover/title:border-gray-300 transition-all truncate">
+                                {document?.title || "Untitled Document"}
+                            </h1>
+                            <Pencil className="w-3.5 h-3.5 text-gray-400 opacity-0 group-hover/title:opacity-100 transition-all transform scale-90 group-hover/title:scale-100" />
+                        </div>
                     )}
+                    <div className="flex items-center gap-2 mt-0.5">
+                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-gray-400/80 px-0.5">
+                            {document?.isTemplate ? "Template" : "Document"}
+                        </span>
+                        <div className="h-1 w-1 rounded-full bg-gray-300/50" />
+                        <span className={cn(
+                            "text-[10px] font-extrabold uppercase tracking-wider transition-colors",
+                            hasUnsavedChanges ? "text-amber-500" : "text-emerald-500"
+                        )}>
+                            {hasUnsavedChanges ? "Unsaved Changes" : "Synced"}
+                        </span>
+                    </div>
                 </div>
             </div>
 
-            <div className="flex items-center gap-3">
-                {document?.isTemplate ? (
-                    <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-900 text-xs font-bold rounded-lg border border-amber-200 shadow-sm">
-                        <LayoutTemplate className="w-3.5 h-3.5" />
-                        TEMPLATE EDITOR
-                    </div>
-                ) : document?.templateId ? ( // Hide Save as Template button if document was created from a template
-                    null
-                ) : (
-                    <SaveAsTemplateDialog documentId={documentId} signatureFields={signatureFields} onSave={onSave} />
-                )}
+            <div className="flex items-center gap-4">
+                <div className="flex items-center gap-2 pr-2 border-r border-gray-100 mr-2">
+                    {document?.isTemplate ? (
+                        <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-50/50 text-amber-700 text-[10px] font-bold rounded-lg border border-amber-100/50 uppercase tracking-widest">
+                            <LayoutTemplate className="w-3.5 h-3.5" />
+                            Template
+                        </div>
+                    ) : document?.templateId ? null : (
+                        <SaveAsTemplateDialog documentId={documentId} signatureFields={signatureFields} onSave={onSave} />
+                    )}
 
-                <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={onSave}
-                    disabled={isSaving || !hasUnsavedChanges}
-                    className="gap-2 shadow-sm h-10 px-4"
-                >
-                    {isSaving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-                    {isSaving ? "Saving..." : "Save Changes"}
-                </Button>
+                    <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={onSave}
+                        disabled={isSaving || !hasUnsavedChanges}
+                        className={cn(
+                            "h-10 px-4 font-bold text-xs uppercase tracking-widest transition-all rounded-xl",
+                            hasUnsavedChanges
+                                ? "bg-amber-50 text-amber-600 hover:bg-amber-100 hover:text-amber-700"
+                                : "text-gray-400 hover:bg-gray-50"
+                        )}
+                    >
+                        {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin mr-2" /> : <Save className="w-3.5 h-3.5 mr-2" />}
+                        {isSaving ? "Saving..." : "Save Draft"}
+                    </Button>
+                </div>
 
                 {!document?.isTemplate && (
-                    <Suspense fallback={<Skeleton className="h-10 w-32 rounded-lg" />}>
+                    <Suspense fallback={<Skeleton className="h-10 w-32 rounded-xl" />}>
                         <ShareDialog
                             documentId={documentId}
                             onSend={onSendForSigning}
@@ -159,10 +172,8 @@ export const EditorNavbar = memo(({
                         />
                     </Suspense>
                 )}
-                <div className="w-1 h-6 border-l border-gray-200 mx-1" />
-                <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center border shadow-sm">
-                    <UserMenu />
-                </div>
+
+                <UserMenu className="hidden md:flex" />
             </div>
         </div>
     );

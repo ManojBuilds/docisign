@@ -350,9 +350,9 @@ export default function PDFViewer({
       <ScrollArea className={cn("flex-1 bg-transparent p-4 md:p-8", containerClassName)}>
         <div
           ref={containerRef}
-          className="flex-1 bg-transparent scroll-smooth"
+          className="bg-transparent scroll-smooth min-w-max md:min-w-0"
         >
-          <div className="flex flex-col items-center min-h-full space-y-8">
+          <div className="flex flex-col items-center min-h-full space-y-8 min-w-fit">
             <Document
               file={fileUrl}
               onLoadSuccess={onDocumentLoadSuccess}
@@ -380,7 +380,7 @@ export default function PDFViewer({
                     key={`page_container_${pNum}`}
                     ref={(el) => { pageRefs.current[pNum] = el; }}
                     data-page-number={pNum}
-                    className="relative shadow-xl border border-gray-200/50 bg-white"
+                    className="relative shadow-[0_0_50px_rgba(0,0,0,0.1),0_0_1px_rgba(0,0,0,0.2)] border border-white/50 bg-white"
                     style={{
                       width: (pageDimensions[pNum]?.width || pageDimensions[1]?.width || 595) * scale,
                       height: (pageDimensions[pNum]?.height || pageDimensions[1]?.height || 842) * scale,

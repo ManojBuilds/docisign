@@ -13,11 +13,12 @@ export const CompletedDocumentBanner = memo(
     if (!isCompleted) return null;
 
     return (
-      <div className="bg-amber-50 border-b border-amber-200 px-4 py-1 flex items-center justify-center gap-2 text-amber-800 text-xs animate-in slide-in-from-top duration-300">
-        <AlertCircle className="w-4 h-4 text-amber-500" />
-        <span>
-          This document is already completed. Adding new fields will re-open it
-          for signature.
+      <div className="bg-amber-50/80 backdrop-blur-sm border-b border-amber-200/50 px-4 py-2 flex items-center justify-center gap-3 text-amber-900 animate-in slide-in-from-top duration-500 shadow-sm relative z-40">
+        <div className="p-1 rounded-full bg-amber-100/50 text-amber-600 ring-1 ring-amber-200/50">
+          <AlertCircle className="w-3.5 h-3.5" />
+        </div>
+        <span className="text-[11px] font-bold tracking-wide">
+          This document is completed. <span className="opacity-60 font-normal">Adding fields will reopen it.</span>
         </span>
       </div>
     );

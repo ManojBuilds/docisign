@@ -14,14 +14,18 @@ export const createDocument = mutation({
     documentHash: v.optional(v.string()), // For document integrity verification
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+    // Ensure document is owned by the authenticated user
+    if (args.ownerId !== identity.subject) throw new Error("ownerId must match authenticated user");
+
     const documentId = await ctx.db.insert("documents", {
       ...args,
       status: "draft",
       createdAt: Date.now(),
       updatedAt: Date.now(),
-      documentHash: args.documentHash
+      documentHash: args.documentHash,
     });
-
 
     return documentId;
   },
@@ -91,7 +95,13 @@ export const updateDocumentStatus = mutation({
     ),
   },
   handler: async (ctx, args) => {
-    const updateData: any = {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+    const document = await ctx.db.get(args.documentId);
+    if (!document) throw new Error("Document not found");
+    if (document.ownerId !== identity.subject) throw new Error("Not the document owner");
+
+    const updateData: Record<string, unknown> = {
       status: args.status,
       updatedAt: Date.now(),
     };
@@ -101,7 +111,6 @@ export const updateDocumentStatus = mutation({
     }
 
     await ctx.db.patch(args.documentId, updateData);
-
   },
 });
 
@@ -109,10 +118,11 @@ export const updateDocumentStatus = mutation({
 export const deleteDocument = mutation({
   args: { documentId: v.id("documents") },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
     const document = await ctx.db.get(args.documentId);
-    if (!document) {
-      throw new Error("Document not found");
-    }
+    if (!document) throw new Error("Document not found");
+    if (document.ownerId !== identity.subject) throw new Error("Not the document owner");
 
     console.log(`[deleteDocument] Starting deletion for ${args.documentId}`);
 
@@ -188,6 +198,12 @@ export const updateDocumentTitle = mutation({
     title: v.string(),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new Error("Unauthorized");
+    const document = await ctx.db.get(args.documentId);
+    if (!document) throw new Error("Document not found");
+    if (document.ownerId !== identity.subject) throw new Error("Not the document owner");
+
     await ctx.db.patch(args.documentId, {
       title: args.title,
       updatedAt: Date.now(),
