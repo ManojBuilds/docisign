@@ -13,7 +13,7 @@ export const CompletedDocumentBanner = memo(
     if (!isCompleted) return null;
 
     return (
-      <div className="bg-amber-50/80 backdrop-blur-sm border-b border-amber-200/50 px-4 py-1 flex items-center justify-center gap-3 text-amber-900 animate-in slide-in-from-top duration-500 shadow-sm relative z-40">
+      <div className="bg-amber-50/80 backdrop-blur-sm border-b border-amber-200/50 px-4 py-1 flex items-center justify-center gap-3 text-amber-900 animate-in slide-in-from-top duration-500 relative z-40">
         <div className="p-1 rounded-full bg-amber-100/50 text-amber-600 ring-1 ring-amber-200/50">
           <AlertCircle className="w-2.5 h-2.5" />
         </div>

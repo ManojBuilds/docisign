@@ -131,7 +131,7 @@ export function SaveAsTemplateDialog({
     };
 
     const TemplateFormContent = (
-        <div className="space-y-8">
+        <div className="space-y-4">
             {/* Template Title Section */}
             <div className="space-y-3.5">
                 <Label htmlFor="template-title" className="text-[13px] font-bold text-slate-700 uppercase tracking-wide">
@@ -142,7 +142,6 @@ export function SaveAsTemplateDialog({
                     value={templateTitle}
                     onChange={(e) => setTemplateTitle(e.target.value)}
                     placeholder="e.g. Standard Service Agreement"
-                    className="h-12 px-4 rounded-xl bg-slate-50 border-slate-200 focus:bg-white focus:ring-2 focus:ring-primary/20 transition-all font-medium text-slate-900"
                 />
                 <p className="text-[11px] text-slate-400 font-medium">
                     Give your template a clear, recognizable name for future use.
@@ -186,7 +185,6 @@ export function SaveAsTemplateDialog({
                                         value={roleMappings[email] || ""}
                                         onChange={(e) => setRoleMappings(prev => ({ ...prev, [email]: e.target.value }))}
                                         required
-                                        className="h-10 bg-white border-slate-200 rounded-lg focus:ring-primary/20 font-medium"
                                     />
                                 </div>
                             </div>
@@ -271,20 +269,20 @@ export function SaveAsTemplateDialog({
             <DialogTrigger asChild>
                 {triggerContent}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[540px] p-0 overflow-hidden border-none shadow-2xl rounded-2xl sm:rounded-3xl">
-                <DialogHeader className="p-6 pb-2 sm:p-8 sm:pb-4 bg-white text-center sm:text-left">
-                    <DialogTitle className="text-xl sm:text-2xl font-bold text-slate-900 leading-tight">Save as Template</DialogTitle>
-                    <DialogDescription className="text-sm sm:text-base text-slate-500 mt-1.5 px-1 sm:px-0">
+            <DialogContent>
+                <DialogHeader className="text-center sm:text-left">
+                    <DialogTitle>Save as Template</DialogTitle>
+                    <DialogDescription>
                         Turn this document into a reusable template by defining roles like <span className="font-semibold text-primary">"Client"</span> or <span className="font-semibold text-primary">"Tenant"</span>.
                     </DialogDescription>
                 </DialogHeader>
 
                 <form onSubmit={handleSubmit} className="flex flex-col max-h-[85vh]">
-                    <ScrollArea className="flex-1 px-6 py-2 sm:px-8">
+                    <ScrollArea className="flex-1">
                         {TemplateFormContent}
                     </ScrollArea>
 
-                    <DialogFooter className="p-6 sm:p-8 bg-slate-50/50 border-t border-slate-100">
+                    <DialogFooter>
                         {footerContent}
                     </DialogFooter>
                 </form>
