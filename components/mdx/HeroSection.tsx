@@ -38,7 +38,7 @@ export default function HeroSection({ badge, title, subtitle, highlights, testim
           {title.includes("<span") ? (
             <div dangerouslySetInnerHTML={{ __html: title }} />
           ) : (
-            <Highlighter action="highlight" color="#dbeafe" iterations={1}>
+            <Highlighter action="underline" color="#dbeafe" iterations={1}>
               {title}
             </Highlighter>
           )}
