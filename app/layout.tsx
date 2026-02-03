@@ -6,6 +6,7 @@ import { Metadata, Viewport } from "next";
 import { DM_Sans } from "next/font/google";
 import NextTopLoader from 'nextjs-toploader';
 import { Suspense } from "react";
+import { Analytics } from "@vercel/analytics/next"
 import "./globals.css";
 
 
@@ -263,6 +264,7 @@ export default function RootLayout({
           </ConvexClientProvider>
         </Suspense>
         <Toaster position="top-center" />
+        <Analytics />
       </body>
     </html>
   );

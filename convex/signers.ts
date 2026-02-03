@@ -411,6 +411,16 @@ export const sendSigningEmail = internalAction({
           storageId: owner.brandLogoStorageId,
         })) || "";
       }
+      console.log({
+        signerName: signer.name || "",
+        senderName: owner.firstName || owner.email,
+        documentTitle: document.title,
+        signingUrl: `${process.env.NEXT_PUBLIC_APP_URL}/s/${signer.accessToken}`,
+        customMessage: args.customMessage,
+        to: signer.email,
+        brandName: owner.brandName,
+        brandLogoUrl: brandLogoUrl || undefined,
+      })
 
       await ctx.runAction(api.emails.sendSigningRequestEmail, {
         signerName: signer.name || "",
