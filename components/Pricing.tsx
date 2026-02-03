@@ -86,7 +86,7 @@ const Pricing = () => {
 
         {/* Trust line above card */}
         <p className="text-center text-slate-600 font-medium mb-8 max-w-md mx-auto">
-          Join 1,200+ freelancers on Pro — get contracts signed in minutes, not days.
+          Join 20+ freelancers on Pro — get contracts signed in minutes, not days.
         </p>
 
         {/* Pricing Card */}

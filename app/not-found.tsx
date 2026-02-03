@@ -53,7 +53,7 @@ export default function NotFound() {
 
           <div className="mt-12 pt-8 border-t border-border">
             <p className="text-sm text-muted-foreground">
-              While you're here, why not learn why 1,200+ professionals chose Boopsign
+              While you're here, why not learn why 20+ professionals chose Boopsign
               as their e-signature solution?
             </p>
           </div>

@@ -77,7 +77,7 @@ const Hero = () => {
 
         {/* Social Proof Strip - Clean */}
         <div className="mt-16 pt-10 border-t border-slate-100 w-full max-w-5xl flex flex-col items-center gap-8">
-          <p className="text-sm font-semibold text-slate-400 uppercase tracking-widest text-center">Trusted by 1,200+ freelancers — 3x higher completion rate than DocuSign</p>
+          <p className="text-sm font-semibold text-slate-400 uppercase tracking-widest text-center">Trusted by 20+ freelancers — 3x higher completion rate than DocuSign</p>
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             <Image
               src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguAx9LOQUIaF7cPRXTBKUOjd2u8DtqMsNepfz5"

@@ -192,7 +192,7 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 - [x] Add freelancer testimonials to homepage
 - [x] Add "Popular with Freelancers" badge
 - [x] Add freelancer use case section
-- [x] Add stat: "Trusted by 1,200+ freelancers"
+- [x] Add stat: "Trusted by 20+ freelancers"
 - [x] Update CTA text to mention freelancers
 
 **Time:** 75 minutes

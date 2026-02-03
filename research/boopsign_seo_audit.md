@@ -79,7 +79,7 @@ Meta Description: The e-signature tool freelancers love. No client accounts requ
    - "No forced client accounts - they just click and sign"
 
 2. **Add Freelancer-Specific Social Proof:**
-   - "Trusted by 1,200+ freelancers"
+   - "Trusted by 20+ freelancers"
    - Testimonials from freelance designers, writers, developers
    - "Average contract turnaround: 2.5 hours vs 2 days"
 
@@ -610,7 +610,7 @@ Target: Compelling, benefit-driven, with CTA
 ---
 
 ### 2. Add Freelancer Social Proof to Homepage
-- "1,200+ freelancers trust Boopsign"
+- "20+ freelancers trust Boopsign"
 - Add freelancer avatars/testimonials
 - Show freelancer-specific metrics: "Avg contract signed in 2.5 hours"
 
@@ -799,12 +799,12 @@ Target: Compelling, benefit-driven, with CTA
 | Month 1 | 75 | 2-3 | ~18 |
 | Month 2 | 200 | 5-7 | ~22 |
 | Month 3 | 450 | 10-15 | ~28 |
-| Month 6 | 1,200 | 25-35 | ~35 |
+| Month 6 | 20 | 25-35 | ~35 |
 | Month 12 | 3,500 | 50+ | ~45 |
 
 **Realistic Revenue Impact:**
 - Month 3: 450 visitors × 2% conversion × $15/mo = $135 MRR
-- Month 6: 1,200 visitors × 3% conversion × $15/mo = $540 MRR
+- Month 6: 20 visitors × 3% conversion × $15/mo = $540 MRR
 - Month 12: 3,500 visitors × 4% conversion × $15/mo = $2,100 MRR
 
 ---
