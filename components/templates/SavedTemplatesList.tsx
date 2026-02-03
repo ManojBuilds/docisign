@@ -63,7 +63,7 @@ export function SavedTemplatesList() {
 
     if (templates.length === 0) {
         return (
-            <Card className="text-center py-16 px-4 border-2 border-dashed bg-muted/5 shadow-none">
+            <Card className="text-center py-16 px-4 border-2 border-dashed bg-muted/5 shadow-nonemgap-2">
                 <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
                     <LayoutTemplate className="w-8 h-8 text-primary" />
                 </div>
