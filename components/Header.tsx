@@ -6,7 +6,6 @@ import { cn } from "@/lib/utils";
 import { GetProCTA } from "./get-pro-cta";
 import Logo from "./Logo";
 import { FileText, LayoutTemplate } from "lucide-react";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -53,7 +52,7 @@ export function Header({ classNames }: { classNames?: string }) {
           <div className="hidden sm:flex items-center gap-4">
             <BrandingSettings triggerClassName="flex" />
             <div className="h-4 w-px bg-slate-200" />
-            <GetProCTA className="h-9 px-4 rounded-xl text-xs font-bold" />
+            <GetProCTA />
           </div>
 
           <div className="flex items-center gap-1">

@@ -6,7 +6,7 @@ import { api } from "@/convex/_generated/api";
 import { Doc } from "@/convex/_generated/dataModel";
 import { useMutation, useQuery } from "convex/react";
 import { ConvexError } from "convex/values";
-import { Calendar, FileText, LayoutTemplate, MoreVertical, Plus, Trash } from "lucide-react";
+import { Calendar, FileText, LayoutTemplate, MoreVertical, Trash } from "lucide-react";
 import Link from "next/link";
 import { UseTemplateDialog } from "./UseTemplateDialog";
 import { formatDistanceToNow } from "date-fns";
@@ -63,7 +63,7 @@ export function SavedTemplatesList() {
 
     if (templates.length === 0) {
         return (
-            <Card className="text-center py-16 px-4 border-2 border-dashed bg-muted/5 shadow-nonemgap-2">
+            <Card className="text-center py-16 px-4 border-2 border-dashed bg-muted/5 shadow-none gap-0">
                 <div className="mx-auto w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
                     <LayoutTemplate className="w-8 h-8 text-primary" />
                 </div>
@@ -71,12 +71,6 @@ export function SavedTemplatesList() {
                 <p className="text-muted-foreground max-w-sm mx-auto mb-8">
                     Save any document as a reusable template to save time on recurring contracts.
                 </p>
-                <Link href="/dashboard" className="inline-block w-full sm:w-auto">
-                    <Button className="w-full sm:w-auto shadow-none">
-                        <Plus className="w-4 h-4 mr-2" />
-                        Create Your First Template
-                    </Button>
-                </Link>
             </Card>
         );
     }
@@ -151,7 +145,7 @@ function TemplateCard({ template }: { template: Doc<"documents"> }) {
                                 setShowDeleteDialog(true);
                             }}
                         >
-                            <Trash className="w-4 h-4 mr-2" />
+                            <Trash className="w-4 h-4" />
                             <span>Delete</span>
                         </DropdownMenuItem>
                     </DropdownMenuContent>
