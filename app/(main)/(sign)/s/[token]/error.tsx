@@ -24,7 +24,7 @@ export default function SignError({
         </p>
         <div className="space-x-4">
           <Button onClick={reset}>Try again</Button>
-          <Button variant="outline" asChild>
+          <Button variant="secondary" asChild>
             <Link href="/Dashboard">Return to Dashboard</Link>
           </Button>
         </div>

@@ -13,7 +13,8 @@ const SavingsCalculator = () => {
 
     const docusignIndividual = 10; // $120/yr, max 5 docs/mo
     const docusignStandard = 25; // $300/yr, "unlimited" (but has 100/yr limit usually)
-    const boopsignPrice = 15; // flat $15/mo, truly unlimited
+    const boopsignStarter = 19; // $19/mo for 20 signature requests
+    const boopsignProfessional = 39; // $39/mo for 75 signature requests
 
     let docusignCost = 0;
     if (documentsPerMonth <= 5) {
@@ -21,6 +22,10 @@ const SavingsCalculator = () => {
     } else {
         docusignCost = docusignStandard;
     }
+
+    // Determine which Boopsign plan to use based on document volume
+    // Assuming 20 documents/month fits in Starter, 75 in Professional
+    const boopsignPrice = documentsPerMonth <= 20 ? boopsignStarter : boopsignProfessional;
 
     const yearlyDocusign = docusignCost * 12;
     const yearlyBoopsign = boopsignPrice * 12;
@@ -70,11 +75,11 @@ const SavingsCalculator = () => {
                                     <p>
                                         {documentsPerMonth > 5 ? (
                                             <>
-                                                <strong>DocuSign Trap:</strong> Their "Personal" plan limits you to 5 documents. You'll be forced to pay <strong>$300/year</strong> ($25/mo) just to send your 6th document.
+                                                <strong>DocuSign Trap:</strong> Their "Personal" plan limits you to 5 documents. You'll be forced to pay <strong>$300/year</strong> ($25/mo) just to send your 6th document. Boopsign Starter ($19/mo) includes 20 signature requests, Professional ($39/mo) includes 75.
                                             </>
                                         ) : (
                                             <>
-                                                You fit within DocuSign's limited "Personal" plan. But if you grow past 5 documents, your cost will jump instantly by <strong>150%</strong>.
+                                                You fit within DocuSign's limited "Personal" plan. But if you grow past 5 documents, your cost will jump instantly by <strong>150%</strong>. Boopsign Starter ($19/mo) includes 20 signature requests.
                                             </>
                                         )}
                                     </p>
@@ -86,7 +91,7 @@ const SavingsCalculator = () => {
                             <h4 className="font-bold text-slate-900">Why Freelancers Switch:</h4>
                             <ul className="space-y-3">
                                 {[
-                                    "Truly unlimited documents, no annual caps.",
+                                    "Generous signature request limits (20 on Starter, 75 on Professional).",
                                     "No credit card required for your clients to sign.",
                                     "Professional branding included at no extra cost.",
                                     "Optimized for mobile-first client signing."

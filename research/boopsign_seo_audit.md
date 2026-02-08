@@ -69,7 +69,7 @@ Your average position of 64.8 suggests:
 **SEO Fixes:**
 ```
 Title: Boopsign - E-Signature Software Built for Freelancers & Consultants | $15/mo
-Meta Description: The e-signature tool freelancers love. No client accounts required. Get contracts signed in 3 minutes, not 3 days. 52% cheaper than DocuSign. Try free for 7 days.
+Meta Description: The e-signature tool freelancers love. No client accounts required. Get contracts signed in 3 minutes, not 3 days. 52% cheaper than DocuSign. Try free for 14 days.
 ```
 
 **Content Changes:**
@@ -409,7 +409,7 @@ Meta Description Formula: [Hook] [Benefit 1], [Benefit 2], [Benefit 3]. [Trust s
 **/pricing**
 ```
 Title: Boopsign Pricing - $15/mo for Freelancers | No Per-User Fees
-Meta: Simple pricing for freelancers. Just $15/mo, unlimited signatures, no client accounts required. 52% cheaper than DocuSign. Try free for 7 days.
+Meta: Simple pricing for freelancers. Just $15/mo, unlimited signatures, no client accounts required. 52% cheaper than DocuSign. Try free for 14 days.
 ```
 
 **/how-it-works**

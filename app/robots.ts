@@ -13,9 +13,8 @@ export default function robots(): MetadataRoute.Robots {
         '/s/*',
         '/api/',
         '/api/*',
-        '/account/billing/',
+        '/profile',
         '/complete/',
-        '/callback'
       ],
     },
     sitemap: 'https://www.boopsign.com/sitemap.xml',

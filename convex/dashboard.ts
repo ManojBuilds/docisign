@@ -77,23 +77,40 @@ export const searchDocuments = query({
 
     const results = await baseQuery.paginate(paginationOpts);
 
+    if (results.page.length === 0) {
+      return { ...results, page: [] };
+    }
+
+    // Batch query: Get all signature fields for all documents in the page at once
+    const allSignatureFieldsArrays = await Promise.all(
+      results.page.map((doc) =>
+        ctx.db
+          .query("signatureFields")
+          .withIndex("by_document", (q) => q.eq("documentId", doc._id))
+          .collect()
+      )
+    );
+
+    // Build a map of documentId -> unique signer emails
+    const signersByDocId = new Map<string, string[]>();
+    results.page.forEach((doc, index) => {
+      const fields = allSignatureFieldsArrays[index];
+      const uniqueSigners = [
+        ...new Set(
+          fields
+            .map((f) => f.signerEmail)
+            .filter((email): email is string => Boolean(email))
+        ),
+      ];
+      signersByDocId.set(doc._id, uniqueSigners);
+    });
+
     return {
       ...results,
-      page: await Promise.all(
-        results.page.map(async (doc) => {
-          const signatureFields = await ctx.db
-            .query("signatureFields")
-            .withIndex("by_document", (q) => q.eq("documentId", doc._id))
-            .collect();
-
-          const uniqueSigners = [...new Set(signatureFields.map((f) => f.signerEmail).filter(Boolean) as string[])];
-
-          return {
-            ...doc,
-            signers: uniqueSigners,
-          };
-        })
-      ),
+      page: results.page.map((doc) => ({
+        ...doc,
+        signers: signersByDocId.get(doc._id) || [],
+      })),
     };
   },
 });

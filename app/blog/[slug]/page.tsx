@@ -128,12 +128,6 @@ export default async function Post({ params }: Props) {
             description: "Learn how to get your documents signed 3x faster.",
             href: "/esignature-for-freelancers",
             icon: "users"
-          },
-          {
-            title: "Fair Pricing",
-            description: "Unlimited e-signatures for a flat monthly fee of $15.",
-            href: "/pricing",
-            icon: "page"
           }
         ]}
       />

@@ -270,7 +270,7 @@ const UploadFooter: FC<UploadFooterProps> = ({
         onClick={handleUpload}
         disabled={!file || signers.length === 0 || isUploading}
         className={cn(
-          "flex-[2] rounded-lg font-semibold shadow-2xl shadow-blue-500/20",
+          "flex-[2] rounded-lg font-semibold",
           isUploading ? "bg-gray-100 text-gray-400" : "bg-blue-600 hover:bg-blue-700 text-white"
         )}
       >
@@ -321,7 +321,7 @@ export function NewDocumentDialog({
         setTitle(initialFile.name.replace(/\.[^/.]+$/, ''));
       }
     }
-  }, [initialFile]);
+  }, [initialFile, title]);
 
   const generateUploadUrl = useMutation(api.files.generateUploadUrl)
   const createDocument = useMutation(api.documents.createDocument)
@@ -379,43 +379,40 @@ export function NewDocumentDialog({
     setUploadProgress(0);
 
     try {
-      let uploadStorageId: string;
-      let finalFileSize = file.size;
       const originalName = file.name;
+      const fileData = await file.arrayBuffer();
+      setUploadProgress(20);
+
+      // Start hashing and upload/conversion in parallel
+      const hashPromise = computeFileHash(fileData);
+
+      let uploadAction: Promise<{ storageId: string; size: number }>;
 
       if (file.type !== 'application/pdf') {
-        setStatusMessage('Converting to PDF...');
-        setUploadProgress(20);
-
-        const fileData = await file.arrayBuffer();
-        setUploadProgress(40);
-
-        const { storageId, size } = await docToPdf({ fileData });
-        uploadStorageId = storageId;
-        finalFileSize = size;
-        setUploadProgress(60);
+        setStatusMessage('Converting & Hashing...');
+        uploadAction = docToPdf({ fileData });
       } else {
-        setStatusMessage('Uploading PDF...');
-        setUploadProgress(20);
-
-        const uploadUrl = await generateUploadUrl();
-        const res = await fetch(uploadUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/pdf' },
-          body: file,
-        });
-
-        if (!res.ok) throw new Error('Upload failed');
-        const { storageId } = await res.json();
-        uploadStorageId = storageId;
-        setUploadProgress(60);
+        setStatusMessage('Uploading & Hashing...');
+        uploadAction = (async () => {
+          const uploadUrl = await generateUploadUrl();
+          const res = await fetch(uploadUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/pdf' },
+            body: fileData,
+          });
+          if (!res.ok) throw new Error('Upload failed');
+          const { storageId } = await res.json();
+          return { storageId, size: file.size };
+        })();
       }
 
-      setStatusMessage('Encrypting...');
-      const documentHash = await computeFileHash(file);
+      const [documentHash, { storageId: uploadStorageId, size: finalFileSize }] = await Promise.all([
+        hashPromise,
+        uploadAction
+      ]);
+
       setUploadProgress(80);
 
-      setStatusMessage('Saving locally...');
       localStorage.setItem(
         PENDING_DOC_KEY,
         JSON.stringify({
@@ -446,54 +443,48 @@ export function NewDocumentDialog({
     setUploadProgress(0);
     setStatusMessage('Preparing...');
 
-
     try {
       const originalName = file.name;
-      let uploadStorageId: string;
-      let finalFileSize = file.size;
+      const fileData = await file.arrayBuffer();
+      setUploadProgress(20);
+
+      // Start hashing and upload/conversion in parallel
+      const hashPromise = computeFileHash(fileData);
+
+      let uploadAction: Promise<{ storageId: string; size: number }>;
 
       if (file.type !== 'application/pdf') {
-        setStatusMessage('Converting to PDF...');
-        setUploadProgress(20);
-
-        // 1. Get file data as ArrayBuffer
-        const fileData = await file.arrayBuffer();
-        setUploadProgress(40);
-
-        // 2. Convert to PDF via Convex Action
-        const { storageId: pdfStorageId, size: pdfSize } = await docToPdf({ fileData });
-        uploadStorageId = pdfStorageId;
-        finalFileSize = pdfSize;
-
-        setUploadProgress(60);
+        setStatusMessage('Converting & Hashing...');
+        uploadAction = docToPdf({ fileData });
       } else {
-        setStatusMessage('Uploading PDF...');
-        setUploadProgress(20);
+        setStatusMessage('Uploading & Hashing...');
+        uploadAction = (async () => {
+          const uploadUrl = await generateUploadUrl();
+          const storageResult = await fetch(uploadUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/pdf' },
+            body: fileData,
+          });
 
-        const uploadUrl = await generateUploadUrl();
-        const storageResult = await fetch(uploadUrl, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/pdf' },
-          body: file,
-        });
-
-        if (!storageResult.ok) throw new Error('Upload failed');
-        const { storageId } = await storageResult.json();
-        uploadStorageId = storageId;
-        setUploadProgress(60);
+          if (!storageResult.ok) throw new Error('Upload failed');
+          const { storageId } = await storageResult.json();
+          return { storageId, size: file.size };
+        })();
       }
 
-      setStatusMessage('Encrypting...');
-      const documentHash = await computeFileHash(file);
-      setUploadProgress(80);
+      // Wait for both hashing and upload/conversion to complete
+      const [documentHash, { storageId: uploadStorageId, size: finalFileSize }] = await Promise.all([
+        hashPromise,
+        uploadAction
+      ]);
 
+      setUploadProgress(80);
       setStatusMessage('Finalizing...');
-      setUploadProgress(90);
 
       const documentId = await createDocument({
         title: documentTitle,
         originalFileName: originalName,
-        fileStorageId: uploadStorageId as any, // Cast because it returns a string but expects a specific Id type
+        fileStorageId: uploadStorageId as any,
         fileType: 'pdf',
         fileSizeBytes: finalFileSize,
         ownerId: user.id,

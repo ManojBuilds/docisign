@@ -34,7 +34,7 @@ export const createUser = mutation({
     }
 
     const now = Date.now();
-    const trialEndDate = now + (7 * 24 * 60 * 60 * 1000); // 7 days from now
+    const trialEndDate = now + (14 * 24 * 60 * 60 * 1000); // 14 days from now
 
     const userId = await ctx.db.insert("users", {
       clerkId: args.clerkId,
@@ -44,6 +44,8 @@ export const createUser = mutation({
       plan: "trial",
       trialStartDate: now,
       trialEndDate: trialEndDate,
+      signatureRequestsUsed: 0,
+      billingCycleStart: now,
       subscriptionStatus: "trial",
       onboardingCompleted: false,
       createdAt: now,
@@ -123,6 +125,7 @@ export const updateSubscriptionStatus = mutation({
     billingInterval: v.optional(v.union(v.literal("monthly"), v.literal("annually"))),
     dodoCustomerId: v.optional(v.string()),
     dodoSubscriptionId: v.optional(v.string()),
+    plan: v.optional(v.union(v.literal("starter"), v.literal("professional"))),
   },
   handler: async (ctx, args) => {
     const user = await ctx.db
@@ -136,10 +139,14 @@ export const updateSubscriptionStatus = mutation({
 
     await ctx.db.patch(user._id, {
       subscriptionStatus: args.subscriptionStatus,
-      plan: args.subscriptionStatus === "active" ? "pro" : user.plan,
+      // If we don't have a specific plan passed, default to pro (for backward compatibility or direct calls)
+      // but in the webhook we should always pass the plan.
+      plan: args.subscriptionStatus === "active" ? (args.plan || "professional") : user.plan,
       billingInterval: args.billingInterval || user.billingInterval,
       dodoCustomerId: args.dodoCustomerId,
       dodoSubscriptionId: args.dodoSubscriptionId,
+      billingCycleStart: args.subscriptionStatus === "active" ? Date.now() : user.billingCycleStart,
+      signatureRequestsUsed: args.subscriptionStatus === "active" ? 0 : user.signatureRequestsUsed,
       updatedAt: Date.now(),
     });
   },
@@ -158,6 +165,7 @@ export const updateSubscriptionStatusInternal = internalMutation({
     billingInterval: v.optional(v.union(v.literal("monthly"), v.literal("annually"))),
     dodoCustomerId: v.optional(v.string()),
     dodoSubscriptionId: v.optional(v.string()),
+    plan: v.optional(v.union(v.literal("starter"), v.literal("professional"))),
   },
   handler: async (ctx, args) => {
     const user = await ctx.db
@@ -171,10 +179,12 @@ export const updateSubscriptionStatusInternal = internalMutation({
 
     await ctx.db.patch(user._id, {
       subscriptionStatus: args.subscriptionStatus,
-      plan: args.subscriptionStatus === "active" ? "pro" : user.plan,
+      plan: args.subscriptionStatus === "active" ? (args.plan || "professional") : user.plan,
       billingInterval: args.billingInterval || user.billingInterval,
       dodoCustomerId: args.dodoCustomerId,
       dodoSubscriptionId: args.dodoSubscriptionId,
+      billingCycleStart: args.subscriptionStatus === "active" ? Date.now() : user.billingCycleStart,
+      signatureRequestsUsed: args.subscriptionStatus === "active" ? 0 : user.signatureRequestsUsed,
       updatedAt: Date.now(),
     });
   },
@@ -263,5 +273,53 @@ export const hasCompletedOnboarding = query({
 
     // If onboardingCompleted is undefined, treat as not completed (for existing users)
     return user.onboardingCompleted ?? false;
+  },
+});
+
+// Get usage stats
+export const getUsageStats = query({
+  args: { clerkId: v.string() },
+  handler: async (ctx, args) => {
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", args.clerkId))
+      .first();
+
+    if (!user) {
+      return null;
+    }
+
+    const plan = user.plan;
+    const used = user.signatureRequestsUsed || 0;
+
+    let limit = 0;
+    if (plan === "trial") limit = 1; // Trial gets only 1 signature request
+    else if (plan === "starter") limit = 20;
+    else if (plan === "professional") limit = 75;
+
+    // Get template count
+    const templates = await ctx.db
+      .query("documents")
+      .withIndex("by_owner", (q) => q.eq("ownerId", args.clerkId))
+      .filter((q) => q.eq(q.field("isTemplate"), true))
+      .collect();
+
+    const templateLimit = plan === "trial" ? 1 : plan === "starter" ? 5 : Infinity; // Trial gets only 1 template
+
+    return {
+      plan,
+      signatureRequests: {
+        used,
+        limit,
+        remaining: Math.max(0, limit - used),
+      },
+      templates: {
+        used: templates.length,
+        limit: templateLimit,
+        remaining: templateLimit === Infinity ? Infinity : Math.max(0, templateLimit - templates.length),
+      },
+      subscriptionStatus: user.subscriptionStatus,
+      billingCycleStart: user.billingCycleStart,
+    };
   },
 });

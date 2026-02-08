@@ -1,6 +1,7 @@
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { useTrialStatus } from "@/hooks/useTrialStatus";
-import { CreditCard, Lock } from "lucide-react";
+import { Gem, Lock } from "lucide-react";
+import Link from "next/link";
 
 interface TrialGateProps {
   children: React.ReactNode;
@@ -11,11 +12,11 @@ export const TrialGate = ({ children, fallback }: TrialGateProps) => {
   const trialStatus = useTrialStatus();
 
   if (trialStatus.isLoading) {
-    return <div className="animate-pulse">Loading...</div>;
+    return null;
   }
 
   // Allow access if trial is active or user is paid
-  if (trialStatus.isTrialActive || trialStatus.isAuthenticated) {
+  if (trialStatus.isTrialActive || trialStatus.isPaidUser) {
     return <>{children}</>;
   }
 
@@ -31,13 +32,13 @@ export const TrialGate = ({ children, fallback }: TrialGateProps) => {
         Trial Expired
       </h2>
       <p className="text-gray-600 mb-6">
-        Your 7-day free trial has ended. Upgrade to Boopsign Pro to continue
+        Your 14-day free trial has ended. Upgrade to Boopsign Pro to continue
         creating and sending documents.
       </p>
-      <Button onClick={() => (window.location.href = "/pricing")}>
-        <CreditCard className="h-4 w-4 mr-2" />
-        Upgrade to Pro - $15/month
-      </Button>
+      <Link href={"/pricing"} className={buttonVariants({ variant: "default" })}>
+        <Gem className="h-4 w-4 mr-2" />
+        Upgrade to Pro
+      </Link>
     </div>
   );
 };

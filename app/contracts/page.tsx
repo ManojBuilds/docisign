@@ -23,7 +23,7 @@ export default function ContractTemplatesPage() {
       <section className="bg-slate-50 border-b border-slate-100 py-20 relative overflow-hidden">
         <div className="container mx-auto px-4 max-w-5xl relative z-10">
           <div className="text-center max-w-3xl mx-auto mb-12">
-            <Badge variant="outline" className="mb-6 bg-white border-blue-200 text-blue-700 px-4 py-1.5 rounded-full uppercase tracking-wider font-bold">
+            <Badge variant="secondary" className="mb-6 bg-white border-blue-200 text-blue-700 px-4 py-1.5 rounded-full uppercase tracking-wider font-bold">
               The Contract Library
             </Badge>
             <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight">

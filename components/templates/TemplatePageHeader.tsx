@@ -3,7 +3,7 @@ import Link from "next/link";
 
 // import { TemplateActionButton } from "./TemplateActionButton";
 import { TemplateDownloadButtons } from "./TemplateDownloadButtons";
-import { ALL_TEMPLATES } from "@/lib/seo/all-templates";
+import { getTemplateBySlug } from "@/lib/seo/all-templates";
 
 interface TemplatePageHeaderProps {
   title: string;
@@ -20,7 +20,7 @@ export function TemplatePageHeader({
   backgroundImage = "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO",
   templateId,
 }: TemplatePageHeaderProps) {
-  const template = templateId ? ALL_TEMPLATES.find((t) => t.slug === templateId) : null;
+  const template = templateId ? getTemplateBySlug(templateId) : null;
   const docUrl = template?.docUrl;
   const pdfUrl = template?.pdfUrl;
 

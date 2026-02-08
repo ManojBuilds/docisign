@@ -1,14 +1,14 @@
 import { SignatureFieldData } from "./signature-field";
 import { Button } from "@/components/ui/button";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
 import { SignatureFieldSettings } from "./signature-field-settings";
 import { Id } from "@/convex/_generated/dataModel";
+import {
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+} from "@/components/responsive-dialog";
 
 
 interface MobileFieldDrawerProps {
@@ -39,15 +39,15 @@ export function MobileFieldDrawer({
   signers = [],
 }: MobileFieldDrawerProps) {
   return (
-    <Drawer open={isOpen} onOpenChange={onOpenChange}>
-      <DrawerContent className="max-h-[85vh] rounded-t-[32px] border-t bg-white">
-        <div className="mx-auto mt-3 h-1.5 w-12 rounded-full bg-gray-200" />
+    <ResponsiveDialog open={isOpen} onOpenChange={onOpenChange}>
+      <ResponsiveDialogContent className="max-h-[85vh] rounded-t-[32px] border-t bg-white">
 
-        <DrawerHeader className="px-6 pt-6 pb-2">
+
+        <ResponsiveDialogHeader className="px-6 pt-6 pb-2">
           <div className="flex items-center justify-between">
-            <DrawerTitle className="text-xl font-bold text-gray-900 capitalize">
+            <ResponsiveDialogTitle className="font-bold text-gray-900 capitalize">
               {field.fieldType} Settings
-            </DrawerTitle>
+            </ResponsiveDialogTitle>
             <Button
               variant="ghost"
               size="sm"
@@ -61,7 +61,7 @@ export function MobileFieldDrawer({
               Remove
             </Button>
           </div>
-        </DrawerHeader>
+        </ResponsiveDialogHeader>
 
         <div className="flex-1 overflow-y-auto px-6 py-2">
           <div className="bg-gray-50/50 rounded-2xl border border-gray-100 p-4 mb-6">
@@ -69,7 +69,7 @@ export function MobileFieldDrawer({
           </div>
         </div>
 
-        <DrawerFooter className="px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-2">
+        <ResponsiveDialogFooter className="px-6 pb-[max(1.5rem,env(safe-area-inset-bottom))] pt-2">
           <Button
             size="lg"
             className="w-full rounded-2xl h-12 text-sm font-bold shadow-lg shadow-primary/20 active:scale-[0.98] transition-all"
@@ -82,8 +82,8 @@ export function MobileFieldDrawer({
           >
             {isSaving ? "Saving..." : "Apply Changes"}
           </Button>
-        </DrawerFooter>
-      </DrawerContent>
-    </Drawer>
+        </ResponsiveDialogFooter>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   );
 }

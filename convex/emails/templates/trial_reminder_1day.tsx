@@ -12,7 +12,7 @@ interface TrialReminder1DayProps {
 export default function TrialReminder1Day({
   userName = "User",
   upgradeUrl = "#",
-  planPrice = "$15/month",
+  planPrice = "$19/month",
 }: TrialReminder1DayProps) {
   const preview = `Final reminder: Your Boopsign trial expires tomorrow`;
 

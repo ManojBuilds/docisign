@@ -14,20 +14,15 @@ import {
 import { useTrialStatus } from "@/hooks/useTrialStatus";
 import { useClerk, useUser } from "@clerk/nextjs";
 import {
-  CreditCard,
   Gem,
   LayoutDashboard,
   LayoutTemplate,
   LogOut,
-  Palette,
   FileText,
-  User,
   Zap
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { BrandingSettings } from "./branding/BrandingSettings";
 import { cn } from "@/lib/utils";
 
 export interface UserMenuProps {
@@ -38,7 +33,6 @@ export function UserMenu({ className }: UserMenuProps) {
   const { user } = useUser();
   const { signOut } = useClerk();
   const { isPaidUser } = useTrialStatus();
-  const [brandingOpen, setBrandingOpen] = useState(false);
   const pathname = usePathname();
 
   if (!user) return null;
@@ -59,98 +53,82 @@ export function UserMenu({ className }: UserMenuProps) {
             </Avatar>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-64 mt-2 p-2 rounded-2xl border-muted/60 shadow-xl" align="end" forceMount>
-          <DropdownMenuLabel className="font-normal p-2">
+        <DropdownMenuContent
+          className="w-72 mt-2 p-1.5 rounded-xl border-muted/60 shadow-2xl bg-white/95 backdrop-blur-sm"
+          align="end"
+          forceMount
+        >
+          <DropdownMenuLabel className="font-normal px-3 py-3">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-semibold leading-none">{user.fullName}</p>
-              <p className="text-xs leading-none text-muted-foreground truncate">
+              <p className="text-[15px] font-semibold tracking-tight leading-none">{user.fullName}</p>
+              <p className="text-xs font-medium leading-none text-muted-foreground/80 truncate">
                 {userEmail}
               </p>
             </div>
           </DropdownMenuLabel>
-          <DropdownMenuSeparator className="my-2 bg-muted/60" />
+          <DropdownMenuSeparator className="mx-1 bg-muted/50" />
 
-          <DropdownMenuGroup>
-            <DropdownMenuLabel className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 px-2 py-1.5 flex items-center gap-2">
-              <Zap className="h-3 w-3" /> Workspace
+          <DropdownMenuGroup className="px-1">
+            <DropdownMenuLabel className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground/50 px-2 py-2 flex items-center gap-2">
+              Workspace
             </DropdownMenuLabel>
 
             {/* Mobile Navigation Links */}
-            <DropdownMenuItem asChild className={cn("rounded-xl cursor-pointer py-2.5 md:hidden", pathname === "/dashboard" && "bg-primary/5 text-primary")}>
-              <Link href="/dashboard">
-                <FileText className={cn("mr-3 h-4 w-4", pathname === "/dashboard" ? "text-primary" : "text-muted-foreground")} />
-                <span className="font-medium">My Contracts</span>
+            <DropdownMenuItem asChild className={cn("cursor-pointer py-2.5 px-3 rounded-lg md:hidden transition-colors", pathname === "/dashboard" && "bg-primary/5 text-primary focus:bg-primary/10")}>
+              <Link href="/dashboard" prefetch={false}>
+                <FileText className={cn("mr-3 h-4 w-4", pathname === "/dashboard" ? "text-primary" : "text-muted-foreground/70")} />
+                <span className="font-semibold text-[14px]">My Contracts</span>
               </Link>
             </DropdownMenuItem>
 
-            <DropdownMenuItem asChild className={cn("rounded-xl cursor-pointer py-2.5 md:hidden", pathname.startsWith("/templates") && "bg-primary/5 text-primary")}>
+            <DropdownMenuItem asChild className={cn("cursor-pointer py-2.5 px-3 rounded-lg md:hidden transition-colors", pathname.startsWith("/templates") && "bg-primary/5 text-primary focus:bg-primary/10")}>
               <Link href="/templates">
-                <LayoutTemplate className={cn("mr-3 h-4 w-4", pathname.startsWith("/templates") ? "text-primary" : "text-muted-foreground")} />
-                <span className="font-medium">Templates</span>
+                <LayoutTemplate className={cn("mr-3 h-4 w-4", pathname.startsWith("/templates") ? "text-primary" : "text-muted-foreground/70")} />
+                <span className="font-semibold text-[14px]">Templates</span>
               </Link>
             </DropdownMenuItem>
 
-            <DropdownMenuItem asChild className="rounded-xl cursor-pointer py-2.5 hidden md:flex">
-              <Link href="/dashboard">
-                <LayoutDashboard className="mr-3 h-4 w-4 text-muted-foreground" />
-                <span className="font-medium">Dashboard</span>
+            <DropdownMenuItem asChild className="cursor-pointer py-2.5 px-3 rounded-lg hidden md:flex hover:bg-muted/50 transition-colors">
+              <Link href="/dashboard" prefetch={false}>
+                <LayoutDashboard className="mr-3 h-4 w-4 text-muted-foreground/70" />
+                <span className="font-semibold text-[14px]">Dashboard</span>
               </Link>
-            </DropdownMenuItem>
-
-            <DropdownMenuItem
-              onSelect={(e) => {
-                e.preventDefault();
-                setBrandingOpen(true);
-              }}
-              className="rounded-xl cursor-pointer py-2.5"
-            >
-              <Palette className="mr-3 h-4 w-4 text-muted-foreground" />
-              <span className="font-medium">Personal Branding</span>
             </DropdownMenuItem>
           </DropdownMenuGroup>
 
-          <DropdownMenuSeparator className="my-2 bg-muted/60" />
+          <DropdownMenuSeparator className="mx-1 bg-muted/50" />
 
-          <DropdownMenuGroup>
-            <DropdownMenuLabel className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground/70 px-2 py-1.5 flex items-center gap-2">
-              <User className="h-3 w-3" /> Account
-            </DropdownMenuLabel>
-            {isPaidUser ? (
-              <DropdownMenuItem asChild className="rounded-xl cursor-pointer py-2.5">
-                <Link href="/account/billing">
-                  <CreditCard className="mr-3 h-4 w-4 text-muted-foreground" />
-                  <span className="font-medium">Subscription & Billing</span>
-                </Link>
-              </DropdownMenuItem>
-            ) : (
-              <DropdownMenuItem asChild className="rounded-xl cursor-pointer py-2.5 text-primary focus:text-primary focus:bg-primary/5">
+          <DropdownMenuGroup className="px-1">
+            <DropdownMenuItem asChild className="cursor-pointer py-2.5 px-3 rounded-lg hover:bg-muted/50 transition-colors">
+              <Link href="/profile">
+                <Zap className="mr-3 h-4 w-4 text-muted-foreground/70" />
+                <span className="font-semibold text-[14px]">Account & Usage</span>
+              </Link>
+            </DropdownMenuItem>
+
+            {!isPaidUser && (
+              <DropdownMenuItem asChild className="cursor-pointer py-2.5 px-3 rounded-lg text-primary focus:text-primary focus:bg-primary/5 mt-1 transition-colors">
                 <Link href="/pricing">
                   <Gem className="mr-3 h-4 w-4" />
-                  <span className="font-semibold">Upgrade to PRO</span>
+                  <span className="font-bold text-[14px]">Upgrade to PRO</span>
                 </Link>
               </DropdownMenuItem>
             )}
-
-
           </DropdownMenuGroup>
 
-          <DropdownMenuSeparator className="my-2 bg-muted/60" />
+          <DropdownMenuSeparator className="mx-1 bg-muted/50" />
 
-          <DropdownMenuItem
-            onClick={() => signOut({ redirectUrl: "/" })}
-            className="rounded-xl cursor-pointer py-2.5 text-destructive focus:text-destructive focus:bg-destructive/5"
-          >
-            <LogOut className="mr-3 h-4 w-4" />
-            <span className="font-medium">Log out</span>
-          </DropdownMenuItem>
+          <div className="px-1">
+            <DropdownMenuItem
+              onClick={() => signOut({ redirectUrl: "/" })}
+              className="cursor-pointer py-2.5 px-3 rounded-lg text-destructive focus:text-destructive focus:bg-destructive/5 transition-colors"
+            >
+              <LogOut className="mr-3 h-4 w-4" />
+              <span className="font-semibold text-[14px]">Log out</span>
+            </DropdownMenuItem>
+          </div>
         </DropdownMenuContent>
       </DropdownMenu>
-
-      <BrandingSettings
-        isOpen={brandingOpen}
-        onOpenChange={setBrandingOpen}
-        showTrigger={false}
-      />
     </>
   );
 }

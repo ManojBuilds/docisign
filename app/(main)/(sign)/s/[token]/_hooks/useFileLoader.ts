@@ -46,7 +46,8 @@ export function useFileLoader({ accessToken, signingSession }: UseFileLoaderProp
     setIsDownloading(true);
     try {
       const url = await convex.query(api.documents.getFileUrl, {
-        storageId: signingSession.document.fileStorageId
+        storageId: signingSession.document.fileStorageId,
+        token: accessToken // Pass the token here
       });
       if (url) {
         const response = await fetch(url);
@@ -68,7 +69,7 @@ export function useFileLoader({ accessToken, signingSession }: UseFileLoaderProp
     } finally {
       setIsDownloading(false);
     }
-  }, [signingSession, convex]);
+  }, [signingSession, convex, accessToken]);
 
   return {
     fileUrl,

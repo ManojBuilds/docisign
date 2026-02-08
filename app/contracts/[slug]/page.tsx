@@ -507,12 +507,6 @@ export default async function BaseTemplatePage({ params }: Props) {
                         icon: "users"
                     },
                     {
-                        title: "Boopsign Pricing",
-                        description: "Unlimited contracts for $15/month. No catch.",
-                        href: "/pricing",
-                        icon: "page"
-                    },
-                    {
                         title: "How It Works",
                         description: "See how easy it is to get your documents signed.",
                         href: "/how-it-works",

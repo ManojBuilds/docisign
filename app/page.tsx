@@ -3,11 +3,14 @@ import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import dynamic from "next/dynamic";
 
-const Features = dynamic(() => import("@/components/Features"));
+const ProblemSection = dynamic(() => import("@/components/ProblemSection"));
+const Comparison = dynamic(() => import("@/components/Comparison"));
+const SixCoreFeatures = dynamic(() => import("@/components/SixCoreFeatures"));
 const HowItWorks = dynamic(() => import("@/components/HowItWorks"));
+const HonestSocialProof = dynamic(() => import("@/components/HonestSocialProof"));
 const Pricing = dynamic(() => import("@/components/Pricing"));
-const TestimonialsSection = dynamic(() => import("@/components/testimonials"));
 const Cta = dynamic(() => import("@/components/cta"));
+// const VideoDemo = dynamic(() => import("@/components/VideoDemo"));
 
 export default function Home() {
   return (
@@ -16,9 +19,11 @@ export default function Home() {
 
       <main className="w-full flex-1">
         <Hero />
-        <Features />
+        <ProblemSection />
+        <Comparison />
+        <SixCoreFeatures />
         <HowItWorks />
-        <TestimonialsSection />
+        <HonestSocialProof />
         <Pricing />
         <Cta />
       </main>

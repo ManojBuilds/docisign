@@ -1,7 +1,7 @@
 import { NewDocumentDialog } from "@/components/NewDocumentDialog";
 import { SavedTemplatesList } from "@/components/templates/SavedTemplatesList";
 import { Button } from "@/components/ui/button";
-import { LayoutTemplate, Plus } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Suspense } from "react";
 
 export default function TemplatesPage() {
@@ -10,10 +10,6 @@ export default function TemplatesPage() {
             <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-6">
                     <div className="space-y-1">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/5 text-primary text-xs font-bold uppercase tracking-wider rounded-full mb-2">
-                            <LayoutTemplate className="w-3.5 h-3.5" />
-                            Reusable Assets
-                        </div>
                         <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
                             My Templates
                         </h1>
@@ -24,7 +20,7 @@ export default function TemplatesPage() {
 
 
                     <NewDocumentDialog >
-                        <Button className="w-full sm:w-auto h-12 px-6 rounded-xl font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all flex items-center justify-center gap-2 group">
+                        <Button className="w-full sm:w-auto transition-all group">
                             <Plus className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
                             Create New Template
                         </Button>

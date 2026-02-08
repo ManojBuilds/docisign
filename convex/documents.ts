@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { internalMutation, mutation, query } from "./_generated/server";
 
 // Upload and create document
@@ -15,9 +15,25 @@ export const createDocument = mutation({
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new Error("Unauthorized");
-    // Ensure document is owned by the authenticated user
-    if (args.ownerId !== identity.subject) throw new Error("ownerId must match authenticated user");
+    if (!identity) throw new ConvexError("Unauthorized");
+    if (args.ownerId !== identity.subject) {
+      throw new ConvexError("Unauthorized");
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+
+    if (!user) throw new ConvexError("User not found");
+
+    // Protection for trial users: Check if they can create documents
+    const now = Date.now();
+    const isTrialActive = now < user.trialEndDate && user.subscriptionStatus === "trial";
+    const isPaidUser = user.subscriptionStatus === "active";
+    if (!isTrialActive && !isPaidUser) {
+      throw new ConvexError("Your trial has expired. Please upgrade to continue.");
+    }
 
     const documentId = await ctx.db.insert("documents", {
       ...args,
@@ -33,13 +49,32 @@ export const createDocument = mutation({
 
 // Get user's documents
 export const getUserDocuments = query({
-  args: { ownerId: v.string() },
+  args: {
+    ownerId: v.string(),
+    paginationOpts: v.any(),
+    status: v.optional(v.string()),
+    search: v.optional(v.string()),
+  },
   handler: async (ctx, args) => {
-    return await ctx.db
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new ConvexError("Unauthorized");
+    if (args.ownerId !== identity.subject) throw new ConvexError("Unauthorized");
+
+    let query = ctx.db
       .query("documents")
-      .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
-      .order("desc")
-      .collect();
+      .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId));
+
+    if (args.search) {
+      // Use search index if search query is provided
+      return await ctx.db
+        .query("documents")
+        .withSearchIndex("by_title", (q) =>
+          q.search("title", args.search!).eq("ownerId", args.ownerId)
+        )
+        .paginate(args.paginationOpts);
+    }
+
+    return await query.order("desc").paginate(args.paginationOpts);
   },
 });
 
@@ -50,10 +85,14 @@ export const getDocument = query({
     const document = await ctx.db.get(args.documentId);
     if (!document) return null;
 
-    const signatureFields = await ctx.db
-      .query("signatureFields")
-      .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
-      .collect();
+    // Parallel fetch: fields and URL
+    const [signatureFields, fileUrl] = await Promise.all([
+      ctx.db
+        .query("signatureFields")
+        .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
+        .collect(),
+      ctx.storage.getUrl(document.fileStorageId),
+    ]);
 
     // Get unique signers from signature fields
     const uniqueSignersMap = new Map();
@@ -69,8 +108,6 @@ export const getDocument = query({
       }
     }
     const signers = Array.from(uniqueSignersMap.values());
-
-    const fileUrl = await ctx.storage.getUrl(document.fileStorageId);
 
     return {
       ...document,
@@ -168,8 +205,54 @@ export const deleteDocument = mutation({
 
 // Generate file URL
 export const getFileUrl = query({
-  args: { storageId: v.id("_storage") },
+  args: {
+    storageId: v.id("_storage"),
+    token: v.optional(v.string()),
+  },
   handler: async (ctx, args) => {
+    // 1. If token is provided, allow access if the token matches a signature field for a document with this storageId
+    if (args.token) {
+      const field = await ctx.db
+        .query("signatureFields")
+        .withIndex("by_access_token", (q) => q.eq("accessToken", args.token!))
+        .first();
+
+      if (field) {
+        const doc = await ctx.db.get(field.documentId);
+        if (doc && doc.fileStorageId === args.storageId) {
+          return await ctx.storage.getUrl(args.storageId);
+        }
+      }
+    }
+
+    // 2. Fallback to auth identity check for owners
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new ConvexError("Unauthorized");
+
+    // Check if the user owns any document that uses this storage ID
+    const docs = await ctx.db
+      .query("documents")
+      .withIndex("by_file_storage_id", (q) => q.eq("fileStorageId", args.storageId))
+      .collect();
+
+    const userOwnsFile = docs.some(doc => doc.ownerId === identity.subject);
+    if (!userOwnsFile) {
+      // Also check if user is a signer for this file
+      const field = await ctx.db
+        .query("signatureFields")
+        .withIndex("by_document", (q) => {
+          // This is less efficient but necessary if we don't have a direct storage_id -> field index
+          // Let's assume signers use getSigningSession which handles this better.
+          // For simple getFileUrl, we'll restrict to owner unless it's an internal call.
+          return q;
+        })
+        .filter(q => q.eq(q.field("signerEmail"), identity.email))
+        .first();
+
+      // If none of those, deny.
+      if (!userOwnsFile && !field) throw new ConvexError("Unauthorized access to file");
+    }
+
     return await ctx.storage.getUrl(args.storageId);
   },
 });

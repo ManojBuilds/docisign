@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useUser } from "@clerk/nextjs";
-import { Activity, Briefcase, ChevronDown, ChevronRight, Coffee, GraduationCap, Home, Menu, Wallet, X } from "lucide-react";
+import { Activity, Briefcase, ChevronDown, ChevronRight, Coffee, Home, Menu, Wallet, X } from "lucide-react";
 import Link from "next/link";
 import Logo from "../Logo";
 import { UserMenu } from "../UserMenu";
@@ -19,26 +19,25 @@ interface HeaderProps {
 }
 
 const solutions = [
-  { label: "For Freelancers", href: "/esignature-for-freelancers", icon: Coffee },
-  { label: "For Consultants", href: "/esignature-for-consultants", icon: Briefcase },
-  { label: "Real Estate", href: "/real-estate-document-signing", icon: Home },
-  { label: "Healthcare", href: "/healthcare-document-signing", icon: Activity },
-  { label: "Fintech", href: "/fintech-document-signing", icon: Wallet },
-  { label: "Education", href: "/education-document-signing", icon: GraduationCap },
+  { label: "For Solo Consultants", href: "/landing/esignature-for-consultants", icon: Briefcase },
+  { label: "For Freelance Designers", href: "/landing/esignature-for-freelancers", icon: Coffee },
+  { label: "For Independent Developers", href: "/landing/fintech-document-signing", icon: Wallet },
+  { label: "For Real Estate Professionals", href: "/landing/real-estate-document-signing", icon: Home },
+  { label: "For Healthcare Providers", href: "/landing/healthcare-document-signing", icon: Activity },
 ];
 
 const navbarItems = [
   {
-    label: "How It Works",
-    href: "/#how-it-works",
+    label: "Why Boopsign?",
+    href: "/#anti-features",
   },
   {
     label: "Pricing",
     href: "/#pricing",
   },
   {
-    label: "Contract templates",
-    href: "/contracts",
+    label: "How It Works",
+    href: "/#how-it-works",
   },
 ];
 
@@ -46,7 +45,7 @@ export function Header({
   mobileMenuOpen,
   setMobileMenuOpen,
 }: HeaderProps) {
-  const { isSignedIn } = useUser();
+  const { isSignedIn, isLoaded } = useUser();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background backdrop-blur-xl supports-[backdrop-filter]:bg-background">
@@ -87,20 +86,22 @@ export function Header({
 
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-4">
-            {isSignedIn ? (
+            {!isLoaded ? (
+              <div className="h-9 w-24 bg-muted animate-pulse rounded-full hidden sm:block" />
+            ) : isSignedIn ? (
               <>
                 <Button variant="link" asChild className="hidden sm:inline-flex font-medium">
-                  <Link href="/dashboard">Dashboard</Link>
+                  <Link href="/dashboard" prefetch={false}>Dashboard</Link>
                 </Button>
                 <UserMenu />
               </>
             ) : (
               <>
                 <Button variant="ghost" asChild className="hidden sm:inline-flex">
-                  <Link href="/sign-in">Sign In</Link>
+                  <Link href="/dashboard">Sign In</Link>
                 </Button>
                 <Button asChild className="cursor-pointer rounded-full font-medium transition-transform hover:scale-105 h-9 md:h-10 px-4 md:px-5">
-                  <Link href="/dashboard" prefetch>
+                  <Link href="/dashboard" prefetch={false}>
                     <span className="hidden sm:inline">Get Started</span>
                     <span className="sm:hidden text-xs">Get Started</span>
                     <ChevronRight className="ml-1 size-4" />

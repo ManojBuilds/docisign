@@ -1,6 +1,5 @@
 "use client";
 
-import { BrandingSettings } from "@/components/branding/BrandingSettings";
 import { UserMenu } from "@/components/UserMenu";
 import { cn } from "@/lib/utils";
 import { GetProCTA } from "./get-pro-cta";
@@ -49,8 +48,16 @@ export function Header({ classNames }: { classNames?: string }) {
         </div>
 
         <div className="flex items-center gap-2 sm:gap-4">
-          <div className="hidden sm:flex items-center gap-4">
-            <BrandingSettings triggerClassName="flex" />
+          <div className="hidden sm:flex items-center gap-6">
+            <Link
+              href="/profile"
+              className={cn(
+                "text-[13px] flex items-center gap-2 transition-colors hover:text-primary",
+                pathname.startsWith("/profile") ? "text-primary font-bold" : "text-muted-foreground font-medium"
+              )}
+            >
+              Usage
+            </Link>
             <div className="h-4 w-px bg-slate-200" />
             <GetProCTA />
           </div>

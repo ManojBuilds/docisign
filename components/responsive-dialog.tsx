@@ -251,6 +251,7 @@ const ResponsiveDialogContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
     showCloseButton?: boolean;
+    useScrollArea?: boolean;
     /** Styles for the built in close button */
     closeButtonClassName?: string;
     /** Styles for the drag handle */
@@ -264,6 +265,7 @@ const ResponsiveDialogContent = React.forwardRef<
       closeButtonClassName,
       dragHandleClassName,
       showCloseButton = true,
+      useScrollArea = true,
       ...props
     },
     ref,
@@ -315,7 +317,7 @@ const ResponsiveDialogContent = React.forwardRef<
               )}
             />
           )}
-          {!shouldUseDialog ? (
+          {!shouldUseDialog && useScrollArea ? (
             <ScrollArea className="flex-1">
               {children}
             </ScrollArea>

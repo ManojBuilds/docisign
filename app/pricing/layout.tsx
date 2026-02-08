@@ -3,9 +3,9 @@ import Footer from "@/components/Footer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Pricing - $15/Month | No Hidden Fees | Boopsign",
+  title: "Pricing - $16/Month | No Hidden Fees | Boopsign",
   description:
-    "Simple pricing: $15/month for unlimited documents. 7-day free trial. No per-user fees, no hidden costs. 50% cheaper than DocuSign's $25/month plan.",
+    "Simple pricing: Starter plan $19/month (20 signature requests) and Professional plan $39/month (75 signature requests). 14-day free trial. No per-user fees, no hidden costs. Compare vs DocuSign and save.",
   keywords: [
     "Boopsign pricing",
     "docusign alternative pricing",
@@ -14,9 +14,9 @@ export const metadata: Metadata = {
     "affordable document signing",
   ],
   openGraph: {
-    title: "Boopsign Pricing - $15/Month vs DocuSign's $25+",
+    title: "Boopsign Pricing - Starter $19/Month vs Professional $39/Month",
     description:
-      "Simple, transparent pricing. 50% cheaper than DocuSign with better mobile experience.",
+      "Simple, transparent pricing: Starter ($19/month) includes 20 signature requests, Professional ($39/month) includes 75 requests. Compare vs DocuSign with better mobile experience.",
     url: "https://boopsign.com/pricing",
     images: [
       {
@@ -54,7 +54,7 @@ export default function PricingLayout({
             offers: [{
               "@type": "Offer",
               url: "https://boopsign.com/pricing",
-              price: "15.00",
+              price: "19.00",
               priceCurrency: "USD",
               availability: "https://schema.org/InStock",
               priceValidUntil: "2026-12-31",
@@ -79,11 +79,11 @@ export default function PricingLayout({
                 "@type": "Organization",
                 name: "Boopsign"
               },
-              name: "Monthly Plan"
+              name: "Starter Monthly Plan (20 signature requests)"
             }, {
               "@type": "Offer",
               url: "https://boopsign.com/pricing",
-              price: "12.00",
+              price: "16.00",
               priceCurrency: "USD",
               availability: "https://schema.org/InStock",
               priceValidUntil: "2026-12-31",
@@ -91,7 +91,31 @@ export default function PricingLayout({
                 "@type": "Organization",
                 name: "Boopsign"
               },
-              name: "Annual Plan (billed yearly)"
+              name: "Starter Annual Plan (billed yearly, 20 signature requests)"
+            }, {
+              "@type": "Offer",
+              url: "https://boopsign.com/pricing",
+              price: "39.00",
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+              priceValidUntil: "2026-12-31",
+              seller: {
+                "@type": "Organization",
+                name: "Boopsign"
+              },
+              name: "Professional Monthly Plan (75 signature requests)"
+            }, {
+              "@type": "Offer",
+              url: "https://boopsign.com/pricing",
+              price: "32.00",
+              priceCurrency: "USD",
+              availability: "https://schema.org/InStock",
+              priceValidUntil: "2026-12-31",
+              seller: {
+                "@type": "Organization",
+                name: "Boopsign"
+              },
+              name: "Professional Annual Plan (billed yearly, 75 signature requests)"
             }],
             aggregateRating: {
               "@type": "AggregateRating",

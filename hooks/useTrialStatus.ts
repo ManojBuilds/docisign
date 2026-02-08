@@ -17,6 +17,7 @@ export const useTrialStatus = () => {
       isLoading: true,
       isTrialActive: false,
       trialEnded: null,
+      isPaidUser: false,
     };
   }
 
@@ -26,6 +27,7 @@ export const useTrialStatus = () => {
       isLoading: false,
       isTrialActive: true, // allow access for anon users
       trialEnded: null,
+      isPaidUser: false,
     };
   }
 

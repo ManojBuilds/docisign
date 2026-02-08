@@ -79,12 +79,6 @@ export default function AlternativesIndex() {
             icon: "users"
           },
           {
-            title: "Fair Pricing",
-            description: "Unlimited e-signatures for a flat monthly fee of $15.",
-            href: "/pricing",
-            icon: "page"
-          },
-          {
             title: "Contract Library",
             description: "Browse 300+ free contract templates for your industry.",
             href: "/contracts",

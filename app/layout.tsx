@@ -22,11 +22,11 @@ const beVietnamPro = DM_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://boopsign.com"),
   title: {
-    default: "Boopsign - E-Signature Software Built for Freelancers & Consultants | $15/mo",
+    default: "Boopsign - E-Signature Software Built for Freelancers & Consultants",
     template: "%s | Boopsign",
   },
   description:
-    "The e-signature tool freelancers love. No client accounts required. Get contracts signed in 3 minutes, not 3 days. 52% cheaper than DocuSign. Try free for 7 days.",
+    "The e-signature tool freelancers love. No client accounts required. Get contracts signed in 3 minutes, not 3 days. 52% cheaper than DocuSign. Try free for 14 days.",
   keywords: [
     "esignature for freelancers",
     "no account esignature",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "No-Account E-Signatures for Freelancers | Boopsign",
     description:
-      "The simplest DocuSign alternative. Get contracts signed in under 3 minutes. No account needed for signers. $15/month.",
+      "The simplest DocuSign alternative. Get contracts signed in under 3 minutes. No account needed for signers.",
     images: ["https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5"],
     creator: "@Boopsign",
   },
@@ -130,7 +130,7 @@ export default function RootLayout({
                 offers: [
                   {
                     "@type": "Offer",
-                    price: "15.00",
+                    price: "19.00",
                     priceCurrency: "USD",
                     priceValidUntil: "2027-12-31",
                     availability: "https://schema.org/InStock",
@@ -152,11 +152,11 @@ export default function RootLayout({
                       returnFees: "https://schema.org/FreeReturn"
                     },
                     url: "https://boopsign.com/pricing",
-                    name: "Monthly Plan"
+                    name: "Starter Monthly Plan (20 signature requests)"
                   },
                   {
                     "@type": "Offer",
-                    price: "12.00",
+                    price: "16.00",
                     priceCurrency: "USD",
                     priceValidUntil: "2027-12-31",
                     availability: "https://schema.org/InStock",
@@ -178,7 +178,59 @@ export default function RootLayout({
                       returnFees: "https://schema.org/FreeReturn"
                     },
                     url: "https://boopsign.com/pricing",
-                    name: "Annual Plan (billed yearly)"
+                    name: "Starter Annual Plan (billed yearly, 20 signature requests)"
+                  },
+                  {
+                    "@type": "Offer",
+                    price: "39.00",
+                    priceCurrency: "USD",
+                    priceValidUntil: "2027-12-31",
+                    availability: "https://schema.org/InStock",
+                    shippingDetails: {
+                      "@type": "OfferShippingDetails",
+                      shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
+                      deliveryTime: {
+                        "@type": "ShippingDeliveryTime",
+                        handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "DAY" },
+                        transitTime: { "@type": "ShippingDeliveryTime", minValue: 0, maxValue: 0, unitCode: "DAY" }
+                      }
+                    },
+                    hasMerchantReturnPolicy: {
+                      "@type": "MerchantReturnPolicy",
+                      applicableCountry: "US",
+                      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                      merchantReturnDays: 7,
+                      returnMethod: "https://schema.org/ReturnByMail",
+                      returnFees: "https://schema.org/FreeReturn"
+                    },
+                    url: "https://boopsign.com/pricing",
+                    name: "Professional Monthly Plan (75 signature requests)"
+                  },
+                  {
+                    "@type": "Offer",
+                    price: "32.00",
+                    priceCurrency: "USD",
+                    priceValidUntil: "2027-12-31",
+                    availability: "https://schema.org/InStock",
+                    shippingDetails: {
+                      "@type": "OfferShippingDetails",
+                      shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
+                      deliveryTime: {
+                        "@type": "ShippingDeliveryTime",
+                        handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "DAY" },
+                        transitTime: { "@type": "ShippingDeliveryTime", minValue: 0, maxValue: 0, unitCode: "DAY" }
+                      }
+                    },
+                    hasMerchantReturnPolicy: {
+                      "@type": "MerchantReturnPolicy",
+                      applicableCountry: "US",
+                      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnPeriod",
+                      merchantReturnDays: 7,
+                      returnMethod: "https://schema.org/ReturnByMail",
+                      returnFees: "https://schema.org/FreeReturn"
+                    },
+                    url: "https://boopsign.com/pricing",
+                    name: "Professional Annual Plan (billed yearly, 75 signature requests)"
                   }
                 ],
                 aggregateRating: {
@@ -208,7 +260,7 @@ export default function RootLayout({
                   "No account required for signers",
                   "Mobile-optimized e-signatures",
                   "Legally binding audit trail",
-                  "Unlimited document signing",
+                  "Generous signature request limits",
                   "3-minute setup",
                   "Bank-level security"
                 ],

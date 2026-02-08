@@ -10,6 +10,7 @@ export const createCheckout = action({
   args: {
     productId: v.string(), // The DodoPayments product ID
     interval: v.optional(v.union(v.literal("monthly"), v.literal("annually"))),
+    plan: v.union(v.literal("starter"), v.literal("professional")),
     returnUrl: v.optional(v.string()),
   },
   handler: async (ctx, args) => {
@@ -36,6 +37,7 @@ export const createCheckout = action({
         metadata: {
           clerkId: identity.subject,
           interval: args.interval || "monthly",
+          plan: args.plan,
         },
       },
     });

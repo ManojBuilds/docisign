@@ -47,7 +47,7 @@ export default function NotFound() {
               <Button className="w-full">Go Back Home</Button>
             </Link>
             <Link href="/contracts" className="w-full block">
-              <Button variant="outline" className="w-full">Explore free contract templates</Button>
+              <Button variant="secondary" className="w-full">Explore free contract templates</Button>
             </Link>
           </div>
 

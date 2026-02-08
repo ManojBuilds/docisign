@@ -44,14 +44,16 @@ export function useSignerOperations(
                     signerName: signer.name,
                 };
                 updateSignatureFieldInStore(updatedField);
-                handleSaveField(updatedField);
             });
+
+            // Batch save all updated fields at once
+            handleSaveAllFields();
 
             toast.success(
                 `Assigned ${signer.email} to ${unassignedFields.length} field(s).`
             );
         },
-        [signatureFields, updateSignatureFieldInStore, handleSaveField]
+        [signatureFields, updateSignatureFieldInStore, handleSaveAllFields]
     );
 
     const handleSendForSigning = useCallback(

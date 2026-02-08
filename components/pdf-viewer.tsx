@@ -4,11 +4,12 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMobile } from "@/hooks/useMobile";
 import {
-  AlertCircle,
   ChevronLeft,
   ChevronRight,
   ZoomIn,
   ZoomOut,
+  AlertCircle,
+  Loader2,
 } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -16,7 +17,8 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 import { usePdfDimensions } from "./PdfDimensionsContext";
 import { cn } from "@/lib/utils";
-pdfjs.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.min.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
+
 
 interface PDFViewerProps {
   fileUrl: string;
@@ -33,10 +35,7 @@ interface PDFViewerProps {
   onReady?: () => void;
   containerClassName?: string;
 }
-if (typeof window === "undefined") {
-  // @ts-expect-error fix the error
-  global.DOMMatrix = class DOMMatrix { };
-}
+
 
 export default function PDFViewer({
   fileUrl,
@@ -57,9 +56,9 @@ export default function PDFViewer({
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-  // Initialize with first 3 pages visible for immediate rendering
+  // Initialize with first 5 pages visible for faster perceived loading
   const [visiblePages, setVisiblePages] = useState<Set<number>>(() =>
-    new Set([1, 2, 3])
+    new Set([1, 2, 3, 4, 5])
   );
 
   const { pageDimensions, scale, setPageDimensions, setScale } =
@@ -136,6 +135,7 @@ export default function PDFViewer({
         pageElement.scrollIntoView({ behavior: "smooth", block: "start" });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [controlledPageNumber]); // Only depend on controlledPageNumber to avoid loops
 
   const handlePageChange = useCallback(
@@ -165,6 +165,7 @@ export default function PDFViewer({
       cMapPacked: true,
       standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${pdfjs.version}/standard_fonts/`,
       isEvalSupported: false,
+      withCredentials: false,
     }),
     [],
   );
@@ -183,8 +184,9 @@ export default function PDFViewer({
       setIsLoading(false);
       setError("");
       onNumPagesChange?.(numPages);
+      onReady?.();
     },
-    [onNumPagesChange],
+    [onNumPagesChange, onReady],
   );
 
   const onDocumentLoadError = useCallback((error: Error) => {
@@ -233,15 +235,13 @@ export default function PDFViewer({
       // We only set the initial scale once to "Fit to Width"
       setScale(Math.min(1.5, Math.max(0.2, optimalScale)));
       hasSetInitialScale.current = true;
-      onReady?.();
     }
-  }, [pageDimensions, numPages, isMobile, setScale, onReady]);
+  }, [pageDimensions, numPages, isMobile, setScale]);
 
   // Handle window resize separately if needed, but more cautiously
   useEffect(() => {
     const handleResize = () => {
       // We don't forcefully reset scale on every resize unless it's extreme or specifically requested
-      // For now, let's keep it simple: initial fit-to-width is enough.
     };
 
     window.addEventListener("resize", handleResize);
@@ -323,7 +323,7 @@ export default function PDFViewer({
             {/* Signature Field Navigation */}
             <div className="flex items-center gap-2 ml-4">
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={onPreviousSignatureField}
                 disabled={!hasMultipleIncompleteFields}
@@ -333,7 +333,7 @@ export default function PDFViewer({
                 <span className="hidden lg:inline">Previous</span>
               </Button>
               <Button
-                variant="outline"
+                variant="secondary"
                 size="sm"
                 onClick={onNextSignatureField}
                 disabled={!hasMultipleIncompleteFields}
@@ -357,7 +357,12 @@ export default function PDFViewer({
               file={fileUrl}
               onLoadSuccess={onDocumentLoadSuccess}
               onLoadError={onDocumentLoadError}
-              loading={null}
+              loading={
+                <div className="flex flex-col items-center justify-center p-20">
+                  <Loader2 className="w-8 h-8 animate-spin text-primary mb-4" />
+                  <p className="text-gray-500 font-medium animate-pulse">Initializing document...</p>
+                </div>
+              }
               error={
                 <div className="flex flex-col items-center justify-center p-12 bg-white rounded-xl shadow-sm border border-red-100">
                   <AlertCircle className="w-12 h-12 text-red-500 mb-4" />

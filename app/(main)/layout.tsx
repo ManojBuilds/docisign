@@ -1,4 +1,5 @@
 import { PdfDimensionsProvider } from "@/components/PdfDimensionsContext";
+import { UserSync } from "@/components/UserSync";
 import { Style_Script } from "next/font/google";
 
 const styleScript = Style_Script({
@@ -14,8 +15,10 @@ export default function MainLayout({
     children: React.ReactNode;
 }) {
     return (
-        <PdfDimensionsProvider>
-            <div className={styleScript.variable}>{children}</div>
-        </PdfDimensionsProvider>
+        <UserSync>
+            <PdfDimensionsProvider>
+                <div className={styleScript.variable}>{children}</div>
+            </PdfDimensionsProvider>
+        </UserSync>
     );
 }

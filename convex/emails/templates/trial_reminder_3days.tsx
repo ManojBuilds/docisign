@@ -13,7 +13,7 @@ interface TrialReminder3DaysProps {
 export default function TrialReminder3Days({
   userName = "User",
   upgradeUrl = "#",
-  planPrice = "$15/month",
+  planPrice = "$19/month",
   daysLeft = 3,
 }: TrialReminder3DaysProps) {
   const preview = `Your Boopsign trial ends in ${daysLeft} days`;
@@ -40,7 +40,7 @@ export default function TrialReminder3Days({
         </Text>
         <div>
           <Text className="m-0 mb-2 text-[13px] text-black">
-            ✓ Seamlessly send unlimited signature requests
+            ✓ Send signature requests (20/month on Starter, 75/month on Professional)
           </Text>
           <Text className="m-0 mb-2 text-[13px] text-black">
             ✓ Access all documents created during your trial

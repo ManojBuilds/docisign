@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { api } from "./_generated/api";
 import { mutation, query } from "./_generated/server";
 
@@ -45,6 +45,13 @@ export const addSignatureField = mutation({
     lastReminderAt: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new ConvexError("Unauthorized");
+
+    const doc = await ctx.db.get(args.documentId);
+    if (!doc) throw new ConvexError("Document not found");
+    if (doc.ownerId !== identity.subject) throw new ConvexError("Unauthorized");
+
     return await ctx.db.insert("signatureFields", {
       ...args,
       isRequired: args.isRequired ?? true,
@@ -93,6 +100,16 @@ export const updateSignatureField = mutation({
     lastReminderAt: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new ConvexError("Unauthorized");
+
+    const field = await ctx.db.get(args.fieldId);
+    if (!field) throw new ConvexError("Field not found");
+
+    const doc = await ctx.db.get(field.documentId);
+    if (!doc) throw new ConvexError("Document not found");
+    if (doc.ownerId !== identity.subject) throw new ConvexError("Unauthorized");
+
     const { fieldId, ...rest } = args;
     // Only patch defined values to avoid clearing fields with undefined
     const updates = Object.fromEntries(
@@ -108,6 +125,16 @@ export const updateSignatureField = mutation({
 export const deleteSignatureField = mutation({
   args: { fieldId: v.id("signatureFields") },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new ConvexError("Unauthorized");
+
+    const field = await ctx.db.get(args.fieldId);
+    if (!field) throw new ConvexError("Field not found");
+
+    const doc = await ctx.db.get(field.documentId);
+    if (!doc) throw new ConvexError("Document not found");
+    if (doc.ownerId !== identity.subject) throw new ConvexError("Unauthorized");
+
     await ctx.db.delete(args.fieldId);
   },
 });
@@ -271,8 +298,12 @@ export const saveSignatureFields = mutation({
     ),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new ConvexError("Unauthorized");
+
     const document = await ctx.db.get(args.documentId);
-    if (!document) throw new Error("Document not found");
+    if (!document) throw new ConvexError("Document not found");
+    if (document.ownerId !== identity.subject) throw new ConvexError("Unauthorized");
 
     const existingFields = await ctx.db
       .query("signatureFields")

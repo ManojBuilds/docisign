@@ -17,31 +17,55 @@ interface PricingFaqProps {
 }
 
 const PricingFaq = ({
-  heading = "Frequently asked questions",
+  heading = "Questions Solo Entrepreneurs Actually Ask",
   items = [
     {
       id: "q1",
-      question: "What happens during my free trial of Boopsign Pro?",
+      question: "Is this legally binding?",
       answer:
-        "You get full access to all Boopsign Pro features for 7 days. No credit card is required to start. Create unlimited documents, send them securely for signing, and explore all features risk-free.",
+        "Yes. Every signature includes timestamp, IP address, and email verification. Compliant with ESIGN Act and UETA. As legally binding as DocuSign's $500/month enterprise plan.",
     },
     {
       id: "q2",
-      question: "Are there any hidden fees?",
+      question: "What if I need [insert enterprise feature]?",
       answer:
-        "No hidden fees whatsoever. No per-document charges, no user fees, and no setup costs. Just $15/month for unlimited document signing.",
+        "You probably don't. But if you do, we're not your tool. We're built for solo operators who need speed and simplicity, not legal teams managing 1,000-person approval chains.",
     },
     {
       id: "q3",
-      question: "Can I cancel my Boopsign subscription anytime?",
+      question: "Why should I trust a small tool?",
       answer:
-        "Yes, you can cancel your subscription at any time. No contracts or commitments. You can even cancel during your free trial with no questions asked.",
+        "Fair question. We're intentionally small. Small means: faster response to support emails (not routed through 5 departments), we actually read your feature requests, no corporate overlords forcing bloat, no acquisition → shutdown cycle. We're here for the long haul, just smaller and focused.",
     },
     {
       id: "q4",
-      question: "Do document signers need to create accounts?",
+      question: "Can my clients sign without creating an account?",
       answer:
-        "No! Signers can sign documents directly from their email without creating any accounts. This reduces friction and speeds up the signing process significantly.",
+        "That's literally the point. They click a link, they sign, they're done. No 'Forgot Password' emails. No app downloads. No onboarding.",
+    },
+    {
+      id: "q5",
+      question: "Will you add [feature X] in the future?",
+      answer:
+        "Only if it serves our core mission: simplicity and speed. We're not adding Salesforce integration or blockchain signatures. We might add multi-language support or SMS notifications. We'll never become DocuSign.",
+    },
+    {
+      id: "q6",
+      question: "What if I outgrow Boopsign?",
+      answer:
+        "Then we've done our job. If you scale to needing enterprise features, DocuSign will be waiting for you. We'll make it easy to export your data. No hard feelings. We're optimized for solo to small, not small to enterprise.",
+    },
+    {
+      id: "q7",
+      question: "Are there any hidden fees?",
+      answer:
+        "No hidden fees whatsoever. No per-document charges, no user fees, and no setup costs. Just $29/month for unlimited document signing.",
+    },
+    {
+      id: "q8",
+      question: "Can I cancel my Boopsign subscription anytime?",
+      answer:
+        "Yes, you can cancel your subscription at any time. No contracts or commitments. You can even cancel during your free trial with no questions asked.",
     },
   ]
 }: PricingFaqProps) => {
@@ -53,7 +77,7 @@ const PricingFaq = ({
             {heading}
           </h2>
           <p className="text-muted-foreground">
-            Everything you need to know about the product and billing.
+            (And Honest Answers)
           </p>
         </div>
 

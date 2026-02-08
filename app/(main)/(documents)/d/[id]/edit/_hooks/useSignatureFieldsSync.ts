@@ -113,7 +113,10 @@ export function useSignatureFieldsSync(
           lastSavedFieldsJson: nextFieldsJson,
         });
       } else if (!isLoaded && allReady) {
-        useDocumentEditorStore.setState({ isLoaded: true });
+        useDocumentEditorStore.setState({
+          isLoaded: true,
+          lastSavedFieldsJson: nextFieldsJson,
+        });
       }
     } else if (normalizedFields.length > 0) {
       // Partially ready - just update fields via prop

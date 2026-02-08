@@ -81,18 +81,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.3,
     },
     {
-      url: `${baseUrl}/sign-up`,
-      lastModified: defaultLastModified,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${baseUrl}/sign-in`,
-      lastModified: defaultLastModified,
-      changeFrequency: 'monthly',
-      priority: 0.6,
-    },
-    {
       url: `${baseUrl}/contracts`,
       lastModified: defaultLastModified,
       changeFrequency: "weekly",

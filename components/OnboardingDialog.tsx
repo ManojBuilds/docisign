@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Label } from "@/components/ui/label";
@@ -12,6 +11,13 @@ import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 import { Sparkles, Briefcase, FileText, Users, Building2, ArrowRight, ArrowLeft, Check } from "lucide-react";
+import {
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+  ResponsiveDialogDescription,
+} from "@/components/responsive-dialog";
 
 interface OnboardingDialogProps {
   open: boolean;
@@ -127,17 +133,17 @@ export function OnboardingDialog({ open, onComplete }: OnboardingDialogProps) {
   };
 
   return (
-    <Dialog open={open} onOpenChange={() => { }}>
-      <DialogContent className="sm:max-w-[600px]" showCloseButton={false}>
-        <DialogHeader>
+    <ResponsiveDialog open={open} onOpenChange={() => { }}>
+      <ResponsiveDialogContent className="sm:max-w-[600px]" showCloseButton={false}>
+        <ResponsiveDialogHeader>
           <div className="flex items-center gap-2 mb-2">
             <Sparkles className="h-5 w-5 text-primary" />
-            <DialogTitle className="text-2xl">{steps[currentStep - 1].title}</DialogTitle>
+            <ResponsiveDialogTitle>{steps[currentStep - 1].title}</ResponsiveDialogTitle>
           </div>
-          <DialogDescription className="text-base">
+          <ResponsiveDialogDescription>
             {steps[currentStep - 1].description}
-          </DialogDescription>
-        </DialogHeader>
+          </ResponsiveDialogDescription>
+        </ResponsiveDialogHeader>
 
         <div className="space-y-6 py-4">
           {/* Progress Bar */}
@@ -157,9 +163,9 @@ export function OnboardingDialog({ open, onComplete }: OnboardingDialogProps) {
                   <Sparkles className="h-8 w-8 text-primary" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-xl font-semibold">Your 7-day free trial starts now!</h3>
+                  <h3 className="text-xl font-semibold">Your 14-day free trial starts now!</h3>
                   <p className="text-muted-foreground">
-                    No credit card needed. You can send unlimited documents during your trial.
+                    No credit card needed. You can send documents during your trial.
                   </p>
                 </div>
                 <div className="grid grid-cols-3 gap-4 pt-4">
@@ -437,7 +443,7 @@ export function OnboardingDialog({ open, onComplete }: OnboardingDialogProps) {
           {/* Navigation Buttons */}
           <div className="flex justify-between pt-4 border-t">
             <Button
-              variant="outline"
+              variant="secondary"
               onClick={handleBack}
               disabled={currentStep === 1 || isSubmitting}
             >
@@ -466,8 +472,8 @@ export function OnboardingDialog({ open, onComplete }: OnboardingDialogProps) {
             </Button>
           </div>
         </div>
-      </DialogContent>
-    </Dialog>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   );
 }
 

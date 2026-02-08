@@ -5,9 +5,9 @@ import { api } from "@/convex/_generated/api";
 import { useUser } from "@clerk/nextjs";
 import { useMutation } from "convex/react";
 import { Loader2 } from "lucide-react";
-import { useRouter } from "nextjs-toploader/app";
 import { useEffect } from "react";
 import posthog from "posthog-js";
+import { useRouter } from "next/navigation";
 
 export default function CallbackPage() {
     const { user, isLoaded } = useUser();

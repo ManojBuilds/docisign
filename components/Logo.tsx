@@ -19,7 +19,7 @@ export default function Logo({
   href = "/",
   showStatus = false,
 }: LogoProps) {
-  const { isPaidUser, isTrialActive, isLoading, isAuthenticated } = useTrialStatus();
+  const { isPaidUser, isTrialActive, isLoading, isAuthenticated, plan } = useTrialStatus();
 
   return (
     <div className={cn("flex items-center", className)}>
@@ -45,14 +45,14 @@ export default function Logo({
           <div className="ml-1 sm:ml-1.5 flex items-center">
             {isPaidUser ? (
               <Badge variant="secondary" className="bg-primary/10 text-primary border-primary/20 py-0 px-2 text-[9px] md:text-[10px] font-black uppercase tracking-[0.1em] h-5 rounded-full">
-                PRO
+                {plan}
               </Badge>
             ) : isTrialActive ? (
-              <Badge variant="outline" className="border-orange-200 text-orange-600 bg-orange-50 py-0 px-2 text-[9px] md:text-[10px] font-semibold uppercase tracking-wider h-5 rounded-full">
+              <Badge variant="secondary" className="border-orange-200 text-orange-600 bg-orange-50 py-0 px-2 text-[9px] md:text-[10px] font-semibold uppercase tracking-wider h-5 rounded-full">
                 Trial
               </Badge>
             ) : (
-              <Badge variant="outline" className="text-muted-foreground py-0 px-2 text-[9px] md:text-[10px] font-semibold uppercase tracking-wider h-5 rounded-full">
+              <Badge variant="secondary" className="text-muted-foreground py-0 px-2 text-[9px] md:text-[10px] font-semibold uppercase tracking-wider h-5 rounded-full">
                 Free
               </Badge>
             )}

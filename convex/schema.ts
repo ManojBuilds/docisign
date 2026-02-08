@@ -7,12 +7,14 @@ export default defineSchema({
     email: v.string(),
     firstName: v.optional(v.string()),
     lastName: v.optional(v.string()),
-    // Update plan to include trial
-    plan: v.union(v.literal("trial"), v.literal("pro"), v.literal("expired")),
+    // Updated plan to include starter and professional
+    plan: v.union(v.literal("trial"), v.literal("starter"), v.literal("professional"), v.literal("expired")),
     // Add trial fields
     trialStartDate: v.number(),
     trialEndDate: v.number(),
-    documentsUsed: v.optional(v.number()),
+    signatureRequestsUsed: v.optional(v.number()),
+    billingCycleStart: v.optional(v.number()),
+    documentsUsed: v.optional(v.number()), // Keep for backward compatibility
 
     // Add subscription fields for DodoPayments
     dodoCustomerId: v.optional(v.string()),
@@ -37,6 +39,14 @@ export default defineSchema({
     trialReminderFlags: v.optional(v.object({
       day3: v.boolean(),
       day1: v.boolean(),
+    })),
+
+    // Track localized trial email sequence (Day 1 is Welcome email)
+    trialEmailsSent: v.optional(v.object({
+      day3: v.optional(v.boolean()),  // Templates tip
+      day7: v.optional(v.boolean()),  // Case study
+      day10: v.optional(v.boolean()), // 3 days left
+      day13: v.optional(v.boolean()), // Upgrade tomorrow
     })),
 
     // Branding fields

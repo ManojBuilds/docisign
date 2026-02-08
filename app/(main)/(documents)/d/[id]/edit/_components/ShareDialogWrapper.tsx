@@ -8,12 +8,13 @@ const ShareDialog = lazy(() =>
 
 interface Signer {
     email: string;
-    name?: string;
+    name: string;
 }
 
 interface ShareDialogWrapperProps {
     isOpen: boolean;
     documentId: Id<"documents">;
+    document?: any; // Add document prop
     onSend: (signers: Signer[], customMessage?: string) => Promise<void>;
     onOpenChange: (open: boolean) => void;
     hasUnassignedFields: boolean;
@@ -29,12 +30,13 @@ export const ShareDialogWrapper = memo(
     ({
         isOpen,
         documentId,
+        document,
         onSend,
         onOpenChange,
         hasUnassignedFields,
         onSignerAdd,
         signatureFields,
-        signers,
+        signers = [],
     }: ShareDialogWrapperProps) => {
         if (!isOpen) return null;
 
@@ -42,6 +44,7 @@ export const ShareDialogWrapper = memo(
             <Suspense fallback={null}>
                 <ShareDialog
                     documentId={documentId}
+                    document={document}
                     onSend={onSend}
                     open={isOpen}
                     onOpenChange={onOpenChange}

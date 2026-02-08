@@ -1,4 +1,4 @@
-import { v } from "convex/values";
+import { ConvexError, v } from "convex/values";
 import { api, internal } from "./_generated/api";
 import {
   internalAction,
@@ -6,6 +6,102 @@ import {
   mutation,
   query,
 } from "./_generated/server";
+
+// Bulk add signers to a document - creates signature fields for each
+export const bulkAddSigners = mutation({
+  args: {
+    documentId: v.id("documents"),
+    signers: v.array(
+      v.object({
+        email: v.string(),
+        name: v.optional(v.string()),
+      })
+    ),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("You must be logged in to add signers.");
+    }
+
+    const document = await ctx.db.get(args.documentId);
+    if (!document) throw new Error("Document not found");
+    if (document.ownerId !== identity.subject) throw new Error("Not the document owner");
+
+    // Get user to check plan limits
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+
+    if (!user) throw new Error("User not found");
+
+    // Check bulk sending limits based on plan
+    let maxBulkRecipients = 1; // Default for trial/starter
+    if (user.plan === "professional") {
+      maxBulkRecipients = 5;
+    }
+
+    if (args.signers.length > maxBulkRecipients) {
+      throw new Error(
+        `Your plan allows up to ${maxBulkRecipients} recipients at once. You tried to add ${args.signers.length}. Upgrade to Professional for bulk sending.`
+      );
+    }
+
+    // Get existing signature fields to check for duplicates
+    const existingFields = await ctx.db
+      .query("signatureFields")
+      .withIndex("by_document", (q) => q.eq("documentId", args.documentId))
+      .collect();
+
+    const existingSignerEmails = new Set(
+      existingFields
+        .map((f) => f.signerEmail?.toLowerCase())
+        .filter((email): email is string => !!email)
+    );
+
+    const addedSignerIds: string[] = [];
+
+    for (const signer of args.signers) {
+      const email = signer.email.trim().toLowerCase();
+
+      // Skip if signer already exists
+      if (existingSignerEmails.has(email)) {
+        continue;
+      }
+
+      // Generate unique access token
+      const accessToken = crypto.randomUUID();
+
+      const signerId = await ctx.db.insert("signatureFields", {
+        documentId: args.documentId,
+        fieldType: "signature",
+        page: 1,
+        x: 0,
+        y: 0,
+        width: 150,
+        height: 60,
+        isRequired: true,
+        label: "Signature",
+        signerEmail: email,
+        signerName: signer.name || email,
+        status: "pending",
+        accessToken,
+        isCompleted: false,
+        createdAt: Date.now(),
+        reminderCount: 0,
+      });
+
+      addedSignerIds.push(signerId);
+      existingSignerEmails.add(email);
+    }
+
+    return {
+      addedCount: addedSignerIds.length,
+      signerIds: addedSignerIds,
+    };
+  },
+});
 
 // Add signer to document by creating a signature field
 export const addSigner = mutation({
@@ -16,6 +112,13 @@ export const addSigner = mutation({
     signingOrder: v.optional(v.number()),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new ConvexError("Unauthorized");
+
+    const document = await ctx.db.get(args.documentId);
+    if (!document) throw new ConvexError("Document not found");
+    if (document.ownerId !== identity.subject) throw new ConvexError("Unauthorized");
+
     const email = args.email.trim().toLowerCase();
     // Check if signer already exists by checking for any signature fields assigned to this email
     const existingSignatureFields = await ctx.db
@@ -72,26 +175,30 @@ export const getSignerByToken = query({
 
     if (!signatureField) return null;
 
-    const document = await ctx.db.get(signatureField.documentId);
-    if (!document) return null;
-    const signatureFields = await ctx.db
-      .query("signatureFields")
-      .withIndex("by_document_and_signer", (q) =>
-        q
-          .eq("documentId", signatureField.documentId)
-          .eq("signerEmail", signatureField.signerEmail),
-      )
-      .collect();
+    // Parallel queries: Get document and signer fields at once
+    const [document, signatureFields] = await Promise.all([
+      ctx.db.get(signatureField.documentId),
+      ctx.db
+        .query("signatureFields")
+        .withIndex("by_document_and_signer", (q) =>
+          q
+            .eq("documentId", signatureField.documentId)
+            .eq("signerEmail", signatureField.signerEmail),
+        )
+        .collect(),
+    ]);
 
+    if (!document) return null;
+
+    // Get owner (depends on document)
     const owner = await ctx.db
       .query("users")
       .withIndex("by_clerk_id", (q) => q.eq("clerkId", document.ownerId))
       .first();
 
-    let ownerLogoUrl = null;
-    if (owner?.brandLogoStorageId) {
-      ownerLogoUrl = await ctx.storage.getUrl(owner.brandLogoStorageId);
-    }
+    const ownerLogoUrl = owner?.brandLogoStorageId
+      ? await ctx.storage.getUrl(owner.brandLogoStorageId)
+      : null;
 
     return {
       signer: {
@@ -144,6 +251,45 @@ export const getSigner = query({
   },
 });
 
+// Remove signer from document (delete all their signature fields)
+export const removeSigner = mutation({
+  args: {
+    documentId: v.id("documents"),
+    signerEmail: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new Error("You must be logged in to remove a signer.");
+    }
+
+    const document = await ctx.db.get(args.documentId);
+    if (!document) throw new Error("Document not found");
+    if (document.ownerId !== identity.subject) throw new Error("Not the document owner");
+
+    // Can only remove signers from draft documents
+    if (document.status !== "draft") {
+      throw new Error("Cannot remove signers from a document that has already been sent");
+    }
+
+    const email = args.signerEmail.trim().toLowerCase();
+
+    // Find and delete all signature fields for this signer
+    const signerFields = await ctx.db
+      .query("signatureFields")
+      .withIndex("by_document_and_signer", (q) =>
+        q.eq("documentId", args.documentId).eq("signerEmail", email)
+      )
+      .collect();
+
+    for (const field of signerFields) {
+      await ctx.db.delete(field._id);
+    }
+
+    return { removedCount: signerFields.length };
+  },
+});
+
 // Get all unique signers for a user's documents
 export const getUserSigners = query({
   args: { ownerId: v.string() },
@@ -154,34 +300,43 @@ export const getUserSigners = query({
       .withIndex("by_owner", (q) => q.eq("ownerId", args.ownerId))
       .collect();
 
-    // Get all unique signer emails from those documents
+    if (userDocuments.length === 0) {
+      return [];
+    }
+
+    // Create a map of document IDs to titles for quick lookup
+    const documentTitleMap = new Map(
+      userDocuments.map((doc) => [doc._id, doc.title])
+    );
+
+    // Batch query: Get all signature fields for all user's documents at once
+    // Since Convex doesn't support IN queries, we query by signer index and filter
+    // But better approach: query all fields and filter by documentId set
+    const allSignatureFields = await Promise.all(
+      userDocuments.map((doc) =>
+        ctx.db
+          .query("signatureFields")
+          .withIndex("by_document", (q) => q.eq("documentId", doc._id))
+          .collect()
+      )
+    );
+
+    // Flatten all signature fields
+    const flattenedFields = allSignatureFields.flat();
+
+    // Get unique signers from all signature fields
     const allSigners = [];
-    const seenEmails = new Set();
+    const seenEmails = new Set<string>();
 
-    for (const document of userDocuments) {
-      const signatureFields = await ctx.db
-        .query("signatureFields")
-        .withIndex("by_document", (q) => q.eq("documentId", document._id))
-        .collect();
-
-      // Get unique signers from signature fields
-      const documentSigners = new Map();
-      for (const field of signatureFields) {
-        if (field.signerEmail && !documentSigners.has(field.signerEmail)) {
-          documentSigners.set(field.signerEmail, {
-            email: field.signerEmail,
-            name: field.signerName,
-            documentId: field.documentId,
-            documentTitle: document.title, // Include document title for reference
-          });
-        }
-      }
-
-      for (const [email, signer] of documentSigners) {
-        if (!seenEmails.has(email)) {
-          seenEmails.add(email);
-          allSigners.push(signer);
-        }
+    for (const field of flattenedFields) {
+      if (field.signerEmail && !seenEmails.has(field.signerEmail)) {
+        seenEmails.add(field.signerEmail);
+        allSigners.push({
+          email: field.signerEmail,
+          name: field.signerName,
+          documentId: field.documentId,
+          documentTitle: documentTitleMap.get(field.documentId) || "",
+        });
       }
     }
 
@@ -316,12 +471,53 @@ export const sendDocumentForSigning = mutation({
     if (!document) throw new Error("Document not found");
     if (document.ownerId !== identity.subject) throw new Error("Not the document owner");
 
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", identity.subject))
+      .first();
+
+    if (!user) throw new Error("User not found");
+
+    // Check limits
+    const used = user.signatureRequestsUsed || 0;
+    let limit = 0;
+    if (user.plan === "trial") limit = 1; // Trial gets only 1 signature request
+    else if (user.plan === "starter") limit = 20;
+    else if (user.plan === "professional") limit = 75;
+
+    // Check if billing cycle has passed (Lazy Reset)
+    // If the user hasn't sent a request in over a month, reset their usage
+    const oneMonthMs = 30 * 24 * 60 * 60 * 1000;
+    const lastBillingStart = user.billingCycleStart || 0;
+    let effectiveUsed = used;
+
+    if (Date.now() > lastBillingStart + oneMonthMs) {
+      // It's been more than a month since the last cycle start
+      // Reset usage and update billing cycle start
+      await ctx.db.patch(user._id, {
+        signatureRequestsUsed: 0,
+        billingCycleStart: Date.now(),
+      });
+      effectiveUsed = 0;
+    }
+
+    // Enforce limits for ALL users (including active paid users)
+    // We strictly prevent users from exceeding their plan limits as requested
+    if (effectiveUsed >= limit) {
+      throw new Error(`You have reached your limit of ${limit} signature requests for this month. Please upgrade your plan.`);
+    }
+
     // Update document status
     await ctx.db.patch(args.documentId, {
       status: "sent",
       customMessage: args.customMessage,
       updatedAt: Date.now(),
       expiresAt: Date.now() + 30 * 24 * 60 * 60 * 1000, // 30 days
+    });
+
+    // Increment usage
+    await ctx.db.patch(user._id, {
+      signatureRequestsUsed: effectiveUsed + 1,
     });
 
     // Update all signature fields to "sent" status for each unique signer
@@ -546,19 +742,17 @@ export const getSigningSession = query({
   args: { accessToken: v.string() },
   handler: async (ctx, args) => {
     try {
-      // Find signature field by access token
+      // 1. Fetch the initial field
       const signatureField = await ctx.db
         .query("signatureFields")
-        .withIndex("by_access_token", (q) =>
-          q.eq("accessToken", args.accessToken),
-        )
+        .withIndex("by_access_token", (q) => q.eq("accessToken", args.accessToken))
         .first();
 
       if (!signatureField) {
         return { error: "Invalid access token" };
       }
 
-      // Get document
+      // 2. Fetch the document
       const document = await ctx.db.get(signatureField.documentId);
       if (!document) {
         return { error: "Document not found" };
@@ -569,28 +763,31 @@ export const getSigningSession = query({
         return { error: "Document has expired" };
       }
 
-      // Get all signature fields for this document
-      const allDocumentFields = await ctx.db
-        .query("signatureFields")
-        .withIndex("by_document", (q) => q.eq("documentId", signatureField.documentId))
-        .collect();
+      // Parallel queries: Get all document fields and owner at once
+      const [allDocumentFields, owner] = await Promise.all([
+        // All fields for the document
+        ctx.db
+          .query("signatureFields")
+          .withIndex("by_document", (q) => q.eq("documentId", signatureField.documentId))
+          .collect(),
+        // Owner details
+        ctx.db
+          .query("users")
+          .withIndex("by_clerk_id", (q) => q.eq("clerkId", document.ownerId))
+          .first(),
+      ]);
 
-      // Get signature fields assigned to this signer
-      const signatureFields = allDocumentFields.filter(f => f.signerEmail === signatureField.signerEmail);
+      const signerFields = allDocumentFields.filter(
+        (f) => f.signerEmail === signatureField.signerEmail
+      );
 
-      // Get owner details
-      const owner = await ctx.db
-        .query("users")
-        .withIndex("by_clerk_id", (q) => q.eq("clerkId", document.ownerId))
-        .first();
-
-      let ownerLogoUrl = null;
-      if (owner?.brandLogoStorageId) {
-        ownerLogoUrl = await ctx.storage.getUrl(owner.brandLogoStorageId);
-      }
-
-      // Get document file URL
-      const fileUrl = await ctx.storage.getUrl(document.fileStorageId);
+      // Get URLs in parallel
+      const [ownerLogoUrl, fileUrl] = await Promise.all([
+        owner?.brandLogoStorageId
+          ? ctx.storage.getUrl(owner.brandLogoStorageId)
+          : Promise.resolve(null),
+        ctx.storage.getUrl(document.fileStorageId),
+      ]);
 
       return {
         signer: {
@@ -609,7 +806,7 @@ export const getSigningSession = query({
           lastReminderAt: signatureField.lastReminderAt,
         },
         document,
-        signatureFields,
+        signatureFields: signerFields,
         allDocumentFields,
         owner,
         fileUrl,

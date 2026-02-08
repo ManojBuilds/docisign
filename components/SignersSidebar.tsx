@@ -42,27 +42,16 @@ export function SignersSidebar({ }: SignersSidebarProps) {
     selectedTool,
     setSelectedTool,
     setCurrentPage,
+    manualSigners,
+    lastAssignedSignerEmail,
+    setLastAssignedSignerEmail,
   } = useDocumentEditorStore();
 
 
   // Use all active signers (merges manual + field) for the sidebar display
-  // const activeSigners = useMemo(() => {
-  //   const uniqueSigners = new Map();
-  //   manualSigners.forEach(s => uniqueSigners.set(s.email, s));
-  //   signatureFields.forEach(f => {
-  //     if (f.signerEmail && !uniqueSigners.has(f.signerEmail)) {
-  //       uniqueSigners.set(f.signerEmail, {
-  //         email: f.signerEmail,
-  //         name: f.signerName || "",
-  //       });
-  //     }
-  //   });
-  //   return Array.from(uniqueSigners.values()).sort((a, b) => a.email.localeCompare(b.email));
-  // }, [manualSigners, signatureFields]);
-
-  // Only signers who are assigned to signature fields (for sending purposes)
-  const signersAssignedToFields = useMemo(() => {
+  const activeSigners = useMemo(() => {
     const uniqueSigners = new Map();
+    manualSigners.forEach(s => uniqueSigners.set(s.email, s));
     signatureFields.forEach(f => {
       if (f.signerEmail && !uniqueSigners.has(f.signerEmail)) {
         uniqueSigners.set(f.signerEmail, {
@@ -72,7 +61,21 @@ export function SignersSidebar({ }: SignersSidebarProps) {
       }
     });
     return Array.from(uniqueSigners.values()).sort((a, b) => a.email.localeCompare(b.email));
-  }, [signatureFields]);
+  }, [manualSigners, signatureFields]);
+
+  // Only signers who are assigned to signature fields (for internal tracking/display of counts)
+  // const signersAssignedToFields = useMemo(() => {
+  //   const uniqueSigners = new Map();
+  //   signatureFields.forEach(f => {
+  //     if (f.signerEmail && !uniqueSigners.has(f.signerEmail)) {
+  //       uniqueSigners.set(f.signerEmail, {
+  //         email: f.signerEmail,
+  //         name: f.signerName || "",
+  //       });
+  //     }
+  //   });
+  //   return Array.from(uniqueSigners.values()).sort((a, b) => a.email.localeCompare(b.email));
+  // }, [signatureFields]);
 
   const activeFields = useMemo(() => {
     return signatureFields
@@ -160,7 +163,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                   const updatedField = { ...selectedField, ...updates };
                   updateSignatureFieldInStore(updatedField);
                 }}
-                signers={signersAssignedToFields.map(s => ({
+                signers={activeSigners.map(s => ({
                   ...s,
                   documentId: selectedField.id as any,
                   documentTitle: ""
@@ -225,18 +228,18 @@ export function SignersSidebar({ }: SignersSidebarProps) {
             <div className="flex items-center justify-between mb-5">
               <h3 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-gray-400">Recipients</h3>
               <span className="text-[10px] font-extrabold text-primary bg-primary/5 border border-primary/10 px-2.5 py-0.5 rounded-full">
-                {signersAssignedToFields.length}
+                {activeSigners.length}
               </span>
             </div>
 
-            {signersAssignedToFields.length === 0 ? (
+            {activeSigners.length === 0 ? (
               <div className="p-5 rounded-2xl bg-gray-50/50 border border-dashed border-gray-200 flex flex-col items-center justify-center gap-2 py-8 group hover:bg-gray-50 transition-colors">
                 <Plus className="w-5 h-5 text-gray-300 group-hover:text-gray-400 transition-colors" />
                 <p className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest text-center">No recipients yet</p>
               </div>
             ) : (
               <div className="space-y-3">
-                {signersAssignedToFields.map((signer, index) => {
+                {activeSigners.map((signer, index) => {
                   const initials = (signer.name || signer.email)
                     .split(' ')
                     .map((n: string) => n[0])
@@ -244,10 +247,18 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                     .toUpperCase()
                     .substring(0, 2);
 
+                  const isActive = lastAssignedSignerEmail === signer.email;
+
                   return (
-                    <div
+                    <button
                       key={signer.email}
-                      className="group relative flex items-center gap-3 p-3.5 rounded-2xl bg-white border border-gray-100 hover:border-primary/20 hover:shadow-[0_8px_30px_rgb(0,0,0,0.02)] transition-all cursor-default"
+                      onClick={() => setLastAssignedSignerEmail(signer.email)}
+                      className={cn(
+                        "group relative flex items-center gap-3 p-3.5 w-full text-left rounded-2xl transition-all border",
+                        isActive
+                          ? "bg-primary/5 border-primary shadow-[0_8px_25px_-5px_rgba(var(--primary),0.1)] ring-1 ring-primary/10"
+                          : "bg-white border-gray-100 hover:border-gray-200 hover:shadow-[0_8px_30px_rgb(0,0,0,0.02)]"
+                      )}
                     >
                       <Avatar className="h-9 w-9 rounded-xl border-2 border-white shadow-sm ring-1 ring-gray-100">
                         <AvatarFallback className={cn(
@@ -258,14 +269,27 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs font-bold text-gray-900 truncate tracking-tight">
-                          {signer.name || signer.email}
-                        </p>
+                        <div className="flex items-center justify-between">
+                          <p className={cn(
+                            "text-xs font-bold truncate tracking-tight",
+                            isActive ? "text-primary" : "text-gray-900"
+                          )}>
+                            {signer.name || signer.email}
+                          </p>
+                          {isActive && (
+                            <div className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                          )}
+                        </div>
                         {signer.name && signer.name !== signer.email && (
                           <p className="text-[10px] text-gray-400 font-bold truncate tracking-tight uppercase opacity-70">{signer.email}</p>
                         )}
                       </div>
-                    </div>
+                      {isActive && (
+                        <div className="absolute -top-1.5 -right-1.5 bg-primary text-white text-[8px] font-bold px-1.5 py-0.5 rounded-full shadow-sm ring-2 ring-white uppercase tracking-tighter">
+                          Active
+                        </div>
+                      )}
+                    </button>
                   );
                 })}
               </div>

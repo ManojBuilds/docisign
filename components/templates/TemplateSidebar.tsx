@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { Check, FileSignature, Shield } from "lucide-react";
 // import { TemplateActionButton } from "./TemplateActionButton";
 import { TemplateDownloadButtons } from "./TemplateDownloadButtons";
-import { ALL_TEMPLATES } from "@/lib/seo/all-templates";
+import { getTemplateBySlug } from "@/lib/seo/all-templates";
 
 interface TemplateSidebarProps {
   title: string;
@@ -34,7 +34,7 @@ export function TemplateSidebar({
   docUrl: propsDocUrl,
   pdfUrl: propsPdfUrl,
 }: TemplateSidebarProps) {
-  const template = templateId ? ALL_TEMPLATES.find((t) => t.slug === templateId) : null;
+  const template = templateId ? getTemplateBySlug(templateId) : null;
   const docUrl = propsDocUrl || template?.docUrl;
   const pdfUrl = propsPdfUrl || template?.pdfUrl;
 

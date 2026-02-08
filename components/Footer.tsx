@@ -21,20 +21,20 @@ const Footer = () => {
       links: [
         { label: "Blog", href: "/blog" },
         { label: "Free Contracts", href: "/contracts" },
-        { label: "What is an eSignature?", href: "/what-is-electronic-signature" },
-        { label: "Are eSignatures legal?", href: "/electronic-signature-legality" },
+        { label: "What is an eSignature?", href: "/landing/what-is-electronic-signature" },
+        { label: "Are eSignatures legal?", href: "/landing/electronic-signature-legality" },
         { label: "Online signature maker", href: "/online-signature-maker" },
-        { label: "Electronic Signature", href: "/electronic-signature" },
-        { label: "No Account Required", href: "/no-account-esignature" },
+        { label: "Electronic Signature", href: "/landing/electronic-signature" },
+        { label: "No Account Required", href: "/landing/no-account-esignature" },
       ],
     },
     {
       title: "Solutions",
       links: [
-        { label: "For Freelancers", href: "/esignature-for-freelancers" },
-        { label: "For Consultants", href: "/esignature-for-consultants" },
-        { label: "HR Documents", href: "/hr-document-signing" },
-        { label: "Real Estate", href: "/real-estate-document-signing" },
+        { label: "For Freelancers", href: "/landing/esignature-for-freelancers" },
+        { label: "For Consultants", href: "/landing/esignature-for-consultants" },
+        { label: "HR Documents", href: "/landing/hr-document-signing" },
+        { label: "Real Estate", href: "/landing/real-estate-document-signing" },
       ],
     },
     {

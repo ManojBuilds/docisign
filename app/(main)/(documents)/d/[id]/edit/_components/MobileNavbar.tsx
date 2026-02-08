@@ -35,6 +35,7 @@ import { SignatureFieldData } from "@/components/signature-field";
 
 interface MobileNavbarProps {
   documentId: Id<"documents">;
+  document?: any; // Add document prop to avoid duplicate query
   setIsShareDialogOpen: (open: boolean) => void;
   onOpenAddFieldSheet?: () => void;
   onOpenFieldsDrawer?: () => void;
@@ -49,6 +50,7 @@ interface MobileNavbarProps {
  */
 export const MobileNavbar = memo(({
   documentId,
+  document: propDocument,
   setIsShareDialogOpen,
   onOpenAddFieldSheet,
   onOpenFieldsDrawer,
@@ -57,7 +59,12 @@ export const MobileNavbar = memo(({
   hasUnsavedChanges,
   signatureFields,
 }: MobileNavbarProps) => {
-  const document = useQuery(api.documents.getDocument, { documentId });
+  // Use prop document if provided, otherwise query (fallback for standalone usage)
+  const queriedDocument = useQuery(
+    api.documents.getDocument,
+    propDocument ? "skip" : { documentId }
+  );
+  const document = propDocument || queriedDocument;
   const updateDocumentTitle = useMutation(api.documents.updateDocumentTitle);
   const [editedTitle, setEditedTitle] = useState(document?.title || "");
   const [isTitleDrawerOpen, setIsTitleDrawerOpen] = useState(false);

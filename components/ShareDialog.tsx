@@ -2,22 +2,26 @@
 
 import { Button } from "@/components/ui/button";
 import { Confetti } from "@/components/ui/confetti";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { api } from "@/convex/_generated/api";
-import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useQuery } from "convex/react";
+import { useQuery, useMutation } from "convex/react";
 import { Send } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import posthog from "posthog-js";
 import { ConfigurationView } from "./share-dialog/ConfigurationView";
 import { StatusView } from "./share-dialog/StatusView";
 import { SuccessView } from "./share-dialog/SuccessView";
 import { ShareDialogProps, Signer } from "@/components/share-dialog/types";
+import {
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogTrigger,
+} from "@/components/responsive-dialog";
+import { useTrialStatus } from "@/hooks/useTrialStatus";
 
 export function ShareDialog({
   documentId,
+  document: propDocument,
   onSend,
   open,
   onOpenChange,
@@ -26,9 +30,19 @@ export function ShareDialog({
   signers: propSigners,
   children,
 }: ShareDialogProps & { skipSignerSync?: boolean; children?: React.ReactNode }) {
-  // Fetch document details
-  const document = useQuery(api.documents.getDocument, { documentId });
+  // Fetch document details only if not provided as prop
+  const queriedDocument = useQuery(
+    api.documents.getDocument,
+    propDocument ? "skip" : { documentId }
+  );
+  const document = propDocument || queriedDocument;
   const dbSignatureFields = useQuery(api.signatureFields.getDocumentSignatureFields, { documentId });
+  const { plan, isPaidUser } = useTrialStatus();
+  const removeSignerMutation = useMutation(api.signers.removeSigner);
+
+  // Determine max recipients based on plan
+  const isProfessionalPlan = plan === "professional" || (isPaidUser && plan !== "starter");
+  const maxRecipients = isProfessionalPlan ? 5 : 1;
 
   // Source of truth priority: Props (Editor Store) > DB (Saved state)
   const signatureFields = (propSignatureFields || dbSignatureFields) as any[];
@@ -40,7 +54,6 @@ export function ShareDialog({
 
   const hasPendingFields = signatureFields?.some(field => field.status === 'pending' || !field.status);
   const hasCompletedFields = signatureFields?.some(field => field.isCompleted);
-  const isDesktop = useMediaQuery("(min-width: 640px)");
   const [internalOpen, setInternalOpen] = useState(false);
   const isActualOpen = open !== undefined ? open : internalOpen;
   const isOpenRef = useRef(isActualOpen);
@@ -53,7 +66,7 @@ export function ShareDialog({
     }
   }, [showConfetti]);
 
-  // Merge signers for the dialog. 
+  // Merge signers for the dialog.
   const mergedSigners = useMemo<Signer[]>(() => {
     if (propSigners && propSigners.length > 0) {
       return propSigners;
@@ -76,10 +89,35 @@ export function ShareDialog({
   }, [signatureFields, propSigners]);
 
 
+  // Handle removing a signer
+  const handleRemoveSigner = useCallback(async (email: string) => {
+    try {
+      await removeSignerMutation({
+        documentId,
+        signerEmail: email,
+      });
+      toast.success(`Removed ${email}`);
+    } catch (error: any) {
+      toast.error(error.message || "Failed to remove recipient");
+    }
+  }, [documentId, removeSignerMutation]);
+
+
+  const usageStats = useQuery(api.users.getUsageStats, document?.ownerId ? { clerkId: document.ownerId } : "skip");
+
   const handleSend = async () => {
     if (mergedSigners.length === 0) {
       toast.error("Please add at least one signer by assigning them to a field.");
       return;
+    }
+
+    // Check if user is on trial and has reached signature request limit
+    if (plan === "trial" && usageStats) {
+      const sigReq = usageStats.signatureRequests;
+      if (sigReq.used >= sigReq.limit) {
+        toast.error("You've reached your limit of 1 signature request during the trial. Please upgrade to send more documents.");
+        return;
+      }
     }
 
     setIsSending(true);
@@ -117,76 +155,10 @@ export function ShareDialog({
   const handleClose = () => handleOpenChange(false);
   const handleConfigureClick = () => setForceShowConfig(true);
 
-  if (isDesktop) {
-    return (
-      <>
-        {showConfetti && (
-          <div className="fixed inset-0 z-[999] pointer-events-none">
-            <Confetti
-              className="w-full h-full"
-              options={{
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 }
-              }}
-            />
-          </div>
-        )}
-        <Dialog open={isActualOpen} onOpenChange={handleOpenChange}>
-          <DialogTrigger asChild>
-            {children || (
-              <Button className="w-full sm:w-auto font-semibold shadow-sm cursor-pointer">
-                <Send className="w-4 h-4 mr-2" />
-                Request Signature
-              </Button>
-            )}
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-xl p-0 gap-0 overflow-hidden bg-white border-0 shadow-2xl rounded-2xl ring-1 ring-zinc-900/5">
-            {showConfetti ? (
-              <SuccessView isDesktop={true} onClose={handleClose} />
-            ) : (!forceShowConfig && document?.status &&
-              (document.status === 'sent' ||
-                document.status === 'in_progress' ||
-                document.status === 'completed' ||
-                document.status === 'cancelled' ||
-                document.status === 'declined' ||
-                document.status === 'expired')) ? (
-              <StatusView
-                isDesktop={true}
-                documentStatus={document.status}
-                hasPendingFields={hasPendingFields}
-                hasCompletedFields={hasCompletedFields}
-                signatureFields={signatureFields}
-                signers={mergedSigners}
-                forceShowConfig={forceShowConfig}
-                setForceShowConfig={setForceShowConfig}
-                onClose={handleClose}
-                onConfigureClick={handleConfigureClick}
-              />
-            ) : (
-              <ConfigurationView
-                isDesktop={true}
-                hasUnassignedFields={hasUnassignedFields}
-                customMessage={customMessage}
-                setCustomMessage={setCustomMessage}
-                signatureFields={signatureFields}
-                signers={mergedSigners}
-                isSending={isSending}
-                onSend={handleSend}
-                onClose={handleClose}
-              />
-            )}
-          </DialogContent>
-        </Dialog>
-      </>
-    );
-  }
-
-  // Mobile Drawer Implementation
   return (
     <>
       {showConfetti && (
-        <div className="fixed inset-0 z-50 pointer-events-none">
+        <div className="fixed inset-0 z-[999] pointer-events-none">
           <Confetti
             className="w-full h-full"
             options={{
@@ -197,18 +169,18 @@ export function ShareDialog({
           />
         </div>
       )}
-      <Drawer open={isActualOpen} onOpenChange={handleOpenChange}>
-        <DrawerTrigger asChild>
+      <ResponsiveDialog open={isActualOpen} onOpenChange={handleOpenChange}>
+        <ResponsiveDialogTrigger asChild>
           {children || (
-            <Button className="w-full sm:w-auto font-semibold shadow-sm">
+            <Button className="w-full sm:w-auto font-semibold shadow-sm cursor-pointer">
               <Send className="w-4 h-4 mr-2" />
-              Send for signature
+              Request Signature
             </Button>
           )}
-        </DrawerTrigger>
-        <DrawerContent className="max-h-[90vh]">
+        </ResponsiveDialogTrigger>
+        <ResponsiveDialogContent className="sm:max-w-xl p-0 gap-0 overflow-hidden bg-white border-0 shadow-2xl rounded-2xl ring-1 ring-zinc-900/5 max-h-[90vh]">
           {showConfetti ? (
-            <SuccessView isDesktop={false} onClose={handleClose} />
+            <SuccessView isDesktop={true} onClose={handleClose} />
           ) : (!forceShowConfig && document?.status &&
             (document.status === 'sent' ||
               document.status === 'in_progress' ||
@@ -217,7 +189,7 @@ export function ShareDialog({
               document.status === 'declined' ||
               document.status === 'expired')) ? (
             <StatusView
-              isDesktop={false}
+              isDesktop={true}
               documentStatus={document.status}
               hasPendingFields={hasPendingFields}
               hasCompletedFields={hasCompletedFields}
@@ -230,7 +202,9 @@ export function ShareDialog({
             />
           ) : (
             <ConfigurationView
-              isDesktop={false}
+              isDesktop={true}
+              documentId={documentId}
+              document={document}
               hasUnassignedFields={hasUnassignedFields}
               customMessage={customMessage}
               setCustomMessage={setCustomMessage}
@@ -239,10 +213,14 @@ export function ShareDialog({
               isSending={isSending}
               onSend={handleSend}
               onClose={handleClose}
+              onRemoveSigner={document?.status === "draft" ? handleRemoveSigner : undefined}
+              maxRecipients={maxRecipients}
+              isProfessionalPlan={isProfessionalPlan}
+              usageStats={usageStats}
             />
           )}
-        </DrawerContent>
-      </Drawer>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
     </>
   );
 }

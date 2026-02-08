@@ -17,9 +17,9 @@ export const PlanBadge = ({ showDetails = false }: PlanBadgeProps) => {
 
     if (trialStatus.isPaidUser) {
         return (
-            <Badge variant="secondary" className="bg-primary/10 text-primary border border-primary/20">
+            <Badge variant="secondary" className="bg-primary/10 text-primary border border-primary/20 capitalize">
                 <Gem className="h-3 w-3 mr-1" />
-                Pro
+                {trialStatus.plan === "starter" ? "Starter" : trialStatus.plan === "professional" ? "Professional" : "Pro"}
                 {showDetails && (
                     <span className="ml-1 opacity-80 font-normal">Active</span>
                 )}
@@ -29,7 +29,7 @@ export const PlanBadge = ({ showDetails = false }: PlanBadgeProps) => {
 
     if (trialStatus.isTrialActive) {
         return (
-            <Badge variant="outline" className="border-orange-200 text-orange-600 bg-orange-50">
+            <Badge variant="secondary" className="border-orange-200 text-orange-600 bg-orange-50">
                 <Clock className="h-3 w-3 mr-1" />
                 Free Trial
                 {showDetails && (

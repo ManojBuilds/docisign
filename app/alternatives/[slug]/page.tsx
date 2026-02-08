@@ -83,7 +83,7 @@ export default async function ComparisonPage({ params }: Props) {
               brand: { "@type": "Brand", name: "Boopsign" },
               offers: {
                 "@type": "Offer",
-                price: comparison.priceComparison?.us?.toString() || "15.00",
+                price: comparison.priceComparison?.us?.toString() || "39.00",
                 priceCurrency: "USD",
                 priceValidUntil: "2027-12-31",
                 availability: "https://schema.org/InStock",
@@ -171,7 +171,7 @@ export default async function ComparisonPage({ params }: Props) {
           </Link>
 
           <div className="flex items-center justify-center gap-4 text-xs font-black tracking-[0.3em] text-blue-600 mb-10 uppercase">
-            <Badge variant="outline" className="bg-white border-blue-100 text-blue-600 px-4 py-1.5 rounded-lg shadow-sm">Updated for 2026</Badge>
+            <Badge variant="secondary" className="bg-white border-blue-100 text-blue-600 px-4 py-1.5 rounded-lg shadow-sm">Updated for 2026</Badge>
             <span className="text-slate-300">|</span>
             <div className="flex items-center gap-1.5 text-slate-400">
               <Clock className="size-3.5" />
@@ -199,7 +199,7 @@ export default async function ComparisonPage({ params }: Props) {
 
             <div className="bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-slate-200 shadow-lg relative md:rotate-[-3deg] md:hover:rotate-[-1deg] transition-transform duration-300">
               <div className="absolute top-0 right-0 p-4">
-                <Badge variant="outline" className="text-slate-400 font-semibold border-slate-200 uppercase tracking-widest text-[10px] bg-white">The Giant</Badge>
+                <Badge variant="secondary" className="text-slate-400 font-semibold border-slate-200 uppercase tracking-widest text-[10px] bg-white">The Giant</Badge>
               </div>
               <h3 className="text-xl font-semibold text-slate-500 mb-4">{comparison.competitorName}</h3>
               <div className="text-4xl font-black text-slate-400 line-through mb-2">${comparison.priceComparison?.them || '45'}<span className="text-sm font-semibold text-slate-400 ml-1">/mo</span></div>
@@ -212,23 +212,13 @@ export default async function ComparisonPage({ params }: Props) {
               </div>
               <div className="absolute -bottom-10 -right-10 size-40 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-all duration-700" />
               <h3 className="text-xl font-semibold text-blue-100 mb-4 tracking-tight">Boopsign</h3>
-              <div className="text-4xl font-black text-white mb-2">${comparison.priceComparison?.us || '15'}<span className="text-sm font-semibold text-blue-200 ml-1">/mo</span></div>
+              <div className="text-4xl font-black text-white mb-2">${comparison.priceComparison?.us || '39'}<span className="text-sm font-semibold text-blue-200 ml-1">/mo</span></div>
               <p className="text-sm text-blue-100 font-medium">Unlimited signatures & zero friction</p>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
             <StartTrialBtn />
-            <div className="flex items-center gap-3 text-sm text-slate-500 font-semibold">
-              <div className="flex -space-x-3">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="size-9 rounded-full border-2 border-white bg-slate-200 ring-2 ring-slate-50 shadow-sm overflow-hidden relative">
-                    <div className="absolute inset-0 bg-gradient-to-br from-slate-100 to-slate-300" />
-                  </div>
-                ))}
-              </div>
-              <span>Join 2,847+ professionals</span>
-            </div>
           </div>
 
           <div className="max-w-4xl mx-auto">
@@ -330,7 +320,7 @@ export default async function ComparisonPage({ params }: Props) {
                     "No credit card required",
                     "Unlimited documents",
                     "Unlimited signers",
-                    "Setup in 2 mins"
+                    "Setup in 90 seconds"
                   ].map(t => (
                     <div key={t} className="flex items-center gap-2 text-sm font-semibold text-slate-300">
                       <CheckCircle className="size-4 text-blue-500" /> {t}
@@ -371,7 +361,7 @@ export default async function ComparisonPage({ params }: Props) {
         pages={[
           {
             title: "Pricing for Freelancers",
-            description: "Everything you need for $15/month. Unlimited documents.",
+            description: "Everything you need for $39/month. Unlimited documents.",
             href: "/pricing",
             icon: "page"
           },

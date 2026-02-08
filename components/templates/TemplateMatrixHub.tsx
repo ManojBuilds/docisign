@@ -171,7 +171,7 @@ export function TemplateMatrixHub() {
 
                         {/* View All Footer */}
                         <div className="p-4 bg-slate-50 border-t border-slate-100">
-                            <Button asChild variant="outline" className="w-full bg-white border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 font-bold transition-all">
+                            <Button asChild variant="secondary" className="w-full bg-white border-slate-200 hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 font-bold transition-all">
                                 <Link href={`/contracts/freelance/${role.slug}`}>
                                     View All Documents
                                 </Link>
@@ -244,7 +244,7 @@ export function TemplateMatrixHub() {
                         <h3 className="text-xl font-bold text-slate-900 mb-2">No roles found</h3>
                         <p className="text-slate-500 mb-6">Try adjusting your search or industry filter.</p>
                         <Button
-                            variant="outline"
+                            variant="secondary"
                             onClick={() => {
                                 setSearchTerm("");
                                 setSelectedIndustry("All");

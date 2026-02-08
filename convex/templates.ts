@@ -26,15 +26,17 @@ export const getTemplates = query({
 export const getTemplateDetails = query({
   args: { templateId: v.id("documents") },
   handler: async (ctx, args) => {
-    const template = await ctx.db.get(args.templateId);
+    const [template, fields] = await Promise.all([
+      ctx.db.get(args.templateId),
+      ctx.db
+        .query("signatureFields")
+        .withIndex("by_document", (q) => q.eq("documentId", args.templateId))
+        .collect(),
+    ]);
+
     if (!template || !template.isTemplate) {
       throw new ConvexError("Template not found");
     }
-
-    const fields = await ctx.db
-      .query("signatureFields")
-      .withIndex("by_document", (q) => q.eq("documentId", args.templateId))
-      .collect();
 
     return {
       template,
@@ -62,6 +64,25 @@ export const createTemplateInternal = internalMutation({
     const originalDoc = await ctx.db.get(args.documentId);
     if (!originalDoc) {
       throw new ConvexError("Document not found");
+    }
+
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_clerk_id", (q) => q.eq("clerkId", originalDoc.ownerId))
+      .first();
+
+    if (user) {
+      const existingTemplates = await ctx.db
+        .query("documents")
+        .withIndex("by_owner", (q) => q.eq("ownerId", originalDoc.ownerId))
+        .filter((q) => q.eq(q.field("isTemplate"), true))
+        .collect();
+
+      if (user.plan === "trial" && existingTemplates.length >= 1) {
+        throw new ConvexError("You have reached your limit of 1 saved template during the trial. Please upgrade to add more templates.");
+      } else if (user.plan === "starter" && existingTemplates.length >= 5) {
+        throw new ConvexError("You have reached your limit of 5 saved templates. Please upgrade to Professional for unlimited templates.");
+      }
     }
 
     const fields = await ctx.db
@@ -190,12 +211,19 @@ export const deleteTemplate = mutation({
     templateId: v.id("documents"),
   },
   handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) throw new ConvexError("Unauthorized");
+
     console.log(`[deleteTemplate] Starting deletion for template: ${args.templateId}`);
 
     const template = await ctx.db.get(args.templateId);
     if (!template || !template.isTemplate) {
       console.error(`[deleteTemplate] Template not found or invalid: ${args.templateId}`);
       throw new ConvexError("Template not found or is not a template");
+    }
+
+    if (template.ownerId !== identity.subject) {
+      throw new ConvexError("Unauthorized");
     }
 
     // Check if the template is being used by other documents
@@ -419,5 +447,108 @@ export const createDocumentFromTemplate = mutation({
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
+  },
+});
+/**
+ * Bulk instantiate and send a template to multiple recipients
+ */
+export const bulkInstantiateAndSendTemplate = action({
+  args: {
+    templateId: v.id("documents"),
+    title: v.optional(v.string()),
+    recipients: v.array(
+      v.object({
+        email: v.string(),
+        name: v.string(),
+      })
+    ),
+    customMessage: v.optional(v.string()),
+    ownerId: v.string(),
+    primaryRole: v.string(),
+    staticSignerMappings: v.array(
+      v.object({
+        role: v.string(),
+        email: v.string(),
+        name: v.string(),
+      })
+    ),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new ConvexError("You must be logged in to bulk send.");
+    }
+
+    console.log(`[bulkInstantiateAndSendTemplate] Action starting for template: ${args.templateId}`);
+
+    // 0. Check limits
+    const user = await ctx.runQuery(api.users.getCurrentUser, { clerkId: identity.subject });
+    if (!user) {
+      throw new ConvexError("User not found");
+    }
+
+    let maxBulkRecipients = 1; // Default for trial/starter
+    if (user.plan === "professional") {
+      maxBulkRecipients = 5;
+    }
+
+    if (args.recipients.length > maxBulkRecipients) {
+      throw new ConvexError(
+        `Your plan allows up to ${maxBulkRecipients} recipients at once. You tried to add ${args.recipients.length}. Upgrade to Professional for bulk sending.`
+      );
+    }
+
+    const results = [];
+
+    // 1. Get template details
+    const result = await ctx.runQuery(api.templates.getTemplateDetails, {
+      templateId: args.templateId
+    });
+
+    if (!result || !result.template) {
+      throw new ConvexError("Template details not found");
+    }
+
+    const { template } = result;
+
+    // 2. Loop through recipients and create/send documents
+    for (const recipient of args.recipients) {
+      // a. Copy the template file in storage
+      const templateFile = await ctx.storage.get(template.fileStorageId);
+      if (!templateFile) {
+        throw new ConvexError("Template file not found in storage");
+      }
+
+      const newFileStorageId = await ctx.storage.store(templateFile);
+
+      // b. Combine mappings: static ones + the current bulk recipient
+      const currentMappings = [
+        ...args.staticSignerMappings,
+        {
+          role: args.primaryRole,
+          email: recipient.email,
+          name: recipient.name,
+        }
+      ];
+
+      // c. Create the instance
+      const documentId: Id<"documents"> = await ctx.runMutation(internal.templates.createInstanceFromTemplateInternal, {
+        templateId: args.templateId,
+        title: `${args.title || template.title} - ${recipient.name}`,
+        ownerId: args.ownerId,
+        fileStorageId: newFileStorageId,
+        signerMappings: currentMappings,
+      });
+
+      // d. Send the document
+      await ctx.runMutation(api.signers.sendDocumentForSigning, {
+        documentId,
+        customMessage: args.customMessage,
+      });
+
+      results.push(documentId);
+    }
+
+    return results;
   },
 });

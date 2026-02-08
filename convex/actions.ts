@@ -10,7 +10,8 @@ export const generateSignedPdf = internalAction({
     const document = await ctx.runQuery(api.documents.getDocument, { documentId: args.documentId });
     if (!document) throw new Error("Document not found");
 
-    const signatureFields = await ctx.runQuery(api.signatureFields.getDocumentSignatureFields, { documentId: args.documentId });
+    // Use signatureFields from getDocument response (already fetched)
+    const signatureFields = document.signatureFields;
     if (!signatureFields) throw new Error("Signature fields not found");
 
     console.log(`Found ${signatureFields.length} signature fields for document ${args.documentId}`);

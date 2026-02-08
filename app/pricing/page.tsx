@@ -6,8 +6,8 @@ import dynamic from "next/dynamic";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Boopsign Pricing - $15/mo for Freelancers | No Per-User Fees",
-  description: "Simple, transparent pricing for freelancers. $15/month for unlimited documents. No per-user fees, no hidden costs. Compare vs DocuSign and save 50%.",
+  title: "Boopsign Pricing - Starter $19/mo vs Professional $39/mo | No Per-User Fees",
+  description: "Simple, transparent pricing for solo entrepreneurs. Starter plan $19/month (20 signature requests) and Professional plan $39/month (75 signature requests). No per-user fees, no hidden costs. Compare vs DocuSign and save.",
   alternates: {
     canonical: "https://boopsign.com/pricing",
   },
@@ -26,8 +26,8 @@ export default function PricingPage() {
       <RelatedPages
         pages={[
           {
-            title: "For Freelancers",
-            description: "Discover why 2,000+ freelancers choose Boopsign for their contracts.",
+            title: "For Solo Entrepreneurs",
+            description: "Discover why solo entrepreneurs choose Boopsign for their contracts.",
             href: "/esignature-for-freelancers",
             icon: "users"
           },

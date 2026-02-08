@@ -128,7 +128,7 @@ export const SigningNavbar = memo(({
 
                   <div className="pt-4">
                     <Button
-                      variant="outline"
+                      variant="secondary"
                       className="w-full text-red-600 border-red-100 bg-red-50/50 hover:bg-red-100 hover:text-red-700 h-14 rounded-2xl font-semibold text-sm transition-all"
                       onClick={onDecline}
                     >
@@ -211,7 +211,7 @@ export const SigningNavbar = memo(({
                   </div>
                 </div>
 
-                <div className="space-y-4">
+                <div className="space-y-4 mt-4">
                   <h3 className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] flex items-center gap-2">
                     <User className="w-3 h-3" />
                     Sender
@@ -257,7 +257,7 @@ export const SigningNavbar = memo(({
 
                 <div className="pt-4">
                   <Button
-                    variant="outline"
+                    variant="secondary"
                     className="w-full text-red-600 border-red-100 bg-red-50 hover:bg-red-100 hover:text-red-700 h-12 rounded-xl text-[10px] font-black uppercase tracking-[0.2em] transition-all"
                     onClick={onDecline}
                   >

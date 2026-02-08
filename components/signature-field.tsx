@@ -5,20 +5,25 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { cn } from "@/lib/utils";
 import { useDocumentEditorStore } from "@/stores/document-editor-store";
+import { api } from "@/convex/_generated/api";
+import { Id } from "@/convex/_generated/dataModel";
 import {
   closestCenter,
   DndContext,
   DragEndEvent,
   KeyboardSensor, PointerSensor, useDraggable,
   useSensor,
-  useSensors
+  useSensors,
+  TouchSensor
 } from "@dnd-kit/core";
+import { useQuery } from "convex/react";
 import {
   ALargeSmall,
   CalendarDays,
-  TextCursor
+  TextCursor,
+  Trash2
 } from "lucide-react";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { toast } from "sonner";
 import { MobileFieldDrawer } from "./mobile-field-drawer";
 import { usePdfDimensions } from "./PdfDimensionsContext";
@@ -141,8 +146,30 @@ function DraggableSignatureField({
   } | null>(null);
 
 
-  const { selectedTool } = useDocumentEditorStore();
+  const { selectedTool, signatureFields, manualSigners, documentId } = useDocumentEditorStore();
+  const document = useQuery(api.documents.getDocument, documentId ? { documentId } : "skip");
   const theme = getSignerColor(localField.fieldType, localField.signerEmail, localField.rolePlaceholder);
+
+  const signers = useMemo(() => {
+    const uniqueSigners = new Map();
+    manualSigners.forEach(s => uniqueSigners.set(s.email, {
+      email: s.email,
+      name: s.name,
+      documentId: documentId as Id<"documents">,
+      documentTitle: document?.title || "Document"
+    }));
+    signatureFields.forEach(f => {
+      if (f.signerEmail && !uniqueSigners.has(f.signerEmail)) {
+        uniqueSigners.set(f.signerEmail, {
+          email: f.signerEmail,
+          name: f.signerName || "",
+          documentId: documentId as Id<"documents">,
+          documentTitle: document?.title || "Document"
+        });
+      }
+    });
+    return Array.from(uniqueSigners.values()).sort((a, b) => a.email.localeCompare(b.email));
+  }, [manualSigners, signatureFields, documentId, document?.title]);
 
   const { attributes, listeners, setNodeRef, transform, isDragging } =
     useDraggable({
@@ -313,9 +340,9 @@ function DraggableSignatureField({
       className={cn(
         "absolute select-none transition-shadow",
         selectedTool === "selection" ? "cursor-grab active:cursor-grabbing" : "",
-        isSelected ? "z-50" : "z-10",
+        isSelected ? "z-50" : "z-30",
         selectedTool !== "selection" ? "pointer-events-none" : "pointer-events-auto",
-        !isResizingRef.current && isSelected && "touch-none"
+        !isResizingRef.current && "touch-none"
       )}
       style={{
         left: pixelX * pdfViewerScale,
@@ -327,15 +354,15 @@ function DraggableSignatureField({
     >
       {isEditMode && isSelected && !localField.isCompleted && (
         <>
-          {/* Adobe Sign Blue Frame */}
-          <div className="absolute inset-[-3px] border-2 border-primary ring-4 ring-primary/10 rounded-sm pointer-events-none shadow-2xl animate-in fade-in zoom-in-95 duration-200" />
+          {/* Active selection frame - Subtle */}
+          <div className="absolute inset-[-2px] border border-primary/40 ring-2 ring-primary/5 pointer-events-none" />
 
-          {/* Resize Handles - Elegant and focused */}
+          {/* Resize Handles - Compact Corner */}
           <div
             onPointerDown={onResizePointerDown}
-            className="absolute -bottom-3 -right-3 w-6 h-6 bg-white border-2 border-primary rounded-full shadow-xl cursor-se-resize z-[100] flex items-center justify-center pointer-events-auto touch-none active:scale-125 transition-transform"
+            className="absolute -bottom-1 -right-1 w-5 h-5 cursor-se-resize z-[100] flex items-end justify-end pointer-events-auto touch-none"
           >
-            <div className="w-2 h-2 bg-primary rounded-full shadow-sm" />
+            <div className="w-2.5 h-2.5 border-b-[3px] border-r-[3px] border-primary rounded-br-[1px]" />
           </div>
 
           {/* Deletion Tip - Purely Informational (Desktop Only) */}
@@ -368,38 +395,39 @@ function DraggableSignatureField({
         </div>
 
         <div
-          className="flex flex-col w-full h-full relative"
+          className="flex flex-col w-full h-full relative cursor-grab"
           {...listeners}
           onClick={(e) => {
             e.stopPropagation();
-            if (isSelected) {
-              if (!isDesktop) setIsDrawerOpen(true);
-            } else {
-              onSelect(field.id);
+            onSelect(field.id);
+            if (!isDesktop) {
+              setIsDrawerOpen(true);
             }
           }}
         >
           {/* Main content - centered icon and label */}
           <div className="flex-1 flex items-center justify-center min-h-0 min-w-0 p-1">
-            <div
-              className={cn("shrink-0 transition-colors", isSelected ? "text-primary" : theme.icon)}
-              style={{
-                width: `${Math.max(12, pixelHeight * pdfViewerScale * 0.45)}px`,
-                height: `${Math.max(12, pixelHeight * pdfViewerScale * 0.45)}px`
-              }}
-            >
-              {getFieldIcon(localField.fieldType)}
-            </div>
+            {isDesktop && (
+              <div
+                className={cn("shrink-0 transition-colors", isSelected ? "text-primary" : theme.icon)}
+                style={{
+                  width: `${Math.max(isDesktop ? 12 : 16, pixelHeight * pdfViewerScale * 0.45)}px`,
+                  height: `${Math.max(isDesktop ? 12 : 16, pixelHeight * pdfViewerScale * 0.45)}px`
+                }}
+              >
+                {getFieldIcon(localField.fieldType)}
+              </div>
+            )}
           </div>
 
           {/* Bottom Status / Signer Info */}
           <div
             className="px-2 bg-black/5 flex items-center justify-between overflow-hidden shrink-0"
-            style={{ height: `${Math.max(8, pixelHeight * pdfViewerScale * 0.18)}px` }}
+            style={{ height: `${Math.max(isDesktop ? 8 : 12, pixelHeight * pdfViewerScale * 0.18)}px` }}
           >
             <span
               className="font-medium text-gray-400 uppercase tracking-tighter truncate max-w-[85%] select-none"
-              style={{ fontSize: `${Math.max(6, pixelHeight * pdfViewerScale * 0.12)}px` }}
+              style={{ fontSize: `${Math.max(isDesktop ? 6 : 8, pixelHeight * pdfViewerScale * 0.12)}px` }}
             >
               {localField.signerName || localField.signerEmail || localField.rolePlaceholder || "Unassigned"}
             </span>
@@ -483,6 +511,20 @@ function DraggableSignatureField({
                 className="h-5 px-1.5 text-[10px] font-semibold border-none focus:outline-none focus:ring-0 bg-white/10 rounded border border-white/5 hover:bg-white/15 transition-colors placeholder:text-white/30 text-white w-[80px]"
                 placeholder="Field label"
               />
+              <div className="w-[1px] h-3 bg-white/20 mx-0.5" />
+
+              <Button
+                size="icon"
+                variant="ghost"
+                className="h-6 w-6 p-1 hover:bg-red-500/20 text-red-400 hover:text-red-500 rounded-md transition-colors"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(field.id);
+                }}
+                title="Remove field"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+              </Button>
             </div>
           )}
         </div>
@@ -499,7 +541,7 @@ function DraggableSignatureField({
             onSelect={onSelect}
             isSaving={isSaving}
             // TODO: Pass actual signers here if needed
-            signers={[]}
+            signers={signers}
           />
         )}
       </div>
@@ -515,7 +557,13 @@ function SignatureField(props: SignatureFieldProps) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 5, // Lower distance for more immediate drag feel
+        distance: 5,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
       },
     }),
     useSensor(KeyboardSensor),
@@ -623,10 +671,15 @@ function SignatureField(props: SignatureFieldProps) {
     );
   }
 
+  const handleDragStart = () => {
+    props.onSelect(field.id);
+  };
+
   return (
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
+      onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       modifiers={[restrictToParentModifier]}
     >

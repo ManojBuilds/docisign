@@ -10,16 +10,18 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+          "bg-linear-to-b from-primary/95 to-primary text-primary-foreground shadow-[inset_0_1.5px_0_rgba(255,255,255,0.25),inset_0_-1.5px_0_rgba(0,0,0,0.25),0_4px_8px_rgba(0,0,0,0.15)] ring-1 ring-primary/20 ring-offset-background hover:ring-primary/40 hover:shadow-[inset_0_1.5px_0_rgba(255,255,255,0.3),inset_0_-1.5px_0_rgba(0,0,0,0.3),0_6px_12px_rgba(0,0,0,0.2)] active:scale-[0.98] transition-all duration-200 rounded-lg",
+        premium:
+          "bg-linear-to-b from-primary/95 to-primary text-primary-foreground shadow-[inset_0_1.5px_0_rgba(255,255,255,0.25),inset_0_-1.5px_0_rgba(0,0,0,0.25),0_4px_8px_rgba(0,0,0,0.15)] ring-1 ring-primary/20 ring-offset-background hover:ring-primary/40 hover:shadow-[inset_0_1.5px_0_rgba(255,255,255,0.3),inset_0_-1.5px_0_rgba(0,0,0,0.3),0_6px_12px_rgba(0,0,0,0.2)] active:scale-[0.98] transition-all duration-200 rounded-lg",
         destructive:
-          "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+          "bg-linear-to-b from-destructive/95 to-destructive text-white shadow-[inset_0_1.5px_0_rgba(255,255,255,0.2),inset_0_-1.5px_0_rgba(0,0,0,0.2),0_2px_4px_rgba(0,0,0,0.1)] ring-1 ring-destructive/20 ring-offset-background hover:ring-destructive/40 hover:shadow-[inset_0_1.5px_0_rgba(255,255,255,0.25),inset_0_-1.5px_0_rgba(0,0,0,0.25),0_4px_8px_rgba(0,0,0,0.15)] active:scale-[0.98] transition-all duration-200 rounded-lg",
         outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+          "border border-input bg-linear-to-b from-background/95 to-background shadow-[0_1px_2px_rgba(0,0,0,0.05)] ring-1 ring-transparent ring-offset-background hover:bg-accent hover:text-accent-foreground hover:ring-input/40 active:scale-[0.98] transition-all duration-200 rounded-lg",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+          "bg-linear-to-b from-secondary/95 to-secondary text-secondary-foreground shadow-[inset_0_1.5px_0_rgba(255,255,255,0.5),inset_0_-1.5px_0_rgba(0,0,0,0.05),0_1px_2px_rgba(0,0,0,0.1)] ring-1 ring-secondary-foreground/10 ring-offset-background hover:bg-secondary/80 hover:ring-secondary-foreground/20 active:scale-[0.98] transition-all duration-200 rounded-lg",
         ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
-        link: "text-primary underline-offset-4 hover:underline",
+          "hover:bg-accent hover:text-accent-foreground active:scale-[0.98] transition-all duration-200 rounded-lg dark:hover:bg-accent/50",
+        link: "text-primary underline-offset-4 hover:underline transition-all duration-200 active:opacity-70",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",

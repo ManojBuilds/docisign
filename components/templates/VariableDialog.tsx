@@ -191,7 +191,7 @@
 //           <div className="flex gap-3 flex-1 justify-end">
 //             {/* <Button onClick={fillDemoData}>Fill for Demo</Button> */}
 //             <Button
-//               variant="outline"
+//               variant="secondary"
 //               onClick={() => onOpenChange(false)}
 //               disabled={isProcessing}
 //             >

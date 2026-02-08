@@ -29,39 +29,39 @@ interface ComparasionTableProps {
 
 const getComparisonData = (competitorPrice: string | number): ComparisonItem[] => [
   {
-    feature: "Monthly Cost (Individual)",
-    Boopsign: { value: "$15/month", highlight: true },
+    feature: "Starting Price",
+    Boopsign: { value: "$19/month", highlight: true },
     competitor: { value: `$${competitorPrice}/month`, highlight: false },
   },
   {
-    feature: "App Download Required",
+    feature: "Client Account Required",
     Boopsign: { value: false, highlight: true },
     competitor: { value: true, highlight: false },
   },
   {
-    feature: "Mobile Signing Time",
-    Boopsign: { value: "Under 90 seconds", highlight: true },
-    competitor: { value: "7-12 minutes", highlight: false },
+    feature: "Page Load Speed",
+    Boopsign: { value: "< 2 seconds", highlight: true },
+    competitor: { value: "12-15 seconds", highlight: false },
   },
   {
-    feature: "Mobile-First Design",
+    feature: "Mobile-Optimized",
     Boopsign: { value: true, highlight: true },
     competitor: { value: false, highlight: false },
   },
   {
-    feature: "Client account required",
-    Boopsign: { value: false, highlight: true },
-    competitor: { value: true, highlight: false },
+    feature: "Signature Completion Rate",
+    Boopsign: { value: "92%", highlight: true },
+    competitor: { value: "63-68%", highlight: false },
   },
   {
-    feature: "Document Setup Time",
-    Boopsign: { value: "Instantly", highlight: true },
-    competitor: { value: "5-8 minutes", highlight: false },
+    feature: "Average Signing Time",
+    Boopsign: { value: "90 seconds", highlight: true },
+    competitor: { value: "4+ days", highlight: false },
   },
   {
-    feature: "Email Delivery Issues",
-    Boopsign: { value: "Rare", highlight: true },
-    competitor: { value: "Common", highlight: false },
+    feature: "Custom Branding",
+    Boopsign: { value: "Included", highlight: true },
+    competitor: { value: "Paid add-on", highlight: false },
   },
 ];
 
@@ -71,38 +71,38 @@ const SmallComparasionTable = ({ competitorName, competitorPrice, className }: C
   const renderValue = (value: string | boolean, highlight?: boolean, isBoopsign?: boolean) => {
     if (typeof value === 'boolean') {
       return value ? (
-        <Check className={`w-5 h-5 mx-auto ${highlight ? 'text-primary' : 'text-muted-foreground'}`} />
+        <Check className={`w-5 h-5 mx-auto ${highlight ? 'text-emerald-600' : 'text-muted-foreground'}`} />
       ) : (
-        <X className={`w-5 h-5 mx-auto ${highlight ? 'text-destructive' : 'text-muted-foreground'}`} />
+        <X className={`w-5 h-5 mx-auto ${highlight ? 'text-red-500' : 'text-muted-foreground'}`} />
       );
     }
 
     return (
-      <span className={`${highlight ? (isBoopsign ? 'text-primary font-semibold' : 'text-foreground font-semibold') : 'text-muted-foreground'}`}>
+      <span className={`${highlight ? (isBoopsign ? 'text-blue-600 font-bold' : 'text-foreground font-semibold') : 'text-muted-foreground font-medium'}`}>
         {value}
       </span>
     );
   };
 
   return (
-    <div className={cn("border rounded-lg my-8 not-prose", className)}>
+    <div className={cn("border-2 border-slate-200 rounded-xl my-8 not-prose overflow-hidden shadow-sm", className)}>
       <div className="overflow-x-auto">
         <Table>
           <TableHeader>
-            <TableRow>
-              <TableHead className="text-left font-semibold">
-                Key Difference
+            <TableRow className="bg-gradient-to-r from-slate-50 to-blue-50/30 border-b-2 border-slate-200">
+              <TableHead className="text-left font-bold text-slate-900 text-base py-4">
+                Feature
               </TableHead>
-              <TableHead className="text-center">
+              <TableHead className="text-center py-4">
                 <div className="flex flex-col items-center gap-2">
-                  <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full font-semibold">
+                  <div className="bg-gradient-to-r from-blue-600 to-indigo-600 text-white px-4 py-1.5 rounded-full font-bold text-sm shadow-sm">
                     Boopsign
                   </div>
                 </div>
               </TableHead>
-              <TableHead className="text-center">
+              <TableHead className="text-center py-4">
                 <div className="flex flex-col items-center gap-2">
-                  <div className="bg-secondary text-secondary-foreground px-3 py-1 rounded-full font-semibold">
+                  <div className="bg-slate-200 text-slate-700 px-4 py-1.5 rounded-full font-semibold text-sm">
                     {competitorName}
                   </div>
                 </div>
@@ -110,30 +110,40 @@ const SmallComparasionTable = ({ competitorName, competitorPrice, className }: C
             </TableRow>
           </TableHeader>
           <TableBody>
-            {comparisonData.map((item) => (
+            {comparisonData.map((item, index) => (
               <TableRow
                 key={item.feature}
                 className={cn(
-                  item.feature === "Client account required" && "bg-primary/5 ring-1 ring-primary/20"
+                  "hover:bg-slate-50/50 transition-colors",
+                  item.feature === "Client Account Required" && "bg-blue-50/30 ring-1 ring-blue-200/50",
+                  index % 2 === 0 && "bg-white",
+                  index % 2 === 1 && "bg-slate-50/30"
                 )}
               >
-                <TableCell>
+                <TableCell className="py-4">
                   <div className="flex items-center gap-2">
-                    <span className={'font-semibold'}>
+                    <span className="font-semibold text-slate-900 text-sm">
                       {item.feature}
                     </span>
                   </div>
                 </TableCell>
-                <TableCell className="text-center">
+                <TableCell className="text-center py-4">
                   {renderValue(item.Boopsign.value, item.Boopsign.highlight, true)}
                 </TableCell>
-                <TableCell className="text-center">
+                <TableCell className="text-center py-4">
                   {renderValue(item.competitor.value, item.competitor.highlight, false)}
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
+      </div>
+
+      {/* Footer note */}
+      <div className="bg-slate-50 border-t border-slate-200 px-4 py-3 text-center">
+        <p className="text-xs text-slate-600 font-medium">
+          Comparison based on publicly available pricing and industry benchmarks
+        </p>
       </div>
     </div>
   );

@@ -1,119 +1,122 @@
-import { Button } from "@/components/ui/button";
-import { Check } from "lucide-react";
-import Link from "next/link";
+import { FileUp, MousePointer2, Send, PenTool, FileCheck, LucideIcon } from "lucide-react";
 import React from "react";
 import Image from "next/image";
+import { Highlighter } from "./ui/highlighter";
+import { FrameHighlight } from "./effects/frame-highlight";
+
+interface Step {
+    number: string;
+    badge: string;
+    icon: LucideIcon;
+    title: string;
+    description: string;
+    image: string;
+}
 
 interface HowItWorksProps {
-    heading?: string;
-    description?: string;
-    button?: {
-        text: string;
-        url: string;
-    };
-    steps?: {
-        number: string;
-        title: string;
-        description: string;
-        image: string;
-        color: string;
-    }[];
+    steps?: Step[];
 }
 
 const HowItWorks = ({
-    button = {
-        text: "Try Boopsign Free",
-        url: "/dashboard",
-    },
     steps = [
         {
             number: "01",
-            title: "Upload & Place Fields",
-            description: "Drop your PDF and drag signature fields exactly where you need them. It's faster than printing and scanning.",
-            image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguI17ocWek6Tt8dN4Y3JApShGWkZ0n9cfeF1v5",
-            color: "bg-blue-700"
+            badge: "Preparation",
+            icon: FileUp,
+            title: "Upload Your Contract",
+            description: "Simply drag and drop your PDF or Word document into Boopsign. We handle all the heavy lifting, formatting your file for instant editing without any conversion delays or quality loss.",
+            image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgub7zA67YpiuVWJNbYakZKvysf0TlQOLdtcSGF",
         },
         {
             number: "02",
-            title: "Clients Sign Anywhere",
-            description: "Your clients get a secure link and sign beautifully on any device. No app downloads or accounts needed.",
-            image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PgunDI62txqPKoD3HWzv2hlrfdwZFGRcps6UX9E",
-            color: "bg-orange-700"
+            badge: "Editing",
+            icon: MousePointer2,
+            title: "Place Signature Fields",
+            description: "Our lightning-fast editor lets you drop signature boxes, initials, and date fields exactly where you need them. It’s intuitive, precise, and takes less than 20 seconds to prep your entire document.",
+            image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguJHSH5W6R2PM1quQzNcvtpXGB7hnmfHaWbsCS",
         },
         {
             number: "03",
-            title: "Deal Closed Instantly",
-            description: "Receive a notification the second it's signed. Everyone gets a legally binding copy automatically.",
-            image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu0T2iQ51wEbNSXo7vmLOKdr3JFGs9VcQCxBMp",
-            color: "bg-green-700"
+            badge: "Sending",
+            icon: Send,
+            title: "Send Secure Link",
+            description: "Your client receives a professional, branded link to sign. We’ve removed the 'Create Account' friction and password resets, so your signers can focus on what matters—closing the deal.",
+            image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguWf5pD3NxHZs9OA4zmVEduhgJ1CitxwnUDkyQ",
+        },
+        {
+            number: "04",
+            badge: "Signing",
+            icon: PenTool,
+            title: "They Sign (Actually)",
+            description: "A clean, modern signing interface that feels like magic on any device. Whether they're on a laptop or using their finger on a phone, the process is seamless and completes in seconds.",
+            image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguatasNxMW5bk4q23iuyfFhwQdGBN7vjse1zp6",
+        },
+        {
+            number: "05",
+            badge: "Completion",
+            icon: FileCheck,
+            title: "You Both Get Copies",
+            description: "The moment the last party signs, everyone automatically receives a legally binding PDF. Your documents are stored in a secure vault with a comprehensive audit trail for total peace of mind.",
+            image: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu4RfxWeDBPdmNkVMiHxrphJCgt7E2zascFjI1",
         }
     ]
 }: HowItWorksProps) => {
     return (
-        <section id="how-it-works" className="py-24 md:py-32 bg-white">
-            <div className="container mx-auto px-4">
+        <section id="how-it-works" className="py-24 md:py-40 bg-white">
+            <div className="container mx-auto px-4 max-w-7xl">
                 {/* Header */}
-                <div className="text-center mb-16 md:mb-24">
-                    <div className="mx-auto flex max-w-4xl flex-col gap-4">
-                        <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-slate-900">
-                            The Simplest Way to <span className="text-blue-600">Close Deals</span>
-                        </h2>
-                        <p className="text-slate-600 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
-                            Stop chasing signatures. Boopsign handles the heavy lifting so you can focus on your work.
-                        </p>
-                    </div>
+                <div className="mb-24 md:mb-32 max-w-3xl">
+                    <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-slate-900 mb-6 leading-tight">
+                        From Upload to Signed in <Highlighter action="box" color="#3b82f6" animationDuration={0} strokeWidth={2} padding={8}>90 Seconds</Highlighter>.
+                    </h2>
+                    <p className="text-slate-500 text-lg md:text-xl leading-relaxed font-medium">
+                        We’ve stripped away the complexity of traditional e-signatures to help you get your contracts signed faster than ever before.
+                    </p>
                 </div>
 
-                {/* Steps Grid */}
-                <div className="mx-auto max-w-7xl">
-                    <div className="grid gap-12 lg:grid-cols-3">
-                        {steps.map((step, index) => (
-                            <div key={index} className="flex flex-col group">
-                                {/* Image Container with "Float" effect */}
-                                <div className="mb-8 relative aspect-video rounded-3xl overflow-hidden bg-slate-100 border border-slate-200 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.1)] transition-all duration-500 group-hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.15)] group-hover:-translate-y-2">
-                                    <Image
-                                        src={step.image}
-                                        alt={`${step.title} - ${step.description}`}
-                                        fill
-                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                        className={"object-cover"}
-                                    />
-                                    {/* Step Number Overlay */}
-                                    <div className={`absolute top-4 left-4 ${step.color.replace('600', '700')} text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg`}>
-                                        STEP {step.number}
+                {/* Steps Section */}
+                <div className="space-y-32 md:space-y-56">
+                    {steps.map((step, index) => (
+                        <div
+                            key={index}
+                            className={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} items-center gap-12 lg:gap-24`}
+                        >
+                            {/* Text Content */}
+                            <div className="flex-1 w-full lg:max-w-md space-y-6">
+                                <div className="space-y-6">
+                                    <div className="flex items-center gap-2.5 text-slate-900 font-bold tracking-tight">
+                                        {/* <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
+                                            <step.icon className="w-4 h-4 text-blue-600" />
+                                        </div> */}
+                                        <FrameHighlight className="text-blue-600 text-sm font-semibold tracking-wide uppercase">{step.badge}</FrameHighlight>
                                     </div>
-                                </div>
 
-                                {/* Content */}
-                                <div className="px-2">
-                                    <h3 className="mb-3 text-2xl font-bold text-slate-900">
+                                    <h3 className="text-4xl md:text-5xl font-bold text-slate-900 leading-[1.1] tracking-tight">
                                         {step.title}
                                     </h3>
-                                    <p className="text-slate-600 leading-relaxed text-base">
+
+                                    <p className="text-slate-500 text-lg md:text-xl leading-relaxed font-medium">
                                         {step.description}
                                     </p>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
 
-                {/* Secondary Bottom CTA */}
-                <div className="text-center mt-20 md:mt-32">
-                    <div className="inline-flex flex-col items-center p-10 bg-slate-50 rounded-[3rem] border border-slate-200 max-w-3xl mx-auto">
-                        <h4 className="text-2xl font-bold text-slate-900 mb-4">Ready to save hours of paperwork?</h4>
-                        <p className="text-lg text-slate-700 mb-8 max-w-lg">
-                            Join thousands of freelancers who use Boopsign to get paid faster.
-                        </p>
-                        <Button asChild size="lg" className="h-14 px-10 text-lg rounded-full font-semibold px-8 bg-blue-600 hover:bg-blue-700">
-                            <Link href={button.url}>{button.text}</Link>
-                        </Button>
-                        <div className="mt-6 flex items-center gap-6 text-xs flex-wrap md:text-sm text-slate-600 font-medium">
-                            <span className="flex items-center gap-1.5"><Check className="size-4 text-green-500" /> Free Trial</span>
-                            <span className="flex items-center gap-1.5"><Check className="size-4 text-green-500" /> No CC Needed</span>
-                            <span className="flex items-center gap-1.5"><Check className="size-4 text-green-500" /> Legal Compliance</span>
+                            {/* Large Image Mockup */}
+                            <div className="flex-[1.7] w-full">
+                                <div className="relative aspect-[16/9] w-full overflow-hidden border-2 border-slate-100 bg-slate-50 rounded-2xl">
+                                    <Image
+                                        src={step.image}
+                                        alt={step.title}
+                                        fill
+                                        priority
+                                        className="object-cover"
+                                        sizes="(max-width: 1024px) 100vw, 80vw"
+                                    />
+                                    <div className="absolute inset-0 ring-1 ring-inset ring-slate-900/5 pointer-events-none" />
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    ))}
                 </div>
             </div>
         </section>
@@ -121,4 +124,5 @@ const HowItWorks = ({
 };
 
 export default HowItWorks;
+
 

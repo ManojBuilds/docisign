@@ -10,13 +10,14 @@ const Features = () => {
         <div className="max-w-3xl mb-16 md:mb-24">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-medium uppercase tracking-wider mb-6">
             <span className="w-2 h-2 rounded-full bg-blue-600"></span>
-            Why freelancers choose Boopsign
+            Anti-Bloat Design
           </div>
           <h2 className="text-4xl md:text-5xl font-semibold tracking-tight text-slate-900 mb-6 font-primary">
-            Features that help you close the deal.
+            Essential features. Zero bloat.
           </h2>
           <p className="text-lg md:text-xl text-slate-500 leading-relaxed">
-            Built specificially for freelancers and consultants. Unlike DocuSign or PandaDoc, we stripped away the enterprise bloat to focus on one thing: <strong className="text-slate-900 font-medium">speed to signature.</strong>
+            Unlike DocuSign or PandaDoc, we focused on what solo entrepreneurs actually need:
+            <strong className="text-slate-900 font-medium"> getting contracts signed quickly and reliably.</strong>
           </p>
         </div>
 
@@ -101,8 +102,19 @@ const Features = () => {
             </div>
           ))}
         </div>
+
+        {/* Additional Value Proposition */}
+        <div className="mt-20 text-center max-w-3xl mx-auto bg-slate-50 rounded-3xl p-10 border border-slate-200">
+          <h3 className="text-2xl font-bold text-slate-900 mb-4">
+            We don't have 800 features.
+          </h3>
+          <p className="text-lg text-slate-600">
+            Because every feature we don't add makes the tool faster, keeps the price lower, reduces bugs,
+            and means you can find what you need in 10 seconds.
+          </p>
+        </div>
       </div>
-    </section>
+    </section >
   );
 };
 

@@ -33,16 +33,10 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { useResumePendingDocument } from "@/hooks/usePendingResumeDocument";
-import { useUser } from "@clerk/clerk-react";
+import { useUser } from "@clerk/nextjs";
 import { useConvex, useMutation, usePaginatedQuery } from "convex/react";
 import debounce from "debounce";
-import {
-  FileText,
-  Filter,
-  Loader2,
-  Plus,
-  Search
-} from "lucide-react";
+import { FileText, Filter, Loader2, Plus, Search } from "lucide-react";
 import dynamic from "next/dynamic";
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -53,22 +47,25 @@ const DocumentTable = dynamic(
     loading: () => (
       <div className="space-y-3">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="flex items-center gap-4 p-3 rounded-lg bg-muted/5">
+          <div
+            key={i}
+            className="flex items-center gap-4 p-3 rounded-lg bg-muted/5"
+          >
             <Skeleton className="h-4 flex-1 rounded" />
           </div>
         ))}
       </div>
     ),
     ssr: false,
-  }
+  },
 );
 
 const NewDocumentDialog = dynamic(
   () =>
     import("@/components/NewDocumentDialog").then(
-      (mod) => mod.NewDocumentDialog
+      (mod) => mod.NewDocumentDialog,
     ),
-  { ssr: false }
+  { ssr: false },
 );
 
 // Types for better TypeScript support
@@ -91,7 +88,7 @@ function DocumentsList() {
   // Create debounced function once so debouncing actually works (useCallback recreated it every render)
   const handleDebouncedSearch = useMemo(
     () => debounce((value: string) => setDebouncedSearchTerm(value), 500),
-    []
+    [],
   );
 
   useEffect(() => {
@@ -100,11 +97,14 @@ function DocumentsList() {
     };
   }, [handleDebouncedSearch]);
 
-  const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    handleDebouncedSearch(value);
-  }, [handleDebouncedSearch]);
+  const handleSearchChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const value = e.target.value;
+      setSearchTerm(value);
+      handleDebouncedSearch(value);
+    },
+    [handleDebouncedSearch],
+  );
 
   const [filterStatus, setFilterStatus] = useState<DocumentStatus>("all");
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
@@ -113,10 +113,7 @@ function DocumentsList() {
   const isDesktop = useMediaQuery("(min-width: 640px)");
 
   // Get documents using the existing paginated query
-  const {
-    results: documents,
-    status,
-  } = usePaginatedQuery(
+  const { results: documents, status } = usePaginatedQuery(
     api.dashboard.searchDocuments,
     user
       ? {
@@ -138,7 +135,9 @@ function DocumentsList() {
     fileName: string,
   ) => {
     try {
-      const url = await convex.query(api.documents.getFileUrl, { storageId: fileStorageId });
+      const url = await convex.query(api.documents.getFileUrl, {
+        storageId: fileStorageId,
+      });
       if (url) {
         // Fetch the file content to ensure it's downloaded as a blob
         const response = await fetch(url);
@@ -147,7 +146,7 @@ function DocumentsList() {
 
         const a = document.createElement("a");
         a.href = blobUrl;
-        a.download = fileName.endsWith('.pdf') ? fileName : `${fileName}.pdf`;
+        a.download = fileName.endsWith(".pdf") ? fileName : `${fileName}.pdf`;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
@@ -184,14 +183,19 @@ function DocumentsList() {
 
   return (
     <>
+      {/* <UsageStats /> */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-4 md:mb-8 gap-4 px-1 sm:px-0">
         <div>
-          <h1 className="text-lg md:text-3xl font-semibold tracking-tight text-foreground">My Contracts</h1>
-          <p className="text-muted-foreground text-xs md:text-sm mt-1">Manage and track your signature requests</p>
+          <h1 className="text-lg md:text-3xl font-semibold tracking-tight text-foreground">
+            My Contracts
+          </h1>
+          <p className="text-muted-foreground text-xs md:text-sm mt-1">
+            Manage and track your signature requests
+          </p>
         </div>
         <div className="hidden sm:block">
           <NewDocumentDialog>
-            <Button className="rounded-xl h-11 px-6 shadow-lg shadow-primary/20 transition-all hover:shadow-xl hover:shadow-primary/30 active:scale-[0.98]">
+            <Button>
               <Plus className="h-4 w-4 mr-2 stroke-[3px]" />
               New Contract
             </Button>
@@ -219,7 +223,10 @@ function DocumentsList() {
 
             <div className="sm:hidden">
               <NewDocumentDialog>
-                <Button size="icon" className="h-11 w-11 shrink-0 rounded-xl shadow-md">
+                <Button
+                  size="icon"
+                  className="h-11 w-11 shrink-0 rounded-xl shadow-md"
+                >
                   <Plus className="h-5 w-5 stroke-[3px]" />
                 </Button>
               </NewDocumentDialog>
@@ -291,7 +298,9 @@ function DocumentsList() {
                 </div>
 
                 <h3 className="text-xl sm:text-2xl font-semibold tracking-tight text-foreground mb-3">
-                  {searchTerm || filterStatus !== "all" ? "No matches found" : "Your dashboard is quiet"}
+                  {searchTerm || filterStatus !== "all"
+                    ? "No matches found"
+                    : "Your dashboard is quiet"}
                 </h3>
                 <p className="text-muted-foreground max-w-[280px] mx-auto mb-8 text-sm sm:text-base leading-relaxed">
                   {searchTerm || filterStatus !== "all"
@@ -300,20 +309,20 @@ function DocumentsList() {
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
                   <NewDocumentDialog>
-                    <Button className="w-full sm:w-auto rounded-xl h-11 px-8 shadow-md">
+                    <Button className="w-full sm:w-auto h-11">
                       <Plus className="h-4 w-4 mr-2 stroke-[3px]" />
                       Get Started
                     </Button>
                   </NewDocumentDialog>
                   {(searchTerm || filterStatus !== "all") && (
                     <Button
-                      variant="outline"
+                      variant="secondary"
                       onClick={() => {
                         setSearchTerm("");
                         setDebouncedSearchTerm("");
                         setFilterStatus("all");
                       }}
-                      className="w-full sm:w-auto rounded-xl h-11 px-6 font-medium bg-background"
+                      className="w-full sm:w-auto"
                     >
                       Reset filters
                     </Button>
@@ -351,8 +360,13 @@ function DocumentsList() {
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel className="rounded-xl border-none bg-muted hover:bg-muted/80">Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={confirmDelete} className="rounded-xl bg-destructive hover:bg-destructive/90 text-white">
+              <AlertDialogCancel className="rounded-xl border-none bg-muted hover:bg-muted/80">
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={confirmDelete}
+                className="rounded-xl bg-destructive hover:bg-destructive/90 text-white"
+              >
                 Delete
               </AlertDialogAction>
             </AlertDialogFooter>
@@ -369,11 +383,17 @@ function DocumentsList() {
               </DrawerDescription>
             </DrawerHeader>
             <DrawerFooter className="pt-2">
-              <Button variant="destructive" onClick={confirmDelete} className="rounded-xl">
+              <Button
+                variant="destructive"
+                onClick={confirmDelete}
+                className="rounded-xl"
+              >
                 Delete
               </Button>
               <DrawerClose asChild>
-                <Button variant="outline" className="rounded-xl">Cancel</Button>
+                <Button variant="secondary" className="rounded-xl">
+                  Cancel
+                </Button>
               </DrawerClose>
             </DrawerFooter>
           </DrawerContent>
@@ -385,42 +405,47 @@ function DocumentsList() {
 
 // Main Dashboard Component
 export default function Dashboard() {
-  useResumePendingDocument()
+  useResumePendingDocument();
 
   return (
     <div className="min-h-screen bg-background selection:bg-primary/10">
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:pb-20">
-        <Suspense fallback={
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <Skeleton className="h-8 w-48 rounded-lg" />
-            </div>
-            <div className="border border-muted rounded-2xl bg-card overflow-hidden">
-              {/* Toolbar skeleton */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-muted/10 border-b border-muted">
-                <Skeleton className="h-10 w-full max-w-md rounded-lg" />
-                <div className="flex items-center gap-2">
-                  <Skeleton className="h-10 w-32 rounded-lg" />
-                  <Skeleton className="h-10 w-40 rounded-lg" />
+        <Suspense
+          fallback={
+            <div className="space-y-6">
+              <div className="flex items-center justify-between">
+                <Skeleton className="h-8 w-48 rounded-lg" />
+              </div>
+              <div className="border border-muted rounded-2xl bg-card overflow-hidden">
+                {/* Toolbar skeleton */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-muted/10 border-b border-muted">
+                  <Skeleton className="h-10 w-full max-w-md rounded-lg" />
+                  <div className="flex items-center gap-2">
+                    <Skeleton className="h-10 w-32 rounded-lg" />
+                    <Skeleton className="h-10 w-40 rounded-lg" />
+                  </div>
+                </div>
+                {/* Table skeleton */}
+                <div className="p-4 space-y-3">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <div
+                      key={i}
+                      className="flex items-center gap-4 p-3 rounded-lg bg-muted/5"
+                    >
+                      <Skeleton className="h-4 flex-1 rounded" />
+                      <Skeleton className="h-4 w-24 rounded" />
+                      <Skeleton className="h-4 w-32 rounded" />
+                      <div className="flex gap-2">
+                        <Skeleton className="h-8 w-8 rounded" />
+                        <Skeleton className="h-8 w-8 rounded" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
-              {/* Table skeleton */}
-              <div className="p-4 space-y-3">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <div key={i} className="flex items-center gap-4 p-3 rounded-lg bg-muted/5">
-                    <Skeleton className="h-4 flex-1 rounded" />
-                    <Skeleton className="h-4 w-24 rounded" />
-                    <Skeleton className="h-4 w-32 rounded" />
-                    <div className="flex gap-2">
-                      <Skeleton className="h-8 w-8 rounded" />
-                      <Skeleton className="h-8 w-8 rounded" />
-                    </div>
-                  </div>
-                ))}
-              </div>
             </div>
-          </div>
-        }>
+          }
+        >
           <DocumentsList />
         </Suspense>
       </main>

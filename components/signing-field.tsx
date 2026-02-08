@@ -419,7 +419,7 @@ function SigningDialog({
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
-                    variant="outline"
+                    variant="secondary"
                     className={cn(
                       "w-full h-14 justify-start text-left font-normal border-2 bg-gray-50/50 hover:bg-white transition-all rounded-xl px-4 cursor-pointer",
                       !signatureData && "text-muted-foreground"
@@ -606,6 +606,7 @@ export default function SigningField({
     if (isFocused && !field.isCompleted && !isOpen) {
       handleFieldClick();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFocused, field.isCompleted, handleFieldClick]);
 
   const createTextDataUrl = (text: string) => {

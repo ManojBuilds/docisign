@@ -40,6 +40,8 @@ export const updateBranding = mutation({
       throw new Error("User not found");
     }
 
+    // Allow custom branding during trial as requested
+
     await ctx.db.patch(user._id, {
       brandName: args.brandName,
       brandLogoStorageId: args.brandLogoStorageId,

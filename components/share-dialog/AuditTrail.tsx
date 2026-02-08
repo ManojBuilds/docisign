@@ -54,7 +54,7 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
                     <p className="font-semibold text-xs text-zinc-900 truncate">{field.signerName || `Signer ${index + 1}`}</p>
                     <p className="text-[9px] text-zinc-500 truncate">{field.signerEmail}</p>
                   </div>
-                  <Badge variant="outline" className="bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-100 border-0 text-[9px]">Signed</Badge>
+                  <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-100 border-0 text-[9px]">Signed</Badge>
                 </button>
                 {isExpanded && field.auditTrail && (
                   <div className="px-3 pb-3 pt-1 animate-in slide-in-from-top-1 duration-200">
@@ -121,7 +121,7 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Badge variant="outline" className="bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-100 border-0 text-[10px]">
+                    <Badge variant="secondary" className="bg-emerald-50 text-emerald-700 ring-1 ring-inset ring-emerald-100 border-0 text-[10px]">
                       Verified
                     </Badge>
                     <Clock className={cn("w-4 h-4 text-zinc-300 transition-transform duration-300", isExpanded ? "rotate-180 text-blue-500" : "")} />

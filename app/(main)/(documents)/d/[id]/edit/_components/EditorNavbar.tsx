@@ -18,6 +18,7 @@ const ShareDialog = lazy(() => import("@/components/ShareDialog").then(m => ({ d
 
 interface EditorNavbarProps {
     documentId: Id<"documents">;
+    document?: any; // Add document prop to avoid duplicate query
     onSave: () => Promise<void>;
     isSaving: boolean;
     hasUnsavedChanges: boolean;
@@ -30,6 +31,7 @@ interface EditorNavbarProps {
 
 export const EditorNavbar = memo(({
     documentId,
+    document: propDocument,
     onSave,
     isSaving,
     hasUnsavedChanges,
@@ -39,7 +41,12 @@ export const EditorNavbar = memo(({
     signatureFields,
     signers,
 }: EditorNavbarProps) => {
-    const document = useQuery(api.documents.getDocument, { documentId });
+    // Use prop document if provided, otherwise query (fallback for standalone usage)
+    const queriedDocument = useQuery(
+        api.documents.getDocument,
+        propDocument ? "skip" : { documentId }
+    );
+    const document = propDocument || queriedDocument;
     const updateDocumentTitle = useMutation(api.documents.updateDocumentTitle);
 
     const [isEditingTitle, setIsEditingTitle] = useState(false);
@@ -155,7 +162,7 @@ export const EditorNavbar = memo(({
                         )}
                     >
                         {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin mr-2" /> : <Save className="w-3.5 h-3.5 mr-2" />}
-                        {isSaving ? "Saving..." : "Save Draft"}
+                        {isSaving ? "Saving..." : "Save Changes"}
                     </Button>
                 </div>
 

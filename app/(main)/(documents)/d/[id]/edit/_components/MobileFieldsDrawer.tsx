@@ -1,9 +1,14 @@
 "use client";
 
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
 import { Id } from "@/convex/_generated/dataModel";
 import { lazy, memo, Suspense } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
+import {
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+} from "@/components/responsive-dialog";
 
 const SignersSidebar = lazy(() =>
   import("@/components/SignersSidebar").then((m) => ({ default: m.SignersSidebar }))
@@ -21,15 +26,15 @@ interface MobileFieldsDrawerProps {
 export const MobileFieldsDrawer = memo(
   ({ documentId, open, onOpenChange }: MobileFieldsDrawerProps) => {
     return (
-      <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="max-h-[85vh] rounded-t-2xl border-t border-gray-200 bg-white">
+      <ResponsiveDialog open={open} onOpenChange={onOpenChange}>
+        <ResponsiveDialogContent className="max-h-[85vh] rounded-t-2xl border-t border-gray-200 bg-white">
           {/* Adobe Sign–style drag handle */}
           <div className="flex justify-center pt-3 pb-1">
             <div className="w-10 h-1 rounded-full bg-gray-300" aria-hidden />
           </div>
-          <DrawerHeader className="border-b border-gray-100 px-4 py-3">
-            <DrawerTitle className="text-center text-base font-semibold text-gray-900">Fields & signers</DrawerTitle>
-          </DrawerHeader>
+          <ResponsiveDialogHeader className="border-b border-gray-100 px-4 py-3">
+            <ResponsiveDialogTitle className="text-center font-semibold text-gray-900">Fields & signers</ResponsiveDialogTitle>
+          </ResponsiveDialogHeader>
           <div className="overflow-auto flex-1 min-h-0 px-0">
             <Suspense
               fallback={
@@ -44,8 +49,8 @@ export const MobileFieldsDrawer = memo(
               <SignersSidebar documentId={documentId} />
             </Suspense>
           </div>
-        </DrawerContent>
-      </Drawer>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
     );
   }
 );

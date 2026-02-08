@@ -6,6 +6,7 @@ import { useMobile } from "@/hooks/useMobile";
 import { useDocumentEditorStore } from "@/stores/document-editor-store";
 import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
+import { TrialGate } from "@/components/TrialGate";
 import { useEffect, useMemo, useState } from "react";
 
 // Components
@@ -24,11 +25,11 @@ const EditorNavbar = dynamic(
             <div className="h-[65px] w-full border-b bg-white flex items-center justify-between px-4 animate-pulse">
                 <div className="flex items-center gap-4">
                     <div className="h-9 w-24 bg-gray-100 rounded-lg" />
-                    <div className="h-6 w-48 bg-gray-100 rounded-md" />
+                    <div className="h-6 w-48 bg-gray-100 rounded-md hidden md:block" />
                 </div>
                 <div className="flex items-center gap-3">
-                    <div className="h-9 w-32 bg-gray-100 rounded-lg" />
-                    <div className="h-9 w-32 bg-gray-100 rounded-lg" />
+                    <div className="h-9 w-32 bg-gray-100 rounded-lg hidden sm:block" />
+                    <div className="h-9 w-24 sm:w-32 bg-gray-100 rounded-lg" />
                     <div className="h-8 w-8 bg-gray-100 rounded-full" />
                 </div>
             </div>
@@ -41,8 +42,8 @@ const MainContentArea = dynamic(
         ssr: false,
         loading: () => (
             <div className="flex-1 flex min-h-0 bg-gray-50/50">
-                {/* Thumbnail Sidebar Skeleton */}
-                <div className="w-48 border-r bg-white h-full flex flex-col animate-pulse">
+                {/* Thumbnail Sidebar Skeleton - Desktop only */}
+                <div className="w-48 border-r bg-white h-full hidden md:flex flex-col animate-pulse">
                     <div className="p-4 border-b h-[53px] flex items-center justify-between">
                         <div className="h-3 w-12 bg-gray-100 rounded" />
                         <div className="h-4 w-6 bg-gray-100 rounded" />
@@ -57,7 +58,7 @@ const MainContentArea = dynamic(
                     </div>
                 </div>
                 {/* PDF Area Skeleton */}
-                <div className="flex-1 flex items-center justify-center p-8">
+                <div className="flex-1 flex items-center justify-center p-4 md:p-8">
                     <div className="w-[600px] aspect-[1/1.41] bg-white rounded-md shadow-sm border border-gray-100 animate-pulse" />
                 </div>
             </div>
@@ -272,94 +273,99 @@ export default function DocumentEditor() {
     const [isAddFieldSheetOpen, setIsAddFieldSheetOpen] = useState(false);
 
     return (
-        <div className="h-screen flex flex-col overflow-hidden">
-            <EditorNavbar
-                documentId={documentId}
-                onSave={handleSaveAllFields}
-                isSaving={isSaving}
-                hasUnsavedChanges={hasUnsavedChanges}
-                onSendForSigning={handleSendForSigning}
-                onSignerAdd={handleSignerAdd}
-                hasUnassignedFields={hasUnassignedFields}
-                signatureFields={signatureFields}
-                signers={signersAssignedToFields}
-            />
-
-            <MobileNavbar
-                documentId={documentId}
-                setIsShareDialogOpen={setIsShareDialogOpen}
-                onOpenAddFieldSheet={() => setIsAddFieldSheetOpen(true)}
-                onOpenFieldsDrawer={() => setIsFieldsDrawerOpen(true)}
-                onSave={handleSaveAllFields}
-                isSaving={isSaving}
-                hasUnsavedChanges={hasUnsavedChanges}
-                signatureFields={signatureFields}
-            />
-
-            {memoizedBanner}
-
-            {/* Main Content Area: full width on mobile, PDF + sidebar on desktop */}
-            <div className="flex-1 flex min-h-0 bg-transparent md:pb-0">
-                {/* PDF Viewer Container - full width on mobile, flex-1 on desktop */}
-                <MainContentArea
-                    fileUrl={fileUrl}
-                    numPages={numPages}
-                    currentPage={currentPage}
-                    scale={scale}
-                    onPageClick={setCurrentPage}
-                    onPageChange={setCurrentPage}
-                    onScaleChange={setScale}
-                    onNumPagesChange={setNumPages}
-                    onAddField={handleAddSignatureField}
-                    onUpdateField={handleUpdateFieldInStore}
-                    onDeleteField={handleDeleteField}
-                    onSelectField={setSelectedFieldId}
-                    onSaveField={handleSaveField}
-                />
-
-                {/* Right Sidebar - Signers (desktop only; mobile uses Fields drawer) */}
-                <div className="hidden md:block shrink-0 w-[300px]">
-                    <SignersSidebarWrapper documentId={documentId} />
-                </div>
-            </div>
-
-            {/* Mobile: Add field sheet (Adobe Sign style) */}
-            {isMobile && (
-                <MobileAddFieldSheet
-                    open={isAddFieldSheetOpen}
-                    onOpenChange={setIsAddFieldSheetOpen}
-                    onSelectType={(type) => setSelectedTool(type)}
-                />
-            )}
-            {/* Mobile: Fields & signers drawer */}
-            {isMobile && (
-                <MobileFieldsDrawer
+        <TrialGate>
+            <div className="h-screen flex flex-col overflow-hidden">
+                <EditorNavbar
                     documentId={documentId}
-                    open={isFieldsDrawerOpen}
-                    onOpenChange={setIsFieldsDrawerOpen}
+                    document={document}
+                    onSave={handleSaveAllFields}
+                    isSaving={isSaving}
+                    hasUnsavedChanges={hasUnsavedChanges}
+                    onSendForSigning={handleSendForSigning}
+                    onSignerAdd={handleSignerAdd}
+                    hasUnassignedFields={hasUnassignedFields}
+                    signatureFields={signatureFields}
+                    signers={signersAssignedToFields}
                 />
-            )}
 
-            {/* Mobile Share Dialog */}
-            <ShareDialogWrapper
-                isOpen={isShareDialogOpen}
-                documentId={documentId}
-                onSend={handleSendForSigning}
-                onOpenChange={setIsShareDialogOpen}
-                hasUnassignedFields={hasUnassignedFields}
-                onSignerAdd={handleSignerAdd}
-                signatureFields={signatureFields}
-                signers={signersAssignedToFields}
-            />
+                <MobileNavbar
+                    documentId={documentId}
+                    document={document}
+                    setIsShareDialogOpen={setIsShareDialogOpen}
+                    onOpenAddFieldSheet={() => setIsAddFieldSheetOpen(true)}
+                    onOpenFieldsDrawer={() => setIsFieldsDrawerOpen(true)}
+                    onSave={handleSaveAllFields}
+                    isSaving={isSaving}
+                    hasUnsavedChanges={hasUnsavedChanges}
+                    signatureFields={signatureFields}
+                />
 
-            <MobileBottomBar
-                currentPage={currentPage}
-                numPages={numPages}
-                setCurrentPage={setCurrentPage}
-                scale={scale}
-                setScale={setScale}
-                onOpenAddFieldSheet={() => setIsAddFieldSheetOpen(true)}
-            />
-        </div>
+                {memoizedBanner}
+
+                {/* Main Content Area: full width on mobile, PDF + sidebar on desktop */}
+                <div className="flex-1 flex min-h-0 bg-transparent md:pb-0">
+                    {/* PDF Viewer Container - full width on mobile, flex-1 on desktop */}
+                    <MainContentArea
+                        fileUrl={fileUrl}
+                        numPages={numPages}
+                        currentPage={currentPage}
+                        scale={scale}
+                        onPageClick={setCurrentPage}
+                        onPageChange={setCurrentPage}
+                        onScaleChange={setScale}
+                        onNumPagesChange={setNumPages}
+                        onAddField={handleAddSignatureField}
+                        onUpdateField={handleUpdateFieldInStore}
+                        onDeleteField={handleDeleteField}
+                        onSelectField={setSelectedFieldId}
+                        onSaveField={handleSaveField}
+                    />
+
+                    {/* Right Sidebar - Signers (desktop only; mobile uses Fields drawer) */}
+                    <div className="hidden md:block shrink-0 w-[300px]">
+                        <SignersSidebarWrapper documentId={documentId} />
+                    </div>
+                </div>
+
+                {/* Mobile: Add field sheet (Adobe Sign style) */}
+                {isMobile && (
+                    <MobileAddFieldSheet
+                        open={isAddFieldSheetOpen}
+                        onOpenChange={setIsAddFieldSheetOpen}
+                        onSelectType={(type) => setSelectedTool(type)}
+                    />
+                )}
+                {/* Mobile: Fields & signers drawer */}
+                {isMobile && (
+                    <MobileFieldsDrawer
+                        documentId={documentId}
+                        open={isFieldsDrawerOpen}
+                        onOpenChange={setIsFieldsDrawerOpen}
+                    />
+                )}
+
+                {/* Mobile Share Dialog */}
+                <ShareDialogWrapper
+                    isOpen={isShareDialogOpen}
+                    documentId={documentId}
+                    document={document}
+                    onSend={handleSendForSigning}
+                    onOpenChange={setIsShareDialogOpen}
+                    hasUnassignedFields={hasUnassignedFields}
+                    onSignerAdd={handleSignerAdd}
+                    signatureFields={signatureFields}
+                    signers={signersAssignedToFields}
+                />
+
+                <MobileBottomBar
+                    currentPage={currentPage}
+                    numPages={numPages}
+                    setCurrentPage={setCurrentPage}
+                    scale={scale}
+                    setScale={setScale}
+                    onOpenAddFieldSheet={() => setIsAddFieldSheetOpen(true)}
+                />
+            </div>
+        </TrialGate>
     );
 }

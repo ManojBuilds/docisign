@@ -40,7 +40,7 @@ const getComparisonData = (competitorPrice: string | number): ComparisonFeature[
   {
     category: "Pricing",
     feature: "Monthly Cost (Individual)",
-    Boopsign: { value: "$15/month", highlight: true },
+    Boopsign: { value: "$29/month", highlight: true },
     competitor: { value: `$${competitorPrice}/month`, highlight: false },
     important: true
   },
@@ -53,7 +53,7 @@ const getComparisonData = (competitorPrice: string | number): ComparisonFeature[
   {
     category: "Pricing",
     feature: "Free Trial",
-    Boopsign: { value: "7 days", highlight: true },
+    Boopsign: { value: "14 days", highlight: true },
     competitor: { value: "30 days" }
   },
   // Mobile Experience
@@ -193,13 +193,13 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
       <div className="container mx-auto max-w-6xl">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-semibold mb-6">
-            Boopsign vs {competitorName}
+            How Boopsign Compares
           </h2>
           <p className="text-xl md:text-2xl mb-4 text-muted-foreground">
-            Why 1000+ businesses switched to Boopsign
+            (Honest Comparison, No BS)
           </p>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Built for mobile-first signing, 12x faster setup, 50% cheaper pricing
+            Built for solo entrepreneurs who value simplicity over complexity, speed over features
           </p>
         </div>
 
@@ -210,7 +210,7 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
             return (
               <Button
                 key={category}
-                variant={activeCategory === category ? "default" : "outline"}
+                variant={activeCategory === category ? "default" : "secondary"}
                 onClick={() => setActiveCategory(category)}
                 className="flex items-center gap-2"
               >
@@ -240,7 +240,7 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
                       <div className="bg-primary text-primary-foreground px-3 py-1 rounded-full font-semibold">
                         Boopsign
                       </div>
-                      <span className="text-xs text-primary font-medium">12x Faster</span>
+                      <span className="text-xs text-primary font-medium">Solo-Focused</span>
                     </div>
                   </TableHead>
                   <TableHead className="text-center">
@@ -296,9 +296,9 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
           </div>
           <div className="flex flex-col items-center text-center">
             <CreditCard className="w-8 h-8 text-primary mb-3" />
-            <h3 className="font-semibold text-lg mb-2">50% Cheaper</h3>
+            <h3 className="font-semibold text-lg mb-2">Fair Pricing</h3>
             <p className="text-muted-foreground text-sm">
-              $15/month vs {competitorName}&apos;s ${competitorPrice}/month starting price
+              $29/month vs {competitorName}&apos;s ${competitorPrice}/month starting price
             </p>
           </div>
           <div className="flex flex-col items-center text-center">
@@ -314,15 +314,15 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
         <div className="text-center mt-16 py-12 border-t">
           <h3 className="text-2xl font-semibold mb-4">Ready to Switch?</h3>
           <p className="text-lg mb-6 text-muted-foreground">
-            Join 1000+ businesses that made the switch to Boopsign
+            Join 20 solo entrepreneurs who made the switch to Boopsign
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/sign-in">
+            <Link href="/dashboard">
               <Button size="lg">
-                Start 7-Day Free Trial
+                Start 14-Day Free Trial
               </Button>
             </Link>
-            {/* <Button variant="outline" size="lg">
+            {/* <Button variant="secondary" size="lg">
               See Live Demo
             </Button> */}
           </div>
@@ -330,10 +330,12 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
 
         {/* Fine Print */}
         <div className="text-center mt-8">
-          <p className="text-sm text-muted-foreground">
-            * Pricing as of September 2026. {competitorName} pricing may vary by plan and features.
-            <br />
-            Blue dots indicate key differentiating features.
+          <p className="text-sm text-muted-foreground max-w-3xl mx-auto">
+            We're not hiding our limitations. If you need Salesforce integration, API access, or multi-level approval workflows — we're not your tool. DocuSign or PandaDoc will serve you better.
+            <br /><br />
+            But if you're a solo entrepreneur who needs to get contracts signed quickly without enterprise complexity, we're exactly what you're looking for.
+            <br /><br />
+            Different tools for different needs. Know yours.
           </p>
         </div>
       </div>

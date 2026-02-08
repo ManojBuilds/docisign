@@ -39,17 +39,21 @@ export const ALL_TEMPLATES: Template[] = [
     ...ADDITIONAL_TEMPLATES.map(additionalToTemplate),
 ];
 
+// Pre-compute maps for O(1) lookups
+const TEMPLATE_MAP_BY_SLUG = new Map(ALL_TEMPLATES.map(t => [t.slug, t]));
+const TEMPLATE_MAP_BY_ID = new Map(ALL_TEMPLATES.map(t => [t.id, t]));
+
 // Export for backward compatibility
 export { BASE_TEMPLATES } from "./base_templates";
 export { ADDITIONAL_TEMPLATES } from "./additional_templates";
 
-// Helper functions
+// Helper functions (now O(1))
 export function getTemplateBySlug(slug: string): Template | undefined {
-    return ALL_TEMPLATES.find(t => t.slug === slug);
+    return TEMPLATE_MAP_BY_SLUG.get(slug);
 }
 
 export function getTemplateById(id: string): Template | undefined {
-    return ALL_TEMPLATES.find(t => t.id === id);
+    return TEMPLATE_MAP_BY_ID.get(id);
 }
 
 export function getTemplatesByCategory(category: "General" | "Real Estate" | "Specialized"): Template[] {

@@ -35,7 +35,7 @@ export const MobileRestrictionScreen = memo(() => {
         </p>
         <Link
           href="/dashboard"
-          className={buttonVariants({ variant: "outline" })}
+          className={buttonVariants({ variant: "secondary" })}
         >
           Return to Dashboard
         </Link>

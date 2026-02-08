@@ -146,7 +146,7 @@ export function TemplateDownloadEmail3({
             </Text>
 
             <Text className="text-[14px] text-black leading-[24px]">
-                As a thank you, we'd like to offer you an <strong>exclusive 20% discount</strong> on Boopsign Pro—our plan built specifically for freelancers and small businesses who need unlimited signatures without enterprise pricing.
+                As a thank you, we'd like to offer you an <strong>exclusive 20% discount</strong> on Boopsign Professional—our plan built specifically for freelancers and small businesses who need generous signature request limits without enterprise pricing.
             </Text>
 
             <Section className="my-[24px] rounded border-2 border-solid border-brand bg-[#fff9f0] p-[24px] text-center">
@@ -157,10 +157,10 @@ export function TemplateDownloadEmail3({
                     {couponCode}
                 </Text>
                 <Text className="m-0 mt-3 text-[14px] text-black">
-                    <strong>20% off your first 3 months</strong> of Boopsign Pro
+                    <strong>20% off your first 3 months</strong> of Boopsign Professional
                 </Text>
                 <Text className="m-0 mt-1 text-[12px] text-gray-500">
-                    Just $12/month (normally $15/month)
+                    Just $31.20/month (normally $39/month)
                 </Text>
             </Section>
 
@@ -169,7 +169,7 @@ export function TemplateDownloadEmail3({
                     🚀 What you get with Pro:
                 </Text>
                 <ul className="m-0 pl-4 text-[14px] text-black">
-                    <li className="mb-1"><strong>Unlimited documents</strong> – send as many as you need</li>
+                    <li className="mb-1"><strong>Generous signature limits</strong> – 75 requests per month on Professional</li>
                     <li className="mb-1"><strong>Custom branding</strong> – add your logo and colors</li>
                     <li className="mb-1"><strong>Advanced templates</strong> – save time with reusable templates</li>
                     <li className="mb-1"><strong>Priority support</strong> – get help when you need it</li>

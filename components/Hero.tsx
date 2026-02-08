@@ -1,6 +1,4 @@
 import { DragAndClickUpload } from "./DragAndClickUpload";
-import Image from "next/image";
-import Link from "next/link";
 import { Highlighter } from "./ui/highlighter";
 import StartTrialBtn from "./StartTrialBtn";
 
@@ -19,41 +17,44 @@ const Hero = () => {
       <div className="container relative mx-auto flex flex-col items-center text-center max-w-[1200px]">
 
 
-        {/* Headline - SEO: "E-Signatures" + "Freelancers" */}
-        <h1 className="text-5xl sm:text-6xl lg:text-7xl font-semibold tracking-tight text-slate-900 mb-8 max-w-5xl leading-tight text-center">
-          Super simple{" "}
-          signatures
+        {/* Headline - Anti-Bloat Positioning */}
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-slate-900 mb-6 max-w-3xl md:max-w-5xl leading-tight text-center">
+          DocuSign Has 847 Features.
           <br />
-          <span className="text-slate-900">for </span>
-          <Highlighter action="highlight" color="#dbeafe" iterations={1}>
-            Freelancers
+          <span className="text-slate-900">You'll Use </span>
+          <Highlighter action="circle" color="#3b82f6" iterations={1} animationDuration={0} strokeWidth={2}>
+            6 of Them.
           </Highlighter>
-          {/* <WordRotate
-            className="text-blue-600 min-w-[11ch] text-left"
-            words={["Freelancers", "Consultants", "Agencies", "Creatives", "Founders"]}
-          /> */}
         </h1>
 
-        <p className="mt-2 text-xl sm:text-2xl text-slate-500 max-w-2xl leading-relaxed font-normal">
-          The fastest way to get your <Link href="/contracts/independent-contractor-agreement" className="text-blue-600 hover:underline">contracts</Link> signed. <span className="text-slate-900 font-medium">No accounts, no downloads, no "I forgot my password" emails.</span> Just professional signatures in seconds.
+        <p className="mt-2 text-lg sm:text-xl md:text-2xl text-slate-500 max-w-xs sm:max-w-md md:max-w-2xl leading-relaxed font-normal">
+          Boopsign gives you exactly those 6—lightning fast, beautifully simple,
+          <span className="text-slate-900 font-medium"> without the $180/year bloat tax.</span>
         </p>
-        <div className="mt-8 flex justify-center">
+
+        {/* Primary CTA */}
+        <div className="mt-6 sm:mt-8 flex justify-center">
           <StartTrialBtn
-            label="Start 7-Day Free Trial — No Credit Card"
-            className="shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 hover:-translate-y-0.5 transition-all"
+            label="Start 14-Day Free Trial →"
+            variant="premium"
+            className="h-12 sm:h-14 px-10 sm:px-12 text-base sm:text-xl font-bold rounded-lg"
           />
         </div>
-        <div className="mt-2 flex gap-4">
-          <Link href="/esignature-for-freelancers" className="text-sm font-semibold text-slate-400 hover:text-blue-600 transition-colors underline decoration-slate-200 underline-offset-4">
-            Built specially for freelancers
-          </Link>
+        <div className="mt-3 sm:mt-4 flex flex-col items-center space-y-1">
+          <p className="text-xs sm:text-sm font-semibold text-slate-500">
+            No credit card • Cancel anytime
+          </p>
+          <p className="text-xs sm:text-sm font-semibold text-slate-500">
+            Used by 20 solo entrepreneurs who refuse to pay
+            for features they'll never touch.
+          </p>
         </div>
 
         {/* Primary Action Area - Functional yet Beautiful */}
         <div className="w-full max-w-2xl mt-10 relative z-10">
           <p className="text-center text-sm font-medium text-slate-500 mb-4">Drop a PDF below to try signing now — no signup required</p>
           {/* The Main Card */}
-          <div className="relative bg-white rounded-3xl p-3 shadow-[0_30px_100px_-20px_rgba(59,130,246,0.15)] ring-1 ring-slate-200 transition-all duration-500 hover:shadow-[0_40px_120px_-20px_rgba(59,130,246,0.2)] z-20">
+          <div className="relative bg-white rounded-3xl p-3 shadow-[0_30px_100px_-20px_rgba(59,130,246,0.15)] ring-1 ring-slate-200 z-20">
             <div className="rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 hover:bg-blue-50/30 hover:border-blue-300 transition-all duration-300">
               <DragAndClickUpload />
             </div>
@@ -74,35 +75,6 @@ const Hero = () => {
             </div>
           </div>
         </div>
-
-        {/* Social Proof Strip - Clean */}
-        <div className="mt-16 pt-10 border-t border-slate-100 w-full max-w-5xl flex flex-col items-center gap-8">
-          <p className="text-sm font-semibold text-slate-400 uppercase tracking-widest text-center">Trusted by 20+ freelancers — 3x higher completion rate than DocuSign</p>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-            <Image
-              src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguAx9LOQUIaF7cPRXTBKUOjd2u8DtqMsNepfz5"
-              alt="Upwork logo - Trusted by freelancers"
-              width={100}
-              height={30}
-              className="h-8 w-auto object-contain"
-            />
-            <Image
-              src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguNdvEMIPiU6w4skOW0rpmyaEQlFAHXZvKVdg3"
-              alt="Fiverr logo - Popular with creative professionals"
-              width={100}
-              height={30}
-              className="h-8 w-auto object-contain"
-            />
-            <Image
-              src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguPMHsW6iFW6gqf8SA9UosI1PZnQc5tLJGb7dh"
-              alt="Freelancer.com logo - Used by global talent"
-              width={120}
-              height={30}
-              className="h-8 w-auto object-contain"
-            />
-          </div>
-        </div>
-
       </div>
     </section>
   );

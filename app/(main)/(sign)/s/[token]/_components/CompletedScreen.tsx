@@ -366,7 +366,7 @@ export function CompletedScreen({
                     Secure, verified digital signatures for your documents. Get started for free today.
                   </p>
                   <Button asChild className="w-full bg-white text-black hover:bg-gray-100 h-12 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg cursor-pointer transition-all">
-                    <Link href={'/sign-in'}>
+                    <Link href={'/dashboard'}>
                       Create Free Account <ArrowRight className="w-4 h-4 ml-2" />
                     </Link>
                   </Button>

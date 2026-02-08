@@ -12,11 +12,7 @@ export function GetProCTA({ className, ...props }: GetProCTAProps) {
   const { isLoading, isPaidUser } = useTrialStatus();
 
   if (isLoading || isPaidUser) {
-    return (
-      <Button variant={'ghost'} className={cn("", className)} asChild {...props}>
-        <Link href="/account/billing">Manage Plan</Link>
-      </Button>
-    );
+    return null;
   }
 
   return (

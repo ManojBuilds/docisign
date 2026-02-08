@@ -290,7 +290,7 @@ export default function OnlineSignatureCreator() {
                 />
                 <div className="absolute bottom-6 right-6 flex items-center gap-3">
                   <Button
-                    variant="outline"
+                    variant="secondary"
                     size="sm"
                     onClick={clearSignature}
                     className="bg-white/80 backdrop-blur-sm border-slate-200 hover:bg-white text-slate-600 rounded-xl"
@@ -353,7 +353,7 @@ export default function OnlineSignatureCreator() {
                       </div>
 
                       <Button
-                        variant="outline"
+                        variant="secondary"
                         disabled={!deferredSignature}
                         onClick={() => downloadPersonality(p)}
                         className="w-full rounded-xl border-slate-200 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all font-semibold h-11 shadow-sm"

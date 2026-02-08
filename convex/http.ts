@@ -63,6 +63,7 @@ http.route({
 
       const clerkId = data.metadata?.clerkId;
       const interval = data.metadata?.interval as "monthly" | "annually" | undefined;
+      const plan = data.metadata?.plan as "starter" | "professional" | undefined;
       const subscriptionId = data.subscription_id;
       const customerId = data.customer?.customer_id;
       const email = data.customer?.email;
@@ -120,6 +121,7 @@ http.route({
         billingInterval: interval,
         dodoSubscriptionId: subscriptionId,
         dodoCustomerId: customerId,
+        plan,
       });
 
       console.log(`✅ Webhook processed: ${type} for ${email}`);

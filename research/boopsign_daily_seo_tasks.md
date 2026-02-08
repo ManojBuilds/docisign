@@ -10,7 +10,7 @@ Each day has 1-2 small tasks (30-90 minutes each). Complete them in order for be
 ### Day 1 (Today) - Meta Optimization
 **Task:** Fix meta titles and descriptions for 5 pages
 - [x] Homepage: Update title to "Boopsign - E-Signature Software Built for Freelancers & Consultants | $15/mo"
-- [x] Homepage: Update meta description to "The e-signature tool freelancers love. No client accounts required. Get contracts signed in 3 minutes, not 3 days. 52% cheaper than DocuSign. Try free for 7 days."
+- [x] Homepage: Update meta description to "The e-signature tool freelancers love. No client accounts required. Get contracts signed in 3 minutes, not 3 days. 52% cheaper than DocuSign. Try free for 14 days."
 - [x] /pricing: Update title to "Boopsign Pricing - $15/mo for Freelancers | No Per-User Fees"
 - [x] /pricing: Update meta description
 - [x] /how-it-works: Update title to "How Boopsign Works - 3-Minute Setup for Freelance E-Signatures"

@@ -1,5 +1,5 @@
 
-import { DollarSign, Smartphone, Zap } from "lucide-react";
+import { Smartphone, Zap } from "lucide-react";
 import { Highlighter } from "./ui/highlighter";
 
 export function Problem() {
@@ -18,13 +18,6 @@ export function Problem() {
       tag: "Mobile",
       color: "blue"
     },
-    {
-      title: "No Hidden Fees",
-      description: "Simple $15/month flat rate for unlimited documents. No per-envelope charges or enterprise upsells.",
-      icon: <DollarSign className="size-6 text-emerald-500" />,
-      tag: "Pricing",
-      color: "emerald"
-    }
   ];
 
   return (

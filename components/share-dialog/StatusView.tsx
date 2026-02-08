@@ -134,7 +134,7 @@ export const StatusView = ({
 
         <div className="p-6 border-t border-zinc-100 bg-zinc-50 flex gap-3">
           <DialogClose asChild>
-            <Button variant="outline" className="flex-1 font-semibold bg-white ring-1 ring-zinc-200 shadow-none border-0 hover:bg-zinc-50">
+            <Button variant="secondary" className="flex-1 font-semibold bg-white ring-1 ring-zinc-200 shadow-none border-0 hover:bg-zinc-50">
               Close
             </Button>
           </DialogClose>
@@ -169,7 +169,7 @@ export const StatusView = ({
 
         {hasPendingFields && (
           <Button
-            variant="outline"
+            variant="secondary"
             onClick={onConfigureClick}
             className="w-full mb-6 py-6 ring-1 ring-blue-200 text-blue-700 bg-blue-50/50 font-semibold border-0"
           >
@@ -184,7 +184,7 @@ export const StatusView = ({
       </ScrollArea>
       <DrawerFooter>
         <DrawerClose asChild>
-          <Button variant="outline">Close</Button>
+          <Button variant="secondary">Close</Button>
         </DrawerClose>
       </DrawerFooter>
     </div>
