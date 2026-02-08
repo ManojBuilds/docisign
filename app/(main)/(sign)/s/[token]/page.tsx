@@ -2,8 +2,10 @@ import { api } from "@/convex/_generated/api";
 import { convexClient } from "@/lib/convex";
 import SigningPage from "./page.client";
 
-export const dynamic = 'force-dynamic'
-export const runtime = 'nodejs'
+// MIGRATED from: export const dynamic = 'force-dynamic'
+// → Dynamic is now the default with Cache Components, so this export is no longer needed
+// MIGRATED from: export const runtime = 'nodejs'
+// → This export is no longer needed as 'nodejs' is the default runtime
 
 export async function generateMetadata({
   params,

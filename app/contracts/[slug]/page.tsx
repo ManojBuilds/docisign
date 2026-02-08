@@ -12,8 +12,10 @@ type Props = {
     params: Promise<{ slug: string }>;
 };
 
-export const dynamicParams = false;
-export const dynamic = "force-static";
+// MIGRATED from: export const dynamic = "force-static"
+// → Add "use cache" to opt into caching (dynamic is now the default)
+// MIGRATED from: export const dynamicParams = false
+// → Use generateStaticParams (already present in this file) to define static routes
 
 const legacyRedirects: Record<string, string> = {
     // Writers & Content

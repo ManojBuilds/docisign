@@ -4,8 +4,10 @@ import { Metadata } from "next";
 import dynamicImport from "next/dynamic";
 import { notFound } from "next/navigation";
 
-export const dynamicParams = false;
-export const dynamic = "force-static";
+// MIGRATED from: export const dynamic = "force-static"
+// → Add "use cache" to opt into caching (dynamic is now the default)
+// MIGRATED from: export const dynamicParams = false
+// → Use generateStaticParams (already present in this file) to define static routes
 
 // Import our new MDX components
 import HeroSection from "@/components/mdx/HeroSection";

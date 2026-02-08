@@ -1,6 +1,7 @@
 import { ShieldCheckIcon } from "lucide-react";
 import Link from "next/link";
 import Logo from "./Logo";
+import CurrentYear from "./CurrentYear";
 import { JSX } from "react";
 
 // Define footer sections interface for scalability
@@ -67,7 +68,7 @@ const Footer = () => {
 
               <div className="mt-6 pt-6 border-t border-border">
                 <p className="text-xs text-muted-foreground">
-                  &copy; {new Date().getFullYear()} Boopsign. All rights reserved.
+                  &copy; <CurrentYear /> Boopsign. All rights reserved.
                 </p>
               </div>
             </div>
