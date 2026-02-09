@@ -2,6 +2,7 @@ import { withContentCollections } from "@content-collections/next";
 import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
+  cacheComponents: true,  // Enable Cache Components for Next.js 16
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons', '@radix-ui/react-dialog', '@radix-ui/react-dropdown-menu'],
   },

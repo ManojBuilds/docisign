@@ -15,8 +15,10 @@ type Props = {
     params: Promise<{ slug: string; roleSlug: string }>;
 };
 
-export const dynamicParams = false;
-export const dynamic = "force-static";
+// MIGRATED from: export const dynamic = "force-static"
+// → Add "use cache" to opt into caching (dynamic is now the default)
+// MIGRATED from: export const dynamicParams = false
+// → Use generateStaticParams (already present in this file) to define static routes
 
 // Generate valid URLs for the matrix: Filtered by Category Logic
 export async function generateStaticParams() {
@@ -487,7 +489,7 @@ export default async function MatrixContractPage({ params }: Props) {
                                     docUrl={template.docUrl}
                                     pdfUrl={template.pdfUrl}
                                     stats={[
-                                        { label: "Used by", value: `${Math.floor(Math.random() * 500) + 200}+ ${role.role}s` },
+                                        { label: "Used by", value: `200+ ${role.role}s` },
                                         { label: "Setup Time", value: "60 Seconds" }
                                     ]}
                                 />
