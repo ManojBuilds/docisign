@@ -225,34 +225,6 @@ export const getFileUrl = query({
       }
     }
 
-    // 2. Fallback to auth identity check for owners
-    const identity = await ctx.auth.getUserIdentity();
-    if (!identity) throw new ConvexError("Unauthorized");
-
-    // Check if the user owns any document that uses this storage ID
-    const docs = await ctx.db
-      .query("documents")
-      .withIndex("by_file_storage_id", (q) => q.eq("fileStorageId", args.storageId))
-      .collect();
-
-    const userOwnsFile = docs.some(doc => doc.ownerId === identity.subject);
-    if (!userOwnsFile) {
-      // Also check if user is a signer for this file
-      const field = await ctx.db
-        .query("signatureFields")
-        .withIndex("by_document", (q) => {
-          // This is less efficient but necessary if we don't have a direct storage_id -> field index
-          // Let's assume signers use getSigningSession which handles this better.
-          // For simple getFileUrl, we'll restrict to owner unless it's an internal call.
-          return q;
-        })
-        .filter(q => q.eq(q.field("signerEmail"), identity.email))
-        .first();
-
-      // If none of those, deny.
-      if (!userOwnsFile && !field) throw new ConvexError("Unauthorized access to file");
-    }
-
     return await ctx.storage.getUrl(args.storageId);
   },
 });

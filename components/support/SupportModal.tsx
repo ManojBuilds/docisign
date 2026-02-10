@@ -8,14 +8,14 @@ import * as z from "zod";
 import { useUser } from "@clerk/nextjs";
 
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogDescription,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+  ResponsiveDialogTrigger,
+} from "@/components/responsive-dialog";
 import {
   Form,
   FormControl,
@@ -387,7 +387,7 @@ export function SupportModal({ trigger }: SupportModalProps) {
   }
 
   return (
-    <Dialog
+    <ResponsiveDialog
       open={isOpen}
       onOpenChange={(open) => {
         setIsOpen(open);
@@ -397,23 +397,23 @@ export function SupportModal({ trigger }: SupportModalProps) {
         }
       }}
     >
-      <DialogTrigger asChild>
+      <ResponsiveDialogTrigger asChild>
         <Button variant={"ghost"} size={"sm"} className="rounded-full">
           <HelpCircle className="h-4 w-4" />
         </Button>
-      </DialogTrigger>
-      <DialogContent className="max-h-[90vh] flex flex-col">
-        <DialogHeader>
-          <DialogTitle>Submit a Request</DialogTitle>
-          <DialogDescription>
+      </ResponsiveDialogTrigger>
+      <ResponsiveDialogContent className="max-h-[90vh] flex flex-col">
+        <ResponsiveDialogHeader>
+          <ResponsiveDialogTitle>Submit a Request</ResponsiveDialogTitle>
+          <ResponsiveDialogDescription>
             Have a bug to report, a feature to suggest, or need help? Let us
             know!
-          </DialogDescription>
-        </DialogHeader>
+          </ResponsiveDialogDescription>
+        </ResponsiveDialogHeader>
         <ScrollArea className="flex-1">
           <div className="">{content()}</div>
         </ScrollArea>
-        <DialogFooter>
+        <ResponsiveDialogFooter>
           <Button
             type="submit"
             disabled={isSubmitting}
@@ -429,8 +429,8 @@ export function SupportModal({ trigger }: SupportModalProps) {
               "Submit Request"
             )}
           </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+        </ResponsiveDialogFooter>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   );
 }

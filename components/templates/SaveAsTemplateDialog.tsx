@@ -149,7 +149,7 @@ export function SaveAsTemplateDialog({
   };
 
   const TemplateFormContent = (
-    <div className="space-y-4 px-4 py-2">
+    <div className="space-y-4">
       {isLimitReached && (
         <Alert className="bg-amber-50 border-amber-200 mb-4">
           <AlertCircle className="h-4 w-4 text-amber-600" />
@@ -184,7 +184,6 @@ export function SaveAsTemplateDialog({
           value={templateTitle}
           onChange={(e) => setTemplateTitle(e.target.value)}
           placeholder="e.g. Standard Service Agreement"
-          className="rounded-xl border-gray-200"
         />
         <p className="text-[11px] text-slate-400 font-medium">
           Give your template a clear, recognizable name for future use.
@@ -207,7 +206,7 @@ export function SaveAsTemplateDialog({
             signers.map((email) => (
               <div
                 key={email}
-                className="p-4 bg-slate-50/50 rounded-2xl border border-slate-200/60 space-y-4 hover:border-primary/20 hover:bg-white transition-all duration-200 group"
+                className="p-4 bg-slate-50/50 rounded-lg border border-slate-200/60 space-y-4 hover:border-primary/20 hover:bg-white transition-all duration-200 group"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center text-xs font-bold group-hover:bg-blue-600 group-hover:text-white transition-all">
@@ -243,7 +242,6 @@ export function SaveAsTemplateDialog({
                         [email]: e.target.value,
                       }))
                     }
-                    className="rounded-xl border-gray-200"
                     required
                   />
                 </div>
@@ -270,7 +268,7 @@ export function SaveAsTemplateDialog({
   );
 
   const triggerContent = children || (
-    <Button variant="ghost" size="sm" className="gap-2 rounded-xl h-10 px-4 font-bold text-xs uppercase tracking-widest text-gray-500 hover:bg-gray-50">
+    <Button variant="secondary" size="sm" className="gap-2 font-bold text-xs uppercase tracking-widest">
       <LayoutTemplate className="w-4 h-4" />
       Save as Template
     </Button>
@@ -280,10 +278,10 @@ export function SaveAsTemplateDialog({
     <div className="flex flex-col sm:flex-row gap-3 w-full">
       <Button
         type="button"
-        variant="ghost"
+        variant="secondary"
         onClick={() => setOpen(false)}
         disabled={isSubmitting}
-        className="w-full sm:w-auto rounded-xl font-bold text-xs uppercase tracking-widest"
+        className="w-full sm:w-auto text-xs uppercase tracking-widest"
       >
         Cancel
       </Button>
@@ -293,7 +291,7 @@ export function SaveAsTemplateDialog({
           isLimitReached ? () => (window.location.href = "/pricing") : undefined
         }
         disabled={isSubmitting}
-        className="w-full sm:flex-1 font-bold rounded-xl h-11 text-xs uppercase tracking-widest shadow-lg shadow-primary/20"
+        className="w-full sm:flex-1 font-bold text-xs uppercase tracking-widest"
       >
         {isSubmitting ? (
           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -308,8 +306,8 @@ export function SaveAsTemplateDialog({
   return (
     <ResponsiveDialog open={open} onOpenChange={setOpen}>
       <ResponsiveDialogTrigger asChild>{triggerContent}</ResponsiveDialogTrigger>
-      <ResponsiveDialogContent className="sm:max-w-[450px]">
-        <ResponsiveDialogHeader className="pt-6 px-6">
+      <ResponsiveDialogContent>
+        <ResponsiveDialogHeader>
           <ResponsiveDialogTitle>Save as Template</ResponsiveDialogTitle>
           <ResponsiveDialogDescription>
             Turn this document into a reusable template.
@@ -321,7 +319,7 @@ export function SaveAsTemplateDialog({
             {TemplateFormContent}
           </ScrollArea>
 
-          <ResponsiveDialogFooter className="p-6 pt-2 border-t border-slate-50">
+          <ResponsiveDialogFooter className="pt-2 border-t border-slate-50">
             {footerContent}
           </ResponsiveDialogFooter>
         </form>

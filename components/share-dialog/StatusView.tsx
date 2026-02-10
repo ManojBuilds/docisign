@@ -1,9 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { DialogClose, DialogTitle } from "@/components/ui/dialog";
-import { DrawerClose, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import {
+  ResponsiveDialogClose,
+  ResponsiveDialogTitle,
+  ResponsiveDialogHeader,
+  ResponsiveDialogFooter
+} from "@/components/responsive-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Doc } from "@/convex/_generated/dataModel";
-import { cn } from "@/lib/utils";
 import { AlertCircle, CheckCircle2, Clock, Loader2, Send, X } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 import { AuditTrail } from "./AuditTrail";
@@ -28,49 +31,48 @@ export const StatusView = ({
   signatureFields,
   signers,
   onConfigureClick,
-  isDesktop = true,
 }: StatusViewProps) => {
 
   const getStatusDisplay = () => {
     switch (documentStatus.toLowerCase()) {
       case 'sent':
         return {
-          icon: <Send className="w-8 h-8 text-blue-600" />,
+          icon: <Send className="w-4 h-4 md:w-6 md:h-6 text-blue-600" />,
           title: 'Waiting for Signature',
           message: 'Document has been successfully sent. Tracking status is now active.',
           color: 'bg-blue-50 ring-1 ring-inset ring-blue-100 text-blue-700'
         };
       case 'in_progress':
         return {
-          icon: <Loader2 className="w-8 h-8 text-amber-600 animate-spin" />,
+          icon: <Loader2 className="w-4 h-4 md:w-6 md:h-6 text-amber-600 animate-spin" />,
           title: 'Signing in Progress',
           message: 'Signers are currently reviewing and signing the document.',
           color: 'bg-amber-50 ring-1 ring-inset ring-amber-100 text-amber-700'
         };
       case 'completed':
         return {
-          icon: <CheckCircle2 className="w-8 h-8 text-green-600" />,
+          icon: <CheckCircle2 className="w-4 h-4 md:w-6 md:h-6 text-green-600" />,
           title: 'Successfully Completed',
           message: 'All parties have signed. A final copy has been distributed.',
           color: 'bg-green-50 ring-1 ring-inset ring-green-100 text-green-700'
         };
       case 'cancelled':
         return {
-          icon: <X className="w-8 h-8 text-red-600" />,
+          icon: <X className="w-4 h-4 md:w-6 md:h-6 text-red-600" />,
           title: 'Document Cancelled',
           message: 'The signing process has been terminated.',
           color: 'bg-red-50 ring-1 ring-inset ring-red-100 text-red-700'
         };
       case 'declined':
         return {
-          icon: <AlertCircle className="w-8 h-8 text-red-600" />,
+          icon: <AlertCircle className="w-4 h-4 md:w-6 md:h-6 text-red-600" />,
           title: 'Document Declined',
           message: 'One or more signers have declined to sign this document.',
           color: 'bg-red-50 ring-1 ring-inset ring-red-100 text-red-700'
         };
       case 'expired':
         return {
-          icon: <Clock className="w-8 h-8 text-zinc-600" />,
+          icon: <Clock className="w-4 h-4 md:w-6 md:h-6 text-zinc-600" />,
           title: 'Link Expired',
           message: 'The secure signing link has expired.',
           color: 'bg-zinc-50 ring-1 ring-inset ring-zinc-100 text-zinc-700'
@@ -90,103 +92,62 @@ export const StatusView = ({
     f.status === 'sent' || f.status === 'viewed' || f.status === 'signed'
   ));
 
-  if (isDesktop) {
-    return (
-      <div className="flex flex-col h-full">
-        <div className={cn("p-8 text-center border-b border-transparent", statusDisplay.color)}>
-          <div className="w-16 h-16 bg-white/50 rounded-full flex items-center justify-center mx-auto mb-4 ring-1 ring-black/5 backdrop-blur-sm">
-            {statusDisplay.icon}
-          </div>
-          <DialogTitle className="text-xl font-semibold mb-2 tracking-tight text-center">
-            {isHybridState ? "New Fields Added" : statusDisplay.title}
-          </DialogTitle>
-          <p className="text-sm opacity-90 max-w-sm mx-auto font-medium">
-            {isHybridState
-              ? "You have added new fields to this document. Save and send the request to notify signers."
-              : statusDisplay.message}
-          </p>
-        </div>
-
-        <ScrollArea className="flex-1 max-h-[60vh]">
-          {/* Recipients List in Status View */}
-          <div className="px-6 py-4 border-b border-zinc-100 bg-zinc-50/30">
-            <RecipientsList signers={signers} signatureFields={signatureFields} readonly />
-          </div>
-
-          {/* Action to re-send if new fields exist */}
-          {hasPendingFields && (
-            <div className="p-6 bg-blue-50/50 border-b border-blue-100 italic text-sm text-blue-700 text-center">
-              <Button
-                variant="link"
-                onClick={onConfigureClick}
-                className="text-blue-600 font-semibold hover:text-blue-700 underline"
-              >
-                Click here to configure and send new requests
-              </Button>
-            </div>
-          )}
-
-          {/* Audit Trail for Documents with at least one signature */}
-          {hasCompletedFields && signatureFields && (
-            <AuditTrail signatureFields={signatureFields} />
-          )}
-        </ScrollArea>
-
-        <div className="p-6 border-t border-zinc-100 bg-zinc-50 flex gap-3">
-          <DialogClose asChild>
-            <Button variant="secondary" className="flex-1 font-semibold bg-white ring-1 ring-zinc-200 shadow-none border-0 hover:bg-zinc-50">
-              Close
-            </Button>
-          </DialogClose>
-          {hasPendingFields && (
-            <Button
-              onClick={onConfigureClick}
-              className="flex-1 font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-none ring-1 ring-transparent transition-all"
-            >
-              Configure & Send
-            </Button>
-          )}
-        </div>
-      </div>
-    );
-  }
-
-  // Mobile
   return (
     <div className="flex flex-col h-full">
-      <DrawerHeader className="border-b border-zinc-100">
-        <DrawerTitle className="flex items-center gap-2">
-          {statusDisplay.icon}
-          {isHybridState ? "New Fields Added" : statusDisplay.title}
-        </DrawerTitle>
-      </DrawerHeader>
-      <ScrollArea className="p-4">
-        <p className="text-zinc-600 mb-6 font-medium text-sm">
+      <ResponsiveDialogHeader className="p-6 border-b border-zinc-100 bg-zinc-50/50">
+        <div className="flex items-center justify-between">
+          <ResponsiveDialogTitle className="w-full font-semibold text-zinc-900 tracking-tight flex items-center justify-center md:justify-start gap-2">
+            {statusDisplay.icon}
+            {isHybridState ? "New Fields Added" : statusDisplay.title}
+          </ResponsiveDialogTitle>
+        </div>
+        <p className="text-sm text-zinc-500 font-medium">
           {isHybridState
             ? "You have added new fields to this document. Save and send the request to notify signers."
             : statusDisplay.message}
         </p>
+      </ResponsiveDialogHeader>
 
+      <ScrollArea className="flex-1 py-4 md:px-6 md:py-8">
+        {/* Recipients List in Status View */}
+        <div className="mb-6">
+          <RecipientsList signers={signers} signatureFields={signatureFields} readonly />
+        </div>
+
+        {/* Action to re-send if new fields exist */}
         {hasPendingFields && (
-          <Button
-            variant="secondary"
-            onClick={onConfigureClick}
-            className="w-full mb-6 py-6 ring-1 ring-blue-200 text-blue-700 bg-blue-50/50 font-semibold border-0"
-          >
-            Configure & Send New Requests
-          </Button>
+          <div className="p-4 bg-blue-50/50 border border-blue-100 rounded-lg italic text-sm text-blue-700 text-center mb-6">
+            <Button
+              variant="link"
+              onClick={onConfigureClick}
+              className="text-blue-600 font-semibold hover:text-blue-700 underline p-0 h-auto"
+            >
+              Click here to configure and send new requests
+            </Button>
+          </div>
         )}
 
-        {/* Simplified Audit for Mobile */}
+        {/* Audit Trail for Documents with at least one signature */}
         {hasCompletedFields && signatureFields && (
           <AuditTrail signatureFields={signatureFields} />
         )}
       </ScrollArea>
-      <DrawerFooter>
-        <DrawerClose asChild>
-          <Button variant="secondary">Close</Button>
-        </DrawerClose>
-      </DrawerFooter>
+
+      <ResponsiveDialogFooter className="p-6 border-t border-zinc-100 bg-zinc-50 flex gap-3">
+        <ResponsiveDialogClose asChild>
+          <Button variant="secondary" className="flex-1 font-semibold bg-white shadow-none ring-1 ring-zinc-900/10 border-0 hover:bg-zinc-50 text-zinc-700">
+            Close
+          </Button>
+        </ResponsiveDialogClose>
+        {hasPendingFields && (
+          <Button
+            onClick={onConfigureClick}
+            className="flex-1 font-semibold bg-blue-600 hover:bg-blue-700 text-white shadow-none ring-1 ring-blue-600 transition-all"
+          >
+            Configure & Send
+          </Button>
+        )}
+      </ResponsiveDialogFooter>
     </div>
   );
 };

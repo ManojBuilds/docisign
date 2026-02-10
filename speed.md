@@ -106,3 +106,14 @@ tsx
 <UsageLimitGate limitType="signatureRequests" customMessage="You've used your 1 free request.">
   <Button onClick={handleSend}>Send for Signature</Button>
 </UsageLimitGate>
+
+upload document,
+overflow when file name is big
+
+2 little slide button (fields and signer drawer, add field, )
+
+Unable to select fixed role in the usetemplatedialog when more than 2 roles
+
+large circle background in the dashboard in empty state
+
+when using responsive-dialog component, height is getting 200% because of that it get a lot of empty spaces

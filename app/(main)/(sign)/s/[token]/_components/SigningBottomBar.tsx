@@ -44,12 +44,12 @@ export const SigningBottomBar = memo(({
           <Button
             size="lg"
             className={cn(
-              "w-full h-14 rounded-2xl font-black uppercase tracking-[0.15em] text-[11px] transition-all relative overflow-hidden group shadow-2xl shadow-blue-500/10",
+              "w-full h-14 font-black uppercase tracking-[0.15em] text-[11px] relative overflow-hidden group",
               isFinished
-                ? "bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/20"
+                ? "bg-emerald-600 hover:bg-emerald-700 text-white"
                 : !hasStarted
-                  ? "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-600/20"
-                  : "bg-gray-900 border border-gray-800 text-white shadow-gray-900/20"
+                  ? "bg-blue-600 hover:bg-blue-700 text-white"
+                  : "bg-gray-900 border border-gray-800 text-white"
             )}
             onClick={handleClick}
             disabled={isSubmitting}

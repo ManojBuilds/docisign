@@ -8,6 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import { buttonVariants } from "@/components/ui/button";
 
 interface DeclineDialogProps {
   open: boolean;
@@ -34,10 +35,10 @@ export function DeclineDialog({ open, onOpenChange, onConfirm, customMessage }: 
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel className={buttonVariants({ variant: "secondary" })}>Cancel</AlertDialogCancel>
           <AlertDialogAction
             onClick={onConfirm}
-            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            className={buttonVariants({ variant: "destructive" })}
           >
             Yes, Decline Document
           </AlertDialogAction>

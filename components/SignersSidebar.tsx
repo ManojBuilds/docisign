@@ -116,7 +116,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
 
   if (selectedField) {
     return (
-      <aside id="signers-sidebar" className="w-full md:max-w-[320px] bg-white border-l flex flex-col h-full shadow-2xl z-20 overflow-hidden animate-in fade-in slide-in-from-right-4 duration-500">
+      <aside id="signers-sidebar" className="w-full md:max-w-[320px] bg-white border-l flex flex-col h-full z-20 overflow-hidden animate-in fade-in slide-in-from-right-4 duration-500">
         <div className="px-5 py-4 border-b bg-gray-50/30 backdrop-blur-sm sticky top-0 z-10 flex flex-col gap-4">
           <div className="flex items-center justify-between">
             <button

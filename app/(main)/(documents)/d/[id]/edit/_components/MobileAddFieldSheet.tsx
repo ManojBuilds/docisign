@@ -2,9 +2,9 @@
 
 import { SignatureFieldData } from "@/components/signature-field";
 import {
-  Drawer,
-  DrawerContent
-} from "@/components/ui/drawer";
+  ResponsiveDialog,
+  ResponsiveDialogContent
+} from "@/components/responsive-dialog";
 import { cn } from "@/lib/utils";
 import { ALargeSmall, CalendarDays, PenTool, TextCursor } from "lucide-react";
 import { memo } from "react";
@@ -34,10 +34,8 @@ export const MobileAddFieldSheet = memo(
     ];
 
     return (
-      <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="max-h-[40vh] rounded-t-[32px] border-t bg-white pb-6 shadow-2xl">
-          <div className="mx-auto mt-3 h-1.5 w-12 rounded-full bg-gray-200" />
-
+      <ResponsiveDialog open={open} onOpenChange={onOpenChange}>
+        <ResponsiveDialogContent className="max-h-[40vh] rounded-t-[32px] border-t bg-white pb-6 shadow-2xl">
           <div className="grid grid-cols-2 gap-4 p-6 pt-8">
             {fieldTypes.map((type) => (
               <button
@@ -58,8 +56,8 @@ export const MobileAddFieldSheet = memo(
               Select field to place on document
             </p>
           </div>
-        </DrawerContent>
-      </Drawer>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
     );
   }
 );

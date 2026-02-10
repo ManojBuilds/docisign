@@ -2,7 +2,7 @@
 
 import { CheckCircle2, Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { ResponsiveDialogContent, ResponsiveDialogDescription, ResponsiveDialogTitle } from "@/components/responsive-dialog";
 import { Confetti, type ConfettiRef } from "@/components/ui/confetti";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
@@ -22,7 +22,7 @@ export default function SuccessDialogContent({ templateName }: SuccessDialogCont
     }, []);
 
     return (
-        <DialogContent className="sm:max-w-[500px] p-0 overflow-hidden border-none shadow-2xl">
+        <ResponsiveDialogContent className="sm:max-w-[500px] p-0 overflow-hidden border-none shadow-2xl">
             <Confetti
                 ref={confettiRef}
                 className="absolute inset-0 z-0 pointer-events-none"
@@ -38,10 +38,10 @@ export default function SuccessDialogContent({ templateName }: SuccessDialogCont
                         <div className="mx-auto w-16 aspect-square bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center mb-6 border border-white/20 shadow-xl">
                             <CheckCircle2 className="w-8 h-8 text-blue-400" />
                         </div>
-                        <DialogTitle className="text-3xl font-black mb-2 text-white tracking-tight">Check Your Inbox! </DialogTitle>
-                        <DialogDescription className="text-white/70 text-[15px] font-medium max-w-[340px] mx-auto leading-relaxed">
+                        <ResponsiveDialogTitle className="text-3xl font-black mb-2 text-white tracking-tight">Check Your Inbox! </ResponsiveDialogTitle>
+                        <ResponsiveDialogDescription className="text-white/70 text-[15px] font-medium max-w-[340px] mx-auto leading-relaxed">
                             We've just sent your <strong>{templateName || "document"}</strong> and a <span className="text-blue-400 font-bold">special surprise gift</span> to your email address.
-                        </DialogDescription>
+                        </ResponsiveDialogDescription>
                     </div>
                 </div>
 
@@ -100,6 +100,6 @@ export default function SuccessDialogContent({ templateName }: SuccessDialogCont
                     </div>
                 </div>
             </div>
-        </DialogContent>
+        </ResponsiveDialogContent>
     );
 }

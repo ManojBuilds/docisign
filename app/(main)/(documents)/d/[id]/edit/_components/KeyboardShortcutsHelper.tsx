@@ -1,11 +1,11 @@
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogDescription,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+} from "@/components/responsive-dialog";
 import { Kbd } from "@/components/ui/kbd";
 import {
   Tooltip,
@@ -78,17 +78,17 @@ export const KeyboardShortcutsHelper = memo(() => {
         </TooltipContent>
       </Tooltip>
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
+      <ResponsiveDialog open={isOpen} onOpenChange={setIsOpen}>
+        <ResponsiveDialogContent className="max-w-md">
+          <ResponsiveDialogHeader>
+            <ResponsiveDialogTitle className="flex items-center gap-2">
               <Keyboard className="h-5 w-5" />
               Keyboard Shortcuts
-            </DialogTitle>
-            <DialogDescription>
+            </ResponsiveDialogTitle>
+            <ResponsiveDialogDescription>
               Use these keyboard shortcuts to work faster
-            </DialogDescription>
-          </DialogHeader>
+            </ResponsiveDialogDescription>
+          </ResponsiveDialogHeader>
 
           <div className="space-y-6 py-2">
             {shortcuts.map((section) => (
@@ -118,8 +118,8 @@ export const KeyboardShortcutsHelper = memo(() => {
               Press <Kbd>?</Kbd> anytime to view shortcuts
             </p>
           </div>
-        </DialogContent>
-      </Dialog>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
     </>
   );
 });

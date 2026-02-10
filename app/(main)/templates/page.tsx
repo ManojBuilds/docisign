@@ -9,14 +9,10 @@ export default function TemplatesPage() {
         <div className="min-h-screen bg-[#fafbfc] selection:bg-primary/10">
             <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
                 <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-6">
-                    <div className="space-y-1">
-                        <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
-                            My Templates
-                        </h1>
-                        <p className="text-slate-500 text-sm sm:text-base font-medium max-w-md">
-                            Streamline your workflow with reusable document templates for recurring contracts.
-                        </p>
-                    </div>
+
+                    <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900">
+                        My Templates
+                    </h1>
 
 
                     <NewDocumentDialog >
