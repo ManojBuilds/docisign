@@ -2,28 +2,18 @@
 
 import { Button } from '@/components/ui/button'
 import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from '@/components/ui/drawer'
+  ResponsiveDialog,
+  ResponsiveDialogClose,
+  ResponsiveDialogContent,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+  ResponsiveDialogTrigger,
+} from '@/components/responsive-dialog'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { api } from '@/convex/_generated/api'
-import { useMobile } from '@/hooks/useMobile'
 import { computeFileHash } from '@/lib/crypto'
 import { cn, PENDING_DOC_KEY } from '@/lib/utils'
 import { useSignersStore } from '@/stores/signersStore'
@@ -36,6 +26,7 @@ import { DropzoneInputProps, DropzoneRootProps, useDropzone } from 'react-dropzo
 import { toast } from 'sonner'
 import { z } from 'zod'
 import { TrialGate } from './TrialGate'
+import { useMobile } from '@/hooks/useMobile'
 
 interface NewDocumentDialogProps {
   children?: ReactNode;
@@ -111,29 +102,28 @@ const UploadContent: FC<UploadContentProps> = ({
           </div>
         ) : (
           <div className="space-y-4">
-            <div className="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm group">
-              <div className="w-12 h-12 rounded-lg bg-blue-50 flex items-center justify-center flex-shrink-0">
-                <FileText className="w-6 h-6 text-blue-600" />
+            <div className="flex items-start gap-3 p-4 bg-white border border-gray-100 rounded-xl shadow-sm">
+              <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center shrink-0">
+                <FileText className="w-5 h-5 text-blue-600" />
               </div>
-              <div className="flex-1 min-w-0">
-                <p className="text-[15px] font-semibold text-gray-900 truncate">{file.name}</p>
-                <div className="flex items-center gap-2 mt-0.5">
-                  <span className="text-[13px] text-gray-500 font-medium">
-                    {(file.size / 1024 / 1024).toFixed(2)} MB
-                  </span>
-                </div>
+              <div className="flex-1 min-w-0 overflow-hidden">
+                <p className="text-sm font-semibold text-gray-900 truncate leading-tight mb-1">
+                  {file.name}
+                </p>
+                <span className="text-xs text-gray-500 font-medium">
+                  {(file.size / 1024 / 1024).toFixed(2)} MB
+                </span>
               </div>
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full"
+                className="text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg shrink-0 h-8 w-8"
                 onClick={() => { setFile(null); setTitle(''); }}
                 disabled={isUploading}
               >
                 <X className="w-4 h-4" />
               </Button>
             </div>
-
             {/* <div className="space-y-2">
               <Label htmlFor="title" className="text-[13px] font-semibold text-gray-700 ml-1">Document Title</Label>
               <Input
@@ -241,54 +231,49 @@ const UploadContent: FC<UploadContentProps> = ({
   );
 };
 
-interface UploadFooterProps {
-  CloseComponent: React.ComponentType<any>;
+const UploadFooter: FC<{
   handleUpload: () => void;
   file: File | null;
-  title: string;
   isUploading: boolean;
   hasFile: boolean;
-}
-
-const UploadFooter: FC<UploadFooterProps> = ({
-  CloseComponent,
+}> = ({
   handleUpload,
   file,
   isUploading,
   hasFile,
 }) => {
-  const { signers } = useSignersStore();
+    const { signers } = useSignersStore();
 
-  return (
-    <div className="flex gap-3 w-full p-2">
-      <CloseComponent asChild>
-        <Button variant="ghost" disabled={isUploading} className="flex-1 rounded-lg font-semibold text-gray-600">
-          Dismiss
+    return (
+      <div className="flex gap-3 w-full p-2">
+        <ResponsiveDialogClose asChild>
+          <Button variant="ghost" disabled={isUploading} className="flex-1 rounded-lg font-semibold text-gray-600">
+            Dismiss
+          </Button>
+        </ResponsiveDialogClose>
+        <Button
+          onClick={handleUpload}
+          disabled={!file || signers.length === 0 || isUploading}
+          className={cn(
+            "flex-[2] rounded-lg font-semibold",
+            isUploading ? "bg-gray-100 text-gray-400" : "bg-blue-600 hover:bg-blue-700 text-white"
+          )}
+        >
+          {isUploading ? (
+            <div className="flex items-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span>Almost there...</span>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <Upload className="w-4 h-4" />
+              <span>{hasFile ? 'Upload & Design' : 'Upload Document'}</span>
+            </div>
+          )}
         </Button>
-      </CloseComponent>
-      <Button
-        onClick={handleUpload}
-        disabled={!file || signers.length === 0 || isUploading}
-        className={cn(
-          "flex-[2] rounded-lg font-semibold",
-          isUploading ? "bg-gray-100 text-gray-400" : "bg-blue-600 hover:bg-blue-700 text-white"
-        )}
-      >
-        {isUploading ? (
-          <div className="flex items-center gap-2">
-            <Loader2 className="w-4 h-4 animate-spin" />
-            <span>Almost there...</span>
-          </div>
-        ) : (
-          <div className="flex items-center gap-2">
-            <Upload className="w-4 h-4" />
-            <span>{hasFile ? 'Upload & Design' : 'Upload Document'}</span>
-          </div>
-        )}
-      </Button>
-    </div>
-  );
-};
+      </div>
+    );
+  };
 
 
 export function NewDocumentDialog({
@@ -299,6 +284,7 @@ export function NewDocumentDialog({
 }: NewDocumentDialogProps) {
   const { user, redirectToSignIn } = useClerk()
   const router = useRouter()
+  const isMobile = useMobile()
 
   const [uncontrolledIsOpen, setUncontrolledIsOpen] = useState(false);
   const isOpen = controlledIsOpen !== undefined ? controlledIsOpen : uncontrolledIsOpen;
@@ -312,7 +298,6 @@ export function NewDocumentDialog({
   const [currentEmail, setCurrentEmail] = useState('')
 
   const { signers, addEmail, clearSigners } = useSignersStore();
-  const isMobile = useMobile()
 
   useEffect(() => {
     if (initialFile) {
@@ -557,56 +542,34 @@ export function NewDocumentDialog({
     />
   );
 
-  const footer = (Close: React.ComponentType<any>) => (
+  const footer = (
     <UploadFooter
-      CloseComponent={Close}
       handleUpload={handleUpload}
       file={file}
-      title={title}
       isUploading={isUploading}
       hasFile={!!file}
     />
   );
 
-  if (isMobile) {
-    return (
-      <Drawer open={isOpen} onOpenChange={handleOpenChange}>
-        {children && <DrawerTrigger asChild>
-          {children}
-        </DrawerTrigger>}
-        <DrawerContent className="min-h-[70vh] rounded-t-xl">
-          <DrawerHeader className="px-0 pt-2">
-            <DrawerTitle className="text-xl font-semibold text-gray-900 tracking-tight">Upload Document</DrawerTitle>
-            <p className="text-[13px] text-gray-500">Prepare your file for secure signing</p>
-          </DrawerHeader>
-          <ScrollArea className="flex-1 pb-4">{content}</ScrollArea>
-          <DrawerFooter className="px-0 border-t border-gray-50 bg-white sticky bottom-0">
-            {footer(DrawerClose)}
-          </DrawerFooter>
-        </DrawerContent>
-      </Drawer>
-    )
-  }
-
   return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      {children && <DialogTrigger asChild>
+    <ResponsiveDialog open={isOpen} onOpenChange={handleOpenChange}>
+      {children && <ResponsiveDialogTrigger asChild>
         {children}
-      </DialogTrigger>}
-      <DialogContent className="sm:max-w-[580px] border-none overflow-hidden">
-        <DialogHeader className="mb-2">
-          <DialogTitle className="text-2xl font-semibold tracking-tight">Upload Document</DialogTitle>
+      </ResponsiveDialogTrigger>}
+      <ResponsiveDialogContent className="sm:max-w-[580px] border-none overflow-hidden">
+        <ResponsiveDialogHeader className="mb-2">
+          <ResponsiveDialogTitle className="text-2xl font-semibold tracking-tight">Upload Document</ResponsiveDialogTitle>
           <p className="text-sm">Prepare your file for secure electronic signing.</p>
-        </DialogHeader>
+        </ResponsiveDialogHeader>
         <TrialGate>
           <div className="relative">
             {content}
           </div>
-          <DialogFooter className="mt-4 pt-4 border-t border-gray-50 sm:justify-start">
-            {footer(DialogClose)}
-          </DialogFooter>
+          <ResponsiveDialogFooter className="mt-4 pt-4 border-t border-gray-50 sm:justify-start">
+            {footer}
+          </ResponsiveDialogFooter>
         </TrialGate>
-      </DialogContent>
-    </Dialog>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   )
 }

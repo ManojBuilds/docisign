@@ -1,7 +1,6 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { DialogClose, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { DrawerClose, DrawerFooter, DrawerHeader, DrawerTitle } from "@/components/ui/drawer";
+import { ResponsiveDialogClose, ResponsiveDialogFooter, ResponsiveDialogHeader, ResponsiveDialogTitle } from "@/components/responsive-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -135,71 +134,17 @@ export const ConfigurationView = ({
   usageStats,
 }: ConfigurationViewProps) => {
 
-  if (isDesktop) {
-    return (
-      <div className="flex flex-col h-full">
-        <DialogHeader className="p-6 border-b border-zinc-100 bg-zinc-50/50 sticky top-0 z-10 backdrop-blur-sm">
-          <div className="flex items-center justify-between">
-            <DialogTitle className="text-xl font-semibold text-zinc-900 tracking-tight flex items-center gap-2">
-              <Send className="w-5 h-5 text-blue-600" />
-              Send for Signature
-            </DialogTitle>
-          </div>
-          <p className="text-sm text-zinc-500 font-medium">Configure recipients and send securely.</p>
-        </DialogHeader>
-
-        <ScrollArea className="flex-1 px-6 py-8">
-          <SharedConfigContent
-            hasUnassignedFields={hasUnassignedFields}
-            signers={signers}
-            signatureFields={signatureFields}
-            customMessage={customMessage}
-            setCustomMessage={setCustomMessage}
-            onRemoveSigner={onRemoveSigner}
-            isSending={isSending}
-            usageStats={usageStats}
-          />
-        </ScrollArea>
-
-        <DialogFooter className="p-6 border-t border-zinc-100 bg-zinc-50 flex gap-3 sticky bottom-0 z-10">
-          <DialogClose asChild>
-            <Button variant="secondary" className="flex-1 font-semibold bg-white shadow-none ring-1 ring-zinc-900/10 border-0 hover:bg-zinc-50 text-zinc-700">
-              Cancel
-            </Button>
-          </DialogClose>
-          <Button
-            onClick={usageStats?.plan === "trial" && usageStats.signatureRequests.used >= usageStats.signatureRequests.limit ? () => window.location.href = "/pricing" : onSend}
-            disabled={isSending || signers.length === 0}
-            className="flex-1 font-semibold shadow-none ring-1 ring-blue-600 transition-all hover:ring-blue-700 bg-blue-600 hover:bg-blue-700 text-white"
-          >
-            {isSending ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                Sending Request...
-              </>
-            ) : (usageStats?.plan === "trial" && usageStats.signatureRequests.used >= usageStats.signatureRequests.limit) ? (
-              <>
-                Upgrade Plan
-              </>
-            ) : (
-              <>
-                Send Request
-                <Send className="w-4 h-4 ml-2 opacity-90" />
-              </>
-            )}
-          </Button>
-        </DialogFooter>
-      </div>
-    );
-  }
-
-  // Mobile
   return (
     <div className="flex flex-col h-full">
-      <DrawerHeader className="border-b border-zinc-100">
-        <DrawerTitle>Send for Signature</DrawerTitle>
-      </DrawerHeader>
-      <ScrollArea className="p-4">
+      <ResponsiveDialogHeader className="p-6 border-b border-zinc-100 bg-zinc-50/50 sticky top-0 z-10 backdrop-blur-sm">
+        <ResponsiveDialogTitle className="text-xl font-semibold text-zinc-900 tracking-tight flex items-center justify-center md:justify-start gap-2">
+          <Send className="w-5 h-5 text-blue-600" />
+          Send for Signature
+        </ResponsiveDialogTitle>
+        <p className="text-sm text-zinc-500 font-medium">Configure recipients and send securely.</p>
+      </ResponsiveDialogHeader>
+
+      <ScrollArea className="flex-1 px-6 py-8">
         <SharedConfigContent
           hasUnassignedFields={hasUnassignedFields}
           signers={signers}
@@ -211,18 +156,36 @@ export const ConfigurationView = ({
           usageStats={usageStats}
         />
       </ScrollArea>
-      <DrawerFooter className="border-t border-zinc-100">
+
+      <ResponsiveDialogFooter className="p-6 border-t border-zinc-100 bg-zinc-50 flex gap-3 sticky bottom-0 z-10 flex flex-col-reverse md:flex-row">
+        <ResponsiveDialogClose asChild>
+          <Button variant="secondary" className="flex-1 font-semibold bg-white shadow-none ring-1 ring-zinc-900/10 border-0 hover:bg-zinc-50 text-zinc-700">
+            Cancel
+          </Button>
+        </ResponsiveDialogClose>
         <Button
-          onClick={onSend}
+          onClick={usageStats?.plan === "trial" && usageStats.signatureRequests.used >= usageStats.signatureRequests.limit ? () => window.location.href = "/pricing" : onSend}
           disabled={isSending || signers.length === 0}
-          className="w-full"
+          className="flex-1 font-semibold shadow-none ring-1 ring-blue-600 transition-all hover:ring-blue-700 bg-blue-600 hover:bg-blue-700 text-white"
         >
-          {isSending ? "Sending..." : "Send Request"}
+          {isSending ? (
+            <>
+              <Loader2 className="w-4 h-4 animate-spin mr-2" />
+              Sending Request...
+            </>
+          ) : (usageStats?.plan === "trial" && usageStats.signatureRequests.used >= usageStats.signatureRequests.limit) ? (
+            <>
+              Upgrade Plan
+            </>
+          ) : (
+            <>
+              Send Request
+              <Send className="w-4 h-4 ml-2 opacity-90" />
+            </>
+          )}
         </Button>
-        <DrawerClose asChild>
-          <Button variant="secondary">Cancel</Button>
-        </DrawerClose>
-      </DrawerFooter>
+      </ResponsiveDialogFooter>
     </div>
   );
+
 };

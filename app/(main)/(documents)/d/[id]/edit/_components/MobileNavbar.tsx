@@ -8,11 +8,11 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
-  Drawer,
-  DrawerContent,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+} from "@/components/responsive-dialog";
 import { Input } from "@/components/ui/input";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
@@ -186,11 +186,11 @@ export const MobileNavbar = memo(({
         </DropdownMenu>
       </div>
 
-      <Drawer open={isTitleDrawerOpen} onOpenChange={setIsTitleDrawerOpen}>
-        <DrawerContent className="rounded-t-2xl">
-          <DrawerHeader className="text-left">
-            <DrawerTitle className="text-base">Edit document title</DrawerTitle>
-          </DrawerHeader>
+      <ResponsiveDialog open={isTitleDrawerOpen} onOpenChange={setIsTitleDrawerOpen}>
+        <ResponsiveDialogContent className="rounded-t-2xl">
+          <ResponsiveDialogHeader className="text-left">
+            <ResponsiveDialogTitle className="text-base">Edit document title</ResponsiveDialogTitle>
+          </ResponsiveDialogHeader>
           <div className="flex flex-col gap-3 px-4 pb-6">
             <Input
               value={editedTitle}
@@ -202,8 +202,8 @@ export const MobileNavbar = memo(({
               Save
             </Button>
           </div>
-        </DrawerContent>
-      </Drawer>
+        </ResponsiveDialogContent>
+      </ResponsiveDialog>
 
       <SaveAsTemplateDialog
         documentId={documentId}

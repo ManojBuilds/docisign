@@ -155,6 +155,7 @@ export function ShareDialog({
   const handleClose = () => handleOpenChange(false);
   const handleConfigureClick = () => setForceShowConfig(true);
 
+
   return (
     <>
       {showConfetti && (
@@ -180,7 +181,7 @@ export function ShareDialog({
         </ResponsiveDialogTrigger>
         <ResponsiveDialogContent className="sm:max-w-xl p-0 gap-0 overflow-hidden bg-white border-0 shadow-2xl rounded-2xl ring-1 ring-zinc-900/5 max-h-[90vh]">
           {showConfetti ? (
-            <SuccessView isDesktop={true} onClose={handleClose} />
+            <SuccessView onClose={handleClose} />
           ) : (!forceShowConfig && document?.status &&
             (document.status === 'sent' ||
               document.status === 'in_progress' ||
@@ -189,7 +190,6 @@ export function ShareDialog({
               document.status === 'declined' ||
               document.status === 'expired')) ? (
             <StatusView
-              isDesktop={true}
               documentStatus={document.status}
               hasPendingFields={hasPendingFields}
               hasCompletedFields={hasCompletedFields}
@@ -202,7 +202,6 @@ export function ShareDialog({
             />
           ) : (
             <ConfigurationView
-              isDesktop={true}
               documentId={documentId}
               document={document}
               hasUnassignedFields={hasUnassignedFields}

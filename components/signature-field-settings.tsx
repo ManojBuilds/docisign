@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -66,10 +66,10 @@ export function SignatureFieldSettings({
           value={field.fieldType}
           onValueChange={(value: any) => onFieldUpdate({ fieldType: value })}
         >
-          <SelectTrigger className="w-full h-9 rounded-xl border-gray-200 bg-white hover:bg-gray-50 transition-colors text-xs font-medium">
+          <SelectTrigger className="w-full h-9 rounded-lg border-gray-200 bg-white hover:bg-gray-50 transition-colors text-xs font-medium">
             <SelectValue />
           </SelectTrigger>
-          <SelectContent className="rounded-xl shadow-xl border-gray-100">
+          <SelectContent className="rounded-lg shadow-xl border-gray-100">
             <SelectItem value="signature" className="text-xs font-medium focus:bg-gray-50 cursor-pointer">Signature</SelectItem>
             <SelectItem value="initial" className="text-xs font-medium focus:bg-gray-50 cursor-pointer">Initial</SelectItem>
             <SelectItem value="date" className="text-xs font-medium focus:bg-gray-50 cursor-pointer">Date</SelectItem>
@@ -85,7 +85,7 @@ export function SignatureFieldSettings({
           placeholder="e.g. Sign here"
           value={field.label || ""}
           onChange={(e) => onFieldUpdate({ label: e.target.value })}
-          className="h-9 rounded-xl border-gray-200 bg-white hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all text-xs font-medium"
+          className="h-9 rounded-lg border-gray-200 bg-white hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all text-xs font-medium"
         />
       </div>
 
@@ -125,12 +125,13 @@ export function SignatureFieldSettings({
                 e.currentTarget.blur();
               }
             }}
-            className="h-9 rounded-xl border-gray-200 bg-white hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all text-xs font-medium"
+            className="h-9 rounded-lg border-gray-200 bg-white hover:border-gray-300 focus:border-primary focus:ring-4 focus:ring-primary/5 transition-all text-xs font-medium"
           />
           {localEmail && signers.length > 0 && !signers.find(s => s.email === localEmail) && (
-            <div className="flex items-center gap-2 p-2 rounded-lg bg-blue-50/50 border border-blue-100">
-              <div className="h-1.5 w-1.5 rounded-full bg-blue-500 animate-pulse" />
-              <p className="text-[10px] text-blue-600 font-bold">New signer</p>
+            <div className="text-xs text-gray-400 hidden md:flex items-center gap-1 mt-1">
+              <span className="text-xs text-gray-400">press</span>
+              <kbd className={buttonVariants({ variant: "secondary", size: "icon", className: "h-5 cursor-none sm:rounded" })}>↵</kbd>
+              <span>to add</span>
             </div>
           )}
         </div>
@@ -159,7 +160,7 @@ export function SignatureFieldSettings({
         )}
       </div>
 
-      <div className="flex items-center justify-between p-3 rounded-xl bg-gray-50 border border-gray-100">
+      <div className="flex items-center justify-between p-3 rounded-lg bg-gray-50 border border-gray-100">
         <Label htmlFor="required" className="text-xs font-bold text-gray-700 cursor-pointer">Required Field</Label>
         <Switch
           id="required"

@@ -24,7 +24,6 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
       }, new Map<string, Doc<"signatureFields"> & { signerEmail: string }>())
       .values()
   );
-  console.log(auditItems[0])
 
   if (auditItems.length === 0) return null;
 
@@ -80,7 +79,7 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
 
   // Default / Status View Style
   return (
-    <div className="p-6 space-y-4">
+    <div className="space-y-4 pb-6 pr-2">
       <div className="flex items-center gap-2 mb-4 px-2">
         <FileCheck className="w-5 h-5 text-blue-600" />
         <h3 className="font-semibold text-zinc-900 text-sm uppercase tracking-wider">Audit Trail</h3>
@@ -92,7 +91,7 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
           return (
             <div key={field.signerEmail} className="relative group/audit">
               <div className={cn(
-                "absolute -left-[21px] top-6 w-3 h-3 rounded-full ring-4 ring-white transition-colors duration-300",
+                "hidden md:block absolute -left-[21px] top-6 w-3 h-3 rounded-full ring-4 ring-white transition-colors duration-300",
                 isExpanded ? "bg-blue-500" : "bg-zinc-300"
               )} />
 

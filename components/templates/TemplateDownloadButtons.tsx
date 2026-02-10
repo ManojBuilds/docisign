@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { FileText, FileCode, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import posthog from "posthog-js";
-import { Dialog } from "@/components/ui/dialog";
 import { getTemplateBySlug } from "@/lib/seo/all-templates";
 import { TemplateDownloadDialog } from "./TemplateDownloadDialog";
 import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
+import { ResponsiveDialog } from "@/components/responsive-dialog";
 
 const SuccessDialogContent = dynamic(() => import("./SuccessDialogContent"), {
     ssr: false,
@@ -124,11 +124,11 @@ export function TemplateDownloadButtons({
                 onSuccess={() => triggerSuccess(docUrl ? "docx" : "pdf")}
             />
 
-            <Dialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
+            <ResponsiveDialog open={showSuccessDialog} onOpenChange={setShowSuccessDialog}>
                 {showSuccessDialog && (
                     <SuccessDialogContent templateName={template?.name || "document"} />
                 )}
-            </Dialog>
+            </ResponsiveDialog>
         </>
     );
 }

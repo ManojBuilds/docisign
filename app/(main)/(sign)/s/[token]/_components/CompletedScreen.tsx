@@ -220,7 +220,8 @@ export function CompletedScreen({
                       <Button
                         onClick={handleDownload}
                         disabled={isDownloading}
-                        className="w-full sm:w-auto px-8 h-14 bg-gray-900 hover:bg-black text-white rounded-2xl font-semibold text-sm shadow-xl shadow-gray-200/50 uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 group cursor-pointer"
+                        size={"lg"}
+                        className="w-full sm:w-auto h-14 font-semibold text-sm uppercase tracking-widest transition-all hover:scale-[1.02] active:scale-95 group cursor-pointer"
                       >
                         {isDownloading ? (
                           <>
@@ -365,7 +366,7 @@ export function CompletedScreen({
                   <p className="text-gray-400 text-xs mb-6 font-medium leading-relaxed max-w-[280px]">
                     Secure, verified digital signatures for your documents. Get started for free today.
                   </p>
-                  <Button asChild className="w-full bg-white text-black hover:bg-gray-100 h-12 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] shadow-lg cursor-pointer transition-all">
+                  <Button asChild className="w-full h-12 font-black text-[10px] uppercase tracking-[0.2em] cursor-pointer transition-all">
                     <Link href={'/dashboard'}>
                       Create Free Account <ArrowRight className="w-4 h-4 ml-2" />
                     </Link>

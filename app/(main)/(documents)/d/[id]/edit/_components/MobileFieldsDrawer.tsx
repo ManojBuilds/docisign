@@ -28,10 +28,6 @@ export const MobileFieldsDrawer = memo(
     return (
       <ResponsiveDialog open={open} onOpenChange={onOpenChange}>
         <ResponsiveDialogContent className="max-h-[85vh] rounded-t-2xl border-t border-gray-200 bg-white">
-          {/* Adobe Sign–style drag handle */}
-          <div className="flex justify-center pt-3 pb-1">
-            <div className="w-10 h-1 rounded-full bg-gray-300" aria-hidden />
-          </div>
           <ResponsiveDialogHeader className="border-b border-gray-100 px-4 py-3">
             <ResponsiveDialogTitle className="text-center font-semibold text-gray-900">Fields & signers</ResponsiveDialogTitle>
           </ResponsiveDialogHeader>

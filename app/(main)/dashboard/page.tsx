@@ -12,14 +12,14 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-} from "@/components/ui/drawer";
+  ResponsiveDialog,
+  ResponsiveDialogClose,
+  ResponsiveDialogContent,
+  ResponsiveDialogDescription,
+  ResponsiveDialogFooter,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+} from "@/components/responsive-dialog";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -286,7 +286,7 @@ function DocumentsList() {
           ) : (
             <div className="flex flex-col items-center justify-center py-24 sm:py-32 text-center bg-background relative overflow-hidden">
               <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-primary/5 rounded-full blur-[80px]" />
               </div>
 
               <div className="relative px-6">
@@ -373,16 +373,16 @@ function DocumentsList() {
           </AlertDialogContent>
         </AlertDialog>
       ) : (
-        <Drawer open={isConfirmingDelete} onOpenChange={setIsConfirmingDelete}>
-          <DrawerContent>
-            <DrawerHeader className="text-left">
-              <DrawerTitle>Delete contract?</DrawerTitle>
-              <DrawerDescription>
+        <ResponsiveDialog open={isConfirmingDelete} onOpenChange={setIsConfirmingDelete}>
+          <ResponsiveDialogContent>
+            <ResponsiveDialogHeader className="text-left">
+              <ResponsiveDialogTitle>Delete contract?</ResponsiveDialogTitle>
+              <ResponsiveDialogDescription>
                 This action cannot be undone. The contract will be permanently
                 deleted.
-              </DrawerDescription>
-            </DrawerHeader>
-            <DrawerFooter className="pt-2">
+              </ResponsiveDialogDescription>
+            </ResponsiveDialogHeader>
+            <ResponsiveDialogFooter className="pt-2">
               <Button
                 variant="destructive"
                 onClick={confirmDelete}
@@ -390,14 +390,14 @@ function DocumentsList() {
               >
                 Delete
               </Button>
-              <DrawerClose asChild>
+              <ResponsiveDialogClose asChild>
                 <Button variant="secondary" className="rounded-xl">
                   Cancel
                 </Button>
-              </DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
+              </ResponsiveDialogClose>
+            </ResponsiveDialogFooter>
+          </ResponsiveDialogContent>
+        </ResponsiveDialog>
       )}
     </>
   );

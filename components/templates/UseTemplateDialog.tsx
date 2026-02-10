@@ -5,10 +5,10 @@ import {
   ResponsiveDialog,
   ResponsiveDialogContent,
   ResponsiveDialogDescription,
-  ResponsiveDialogFooter,
   ResponsiveDialogHeader,
   ResponsiveDialogTitle,
   ResponsiveDialogTrigger,
+  ResponsiveDialogFooter,
 } from "@/components/responsive-dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -525,7 +525,7 @@ export function UseTemplateDialog({
                             >
                               <SelectValue placeholder="Select role for bulk recipients" />
                             </SelectTrigger>
-                            <SelectContent>
+                            <SelectContent >
                               {roles.map((role) => (
                                 <SelectItem key={role} value={role}>
                                   {role}

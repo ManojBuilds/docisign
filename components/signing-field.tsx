@@ -4,12 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  ResponsiveDialog,
+  ResponsiveDialogContent,
+  ResponsiveDialogDescription,
+  ResponsiveDialogHeader,
+  ResponsiveDialogTitle,
+} from "@/components/responsive-dialog";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
@@ -347,7 +347,7 @@ function SigningDialog({
             <Button
               onClick={() => handleSignatureComplete(activeTab)}
               disabled={isCompleting || !isSignatureProvided || !agreementChecked}
-              className="w-full sm:w-auto px-10 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-semibold uppercase tracking-[0.15em] text-[9px] transition-all duration-300 disabled:opacity-40 cursor-pointer"
+              className="w-full sm:w-auto px-10 h-11 font-semibold uppercase tracking-[0.15em] text-[9px] transition-all duration-300 disabled:opacity-40 cursor-pointer"
             >
               {isCompleting ? (
                 <div className="flex items-center gap-1.5">
@@ -487,55 +487,30 @@ function SigningDialog({
     return null;
   };
 
-  if (isMobile) {
-    return (
-      <Sheet open={isOpen} onOpenChange={onOpenChange}>
-        <SheetContent side="bottom" className="min-h-[80svh] rounded-t-2xl p-0">
-          <div className="mx-auto w-16 h-1.5 flex-shrink-0 rounded-full bg-gray-300 my-2" /> {/* Separator */}
-          <SheetHeader className="px-6 pt-4 pb-2 border-b">
-            <SheetTitle className="text-xl">
-              {field.fieldType === "text"
-                ? "Add Text"
-                : `Add ${field.fieldType}`}
-            </SheetTitle>
-            {field.fieldType === "text" && (
-              <SheetDescription className="text-sm text-gray-600">
-                {field.label || "Enter the required text"}
-              </SheetDescription>
-            )}
-          </SheetHeader>
-          <ScrollArea className="p-6">
-            {renderContent()}
-          </ScrollArea>
-        </SheetContent>
-      </Sheet>
-    );
-  }
-
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className={cn(
+    <ResponsiveDialog open={isOpen} onOpenChange={onOpenChange}>
+      <ResponsiveDialogContent className={cn(
         "bg-white border focus-visible:outline-none overflow-hidden p-0",
         (field.fieldType === "signature" || field.fieldType === "initial") ? "sm:max-w-xl" : "sm:max-w-lg"
       )}>
-        <DialogHeader className="p-6 pb-2 text-center">
+        <ResponsiveDialogHeader className="p-6 pb-2 text-center">
           <div className="mx-auto w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center border border-gray-100">
             {getFieldIcon(field.fieldType)}
           </div>
-          <DialogTitle className="text-2xl font-semibold tracking-tight text-gray-900">
+          <ResponsiveDialogTitle className="text-2xl font-semibold tracking-tight text-gray-900">
             {field.fieldType === "text" ? (field.label || "Fill details") : `Create your ${field.fieldType}`}
-          </DialogTitle>
-          <DialogDescription className="text-gray-400 font-medium text-[13px]">
+          </ResponsiveDialogTitle>
+          <ResponsiveDialogDescription className="text-gray-400 font-medium text-[13px]">
             {field.fieldType === "text"
               ? "Please provide the requested information below"
               : `Use your preferred method to create a secure digital ${field.fieldType}`}
-          </DialogDescription>
-        </DialogHeader>
-        <div className="px-8 pb-8">
+          </ResponsiveDialogDescription>
+        </ResponsiveDialogHeader>
+        <div className="md:px-8 pb-8">
           {renderContent()}
         </div>
-      </DialogContent>
-    </Dialog>
+      </ResponsiveDialogContent>
+    </ResponsiveDialog>
   );
 }
 
@@ -552,7 +527,6 @@ export default function SigningField({
   const { pageDimensions, scale } = usePdfDimensions();
   const currentPageDimensions = pageDimensions[field.page];
   const isMobile = useMobile();
-  const mobileSize = 48; // Define mobile size for consistent field appearance
   const [isCompleting, setIsCompleting] = useState(false);
   const [agreementChecked, setAgreementChecked] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -720,25 +694,9 @@ export default function SigningField({
       );
     }
 
-    if (isMobile) {
-      return (
-        <div className="w-full h-full flex items-center justify-center">
-          <div className="relative group">
-            <div className="absolute inset-0 bg-blue-500/20 blur-md rounded-full animate-pulse group-active:scale-110 transition-transform" />
-            <div className="relative bg-white text-blue-600 rounded-full p-3 border-2 border-blue-100 shadow-xl shadow-blue-900/5 active:scale-95 transition-all">
-              {getFieldIcon(field.fieldType)}
-            </div>
-            {!isFocused && (
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white animate-bounce" />
-            )}
-          </div>
-        </div>
-      );
-    }
-
     return (
       <div className="relative w-full h-full flex items-stretch overflow-visible group/adobe cursor-pointer select-none">
-        {/* Floating Label - Top Left outside (Restored/Preserved) */}
+        {/* Floating Label - Top Left outside */}
         {field.label && (
           <div className="absolute -top-6 left-0 flex items-center gap-1.5 px-2 py-0.5 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-t-md border-b-0 animate-in fade-in slide-in-from-bottom-1 box-content h-4 z-10 transition-colors group-hover/adobe:border-gray-300">
             <div className={cn("w-1.5 h-1.5 rounded-full", getSignerColor(field.signerEmail).split(' ')[0].replace('border-', 'bg-'))} />
@@ -794,15 +752,14 @@ export default function SigningField({
       <div
         id={`field-${field.id}`}
         className={cn(
-          "absolute cursor-pointer group/field transition-all duration-300",
-          isMobile ? "rounded-full" : "rounded",
+          "absolute cursor-pointer group/field transition-all duration-300 rounded",
           getFieldColor()
         )}
         style={{
           left: pixelX * scale,
           top: pixelY * scale,
-          width: (isMobile ? mobileSize : pixelWidth) * scale,
-          height: (isMobile ? mobileSize : pixelHeight) * scale,
+          width: pixelWidth * scale,
+          height: pixelHeight * scale,
           borderStyle: field.isCompleted ? 'solid' : 'dashed'
         }}
         onClick={handleFieldClick}

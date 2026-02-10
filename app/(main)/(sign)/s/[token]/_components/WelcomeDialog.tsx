@@ -137,7 +137,7 @@ export function WelcomeDialog({
           <div className="space-y-4">
             <Button
               onClick={onConfirm}
-              className="w-full bg-gray-950 hover:bg-black text-white h-14 rounded-2xl font-black uppercase tracking-[0.2em] text-[11px] shadow-2xl shadow-gray-200 transition-all hover:scale-[1.02] active:scale-95 group cursor-pointer relative overflow-hidden"
+              className="w-full h-14 font-black uppercase tracking-[0.2em] text-[11px]"
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 Continue to Sign
