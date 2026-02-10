@@ -126,9 +126,9 @@ export default async function Post({ params }: Props) {
             icon: "document"
           },
           {
-            title: "E-Signature for Freelancers",
+            title: "E-Signature for Solo Entrepreneurs",
             description: "Learn how to get your documents signed 3x faster.",
-            href: "/esignature-for-freelancers",
+            href: "/for-solo-entrepreneurs",
             icon: "users"
           }
         ]}

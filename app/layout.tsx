@@ -22,20 +22,22 @@ const beVietnamPro = DM_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL("https://boopsign.com"),
   title: {
-    default: "Boopsign - E-Signature Software Built for Freelancers & Consultants",
+    default: "Best E-Signature Tool for Solo Entrepreneurs | Boopsign",
     template: "%s | Boopsign",
   },
   description:
-    "The e-signature tool freelancers love. No client accounts required. Get contracts signed in 3 minutes, not 3 days. 52% cheaper than DocuSign. Try free for 14 days.",
+    "Get contracts signed fast with no client account friction. Built for solo entrepreneurs. 92% completion rate. Pages load in <2s. From $19/month.",
   keywords: [
-    "esignature for freelancers",
-    "no account esignature",
-    "docusign alternative for freelancers",
-    "sign contracts without login",
-    "mobile contract signing",
-    "freelance contract signing",
-    "simple esignature tool",
-    "Boopsign vs docusign",
+    "e-signature for solo entrepreneurs",
+    "e-signature for freelancers",
+    "e-signature for consultants",
+    "simple e-signature tool",
+    "no account e-signature",
+    "mobile e-signature",
+    "docusign alternative for solos",
+    "cheap e-signature tool",
+    "e-signature without client accounts",
+    "fast e-signature tool",
   ],
   authors: [{ name: "Boopsign Team" }],
   creator: "Boopsign",
@@ -50,23 +52,23 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://boopsign.com",
     siteName: "Boopsign",
-    title: "Boopsign — Get Contracts Signed Without Client Accounts",
+    title: "Best E-Signature Tool for Solo Entrepreneurs | Boopsign",
     description:
-      "Upload a PDF, send a link, and get contracts signed in minutes. No login required for clients. Built for freelancers and consultants.",
+      "No client accounts. 92% completion rate. Built for solo entrepreneurs at $19-39/month.",
     images: [
       {
         url: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5",
         width: 1200,
         height: 630,
-        alt: "Boopsign - Simple E-Signature for Freelancers & Consultants",
+        alt: "Boopsign - E-Signature for Solo Entrepreneurs",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "No-Account E-Signatures for Freelancers | Boopsign",
+    title: "E-Signature Tool for Solo Entrepreneurs",
     description:
-      "The simplest DocuSign alternative. Get contracts signed in under 3 minutes. No account needed for signers.",
+      "No client accounts. 92% completion. $19-39/month.",
     images: ["https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5"],
     creator: "@Boopsign",
   },
@@ -122,160 +124,50 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "SoftwareApplication",
                 name: "Boopsign",
-                image: "https://boopsign.com/android-chrome-192x192.png",
                 applicationCategory: "BusinessApplication",
                 operatingSystem: "Web, iOS, Android",
-                softwareVersion: "2026.1",
-                screenshot: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5",
-                offers: [
-                  {
-                    "@type": "Offer",
-                    price: "19.00",
-                    priceCurrency: "USD",
-                    priceValidUntil: "2027-12-31",
-                    availability: "https://schema.org/InStock",
-                    shippingDetails: {
-                      "@type": "OfferShippingDetails",
-                      shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
-                      deliveryTime: {
-                        "@type": "ShippingDeliveryTime",
-                        handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "DAY" },
-                        transitTime: { "@type": "ShippingDeliveryTime", minValue: 0, maxValue: 0, unitCode: "DAY" }
-                      }
-                    },
-                    hasMerchantReturnPolicy: {
-                      "@type": "MerchantReturnPolicy",
-                      applicableCountry: "US",
-                      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnPeriod",
-                      merchantReturnDays: 7,
-                      returnMethod: "https://schema.org/ReturnByMail",
-                      returnFees: "https://schema.org/FreeReturn"
-                    },
-                    url: "https://boopsign.com/pricing",
-                    name: "Starter Monthly Plan (20 signature requests)"
-                  },
-                  {
-                    "@type": "Offer",
-                    price: "16.00",
-                    priceCurrency: "USD",
-                    priceValidUntil: "2027-12-31",
-                    availability: "https://schema.org/InStock",
-                    shippingDetails: {
-                      "@type": "OfferShippingDetails",
-                      shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
-                      deliveryTime: {
-                        "@type": "ShippingDeliveryTime",
-                        handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "DAY" },
-                        transitTime: { "@type": "ShippingDeliveryTime", minValue: 0, maxValue: 0, unitCode: "DAY" }
-                      }
-                    },
-                    hasMerchantReturnPolicy: {
-                      "@type": "MerchantReturnPolicy",
-                      applicableCountry: "US",
-                      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnPeriod",
-                      merchantReturnDays: 7,
-                      returnMethod: "https://schema.org/ReturnByMail",
-                      returnFees: "https://schema.org/FreeReturn"
-                    },
-                    url: "https://boopsign.com/pricing",
-                    name: "Starter Annual Plan (billed yearly, 20 signature requests)"
-                  },
-                  {
-                    "@type": "Offer",
-                    price: "39.00",
-                    priceCurrency: "USD",
-                    priceValidUntil: "2027-12-31",
-                    availability: "https://schema.org/InStock",
-                    shippingDetails: {
-                      "@type": "OfferShippingDetails",
-                      shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
-                      deliveryTime: {
-                        "@type": "ShippingDeliveryTime",
-                        handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "DAY" },
-                        transitTime: { "@type": "ShippingDeliveryTime", minValue: 0, maxValue: 0, unitCode: "DAY" }
-                      }
-                    },
-                    hasMerchantReturnPolicy: {
-                      "@type": "MerchantReturnPolicy",
-                      applicableCountry: "US",
-                      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnPeriod",
-                      merchantReturnDays: 7,
-                      returnMethod: "https://schema.org/ReturnByMail",
-                      returnFees: "https://schema.org/FreeReturn"
-                    },
-                    url: "https://boopsign.com/pricing",
-                    name: "Professional Monthly Plan (75 signature requests)"
-                  },
-                  {
-                    "@type": "Offer",
-                    price: "32.00",
-                    priceCurrency: "USD",
-                    priceValidUntil: "2027-12-31",
-                    availability: "https://schema.org/InStock",
-                    shippingDetails: {
-                      "@type": "OfferShippingDetails",
-                      shippingRate: { "@type": "MonetaryAmount", value: "0", currency: "USD" },
-                      deliveryTime: {
-                        "@type": "ShippingDeliveryTime",
-                        handlingTime: { "@type": "QuantitativeValue", minValue: 0, maxValue: 0, unitCode: "DAY" },
-                        transitTime: { "@type": "ShippingDeliveryTime", minValue: 0, maxValue: 0, unitCode: "DAY" }
-                      }
-                    },
-                    hasMerchantReturnPolicy: {
-                      "@type": "MerchantReturnPolicy",
-                      applicableCountry: "US",
-                      returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnPeriod",
-                      merchantReturnDays: 7,
-                      returnMethod: "https://schema.org/ReturnByMail",
-                      returnFees: "https://schema.org/FreeReturn"
-                    },
-                    url: "https://boopsign.com/pricing",
-                    name: "Professional Annual Plan (billed yearly, 75 signature requests)"
-                  }
-                ],
+                offers: {
+                  "@type": "AggregateOffer",
+                  "lowPrice": "19",
+                  "highPrice": "39",
+                  "priceCurrency": "USD",
+                  "priceValidUntil": "2026-12-31"
+                },
                 aggregateRating: {
                   "@type": "AggregateRating",
-                  ratingValue: "5.0",
-                  ratingCount: "125",
+                  ratingValue: "4.9",
+                  ratingCount: "20",
                   bestRating: "5",
                   worstRating: "1"
                 },
-                review: {
-                  "@type": "Review",
-                  reviewRating: {
-                    "@type": "Rating",
-                    ratingValue: "5",
-                    bestRating: "5"
-                  },
-                  author: {
-                    "@type": "Person",
-                    name: "Marcus Aurelius"
-                  },
-                  reviewBody: "A refreshingly simple tool that values the signer's time as much as the sender's. Highly recommended for any consultant."
-                },
-                description:
-                  "E-signature for freelancers and consultants. The simplest DocuSign alternative built for speed. No account required for signers. Sign contracts, NDAs, and proposals in under 3 minutes.",
-                url: "https://boopsign.com",
+                description: "E-signature tool built for solo entrepreneurs. No client accounts required. 92% completion rate.",
                 featureList: [
-                  "No account required for signers",
-                  "Mobile-optimized e-signatures",
-                  "Legally binding audit trail",
-                  "Generous signature request limits",
-                  "3-minute setup",
-                  "Bank-level security"
-                ],
-                audience: {
-                  "@type": "Audience",
-                  audienceType: "Freelancers, Consultants, Small Businesses"
-                },
-                publisher: {
-                  "@type": "Organization",
-                  name: "Boopsign",
-                  logo: {
-                    "@type": "ImageObject",
-                    url: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguaOEZELMW5bk4q23iuyfFhwQdGBN7vjse1zp6"
+                  "No client account required",
+                  "92% completion rate",
+                  "Mobile-first signing",
+                  "Custom branding",
+                  "Template library",
+                  "Priority support"
+                ]
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": [{
+                  "@type": "Question",
+                  "name": "Do clients need accounts to sign?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Clients click a secure link and sign instantly. No account, no password, no friction. This is why Boopsign has 92% completion vs industry average 63-68%."
                   }
-                }
+                }, {
+                  "@type": "Question",
+                  "name": "How much does Boopsign cost?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Boopsign offers two plans: Starter at $19/month (20 signatures) and Professional at $39/month (75 signatures). Both include custom branding, mobile-optimized signing, and no client account requirements."
+                  }
+                }]
               },
               {
                 "@context": "https://schema.org",
@@ -283,14 +175,14 @@ export default function RootLayout({
                 "name": "Boopsign",
                 "url": "https://boopsign.com",
                 "logo": "https://boopsign.com/android-chrome-192x192.png",
-                "description": "Mobile-first electronic signature platform for freelancers.",
+                "description": "E-signature tool built for solo entrepreneurs. No client accounts required. 92% completion rate.",
                 "brand": {
                   "@type": "Brand",
                   "name": "Boopsign"
                 },
                 "address": {
                   "@type": "PostalAddress",
-                  "addressCountry": "US"
+                  "addressCountry": "IN"
                 }
               }
             ]),

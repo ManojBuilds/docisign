@@ -25,20 +25,20 @@ export async function generateMetadata({
     };
   }
   return {
-    title: "Sign Contract - Fast Mobile Contract Signing for Freelancers",
+    title: "Sign Contract - Fast Mobile Contract Signing for Solo Entrepreneurs",
     description:
-      "Sign your contract quickly and securely. No account required, works perfectly on mobile devices. Complete signing in under 3 minutes. The fastest way for freelancers and small agencies to get contracts signed — no client accounts, no friction.",
+      "Sign your contract quickly and securely. No account required, works perfectly on mobile devices. Complete signing in under 3 minutes. The fastest way for solo entrepreneurs and small agencies to get contracts signed — no client accounts, no friction.",
     keywords: [
       "contract signing",
       "electronic signature",
       "mobile signing",
       "esignature",
-      "freelancer tools",
+      "solo entrepreneur tools",
       "agency tools",
     ],
     openGraph: {
       title: "Sign Your Contract - Boopsign",
-      description: "The fastest way for freelancers and small agencies to get contracts signed — no client accounts, no friction.",
+      description: "The fastest way for solo entrepreneurs and small agencies to get contracts signed — no client accounts, no friction.",
       url: `https://boopsign.com/s/${token}`,
       images: [
         {

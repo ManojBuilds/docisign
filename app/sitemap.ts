@@ -27,6 +27,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
+      url: `${baseUrl}/for-solo-entrepreneurs`,
+      lastModified: defaultLastModified,
+      changeFrequency: "weekly",
+      priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/for-freelancers`,
+      lastModified: defaultLastModified,
+      changeFrequency: "weekly",
+      priority: 1.0,
+    },
+    {
+      url: `${baseUrl}/for-consultants`,
+      lastModified: defaultLastModified,
+      changeFrequency: "weekly",
+      priority: 1.0,
+    },
+    {
       url: `${baseUrl}/online-signature-maker`,
       lastModified: defaultLastModified,
       changeFrequency: "monthly",

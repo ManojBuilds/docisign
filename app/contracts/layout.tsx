@@ -4,14 +4,14 @@ import Footer from "@/components/Footer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Free Contract Templates | Sign & Send Instantly",
-  description: "Browse our library of free, lawyer-vetted contract templates. Wedding photography, social media management, NDAs, and more. Edit and sign for free.",
+  title: "Free Contract Templates for Solo Entrepreneurs | Boopsign",
+  description: "Browse our library of free, lawyer-vetted contract templates tailored for solo entrepreneurs. From NDAs to service agreements. Edit and sign for free.",
   keywords: [
-    "free contract templates",
-    "legal document templates",
-    "esignature templates",
-    "freelance contracts",
-    "business agreements free",
+    "free contract templates for solo entrepreneurs",
+    "legal document templates for solo entrepreneurs",
+    "esignature templates for solo entrepreneurs",
+    "solo entrepreneur contracts",
+    "business agreements for solos",
   ],
   alternates: {
     canonical: "https://boopsign.com/contracts",
