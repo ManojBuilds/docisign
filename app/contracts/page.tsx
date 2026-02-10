@@ -9,8 +9,8 @@ import { RelatedPages } from "@/components/RelatedPages";
 import { BadgeCheck, Check, Shield, Zap } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Free Contract Templates Library | Boopsign",
-  description: "Browse 300+ free contract templates tailored for every freelance niche. From NDAs for writers to Retainers for developers. Download or sign online.",
+  title: "Free Contract Templates for Solo Entrepreneurs | Boopsign",
+  description: "Browse 300+ free contract templates tailored for solo entrepreneurs. From NDAs to service agreements. Download or sign online with no client accounts needed.",
   alternates: {
     canonical: "https://boopsign.com/contracts",
   },
@@ -179,7 +179,7 @@ export default function ContractTemplatesPage() {
           <div className="prose prose-slate max-w-none">
             <h2 className="text-3xl font-black text-slate-900 mb-8">The Importance of Professional Contract Templates</h2>
             <p className="text-lg text-slate-600 mb-6">
-              In business, oral agreements are often not enough. Whether you are a freelancer taking on a new client or an agency scaling its operations, having a written agreement is the foundation of trust. Professional <strong>contract templates</strong> serve as a shield against misunderstandings and late payments.
+              In business, oral agreements are often not enough. Whether you are a solo entrepreneur taking on a new client or an agency scaling its operations, having a written agreement is the foundation of trust. Professional <strong>contract templates</strong> serve as a shield against misunderstandings and late payments.
             </p>
 
             <div className="grid md:grid-cols-2 gap-12 my-12">
@@ -254,9 +254,9 @@ export default function ContractTemplatesPage() {
       <RelatedPages
         pages={[
           {
-            title: "E-Signature for Freelancers",
+            title: "E-Signature for Solo Entrepreneurs",
             description: "Learn how to get your contracts signed 3x faster.",
-            href: "/esignature-for-freelancers",
+            href: "/for-solo-entrepreneurs",
             icon: "users"
           },
           {
@@ -267,7 +267,7 @@ export default function ContractTemplatesPage() {
           },
           {
             title: "Pricing Plans",
-            description: "Simple, transparent pricing for freelancers and agencies.",
+            description: "Simple, transparent pricing for solo entrepreneurs.",
             href: "/pricing",
             icon: "page"
           }

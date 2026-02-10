@@ -269,12 +269,12 @@ export default async function BaseTemplatePage({ params }: Props) {
                                 {template.legalContext}
                             </p>
                             <p className="text-slate-600 leading-relaxed mb-6">
-                                Whether you're a freelancer, consultant, or small business owner, having a professionally drafted {template.name.toLowerCase()} protects both you and your clients. This template ensures clear expectations, legal compliance, and professional credibility from day one.
+                                Whether you're a solo entrepreneur, consultant, or small business owner, having a professionally drafted {template.name.toLowerCase()} protects both you and your clients. This template ensures clear expectations, legal compliance, and professional credibility from day one.
                             </p>
                             <div className="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-xl my-8">
                                 <p className="text-sm font-bold text-blue-900 mb-2">💡 Pro Tip</p>
                                 <p className="text-sm text-blue-800 mb-0">
-                                    Don't start work without a signed agreement. This simple step prevents 90% of payment disputes and scope creep issues that freelancers face.
+                                    Don't start work without a signed agreement. This simple step prevents 90% of payment disputes and scope creep issues that solo entrepreneurs face.
                                 </p>
                             </div>
                         </section>
@@ -503,9 +503,9 @@ export default async function BaseTemplatePage({ params }: Props) {
             <RelatedPages
                 pages={[
                     {
-                        title: "E-Signature for Freelancers",
+                        title: "E-Signature for Solo Entrepreneurs",
                         description: "The zero-friction way to get contracts signed in minutes.",
-                        href: "/esignature-for-freelancers",
+                        href: "/for-solo-entrepreneurs",
                         icon: "users"
                     },
                     {

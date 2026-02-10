@@ -7,8 +7,8 @@ import { RelatedPages } from "@/components/RelatedPages";
 import { PageBackground } from "@/components/PageBackground";
 
 export const metadata: Metadata = {
-  title: "Boopsign Alternatives & Comparisons | Better E-Signatures",
-  description: "Compare Boopsign with leading e-signature tools. See why freelancers and small businesses are switching to a faster, more affordable, and mobile-first solution.",
+  title: "Boopsign vs DocuSign for Solo Entrepreneurs (2026)",
+  description: "Comparing DocuSign vs Boopsign for solo entrepreneurs. No client accounts. 92% completion rate. $19-39/month. Honest comparison.",
 };
 
 function ComparisonCard({ comparison }: { comparison: Comparison }) {
@@ -73,9 +73,9 @@ export default function AlternativesIndex() {
       <RelatedPages
         pages={[
           {
-            title: "For Freelancers",
+            title: "For Solo Entrepreneurs",
             description: "See why Boopsign is the top choice for solopreneurs.",
-            href: "/esignature-for-freelancers",
+            href: "/for-solo-entrepreneurs",
             icon: "users"
           },
           {

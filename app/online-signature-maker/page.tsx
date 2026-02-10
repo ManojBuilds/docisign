@@ -10,17 +10,17 @@ import Faq from "@/components/faq";
 import TestimonialsSection from "@/components/testimonials";
 import { RelatedPages } from "@/components/RelatedPages";
 export const metadata: Metadata = {
-  title: "Free Online Signature Maker & Generator (Type or Draw)",
+  title: "Free Online Signature Maker for Solo Entrepreneurs",
   description:
-    "Create your free online signature in seconds. Draw or type a signature to download as a transparent PNG. 100% free, no registration required. Perfect for Word, PDF, and Google Docs.",
+    "Create your free online signature in seconds. Draw or type a signature to download as a transparent PNG. Perfect for solo entrepreneurs sending contracts via Boopsign.",
   keywords: [
-    "online signature maker",
-    "signature generator",
+    "online signature maker for solo entrepreneurs",
+    "signature generator for solo entrepreneurs",
     "draw signature online",
     "type signature online",
     "free electronic signature",
     "digital signature creator",
-    "esignature maker",
+    "esignature maker for solo entrepreneurs",
     "create signature for word",
     "signature for pdf",
     "transparent signature png",
@@ -294,9 +294,9 @@ export default function OnlineSignatureMakerPage() {
         <RelatedPages
           pages={[
             {
-              title: "E-Signature for Freelancers",
+              title: "E-Signature for Solo Entrepreneurs",
               description: "Beyond just a maker—get a full-featured e-signature platform.",
-              href: "/esignature-for-freelancers",
+              href: "/for-solo-entrepreneurs",
               icon: "users"
             },
             {

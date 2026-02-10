@@ -1,14 +1,14 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy - How We Protect Your Data",
+  title: "Privacy Policy - Data Protection for Solo Entrepreneurs",
   description:
-    "Boopsign privacy policy: Learn how we collect, use, and protect your personal information and documents. GDPR compliant electronic signature platform.",
+    "Boopsign privacy policy: How we protect your data as a solo entrepreneur. Secure, GDPR compliant electronic signature platform for solo entrepreneurs.",
   keywords: [
-    "privacy policy",
-    "data protection",
+    "privacy policy for solo entrepreneurs",
+    "data protection for solo entrepreneurs",
     "gdpr compliance",
-    "document security",
+    "document security for solo entrepreneurs",
   ],
   robots: {
     index: true,

@@ -95,7 +95,7 @@ export default async function BlogIndex({
             Boopsign <span className="text-blue-600">Blog</span>
           </h1>
           <p className="text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
-            Tips, guides, and insights to help freelancers and consultants get paid faster and protect their work.
+            Tips, guides, and insights to help solo entrepreneurs and consultants get paid faster and protect their work.
           </p>
         </div>
       </div>

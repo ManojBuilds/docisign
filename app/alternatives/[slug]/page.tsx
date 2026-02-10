@@ -230,16 +230,16 @@ export default async function ComparisonPage({ params }: Props) {
             Tired of {comparison.competitorName}&apos;s complexity? Switch to
             the mobile-first alternative that&apos;s{" "}
             <span className="text-white font-semibold px-3 py-1 bg-linear-to-r from-blue-500 to-indigo-500 rounded-lg shadow-md">
-              built for freelancers
+              built for solo entrepreneurs
             </span>
             .
           </p>
           <div className="mb-12">
             <Link
-              href="/esignature-for-freelancers"
+              href="/for-solo-entrepreneurs"
               className="text-sm font-semibold text-blue-600 hover:text-blue-700 hover:underline"
             >
-              Are you a freelancer? See why 2,000+ others switched →
+              Are you a solo entrepreneur? See why 2,000+ others switched →
             </Link>
           </div>
 
@@ -477,7 +477,7 @@ export default async function ComparisonPage({ params }: Props) {
       <RelatedPages
         pages={[
           {
-            title: "Pricing for Freelancers",
+            title: "Pricing for Solo Entrepreneurs",
             description:
               "Everything you need for $39/month. Unlimited documents.",
             href: "/pricing",
@@ -493,7 +493,7 @@ export default async function ComparisonPage({ params }: Props) {
             title: "E-Signature Guide",
             description:
               "Learn why Boopsign is the better choice for solo pros.",
-            href: "/esignature-for-freelancers",
+            href: "/for-solo-entrepreneurs",
             icon: "users",
           },
         ]}
