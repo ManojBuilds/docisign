@@ -1,10 +1,9 @@
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Doc } from "@/convex/_generated/dataModel";
 import { cn } from "@/lib/utils";
-import { CheckCircle2, Clock, FileCheck, Mail, UserPlus, X } from "lucide-react";
+import { CheckCircle2, Clock, FileCheck, Mail, UserPlus } from "lucide-react";
 import { Signer } from "./types";
 import { getSignerStatus } from "./utils";
 
@@ -15,7 +14,11 @@ interface RecipientsListProps {
   onRemoveSigner?: (email: string) => void;
 }
 
-export const RecipientsList = ({ signers, signatureFields, readonly = false, onRemoveSigner }: RecipientsListProps) => {
+export const RecipientsList = ({
+  signers,
+  signatureFields,
+  readonly = false,
+}: RecipientsListProps) => {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
@@ -23,8 +26,11 @@ export const RecipientsList = ({ signers, signatureFields, readonly = false, onR
           <UserPlus className="w-4 h-4 text-zinc-400" />
           Recipients
         </Label>
-        <Badge variant="secondary" className="bg-blue-50 text-blue-700 border-blue-200">
-          {signers.length} {signers.length === 1 ? 'Recipient' : 'Recipients'}
+        <Badge
+          variant="secondary"
+          className="bg-blue-50 text-blue-700 border-blue-200"
+        >
+          {signers.length} {signers.length === 1 ? "Recipient" : "Recipients"}
         </Badge>
       </div>
 
@@ -38,15 +44,23 @@ export const RecipientsList = ({ signers, signatureFields, readonly = false, onR
                 key={index}
                 className="flex items-center gap-4 p-3 hover:bg-zinc-50 transition-colors"
               >
-                <div className={cn(
-                  "w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-semibold bg-gradient-to-br shadow-inner ring-2 ring-white",
-                  (index % 5 === 0) ? 'from-blue-500 to-indigo-600' :
-                    (index % 5 === 1) ? 'from-violet-500 to-purple-600' :
-                      (index % 5 === 2) ? 'from-fuchsia-500 to-pink-600' :
-                        (index % 5 === 3) ? 'from-rose-500 to-red-600' :
-                          'from-orange-500 to-amber-600'
-                )}>
-                  {(signer.name?.charAt(0) || signer.email.charAt(0)).toUpperCase()}
+                <div
+                  className={cn(
+                    "w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-semibold bg-gradient-to-br shadow-inner ring-2 ring-white",
+                    index % 5 === 0
+                      ? "from-blue-500 to-indigo-600"
+                      : index % 5 === 1
+                        ? "from-violet-500 to-purple-600"
+                        : index % 5 === 2
+                          ? "from-fuchsia-500 to-pink-600"
+                          : index % 5 === 3
+                            ? "from-rose-500 to-red-600"
+                            : "from-orange-500 to-amber-600",
+                  )}
+                >
+                  {(
+                    signer.name?.charAt(0) || signer.email.charAt(0)
+                  ).toUpperCase()}
                 </div>
 
                 <div className="flex-1 min-w-0">
@@ -54,7 +68,7 @@ export const RecipientsList = ({ signers, signatureFields, readonly = false, onR
                     <p className="font-semibold text-sm text-zinc-900 truncate capitalize">
                       {signer.name && signer.name !== signer.email
                         ? signer.name
-                        : signer.email.split('@')[0]}
+                        : signer.email.split("@")[0]}
                     </p>
                   </div>
                   <p className="text-xs text-zinc-500 truncate flex items-center gap-1.5 mt-0.5">
@@ -96,16 +110,6 @@ export const RecipientsList = ({ signers, signatureFields, readonly = false, onR
                       </span>
                     );
                   })()}
-                  {onRemoveSigner && !readonly && status === "pending" && (
-                    <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-6 w-6 text-zinc-400 hover:text-red-500 hover:bg-red-50"
-                      onClick={() => onRemoveSigner(signer.email)}
-                    >
-                      <X className="w-3 h-3" />
-                    </Button>
-                  )}
                 </div>
               </div>
             );
@@ -115,8 +119,14 @@ export const RecipientsList = ({ signers, signatureFields, readonly = false, onR
             <div className="w-12 h-12 bg-zinc-100 rounded-full flex items-center justify-center mx-auto mb-3">
               <UserPlus className="w-6 h-6 text-zinc-400" />
             </div>
-            <p className="text-sm font-medium text-zinc-900">No recipients added</p>
-            {!readonly && <p className="text-xs text-zinc-500 mt-1">Add signers from the sidebar to continue.</p>}
+            <p className="text-sm font-medium text-zinc-900">
+              No recipients added
+            </p>
+            {!readonly && (
+              <p className="text-xs text-zinc-500 mt-1">
+                Add signers from the sidebar to continue.
+              </p>
+            )}
           </div>
         )}
       </ScrollArea>
