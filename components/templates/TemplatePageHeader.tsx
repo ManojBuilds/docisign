@@ -70,15 +70,6 @@ export function TemplatePageHeader({
           </p>
 
           <div className="flex flex-col items-center gap-6 mb-12">
-            {/* Temporarily hidden - will be re-enabled when backend is ready */}
-            {/* {templateId && (
-              <TemplateActionButton
-                templateId={templateId}
-                templateTitle={title}
-                className="w-full max-w-sm"
-              />
-            )} */}
-
             {templateId && (
               <TemplateDownloadButtons
                 templateId={templateId}

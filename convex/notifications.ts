@@ -93,7 +93,7 @@ export const sendTrialReminders = internalMutation({
     const threeDaysFromNowEnd = now + 3 * 24 * 60 * 60 * 1000;
     const oneDayFromNowStart = now + 0 * 24 * 60 * 60 * 1000;
     const oneDayFromNowEnd = now + 1 * 24 * 60 * 60 * 1000;
-    const upgradeUrl = `${appUrl}/upgrade`;
+    const upgradeUrl = `${appUrl}/pricing`;
 
     // Get users whose trial expires in ~3 days
     const usersExpiring3Days = await ctx.db

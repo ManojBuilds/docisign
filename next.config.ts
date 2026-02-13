@@ -118,7 +118,22 @@ const nextConfig: NextConfig = {
         source: "/freelance-contract-template",
         destination: "/contracts/independent-contractor-agreement",
         permanent: true
-      }
+      },
+      {
+        source: "/login",
+        destination: "/sign-in",
+        permanent: true
+      },
+      {
+        source: "/log-in",
+        destination: "/sign-in",
+        permanent: true
+      },
+      {
+        source: "/signin",
+        destination: "/sign-in",
+        permanent: true
+      },
     ];
   },
 };

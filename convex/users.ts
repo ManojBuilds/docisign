@@ -293,9 +293,10 @@ export const getUsageStats = query({
     const used = user.signatureRequestsUsed || 0;
 
     let limit = 0;
-    if (plan === "trial") limit = 1; // Trial gets only 1 signature request
+    if (plan === "trial") limit = 1;
     else if (plan === "starter") limit = 20;
     else if (plan === "professional") limit = 75;
+    else limit = 1; // Default fallback to 1 for safety if plane is weird but trial is intended
 
     // Get template count
     const templates = await ctx.db

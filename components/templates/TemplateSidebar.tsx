@@ -81,21 +81,6 @@ export function TemplateSidebar({
           )}
 
           <div className="space-y-3">
-            {/* Temporarily hidden - will be re-enabled when backend is ready */}
-            {/* {templateId ? (
-              <TemplateActionButton
-                templateId={templateId}
-                templateTitle={templateTitle || title}
-                buttonText={buttonText}
-              />
-            ) : (
-              <Button asChild className="w-full h-12 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold text-base shadow-none transition-all">
-                <Link href={buttonLink}>
-                  {buttonText || "Get Started"}
-                </Link>
-              </Button>
-            )} */}
-
             {templateId && (
               <TemplateDownloadButtons
                 templateId={templateId}

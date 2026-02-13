@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SaveAsTemplateDialog } from "@/components/templates/SaveAsTemplateDialog";
 import { cn } from "@/lib/utils";
+import { KeyboardShortcutsHelper } from "./KeyboardShortcutsHelper";
 
 const ShareDialog = lazy(() => import("@/components/ShareDialog").then(m => ({ default: m.ShareDialog })));
 
@@ -149,7 +150,7 @@ export const EditorNavbar = memo(({
                         <SaveAsTemplateDialog documentId={documentId} signatureFields={signatureFields} onSave={onSave} />
                     )}
 
-                    <Button
+                    {/* <Button
                         variant="ghost"
                         size="sm"
                         onClick={onSave}
@@ -163,7 +164,7 @@ export const EditorNavbar = memo(({
                     >
                         {isSaving ? <Loader2 className="w-3.5 h-3.5 animate-spin mr-2" /> : <Save className="w-3.5 h-3.5 mr-2" />}
                         {isSaving ? "Saving..." : "Save Changes"}
-                    </Button>
+                    </Button> */}
                 </div>
 
                 {!document?.isTemplate && (
@@ -181,6 +182,7 @@ export const EditorNavbar = memo(({
                 )}
 
                 <UserMenu className="hidden md:flex" />
+                <KeyboardShortcutsHelper />
             </div>
         </div>
     );

@@ -179,7 +179,7 @@ export function ShareDialog({
             </Button>
           )}
         </ResponsiveDialogTrigger>
-        <ResponsiveDialogContent className="sm:max-w-xl p-0 gap-0 overflow-hidden bg-white border-0 shadow-2xl rounded-2xl ring-1 ring-zinc-900/5 max-h-[90vh]">
+        <ResponsiveDialogContent className="sm:max-w-xl p-0 gap-0 overflow-y-auto scrollbar-hide bg-white border-0 shadow-2xl rounded-2xl ring-1 ring-zinc-900/5 max-h-[90vh]">
           {showConfetti ? (
             <SuccessView onClose={handleClose} />
           ) : (!forceShowConfig && document?.status &&

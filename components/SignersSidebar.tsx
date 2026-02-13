@@ -181,8 +181,8 @@ export function SignersSidebar({ }: SignersSidebarProps) {
       <div className="p-6 border-b bg-gray-50/40 backdrop-blur-sm">
         <div className="flex items-center justify-between mb-5">
           <div className="flex flex-col">
-            <h2 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-gray-400">Field Palette</h2>
-            <p className="text-[9px] text-gray-400 font-bold uppercase mt-0.5 opacity-60">Drag or Click to place</p>
+            <h2 className="text-[10px] font-extrabold uppercase tracking-[0.2em] text-gray-400">Tools</h2>
+            <p className="text-[9px] text-gray-400 font-bold uppercase mt-0.5 opacity-60">Click to place or use keyboard shortcuts</p>
           </div>
           <div className="flex h-1.5 w-1.5 rounded-full bg-primary/40 animate-pulse ring-4 ring-primary/10" />
         </div>
@@ -306,11 +306,11 @@ export function SignersSidebar({ }: SignersSidebarProps) {
             </div>
 
             {activeFields.length === 0 ? (
-              <div className="flex flex-col items-center justify-center p-10 rounded-[2rem] bg-gray-50/50 border-2 border-dashed border-gray-200 transition-all hover:bg-gray-100/50 group">
-                <div className="h-12 w-12 rounded-2xl bg-white flex items-center justify-center shadow-sm mb-4 border border-gray-100 group-hover:scale-110 transition-transform">
-                  <Plus className="h-5 w-5 text-gray-300 group-hover:text-primary transition-colors" />
-                </div>
-                <p className="text-[10px] font-extrabold text-gray-400 uppercase tracking-[0.2em] text-center">Place your first field</p>
+              <div className="flex flex-col items-center justify-center py-12 px-6 rounded-[2rem] bg-gray-50/30 border border-dashed border-gray-200 transition-all group">
+                <h4 className="text-[13px] font-bold text-gray-900 mb-1.5">Add your first field</h4>
+                <p className="text-[11px] text-gray-500 font-medium leading-relaxed max-w-[190px] text-center">
+                  Select a tool from the <span className="text-primary font-bold">Tools</span> above and draw on the document to place it.
+                </p>
               </div>
             ) : (
               <div className="space-y-2.5">
@@ -366,13 +366,6 @@ export function SignersSidebar({ }: SignersSidebarProps) {
           </section>
         </div>
       </ScrollArea>
-
-      <div className="p-6 bg-white/80 backdrop-blur-md border-t border-gray-100 flex items-center justify-center gap-2">
-        <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-        <p className="text-[10px] font-extrabold text-gray-400 uppercase tracking-[0.2em] text-center">
-          Pro Editor Active
-        </p>
-      </div>
     </aside>
   );
 }

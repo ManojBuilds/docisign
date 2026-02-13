@@ -308,12 +308,6 @@ function DocumentsList() {
                     : "Ready to get started? Upload your first contract and see how easy signing can be."}
                 </p>
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                  <NewDocumentDialog>
-                    <Button className="w-full sm:w-auto h-11">
-                      <Plus className="h-4 w-4 mr-2 stroke-[3px]" />
-                      Get Started
-                    </Button>
-                  </NewDocumentDialog>
                   {(searchTerm || filterStatus !== "all") && (
                     <Button
                       variant="secondary"

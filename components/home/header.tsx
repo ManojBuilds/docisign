@@ -7,7 +7,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useUser } from "@clerk/nextjs";
+import { useClerk, useUser } from "@clerk/nextjs";
 import { Activity, Briefcase, ChevronDown, ChevronRight, Coffee, Home, Menu, Wallet, X } from "lucide-react";
 import Link from "next/link";
 import Logo from "../Logo";
@@ -45,8 +45,11 @@ export function Header({
   mobileMenuOpen,
   setMobileMenuOpen,
 }: HeaderProps) {
-  const { isSignedIn, isLoaded } = useUser();
+  const { isLoaded } = useUser();
+  const { isSignedIn, openSignIn, openSignUp } = useClerk()
 
+  const handleSignUp = () => openSignUp({ oauthFlow: "popup" })
+  const handleSignIn = () => openSignIn({ oauthFlow: "popup" })
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background backdrop-blur-xl supports-[backdrop-filter]:bg-background">
       <div className="mx-auto max-w-6xl flex h-14 sm:h-16 items-center justify-between px-4 md:px-6 relative">
@@ -91,21 +94,19 @@ export function Header({
             ) : isSignedIn ? (
               <>
                 <Button variant="link" asChild className="hidden sm:inline-flex font-medium">
-                  <Link href="/dashboard" prefetch={false}>Dashboard</Link>
+                  <Link href="/dashboard" prefetch={true}>Dashboard</Link>
                 </Button>
                 <UserMenu />
               </>
             ) : (
               <>
-                <Button variant="ghost" asChild className="hidden sm:inline-flex">
-                  <Link href="/dashboard">Sign In</Link>
+                <Button variant="ghost" onClick={handleSignIn} className="hidden sm:inline-flex">
+                  Login
                 </Button>
-                <Button asChild className="cursor-pointer rounded-full font-medium transition-transform hover:scale-105 h-9 md:h-10 px-4 md:px-5">
-                  <Link href="/dashboard" prefetch={false}>
-                    <span className="hidden sm:inline">Get Started</span>
-                    <span className="sm:hidden text-xs">Get Started</span>
-                    <ChevronRight className="ml-1 size-4" />
-                  </Link>
+                <Button onClick={handleSignUp} className="cursor-pointer rounded-full font-medium transition-transform hover:scale-105 h-9 md:h-10 px-4 md:px-5">
+                  <span className="hidden sm:inline">Get Started</span>
+                  <span className="sm:hidden text-xs">Get Started</span>
+                  <ChevronRight className="ml-1 size-4" />
                 </Button>
               </>
             )}

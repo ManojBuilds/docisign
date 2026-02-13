@@ -16,7 +16,8 @@ export function useAutoPlaceFields() {
     if (clientEmailsParam) {
       const clientEmails = clientEmailsParam
         .split(",")
-        .map(decodeURIComponent);
+        .map(decodeURIComponent)
+        .filter((email) => email.trim() !== "");
 
       // Add these emails to the signers store so they are available for assignment
       clientEmails.forEach((email) => {

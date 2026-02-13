@@ -16,6 +16,16 @@ export default function ConvexClientProvider({
     <ClerkProvider
       signInForceRedirectUrl={"/dashboard"}
       signUpForceRedirectUrl={"/callback"}
+      appearance={{
+        elements: {
+          // card: {
+          //   boxShadow: 'inset 0 1.5px 0 rgba(255,255,255,0.25), inset 0 -1.5px 0 rgba(0,0,0,0.25), 0 4px 8px rgba(0,0,0,0.15)',
+          // },
+          rootBox: {
+            boxShadow: 'none',
+          },
+        }
+      }}
     >
       <ConvexProviderWithClerk client={convex} useAuth={useAuth}>
         {children}

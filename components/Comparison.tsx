@@ -50,10 +50,10 @@ const Comparison = () => {
                             <div className="flex items-center gap-3 mb-10">
                                 <div className="flex items-center -space-x-3">
                                     <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden p-1 relative z-30">
-                                        <Image src="/docusign-logo.png" alt="DocuSign Logo" width={32} height={32} className="object-contain" />
+                                        <Image src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgu4wy7TCDBPdmNkVMiHxrphJCgt7E2zascFjI1" alt="DocuSign Logo" width={32} height={32} className="object-contain" />
                                     </div>
                                     <div className="w-10 h-10 rounded-xl flex items-center justify-center overflow-hidden p-1 relative z-20">
-                                        <Image src="/pandadoc-logo.png" alt="PandaDoc Logo" width={32} height={32} className="object-contain" />
+                                        <Image src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguwxC0P5795SyVLzTiZ7WAIG6Ns4geYqh8buv3" alt="PandaDoc Logo" width={32} height={32} className="object-contain" />
                                     </div>
                                     <div className="w-10 h-10 rounded-xl flex items-center justify-center text-[10px] font-bold text-slate-400 relative z-10">
                                         +5

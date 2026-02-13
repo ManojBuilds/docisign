@@ -1,5 +1,5 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { ResponsiveDialogClose, ResponsiveDialogFooter, ResponsiveDialogHeader, ResponsiveDialogTitle } from "@/components/responsive-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
@@ -10,6 +10,7 @@ import { Dispatch, SetStateAction } from "react";
 import { AuditTrail } from "./AuditTrail";
 import { RecipientsList } from "./RecipientsList";
 import { CommonViewProps, Signer } from "./types";
+import Link from "next/link";
 
 interface ConfigurationViewProps extends CommonViewProps {
   hasUnassignedFields?: boolean;
@@ -44,7 +45,7 @@ const SharedConfigContent = ({
     <div className="space-y-6 p-2">
       {hasUnassignedFields && (
         <Alert variant="destructive" className="bg-red-50 border-0 ring-1 ring-red-100 dark:bg-red-900/10">
-          <AlertCircle className="h-4 w-4 text-red-600" />
+          <AlertCircle className="h-4 w-4 stroke-red-800" />
           <AlertTitle className="text-red-800 font-semibold">Unassigned Fields</AlertTitle>
           <AlertDescription className="text-red-700 text-xs mt-1">
             There are signature fields without assigned signers. Please verify before sending.
@@ -53,15 +54,22 @@ const SharedConfigContent = ({
       )}
 
       {isLimitReached && (
-        <Alert className="bg-amber-50 border-amber-200 ring-1 ring-amber-200 relative z-20">
+        <Alert className="bg-amber-50 border-amber-200 ring-1 ring-amber-200 relative">
           <AlertCircle className="h-4 w-4 stroke-amber-800" />
           <AlertTitle className="text-amber-800 font-semibold">Limit Reached</AlertTitle>
           <AlertDescription className="text-amber-700 text-xs mt-1">
-            You have reached your limit of {usageStats?.signatureRequests.limit} signature request on the Trial plan.
-            Please upgrade to the Professional plan to send more documents.
+            <p>
+              You have reached your limit of {usageStats?.signatureRequests.limit} signature request on the Trial plan.
+              Please{" "}
+              <Link href="/pricing" className="font-semibold underline underline-offset-2 hover:text-amber-900">
+                Upgrade
+              </Link>{" "}
+              to the Professional plan to send more documents.
+            </p>
           </AlertDescription>
         </Alert>
       )}
+
 
       {/* Recipients Section */}
       <RecipientsList signers={signers} signatureFields={signatureFields} onRemoveSigner={onRemoveSigner} />
@@ -69,27 +77,21 @@ const SharedConfigContent = ({
       {/* Plan Limit Notice */}
       {maxRecipients !== undefined && maxRecipients < 5 && (
         <Alert className="bg-blue-50 border-blue-200">
-          <AlertCircle className="h-4 w-4 text-blue-600" />
+          <AlertCircle className="h-4 w-4 stroke-blue-800" />
           <AlertTitle className="text-blue-800 font-semibold">Plan Limit</AlertTitle>
           <AlertDescription className="text-blue-700 text-xs mt-1">
-            {isProfessionalPlan
-              ? `You can send to up to ${maxRecipients} recipients at once. Professional plan allows up to 5.`
-              : `Your plan allows sending to ${maxRecipients} recipient${maxRecipients > 1 ? 's' : ''} at once. Upgrade to Professional for bulk sending to up to 5 recipients.`}
+            {isProfessionalPlan ? (
+              <p>You can send to up to {maxRecipients} recipients at once. Professional plan allows up to 5.</p>
+            ) : (
+              <p>
+                Your plan allows sending to {maxRecipients} recipient{maxRecipients > 1 ? "s" : ""} at once.{" "}
+                <Link href="/pricing" className="font-semibold underline underline-offset-2 hover:text-blue-900">
+                  Upgrade to Professional
+                </Link>{" "}
+                for bulk sending to up to 5 recipients.
+              </p>
+            )}
           </AlertDescription>
-        </Alert>
-      )}
-
-      {/* Trial Limit Notice - Only show if limit NOT reached yet */}
-      {usageStats?.plan === 'trial' && !isLimitReached && (
-        <Alert className="bg-amber-50 border-amber-200">
-          <AlertCircle className="h-4 w-4 text-amber-600" />
-          <AlertTitle className="text-amber-800 font-semibold text-sm">Trial Limit Reached?</AlertTitle>
-          <AlertDescription className="text-amber-700 text-xs mt-1">
-            Trial users are limited to 1 signature request. If you've already sent one, you'll need to upgrade to send more.
-          </AlertDescription>
-          <Button variant="link" size="sm" className="p-0 h-auto text-amber-900 font-bold mt-2" onClick={() => window.location.href = "/pricing"}>
-            Upgrade now &rarr;
-          </Button>
         </Alert>
       )}
 
@@ -144,18 +146,16 @@ export const ConfigurationView = ({
         <p className="text-sm text-zinc-500 font-medium">Configure recipients and send securely.</p>
       </ResponsiveDialogHeader>
 
-      <ScrollArea className="flex-1 px-6 py-8">
-        <SharedConfigContent
-          hasUnassignedFields={hasUnassignedFields}
-          signers={signers}
-          signatureFields={signatureFields}
-          customMessage={customMessage}
-          setCustomMessage={setCustomMessage}
-          onRemoveSigner={onRemoveSigner}
-          isSending={isSending}
-          usageStats={usageStats}
-        />
-      </ScrollArea>
+      <SharedConfigContent
+        hasUnassignedFields={hasUnassignedFields}
+        signers={signers}
+        signatureFields={signatureFields}
+        customMessage={customMessage}
+        setCustomMessage={setCustomMessage}
+        onRemoveSigner={onRemoveSigner}
+        isSending={isSending}
+        usageStats={usageStats}
+      />
 
       <ResponsiveDialogFooter className="p-6 border-t border-zinc-100 bg-zinc-50 flex gap-3 sticky bottom-0 z-10 flex flex-col-reverse md:flex-row">
         <ResponsiveDialogClose asChild>

@@ -36,7 +36,7 @@ export default function Logo({
         </div>
 
         {showText && (
-          <span className="text-lg md:text-2xl font-semibold font-heading tracking-tight md:-ml-1">
+          <span className="text-lg md:text-xl font-semibold font-heading tracking-tight md:-ml-1">
             Boopsign
           </span>
         )}

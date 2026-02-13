@@ -142,12 +142,13 @@ const UploadContent: FC<UploadContentProps> = ({
       {/* Signers Section */}
       {hasFile && (
         <div className="space-y-4">
-          <div className="flex flex-col gap-1 ml-1">
+          <div className="flex items-center justify-between">
             <Label className="text-[13px] font-semibold text-gray-900 uppercase tracking-wider">Recipients</Label>
-            <p className="text-[13px] text-gray-500">Who needs to sign this document?</p>
+            <span className="text-[10px] font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full uppercase tracking-wider">Optional</span>
           </div>
+          <p className="text-[13px] text-gray-500 font-medium">Add people who need to sign this document, or skip to add them later.</p>
 
-          <div className="flex gap-2 p-1.5 bg-gray-50 rounded-xl border border-gray-100 focus-within:border-blue-200 focus-within:bg-white transition-colors duration-150">
+          <div className="flex gap-2 p-1.5 bg-gray-50 rounded-xl border border-gray-300 focus-within:border-blue-300 focus-within:bg-white transition-colors duration-150">
             <Input
               type="email"
               placeholder="Enter email address"
@@ -242,18 +243,12 @@ const UploadFooter: FC<{
   isUploading,
   hasFile,
 }) => {
-    const { signers } = useSignersStore();
 
     return (
       <div className="flex gap-3 w-full p-2">
-        <ResponsiveDialogClose asChild>
-          <Button variant="ghost" disabled={isUploading} className="flex-1 rounded-lg font-semibold text-gray-600">
-            Dismiss
-          </Button>
-        </ResponsiveDialogClose>
         <Button
           onClick={handleUpload}
-          disabled={!file || signers.length === 0 || isUploading}
+          disabled={!file || isUploading}
           className={cn(
             "flex-[2] rounded-lg font-semibold",
             isUploading ? "bg-gray-100 text-gray-400" : "bg-blue-600 hover:bg-blue-700 text-white"
@@ -478,10 +473,11 @@ export function NewDocumentDialog({
       });
 
       setUploadProgress(100);
-      toast.success('Ready to design!');
+      toast.success('Opening the editor for you...');
 
       const emails = signers.map(s => encodeURIComponent(s.email)).join(',');
-      router.push(`/d/${documentId}/edit?clientEmails=${emails}`);
+      const url = emails ? `/d/${documentId}/edit?clientEmails=${emails}` : `/d/${documentId}/edit`;
+      router.push(url);
       onOpenChange(false);
     } catch (error) {
       console.error(error)
@@ -493,6 +489,17 @@ export function NewDocumentDialog({
 
   const handleUpload = async () => {
     if (!file) return;
+
+    // If there's an email in the input, try to add it before uploading
+    if (currentEmail.trim()) {
+      try {
+        emailSchema.parse(currentEmail.trim());
+        addEmail(currentEmail.trim());
+        setCurrentEmail("");
+      } catch {
+        // Just ignore invalid email and proceed with upload if they click upload directly
+      }
+    }
 
     if (!user) {
       await handleAnonymousUpload();
