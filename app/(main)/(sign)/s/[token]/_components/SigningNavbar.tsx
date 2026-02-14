@@ -7,7 +7,6 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/components/ui/drawer";
 import { cn } from "@/lib/utils";
 import { FileText, Info, Loader2, Mail, Menu, User } from "lucide-react";
-import Image from "next/image";
 import { memo, useMemo } from "react";
 
 interface SigningNavbarProps {
@@ -56,15 +55,13 @@ const DocumentDetailsContent = memo(({
       </div>
 
       {/* Sender Info */}
-      <div className="p-6 bg-gray-50/50 rounded-2xl border border-gray-100 flex items-center gap-4">
+      <div className=" py-2 sm:p-6 bg-gray-50/50 rounded md:rounded-2xl border border-gray-100 flex items-center gap-4">
         <div className="size-12 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm overflow-hidden shrink-0">
           {signingSession.ownerBranding?.logoUrl ? (
-            <Image
+            <img
               src={signingSession.ownerBranding.logoUrl}
               alt="Logo"
-              width={48}
-              height={48}
-              className="object-contain p-2"
+              className="w-full h-full object-cover"
             />
           ) : (
             <span className="font-semibold text-gray-400">{ownerInitial}</span>
@@ -168,15 +165,13 @@ const DesktopDetailsContent = memo(({
           <User className="w-3 h-3" />
           Sender
         </h3>
-        <div className="flex items-center gap-3 p-4 bg-white border border-gray-100 rounded-2xl">
-          <div className="size-10 rounded-full bg-gray-50 border border-gray-100 flex items-center justify-center overflow-hidden shrink-0">
+        <div className="flex items-center gap-3 py-4 px-2 bg-white border border-gray-100 rounded sm:rounded-2xl">
+          <div className="size-10 rounded-full bg-gray-50 overflow-hidden border border-gray-100 flex items-center justify-center overflow-hidden shrink-0">
             {signingSession.ownerBranding?.logoUrl ? (
-              <Image
+              <img
                 src={signingSession.ownerBranding.logoUrl}
                 alt="Logo"
-                width={40}
-                height={40}
-                className="object-contain p-1"
+                className="w-full h-full object-cover"
               />
             ) : (
               <span className="font-semibold text-gray-400">{ownerInitial}</span>
@@ -306,14 +301,13 @@ export const SigningNavbar = memo(({
         <div className="flex-1 flex items-center justify-between px-4">
           {/* Logo and Title */}
           <div className="flex items-center gap-3 overflow-hidden flex-1 min-w-0">
-            <div className="flex items-center justify-center p-1.5 bg-gray-50 rounded-xl border border-gray-200/50 shadow-sm shrink-0">
+            <div className="flex items-center justify-center overflow-hidden bg-gray-50 rounded border border-gray-200/50 shadow-sm shrink-0">
               {logoUrl ? (
-                <div className="size-6 relative">
-                  <Image
+                <div className="size-6">
+                  <img
                     src={logoUrl}
                     alt={brandName}
-                    fill
-                    className="object-contain"
+                    className="w-full h-full object-cover rounded"
                   />
                 </div>
               ) : (
@@ -376,11 +370,10 @@ export const SigningNavbar = memo(({
           <div className="flex items-center gap-3">
             {logoUrl ? (
               <div className="size-8 relative shrink-0">
-                <Image
+                <img
                   src={logoUrl}
                   alt={brandName}
-                  fill
-                  className="object-contain"
+                  className="object-cover rounded-xl w-full h-full"
                 />
               </div>
             ) : (

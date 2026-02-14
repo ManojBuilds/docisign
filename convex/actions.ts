@@ -61,10 +61,15 @@ export const generateSignedPdf = internalAction({
             console.error("Failed to embed signature image:", err);
           }
         } else {
+          // Center-align text within the signature field
           const textHeight = timesItalicFont.heightAtSize(SIGNATURE_FONT_SIZE);
+          const textWidth = timesItalicFont.widthOfTextAtSize(field.signatureData, SIGNATURE_FONT_SIZE);
+
+          // Calculate centered x position
+          const centeredX = field.x + (field.width - textWidth) / 2;
 
           page.drawText(field.signatureData, {
-            x: field.x + 4, // Padding
+            x: centeredX,
             y: pageHeight - field.y - field.height + (field.height - textHeight) / 2 + 2,
             font: timesItalicFont,
             size: SIGNATURE_FONT_SIZE,

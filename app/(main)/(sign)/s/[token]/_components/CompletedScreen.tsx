@@ -14,7 +14,6 @@ import {
   User,
   ArrowRight
 } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useMemo } from "react";
 
@@ -131,40 +130,41 @@ export function CompletedScreen({
         />
 
         {/* Minimal Header */}
-        <header className="w-full h-16 bg-white/80 backdrop-blur-md border-b flex items-center px-4 justify-between relative z-10 sticky top-0">
-          <div className="flex items-center gap-3 sm:gap-4">
-            <div className="flex items-center justify-center bg-gray-50 rounded-xl border border-gray-200/50 shadow-sm scale-90 sm:scale-100">
-              {signingSession.ownerBranding?.logoUrl ? (
-                <div className="size-12 relative">
-                  <Image
-                    src={signingSession.ownerBranding.logoUrl}
-                    alt={signingSession.ownerBranding.brandName || "Logo"}
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              ) : (
-                <div className="scale-75 origin-center">
-                  <Logo showText={false} />
-                </div>
-              )}
+        <div className="border-b w-full">
+          <header className="w-full h-16 bg-white/80 backdrop-blur-md flex items-center px-4 justify-between relative z-10 sticky top-0 max-w-6xl mx-auto">
+            <div className="flex items-center sm:gap-2">
+              <div className="flex items-center justify-center overflow-hidden bg-gray-50 rounded-xl border border-gray-200/50 shadow-sm shrink-0">
+                {signingSession.ownerBranding?.logoUrl ? (
+                  <div className="size-6 sm:size-10">
+                    <img
+                      src={signingSession.ownerBranding.logoUrl}
+                      alt={signingSession.ownerBranding.brandName || "Logo"}
+                      className="w-full h-full object-cover rounded-xl"
+                    />
+                  </div>
+                ) : (
+                  <div className="scale-75 origin-center">
+                    <Logo showText={false} />
+                  </div>
+                )}
+              </div>
+              <div className="h-4 w-[1px] bg-gray-200 hidden sm:block" />
+              <div className="flex flex-col">
+                <span className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">
+                  {signingSession.ownerBranding?.brandName || "Boopsign"}
+                </span>
+                <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest leading-none">powered by boopsign.com</span>
+              </div>
             </div>
-            <div className="h-4 w-[1px] bg-gray-200 hidden sm:block" />
-            <div className="flex flex-col hidden sm:flex">
-              <span className="text-[10px] font-black uppercase tracking-widest leading-none mb-1">
-                {signingSession.ownerBranding?.brandName || "Boopsign"}
+            <div className="flex items-center gap-3 sm:gap-6">
+              <span className="text-[9px] sm:text-[10px] font-black text-emerald-600 uppercase tracking-[0.15em] sm:tracking-[0.2em] flex items-center gap-1 sm:gap-1.5 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-100">
+                <ShieldCheck className="w-3 h-3" />
+                <span className="hidden sm:block">Verified Transaction</span>
+                <span className="sm:hidden">Verified</span>
               </span>
-              <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest leading-none">Agreement Management</span>
             </div>
-          </div>
-          <div className="flex items-center gap-3 sm:gap-6">
-            <span className="text-[9px] sm:text-[10px] font-black text-emerald-600 uppercase tracking-[0.15em] sm:tracking-[0.2em] flex items-center gap-1 sm:gap-1.5 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-100">
-              <ShieldCheck className="w-3 h-3" />
-              <span className="hidden sm:block">Verified Transaction</span>
-              <span className="sm:hidden">Verified</span>
-            </span>
-          </div>
-        </header>
+          </header>
+        </div>
 
         <main className="flex-1 w-full max-w-6xl mx-auto px-4 py-8 sm:px-6 sm:py-12 relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           <div

@@ -42,7 +42,7 @@ const SharedConfigContent = ({
 }: Pick<ConfigurationViewProps, "hasUnassignedFields" | "signers" | "signatureFields" | "customMessage" | "setCustomMessage" | "onRemoveSigner" | "isSending" | "maxRecipients" | "isProfessionalPlan" | "usageStats">) => {
   const isLimitReached = usageStats?.plan === "trial" && usageStats.signatureRequests.used >= usageStats.signatureRequests.limit;
   return (
-    <div className="space-y-6 p-2">
+    <div className="space-y-6 p-4 sm:p-6">
       {hasUnassignedFields && (
         <Alert variant="destructive" className="bg-red-50 border-0 ring-1 ring-red-100 dark:bg-red-900/10">
           <AlertCircle className="h-4 w-4 stroke-red-800" />

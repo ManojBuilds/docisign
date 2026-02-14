@@ -1,11 +1,10 @@
-
 "use client";
 
 import { Badge } from "@/components/ui/badge";
 import { useTrialStatus } from "@/hooks/useTrialStatus";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import Link from "next/link";
+
 interface LogoProps {
   showText?: boolean;
   className?: string;
@@ -25,13 +24,10 @@ export default function Logo({
     <div className={cn("flex items-center", className)}>
       <Link href={href} className="flex items-center group">
         <div className="relative flex items-center shrink-0">
-          <Image
+          <img
             src="https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguaOEZELMW5bk4q23iuyfFhwQdGBN7vjse1zp6"
             alt="Boopsign Logo"
-            width={40}
-            height={40}
-            priority
-            className="h-8 w-8 md:h-10 md:w-10 transition-transform group-hover:scale-105"
+            className="h-8 w-8 md:h-10 md:w-10 transition-transform group-hover:scale-105 object-contain"
           />
         </div>
 
