@@ -1,6 +1,6 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { ResponsiveDialogClose, ResponsiveDialogFooter, ResponsiveDialogHeader, ResponsiveDialogTitle } from "@/components/responsive-dialog";
+import { ResponsiveDialogClose, ResponsiveDialogDescription, ResponsiveDialogFooter, ResponsiveDialogHeader, ResponsiveDialogTitle } from "@/components/responsive-dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -139,11 +139,12 @@ export const ConfigurationView = ({
   return (
     <div className="flex flex-col h-full">
       <ResponsiveDialogHeader className="p-6 border-b border-zinc-100 bg-zinc-50/50 sticky top-0 z-10 backdrop-blur-sm">
-        <ResponsiveDialogTitle className="text-xl font-semibold text-zinc-900 tracking-tight flex items-center justify-center md:justify-start gap-2">
-          <Send className="w-5 h-5 text-blue-600" />
+        <ResponsiveDialogTitle>
           Send for Signature
         </ResponsiveDialogTitle>
-        <p className="text-sm text-zinc-500 font-medium">Configure recipients and send securely.</p>
+        <ResponsiveDialogDescription>
+          Configure recipients and send securely.
+        </ResponsiveDialogDescription>
       </ResponsiveDialogHeader>
 
       <SharedConfigContent

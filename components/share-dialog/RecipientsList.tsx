@@ -34,7 +34,7 @@ export const RecipientsList = ({
         </Badge>
       </div>
 
-      <ScrollArea className="bg-white rounded-xl ring-1 ring-zinc-900/5 ring-offset-2 ring-offset-zinc-50 divide-y divide-zinc-100 max-h-[200px]">
+      <div className="bg-white rounded-md border divide-y divide-zinc-100 max-h-[200px] overflow-y-auto scrollbar-hide">
         {signers.length > 0 ? (
           signers.map((signer, index) => {
             const status = getSignerStatus(signer.email, signatureFields);
@@ -129,7 +129,7 @@ export const RecipientsList = ({
             )}
           </div>
         )}
-      </ScrollArea>
+      </div>
     </div>
   );
 };

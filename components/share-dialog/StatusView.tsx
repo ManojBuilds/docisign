@@ -97,7 +97,6 @@ export const StatusView = ({
       <ResponsiveDialogHeader className="p-6 border-b border-zinc-100 bg-zinc-50/50">
         <div className="flex items-center justify-between">
           <ResponsiveDialogTitle className="w-full font-semibold text-zinc-900 tracking-tight flex items-center justify-center md:justify-start gap-2">
-            {statusDisplay.icon}
             {isHybridState ? "New Fields Added" : statusDisplay.title}
           </ResponsiveDialogTitle>
         </div>
@@ -129,7 +128,7 @@ export const StatusView = ({
 
         {/* Audit Trail for Documents with at least one signature */}
         {hasCompletedFields && signatureFields && (
-          <AuditTrail signatureFields={signatureFields} />
+          <AuditTrail variant="default" signatureFields={signatureFields} />
         )}
       </ScrollArea>
 

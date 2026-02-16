@@ -79,26 +79,26 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
 
   // Default / Status View Style
   return (
-    <div className="space-y-4 pb-6 pr-2">
-      <div className="flex items-center gap-2 mb-4 px-2">
-        <FileCheck className="w-5 h-5 text-blue-600" />
-        <h3 className="font-semibold text-zinc-900 text-sm uppercase tracking-wider">Audit Trail</h3>
+    <div className="space-y-3">
+      <div className="text-sm font-semibold text-zinc-700 uppercase tracking-wider flex items-center gap-2">
+        <FileCheck className="w-4 h-4 text-zinc-400" />
+        <h3>Audit Trail</h3>
       </div>
 
-      <div className="relative pl-4 border-l-2 border-blue-50 space-y-4">
+      <div className="relative space-y-3">
         {auditItems.map((field, index) => {
           const isExpanded = expandedSigners.has(field.signerEmail);
           return (
-            <div key={field.signerEmail} className="relative group/audit">
+            <div key={field.signerEmail} className="relative group/audit hover:bg-zinc-50">
               <div className={cn(
-                "hidden md:block absolute -left-[21px] top-6 w-3 h-3 rounded-full ring-4 ring-white transition-colors duration-300",
+                "hidden md:block absolute -left-[21px] top-6 w-3 h-3 rounded-full ring-4 ring-zinc-900/5 transition-colors duration-300",
                 isExpanded ? "bg-blue-500" : "bg-zinc-300"
               )} />
 
               <div
                 className={cn(
-                  "bg-white rounded-xl overflow-hidden transition-all duration-300 cursor-pointer ring-offset-2",
-                  isExpanded ? "ring-2 ring-blue-100 shadow-sm" : "ring-1 ring-zinc-900/5 hover:bg-zinc-50/50"
+                  "bg-white rounded-md overflow-hidden transition-all duration-300 cursor-pointer ring-offset-2",
+                  "border hover:bg-zinc-50/50"
                 )}
                 onClick={() => {
                   const next = new Set(expandedSigners);
@@ -109,10 +109,10 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
               >
                 <div className="p-4 flex justify-between items-center group-hover:bg-zinc-50/30 transition-colors">
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-zinc-900 text-sm truncate">
+                    <h4 className="font-semibold text-zinc-900 text-sm truncate capitalize">
                       {field.signerName && field.signerName !== field.signerEmail
                         ? field.signerName
-                        : `Signer ${index + 1}`}
+                        : field.signerEmail.split('@')[0]}
                     </h4>
                     <p className="text-[10px] text-zinc-500 font-medium truncate flex items-center gap-1.5 mt-0.5">
                       <Mail className="w-2.5 h-2.5 opacity-60" />
@@ -128,7 +128,7 @@ export const AuditTrail = ({ signatureFields, variant = "default" }: AuditTrailP
                 </div>
 
                 {isExpanded && field.auditTrail && (
-                  <div className="px-4 pb-4 animate-in slide-in-from-top-2 duration-300">
+                  <div className="p-4 animate-in slide-in-from-top-2 duration-300">
                     <div className="grid grid-cols-2 gap-y-3 gap-x-4 text-xs text-zinc-600 bg-zinc-50/50 rounded-lg p-3 ring-1 ring-zinc-100/50">
                       <div>
                         <span className="text-zinc-400 block text-[10px] uppercase tracking-wider mb-1">Time Signed</span>
