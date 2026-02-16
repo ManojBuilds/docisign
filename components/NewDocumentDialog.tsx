@@ -407,8 +407,9 @@ export function NewDocumentDialog({
         })
       );
       setUploadProgress(100);
+      resetDialog();
       redirectToSignIn();
-      onOpenChange(false);
+      handleOpenChange(false);
     } catch (err) {
       console.error(err);
       toast.error('Upload failed. Please try again.');
@@ -477,8 +478,9 @@ export function NewDocumentDialog({
 
       const emails = signers.map(s => encodeURIComponent(s.email)).join(',');
       const url = emails ? `/d/${documentId}/edit?clientEmails=${emails}` : `/d/${documentId}/edit`;
+      resetDialog();
       router.push(url);
-      onOpenChange(false);
+      handleOpenChange(false);
     } catch (error) {
       console.error(error)
       toast.error('Upload failed. Please try again.');

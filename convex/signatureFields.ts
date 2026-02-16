@@ -10,7 +10,11 @@ export const addSignatureField = mutation({
       v.literal("signature"),
       v.literal("initial"),
       v.literal("date"),
-      v.literal("text")
+      v.literal("text"),
+      v.literal("email"),
+      v.literal("checkbox"),
+      v.literal("dropdown"),
+      v.literal("radio")
     ),
     page: v.number(),
     x: v.number(),
@@ -22,6 +26,10 @@ export const addSignatureField = mutation({
     isRequired: v.optional(v.boolean()),
     label: v.optional(v.string()),
     signerOrder: v.optional(v.number()),
+    options: v.optional(v.array(v.string())),
+    validation: v.optional(v.any()),
+    groupName: v.optional(v.string()),
+    checked: v.optional(v.boolean()),
     status: v.optional(v.union(
       v.literal("pending"),
       v.literal("sent"),
@@ -77,6 +85,10 @@ export const updateSignatureField = mutation({
     label: v.optional(v.string()),
     isRequired: v.optional(v.boolean()),
     signerOrder: v.optional(v.number()),
+    options: v.optional(v.array(v.string())),
+    validation: v.optional(v.any()),
+    groupName: v.optional(v.string()),
+    checked: v.optional(v.boolean()),
     status: v.optional(v.union(
       v.literal("pending"),
       v.literal("sent"),
@@ -282,7 +294,11 @@ export const saveSignatureFields = mutation({
           v.literal("signature"),
           v.literal("initial"),
           v.literal("date"),
-          v.literal("text")
+          v.literal("text"),
+          v.literal("email"),
+          v.literal("checkbox"),
+          v.literal("dropdown"),
+          v.literal("radio")
         ),
         page: v.number(),
         x: v.number(),
@@ -294,6 +310,10 @@ export const saveSignatureFields = mutation({
         isRequired: v.optional(v.boolean()),
         label: v.optional(v.string()),
         signerOrder: v.optional(v.number()),
+        options: v.optional(v.array(v.string())),
+        validation: v.optional(v.any()),
+        groupName: v.optional(v.string()),
+        checked: v.optional(v.boolean()),
       })
     ),
   },
@@ -339,6 +359,10 @@ export const saveSignatureFields = mutation({
         isRequired: field.isRequired ?? true,
         label: field.label || "",
         signerOrder: field.signerOrder,
+        options: field.options,
+        validation: field.validation,
+        groupName: field.groupName,
+        checked: field.checked,
       };
 
       if (existing) {

@@ -69,6 +69,10 @@ export function useSaveFields(
             signerName: field.signerName || "",
             isRequired: field.isRequired,
             label: field.label || "",
+            options: field.options,
+            validation: field.validation,
+            groupName: field.groupName,
+            checked: field.checked,
           };
         });
 

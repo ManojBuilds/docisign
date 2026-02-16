@@ -133,7 +133,7 @@ export const EditorNavbar = memo(({
                             "text-[10px] font-extrabold uppercase tracking-wider transition-colors",
                             hasUnsavedChanges ? "text-amber-500" : "text-emerald-500"
                         )}>
-                            {hasUnsavedChanges ? "Unsaved Changes" : "Synced"}
+                            {hasUnsavedChanges ? "Unsaved Changes" : "Saved"}
                         </span>
                     </div>
                 </div>

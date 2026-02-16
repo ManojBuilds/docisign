@@ -356,7 +356,7 @@ export default function OnlineSignatureCreator() {
                         variant="secondary"
                         disabled={!deferredSignature}
                         onClick={() => downloadPersonality(p)}
-                        className="w-full rounded-xl border-slate-200 hover:bg-slate-900 hover:text-white hover:border-slate-900 transition-all font-semibold h-11 shadow-sm"
+                        className="w-full font-semibold h-11"
                       >
                         <Download className="size-4 mr-2" />
                         Download Style

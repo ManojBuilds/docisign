@@ -18,6 +18,7 @@ import { SignatureFieldSettings } from './signature-field-settings';
 import { ScrollArea } from './ui/scroll-area';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './ui/tooltip';
 import { Avatar, AvatarFallback } from './ui/avatar';
+import { FIELDS } from '@/components/fields/field-types';
 
 
 interface SignersSidebarProps {
@@ -88,13 +89,12 @@ export function SignersSidebar({ }: SignersSidebarProps) {
 
   const selectedField = activeFields.find((field: SignatureFieldData) => field.id === selectedFieldId);
 
+  /* import { FIELDS } from '@/components/fields/field-types'; */
+
   const tools = [
     { id: 'selection', icon: MousePointer2, label: 'Move', shortcut: 'V' },
-    { id: 'signature', icon: PenTool, label: 'Sign', shortcut: 'S' },
-    { id: 'initial', icon: TextCursor, label: 'Initial', shortcut: 'I' },
-    { id: 'date', icon: CalendarDays, label: 'Date', shortcut: 'D' },
-    { id: 'text', icon: ALargeSmall, label: 'Text', shortcut: 'T' },
-  ] as const;
+    ...FIELDS
+  ];
 
   const handleFieldClick = (field: SignatureFieldData) => {
     setSelectedFieldId(field.id);
@@ -102,16 +102,12 @@ export function SignersSidebar({ }: SignersSidebarProps) {
   };
 
   const getFieldIcon = (type: string) => {
-    switch (type) {
-      case 'signature':
-        return <PenTool className="w-3.5 h-3.5" />;
-      case 'initial':
-        return <TextCursor className="w-3.5 h-3.5" />;
-      case 'date':
-        return <CalendarDays className="w-3.5 h-3.5" />;
-      default:
-        return <ALargeSmall className="w-3.5 h-3.5" />;
+    const field = FIELDS.find(f => f.id === type);
+    if (field) {
+      const Icon = field.icon;
+      return <Icon className="w-3.5 h-3.5" />;
     }
+    return <ALargeSmall className="w-3.5 h-3.5" />;
   };
 
   if (selectedField) {
@@ -186,13 +182,13 @@ export function SignersSidebar({ }: SignersSidebarProps) {
           </div>
           <div className="flex h-1.5 w-1.5 rounded-full bg-primary/40 animate-pulse ring-4 ring-primary/10" />
         </div>
-        <div className="grid grid-cols-5 gap-2">
+        <div className="grid grid-cols-3 gap-2">
           <TooltipProvider delayDuration={0}>
             {tools.map((tool) => (
               <Tooltip key={tool.id}>
                 <TooltipTrigger asChild>
                   <button
-                    onClick={() => setSelectedTool(tool.id)}
+                    onClick={() => setSelectedTool(tool.id as SignatureFieldData["fieldType"] | "selection")}
                     className={cn(
                       'cursor-pointer relative group flex flex-col items-center justify-center gap-2 h-14 rounded-lg transition-all border-2',
                       selectedTool === tool.id
@@ -202,7 +198,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                   >
                     <tool.icon className={cn('w-4 h-4 transition-all', selectedTool === tool.id ? 'text-primary scale-110' : 'text-gray-400 group-hover:text-gray-600')} />
                     <span className={cn('text-[9px] font-bold uppercase tracking-tighter transition-all', selectedTool === tool.id ? 'text-primary' : 'opacity-40')}>
-                      {tool.shortcut}
+                      {tool.label}
                     </span>
                     {selectedTool === tool.id && (
                       <div className="absolute -top-1 -right-1 h-3 w-3 bg-primary rounded-full ring-2 ring-white animate-in zoom-in-50" />

@@ -18,6 +18,10 @@ export interface SignatureField {
   y: number;
   width: number;
   height: number;
+  options?: string[];
+  validation?: any;
+  groupName?: string;
+  checked?: boolean;
 }
 
 /**
@@ -91,6 +95,10 @@ export function useSignatureFieldsSync(
         normalizedY: field.y / dims.height,
         normalizedWidth: field.width / dims.width,
         normalizedHeight: field.height / dims.height,
+        options: field.options,
+        validation: field.validation,
+        groupName: field.groupName,
+        checked: field.checked,
       });
 
       if (!pageDimensions[field.page]) {

@@ -29,9 +29,11 @@ import { MobileFieldDrawer } from "./mobile-field-drawer";
 import { usePdfDimensions } from "./PdfDimensionsContext";
 import { SignatureIcon } from "./SignatureIcon";
 
+import { FIELDS, FieldType } from "./fields/field-types";
+
 export interface SignatureFieldData {
   id: string;
-  fieldType: "signature" | "initial" | "date" | "text";
+  fieldType: FieldType;
   normalizedX: number;
   normalizedY: number;
   normalizedWidth: number;
@@ -43,7 +45,17 @@ export interface SignatureFieldData {
   signerName?: string;
   status?: "pending" | "sent" | "viewed" | "signed" | "declined";
   isCompleted?: boolean;
-  rolePlaceholder?: string; // Add this
+  signatureData?: string;
+  rolePlaceholder?: string;
+  // New properties for advanced fields
+  options?: string[]; // For dropdown and radio
+  validation?: {
+    type: "email" | "text" | "number" | "date" | "regex";
+    pattern?: string;
+    message?: string;
+  };
+  groupName?: string; // For radio groups
+  checked?: boolean; // For checkbox
   auditTrail?: {
     ip: string;
     timestamp: string;
@@ -64,18 +76,12 @@ interface SignatureFieldProps {
 
 // Helper functions to get field icon and color
 const getFieldIcon = (fieldType: string) => {
-  switch (fieldType) {
-    case "signature":
-      return <SignatureIcon />;
-    case "initial":
-      return <TextCursor className="w-full h-full" strokeWidth={1.5} />;
-    case "date":
-      return <CalendarDays className="w-full h-full" strokeWidth={1.5} />;
-    case "text":
-      return <ALargeSmall className="w-full h-full" strokeWidth={1.5} />;
-    default:
-      return <SignatureIcon />;
+  const field = FIELDS.find(f => f.id === fieldType);
+  if (field) {
+    const Icon = field.icon;
+    return <Icon className="w-full h-full" strokeWidth={1.5} />;
   }
+  return <SignatureIcon />;
 };
 
 // Color palette for signers - allows up to 5 different signers to have distinct colors
@@ -91,13 +97,17 @@ const getSignerColor = (fieldType: string, signerEmail: string, rolePlaceholder?
   }
 
   if (!signerEmail) {
-    const defaultThemes = {
+    const defaultThemes: Record<string, any> = {
       signature: { border: "border-blue-400", bg: "bg-blue-50/80", text: "text-blue-700", accent: "bg-blue-400", icon: "text-blue-500" },
       initial: { border: "border-emerald-400", bg: "bg-emerald-50/80", text: "text-emerald-700", accent: "bg-emerald-400", icon: "text-emerald-500" },
       date: { border: "border-orange-400", bg: "bg-orange-50/80", text: "text-orange-700", accent: "bg-orange-400", icon: "text-orange-500" },
       text: { border: "border-purple-400", bg: "bg-purple-50/80", text: "text-purple-700", accent: "bg-purple-400", icon: "text-purple-500" },
+      email: { border: "border-rose-400", bg: "bg-rose-50/80", text: "text-rose-700", accent: "bg-rose-400", icon: "text-rose-500" },
+      checkbox: { border: "border-cyan-400", bg: "bg-cyan-50/80", text: "text-cyan-700", accent: "bg-cyan-400", icon: "text-cyan-500" },
+      dropdown: { border: "border-amber-400", bg: "bg-amber-50/80", text: "text-amber-700", accent: "bg-amber-400", icon: "text-amber-500" },
+      radio: { border: "border-indigo-400", bg: "bg-indigo-50/80", text: "text-indigo-700", accent: "bg-indigo-400", icon: "text-indigo-500" },
     };
-    return defaultThemes[fieldType as keyof typeof defaultThemes] || defaultThemes.signature;
+    return defaultThemes[fieldType] || defaultThemes.signature;
   }
 
   const themes = [
@@ -456,46 +466,22 @@ function DraggableSignatureField({
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent onMouseDown={(e) => e.stopPropagation()} align="start" className="w-32">
-                  <DropdownMenuItem
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleFieldUpdate({ fieldType: "signature" });
-                    }}
-                    className="flex items-center gap-2 text-xs py-2"
-                  >
-                    <SignatureIcon className="w-3.5 h-3.5" />
-                    Signature
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleFieldUpdate({ fieldType: "initial" });
-                    }}
-                    className="flex items-center gap-2 text-xs py-2"
-                  >
-                    <TextCursor size={14} />
-                    Initial
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleFieldUpdate({ fieldType: "date" });
-                    }}
-                    className="flex items-center gap-2 text-xs py-2"
-                  >
-                    <CalendarDays size={14} />
-                    Date
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleFieldUpdate({ fieldType: "text" });
-                    }}
-                    className="flex items-center gap-2 text-xs py-2"
-                  >
-                    <ALargeSmall size={14} />
-                    Text
-                  </DropdownMenuItem>
+                  {FIELDS.map((f) => {
+                    const Icon = f.icon;
+                    return (
+                      <DropdownMenuItem
+                        key={f.id}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleFieldUpdate({ fieldType: f.id });
+                        }}
+                        className="flex items-center gap-2 text-xs py-2"
+                      >
+                        <Icon size={14} />
+                        {f.label}
+                      </DropdownMenuItem>
+                    );
+                  })}
                 </DropdownMenuContent>
               </DropdownMenu>
 

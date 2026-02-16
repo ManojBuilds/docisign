@@ -60,6 +60,34 @@ export const generateSignedPdf = internalAction({
           } catch (err) {
             console.error("Failed to embed signature image:", err);
           }
+        } else if (field.fieldType === "checkbox" && field.signatureData === "checked") {
+          // Draw a checkmark icon for checkboxes
+          const startY = pageHeight - field.y - field.height;
+          const iconBlue = rgb(0.078, 0.451, 0.9); // Adobe blue
+
+          // Draw a small border box first (optional but looks better)
+          page.drawRectangle({
+            x: field.x + field.width * 0.2,
+            y: startY + field.height * 0.2,
+            width: field.width * 0.6,
+            height: field.height * 0.6,
+            borderColor: iconBlue,
+            borderWidth: 1,
+          });
+
+          // Draw the checkmark lines
+          page.drawLine({
+            start: { x: field.x + field.width * 0.35, y: startY + field.height * 0.5 },
+            end: { x: field.x + field.width * 0.45, y: startY + field.height * 0.4 },
+            thickness: 2,
+            color: iconBlue,
+          });
+          page.drawLine({
+            start: { x: field.x + field.width * 0.45, y: startY + field.height * 0.4 },
+            end: { x: field.x + field.width * 0.65, y: startY + field.height * 0.7 },
+            thickness: 2,
+            color: iconBlue,
+          });
         } else {
           // Center-align text within the signature field
           const textHeight = timesItalicFont.heightAtSize(SIGNATURE_FONT_SIZE);

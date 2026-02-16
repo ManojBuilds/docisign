@@ -33,6 +33,10 @@ export function useSignatureFields({ signingSession, pageDimensions }: UseSignat
         normalizedY: dims ? field.y / dims.height : 0,
         normalizedWidth: dims ? field.width / dims.width : 0,
         normalizedHeight: dims ? field.height / dims.height : 0,
+        options: field.options,
+        validation: field.validation,
+        groupName: field.groupName,
+        checked: field.checked,
       };
     });
 

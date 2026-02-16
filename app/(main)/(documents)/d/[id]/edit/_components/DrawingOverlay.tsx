@@ -4,6 +4,7 @@ import { SignatureFieldData } from "@/components/signature-field";
 import { cn } from "@/lib/utils";
 import { useDocumentEditorStore } from "@/stores/document-editor-store";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { FIELDS } from "@/components/fields/field-types";
 import { memo, useEffect, useState, useCallback } from "react";
 
 interface DrawingOverlayProps {
@@ -23,6 +24,53 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
   const [dragCurrent, setDragCurrent] = useState<{ x: number; y: number } | null>(null);
   const [dragRect, setDragRect] = useState<DOMRect | null>(null);
   const [startTime, setStartTime] = useState<number>(0);
+
+  // Get the field configuration for the selected tool
+  const fieldConfig = FIELDS.find(field => field.id === selectedTool);
+
+  // Map field types to their Tailwind classes (must be complete strings for Tailwind to detect)
+  const getFieldColors = (fieldType: string) => {
+    switch (fieldType) {
+      case 'signature':
+        return {
+          border: 'border-blue-500',
+          bg: 'bg-blue-500/20',
+          bgSolid: 'bg-blue-500'
+        };
+      case 'initials':
+        return {
+          border: 'border-purple-500',
+          bg: 'bg-purple-500/20',
+          bgSolid: 'bg-purple-500'
+        };
+      case 'date':
+        return {
+          border: 'border-green-500',
+          bg: 'bg-green-500/20',
+          bgSolid: 'bg-green-500'
+        };
+      case 'text':
+        return {
+          border: 'border-amber-500',
+          bg: 'bg-amber-500/20',
+          bgSolid: 'bg-amber-500'
+        };
+      case 'checkbox':
+        return {
+          border: 'border-pink-500',
+          bg: 'bg-pink-500/20',
+          bgSolid: 'bg-pink-500'
+        };
+      default:
+        return {
+          border: 'border-blue-500',
+          bg: 'bg-blue-500/20',
+          bgSolid: 'bg-blue-500'
+        };
+    }
+  };
+
+  const colors = selectedTool ? getFieldColors(selectedTool) : null;
 
   const handleStart = useCallback((clientX: number, clientY: number, rect: DOMRect) => {
     if (selectedTool === "selection") return;
@@ -132,16 +180,15 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
     };
   }, [isDragging, handleMove, handleEnd]);
 
+  if (!fieldConfig || !colors) return null;
+
   return (
     <div
       className={cn(
-        "absolute inset-0 z-10 select-none",
+        "absolute inset-0 z-20 select-none",
         selectedTool !== "selection" ? cn(
           "touch-none cursor-crosshair animate-in fade-in duration-300",
-          selectedTool === 'signature' && "bg-blue-500/5",
-          selectedTool === 'initial' && "bg-emerald-500/5",
-          selectedTool === 'date' && "bg-amber-500/5",
-          selectedTool === 'text' && "bg-purple-500/5"
+          colors.border
         ) : "pointer-events-auto"
       )}
       onMouseDown={handleMouseDown}
@@ -155,7 +202,7 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
       {!isDesktop && selectedTool !== "selection" && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="bg-black/60 text-white text-[10px] px-2 py-1 rounded-full backdrop-blur-sm font-medium animate-pulse">
-            Tap to place {selectedTool}
+            Tap to place {fieldConfig.label.toLowerCase()}
           </div>
         </div>
       )}
@@ -164,10 +211,8 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
         <div
           className={cn(
             "absolute border-2 shadow-2xl flex items-center justify-center overflow-hidden rounded-none z-[100]",
-            selectedTool === 'signature' && "border-blue-500 bg-blue-500/20",
-            selectedTool === 'initial' && "border-emerald-500 bg-emerald-500/20",
-            selectedTool === 'date' && "border-amber-500 bg-amber-500/20",
-            selectedTool === 'text' && "border-purple-500 bg-purple-500/20"
+            colors.border,
+            colors.bg
           )}
           style={{
             left: Math.min(dragStart.x, dragCurrent.x) * scale,
@@ -178,12 +223,9 @@ export const DrawingOverlay = memo(({ pageNumber, scale, onAddField }: DrawingOv
         >
           <div className={cn(
             "absolute top-0 left-0 text-white text-[9px] font-bold px-1.5 py-0.5 uppercase tracking-wider rounded-none shrink-0",
-            selectedTool === 'signature' && "bg-blue-500",
-            selectedTool === 'initial' && "bg-emerald-500",
-            selectedTool === 'date' && "bg-amber-500",
-            selectedTool === 'text' && "bg-purple-500"
+            colors.bgSolid
           )}>
-            {selectedTool}
+            {fieldConfig.label}
           </div>
         </div>
       )}

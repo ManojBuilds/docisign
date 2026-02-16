@@ -99,6 +99,8 @@ export function useFieldOperations(
         normalizedY: y / dims.height,
         normalizedWidth: width / dims.width,
         normalizedHeight: height / dims.height,
+        options: (fieldType === "dropdown" || fieldType === "radio") ? ["Option 1", "Option 2"] : undefined,
+        groupName: fieldType === "radio" ? `group-${tempId.slice(0, 8)}` : undefined,
       };
 
       addFieldToStore(newField);

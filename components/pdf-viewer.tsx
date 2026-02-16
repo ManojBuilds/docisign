@@ -443,6 +443,9 @@ export default function PDFViewer({
                 );
               })}
             </Document>
+
+            {/* Bottom spacer for overscroll/comfort */}
+            <div className="h-[60vh] w-full pointer-events-none" aria-hidden="true" />
           </div>
         </div>
       </ScrollArea>

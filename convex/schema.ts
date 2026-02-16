@@ -105,6 +105,10 @@ export default defineSchema({
       v.literal("initial"),
       v.literal("date"),
       v.literal("text"),
+      v.literal("email"),
+      v.literal("checkbox"),
+      v.literal("dropdown"),
+      v.literal("radio")
     ),
     page: v.number(),
     x: v.number(),
@@ -117,6 +121,11 @@ export default defineSchema({
     signerName: v.optional(v.string()), // Optional for templates
     rolePlaceholder: v.optional(v.string()), // e.g., "Client"
     signerOrder: v.optional(v.number()),
+    // New fields for advanced field types
+    options: v.optional(v.array(v.string())), // For dropdown and radio
+    validation: v.optional(v.any()), // For email validation rules
+    groupName: v.optional(v.string()), // For radio groups
+    checked: v.optional(v.boolean()), // For checkbox
     status: v.union(
       v.literal("pending"),
       v.literal("sent"),

@@ -3,56 +3,37 @@
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  ResponsiveDialog,
-  ResponsiveDialogContent,
-  ResponsiveDialogDescription,
-  ResponsiveDialogHeader,
-  ResponsiveDialogTitle,
-} from "@/components/responsive-dialog";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMobile } from "@/hooks/useMobile";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import {
-  ALargeSmall,
   CalendarDays,
   Check,
-  Loader2,
-  PenTool,
-  TextCursor,
-  Upload,
+  Loader2, Upload,
+  X
 } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import SignatureCanvas from "react-signature-canvas";
 import { usePdfDimensions } from "./PdfDimensionsContext";
-import { SignatureIcon } from "./SignatureIcon";
+import { SignatureFieldData as BaseSignatureFieldData } from "./signature-field";
+import { FIELDS } from "@/components/fields/field-types";
 import { Label } from "./ui/label";
+import { SignatureIcon } from "./SignatureIcon";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerFooter,
+} from "@/components/ui/drawer";
 
-export interface SignatureFieldData {
-  id: string;
-  fieldType: "signature" | "initial" | "date" | "text";
-  normalizedX: number;
-  normalizedY: number;
-  normalizedWidth: number;
-  normalizedHeight: number;
-  page: number;
-  signerEmail: string;
-  isRequired: boolean;
-  label?: string;
-  isCompleted: boolean;
+export interface SignatureFieldData extends BaseSignatureFieldData {
   signatureData?: string;
 }
 
@@ -63,7 +44,7 @@ interface SigningFieldProps {
   isFocused?: boolean;
 }
 
-interface SigningDialogProps {
+interface SigningPanelProps {
   field: SignatureFieldData;
   isOpen: boolean;
   onOpenChange: (open: boolean) => void;
@@ -71,6 +52,8 @@ interface SigningDialogProps {
   setActiveTab: (tab: string) => void;
   typedSignature: string;
   setTypedSignature: (value: string) => void;
+  selectedFont: string;
+  setSelectedFont: (font: string) => void;
   signatureData: string;
   setSignatureData: (value: string) => void;
   canvasRef: React.RefObject<SignatureCanvas | null>;
@@ -83,19 +66,25 @@ interface SigningDialogProps {
   isSignatureProvided: boolean;
   agreementChecked: boolean;
   setAgreementChecked: (checked: boolean) => void;
-  showSuccess: boolean;
-  setShowSuccess: (show: boolean) => void;
   hasSigned: boolean;
   setHasSigned: (val: boolean) => void;
 }
 
 const SIGNER_COLORS = [
-  "border-blue-500 bg-blue-50 text-blue-600",
   "border-indigo-500 bg-indigo-50 text-indigo-600",
-  "border-red-500 bg-red-50 text-red-600",
   "border-emerald-500 bg-emerald-50 text-emerald-600",
   "border-amber-500 bg-amber-50 text-amber-600",
   "border-rose-500 bg-rose-50 text-rose-600",
+  "border-blue-500 bg-blue-50 text-blue-600",
+  "border-violet-500 bg-violet-50 text-violet-600",
+];
+
+const SIGNATURE_FONTS = [
+  { id: "style-script", name: "Style Script", font: '"Style Script", cursive' },
+  { id: "dancing-script", name: "Dancing Script", font: '"Dancing Script", cursive' },
+  { id: "great-vibes", name: "Great Vibes", font: '"Great Vibes", cursive' },
+  { id: "alex-brush", name: "Alex Brush", font: '"Alex Brush", cursive' },
+  { id: "satisfy", name: "Satisfy", font: '"Satisfy", cursive' },
 ];
 
 const getSignerColor = (email: string) => {
@@ -109,21 +98,15 @@ const getSignerColor = (email: string) => {
 };
 
 const getFieldIcon = (fieldType: string) => {
-  switch (fieldType) {
-    case "signature":
-      return <SignatureIcon className="w-6 h-6" />;
-    case "initial":
-      return <TextCursor size={16} strokeWidth={1.5} />;
-    case "date":
-      return <CalendarDays size={16} strokeWidth={1.5} />;
-    case "text":
-      return <ALargeSmall size={16} strokeWidth={1.5} />;
-    default:
-      return <SignatureIcon className="w-6 h-6" />;
+  const field = FIELDS.find(f => f.id === fieldType);
+  if (field) {
+    const Icon = field.icon;
+    return <Icon className="w-6 h-6" />;
   }
+  return <SignatureIcon className="w-6 h-6" />;
 };
 
-function SigningDialog({
+function SigningPanel({
   field,
   isOpen,
   onOpenChange,
@@ -138,379 +121,316 @@ function SigningDialog({
   getInputProps,
   handleSignatureComplete,
   clearCanvas,
-  isMobile,
   isCompleting,
   isSignatureProvided,
   agreementChecked,
   setAgreementChecked,
-  showSuccess,
-  setShowSuccess,
   hasSigned,
   setHasSigned,
-}: SigningDialogProps) {
-  // Auto-close the dialog after showing success message
-  useEffect(() => {
-    let timer: NodeJS.Timeout;
-    if (showSuccess) {
-      timer = setTimeout(() => {
-        onOpenChange(false);
-        setShowSuccess(false);
-      }, 800); // Close faster (previously 1500ms)
-    }
-    return () => clearTimeout(timer);
-  }, [showSuccess, onOpenChange, setShowSuccess]);
+  selectedFont,
+  setSelectedFont,
+}: SigningPanelProps) {
+  const isSignatureField = field.fieldType === "signature" || field.fieldType === "initial";
+
+  const renderFooter = () => (
+    <div className="flex flex-col gap-4 w-full">
+      <div className="flex items-center justify-end gap-3 w-full">
+        <Button
+          variant="ghost"
+          onClick={() => onOpenChange(false)}
+          className="px-6 h-11 text-sm font-semibold text-gray-500 hover:text-gray-900 transition-colors"
+        >
+          Cancel
+        </Button>
+        <Button
+          onClick={() => handleSignatureComplete(activeTab)}
+          disabled={isCompleting || !isSignatureProvided || (isSignatureField && !agreementChecked)}
+          className={cn(
+            "px-10 h-11 font-bold text-sm transition-all duration-200 disabled:opacity-40 rounded-full shadow-lg shadow-blue-500/20",
+            "bg-[#1473E6] text-white hover:bg-[#0d66d0] hover:shadow-xl hover:shadow-blue-500/30 active:scale-95"
+          )}
+        >
+          {isCompleting ? (
+            <div className="flex items-center gap-2">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span>Processing...</span>
+            </div>
+          ) : (
+            field.fieldType === "signature" || field.fieldType === "initial" ? "Apply" : "Continue"
+          )}
+        </Button>
+      </div>
+      {isSignatureField && (
+        <p className="text-[11px] text-gray-400 leading-relaxed text-right font-medium">
+          By clicking Apply, I agree that this signature will be my electronic representation for all purposes.
+        </p>
+      )}
+    </div>
+  );
 
   const renderContent = () => {
-    if (showSuccess) {
-      // Success state content
-      return (
-        <div className={`text-center py-10 animate-in fade-in zoom-in duration-300 ${isMobile ? "px-4 pb-4" : ""}`}>
-          <div className="w-20 h-20 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-green-100">
-            <Check className="w-10 h-10 text-green-600" />
-          </div>
-          <h3 className="text-2xl font-semibold mb-2 text-gray-900">Successfully Signed!</h3>
-          <p className="text-gray-500 mb-8 max-w-[280px] mx-auto text-sm">
-            Your {field.fieldType} has been added to the document securely.
-          </p>
-          <div className="flex flex-col items-center gap-2">
-            <Loader2 className="w-4 h-4 text-primary animate-spin" />
-            <span className="text-[10px] font-semibold uppercase tracking-widest text-gray-400">
-              Returning to document
-            </span>
-          </div>
-        </div>
-      );
-    }
-
-    if (field.fieldType === "signature" || field.fieldType === "initial") {
-      return (
-        <div className={isMobile ? "px-4 pb-4" : ""}>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-3">
-            <TabsList className="grid w-full grid-cols-3 p-1 bg-gray-100/30 backdrop-blur-md h-10 rounded-lg mb-4">
-              <TabsTrigger
-                value="draw"
-                className="rounded-md data-[state=active]:bg-white data-[state=active]:text-primary transition-all duration-300 font-semibold text-[10px] uppercase tracking-wider"
-              >
-                Draw
-              </TabsTrigger>
-              <TabsTrigger
-                value="type"
-                className="rounded-md data-[state=active]:bg-white data-[state=active]:text-primary transition-all duration-300 font-semibold text-[10px] uppercase tracking-wider"
-              >
-                Type
-              </TabsTrigger>
-              <TabsTrigger
-                value="upload"
-                className="rounded-md data-[state=active]:bg-white data-[state=active]:text-primary transition-all duration-300 font-semibold text-[10px] uppercase tracking-wider"
-              >
-                Upload
-              </TabsTrigger>
-            </TabsList>
-            <TabsContent value="draw" className="mt-0 animate-in fade-in slide-in-from-bottom-2 duration-300">
-              <div className="group relative">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-gray-200 to-gray-100 rounded-xl blur-[2px] opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-                <div className="relative border border-gray-100 rounded-xl bg-white w-full h-[200px] cursor-crosshair overflow-hidden">
-                  <SignatureCanvas
-                    ref={canvasRef}
-                    penColor="#0f172a"
-                    backgroundColor="transparent"
-                    onEnd={() => setHasSigned(true)}
-                    canvasProps={{
-                      className: "w-full h-full",
-                    }}
+    switch (field.fieldType) {
+      case "signature":
+      case "initial":
+        return (
+          <div className="space-y-6">
+            <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+              <TabsList className="flex w-full justify-startmb-6">
+                <TabsTrigger value="draw">Draw</TabsTrigger>
+                <TabsTrigger value="type" >Type</TabsTrigger>
+                <TabsTrigger value="upload">Image</TabsTrigger>
+              </TabsList>
+              <div className="w-full">
+                <TabsContent value="draw" className="mt-0">
+                  <div className="relative border border-gray-200 bg-gray-50/30 w-full h-[240px] overflow-hidden rounded-xl">
+                    <SignatureCanvas
+                      ref={canvasRef}
+                      penColor="#000000"
+                      velocityFilterWeight={0.7}
+                      minWidth={1.5}
+                      maxWidth={4}
+                      backgroundColor="transparent"
+                      onEnd={() => {
+                        setHasSigned(true);
+                        if (canvasRef.current) setSignatureData(canvasRef.current.toDataURL());
+                      }}
+                      canvasProps={{ className: "w-full h-full cursor-crosshair" }}
+                    />
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={clearCanvas}
+                      className="absolute top-4 right-4 text-gray-400 hover:text-black text-[10px] font-bold uppercase tracking-widest h-8"
+                    >
+                      Clear
+                    </Button>
+                  </div>
+                </TabsContent>
+                <TabsContent value="type" className="mt-0 space-y-4">
+                  <Input
+                    placeholder="Type your name here"
+                    value={typedSignature}
+                    onChange={(e) => setTypedSignature(e.target.value)}
+                    className="h-20 text-4xl text-lg sm:text-2xl text-center transition-colors placeholder:text-gray-200"
+                    style={{ fontFamily: SIGNATURE_FONTS.find(f => f.id === selectedFont)?.font }}
                   />
-                  <div className="absolute top-4 left-4 flex items-center gap-2 opacity-20 pointer-events-none">
-                    <PenTool className="w-3.5 h-3.5" />
-                    <span className="text-[10px] font-semibold uppercase tracking-[0.2em]">Signature area</span>
+                  <div className="flex flex-wrap items-center justify-center gap-2 py-6">
+                    {SIGNATURE_FONTS.map((font) => (
+                      <button
+                        key={font.id}
+                        onClick={() => setSelectedFont(font.id)}
+                        className={cn(
+                          "px-6 py-4 border transition-all text-center rounded-lg min-w-[120px]",
+                          selectedFont === font.id ? "border-[#1473E6] bg-[#1473E6]/5 ring-4 ring-[#1473E6]/5" : "border-gray-100 hover:border-gray-200 bg-white"
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            "text-2xl block leading-none",
+                            selectedFont === font.id ? "text-[#1473E6]" : "text-gray-600"
+                          )}
+                          style={{ fontFamily: font.font }}
+                        >
+                          {typedSignature || "Signature"}
+                        </span>
+                      </button>
+                    ))}
                   </div>
-                </div>
-              </div>
-              <div className="flex justify-between items-center mt-4 px-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={clearCanvas}
-                  className="text-gray-400 hover:text-red-500 hover:bg-red-50 text-[10px] font-semibold uppercase tracking-widest h-8 cursor-pointer"
-                >
-                  Clear Canvas
-                </Button>
-                <div className="flex items-center gap-2">
-                  <div className={cn(
-                    "w-2 h-2 rounded-full transition-all duration-300",
-                    hasSigned ? "bg-green-500" : "bg-gray-200"
-                  )} />
-                  <span className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">
-                    {hasSigned
-                      ? "Captured"
-                      : "Awaiting signature"}
-                  </span>
-                </div>
-              </div>
-            </TabsContent>
-            <TabsContent value="type" className="mt-0 animate-in fade-in slide-in-from-bottom-2 duration-300 text-center">
-              <Input
-                placeholder="Type your name..."
-                value={typedSignature}
-                onChange={(e) => setTypedSignature(e.target.value)}
-                className="h-12 text-base border focus-visible:ring-primary/10 bg-gray-50/50 rounded-lg text-center"
-              />
-              <div className="mt-6 p-10 border border-gray-100 rounded-xl bg-white flex items-center justify-center min-h-[120px] relative group overflow-hidden">
-                <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-gray-50 to-transparent opacity-30" />
-                {typedSignature ? (
-                  <p
-                    className="text-4xl font-serif text-gray-900 leading-tight select-none pointer-events-none"
-                    style={{ fontFamily: '"Style Script", cursive' }}
+                </TabsContent>
+                <TabsContent value="upload" className="mt-0">
+                  <div
+                    {...getRootProps()}
+                    className="border-2 border-dashed border-gray-200 bg-gray-50/30 rounded-2xl p-16 text-center cursor-pointer hover:border-[#1473E6]/40 hover:bg-[#1473E6]/5 transition-all"
                   >
-                    {typedSignature}
-                  </p>
-                ) : (
-                  <div className="flex flex-col items-center gap-1 text-gray-300">
-                    <span className="text-xs italic">Signature preview</span>
-                  </div>
-                )}
-              </div>
-            </TabsContent>
-            <TabsContent value="upload" className="mt-0 animate-in fade-in slide-in-from-bottom-2 duration-300">
-              <div
-                {...getRootProps()}
-                className="border-2 border-dashed border-gray-100 rounded-xl p-6 text-center cursor-pointer hover:border-primary/30 hover:bg-primary/[0.01] transition-all duration-500 group bg-gray-50/10"
-              >
-                <input {...getInputProps()} />
-                {signatureData ? (
-                  <div className="space-y-4">
-                    <div className="relative inline-block">
-                      <Image
-                        src={signatureData}
-                        alt="Signature preview"
-                        width={200}
-                        height={96}
-                        className="max-h-24 mx-auto object-contain p-2 bg-white rounded-lg border border-gray-50"
-                      />
-                    </div>
-                    <div>
-                      <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white rounded-full border text-[9px] font-semibold uppercase tracking-wider text-gray-400 group-hover:text-primary transition-colors">
-                        <Upload className="w-2.5 h-2.5" />
-                        Replace
+                    <input {...getInputProps()} />
+                    {signatureData && activeTab === 'upload' ? (
+                      <div className="relative inline-block border-2 border-white bg-white p-6 shadow-xl rounded-lg">
+                        <Image src={signatureData} alt="Preview" width={300} height={100} className="max-h-24 object-contain mx-auto" />
+                        <Button
+                          variant="secondary"
+                          size="sm"
+                          className="absolute -top-3 -right-3 h-6 w-6 rounded-full p-0 shadow-md"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSignatureData("");
+                          }}
+                        >
+                          <X className="h-3 w-3" />
+                        </Button>
                       </div>
-                    </div>
+                    ) : (
+                      <div className="space-y-4">
+                        <div className="w-16 h-16 bg-white rounded-2xl shadow-sm border border-gray-100 flex items-center justify-center mx-auto">
+                          <Upload className="w-8 h-8 text-[#1473E6]" />
+                        </div>
+                        <div>
+                          <p className="text-base font-bold text-gray-900">Drag signature image here</p>
+                          <p className="text-sm text-gray-500 mt-1">or click to browse from files</p>
+                        </div>
+                        <p className="text-[11px] text-gray-400 tracking-wide uppercase font-bold pt-4">PNG, JPG, SVG up to 5MB</p>
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  <div className="space-y-3 py-1">
-                    <div className="w-10 h-10 bg-white rounded-2xl border flex items-center justify-center mx-auto group-hover:scale-105 transition-transform duration-500">
-                      <Upload className="w-4 h-4 text-gray-300 group-hover:text-primary transition-colors" />
-                    </div>
-                    <div className="space-y-0.5">
-                      <p className="text-xs font-semibold text-gray-900">Upload signature</p>
-                      <p className="text-[10px] text-gray-400">Drag & drop or click</p>
-                    </div>
-                  </div>
-                )}
+                </TabsContent>
               </div>
-            </TabsContent>
-          </Tabs>
-          <div className="mt-2 border-t border-gray-50">
-            <div className="bg-gray-50/50 rounded-2xl border border-gray-100/50 p-4 transition-all duration-300 hover:bg-gray-50/80 group">
-              <div className="flex items-start gap-3.5">
-                <div className="pt-0.5">
-                  <Checkbox
-                    id="agreement-checkbox"
-                    checked={agreementChecked}
-                    onCheckedChange={(checked) => setAgreementChecked(checked as boolean)}
-                    className="w-4 h-4 rounded border-gray-300 data-[state=checked]:bg-gray-900 data-[state=checked]:border-gray-900 transition-all duration-300"
-                  />
-                </div>
-                <div className="space-y-1 flex-1">
-                  <Label
-                    htmlFor="agreement-checkbox"
-                    className="block text-[11px] font-semibold uppercase tracking-wider text-gray-900 cursor-pointer"
-                  >
-                    Legal Binding Agreement
-                  </Label>
-                  <Label
-                    htmlFor="agreement-checkbox"
-                    className="block text-[10px] text-gray-500 leading-relaxed cursor-pointer select-none font-medium group-hover:text-gray-600 transition-colors"
-                  >
-                    I understand that this is a legally binding electronic signature. By checking this box, I agree to be bound by the terms of this document.
-                  </Label>
-                </div>
-              </div>
+            </Tabs>
+            <div className="flex items-center gap-3 py-3 px-1 rounded-lg transition-colors hover:bg-gray-50">
+              <Checkbox
+                id="agreement"
+                checked={agreementChecked}
+                onCheckedChange={(c) => setAgreementChecked(c as boolean)}
+                className="w-5 h-5 rounded-md border-gray-300 data-[state=checked]:bg-[#1473E6] data-[state=checked]:border-[#1473E6] transition-all"
+              />
+              <Label htmlFor="agreement" className="text-[13px] font-semibold text-gray-700 cursor-pointer select-none">
+                Save as my signature
+              </Label>
             </div>
           </div>
-          <div className="flex flex-col-reverse sm:flex-row justify-between items-center gap-3 mt-6">
-            <Button
-              variant="ghost"
-              onClick={() => onOpenChange(false)}
-              className="px-8 font-semibold uppercase tracking-[0.15em] text-[9px] h-11 text-gray-400 hover:text-gray-900 hover:bg-transparent cursor-pointer"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={() => handleSignatureComplete(activeTab)}
-              disabled={isCompleting || !isSignatureProvided || !agreementChecked}
-              className="w-full sm:w-auto px-10 h-11 font-semibold uppercase tracking-[0.15em] text-[9px] transition-all duration-300 disabled:opacity-40 cursor-pointer"
-            >
-              {isCompleting ? (
-                <div className="flex items-center gap-1.5">
-                  <Loader2 className="h-2.5 w-2.5 animate-spin" />
-                  <span>Processing</span>
-                </div>
-              ) : (
-                "Sign & Complete"
-              )}
-            </Button>
-          </div>
-        </div>
-      );
-    }
+        );
 
-    if (field.fieldType === "text") {
-      return (
-        <div className={`space-y-6 ${isMobile ? "px-4 pb-4" : ""}`}>
-          <div className="space-y-3">
-            <Label htmlFor="text-field" className="text-xs font-semibold uppercase tracking-wider text-gray-400">
-              {field.label || "Enter text content"}
-              {field.isRequired && <span className="text-red-500 ml-1">*</span>}
-            </Label>
-            <Input
-              id="text-field"
-              autoFocus
-              value={signatureData}
-              onChange={(e) => setSignatureData(e.target.value)}
-              placeholder="Start typing..."
-              className="w-full h-14 text-lg border-2 focus-visible:ring-primary/20 bg-gray-50/50 rounded-xl"
-            />
-          </div>
-          <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-8">
-            <Button
-              variant="ghost"
-              onClick={() => onOpenChange(false)}
-              className="px-8 font-semibold uppercase tracking-widest text-[10px] h-11 cursor-pointer"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={() => handleSignatureComplete("text")}
-              disabled={isCompleting || !isSignatureProvided}
-              className="px-8 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-semibold uppercase tracking-widest text-[10px] cursor-pointer"
-            >
-              {isCompleting ? (
-                <>
-                  <Loader2 className="mr-2 h-3 w-3 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                "Complete Field"
-              )}
-            </Button>
-          </div>
-        </div>
-      );
-    }
-
-    if (field.fieldType === "date") {
-      return (
-        <div className={`space-y-6 ${isMobile ? "px-4 pb-4" : ""}`}>
-          <div className="space-y-3">
-            <Label htmlFor="date-field" className="text-xs font-semibold uppercase tracking-wider text-gray-400">
-              {field.label || "Select a date"}
-              {field.isRequired && <span className="text-red-500 ml-1">*</span>}
-            </Label>
+      case "text":
+      case "email":
+        return (
+          <div className="w-full space-y-6">
             <div className="space-y-4">
+              <Label className="text-sm tracking-tight">{field.label || "Enter information"}</Label>
+              <Input
+                id="field-input"
+                autoFocus
+                type={field.fieldType === "email" ? "email" : "text"}
+                value={signatureData}
+                onChange={(e) => setSignatureData(e.target.value)}
+                placeholder={field.label || (field.fieldType === "email" ? "Enter email address" : "Enter text...")}
+              />
+            </div>
+          </div>
+        );
+
+      case "date":
+        return (
+          <div className="w-full space-y-6">
+            <div className="space-y-4">
+              <Label className="text-sm tracking-tight">{field.label || "Select date"}</Label>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="secondary"
-                    className={cn(
-                      "w-full h-14 justify-start text-left font-normal border-2 bg-gray-50/50 hover:bg-white transition-all rounded-xl px-4 cursor-pointer",
-                      !signatureData && "text-muted-foreground"
-                    )}
+                    className="w-full"
                   >
-                    <CalendarDays className="mr-3 h-5 w-5 text-primary/60" />
-                    {signatureData ? (
-                      <span className="text-gray-900 font-medium">
-                        {format(new Date(signatureData), "PPP")}
-                      </span>
-                    ) : (
-                      <span className="text-gray-400">Pick a date</span>
-                    )}
+                    <CalendarDays className="mr-3 h-6 w-6 text-[#1473E6]" />
+                    {signatureData ? format(new Date(signatureData), "PPP") : <span className="text-gray-200">Select date</span>}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-auto p-0 rounded-2xl border shadow-2xl overflow-hidden" align="start">
-                  <div className="bg-white p-1">
-                    <Calendar
-                      mode="single"
-                      selected={signatureData ? new Date(signatureData) : undefined}
-                      onSelect={(date) => {
-                        if (date) {
-                          const formattedDate = `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}/${date.getFullYear()}`;
-                          setSignatureData(formattedDate);
-                        }
-                      }}
-                      initialFocus
-                      captionLayout="dropdown"
-                      fromYear={1900}
-                      toYear={new Date().getFullYear() + 10}
-                      className="p-3"
-                    />
-                  </div>
+                <PopoverContent className="w-auto p-0 rounded-2xl" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={signatureData ? new Date(signatureData) : undefined}
+                    onSelect={(d) => d && setSignatureData(`${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}/${d.getFullYear()}`)}
+                    initialFocus
+                    className="p-4 bg-white"
+                  />
                 </PopoverContent>
               </Popover>
             </div>
           </div>
-          <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 mt-8">
-            <Button
-              variant="ghost"
-              onClick={() => onOpenChange(false)}
-              className="px-8 font-semibold uppercase tracking-widest text-[10px] h-11 cursor-pointer"
-            >
-              Cancel
-            </Button>
-            <Button
-              onClick={() => handleSignatureComplete("date")}
-              disabled={isCompleting || !signatureData}
-              className="px-8 bg-gray-900 hover:bg-black text-white rounded-xl h-11 font-semibold uppercase tracking-widest text-[10px] cursor-pointer"
-            >
-              {isCompleting ? (
-                <>
-                  <Loader2 className="mr-2 h-3 w-3 animate-spin" />
-                  Processing...
-                </>
-              ) : (
-                "Complete Field"
-              )}
-            </Button>
-          </div>
-        </div>
-      );
-    }
+        );
 
-    return null;
+      case "radio":
+      case "dropdown":
+        return (
+          <div className="w-full space-y-6">
+            <div className="space-y-4">
+              <Label className="text-sm tracking-tight">{field.label || "Select option"}</Label>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {(field.options || []).map((option, i) => (
+                  <Button
+                    key={i}
+                    variant={signatureData === option ? "default" : "outline"}
+                    onClick={() => setSignatureData(option)}
+                  >
+                    {option}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+
+      case "checkbox":
+        return (
+          <div className="w-full space-y-6">
+            <div className="space-y-6">
+              <Label className="text-sm font-bold text-gray-900 tracking-tight">{field.label || "Confirmation"}</Label>
+              <div
+                onClick={() => setSignatureData(signatureData === "checked" ? "" : "checked")}
+                className={cn(
+                  "w-full h-20 rounded-2xl border-2 flex items-center px-6 cursor-pointer transition-all",
+                  signatureData === "checked"
+                    ? "bg-[#1473E6]/5 border-[#1473E6] shadow-xl shadow-blue-500/5"
+                    : "border-gray-100 hover:bg-gray-50"
+                )}
+              >
+                <div className={cn(
+                  "w-8 h-8 rounded-lg border-2 flex items-center justify-center transition-all mr-5",
+                  signatureData === "checked" ? "bg-[#1473E6] border-[#1473E6]" : "border-gray-200 bg-white"
+                )}>
+                  {signatureData === "checked" && <Check className="w-5 h-5 text-white stroke-[4]" />}
+                </div>
+                <span className={cn(
+                  "text-lg font-bold",
+                  signatureData === "checked" ? "text-[#1473E6]" : "text-gray-600"
+                )}>
+                  {field.label || "Click here to confirm"}
+                </span>
+              </div>
+            </div>
+          </div>
+        );
+
+      default:
+        return null;
+    }
   };
 
+  // Handle keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (isOpen && e.key === "Enter" && !e.shiftKey) {
+        const canSubmit = !isCompleting && isSignatureProvided && (isSignatureField ? agreementChecked : true);
+        if (canSubmit) {
+          e.preventDefault();
+          handleSignatureComplete(activeTab);
+        }
+      }
+      if (isOpen && e.key === "Escape") {
+        onOpenChange(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, isCompleting, agreementChecked, activeTab, isSignatureProvided, isSignatureField, handleSignatureComplete, onOpenChange]);
+
   return (
-    <ResponsiveDialog open={isOpen} onOpenChange={onOpenChange}>
-      <ResponsiveDialogContent className={cn(
-        "bg-white border focus-visible:outline-none overflow-hidden p-0",
-        (field.fieldType === "signature" || field.fieldType === "initial") ? "sm:max-w-xl" : "sm:max-w-lg"
-      )}>
-        <ResponsiveDialogHeader className="p-6 pb-2 text-center">
-          <div className="mx-auto w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center border border-gray-100">
-            {getFieldIcon(field.fieldType)}
-          </div>
-          <ResponsiveDialogTitle className="text-2xl font-semibold tracking-tight text-gray-900">
-            {field.fieldType === "text" ? (field.label || "Fill details") : `Create your ${field.fieldType}`}
-          </ResponsiveDialogTitle>
-          <ResponsiveDialogDescription className="text-gray-400 font-medium text-[13px]">
-            {field.fieldType === "text"
-              ? "Please provide the requested information below"
-              : `Use your preferred method to create a secure digital ${field.fieldType}`}
-          </ResponsiveDialogDescription>
-        </ResponsiveDialogHeader>
-        <div className="md:px-8 pb-8">
+    <Drawer open={isOpen} onOpenChange={onOpenChange}>
+      <DrawerContent className="mx-auto max-w-2xl bg-white border-t rounded-t-[32px] shadow-2xl overflow-hidden focus:outline-none">
+        <DrawerHeader className="px-8 sm:px-12 pt-8 pb-2">
+          <DrawerTitle className="text-2xl font-black tracking-tight text-gray-900 sm:text-3xl">
+            {field.label || (isSignatureField ? "Create Signature" : "Required Information")}
+          </DrawerTitle>
+          <DrawerDescription className="text-sm text-gray-500 mt-2 font-medium">
+            Please complete the required field below to proceed.
+          </DrawerDescription>
+        </DrawerHeader>
+
+        <div className="px-8 sm:px-12 py-8 overflow-y-auto max-h-[70vh]">
           {renderContent()}
         </div>
-      </ResponsiveDialogContent>
-    </ResponsiveDialog>
+
+        <DrawerFooter className="px-8 sm:px-12 pb-12 pt-6 border-t bg-gray-50/50">
+          {renderFooter()}
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 }
 
@@ -522,6 +442,7 @@ export default function SigningField({
   const [isOpen, setIsOpen] = useState(false);
   const [signatureData, setSignatureData] = useState(field.signatureData || "");
   const [typedSignature, setTypedSignature] = useState("");
+  const [selectedFont, setSelectedFont] = useState(SIGNATURE_FONTS[0].id);
   const [activeTab, setActiveTab] = useState("draw");
   const canvasRef = useRef<SignatureCanvas>(null);
   const { pageDimensions, scale } = usePdfDimensions();
@@ -529,7 +450,6 @@ export default function SigningField({
   const isMobile = useMobile();
   const [isCompleting, setIsCompleting] = useState(false);
   const [agreementChecked, setAgreementChecked] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
   const [hasSigned, setHasSigned] = useState(false);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -561,9 +481,14 @@ export default function SigningField({
 
   const handleFieldClick = useCallback(() => {
     if (field.isCompleted) return;
+
+    // Checkbox special handling: toggle nicely without full dialog if desired,
+    // BUT since we need to confirm and save to backend, a dialog or just immediate save is best.
+    // For consistency with other fields, we'll open the dialog, but user experience could be better with immediate toggle.
+    // Let's stick to consistent dialog for now as per instructions, or maybe improve later.
+
     if (field.fieldType === "date") {
       setIsOpen(true);
-      // Initialize with current date if no date is selected yet
       if (!signatureData) {
         const now = new Date();
         const formattedDate = `${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}/${now.getFullYear()}`;
@@ -571,44 +496,58 @@ export default function SigningField({
       }
       return;
     }
+
     setIsOpen(true);
-    setAgreementChecked(false); // Reset agreement checkbox when dialog opens
-    setHasSigned(false); // Reset signed state when dialog opens
+    setAgreementChecked(false);
+    setHasSigned(false);
   }, [field.isCompleted, field.fieldType, signatureData, setSignatureData]);
 
   useEffect(() => {
-    if (isFocused && !field.isCompleted && !isOpen) {
-      handleFieldClick();
+    if (isFocused && !field.isCompleted) {
+      // Ensure the field is visible when focused
+      const timer = setTimeout(() => {
+        const element = document.getElementById(`field-${field.id}`);
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 100);
+
+      if (!isOpen) {
+        handleFieldClick();
+      }
+      return () => clearTimeout(timer);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFocused, field.isCompleted, handleFieldClick]);
+  }, [isFocused, field.isCompleted, field.id, handleFieldClick]);
 
-  const createTextDataUrl = (text: string) => {
+  const createTextDataUrl = (text: string, fontId: string) => {
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
     if (!ctx) return "";
 
+    const selectedFontConfig = SIGNATURE_FONTS.find(f => f.id === fontId) || SIGNATURE_FONTS[0];
+
     // Increase canvas resolution for sharper text in PDF
     canvas.width = 1200;
-    canvas.height = 320;
+    canvas.height = 300;
 
     // Clear background
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Adobe Sign typically uses a script font for typed signatures
-    ctx.font = 'italic 140px "Style Script", cursive';
+    // Set font based on selection
+    ctx.font = `italic 140px ${selectedFontConfig.font}`;
     ctx.fillStyle = "#000000";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
 
-    // Subtle shadow for depth
-    ctx.shadowColor = "rgba(0,0,0,0.1)";
-    ctx.shadowBlur = 2;
-    ctx.shadowOffsetX = 1;
-    ctx.shadowOffsetY = 1;
+    // subtle depth
+    ctx.shadowColor = "rgba(0,0,0,0.05)";
+    ctx.shadowBlur = 4;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 2;
 
-    // Position text lower (65% of height) to align with bottom of signature field
-    ctx.fillText(text, canvas.width / 2, canvas.height * 0.65);
+    // Draw text
+    ctx.fillText(text, canvas.width / 2, canvas.height / 2);
     return canvas.toDataURL("image/png", 1.0);
   };
 
@@ -623,23 +562,27 @@ export default function SigningField({
         }
       } else if (activeTab === "type") {
         if (typedSignature.trim()) {
-          finalSignatureData = createTextDataUrl(typedSignature);
+          finalSignatureData = createTextDataUrl(typedSignature, selectedFont);
         }
       } else if (activeTab === "upload") {
         finalSignatureData = signatureData;
       }
-    } else if (field.fieldType === "text") {
+    } else if (field.fieldType === "text" || field.fieldType === "email" || field.fieldType === "radio" || field.fieldType === "dropdown" || field.fieldType === "checkbox") {
       finalSignatureData = signatureData.trim();
     } else if (field.fieldType === "date") {
       finalSignatureData = signatureData; // Date is already formatted as MM/DD/YYYY
     }
 
-    if (finalSignatureData) {
+    const canComplete = finalSignatureData !== "" ||
+      field.fieldType === "checkbox" ||
+      (field.fieldType === "text" && !field.isRequired) ||
+      (field.fieldType === "date" && !field.isRequired);
+
+    if (canComplete) {
       setIsCompleting(true);
       try {
         await onComplete(field.id, finalSignatureData);
-        // Don't close the dialog yet, show success state first
-        setShowSuccess(true);
+        setIsOpen(false);
       } finally {
         setIsCompleting(false);
       }
@@ -648,20 +591,50 @@ export default function SigningField({
 
   const isSignatureProvided = () => {
     if (field.fieldType === "text") {
-      return signatureData.trim() !== "";
+      const value = signatureData.trim();
+      if (value === "") return !field.isRequired;
+
+      // Check validation rules
+      if (field.validation) {
+        if (field.validation.type === "number") {
+          return !isNaN(Number(value));
+        }
+        if (field.validation.type === "regex" && field.validation.pattern) {
+          try {
+            const regex = new RegExp(field.validation.pattern);
+            return regex.test(value);
+          } catch (e) {
+            return true; // Invalid regex, fallback to true if not empty
+          }
+        }
+      }
+      return true;
     }
     if (field.fieldType === "date") {
-      return signatureData !== ""; // Date field is considered provided if there's a date selected
-    }
-    if (activeTab === "draw") {
-      return hasSigned;
-    }
-    if (activeTab === "type") {
-      return typedSignature.trim() !== "";
-    }
-    if (activeTab === "upload") {
       return signatureData !== "";
     }
+    if (field.fieldType === "signature" || field.fieldType === "initial") {
+      if (activeTab === "draw") {
+        return hasSigned;
+      }
+      if (activeTab === "type") {
+        return typedSignature.trim() !== "";
+      }
+      if (activeTab === "upload") {
+        return signatureData !== "";
+      }
+    }
+    if (field.fieldType === "radio" || field.fieldType === "dropdown") {
+      return signatureData !== "";
+    }
+    if (field.fieldType === "email") {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(signatureData);
+    }
+    if (field.fieldType === "checkbox") {
+      if (field.isRequired) return signatureData === "checked";
+      return true;
+    }
+
     return false;
   };
 
@@ -671,24 +644,61 @@ export default function SigningField({
   };
 
   const renderFieldContent = () => {
-    if (field.isCompleted) {
+    // Current data could be from the field (completed) or local state (preview)
+    const displayData = field.isCompleted ? field.signatureData : signatureData;
+    const isEditing = isOpen && !field.isCompleted;
+
+    if (field.isCompleted || (isEditing && (displayData || (activeTab === 'type' && typedSignature)))) {
       if (field.fieldType === "signature" || field.fieldType === "initial") {
+        // Special real-time preview for typed signature
+        if (isEditing && activeTab === 'type' && typedSignature) {
+          const font = SIGNATURE_FONTS.find(f => f.id === selectedFont)?.font || "cursive";
+          return (
+            <div className="w-full h-full flex items-center justify-center p-1">
+              <span
+                className="text-2xl text-gray-900 leading-none select-none pointer-events-none"
+                style={{ fontFamily: font }}
+              >
+                {typedSignature}
+              </span>
+            </div>
+          );
+        }
+
+        // Preview or completed image-based signature
         return (
           <div className="w-full h-full flex items-center justify-center p-1">
             <Image
-              src={field.signatureData || ""}
+              src={displayData || ""}
               alt="Signature"
               width={200}
               height={100}
-              className="max-w-full max-h-full object-contain filter"
+              className={cn(
+                "max-w-full max-h-full object-contain filter",
+                isEditing && "opacity-40 animate-pulse" // More subtle preview
+              )}
             />
           </div>
         );
       }
+
+      if (field.fieldType === "checkbox") {
+        return (
+          <div className="flex items-center justify-center w-full h-full">
+            {displayData === "checked" && (
+              <Check className={cn("w-6 h-6 stroke-[3]", field.isCompleted ? "text-blue-600" : "text-gray-300")} />
+            )}
+          </div>
+        );
+      }
+
       return (
         <div className="flex items-center justify-center w-full h-full px-2">
-          <span className="text-sm font-medium tracking-tight text-gray-900 font-serif">
-            {field.signatureData}
+          <span className={cn(
+            "text-sm font-semibold tracking-tight font-serif text-center",
+            field.isCompleted ? "text-gray-900" : "text-gray-300 italic"
+          )}>
+            {displayData}
           </span>
         </div>
       );
@@ -702,6 +712,7 @@ export default function SigningField({
             <div className={cn("w-1.5 h-1.5 rounded-full", getSignerColor(field.signerEmail).split(' ')[0].replace('border-', 'bg-'))} />
             <span className="text-[10px] font-semibold text-gray-600 truncate max-w-[150px]">
               {field.label}
+              {field.isRequired && <span className="text-red-500 ml-0.5">*</span>}
             </span>
           </div>
         )}
@@ -715,7 +726,7 @@ export default function SigningField({
             )}
           >
             <span className="[writing-mode:vertical-lr] rotate-180 text-[9px] font-black text-white uppercase tracking-widest py-1 select-none">
-              {field.fieldType === "signature" ? "SIGN" : field.fieldType === "initial" ? "INIT" : "FILL"}
+              {field.fieldType === "signature" ? "SIGN" : field.fieldType === "initial" ? "INIT" : field.fieldType === "checkbox" ? "CHK" : "FILL"}
             </span>
             {/* The signature-pointing arrow */}
             <div className={cn(
@@ -769,14 +780,12 @@ export default function SigningField({
         </div>
       </div>
 
-      <SigningDialog
+      <SigningPanel
         field={field}
         isOpen={isOpen}
         onOpenChange={(open) => {
           setIsOpen(open);
-          if (!open) {
-            setAgreementChecked(false); // Reset checkbox when dialog is closed
-          }
+          if (!open) setAgreementChecked(false);
         }}
         activeTab={activeTab}
         setActiveTab={setActiveTab}
@@ -794,10 +803,10 @@ export default function SigningField({
         isSignatureProvided={isSignatureProvided()}
         agreementChecked={agreementChecked}
         setAgreementChecked={setAgreementChecked}
-        showSuccess={showSuccess}
-        setShowSuccess={setShowSuccess}
         hasSigned={hasSigned}
         setHasSigned={setHasSigned}
+        selectedFont={selectedFont}
+        setSelectedFont={setSelectedFont}
       />
     </>
   );

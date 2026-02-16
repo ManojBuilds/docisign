@@ -1,12 +1,12 @@
 "use client";
 
 import { SignatureFieldData } from "@/components/signature-field";
+import { FIELDS } from "@/components/fields/field-types";
 import {
   ResponsiveDialog,
   ResponsiveDialogContent
 } from "@/components/responsive-dialog";
 import { cn } from "@/lib/utils";
-import { ALargeSmall, CalendarDays, PenTool, TextCursor } from "lucide-react";
 import { memo } from "react";
 
 interface MobileAddFieldSheetProps {
@@ -26,32 +26,27 @@ export const MobileAddFieldSheet = memo(
       onOpenChange(false);
     };
 
-    const fieldTypes = [
-      { id: 'signature', label: 'Signature', icon: PenTool, color: 'text-blue-600', bg: 'bg-blue-50' },
-      { id: 'initial', label: 'Initial', icon: TextCursor, color: 'text-emerald-600', bg: 'bg-emerald-50' },
-      { id: 'date', label: 'Date', icon: CalendarDays, color: 'text-amber-600', bg: 'bg-amber-50' },
-      { id: 'text', label: 'Text Field', icon: ALargeSmall, color: 'text-purple-600', bg: 'bg-purple-50' },
-    ];
-
     return (
       <ResponsiveDialog open={open} onOpenChange={onOpenChange}>
-        <ResponsiveDialogContent className="max-h-[40vh] rounded-t-[32px] border-t bg-white pb-6 shadow-2xl">
-          <div className="grid grid-cols-2 gap-4 p-6 pt-8">
-            {fieldTypes.map((type) => (
-              <button
-                key={type.id}
-                onClick={() => handleSelect(type.id as SignatureFieldData["fieldType"])}
-                className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-gray-100 bg-white p-4 transition-all duration-200 hover:border-gray-200 active:scale-95 active:bg-gray-50 shadow-sm"
-              >
-                <div className={cn("flex h-12 w-12 items-center justify-center rounded-xl transition-colors", type.bg, type.color)}>
-                  <type.icon className="h-6 w-6" />
-                </div>
-                <span className="text-sm font-semibold text-gray-700">{type.label}</span>
-              </button>
-            ))}
+        <ResponsiveDialogContent className="max-h-[85vh] rounded-t-[32px] border-t bg-white pb-6 shadow-2xl overflow-hidden flex flex-col">
+          <div className="flex-1 overflow-y-auto">
+            <div className="grid grid-cols-2 gap-4 p-6 pt-8">
+              {FIELDS.map((type) => (
+                <button
+                  key={type.id}
+                  onClick={() => handleSelect(type.id)}
+                  className="group flex flex-col items-center justify-center gap-3 rounded-2xl border border-gray-100 bg-white p-4 transition-all duration-200 hover:border-gray-200 active:scale-95 active:bg-gray-50 shadow-sm"
+                >
+                  <div className={cn("flex h-12 w-12 items-center justify-center rounded-xl transition-colors", type.bgColor, type.color)}>
+                    <type.icon className="h-6 w-6" />
+                  </div>
+                  <span className="text-sm font-semibold text-gray-700">{type.label}</span>
+                </button>
+              ))}
+            </div>
           </div>
 
-          <div className="px-6 pb-[max(1rem,env(safe-area-inset-bottom))]">
+          <div className="px-6 pb-[max(1rem,env(safe-area-inset-bottom))] pt-2 border-t border-gray-100 bg-gray-50/50">
             <p className="text-center text-[10px] uppercase tracking-widest text-gray-400 font-bold">
               Select field to place on document
             </p>

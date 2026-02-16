@@ -9,14 +9,12 @@ import { Suspense } from "react";
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css";
 
-
 const beVietnamPro = DM_Sans({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-be-vietnam-pro",
   display: "swap",
 });
-
 
 
 export const metadata: Metadata = {
@@ -109,6 +107,9 @@ export default function RootLayout({
         <link rel="preconnect" href="https://app.posthog.com" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://2d9wfb370a.ufs.sh" crossOrigin="anonymous" />
         <link rel="preload" href={`/_next/image?url=${encodeURIComponent("https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9Pgupj8r27wbAQC3TH6iZ98sKJ1Uvou4eYBdxWLO")}&w=384&q=50`} as="image" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Style+Script&family=Dancing+Script:wght@400..700&family=Great+Vibes&family=Alex+Brush&family=Satisfy&display=swap" rel="stylesheet" />
         <link rel="canonical" href="https://boopsign.com" />
         <meta name="theme-color" content="#2563eb" />
         <meta name="application-name" content="Boopsign" />

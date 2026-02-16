@@ -37,7 +37,7 @@ export const StatusView = ({
     switch (documentStatus.toLowerCase()) {
       case 'sent':
         return {
-          icon: <Send className="w-4 h-4 md:w-6 md:h-6 text-blue-600" />,
+          icon: <Clock className="w-4 h-4 md:w-6 md:h-6 text-blue-600" />,
           title: 'Waiting for Signature',
           message: 'Document has been successfully sent. Tracking status is now active.',
           color: 'bg-blue-50 ring-1 ring-inset ring-blue-100 text-blue-700'
