@@ -155,34 +155,38 @@ export default function SigningPage({ initialSigningSession }: { initialSigningS
 
   return (
     <>
+      <div className={`relative ${isSubmitting ? 'pointer-events-none' : ''}`}>
+        <MainSigningView
+          signingSession={signingSession}
+          owner={owner}
+          handleSubmitDocument={handleSubmitDocument}
+          isSubmitting={isSubmitting}
+          isReady={isReady}
+          setIsReady={setIsReady}
+          signatureFields={signatureFields}
+          completedRequiredFieldsCount={completedRequiredFieldsCount}
+          requiredFields={requiredFields}
+          setShowDeclineDialog={setShowDeclineDialog}
+          fileUrl={fileUrl}
+          numPages={numPages}
+          setNumPages={setNumPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+          scale={scale}
+          setScale={setScale}
+          incompleteRequiredFields={incompleteRequiredFields}
+          goToNextSignatureField={goToNextSignatureField}
+          currentActiveField={hasStarted ? currentActiveField : undefined}
+          handleFieldComplete={handleFieldComplete}
+          hasStarted={hasStarted}
+          handleStartSigning={handleStartSigning}
+        />
 
-      {isSubmitting && <SubmittingOverlay />}
-
-      <MainSigningView
-        signingSession={signingSession}
-        owner={owner}
-        handleSubmitDocument={handleSubmitDocument}
-        isSubmitting={isSubmitting}
-        isReady={isReady}
-        setIsReady={setIsReady}
-        signatureFields={signatureFields}
-        completedRequiredFieldsCount={completedRequiredFieldsCount}
-        requiredFields={requiredFields}
-        setShowDeclineDialog={setShowDeclineDialog}
-        fileUrl={fileUrl}
-        numPages={numPages}
-        setNumPages={setNumPages}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-        scale={scale}
-        setScale={setScale}
-        incompleteRequiredFields={incompleteRequiredFields}
-        goToNextSignatureField={goToNextSignatureField}
-        currentActiveField={hasStarted ? currentActiveField : undefined}
-        handleFieldComplete={handleFieldComplete}
-        hasStarted={hasStarted}
-        handleStartSigning={handleStartSigning}
-      />
+        {/* Always render the overlay but make it invisible when not submitting */}
+        <div className={`${isSubmitting ? 'block' : 'hidden'}`}>
+          <SubmittingOverlay />
+        </div>
+      </div>
 
       <WelcomeDialog
         open={showWelcome}

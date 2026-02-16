@@ -3,6 +3,19 @@ import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 import { api, internal } from "./_generated/api";
 import { internalAction } from "./_generated/server";
 
+// Helper action to delete a storage file (used for delayed cleanup)
+export const deleteStorageFile = internalAction({
+  args: { storageId: v.id("_storage") },
+  handler: async (ctx, args) => {
+    try {
+      await ctx.storage.delete(args.storageId);
+      console.log("Storage file deleted:", args.storageId);
+    } catch (error) {
+      console.error("Failed to delete storage file (may have been already deleted):", args.storageId, error);
+    }
+  },
+});
+
 export const generateSignedPdf = internalAction({
   args: { documentId: v.id("documents") },
   handler: async (ctx, args) => {
@@ -113,17 +126,21 @@ export const generateSignedPdf = internalAction({
     // Store the new signed PDF
     const newFileId = await ctx.storage.store(new Blob([pdfBytes as any], { type: "application/pdf" }));
 
-    // Delete the old PDF file to prevent storage bloat
-    const oldFileId = document.fileStorageId;
-    await ctx.storage.delete(oldFileId);
-
-    // Update the document to reference the new file
+    // Update the document to reference the new file FIRST (before deleting old file)
+    // This ensures email sending can access the new file URL
     await ctx.runMutation(internal.documents.updateDocumentFile, {
       documentId: args.documentId,
       fileStorageId: newFileId,
     });
 
+    // Schedule deletion of the old PDF file after a delay (1 hour)
+    // This gives enough time for any pending email operations to complete
+    const oldFileId = document.fileStorageId;
+    await ctx.scheduler.runAfter(3600000, internal.actions.deleteStorageFile, {
+      storageId: oldFileId,
+    });
+
     console.log("Signed PDF generated and stored with ID:", newFileId);
-    console.log("Old PDF file deleted:", oldFileId);
+    console.log("Old PDF file scheduled for deletion in 1 hour:", oldFileId);
   },
 });

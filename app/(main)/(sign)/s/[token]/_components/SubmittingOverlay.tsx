@@ -3,7 +3,7 @@ import { FileCheck, ShieldCheck, CheckCircle } from "lucide-react";
 export function SubmittingOverlay() {
   return (
     <div
-      className="fixed inset-0 z-[100] bg-white/80 backdrop-blur-sm flex flex-col items-center justify-center animate-in fade-in duration-700"
+      className="fixed inset-0 z-[9999] bg-white/90 backdrop-blur-sm flex flex-col items-center justify-center"
     >
       <div className="flex flex-col items-center max-w-sm w-full space-y-8">
         {/* Animated checkmark with spinning circle */}

@@ -40,7 +40,6 @@ export function useDocumentSubmission({ accessToken, signingSession }: UseDocume
 
   const handleDecline = useCallback(async () => {
     try {
-      setIsSubmitting(true);
       await declineDocumentMutation({ accessToken });
       toast.success("Document declined successfully.");
       setIsDeclined(true);
@@ -48,8 +47,6 @@ export function useDocumentSubmission({ accessToken, signingSession }: UseDocume
     } catch (error) {
       console.error("Error declining document:", error);
       toast.error("Failed to decline document.");
-    } finally {
-      setIsSubmitting(false);
     }
   }, [accessToken, declineDocumentMutation]);
 
@@ -80,7 +77,7 @@ export function useDocumentSubmission({ accessToken, signingSession }: UseDocume
         }));
 
       if (fieldsToComplete.length > 0) {
-        
+
         // Process the signature completion in the background
         await batchCompleteFields({
           fields: fieldsToComplete,
@@ -91,7 +88,7 @@ export function useDocumentSubmission({ accessToken, signingSession }: UseDocume
           }
         });
         setShowConfetti(true);
-        
+
         // Set completion state after successful submission
         setIsCompleted(true);
         return { success: true };
