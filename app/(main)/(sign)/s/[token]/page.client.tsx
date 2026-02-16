@@ -88,7 +88,6 @@ export default function SigningPage({ initialSigningSession }: { initialSigningS
     // Transition to signing phase if not already there
     if (!hasStarted) setHasStarted(true);
 
-    // Update local state immediately
     const updatedFields = signatureFields.map((field) =>
       field.id === fieldId
         ? { ...field, isCompleted: true, signatureData }

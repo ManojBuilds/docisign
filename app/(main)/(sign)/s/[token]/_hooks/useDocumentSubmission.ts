@@ -80,6 +80,8 @@ export function useDocumentSubmission({ accessToken, signingSession }: UseDocume
         }));
 
       if (fieldsToComplete.length > 0) {
+        
+        // Process the signature completion in the background
         await batchCompleteFields({
           fields: fieldsToComplete,
           auditInfo: {
@@ -88,14 +90,17 @@ export function useDocumentSubmission({ accessToken, signingSession }: UseDocume
             ip: clientIPRef.current
           }
         });
+        setShowConfetti(true);
+        
+        // Set completion state after successful submission
+        setIsCompleted(true);
+        return { success: true };
+      } else {
+        setShowConfetti(true);
+        setIsCompleted(true);
+        return { success: true };
       }
-
-      toast.success("Contract signed successfully!");
-      setShowConfetti(true);
-      setIsCompleted(true);
-      return { success: true };
     } catch (error) {
-      console.error(error);
       console.error(error);
       toast.error("Failed to finalize contract");
       return { success: false };

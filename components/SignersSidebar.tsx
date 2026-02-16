@@ -209,7 +209,7 @@ export function SignersSidebar({ }: SignersSidebarProps) {
                     <span>{tool.label}</span>
                     <span className="opacity-50 text-[9px] border border-white/20 px-1 rounded uppercase tracking-tighter font-extrabold">{tool.shortcut}</span>
                   </div>
-                  <p className="text-[8px] text-muted-foreground mt-1">{tool.description}</p>
+                  <p className="text-[9px] opacity-50 mt-1">{tool.description}</p>
                 </TooltipContent>
               </Tooltip>
             ))}

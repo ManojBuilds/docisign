@@ -973,7 +973,7 @@ export const finalizeDocument = mutation({
 
     if (signatureFields.every(f => f.status === "signed" && f.isCompleted)) {
       // The signer has completed all their fields
-      // Send email to owner and a copy to the signer
+      // Schedule email to owner in the background
       await ctx.scheduler.runAfter(0, internal.signers.sendSignedEmailToOwner, {
         documentId: args.documentId,
         signerEmail: signerEmail,
@@ -1000,50 +1000,12 @@ export const finalizeDocument = mutation({
         updatedAt: completedTimestamp,
       });
 
-      // The signed PDF was already generated when the last signer completed their signature
-      // via the sendSignedEmailToOwner call, so no need to regenerate here
-
-
-      try {
-        const owner = await ctx.runQuery(api.users.getCurrentUser, {
-          clerkId: document.ownerId,
-        });
-        if (owner) {
-          const downloadUrl = await ctx.runQuery(api.documents.getFileUrl, {
-            storageId: document.fileStorageId,
-          });
-
-          for (const participant of allSigners) {
-            if (participant.email === owner.email) {
-              await ctx.scheduler.runAfter(
-                0,
-                api.emails.sendDocumentCompleteEmail,
-                {
-                  to: owner.email,
-                  ownerName: owner.firstName || owner.email,
-                  documentTitle: document.title,
-                  dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
-                  downloadUrl: downloadUrl || "",
-                  completedAt: new Date(completedTimestamp).toLocaleString(),
-                  totalSigners: allSigners.length,
-                },
-              );
-            } else {
-              // Send to other signers who didn't just sign (they need the fully executed copy)
-              await ctx.scheduler.runAfter(0, api.emails.sendSignerCopyEmail, {
-                to: participant.email,
-                signerName: participant.name || participant.email,
-                documentTitle: document.title,
-                downloadUrl: downloadUrl || "",
-                signedAt: new Date(completedTimestamp).toLocaleString(),
-                senderName: owner.firstName || owner.email,
-              });
-            }
-          }
-        }
-      } catch (error) {
-        console.error("Failed to schedule completion emails, but document is marked as completed:", error);
-      }
+      // Schedule completion emails to run in background to avoid blocking the response
+      await ctx.scheduler.runAfter(0, internal.signers.sendCompletionNotifications, {
+        documentId: args.documentId,
+        completedTimestamp,
+        allSigners,
+      });
     } else if (document.status !== "completed") {
       // The email was already sent above - no need to send again
     }
@@ -1051,6 +1013,99 @@ export const finalizeDocument = mutation({
     return { success: true };
   },
 });
+// Internal action to send completion notifications in the background
+export const sendCompletionNotifications = internalAction({
+  args: {
+    documentId: v.id("documents"),
+    completedTimestamp: v.number(),
+    allSigners: v.array(v.object({
+      _id: v.id("signatureFields"),
+      email: v.string(),
+      name: v.string(),
+      documentId: v.id("documents"),
+      status: v.union(
+        v.literal("pending"),
+        v.literal("sent"),
+        v.literal("viewed"),
+        v.literal("signed"),
+        v.literal("declined"),
+      ),
+    })),
+  },
+  handler: async (ctx, args) => {
+    try {
+      const document = await ctx.runQuery(api.documents.getDocument, {
+        documentId: args.documentId,
+      });
+      
+      if (!document) {
+        console.error("Document not found for completion notification");
+        return;
+      }
+
+      const owner = await ctx.runQuery(api.users.getCurrentUser, {
+        clerkId: document.ownerId,
+      });
+      
+      if (!owner) {
+        console.error("Owner not found for completion notification");
+        return;
+      }
+
+      // Generate the signed PDF in the background
+      try {
+        await ctx.runAction(internal.actions.generateSignedPdf, {
+          documentId: args.documentId,
+        });
+      } catch (pdfError) {
+        console.error("Critical: Failed to generate signed PDF:", pdfError);
+      }
+
+      // Re-fetch document to get potential new fileStorageId
+      const updatedDocument = await ctx.runQuery(api.documents.getDocument, {
+        documentId: args.documentId,
+      }) || document;
+
+      // Get updated download URL
+      let downloadUrl = "";
+      try {
+        downloadUrl = await ctx.runQuery(api.documents.getFileUrl, {
+          storageId: updatedDocument.fileStorageId,
+        }) || "";
+      } catch (urlError) {
+        console.error("Failed to get download URL for completion emails:", urlError);
+      }
+
+      // Send completion emails to all participants
+      for (const participant of args.allSigners) {
+        if (participant.email === owner.email) {
+          await ctx.runAction(api.emails.sendDocumentCompleteEmail, {
+            to: owner.email,
+            ownerName: owner.firstName || owner.email,
+            documentTitle: document.title,
+            dashboardUrl: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard`,
+            downloadUrl: downloadUrl || "",
+            completedAt: new Date(args.completedTimestamp).toLocaleString(),
+            totalSigners: args.allSigners.length,
+          });
+        } else {
+          // Send to other signers who didn't just sign (they need the fully executed copy)
+          await ctx.runAction(api.emails.sendSignerCopyEmail, {
+            to: participant.email,
+            signerName: participant.name || participant.email,
+            documentTitle: document.title,
+            downloadUrl: downloadUrl || "",
+            signedAt: new Date(args.completedTimestamp).toLocaleString(),
+            senderName: owner.firstName || owner.email,
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error in sendCompletionNotifications background task:", error);
+    }
+  },
+});
+
 // Decline document mutation
 export const declineDocument = mutation({
   args: {
