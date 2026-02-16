@@ -13,7 +13,6 @@ import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SaveAsTemplateDialog } from "@/components/templates/SaveAsTemplateDialog";
 import { cn } from "@/lib/utils";
-import { KeyboardShortcutsHelper } from "./KeyboardShortcutsHelper";
 
 const ShareDialog = lazy(() => import("@/components/ShareDialog").then(m => ({ default: m.ShareDialog })));
 
@@ -182,7 +181,6 @@ export const EditorNavbar = memo(({
                 )}
 
                 <UserMenu className="hidden md:flex" />
-                <KeyboardShortcutsHelper />
             </div>
         </div>
     );

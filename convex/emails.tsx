@@ -23,7 +23,7 @@ import {
     TemplateDownloadEmail3,
 } from "./emails/templates";
 import { internal } from "./_generated/api";
-import { ALL_TEMPLATES, getTemplateBySlug } from "./seo/all_templates";
+import { getTemplateBySlug } from "./seo/all_templates";
 
 const domain = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
 const COUPON_CODE = process.env.SPECIAL_COUPON_CODE ?? "TEMPLATE20";
