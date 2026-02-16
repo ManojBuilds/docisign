@@ -47,6 +47,18 @@ export function useKeyboardShortcuts(
           e.preventDefault();
           setSelectedTool("text");
           break;
+        case "e":
+          e.preventDefault();
+          setSelectedTool("email");
+          break;
+        case "r":
+          e.preventDefault();
+          setSelectedTool("dropdown");
+          break;
+        case "o":
+          e.preventDefault();
+          setSelectedTool("radio");
+          break;
         case "escape":
           setSelectedTool("selection");
           setSelectedFieldId("");
