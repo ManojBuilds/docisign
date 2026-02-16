@@ -28,6 +28,8 @@ import {
   ChevronsRight,
   Download,
   FileText,
+  Loader,
+  Loader2,
   Trash2,
 } from "lucide-react";
 import {
@@ -40,7 +42,7 @@ import {
 } from "@/components/ui/table";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 
 interface Document {
   _id: Id<"documents">;
@@ -204,20 +206,30 @@ export const DocumentTable = ({
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
+        const [isDownloading, startTransition] = useTransition()
+        const [currentDownloadingId, setCurrentDownloadingId] = useState("")
+        
         return (
           <div className="flex items-center space-x-2">
             <Button
               variant="ghost"
               size="icon"
               className="h-8 w-8"
-              onClick={() =>
-                onDownload(
-                  row.original.fileStorageId,
-                  row.original.originalFileName
-                )
+              onClick={() =>{
+                setCurrentDownloadingId(row.original._id)
+                startTransition(async () => {
+                  await onDownload(
+                    row.original.fileStorageId,
+                    row.original.originalFileName
+                  )
+                })
+              }
               }
             >
-              <Download className="h-4 w-4" />
+              {
+                isDownloading && currentDownloadingId === row.original._id ? <Loader className="w-4 h-4 animate-spin" /> :
+                  <Download className="h-4 w-4" />
+              }
             </Button>
             <Button
               variant="ghost"
@@ -225,7 +237,8 @@ export const DocumentTable = ({
               className="h-8 w-8 text-red-600 hover:text-red-700"
               onClick={() => onDelete(row.original._id)}
             >
-              <Trash2 className="h-4 w-4" />
+                  <Trash2 className="h-4 w-4" />
+              
             </Button>
           </div>
         );
