@@ -33,7 +33,7 @@ export default function PrivacyPolicyPage() {
           Welcome to Boopsign. We are committed to protecting your personal
           information and your right to privacy. If you have any questions or
           concerns about our policy, or our practices with regards to your
-          personal information, please contact us at support@boopsign.com.
+          personal information, please contact us at mkumar.react@gmail.com.
         </p>
       </section>
 

@@ -1981,10 +1981,7 @@ Just see if it works for you.
 - GDPR Compliance
 
 **Column 4: Connect**
-- Email: support@boopsign.com
-- Twitter (if you have it)
-- LinkedIn (if you have it)
-- Feedback Form
+- Email: mkumar.react@gmail.com
 
 ---
 
