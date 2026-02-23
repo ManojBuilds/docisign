@@ -4,12 +4,6 @@ import { Metadata } from "next";
 import dynamicImport from "next/dynamic";
 import { notFound } from "next/navigation";
 
-// MIGRATED from: export const dynamic = "force-static"
-// → Add "use cache" to opt into caching (dynamic is now the default)
-// MIGRATED from: export const dynamicParams = false
-// → Use generateStaticParams (already present in this file) to define static routes
-
-// Import our new MDX components
 import HeroSection from "@/components/mdx/HeroSection";
 
 const Cta = dynamicImport(() => import("@/components/cta"));
@@ -39,12 +33,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: page.seo?.description || page.description,
     keywords: page.seo?.keywords,
     alternates: {
-      canonical: page.seo?.canonical,
+      canonical: `https://www.boopsign.com/landing/${slug}`,
     },
   };
 }
 
-export default async function LandingPageLayout({ params }: Props) {
+export default async function LandingPageSubpath({ params }: Props) {
   const { slug } = await params;
   const page = allLandingPages.find((p) => p.slug === slug);
 
@@ -60,7 +54,7 @@ export default async function LandingPageLayout({ params }: Props) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(page.schema) }}
         />
       )}
-      {/* Render structured content sections */}
+
       {page.hero && (
         <HeroSection
           badge={page.hero.badge}
@@ -95,7 +89,6 @@ export default async function LandingPageLayout({ params }: Props) {
         />
       )}
 
-      {/* Render MDX content */}
       <section className="px-4">
         <div className="container mx-auto max-w-4xl prose prose-slate">
           <MDXContent code={page.mdx} />
@@ -110,7 +103,6 @@ export default async function LandingPageLayout({ params }: Props) {
         />
       )}
 
-      {/* Final CTA - always present */}
       <Cta />
     </div>
   );

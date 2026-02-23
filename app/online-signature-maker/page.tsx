@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     "transparent signature png",
   ],
   alternates: {
-    canonical: "https://boopsign.com/online-signature-maker",
+    canonical: "https://www.boopsign.com/online-signature-maker",
   },
   robots: {
     index: true,
@@ -171,7 +171,7 @@ export default function OnlineSignatureMakerPage() {
                 <p className="text-slate-500 text-lg">See how some of the world's most influential leaders leave their mark. Each signature is unique to its creator's journey.</p>
               </div>
               <div className="flex items-center gap-4 text-slate-400 text-sm font-medium">
-                <Users className="size-5" /> 1M+ Signatures generated
+                <Users className="size-5" /> Signatures generated
               </div>
             </div>
 
@@ -270,7 +270,7 @@ export default function OnlineSignatureMakerPage() {
 
         <section className="py-24 bg-slate-50/50 border-y border-slate-100">
           <div className="container mx-auto px-4 text-center max-w-4xl">
-            <h2 className="text-3xl font-bold mb-12">Trusted by 10,000+ professionals worldwide</h2>
+            <h2 className="text-3xl font-bold mb-12">Trusted by professionals worldwide</h2>
             <div className="flex flex-wrap justify-center items-center gap-12 opacity-40 grayscale group-hover:grayscale-0 transition-all">
               {/* Add some dummy company names if no logos */}
               <div className="text-xl font-bold tracking-tighter">TECHCORP</div>

@@ -18,13 +18,13 @@ const beVietnamPro = DM_Sans({
 
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://boopsign.com"),
+  metadataBase: new URL("https://www.boopsign.com"),
   title: {
     default: "Best E-Signature Tool for Solo Entrepreneurs | Boopsign",
     template: "%s | Boopsign",
   },
   description:
-    "Get contracts signed fast with no client account friction. Built for solo entrepreneurs. 92% completion rate. Pages load in <2s. From $19/month.",
+    "Get contracts signed fast with no client account friction. Built for solo entrepreneurs. Pages load fast. From $19/month.",
   keywords: [
     "e-signature for solo entrepreneurs",
     "e-signature for freelancers",
@@ -48,11 +48,11 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://boopsign.com",
+    url: "https://www.boopsign.com",
     siteName: "Boopsign",
     title: "Best E-Signature Tool for Solo Entrepreneurs | Boopsign",
     description:
-      "No client accounts. 92% completion rate. Built for solo entrepreneurs at $19-39/month.",
+      "No client accounts. Built for solo entrepreneurs at $19-39/month.",
     images: [
       {
         url: "https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5",
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "E-Signature Tool for Solo Entrepreneurs",
     description:
-      "No client accounts. 92% completion. $19-39/month.",
+      "No client accounts. $19-39/month.",
     images: ["https://2d9wfb370a.ufs.sh/f/X2DTqAlZ9PguH6XLCcu9EJNUBXDqbifMz2VCdc7u8YS9Zvn5"],
     creator: "@Boopsign",
   },
@@ -110,7 +110,6 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link href="https://fonts.googleapis.com/css2?family=Style+Script&family=Dancing+Script:wght@400..700&family=Great+Vibes&family=Alex+Brush&family=Satisfy&display=swap" rel="stylesheet" />
-        <link rel="canonical" href="https://boopsign.com" />
         <meta name="theme-color" content="#2563eb" />
         <meta name="application-name" content="Boopsign" />
         <meta name="msapplication-TileColor" content="#2563eb" />
@@ -134,17 +133,9 @@ export default function RootLayout({
                   "priceCurrency": "USD",
                   "priceValidUntil": "2026-12-31"
                 },
-                aggregateRating: {
-                  "@type": "AggregateRating",
-                  ratingValue: "4.9",
-                  ratingCount: "20",
-                  bestRating: "5",
-                  worstRating: "1"
-                },
-                description: "E-signature tool built for solo entrepreneurs. No client accounts required. 92% completion rate.",
+                description: "E-signature tool built for solo entrepreneurs. No client accounts required.",
                 featureList: [
                   "No client account required",
-                  "92% completion rate",
                   "Mobile-first signing",
                   "Custom branding",
                   "Template library",
@@ -159,7 +150,7 @@ export default function RootLayout({
                   "name": "Do clients need accounts to sign?",
                   "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "No. Clients click a secure link and sign instantly. No account, no password, no friction. This is why Boopsign has 92% completion vs industry average 63-68%."
+                    "text": "No. Clients click a secure link and sign instantly. No account, no password, no friction."
                   }
                 }, {
                   "@type": "Question",
@@ -174,9 +165,9 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "Organization",
                 "name": "Boopsign",
-                "url": "https://boopsign.com",
-                "logo": "https://boopsign.com/android-chrome-192x192.png",
-                "description": "E-signature tool built for solo entrepreneurs. No client accounts required. 92% completion rate.",
+                "url": "https://www.boopsign.com",
+                "logo": "https://www.boopsign.com/android-chrome-192x192.png",
+                "description": "E-signature tool built for solo entrepreneurs. No client accounts required.",
                 "brand": {
                   "@type": "Brand",
                   "name": "Boopsign"

@@ -6,6 +6,7 @@
     "dev": "npm-run-all --parallel dev:frontend dev:backend",
     "dev:frontend": "next dev",
     "dev:backend": "convex dev",
+    "seo:generate:longtail": "node scripts/seo/generate-longtail-pseo.mjs",
     "email:preview": "email dev --dir convex/emails/templates --port 3001",
     "predev": "convex dev --until-success",
     "build": "next build",

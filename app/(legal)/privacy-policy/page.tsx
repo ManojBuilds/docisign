@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://boopsign.com/privacy-policy",
+    canonical: "https://www.boopsign.com/privacy-policy",
   },
 };
 

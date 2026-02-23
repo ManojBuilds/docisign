@@ -1,4 +1,6 @@
 import { withContentCollections } from "@content-collections/next";
+import fs from "node:fs";
+import path from "node:path";
 import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
@@ -63,7 +65,50 @@ const nextConfig: NextConfig = {
   },
   // Redirects for SEO
   async redirects() {
+    const landingDir = path.join(process.cwd(), "content", "landing-pages");
+    const reservedRootSlugs = new Set([
+      "",
+      "api",
+      "alternatives",
+      "blog",
+      "contracts",
+      "dashboard",
+      "for-consultants",
+      "for-freelancers",
+      "for-solo-entrepreneurs",
+      "landing",
+      "pricing",
+      "privacy-policy",
+      "sign-in",
+      "sign-up",
+      "upgrade",
+    ]);
+
+    const landingLegacyRedirects = fs.existsSync(landingDir)
+      ? fs
+          .readdirSync(landingDir)
+          .filter((file) => file.endsWith(".mdx"))
+          .map((file) => file.replace(/\.mdx$/, ""))
+          .filter((slug) => !reservedRootSlugs.has(slug))
+          .map((slug) => ({
+            source: `/${slug}`,
+            destination: `/landing/${slug}`,
+            permanent: true,
+          }))
+      : [];
+
     return [
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "boopsign.com",
+          },
+        ],
+        destination: "https://www.boopsign.com/:path*",
+        permanent: true,
+      },
       {
         source: "/home",
         destination: "/",
@@ -71,42 +116,42 @@ const nextConfig: NextConfig = {
       },
       {
         source: "/realestate",
-        destination: "/real-estate-document-signing",
+        destination: "/landing/real-estate-document-signing",
         permanent: true,
       },
       {
         source: "/real-estate",
-        destination: "/real-estate-document-signing",
+        destination: "/landing/real-estate-document-signing",
         permanent: true,
       },
       {
         source: "/healthcare",
-        destination: "/healthcare-document-signing",
+        destination: "/landing/healthcare-document-signing",
         permanent: true,
       },
       {
         source: "/fintech",
-        destination: "/fintech-document-signing",
+        destination: "/landing/fintech-document-signing",
         permanent: true,
       },
       {
         source: "/financial-services",
-        destination: "/fintech-document-signing",
+        destination: "/landing/fintech-document-signing",
         permanent: true,
       },
       {
         source: "/education",
-        destination: "/education-document-signing",
+        destination: "/landing/education-document-signing",
         permanent: true,
       },
       {
         source: "/freelancers",
-        destination: "/esignature-for-freelancers",
+        destination: "/landing/esignature-for-freelancers",
         permanent: true,
       },
       {
         source: "/consultants",
-        destination: "/esignature-for-consultants",
+        destination: "/landing/esignature-for-consultants",
         permanent: true,
       },
       {
@@ -134,6 +179,87 @@ const nextConfig: NextConfig = {
         destination: "/sign-in",
         permanent: true
       },
+      {
+        source: "/document-security-guide",
+        destination: "/blog/document-security-guide",
+        permanent: true,
+      },
+      {
+        source: "/electronic-signature-laws",
+        destination: "/blog/electronic-signature-laws",
+        permanent: true,
+      },
+      {
+        source: "/esignature-vs-digital-signature",
+        destination: "/blog/esignature-vs-digital-signature",
+        permanent: true,
+      },
+      {
+        source: "/how-to-create-electronic-signature",
+        destination: "/blog/how-to-create-electronic-signature",
+        permanent: true,
+      },
+      {
+        source: "/contract-signing-best-practices",
+        destination: "/blog/contract-signing-best-practices",
+        permanent: true,
+      },
+      {
+        source: "/pandadoc-alternative",
+        destination: "/alternatives/pandadoc-alternative",
+        permanent: true,
+      },
+      {
+        source: "/adobe-sign-alternative",
+        destination: "/alternatives/adobe-sign-alternative",
+        permanent: true,
+      },
+      {
+        source: "/hellosign-alternative",
+        destination: "/alternatives/hellosign-alternative",
+        permanent: true,
+      },
+      {
+        source: "/dropbox-sign-alternative",
+        destination: "/alternatives/dropbox-sign-alternative",
+        permanent: true,
+      },
+      {
+        source: "/signnow-alternative",
+        destination: "/alternatives/signnow-alternative",
+        permanent: true,
+      },
+      {
+        source: "/zoho-sign-alternative",
+        destination: "/alternatives/zoho-sign-alternative",
+        permanent: true,
+      },
+      {
+        source: "/signrequest-alternative",
+        destination: "/alternatives/signrequest-alternative",
+        permanent: true,
+      },
+      {
+        source: "/rightsignature-alternative",
+        destination: "/alternatives/rightsignature-alternative",
+        permanent: true,
+      },
+      {
+        source: "/signwell-alternative",
+        destination: "/alternatives/signwell-alternative",
+        permanent: true,
+      },
+      {
+        source: "/boldsign-alternative",
+        destination: "/alternatives/boldsign-alternative",
+        permanent: true,
+      },
+      {
+        source: "/dotloop-alternative",
+        destination: "/alternatives/dotloop-alternative",
+        permanent: true,
+      },
+      ...landingLegacyRedirects,
     ];
   },
 };

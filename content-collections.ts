@@ -121,7 +121,7 @@ const landingPages = defineCollection({
     return {
       ...document,
       slug: document._meta.fileName.replace(/^.*[\\/]/, '').replace(/\.mdx$/, ''),
-      url: `/${document._meta.fileName.replace(/^.*[\\/]/, '').replace(/\.mdx$/, '')}`,
+      url: `/landing/${document._meta.fileName.replace(/^.*[\\/]/, '').replace(/\.mdx$/, '')}`,
       mdx,
     };
   },

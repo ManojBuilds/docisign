@@ -71,7 +71,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             `${role.industry} contract`
         ],
         alternates: {
-            canonical: `https://boopsign.com/contracts/${slug}/${roleSlug}`,
+            canonical: `https://www.boopsign.com/contracts/${slug}/${roleSlug}`,
         },
     };
 }
@@ -125,7 +125,7 @@ export default async function MatrixContractPage({ params }: Props) {
                                 "@context": "https://schema.org",
                                 "@type": "Product",
                                 "name": `${template.name} for ${role.role}s`,
-                                "image": "https://boopsign.com/android-chrome-192x192.png",
+                                "image": "https://www.boopsign.com/android-chrome-192x192.png",
                                 "description": `Professional ${template.name} template specifically designed for ${role.role}s.`,
                                 "category": "LegalForms",
                                 "offers": {
@@ -186,25 +186,25 @@ export default async function MatrixContractPage({ params }: Props) {
                                         "@type": "ListItem",
                                         "position": 1,
                                         "name": "Home",
-                                        "item": "https://boopsign.com"
+                                        "item": "https://www.boopsign.com"
                                     },
                                     {
                                         "@type": "ListItem",
                                         "position": 2,
                                         "name": "Contracts",
-                                        "item": "https://boopsign.com/contracts"
+                                        "item": "https://www.boopsign.com/contracts"
                                     },
                                     {
                                         "@type": "ListItem",
                                         "position": 3,
                                         "name": template.name,
-                                        "item": `https://boopsign.com/contracts/${slug}`
+                                        "item": `https://www.boopsign.com/contracts/${slug}`
                                     },
                                     {
                                         "@type": "ListItem",
                                         "position": 4,
                                         "name": `For ${role.role}s`,
-                                        "item": `https://boopsign.com/contracts/${slug}/${roleSlug}`
+                                        "item": `https://www.boopsign.com/contracts/${slug}/${roleSlug}`
                                     }
                                 ]
                             },

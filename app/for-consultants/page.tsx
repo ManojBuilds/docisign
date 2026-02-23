@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "E-Signature for Consultants | Boopsign",
   description: "Professional e-signatures for consultants. Send service agreements, NDAs, and proposals. No client accounts. 92% completion. $19-39/month.",
   alternates: {
-    canonical: "https://boopsign.com/for-consultants",
+    canonical: "https://www.boopsign.com/for-consultants",
   },
 };
 

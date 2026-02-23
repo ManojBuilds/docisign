@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: "Free Contract Templates for Solo Entrepreneurs | Boopsign",
   description: "Browse 300+ free contract templates tailored for solo entrepreneurs. From NDAs to service agreements. Download or sign online with no client accounts needed.",
   alternates: {
-    canonical: "https://boopsign.com/contracts",
+    canonical: "https://www.boopsign.com/contracts",
   },
 };
 

@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       follow: false,
     },
     alternates: {
-      canonical: `https://boopsign.com/d/${documentId}/edit`,
+      canonical: `https://www.boopsign.com/d/${documentId}/edit`,
     },
   };
 }

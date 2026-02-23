@@ -89,7 +89,7 @@ export default async function ComparisonPage({ params }: Props) {
               description: comparison.description,
               url:
                 comparison.canonical ||
-                `https://boopsign.com/alternatives/${slug}`,
+                `https://www.boopsign.com/alternatives/${slug}`,
               applicationCategory: "BusinessApplication",
               operatingSystem: "Web, iOS, Android",
               brand: { "@type": "Brand", name: "Boopsign" },
@@ -162,19 +162,19 @@ export default async function ComparisonPage({ params }: Props) {
                   "@type": "ListItem",
                   position: 1,
                   name: "Home",
-                  item: "https://boopsign.com",
+                  item: "https://www.boopsign.com",
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: "Alternatives",
-                  item: "https://boopsign.com/alternatives",
+                  item: "https://www.boopsign.com/alternatives",
                 },
                 {
                   "@type": "ListItem",
                   position: 3,
                   name: comparison.title,
-                  item: `https://boopsign.com/alternatives/${slug}`,
+                  item: `https://www.boopsign.com/alternatives/${slug}`,
                 },
               ],
             },

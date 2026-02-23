@@ -17,10 +17,10 @@ export const metadata: Metadata = {
     title: "Simple Pricing for Solo Entrepreneurs | Boopsign",
     description:
       "Starter: $19/month (20 signatures). Professional: $39/month (75 signatures). No hidden fees. 7-day free trial.",
-    url: "https://boopsign.com/pricing",
+    url: "https://www.boopsign.com/pricing",
     images: [
       {
-        url: "https://boopsign.com/images/og-pricing.jpg",
+        url: "https://www.boopsign.com/images/og-pricing.jpg",
         width: 1200,
         height: 630,
         alt: "Boopsign Pricing for Solo Entrepreneurs",
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     ],
   },
   alternates: {
-    canonical: "https://boopsign.com/pricing",
+    canonical: "https://www.boopsign.com/pricing",
   },
 };
 export default function PricingLayout({

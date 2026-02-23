@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "E-Signature for Solo Entrepreneurs | Boopsign",
   description: "Built specifically for solo entrepreneurs sending 5-75 contracts/month. No client accounts. 92% completion rate. Simple pricing: $19-39/month. Try free.",
   alternates: {
-    canonical: "https://boopsign.com/for-solo-entrepreneurs",
+    canonical: "https://www.boopsign.com/for-solo-entrepreneurs",
   },
 };
 

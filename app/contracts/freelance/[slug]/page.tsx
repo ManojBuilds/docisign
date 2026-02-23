@@ -63,7 +63,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
             "legally binding e-signature"
         ],
         alternates: {
-            canonical: `https://boopsign.com/contracts/freelance/${slug}`,
+            canonical: `https://www.boopsign.com/contracts/freelance/${slug}`,
         },
     };
 }
@@ -102,7 +102,7 @@ export default async function ProgrammaticFreelancerContractPage({ params }: Pro
                                     "itemListElement": compatibleTemplates.map((t, i) => ({
                                         "@type": "ListItem",
                                         "position": i + 1,
-                                        "url": `https://boopsign.com/contracts/${t.slug}/for-${slug}`,
+                                        "url": `https://www.boopsign.com/contracts/${t.slug}/for-${slug}`,
                                         "name": `${t.name} for ${role}`
                                     }))
                                 }
@@ -115,19 +115,19 @@ export default async function ProgrammaticFreelancerContractPage({ params }: Pro
                                         "@type": "ListItem",
                                         "position": 1,
                                         "name": "Home",
-                                        "item": "https://boopsign.com"
+                                        "item": "https://www.boopsign.com"
                                     },
                                     {
                                         "@type": "ListItem",
                                         "position": 2,
                                         "name": "Contracts",
-                                        "item": "https://boopsign.com/contracts"
+                                        "item": "https://www.boopsign.com/contracts"
                                     },
                                     {
                                         "@type": "ListItem",
                                         "position": 3,
                                         "name": `Freelance ${role}s`,
-                                        "item": `https://boopsign.com/contracts/freelance/${slug}`
+                                        "item": `https://www.boopsign.com/contracts/freelance/${slug}`
                                     }
                                 ]
                             }

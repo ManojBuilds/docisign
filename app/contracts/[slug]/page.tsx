@@ -94,7 +94,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         title: `Free ${template.name} Template | Boopsign`,
         description: template.description,
         alternates: {
-            canonical: `https://boopsign.com/contracts/${slug}`,
+            canonical: `https://www.boopsign.com/contracts/${slug}`,
         },
     };
 }
@@ -131,7 +131,7 @@ export default async function BaseTemplatePage({ params }: Props) {
                             "@context": "https://schema.org",
                             "@type": "Product",
                             "name": `${template.name} Template`,
-                            "image": "https://boopsign.com/android-chrome-192x192.png",
+                            "image": "https://www.boopsign.com/android-chrome-192x192.png",
                             "description": template.description,
                             "brand": {
                                 "@type": "Brand",
@@ -194,19 +194,19 @@ export default async function BaseTemplatePage({ params }: Props) {
                                     "@type": "ListItem",
                                     "position": 1,
                                     "name": "Home",
-                                    "item": "https://boopsign.com"
+                                    "item": "https://www.boopsign.com"
                                 },
                                 {
                                     "@type": "ListItem",
                                     "position": 2,
                                     "name": "Contracts",
-                                    "item": "https://boopsign.com/contracts"
+                                    "item": "https://www.boopsign.com/contracts"
                                 },
                                 {
                                     "@type": "ListItem",
                                     "position": 3,
                                     "name": template.name,
-                                    "item": `https://boopsign.com/contracts/${slug}`
+                                    "item": `https://www.boopsign.com/contracts/${slug}`
                                 }
                             ]
                         },

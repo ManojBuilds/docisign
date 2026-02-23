@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: "E-Signature for Freelancers | Boopsign - $19-39/month",
   description: "Freelancer-friendly e-signatures. No client accounts. Get NDAs and contracts signed in 90 seconds. 92% completion rate. From $19/month. Try free.",
   alternates: {
-    canonical: "https://boopsign.com/for-freelancers",
+    canonical: "https://www.boopsign.com/for-freelancers",
   },
 };
 
