@@ -17,25 +17,26 @@ const Hero = () => {
       <div className="container relative mx-auto flex flex-col items-center text-center max-w-[1200px]">
 
 
-        {/* Headline - Anti-Bloat Positioning */}
+        {/* Headline - Keyword-forward while keeping the anti-bloat hook */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-slate-900 mb-6 max-w-3xl md:max-w-5xl leading-tight text-center">
-          DocuSign Has 847 Features.
+          Best E-Signature Tool for Solo Entrepreneurs.
           <br />
           <span className="text-slate-900">You'll Use </span>
           <Highlighter action="circle" color="#3b82f6" iterations={1} animationDuration={0} strokeWidth={2}>
-            6 of Them.
+            6 Features
           </Highlighter>
+          <span className="text-slate-900">—Not 847.</span>
         </h1>
 
         <p className="mt-2 text-lg sm:text-xl md:text-2xl text-slate-500 max-w-xs sm:max-w-md md:max-w-2xl leading-relaxed font-normal">
-          Boopsign gives you exactly those 6—lightning fast, beautifully simple,
+          Boopsign gives you the essentials—lightning fast, beautifully simple,
           <span className="text-slate-900 font-medium"> without the $180/year bloat tax.</span>
         </p>
 
         {/* Primary CTA */}
         <div className="mt-6 sm:mt-8 flex justify-center">
           <StartTrialBtn
-            label="Start 14-Day Free Trial →"
+            label="Start 7 Day Free Trial →"
             variant="premium"
             className="h-12 sm:h-14 px-10 sm:px-12 text-base sm:text-xl font-bold rounded-lg"
           />

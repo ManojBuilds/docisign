@@ -46,12 +46,12 @@ const Pricing = () => {
       id: "starter",
       tagline: "Getting Started",
       price: {
-        monthly: 19,
-        annually: 16,
+        monthly: 9,
+        annually: 8,
       },
       savings: {
         monthly: 0,
-        annually: 36, // $19 × 12 = $228 vs $192 = $36 saved
+        annually: 12, // $19 × 12 = $228 vs $192 = $36 saved
       },
       productIds: {
         monthly: process.env.NEXT_PUBLIC_DODO_PRICE_ID_STARTER,
