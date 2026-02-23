@@ -28,7 +28,7 @@ const Cta: React.FC<CtaProps> = ({ className = "py-24 md:py-32" }) => {
 
             {/* Subheading */}
             <p className="text-base sm:text-lg md:text-xl text-slate-600 mb-8 sm:mb-12 max-w-xs sm:max-w-md md:max-w-2xl mx-auto leading-relaxed">
-              Try Boopsign free for 14 days. No credit card. No pressure.
+              Try Boopsign free for 7 days. No credit card. No pressure.
               <br />Just simple, fast e-signatures built for solo entrepreneurs.
             </p>
 

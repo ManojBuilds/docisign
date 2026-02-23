@@ -481,8 +481,7 @@ export const sendDocumentForSigning = mutation({
     // Check limits
     const used = user.signatureRequestsUsed || 0;
     let limit = 0;
-    if (user.plan === "trial") limit = 1; // Trial gets only 1 signature request
-    else if (user.plan === "starter") limit = 20;
+    if (user.plan === "trial" || user.plan === "starter") limit = 20;
     else if (user.plan === "professional") limit = 75;
 
     // Check if billing cycle has passed (Lazy Reset)
@@ -1037,7 +1036,7 @@ export const sendCompletionNotifications = internalAction({
       const document = await ctx.runQuery(api.documents.getDocument, {
         documentId: args.documentId,
       });
-      
+
       if (!document) {
         console.error("Document not found for completion notification");
         return;
@@ -1046,7 +1045,7 @@ export const sendCompletionNotifications = internalAction({
       const owner = await ctx.runQuery(api.users.getCurrentUser, {
         clerkId: document.ownerId,
       });
-      
+
       if (!owner) {
         console.error("Owner not found for completion notification");
         return;

@@ -34,7 +34,7 @@ export const createUser = mutation({
     }
 
     const now = Date.now();
-    const trialEndDate = now + (14 * 24 * 60 * 60 * 1000); // 14 days from now
+    const trialEndDate = now + (7 * 24 * 60 * 60 * 1000); // 7 days from now
 
     const userId = await ctx.db.insert("users", {
       clerkId: args.clerkId,
@@ -293,8 +293,7 @@ export const getUsageStats = query({
     const used = user.signatureRequestsUsed || 0;
 
     let limit = 0;
-    if (plan === "trial") limit = 1;
-    else if (plan === "starter") limit = 20;
+    if (plan === "trial" || plan === "starter") limit = 20;
     else if (plan === "professional") limit = 75;
     else limit = 1; // Default fallback to 1 for safety if plane is weird but trial is intended
 
@@ -305,7 +304,7 @@ export const getUsageStats = query({
       .filter((q) => q.eq(q.field("isTemplate"), true))
       .collect();
 
-    const templateLimit = plan === "trial" ? 1 : plan === "starter" ? 5 : Infinity; // Trial gets only 1 template
+    const templateLimit = (plan === "trial" || plan === "starter") ? 5 : plan === "professional" ? Infinity : 5; // Trial and Starter get 5 templates
 
     return {
       plan,

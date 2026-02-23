@@ -78,9 +78,7 @@ export const createTemplateInternal = internalMutation({
         .filter((q) => q.eq(q.field("isTemplate"), true))
         .collect();
 
-      if (user.plan === "trial" && existingTemplates.length >= 1) {
-        throw new ConvexError("You have reached your limit of 1 saved template during the trial. Please upgrade to add more templates.");
-      } else if (user.plan === "starter" && existingTemplates.length >= 5) {
+      if ((user.plan === "trial" || user.plan === "starter") && existingTemplates.length >= 5) {
         throw new ConvexError("You have reached your limit of 5 saved templates. Please upgrade to Professional for unlimited templates.");
       }
     }

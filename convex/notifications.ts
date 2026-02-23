@@ -18,8 +18,8 @@ export const sendTrialReminders = internalMutation({
       const emailsSent = user.trialEmailsSent || {};
       const userName = user.firstName || user.email;
 
-      // Day 3: Templates tip
-      if (daysSinceStart >= 3 && !emailsSent.day3) {
+      // Day 2: Templates tip
+      if (daysSinceStart >= 2 && !emailsSent.day3) {
         // Update flag FIRST to prevent race conditions
         await ctx.db.patch(user._id, {
           trialEmailsSent: {
@@ -38,8 +38,8 @@ export const sendTrialReminders = internalMutation({
         console.log(`✅ Sent Day 3 email to ${user.email}`);
       }
 
-      // Day 7: Case study
-      if (daysSinceStart >= 7 && !emailsSent.day7) {
+      // Day 4: Case study
+      if (daysSinceStart >= 4 && !emailsSent.day7) {
         // Update flag FIRST to prevent race conditions
         await ctx.db.patch(user._id, {
           trialEmailsSent: {
@@ -58,8 +58,8 @@ export const sendTrialReminders = internalMutation({
         console.log(`✅ Sent Day 7 email to ${user.email}`);
       }
 
-      // Day 10: 3 days left
-      if (daysSinceStart >= 10 && !emailsSent.day10) {
+      // Day 5: 2 days left
+      if (daysSinceStart >= 5 && !emailsSent.day10) {
         // Update flag FIRST to prevent race conditions
         await ctx.db.patch(user._id, {
           trialEmailsSent: {
@@ -78,8 +78,8 @@ export const sendTrialReminders = internalMutation({
         console.log(`✅ Sent Day 10 email to ${user.email}`);
       }
 
-      // Day 13: Upgrade tomorrow
-      if (daysSinceStart >= 13 && !emailsSent.day13) {
+      // Day 6: Upgrade tomorrow
+      if (daysSinceStart >= 6 && !emailsSent.day13) {
         // Update flag FIRST to prevent race conditions
         await ctx.db.patch(user._id, {
           trialEmailsSent: {

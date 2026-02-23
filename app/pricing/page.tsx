@@ -7,7 +7,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Pricing for Solo Entrepreneurs | Boopsign - $19-39/month",
-  description: "Simple pricing for solo entrepreneurs: Starter $19/month (20 signatures) or Professional $39/month (75 signatures). No client accounts. 14-day free trial.",
+  description: "Simple pricing for solo entrepreneurs: Starter $19/month (20 signatures) or Professional $39/month (75 signatures). No client accounts. 7-day free trial.",
   alternates: {
     canonical: "https://boopsign.com/pricing",
   },

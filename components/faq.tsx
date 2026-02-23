@@ -32,7 +32,7 @@ const Faq = ({
     {
       id: "faq-freelancer-3",
       question: "How much does Boopsign cost?",
-      answer: "We offer two straightforward plans: Starter at $19/month (20 signature requests/month, 5 saved templates) and Professional at $39/month (75 signature requests/month, unlimited templates, bulk sending to 5 recipients, priority 4-hour support). Both plans include custom branding, mobile-optimized signing, and all core features. Start with a 14-day free trial—no credit card required."
+      answer: "We offer two straightforward plans: Starter at $19/month (20 signature requests/month, 5 saved templates) and Professional at $39/month (75 signature requests/month, unlimited templates, bulk sending to 5 recipients, priority 4-hour support). Both plans include custom branding, mobile-optimized signing, and all core features. Start with a 7-day free trial—no credit card required."
     },
     {
       id: "faq-1",
@@ -77,7 +77,7 @@ const Faq = ({
     {
       id: "faq-9",
       question: "Can I try it before paying?",
-      answer: "Yes! Start with a 14-day free trial—no credit card required. Test unlimited signatures, custom branding, templates, and all features. If Boopsign doesn't save you at least $19 worth of time in your first month, we'll refund you. Cancel anytime with one click."
+      answer: "Yes! Start with a 7-day free trial—no credit card required. Test up to 20 signature requests, custom branding, templates, and all features. If Boopsign doesn't save you at least $19 worth of time in your first month, we'll refund you. Cancel anytime with one click."
     },
     {
       id: "faq-10",

@@ -97,7 +97,7 @@ const Pricing = () => {
         },
       ],
       notIncluded: ["Bulk sending", "Unlimited templates", "Priority support"],
-      cta: "Start 14 days free trial",
+      cta: "Start 7 days free trial",
       highlight: false,
     },
     {
@@ -156,7 +156,7 @@ const Pricing = () => {
         },
       ],
       notIncluded: [],
-      cta: "Start 14 days free trial",
+      cta: "Start 7 days free trial",
       highlight: true,
     },
   ];
@@ -404,7 +404,7 @@ const Pricing = () => {
                 <div className="flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs text-slate-500 mt-1">
                   <div className="flex items-center gap-1.5">
                     <Check className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
-                    <span className="font-medium">14-day free trial</span>
+                    <span className="font-medium">7-day free trial</span>
                   </div>
                   <div className="flex items-center gap-1.5">
                     <Check className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />

@@ -163,7 +163,7 @@ export function OnboardingDialog({ open, onComplete }: OnboardingDialogProps) {
                   <Sparkles className="h-8 w-8 text-primary" />
                 </div>
                 <div className="space-y-2">
-                  <h3 className="text-xl font-semibold">Your 14-day free trial starts now!</h3>
+                  <h3 className="text-xl font-semibold">Your 7-day free trial starts now!</h3>
                   <p className="text-muted-foreground">
                     No credit card needed. You can send documents during your trial.
                   </p>

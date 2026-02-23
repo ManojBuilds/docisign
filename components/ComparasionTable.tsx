@@ -40,7 +40,7 @@ const getComparisonData = (competitorPrice: string | number): ComparisonFeature[
   {
     category: "Pricing",
     feature: "Monthly Cost (Individual)",
-    Boopsign: { value: "$29/month", highlight: true },
+    Boopsign: { value: "$19/month", highlight: true },
     competitor: { value: `$${competitorPrice}/month`, highlight: false },
     important: true
   },
@@ -53,7 +53,7 @@ const getComparisonData = (competitorPrice: string | number): ComparisonFeature[
   {
     category: "Pricing",
     feature: "Free Trial",
-    Boopsign: { value: "14 days", highlight: true },
+    Boopsign: { value: "7 days", highlight: true },
     competitor: { value: "30 days" }
   },
   // Mobile Experience
@@ -298,7 +298,7 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
             <CreditCard className="w-8 h-8 text-primary mb-3" />
             <h3 className="font-semibold text-lg mb-2">Fair Pricing</h3>
             <p className="text-muted-foreground text-sm">
-              $29/month vs {competitorName}&apos;s ${competitorPrice}/month starting price
+              $19/month vs {competitorName}&apos;s ${competitorPrice}/month starting price
             </p>
           </div>
           <div className="flex flex-col items-center text-center">
@@ -319,7 +319,7 @@ const ComparasionTable = ({ competitorName, competitorPrice, className }: Compar
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/dashboard">
               <Button size="lg">
-                Start 14-Day Free Trial
+                Start 7-Day Free Trial
               </Button>
             </Link>
             {/* <Button variant="secondary" size="lg">

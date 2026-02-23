@@ -5,7 +5,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Pricing for Solo Entrepreneurs | Boopsign - $19-39/month",
   description:
-    "Simple pricing for solo entrepreneurs: Starter $19/month (20 signatures) or Professional $39/month (75 signatures). No hidden fees. 14-day free trial.",
+    "Simple pricing for solo entrepreneurs: Starter $19/month (20 signatures) or Professional $39/month (75 signatures). No hidden fees. 7-day free trial.",
   keywords: [
     "e-signature for solo entrepreneurs",
     "e-signature pricing",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Simple Pricing for Solo Entrepreneurs | Boopsign",
     description:
-      "Starter: $19/month (20 signatures). Professional: $39/month (75 signatures). No hidden fees. 14-day free trial.",
+      "Starter: $19/month (20 signatures). Professional: $39/month (75 signatures). No hidden fees. 7-day free trial.",
     url: "https://boopsign.com/pricing",
     images: [
       {

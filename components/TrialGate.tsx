@@ -32,7 +32,7 @@ export const TrialGate = ({ children, fallback }: TrialGateProps) => {
         Trial Expired
       </h2>
       <p className="text-gray-600 mb-6">
-        Your 14-day free trial has ended. Upgrade to Boopsign Pro to continue
+        Your 7-day free trial has ended. Upgrade to Boopsign Pro to continue
         creating and sending documents.
       </p>
       <Link href={"/pricing"} className={buttonVariants({ variant: "default" })}>
