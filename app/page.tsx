@@ -27,13 +27,13 @@ export default function Home() {
 
       <main className="w-full flex-1">
         <Hero />
-        <HomeSeoContent />
         <ProblemSection />
         <Comparison />
         <SixCoreFeatures />
         <HowItWorks />
         <HonestSocialProof />
         <Pricing />
+        <HomeSeoContent />
         <Cta />
       </main>
       <Footer />
